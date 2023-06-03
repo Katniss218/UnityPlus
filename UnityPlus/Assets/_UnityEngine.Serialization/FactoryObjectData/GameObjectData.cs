@@ -3,8 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UnityEngine.Serialization
+namespace UnityEngine.Serialization.FactoryObjectData
 {
+    /// <summary>
+    /// A way to apply persistent data to a gameobject.
+    /// </summary>
     public class GameObjectData<T>
     {
         // Serialization is split into 2 pieces:
@@ -72,5 +75,7 @@ namespace UnityEngine.Serialization
                 Predicates[predDataPair.p.name]( components, predDataPair.p.data );
             }
         }
+
+#warning TODO - parity method to ApplyTo to get the data from a gameobject.
     }
 }

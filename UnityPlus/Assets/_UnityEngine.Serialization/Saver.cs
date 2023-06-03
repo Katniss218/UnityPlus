@@ -16,20 +16,11 @@ namespace UnityEngine.Serialization
 
         // Save actions.
 
-        /// <summary>
-        /// The set of actions to perform before saving.
-        /// </summary>
-        public event Action<Saver> OnWarmup;
+        List<Action<Saver>> _onPreSave = new List<Action<Saver>>();
 
-        /// <summary>
-        /// The set of actions to perform to save the scene.
-        /// </summary>
-        public event Action<Saver> OnSave;
+        List<Action<Saver>> _onSave = new List<Action<Saver>>();
 
-        /// <summary>
-        /// The set of actions to perform after saving.
-        /// </summary>
-        public event Action<Saver> OnCleanup;
+        List<Action<Saver>> _onPostSave = new List<Action<Saver>>();
 
 
         // Object registry (stores identifiers of objects to preserve references).
@@ -39,21 +30,43 @@ namespace UnityEngine.Serialization
 
         // ---
 
+        public Saver( params Action<Saver>[] OnSave )
+        {
+            foreach( var action in OnSave )
+            {
+                this._onSave.Add( action );
+            }
+        }
+
         private void ClearObjectRegistry()
         {
             objectToGuid.Clear();
             guidToObject.Clear();
         }
 
+        /// <summary>
+        /// Performs a save to the current path, and with the current save actions.
+        /// </summary>
         public void Save()
         {
             ClearObjectRegistry();
 
-            OnWarmup?.Invoke( this );
+            foreach( var preSave in _onPreSave )
+            {
+                preSave?.Invoke( this );
+            }
 
-            OnSave?.Invoke( this ); // scene saving/loading via custom serializer set.
-
-            OnCleanup?.Invoke( this );
+            foreach( var save in _onSave )
+            {
+                // scene saving/loading via custom serializer set.
+                // Could also be used to save something else than the scene, e.g. current dialogues, by specifying a different set of save actions.
+                save?.Invoke( this );
+            }
+            
+            foreach( var postSave in _onPostSave )
+            {
+                postSave?.Invoke( this );
+            }
 
             ClearObjectRegistry();
         }

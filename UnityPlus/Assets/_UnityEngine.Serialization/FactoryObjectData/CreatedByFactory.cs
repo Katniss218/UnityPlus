@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UnityEngine.Serialization
+namespace UnityEngine.Serialization.FactoryObjectData
 {
     public class CreatedByFactory : MonoBehaviour
     {
