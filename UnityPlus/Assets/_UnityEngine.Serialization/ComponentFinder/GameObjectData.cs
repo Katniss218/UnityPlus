@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UnityEngine.Serialization.FactoryObjectData
+namespace UnityEngine.Serialization.ComponentFinder
 {
     /// <summary>
     /// A way to apply persistent data to a gameobject.

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UnityEngine.Serialization.FactoryObjectData
+namespace UnityEngine.Serialization.Factories
 {
     public abstract class Factory<T> where T : UnityEngine.Object
     {

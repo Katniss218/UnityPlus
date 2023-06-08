@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,7 +26,61 @@ namespace UnityEngine.AssetManagement
 
         // registry items don't have to be loaded at startup, if a provider exists that can read e.g. an .fbx file, a mesh can be imported at runtime.
 
+        static Dictionary<string, T> _cache = new Dictionary<string, T>();
+        static Dictionary<string, Func<T>> _lazyCache = new Dictionary<string, Func<T>>();
 
-#warning TODO - should the asset ID be equivalent to the asset path? probably not.
+        static Dictionary<T, string> _inverseCache = new Dictionary<T, string>();
+
+        public static T Get( string assetID )
+        {
+            if( _cache.TryGetValue( assetID, out T val ) && val != null )
+            {
+                return val;
+            }
+
+            if( _lazyCache.TryGetValue( assetID, out var loader ) )
+            {
+                T asset = loader();
+                Register( assetID, asset );
+                return asset;
+            }
+
+            throw new Exception();
+            // providers can provide a specific asset if it doesn't already exist.
+        }
+
+        /// <summary>
+        /// Registers an object as an asset.
+        /// </summary>
+        /// <param name="assetID">The Asset ID to register the object under.</param>
+        /// <param name="asset">The asset object to register.</param>
+        public static void Register( string assetID, T asset )
+        {
+            _cache[assetID] = asset;
+            _inverseCache[asset] = assetID;
+        }
+
+        /// <summary>
+        /// Registers a lazy-loaded asset.
+        /// </summary>
+        /// <param name="assetID">The Asset ID to register the object under.</param>
+        /// <param name="loader">The function that will load the asset when requested.</param>
+        public static void RegisterLazy( string assetID, Func<T> loader )
+        {
+            // () => PNGLoad(imagePathVariable); // for example
+            _lazyCache[assetID] = loader;
+        }
+
+        public static string GetAssetID( T assetRef )
+        {
+            // assetref should be an instance cached in this registry.
+
+            if( _inverseCache.TryGetValue( assetRef, out string assetID ) )
+            {
+                return assetID;
+            }
+
+            return null;
+        }
     }
 }

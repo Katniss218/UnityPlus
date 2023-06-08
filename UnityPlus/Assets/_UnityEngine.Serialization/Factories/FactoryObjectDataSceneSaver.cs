@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UnityEngine.Serialization.FactoryObjectData
+namespace UnityEngine.Serialization.Factories
 {
     /// <summary>
     /// Can be used to save the scene using the factory-objectdata scheme.
     /// </summary>
     public static class FactoryObjectDataSceneSaver
     {
-        public static Saver GetDefaultSaver()
+        public static Saver GetDefaultSaver( string directory )
         {
-            return new Saver( SaveObjects, SaveObjectData );
+            return new Saver( directory, SaveObjects, SaveObjectData );
         }
 
         public static void SaveObjects( Saver s )
