@@ -21,7 +21,7 @@ namespace UnityEngine.Serialization
             Loop through every object and save its persistent data.
             When serializing a reference, ask what the ID of that object is by passing the object to the `RegisterOrGet` method.
 
-        2. Save referencable objects.
+        2. Save object instances (references).
             Loop through these objects again, and save them, along with their IDs (if referenced by anything).
             Use the object registry to get the IDs of objects that have been assigned to them in step 1.
 
@@ -34,7 +34,8 @@ namespace UnityEngine.Serialization
         /// </summary>
         public string SaveDirectory { get; set; }
 
-        List<Action<Saver>> _saveActions = new List<Action<Saver>>();
+        List<Action<Saver>> _dataActions = new List<Action<Saver>>();
+        List<Action<Saver>> _objectActions = new List<Action<Saver>>();
 
         Dictionary<object, Guid> _objectToGuid = new Dictionary<object, Guid>();
 
@@ -45,13 +46,17 @@ namespace UnityEngine.Serialization
             this.SaveDirectory = saveDirectory;
         }
 
-        public Saver( string saveDirectory, params Action<Saver>[] OnSave )
+        public Saver( string saveDirectory, Action<Saver>[] dataActions, Action<Saver>[] objectActions )
         {
             this.SaveDirectory = saveDirectory;
 
-            foreach( var action in OnSave )
+            foreach( var action in objectActions )
             {
-                this._saveActions.Add( action );
+                this._objectActions.Add( action );
+            }
+            foreach( var action in dataActions )
+            {
+                this._dataActions.Add( action );
             }
         }
 
@@ -62,6 +67,16 @@ namespace UnityEngine.Serialization
             _objectToGuid.Clear();
         }
 
+        public void AddDataAction( Action<Saver> action )
+        {
+            this._dataActions.Add( action );
+        }
+
+        public void AddObjectAction( Action<Saver> action )
+        {
+            this._objectActions.Add( action );
+        }
+
         /// <summary>
         /// Registers the specified object in the registry (if not registered already) and returns its reference ID.
         /// </summary>
@@ -69,7 +84,7 @@ namespace UnityEngine.Serialization
         /// Call this to map an object to an ID when saving an object reference.
         /// </remarks>
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public Guid RegisterOrGet( object obj )
+        public Guid GetID( object obj )
         {
             if( _objectToGuid.TryGetValue( obj, out Guid id ) )
             {
@@ -90,10 +105,13 @@ namespace UnityEngine.Serialization
         {
             ClearReferenceRegistry();
 
-            foreach( var action in _saveActions )
+            foreach( var action in _objectActions )
             {
-                // scene saving/loading via custom serializer set.
-                // Could also be used to save something else than the scene, e.g. current dialogues, by specifying a different set of save actions.
+                action?.Invoke( this );
+            }
+
+            foreach( var action in _dataActions )
+            {
                 action?.Invoke( this );
             }
 

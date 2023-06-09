@@ -37,7 +37,8 @@ namespace UnityEngine.Serialization
         /// </summary>
         public string SaveDirectory { get; set; }
 
-        List<Action<Loader>> _loadActions = new List<Action<Loader>>();
+        List<Action<Loader>> _objectActions = new List<Action<Loader>>();
+        List<Action<Loader>> _dataActions = new List<Action<Loader>>();
 
         Dictionary<Guid, object> _guidToObject = new Dictionary<Guid, object>();
 
@@ -48,13 +49,17 @@ namespace UnityEngine.Serialization
             this.SaveDirectory = saveDirectory;
         }
 
-        public Loader( string saveDirectory, params Action<Loader>[] OnLoad )
+        public Loader( string saveDirectory, Action<Loader>[] objectActions, Action<Loader>[] dataActions )
         {
             this.SaveDirectory = saveDirectory;
 
-            foreach( var action in OnLoad )
+            foreach( var action in objectActions )
             {
-                this._loadActions.Add( action );
+                this._objectActions.Add( action );
+            }
+            foreach( var action in dataActions )
+            {
+                this._dataActions.Add( action );
             }
         }
 
@@ -65,6 +70,16 @@ namespace UnityEngine.Serialization
             _guidToObject.Clear();
         }
 
+        public void AddObjectAction( Action<Loader> action )
+        {
+            this._objectActions.Add( action );
+        }
+
+        public void AddDataAction( Action<Loader> action )
+        {
+            this._dataActions.Add( action );
+        }
+
         /// <summary>
         /// Registers the specified object with the specified ID.
         /// </summary>
@@ -72,7 +87,7 @@ namespace UnityEngine.Serialization
         /// Call this method when loading an object that might be referenced.
         /// </remarks>
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public void Register( object obj, Guid id )
+        public void SetID( object obj, Guid id )
         {
             _guidToObject.Add( id, obj );
         }
@@ -105,10 +120,13 @@ namespace UnityEngine.Serialization
         {
             ClearReferenceRegistry();
 
-            foreach( var action in _loadActions )
+            foreach( var action in _objectActions )
             {
-                // scene saving/loading via custom serializer set.
-                // Could also be used to save something else than the scene, e.g. current dialogues, by specifying a different set of save actions.
+                action?.Invoke( this );
+            }
+
+            foreach( var action in _dataActions )
+            {
                 action?.Invoke( this );
             }
 

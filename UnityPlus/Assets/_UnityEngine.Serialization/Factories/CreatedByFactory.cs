@@ -13,6 +13,10 @@ namespace UnityEngine.Serialization.Factories
         /// </summary>
         private string _factoryID;
 
+        public string GetFactoryID()
+        {
+            return this._factoryID;
+        }
 #warning TODO - guard against adding this component if any of the parents of this.gameObject already have it.
     }
 }
