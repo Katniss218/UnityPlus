@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine.Serialization.ComponentData;
 using UnityEngine.Serialization.Factories;
 
 namespace UnityEngine.Serialization.Strategies
@@ -11,21 +12,19 @@ namespace UnityEngine.Serialization.Strategies
     /// <summary>
     /// Can be used to save the scene using the factory-objectdata scheme.
     /// </summary>
-    public static class FactoryObjectData
+    public class SceneFactoryComponentDataStrategy
     {
-        public static string ID_STRING = "$id";
+        // Object actions are suffixed by _Object
+        // Data actions are suffixed by _Data
 
-        public static Saver GetDefaultSaver( string directory )
-        {
-            return new Saver( directory, new Action<Saver>[] { SaveSceneObjects }, new Action<Saver>[] { SaveSceneObjectData } );
-        }
+        public string ID_STRING = "$id";
 
         private static IEnumerable<GameObject> GetRootGameObjects()
         {
             return SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
         }
 
-        public static void SaveSceneObjects( Saver s )
+        public void SaveSceneObjects_Object( Saver s )
         {
             // saves the information about what exists and what factory can be used to create that thing.
 
@@ -54,7 +53,7 @@ namespace UnityEngine.Serialization.Strategies
             }
         }
 
-        public static void SaveSceneObjectData( Saver s )
+        public void SaveSceneObjects_Data( Saver s )
         {
             // saves the persistent information about the existing objects.
 
@@ -69,14 +68,39 @@ namespace UnityEngine.Serialization.Strategies
             // save.
         }
 
-        public static void LoadSceneObjects( Loader l )
+        public void LoadSceneObjects_Object( Loader l )
         {
+            // Assumes that factories are already registered.
+
             // create dummy GOs with factories.
         }
 
-        public static void LoadSceneObjectData( Loader l )
+        public void LoadSceneObjects_Data( Loader l )
         {
-            // loop through 
+            // loop through object data, get the corresponding objects using ID from registry, and apply.
+        }
+
+
+
+
+        // part of serialization.
+
+        /// <summary>
+        /// Applies this data to a specified gameobject.
+        /// </summary>
+        public static void ApplyTo( GameObjectData data, GameObject target )
+        {
+            Component[] components = target.GetComponents<Component>();
+
+            foreach( var predDataPair in data.Data )
+            {
+                GameObjectData.Predicates[predDataPair.p.name]( components, predDataPair.p.data );
+            }
+        }
+
+        public static GameObjectData CreateFrom( GameObject target )
+        {
+            throw new Exception();
         }
     }
 }

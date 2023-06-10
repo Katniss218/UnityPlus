@@ -31,6 +31,8 @@ namespace UnityEngine.AssetManagement
 
         static Dictionary<T, string> _inverseCache = new Dictionary<T, string>();
 
+        static IAssetProvider<T>[] _providers;
+
         public static T Get( string assetID )
         {
             if( _cache.TryGetValue( assetID, out T val ) && val != null )
