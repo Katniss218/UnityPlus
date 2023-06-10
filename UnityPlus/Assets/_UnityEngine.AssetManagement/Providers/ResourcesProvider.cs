@@ -15,7 +15,7 @@ namespace UnityEngine.AssetManagement.Providers
     {
         public const string PREFIX = "resources::";
 
-        public Type ProvidedType { get; } = typeof( UnityEngine.Object );
+        public Type ProvidedType { get; } = typeof( UnityEngine.Object ); // Resources.Load can only load Unity assets. I.e. UnityEngine.Object.
 
         public object TryLoad( string assetID )
         {
