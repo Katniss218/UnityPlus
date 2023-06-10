@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b72ff488a81651247be30f58ee91c544, type: 3}
   m_Name: prefab factory
   m_EditorClassIdentifier: 
-  <ID>k__BackingField: 
+  <ID>k__BackingField: fac.test
   <AssetID>k__BackingField: 

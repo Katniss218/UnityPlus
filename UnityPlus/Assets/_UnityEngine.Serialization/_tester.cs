@@ -21,6 +21,8 @@ public class _tester : MonoBehaviour
         Debug.Log( f );
         Debug.Log( f2 );
         Debug.Log( f3 );
+
+        Instantiate( f3 );
     }
 
     // Update is called once per frame

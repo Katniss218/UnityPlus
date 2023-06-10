@@ -35,9 +35,9 @@ namespace UnityEngine.AssetManagement
         // if a provider is used, the registry can also try to load assets under asset IDs that didn't have an asset registered yet.
 
         static Dictionary<string, object> _cache = new Dictionary<string, object>();
-        static Dictionary<string, Func<object>> _lazyCache = new Dictionary<string, Func<object>>();
-
         static Dictionary<object, string> _inverseCache = new Dictionary<object, string>();
+
+        static Dictionary<string, Func<object>> _lazyCache = new Dictionary<string, Func<object>>();
 
         static IAssetProvider[] _providers;
 
@@ -46,7 +46,7 @@ namespace UnityEngine.AssetManagement
             ReloadProviders();
         }
 
-        public static void ReloadProviders()
+        static void ReloadProviders()
         {
             Type providerType = typeof( IAssetProvider );
 
@@ -64,16 +64,16 @@ namespace UnityEngine.AssetManagement
         }
 
         /// <summary>
-        /// Retrieves a registered asset, performs type conversion on the returned asset.
+        /// Retrieves a registered asset, performs type conversion on the returned asset to the requested type.
         /// </summary>
         /// <remarks>
         /// If nothing is registered under the specified <paramref name="assetID"/>, the registry will try to use an <see cref="IAssetProvider"/> to load an asset with a given <paramref name="assetID"/>.
         /// </remarks>
-        /// <typeparam name="T">The type to convert to.</typeparam>
+        /// <typeparam name="T">The requested type.</typeparam>
         /// <param name="assetID">The asset ID under which the asset is registered.</param>
         /// <returns>The registered asset, converted to the specified type <typeparamref name="T"/>. <br />
         /// <see cref="null"/> if no asset can be found. <br />
-        /// <see cref="null"/> if the conversion fails.</returns>
+        /// <see cref="null"/> if the actual type of the asset doesn't match the requested type (actual `as` requested).</returns>
         public static T Get<T>( string assetID ) where T : class
         {
             // Try to get an already loaded asset.
@@ -100,7 +100,7 @@ namespace UnityEngine.AssetManagement
                 {
                     object obj = provider.TryLoad( assetID );
 
-                    if( obj == null ) 
+                    if( obj == null )
                         continue;
 
                     Register( assetID, obj );
@@ -112,12 +112,40 @@ namespace UnityEngine.AssetManagement
         }
 
         /// <summary>
+        /// Returns the asset ID of a registered asset.
+        /// </summary>
+        /// <param name="assetRef">A reference to an asset retrieved from this registry.</param>
+        public static string GetAssetID( object assetRef )
+        {
+            // We don't have to bother checking providers, since we expect the parameter object to already come from the registry.
+
+            if( _inverseCache.TryGetValue( assetRef, out string assetID ) )
+            {
+                return assetID;
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Registers an object as an asset.
         /// </summary>
+        /// <remarks>
+        /// Replaces the previous entry, if any is registered.
+        /// </remarks>
         /// <param name="assetID">The Asset ID to register the object under.</param>
         /// <param name="asset">The asset object to register.</param>
         public static void Register( string assetID, object asset )
         {
+            if( asset == null )
+            {
+                throw new ArgumentNullException( nameof( asset ), $"Asset to register can't be null." );
+            }
+            if( assetID == null )
+            {
+                throw new ArgumentNullException( nameof( assetID ), $"Asset ID to register under can't be null." );
+            }
+
             _cache[assetID] = asset;
             _inverseCache[asset] = assetID;
         }
@@ -136,20 +164,14 @@ namespace UnityEngine.AssetManagement
             _lazyCache[assetID] = loader;
         }
 
-        /// <summary>
-        /// Returns the asset ID of a registered asset.
-        /// </summary>
-        /// <param name="assetRef">A reference to an asset retrieved from this registry.</param>
-        public static string GetAssetID( object assetRef )
+        public static bool Unregister( string assetID )
         {
-            // We don't have to bother checking providers, since we expect the parameter object to already come from the registry.
-
-            if( _inverseCache.TryGetValue( assetRef, out string assetID ) )
+            if( assetID == null )
             {
-                return assetID;
+                throw new ArgumentNullException( nameof( assetID ), $"Asset ID to unregister from can't be null." );
             }
 
-            return null;
+            return _cache.Remove( assetID );
         }
     }
 }
