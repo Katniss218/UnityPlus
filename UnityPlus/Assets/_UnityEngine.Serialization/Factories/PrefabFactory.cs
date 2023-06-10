@@ -8,24 +8,33 @@ using UnityEngine.AssetManagement;
 
 namespace UnityEngine.Serialization.Factories
 {
-    public class PrefabFactory : Factory<GameObject>
+    [CreateAssetMenu( fileName = "prefab factory", menuName = "PrefabFactory", order = 1 )]
+    public class PrefabFactory : ScriptableObject, IFactory<GameObject>
     {
+        [field: SerializeField]
+        public string ID { get; private set; }
+
+        [field: SerializeField]
         public string AssetID { get; set; }
 
-        public override GameObject Create()
+        public GameObject Create()
         {
-            GameObject prefab = Registry<GameObject>.Get( this.AssetID );
+            GameObject prefab = Registry.Get<GameObject>( this.AssetID );
+            if( prefab == null )
+            {
+                Debug.LogWarning( $"Prefab with an assetID `{AssetID}` was not in the {nameof( Registry )}." );
+            }
 
-            GameObject go = UnityEngine.Object.Instantiate( prefab );
+            GameObject go = Instantiate( prefab );
             return go;
         }
 
-        public override void SetData( JToken json )
+        public void SetData( JToken json )
         {
             this.AssetID = (string)json["AssetID"];
         }
 
-        public override JToken GetData()
+        public JToken GetData()
         {
             return new JObject()
             {
