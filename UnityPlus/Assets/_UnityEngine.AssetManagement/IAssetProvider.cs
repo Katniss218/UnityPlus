@@ -15,7 +15,7 @@ namespace UnityEngine.AssetManagement
     public interface IAssetProvider
     {
         /// <summary>
-        /// Specifies which calls to <see cref="Registry.Get"/> this provider should respond to.
+        /// Specifies which calls to <see cref="Registry.Get"/> this provider will respond to.
         /// </summary>
         /// <remarks>
         /// Examples: <br />
@@ -31,7 +31,7 @@ namespace UnityEngine.AssetManagement
         /// </summary>
         /// <remarks>
         /// NOTE TO IMPLEMENTERS: <br />
-        /// - You're supposed to convert the asset ID into an asset path (if applicable).
+        /// - You're supposed to convert the asset ID into an asset path (if applicable). No asset path will be provided by the caller.
         /// </remarks>
         object TryLoad( string assetID );
     }

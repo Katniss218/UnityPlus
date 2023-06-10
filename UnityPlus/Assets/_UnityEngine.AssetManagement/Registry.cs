@@ -175,5 +175,24 @@ namespace UnityEngine.AssetManagement
                 return false;
             }
         }
+
+        /// <summary>
+        /// Unregisters an asset.
+        /// </summary>
+        /// <param name="assetRef">The asset to unregister.</param>
+        /// <returns>True if the asset existed in the registry, otherwise false.</returns>
+        public static bool Unregister( object assetRef )
+        {
+            if( _inverseCache.TryGetValue( assetRef, out string assetID ) )
+            {
+                _inverseCache.Remove( assetRef );
+                _cache.Remove( assetID );
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
