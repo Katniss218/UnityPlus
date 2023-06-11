@@ -10,6 +10,8 @@ namespace UnityEngine.Serialization.ComponentData
     {
         public static Component GetComponentByIndex( Component[] components, object data )
         {
+            // `object data` because it has to be added to a common list.
+
             int index = (int)data;
             if( index < 0 || index >= components.Length )
             {
@@ -20,6 +22,8 @@ namespace UnityEngine.Serialization.ComponentData
 
         public static Component GetComponentByTypeAndIndex( Component[] components, object data )
         {
+            // `object data` because it has to be added to a common list.
+
             (Type type, int index) = ((Type, int))data;
 
             int current = 0;

@@ -1,33 +1,51 @@
+using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AssetManagement;
+using UnityEngine.Serialization;
 using UnityEngine.Serialization.Factories;
+using UnityEngine.Serialization.Strategies;
 
-public class _tester : MonoBehaviour
+public class _tester : MonoBehaviour, IPersistent
 {
     [SerializeField]
-    PrefabFactory fac;
+    PrefabAssetFactory fac;
+
+    public JToken GetData( Saver s )
+    {
+        return new JObject()
+        {
+            { "fac", Registry.GetAssetID( fac ) }
+        };
+    }
+
+    public void SetData( Loader l, JToken json )
+    {
+        throw new System.NotImplementedException();
+    }
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Registry.Register( "defaultfac", fac );
-
-        GameObject f3 = Registry.Get<GameObject>( "resources::Cube" );
-        IFactory f = Registry.Get<IFactory>( "defaultfac" );
-        IFactory f2 = Registry.Get<IFactory<GameObject>>( "defaultfac" );
-
-        Debug.Log( f );
-        Debug.Log( f2 );
-        Debug.Log( f3 );
-
-        Instantiate( f3 );
     }
 
     // Update is called once per frame
-    void Update()
+    void Start()
     {
-        
+        GameObject f3 = Registry.Get<GameObject>( "resources::Cube" );
+        IFactory<GameObject> f2 = Registry.Get<IFactory<GameObject>>( "defaultfac" );
+
+        Debug.Log( f2 );
+        Debug.Log( f3 );
+
+        f2.Create();
+
+        SceneFactoryGameObjectDataStrategy strat = new SceneFactoryGameObjectDataStrategy();
+
+        Saver s = new Saver( "test", new System.Action<Saver>[] { strat.SaveSceneObjects_Data }, new System.Action<Saver>[] { strat.SaveSceneObjects_Object } );
+
+        s.Save();
     }
 }

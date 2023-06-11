@@ -70,11 +70,19 @@ namespace UnityEngine.Serialization
             _guidToObject.Clear();
         }
 
+        /// <summary>
+        /// Adds a new object action (used to create an object instance, so that the references can be reconstructed using a data action). <br />
+        /// See also: <see cref="AddDataAction"/>
+        /// </summary>
         public void AddObjectAction( Action<Loader> action )
         {
             this._objectActions.Add( action );
         }
 
+        /// <summary>
+        /// Adds a new data action (used to load and apply persistent data to an already-loaded default instance). <br />
+        /// See also: <see cref="AddObjectAction"/>
+        /// </summary>
         public void AddDataAction( Action<Loader> action )
         {
             this._dataActions.Add( action );
@@ -106,7 +114,7 @@ namespace UnityEngine.Serialization
                 return obj;
             }
 #if DEBUG
-            Debug.Log( $"Tried to get a reference to object `{id:X}` before it was loaded." );
+            Debug.Log( $"Tried to get a reference to object `{id:D}` before it was loaded." );
 #endif
             return null;
         }

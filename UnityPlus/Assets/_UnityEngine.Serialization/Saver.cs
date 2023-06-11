@@ -67,11 +67,19 @@ namespace UnityEngine.Serialization
             _objectToGuid.Clear();
         }
 
+        /// <summary>
+        /// Adds a new data action (used to save persistent data about instances of objects). <br />
+        /// See also: <see cref="AddObjectAction"/>
+        /// </summary>
         public void AddDataAction( Action<Saver> action )
         {
             this._dataActions.Add( action );
         }
 
+        /// <summary>
+        /// Adds a new object action (used to persist an object instance, so that the references can be reconstructed using a loader's data action). <br />
+        /// See also: <see cref="AddDataAction"/>
+        /// </summary>
         public void AddObjectAction( Action<Saver> action )
         {
             this._objectActions.Add( action );

@@ -7,7 +7,7 @@ using UnityEngine;
 namespace UnityEngine.Serialization.ComponentData
 {
     /// <summary>
-    /// A way to apply persistent data to a gameobject.
+    /// Stores persistent data about a gameobject.
     /// </summary>
     public class GameObjectData
     {
@@ -33,19 +33,18 @@ namespace UnityEngine.Serialization.ComponentData
             public object data;
         }
 
-        /// <summary>
-        /// Searches through the specified gameobject and returns the first gameObject that matches this predicate.
-        /// </summary>
-        public static Dictionary<string, Func<Component[], object, Component>> Predicates { get; } = new Dictionary<string, Func<Component[], object, Component>>()
+        public static Dictionary<string, Func<Component[], object, Component>> PredicateRegistry { get; } = new Dictionary<string, Func<Component[], object, Component>>()
         {
             { "index", ComponentFinder.GetComponentByIndex },
             { "type-and-index", ComponentFinder.GetComponentByTypeAndIndex }
         };
 
         /// <summary>
-        /// The array of data to apply, and each data has a predicate associated with it that will match one component on the target GameObject.
+        /// The array of data to apply.
         /// </summary>
+        /// <remarks>
+        /// Each entry is a predicate-data pair. The predicate will match one component on the target GameObject, and the data will be applied to that component.
+        /// </remarks>
         public List<(Predicate p, JToken d)> Data { get; set; }
-
     }
 }

@@ -63,7 +63,7 @@ namespace UnityEngine.AssetManagement
         public static T Get<T>( string assetID ) where T : class
         {
             // Try to get an already loaded asset.
-            if( _cache.TryGetValue( assetID, out object val ) && val != null )
+            if( _cache.TryGetValue( assetID, out object val ) )
             {
                 return val as T;
             }
@@ -72,8 +72,11 @@ namespace UnityEngine.AssetManagement
             if( _lazyCache.TryGetValue( assetID, out Func<object> loader ) )
             {
                 object asset = loader();
-                Register( assetID, asset );
-                return asset as T;
+                if( asset != null )
+                {
+                    Register( assetID, asset );
+                    return asset as T;
+                }
             }
 
             Type type = typeof( T );

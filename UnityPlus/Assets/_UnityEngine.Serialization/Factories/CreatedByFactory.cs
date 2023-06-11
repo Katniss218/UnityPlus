@@ -6,17 +6,30 @@ using System.Threading.Tasks;
 
 namespace UnityEngine.Serialization.Factories
 {
+    /// <summary>
+    /// Marks an object as created by a factory with the specified name.
+    /// </summary>
+    [DisallowMultipleComponent]
     public class CreatedByFactory : MonoBehaviour
     {
         /// <summary>
-        /// the ID of the factory that created this object.
+        /// The asset ID of the factory that created this GameObject. Should match a registered instance of <see cref="IFactory{GameObject}"/>.
         /// </summary>
-        private string _factoryID;
+        [field: SerializeField]
+        public string FactoryAssetID { get; internal set; }
 
-        public string GetFactoryID()
+        void Awake()
         {
-            return this._factoryID;
+            Transform transform = this.transform.parent;
+
+            while( transform != null ) 
+            {
+                if( transform.GetComponent<CreatedByFactory>() != null )
+                {
+                    throw new InvalidOperationException( $"Can't add a {nameof( CreatedByFactory )} component to `{this.gameObject.name}` because its parent (`{transform.gameObject.name}`) already has one." );
+                }
+                transform = transform.parent;
+            }
         }
-#warning TODO - guard against adding this component if any of the parents of this.gameObject already have it.
     }
 }

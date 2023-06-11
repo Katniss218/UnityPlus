@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,9 @@ using UnityEngine.Serialization.Factories;
 namespace UnityEngine.Serialization.Strategies
 {
     /// <summary>
-    /// Can be used to save the scene using the factory-objectdata scheme.
+    /// Can be used to save the scene using the factory-gameobjectdata scheme.
     /// </summary>
-    public class SceneFactoryComponentDataStrategy
+    public class SceneFactoryGameObjectDataStrategy
     {
         // Object actions are suffixed by _Object
         // Data actions are suffixed by _Data
@@ -36,21 +37,23 @@ namespace UnityEngine.Serialization.Strategies
 
             foreach( var go in rootObjects )
             {
-                Guid id = s.GetID( go );
                 CreatedByFactory cbf = go.GetComponent<CreatedByFactory>();
-                if( cbf == null)
+                if( cbf == null )
                 {
                     continue;
                 }
-                string factoryID = cbf.GetFactoryID();
+                Guid id = s.GetID( go );
+                string factoryID = cbf.FactoryAssetID;
 
                 JObject goJson = new JObject()
                 {
-                    { ID_STRING, id.ToString("X") },
+                    { ID_STRING, id.ToString("D") },
                     { "$factory", factoryID }
                 };
                 objectsJson.Add( goJson );
             }
+
+            Debug.Log( JsonConvert.SerializeObject( objectsJson ) );
         }
 
         public void SaveSceneObjects_Data( Saver s )
@@ -61,6 +64,53 @@ namespace UnityEngine.Serialization.Strategies
 
             IEnumerable<GameObject> rootObjects = GetRootGameObjects();
 
+            JArray objectsJson = new JArray();
+
+            foreach( var go in rootObjects )
+            {
+                CreatedByFactory cbf = go.GetComponent<CreatedByFactory>();
+                if( cbf == null )
+                {
+                    continue;
+                }
+                Guid id = s.GetID( go );
+
+                JArray componentsJson = new JArray();
+
+                Component[] comps = go.GetComponents<Component>();
+                int i = 0;
+                foreach( var comp in comps )
+                {
+                    var dataJson = comp.GetData( s );
+
+                    if( dataJson != null )
+                    {
+                        JObject compJson = new JObject()
+                        {
+#warning TODO - ugly magic string value of `predicate_type`.
+                            { "predicate_type", "index" },
+                            { "predicate", new JObject()
+                            {
+                                { "index", i }
+                            } },
+                            { "data", dataJson }
+                        };
+                        componentsJson.Add( compJson );
+                    }
+                    i++;
+                }
+
+                if( componentsJson.Any() )
+                {
+                    objectsJson.Add( new JObject()
+                    {
+                        { "$ref", id.ToString( "D" ) },
+                        { "components", componentsJson }
+                    } );
+                }
+            }
+
+            Debug.Log( JsonConvert.SerializeObject( objectsJson ) );
             // loop through children.
 
             // loop through components.
@@ -88,17 +138,17 @@ namespace UnityEngine.Serialization.Strategies
         /// <summary>
         /// Applies this data to a specified gameobject.
         /// </summary>
-        public static void ApplyTo( GameObjectData data, GameObject target )
+        static void ApplyTo( GameObjectData data, GameObject target )
         {
             Component[] components = target.GetComponents<Component>();
 
             foreach( var predDataPair in data.Data )
             {
-                GameObjectData.Predicates[predDataPair.p.name]( components, predDataPair.p.data );
+                GameObjectData.PredicateRegistry[predDataPair.p.name]( components, predDataPair.p.data );
             }
         }
 
-        public static GameObjectData CreateFrom( GameObject target )
+        static GameObjectData CreateFrom( GameObject target )
         {
             throw new Exception();
         }
