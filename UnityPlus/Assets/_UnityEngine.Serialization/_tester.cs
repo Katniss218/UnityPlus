@@ -31,6 +31,10 @@ public class _tester : MonoBehaviour, IPersistent
         Registry.Register( "defaultfac", fac );
     }
 
+    Saver s;
+    Loader l;
+    SceneFactoryGameObjectDataStrategy strat;
+
     // Update is called once per frame
     void Start()
     {
@@ -42,10 +46,22 @@ public class _tester : MonoBehaviour, IPersistent
 
         f2.Create();
 
-        SceneFactoryGameObjectDataStrategy strat = new SceneFactoryGameObjectDataStrategy();
+        strat = new SceneFactoryGameObjectDataStrategy();
 
-        Saver s = new Saver( "test", new System.Action<Saver>[] { strat.SaveSceneObjects_Data }, new System.Action<Saver>[] { strat.SaveSceneObjects_Object } );
+        s = new Saver( "test", new System.Action<Saver>[] { strat.SaveSceneObjects_Data }, new System.Action<Saver>[] { strat.SaveSceneObjects_Object } );
 
-        s.Save();
+        l = new Loader( "test", new System.Action<Loader>[] { strat.LoadSceneObjects_Object }, new System.Action<Loader>[] { strat.LoadSceneObjects_Data } );
+    }
+
+    void Update()
+    {
+        if( Input.GetKeyDown( KeyCode.S ) )
+        {
+            s.Save();
+        }
+        if( Input.GetKeyDown( KeyCode.L ) )
+        {
+            l.Load();
+        }
     }
 }

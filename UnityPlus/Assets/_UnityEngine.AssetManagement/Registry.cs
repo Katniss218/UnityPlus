@@ -85,8 +85,8 @@ namespace UnityEngine.AssetManagement
             // - They automatically convert asset IDs into asset paths to load.
             foreach( var provider in _providers )
             {
-                if( provider.ProvidedType.IsAssignableFrom( type ) )
-                {
+                //if( provider.ProvidedType.IsAssignableFrom( type ) )
+                //{
                     object obj = provider.TryLoad( assetID );
 
                     if( obj == null )
@@ -94,7 +94,7 @@ namespace UnityEngine.AssetManagement
 
                     Register( assetID, obj );
                     return obj as T;
-                }
+                //}
             }
 
             return default;
