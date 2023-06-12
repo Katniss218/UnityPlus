@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 694540547}
   - component: {fileID: 694540546}
+  - component: {fileID: 694540548}
   m_Layer: 0
   m_Name: Main Manager
   m_TagString: Untagged
@@ -168,6 +169,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &694540548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 694540545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 616dcb8ac2fa7da4d9fe4543d53ea5e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _assetsToRegister:
+  - assetID: resources::cube_factory
+    asset: {fileID: 11400000, guid: 32a6b6aaaec7a4a41a34812d650e8292, type: 2}
+  - assetID: resources::Prefabs/Cube2
+    asset: {fileID: 735042289000868348, guid: 4b148970c3f39ac488e624d42826e697, type: 3}
+  _autoUpdateFromResources: 1
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

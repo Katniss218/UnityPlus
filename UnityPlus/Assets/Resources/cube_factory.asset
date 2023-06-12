@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae0b231132b9ecb429b2efa8778dc9e5, type: 3}
   m_Name: cube_factory
   m_EditorClassIdentifier: 
-  <PrefabAssetID>k__BackingField: resources::Cube
+  <PrefabAssetID>k__BackingField: resources::Prefabs/Cube2

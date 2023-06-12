@@ -38,6 +38,12 @@ public class _tester : MonoBehaviour, IPersistent
     // Update is called once per frame
     void Start()
     {
+        var x = Resources.LoadAll<Object>( "" );
+        foreach( var xx in x )
+        {
+            Debug.Log( xx.name );
+        }
+
         GameObject f3 = Registry.Get<GameObject>( "resources::Cube" );
         IFactory<GameObject> f2 = Registry.Get<IFactory<GameObject>>( "defaultfac" );
 
