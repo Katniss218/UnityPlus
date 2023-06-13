@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caa2649d8ab65d64c8feb27f45ff73a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fac: {fileID: 11400000, guid: 32a6b6aaaec7a4a41a34812d650e8292, type: 2}
+  prefab: {fileID: 0}
 --- !u!4 &694540547
 Transform:
   m_ObjectHideFlags: 0
@@ -182,8 +182,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _assetsToRegister:
-  - assetID: resources::cube_factory
-    asset: {fileID: 11400000, guid: 32a6b6aaaec7a4a41a34812d650e8292, type: 2}
   - assetID: resources::Prefabs/Cube2
     asset: {fileID: 735042289000868348, guid: 4b148970c3f39ac488e624d42826e697, type: 3}
   _autoUpdateFromResources: 1

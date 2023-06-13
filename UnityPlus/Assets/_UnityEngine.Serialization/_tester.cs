@@ -4,31 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AssetManagement;
 using UnityEngine.Serialization;
-using UnityEngine.Serialization.Factories;
 using UnityEngine.Serialization.Strategies;
 
-public class _tester : MonoBehaviour, IPersistent
+public class _tester : MonoBehaviour
 {
-    [SerializeField]
-    PrefabAssetFactory fac;
-
-    public JToken GetData( Saver s )
-    {
-        return new JObject()
-        {
-            { "fac", Registry.GetAssetID( fac ) }
-        };
-    }
-
-    public void SetData( Loader l, JToken json )
-    {
-        throw new System.NotImplementedException();
-    }
-
     // Start is called before the first frame update
     void Awake()
     {
-        Registry.Register( "defaultfac", fac );
+
     }
 
     Saver s;
@@ -44,13 +27,9 @@ public class _tester : MonoBehaviour, IPersistent
             Debug.Log( xx.name );
         }
 
-        GameObject f3 = Registry.Get<GameObject>( "resources::Cube" );
-        IFactory<GameObject> f2 = Registry.Get<IFactory<GameObject>>( "defaultfac" );
+        GameObject f2 = Registry.Get<GameObject>( "resources::Prefabs/Cube2" );
 
-        Debug.Log( f2 );
-        Debug.Log( f3 );
-
-        f2.Create();
+        ClonedGameObject.Instantiate( f2 );
 
         strat = new SceneFactoryGameObjectDataStrategy();
 

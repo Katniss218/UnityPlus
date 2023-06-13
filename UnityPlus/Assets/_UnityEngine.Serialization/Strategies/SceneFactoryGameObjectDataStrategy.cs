@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine.AssetManagement;
 using UnityEngine.Serialization.ComponentData;
-using UnityEngine.Serialization.Factories;
 
 namespace UnityEngine.Serialization.Strategies
 {
@@ -30,38 +29,35 @@ namespace UnityEngine.Serialization.Strategies
 
         public static JToken WriteFactoryObject( Saver s, GameObject go )
         {
-            CreatedByFactory cbf = go.GetComponent<CreatedByFactory>();
+            ClonedGameObject cbf = go.GetComponent<ClonedGameObject>();
             if( cbf == null )
             {
                 return null;
             }
 
             Guid objectGuid = s.GetID( go );
-            string factoryID = cbf.FactoryAssetID;
 
             JObject goJson = new JObject()
             {
                 { Saver_Ex_References.ID, s.WriteGuid(objectGuid) },
-                { "$factory", factoryID }
+                { "prefab", s.WriteAssetReference(cbf.OriginalAsset) }
             };
 
             return goJson;
         }
 
-        public static GameObject ReadFactoryObject( Loader l, JToken goJson )
+        public static GameObject ReadAssetGameObject( Loader l, JToken goJson )
         {
             Guid objectGuid = l.ReadGuid( goJson[Saver_Ex_References.ID] );
 
-            string factoryID = (string)goJson["$factory"];
+            GameObject prefab = l.ReadAssetReference<GameObject>( goJson["prefab"] );
 
-            IFactory<GameObject> fac = Registry.Get<IFactory<GameObject>>( factoryID );
-
-            if( fac == null )
+            if( prefab == null )
             {
-                Debug.LogWarning( $"Couldn't find a factory with asset ID `{factoryID}`." );
+                Debug.LogWarning( $"Couldn't find a prefab `{goJson["prefab"]}`." );
             }
 
-            GameObject go = fac.Create();
+            GameObject go = ClonedGameObject.Instantiate( prefab );
 
             l.SetID( go, objectGuid );
 
@@ -106,7 +102,7 @@ namespace UnityEngine.Serialization.Strategies
 #warning TODO - loop through children.
             foreach( var go in rootObjects )
             {
-                CreatedByFactory cbf = go.GetComponent<CreatedByFactory>();
+                ClonedGameObject cbf = go.GetComponent<ClonedGameObject>();
                 if( cbf == null )
                 {
                     continue;
@@ -162,7 +158,7 @@ namespace UnityEngine.Serialization.Strategies
 
             foreach( var goJson in objectsJson )
             {
-                ReadFactoryObject( l, goJson );
+                ReadAssetGameObject( l, goJson );
             }
         }
 

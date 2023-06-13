@@ -74,6 +74,16 @@ namespace UnityEngine.AssetManagement
 
             foreach( var entry in _assetsToRegister )
             {
+                if( entry.assetID == null )
+                {
+                    Debug.LogWarning( $"Null asset ID present in list of assets to register." );
+                    continue;
+                }
+                if( entry.asset == null )
+                {
+                    Debug.LogWarning( $"Null asset present in list of assets to register." );
+                    continue;
+                }
                 Registry.Register( entry.assetID, entry.asset );
             }
 
