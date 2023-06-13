@@ -16,7 +16,7 @@ public class _tester : MonoBehaviour
 
     Saver s;
     Loader l;
-    SceneFactoryGameObjectDataStrategy strat;
+    PrefabAndDataStrategy strat;
 
     // Update is called once per frame
     void Start()
@@ -27,11 +27,11 @@ public class _tester : MonoBehaviour
             Debug.Log( xx.name );
         }
 
-        GameObject f2 = Registry.Get<GameObject>( "resources::Prefabs/Cube2" );
+        GameObject f2 = Registry.Get<GameObject>( "builtin::Resources/Prefabs/Cube2" );
 
         ClonedGameObject.Instantiate( f2 );
 
-        strat = new SceneFactoryGameObjectDataStrategy();
+        strat = new PrefabAndDataStrategy();
 
         s = new Saver( "test", new System.Action<Saver>[] { strat.SaveSceneObjects_Data }, new System.Action<Saver>[] { strat.SaveSceneObjects_Object } );
 

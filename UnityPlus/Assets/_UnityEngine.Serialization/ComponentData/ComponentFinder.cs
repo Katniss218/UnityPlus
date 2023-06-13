@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace UnityEngine.Serialization.ComponentData
 {
+    /// <summary>
+    /// Implements static methods that can be used to find a component on a gameobject by a predicate, and data associated with that predicate.
+    /// </summary>
     public static class ComponentFinder
     {
         public static Component GetComponentByIndex( Component[] components, object data )
         {
-            // `object data` because it has to be added to a common list.
+            // Data is `object` because it has to be added to a common list.
 
             int index = (int)data;
             if( index < 0 || index >= components.Length )
@@ -22,7 +25,7 @@ namespace UnityEngine.Serialization.ComponentData
 
         public static Component GetComponentByTypeAndIndex( Component[] components, object data )
         {
-            // `object data` because it has to be added to a common list.
+            // Data is `object` because it has to be added to a common list.
 
             (Type type, int index) = ((Type, int))data;
 

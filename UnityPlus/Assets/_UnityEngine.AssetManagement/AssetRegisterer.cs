@@ -40,6 +40,7 @@ namespace UnityEngine.AssetManagement
     /// <summary>
     /// Registers a specific set of assets (Unity Objects) when its first initialized.
     /// </summary>
+    [DefaultExecutionOrder( int.MinValue )]
     public class AssetRegisterer : MonoBehaviour
     {
         /// <summary>
@@ -62,8 +63,17 @@ namespace UnityEngine.AssetManagement
         [SerializeField]
         private Entry[] _assetsToRegister;
 
-        [SerializeField]
-        private bool _autoUpdateFromResources; // update the value of `_assetsToRegister` based on what is currently in the Resources directory.
+        public void TrySetAssetsToRegister( Entry[] assetsToRegister )
+        {
+#if UNITY_EDITOR
+            if( !Application.isPlaying )
+            {
+                _assetsToRegister = assetsToRegister;
+                return;
+            }
+#endif
+            Debug.LogWarning( $"{nameof( AssetRegisterer )} - Tried to set assets to register while in play mode." );
+        }
 
         void Awake()
         {
@@ -90,48 +100,5 @@ namespace UnityEngine.AssetManagement
             // Allows to garbage collect them later, if unloaded from the registry.
             _assetsToRegister = null;
         }
-
-#if UNITY_EDITOR
-        void TryUpdateEntriesResources()
-        {
-            const string PATH_DIR = "Assets/Resources/";
-
-            if( !_autoUpdateFromResources )
-            {
-                return;
-            }
-
-            string[] allAssetPaths = AssetDatabase.GetAllAssetPaths();
-
-            List<Entry> entries = new List<Entry>();
-
-            foreach( var path in allAssetPaths )
-            {
-                if( !path.StartsWith( PATH_DIR ) )
-                {
-                    continue;
-                }
-
-                Object asset = AssetDatabase.LoadAssetAtPath<Object>( path );
-                if( asset is DefaultAsset )
-                {
-                    continue;
-                }
-
-                int start = PATH_DIR.Length;
-                int end = path.LastIndexOf( '.' );
-                string assetID = end == -1 ? path[start..] : path[start..end];
-
-                entries.Add( new Entry() { assetID = $"resources::{assetID}", asset = asset } );
-            }
-
-            _assetsToRegister = entries.ToArray();
-        }
-
-        private void OnValidate()
-        {
-            TryUpdateEntriesResources();
-        }
-#endif
     }
 }

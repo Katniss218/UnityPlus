@@ -13,11 +13,12 @@ namespace UnityEngine.Serialization.Strategies
     /// <summary>
     /// Can be used to save the scene using the factory-gameobjectdata scheme.
     /// </summary>
-    public class SceneFactoryGameObjectDataStrategy
+    public sealed class PrefabAndDataStrategy
     {
         // Object actions are suffixed by _Object
         // Data actions are suffixed by _Data
 
+#warning TODO - something to tell the strategy where to put the JSON file(s) and how to structure them.
 
         private static string jsonO;
         private static string jsonD;
@@ -27,7 +28,7 @@ namespace UnityEngine.Serialization.Strategies
             return SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
         }
 
-        public static JToken WriteFactoryObject( Saver s, GameObject go )
+        private static JToken WriteAssetGameObject( Saver s, GameObject go )
         {
             ClonedGameObject cbf = go.GetComponent<ClonedGameObject>();
             if( cbf == null )
@@ -46,7 +47,7 @@ namespace UnityEngine.Serialization.Strategies
             return goJson;
         }
 
-        public static GameObject ReadAssetGameObject( Loader l, JToken goJson )
+        private static GameObject ReadAssetGameObject( Loader l, JToken goJson )
         {
             Guid objectGuid = l.ReadGuid( goJson[Saver_Ex_References.ID] );
 
@@ -79,13 +80,15 @@ namespace UnityEngine.Serialization.Strategies
 #warning TODO - if root doesn't have factory component, look through children.
                 // maybe some sort of customizable tag/layer masking
 
-                JToken goJson = WriteFactoryObject( s, go );
+                JToken goJson = WriteAssetGameObject( s, go );
                 if( goJson == null )
                     continue;
                 objectsJson.Add( goJson );
             }
 
             jsonO = JsonConvert.SerializeObject( objectsJson );
+            TMPro.TMP_InputField inp = Object.FindObjectOfType<TMPro.TMP_InputField>();
+            inp.text = jsonO;
             Debug.Log( jsonO );
         }
 
@@ -99,7 +102,7 @@ namespace UnityEngine.Serialization.Strategies
 
             JArray objectsJson = new JArray();
 
-#warning TODO - loop through children.
+#warning TODO - loop through children to save/load comps.
             foreach( var go in rootObjects )
             {
                 ClonedGameObject cbf = go.GetComponent<ClonedGameObject>();
@@ -145,6 +148,8 @@ namespace UnityEngine.Serialization.Strategies
             }
 
             jsonD = JsonConvert.SerializeObject( objectsJson );
+            TMPro.TMP_InputField inp = Object.FindObjectOfType<TMPro.TMP_InputField>();
+            inp.text = jsonD;
             Debug.Log( jsonD );
         }
 
@@ -168,30 +173,23 @@ namespace UnityEngine.Serialization.Strategies
 
             JArray objectsJson = JsonConvert.DeserializeObject<JArray>( jsonD );
 
-            throw new Exception( "TODO - finish this" );
-        }
-
-
-
-
-        // part of serialization.
-
-        /// <summary>
-        /// Applies this data to a specified gameobject.
-        /// </summary>
-        static void ApplyTo( GameObjectData data, GameObject target )
-        {
-            Component[] components = target.GetComponents<Component>();
-
-            foreach( var predDataPair in data.Data )
+            foreach( var goJson in objectsJson )
             {
-                GameObjectData.PredicateRegistry[predDataPair.p.name]( components, predDataPair.p.data );
-            }
-        }
+                object obj = l.Get( l.ReadGuid( goJson["$ref"] ) );
 
-        static GameObjectData CreateFrom( GameObject target )
-        {
-            throw new Exception();
+                GameObject go = (GameObject)obj;
+
+                Component[] comps = go.GetComponents();
+
+                foreach( var compjson in goJson["components"] )
+                {
+                    var func = GameObjectData.PredicateRegistry[(string)compjson["predicate_type"]];
+#warning TODO - self-serialize for these.
+                    Component comp = func( comps, (int)(compjson["predicate"]["index"]) );
+
+                    comp.SetData( l, compjson["data"] );
+                }
+            }
         }
     }
 }
