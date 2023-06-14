@@ -94,7 +94,7 @@ namespace UnityEngine.AssetManagement
                     Debug.LogWarning( $"Null asset present in list of assets to register." );
                     continue;
                 }
-                Registry.Register( entry.assetID, entry.asset );
+                AssetRegistry.Register( entry.assetID, entry.asset );
             }
 
             // Allows to garbage collect them later, if unloaded from the registry.

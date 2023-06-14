@@ -35,7 +35,7 @@ namespace UnityEngine.Serialization
             {
                 string assetID = (string)refJson;
 
-                return Registry.Get<T>( assetID );
+                return AssetRegistry.Get<T>( assetID );
             }
             return null;
         }

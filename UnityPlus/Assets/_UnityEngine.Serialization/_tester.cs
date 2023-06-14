@@ -27,7 +27,7 @@ public class _tester : MonoBehaviour
             Debug.Log( xx.name );
         }
 
-        GameObject f2 = Registry.Get<GameObject>( "builtin::Resources/Prefabs/Cube2" );
+        GameObject f2 = AssetRegistry.Get<GameObject>( "builtin::Resources/Prefabs/Cube2" );
 
         ClonedGameObject.Instantiate( f2 );
 

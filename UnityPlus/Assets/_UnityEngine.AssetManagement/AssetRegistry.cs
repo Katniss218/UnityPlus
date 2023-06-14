@@ -10,9 +10,9 @@ namespace UnityEngine.AssetManagement
     /// A static registry for assets.
     /// </summary>
     /// <remarks>
-    /// Register assets at startup, or use a provider to automatically register assets that match certain asset paths.
+    /// Register assets at startup.
     /// </remarks>
-    public static class Registry
+    public static class AssetRegistry
     {
         // Registry is a class used to manage shared (singleton) references to `assets`.
         // An `asset` in this context is more broad than just Unity asset, since it can be an arbitrary class (reference type).

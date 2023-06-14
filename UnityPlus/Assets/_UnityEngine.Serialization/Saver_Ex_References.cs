@@ -55,7 +55,7 @@ namespace UnityEngine.Serialization
                 return new JObject();
             }
 
-            string assetID = Registry.GetAssetID( assetRef );
+            string assetID = AssetRegistry.GetAssetID( assetRef );
             if( assetID == null )
             {
                 return new JObject();
