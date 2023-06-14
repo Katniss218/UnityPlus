@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Serialization.ComponentData;
 using UnityEngine.TestTools;
 
-public class ComponentFinderTest
+public class ComponentFinderTests
 {
     public class TestComponent : MonoBehaviour { }
 
