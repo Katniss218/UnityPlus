@@ -233,6 +233,7 @@ namespace UnityEngine.Serialization.Json
                 // value sep
                 EatWhiteSpace();
 
+#warning TODO - `,` can be missing and it will still parse. make it better.
                 if( _currentChar == ',' )
                 {
                     Advance();
