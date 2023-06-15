@@ -24,7 +24,7 @@ namespace UnityEngine.Serialization
     // - array `[ serializedArray ]`
     {
         [StructLayout( LayoutKind.Explicit )]
-        struct Union
+        internal struct Union
         {
             [FieldOffset( 0 )] public Guid equalityChecker;
 
@@ -36,7 +36,7 @@ namespace UnityEngine.Serialization
             [FieldOffset( 16 )] public object obj; // decimal is a big boi, 16 bytes offset.
         }
 
-        enum DataType : byte
+        internal enum DataType : byte
         {
             Invalid = 0,
 
@@ -54,8 +54,8 @@ namespace UnityEngine.Serialization
             Array
         }
 
-        readonly Union _value;
-        readonly DataType _valueType;
+        internal readonly Union _value;
+        internal readonly DataType _valueType;
 
         SerializedValue( Union value, DataType valueType )
         {
@@ -205,14 +205,17 @@ namespace UnityEngine.Serialization
 
         public static bool operator ==( SerializedValue v1, SerializedValue v2 )
         {
+            if( (object)v1 == null ) return (object)v2 == null;
+            if( (object)v2 == null ) return (object)v1 == null;
+
+            // larger or equal to string.
             if( v1._valueType >= DataType.String ) // reference types > 128
             {
-                if( v1._value.obj == null )
-                    return v2._value.obj == null;
                 return v1._value.obj.Equals( v2._value.obj );
             }
             return v1._value.equalityChecker == v2._value.equalityChecker;
         }
+
 
         public static bool operator !=( SerializedValue v1, SerializedValue v2 )
         {

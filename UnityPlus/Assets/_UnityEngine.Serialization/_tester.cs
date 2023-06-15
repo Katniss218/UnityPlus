@@ -1,6 +1,8 @@
 using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using UnityEngine;
 using UnityEngine.AssetManagement;
 using UnityEngine.Serialization;
@@ -22,10 +24,13 @@ public class _tester : MonoBehaviour
     // Update is called once per frame
     void Start()
     {
-        string json = "\"Hello World \\r\\n \\t \\\\ Hello \\/ \\u0032\"";
-        JsonReader sut = new JsonReader( json );
+        SerializedObject serobject = new UnityEngine.Serialization.Json.JsonReader( System.IO.File.ReadAllText( "c:/test/testjson.json" ) ).Parse();
 
-        var xxxxxx = sut.EatString();
+        using( MemoryStream s = new MemoryStream() )
+        {
+            serobject.WriteJson( s );
+            string ssss = Encoding.UTF8.GetString( s.ToArray() );
+        }
 
         var x = Resources.LoadAll<Object>( "" );
         foreach( var xx in x )

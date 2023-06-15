@@ -61,37 +61,34 @@ namespace UnityEngine.Serialization.Json
 
         public static void WriteJson( this SerializedValue value, Stream stream )
         {
-            object val = "test";
-            //object val = value?.GetValue();
-            string str = null;
+            if( value == null )
+            {
+                stream.Write( enc.GetBytes( "null" ), 0, "null".Length );
+                return;
+            }
 
-            if( val == null )
-                str = "null";
-            else if( val is bool b )
-                str = b ? "true" : "false";
-            else if( val is byte )
-                str = ((byte)val).ToString( CultureInfo.InvariantCulture );
-            else if( val is short )
-                str = ((short)val).ToString( CultureInfo.InvariantCulture );
-            else if( val is int )
-                str = ((int)val).ToString( CultureInfo.InvariantCulture );
-            else if( val is long )
-                str = ((long)val).ToString( CultureInfo.InvariantCulture );
-            else if( val is float )
-                str = ((float)val).ToString( CultureInfo.InvariantCulture );
-            else if( val is double )
-                str = ((double)val).ToString( CultureInfo.InvariantCulture );
-            else if( val is decimal )
-                str = ((decimal)val).ToString( CultureInfo.InvariantCulture );
-            else if( val is string )
-                str = $"\"{val}\"";
-#warning TODO - this should scan through the string and escape the escapable values.
-            else if( val is SerializedObject obj )
-                obj.WriteJson( stream );
-            else if( val is SerializedArray list )
-                list.WriteJson( stream );
+            string s = null;
+            switch( value._valueType )
+            {
+                case SerializedValue.DataType.Boolean:
+                    s = value._value.boolean ? "true" : "false"; break;
+                case SerializedValue.DataType.Int:
+                    s = value._value.@int.ToString( CultureInfo.InvariantCulture ); break;
+                case SerializedValue.DataType.UInt:
+                    s = value._value.@uint.ToString( CultureInfo.InvariantCulture ); break;
+                case SerializedValue.DataType.Float:
+                    s = value._value.@float.ToString( CultureInfo.InvariantCulture ); break;
+                case SerializedValue.DataType.Decimal:
+                    s = value._value.@decimal.ToString( CultureInfo.InvariantCulture ); break;
+                case SerializedValue.DataType.String:
+                    s = $"\"{(string)value._value.obj}\""; break;
+                case SerializedValue.DataType.Object:
+                    ((SerializedObject)value._value.obj).WriteJson( stream ); return;
+                case SerializedValue.DataType.Array:
+                    ((SerializedArray)value._value.obj).WriteJson( stream ); return;
+            }
 
-            stream.Write( enc.GetBytes( str ), 0, str.Length );
+            stream.Write( enc.GetBytes( s ), 0, s.Length );
         }
     }
 }
