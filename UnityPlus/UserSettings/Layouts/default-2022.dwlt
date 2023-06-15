@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
-  m_Title: Console
+  m_Title: Test Runner
   m_RootView: {fileID: 6}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 96
+  controlID: 86
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: InspectorWindow
+  m_Name: TestRunnerWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -68,14 +68,14 @@ MonoBehaviour:
     y: 0
     width: 455
     height: 947
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_ActualView: {fileID: 14}
+  m_MinSize: {x: 101, y: 121}
+  m_MaxSize: {x: 4001, y: 4021}
+  m_ActualView: {fileID: 12}
   m_Panes:
   - {fileID: 14}
   - {fileID: 12}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -95,8 +95,8 @@ MonoBehaviour:
     y: 0
     width: 363
     height: 559
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 201, y: 221}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 15}
@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ConsoleWindow
+  m_Name: ProjectBrowser
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -121,14 +121,14 @@ MonoBehaviour:
     y: 559
     width: 1465
     height: 388
-  m_MinSize: {x: 101, y: 121}
-  m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 18}
+  m_MinSize: {x: 231, y: 271}
+  m_MaxSize: {x: 10001, y: 10021}
+  m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}
   - {fileID: 18}
-  m_Selected: 1
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -224,7 +224,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 40
+  controlID: 41
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -249,7 +249,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 41
+  controlID: 42
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -306,7 +306,7 @@ MonoBehaviour:
     m_LastAppliedPresetName: Default
     m_SaveData: []
   m_Spl:
-    ID: 307
+    ID: 618
     splitterInitialOffset: 0
     currentActiveSplitter: -1
     realSizes:
@@ -329,7 +329,7 @@ MonoBehaviour:
     oldMinSizes: 
     oldMaxSizes: 
     oldSplitSize: 0
-  m_TestTypeToolbarIndex: 0
+  m_TestTypeToolbarIndex: 1
   m_PlayModeTestListGUI:
     m_Window: {fileID: 12}
     m_NewResultList:
@@ -338,7 +338,7 @@ MonoBehaviour:
       name: UnityPlus
       fullName: UnityPlus
       resultStatus: 1
-      duration: 0.0565442
+      duration: 0.0442023
       messages: 
       output: 
       stacktrace: 
@@ -354,7 +354,7 @@ MonoBehaviour:
       name: PlayMode.dll
       fullName: E:/GIT/UnityPlus/UnityPlus/Library/ScriptAssemblies/PlayMode.dll
       resultStatus: 1
-      duration: 0.0410478
+      duration: 0.0326283
       messages: 
       output: 
       stacktrace: 
@@ -365,12 +365,12 @@ MonoBehaviour:
       categories: []
       parentId: 1000
       parentUniqueId: '[UnityPlus][suite]'
-    - id: 1001
-      uniqueId: PlayMode.dll/[PlayMode][ComponentFinderTest][suite]
-      name: ComponentFinderTest
-      fullName: ComponentFinderTest
+    - id: 1043
+      uniqueId: PlayMode.dll/[PlayMode][ComponentFinderTests][suite]
+      name: ComponentFinderTests
+      fullName: ComponentFinderTests
       resultStatus: 1
-      duration: 0.0367262
+      duration: 0.0289178
       messages: 
       output: 
       stacktrace: 
@@ -379,14 +379,14 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1004
+      parentId: 1047
       parentUniqueId: '[PlayMode][E:/GIT/UnityPlus/UnityPlus/Library/ScriptAssemblies/PlayMode.dll][suite]'
-    - id: 1003
-      uniqueId: PlayMode.dll/ComponentFinderTest/[PlayMode][ComponentFinderTest.GetByIndex___CorrectValue___ValidData]
+    - id: 1045
+      uniqueId: PlayMode.dll/ComponentFinderTests/[PlayMode][ComponentFinderTests.GetByIndex___CorrectValue___ValidData]
       name: GetByIndex___CorrectValue___ValidData
-      fullName: ComponentFinderTest.GetByIndex___CorrectValue___ValidData
+      fullName: ComponentFinderTests.GetByIndex___CorrectValue___ValidData
       resultStatus: 1
-      duration: 0.0182735
+      duration: 0.0120755
       messages: 
       output: 
       stacktrace: 
@@ -396,14 +396,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
-      parentUniqueId: PlayMode.dll/[PlayMode][ComponentFinderTest][suite]
-    - id: 1004
-      uniqueId: PlayMode.dll/ComponentFinderTest/[PlayMode][ComponentFinderTest.GetByTypeAndIndex___CorrectValue___ValidData]
+      parentId: 1043
+      parentUniqueId: PlayMode.dll/[PlayMode][ComponentFinderTests][suite]
+    - id: 1046
+      uniqueId: PlayMode.dll/ComponentFinderTests/[PlayMode][ComponentFinderTests.GetByTypeAndIndex___CorrectValue___ValidData]
       name: GetByTypeAndIndex___CorrectValue___ValidData
-      fullName: ComponentFinderTest.GetByTypeAndIndex___CorrectValue___ValidData
+      fullName: ComponentFinderTests.GetByTypeAndIndex___CorrectValue___ValidData
       resultStatus: 1
-      duration: 0.0007278
+      duration: 0.0007127
       messages: 
       output: 
       stacktrace: 
@@ -413,14 +413,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
-      parentUniqueId: PlayMode.dll/[PlayMode][ComponentFinderTest][suite]
-    - id: 1002
-      uniqueId: PlayMode.dll/ComponentFinderTest/[PlayMode][ComponentFinderTest.GetComponents_Component____CorrectOrder]
+      parentId: 1043
+      parentUniqueId: PlayMode.dll/[PlayMode][ComponentFinderTests][suite]
+    - id: 1044
+      uniqueId: PlayMode.dll/ComponentFinderTests/[PlayMode][ComponentFinderTests.GetComponents_Component____CorrectOrder]
       name: GetComponents_Component____CorrectOrder
-      fullName: ComponentFinderTest.GetComponents_Component____CorrectOrder
+      fullName: ComponentFinderTests.GetComponents_Component____CorrectOrder
       resultStatus: 1
-      duration: 0.0008378
+      duration: 0.00076
       messages: 
       output: 
       stacktrace: 
@@ -430,15 +430,15 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
-      parentUniqueId: PlayMode.dll/[PlayMode][ComponentFinderTest][suite]
+      parentId: 1043
+      parentUniqueId: PlayMode.dll/[PlayMode][ComponentFinderTests][suite]
     m_ResultText: 
     m_ResultStacktrace: 
     m_TestListState:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 272428c30ed847d03b259179ffffff7f
+      m_ExpandedIDs: 272428c30ed847d0257507053b259179ffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -472,8 +472,8 @@ MonoBehaviour:
       uniqueId: '[UnityPlus][suite]'
       name: UnityPlus
       fullName: UnityPlus
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0864915
       messages: 
       output: 
       stacktrace: 
@@ -484,13 +484,161 @@ MonoBehaviour:
       categories: []
       parentId: 
       parentUniqueId: 
-    m_ResultText: 
+    - id: 1007
+      uniqueId: '[EditMode.dll][suite]'
+      name: EditMode.dll
+      fullName: E:/GIT/UnityPlus/UnityPlus/Library/ScriptAssemblies/EditMode.dll
+      resultStatus: 1
+      duration: 0.0505483
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1000
+      parentUniqueId: '[UnityPlus][suite]'
+    - id: 1008
+      uniqueId: EditMode.dll/[Serialization][suite]
+      name: Serialization
+      fullName: Serialization
+      resultStatus: 1
+      duration: 0.0460092
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1007
+      parentUniqueId: '[EditMode.dll][suite]'
+    - id: 1009
+      uniqueId: EditMode.dll/Serialization/[EditMode][Serialization.Json][suite]
+      name: Json
+      fullName: Serialization.Json
+      resultStatus: 1
+      duration: 0.0343662
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1008
+      parentUniqueId: EditMode.dll/[Serialization][suite]
+    - id: 1003
+      uniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonReaderTests][suite]
+      name: JsonReaderTests
+      fullName: Serialization.Json.JsonReaderTests
+      resultStatus: 1
+      duration: 0.0327693
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1009
+      parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.Json][suite]
+    - id: 1005
+      uniqueId: EditMode.dll/Serialization/Json/JsonReaderTests/[EditMode][Serialization.Json.JsonReaderTests.EatValue_False_ParseCorrectly]
+      name: EatValue_False_ParseCorrectly
+      fullName: Serialization.Json.JsonReaderTests.EatValue_False_ParseCorrectly
+      resultStatus: 1
+      duration: 0.0160713
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1003
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonReaderTests][suite]
+    - id: 1006
+      uniqueId: EditMode.dll/Serialization/Json/JsonReaderTests/[EditMode][Serialization.Json.JsonReaderTests.EatValue_Null_ParseCorrectly]
+      name: EatValue_Null_ParseCorrectly
+      fullName: Serialization.Json.JsonReaderTests.EatValue_Null_ParseCorrectly
+      resultStatus: 1
+      duration: 0.000257
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1003
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonReaderTests][suite]
+    - id: 1004
+      uniqueId: EditMode.dll/Serialization/Json/JsonReaderTests/[EditMode][Serialization.Json.JsonReaderTests.EatValue_True_ParseCorrectly]
+      name: EatValue_True_ParseCorrectly
+      fullName: Serialization.Json.JsonReaderTests.EatValue_True_ParseCorrectly
+      resultStatus: 1
+      duration: 0.000189
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1003
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonReaderTests][suite]
+    - id: 1005
+      uniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedDataTests][suite]
+      name: SerializedDataTests
+      fullName: Serialization.SerializedDataTests
+      resultStatus: 1
+      duration: 0.0103386
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1008
+      parentUniqueId: EditMode.dll/[EditMode][Serialization][suite]
+    - id: 1006
+      uniqueId: EditMode.dll/Serialization/SerializedDataTests/[EditMode][Serialization.SerializedDataTests.SerializedValues_CompareByValue]
+      name: SerializedValues_CompareByValue
+      fullName: Serialization.SerializedDataTests.SerializedValues_CompareByValue
+      resultStatus: 1
+      duration: 0.0024387
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1005
+      parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedDataTests][suite]
+    m_ResultText: EatValue_Null_ParseCorrectly (0,000s)
     m_ResultStacktrace: 
     m_TestListState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 3b259179ffffff7f
+      m_SelectedIDs: 3ad09e4a
+      m_LastClickedID: 1251921978
+      m_ExpandedIDs: eba168ada7da5dbdc6f21cfb50b8d623f580f53afb2cbd6ab58db36f3b2591794b5ea47cffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -557,22 +705,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets
+    - Assets/Tests/EditMode
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets
+  - Assets/Tests/EditMode
   m_LastFoldersGridSize: -1
   m_LastProjectPath: E:\GIT\UnityPlus\UnityPlus
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 78590000
-    m_LastClickedID: 22904
-    m_ExpandedIDs: 00000000785900007a5900007c5900009059000000ca9a3b
+    m_SelectedIDs: b04d0000
+    m_LastClickedID: 19888
+    m_ExpandedIDs: 00000000904d0000924d0000944d0000964d000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -600,7 +748,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000785900007a5900007c590000
+    m_ExpandedIDs: 00000000904d0000924d0000944d0000964d0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -625,8 +773,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 9e94ffff
-    m_LastClickedInstanceID: -27490
+    m_SelectedInstanceIDs: 
+    m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c623000000000000
     m_RenameOverlay:
@@ -691,7 +839,7 @@ MonoBehaviour:
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
   m_LastInspectedObjectInstanceID: -1
-  m_LastVerticalScrollValue: 54
+  m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0
   m_LockTracker:
@@ -728,9 +876,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: f2940000
-      m_LastClickedID: 38130
-      m_ExpandedIDs: e260ffff3261ffff0662ffff5e6affff34fbffff
+      m_SelectedIDs: 
+      m_LastClickedID: 0
+      m_ExpandedIDs: 22d5ffff6cd5ffffe0d6ffff4cd7ffff7ed8ffff54daffff62dcffff50deffffd0e0ffff48e3ffff74e4ffff50e6ffffa6e7ffffb6e9ffff34fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 

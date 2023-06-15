@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AssetManagement;
 using UnityEngine.Serialization;
+using UnityEngine.Serialization.Json;
 using UnityEngine.Serialization.Strategies;
 
 public class _tester : MonoBehaviour
@@ -21,6 +22,11 @@ public class _tester : MonoBehaviour
     // Update is called once per frame
     void Start()
     {
+        string json = "\"Hello World \\r\\n \\t \\\\ Hello \\/ \\u0032\"";
+        JsonReader sut = new JsonReader( json );
+
+        var xxxxxx = sut.EatString();
+
         var x = Resources.LoadAll<Object>( "" );
         foreach( var xx in x )
         {

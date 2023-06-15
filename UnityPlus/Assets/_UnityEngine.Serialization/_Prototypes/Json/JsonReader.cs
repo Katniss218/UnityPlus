@@ -18,7 +18,6 @@ namespace UnityEngine.Serialization.Json
         int _pos;
 
         char? _currentChar;
-        char? _previousChar;
 
         public JsonReader( string json )
         {
@@ -39,7 +38,6 @@ namespace UnityEngine.Serialization.Json
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
         void UpdateCharacterCache()
         {
-            _previousChar = _currentChar;
             if( _pos < 0 || _pos >= _s.Length )
                 _currentChar = null;
             else
@@ -52,8 +50,30 @@ namespace UnityEngine.Serialization.Json
             if( _pos + target.Length > _s.Length )
                 return false;
 
-            return _s[(_pos)..(_pos + target.Length)] == target;
+            return _s.Substring( _pos, target.Length ) == target;
+            //return _s[(_pos)..(_pos + target.Length)] == target;
         }
+
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        private string Seek( int startOffset, int length )
+        {
+            if( _pos - startOffset < 0 || _pos + startOffset + length > _s.Length )
+                return null;
+
+            return _s.Substring( _pos + startOffset, length );
+        }
+
+        public SerializedValue Parse()
+        {
+            EatWhiteSpace();
+
+            SerializedValue val = EatValue();
+
+            EatWhiteSpace();
+
+            return val;
+        }
+
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
         private void EatWhiteSpace()
@@ -75,33 +95,12 @@ namespace UnityEngine.Serialization.Json
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public void Eat_ArrayStart()
-        {
-            EatWhiteSpace();
-
-            Contract.Assert( _currentChar == '[' );
-            Advance();
-
-            EatWhiteSpace();
-        }
-
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
         public void Eat_ArrayEnd()
         {
             EatWhiteSpace();
 
-            Contract.Assert( _currentChar == ']' );
-            Advance();
-
-            EatWhiteSpace();
-        }
-
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public void Eat_ObjectStart()
-        {
-            EatWhiteSpace();
-
-            Contract.Assert( _currentChar == '{' );
+            if( _currentChar != ']' )
+                throw new InvalidOperationException( $"Invalid token, expected `,` or `]`, but found `{_currentChar}`. {_pos}." );
             Advance();
 
             EatWhiteSpace();
@@ -112,7 +111,8 @@ namespace UnityEngine.Serialization.Json
         {
             EatWhiteSpace();
 
-            Contract.Assert( _currentChar == '}' );
+            if( _currentChar != '}' )
+                throw new InvalidOperationException( "Invalid token, expected `,` or `}`, but found " + $"`{_currentChar}`. {_pos}." );
             Advance();
 
             EatWhiteSpace();
@@ -123,18 +123,8 @@ namespace UnityEngine.Serialization.Json
         {
             EatWhiteSpace();
 
-            Contract.Assert( _currentChar == ':' );
-            Advance();
-
-            EatWhiteSpace();
-        }
-
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public void Eat_ValueSeparator()
-        {
-            EatWhiteSpace();
-
-            Contract.Assert( _currentChar == ',' );
+            if( _currentChar != ':' )
+                throw new InvalidOperationException( $"Invalid token, expected `:` after a name, but found `{_currentChar}`. {_pos}." );
             Advance();
 
             EatWhiteSpace();
@@ -145,12 +135,12 @@ namespace UnityEngine.Serialization.Json
             if( SeekCompare( "false" ) )
             {
                 Advance( "false".Length );
-                return new SerializedValue( false );
+                return false;
             }
             if( SeekCompare( "true" ) )
             {
                 Advance( "true".Length );
-                return new SerializedValue( true );
+                return true;
             }
             if( SeekCompare( "null" ) )
             {
@@ -159,25 +149,28 @@ namespace UnityEngine.Serialization.Json
             }
             if( _currentChar == '[' )
             {
-                return new SerializedValue( EatArray() );
+                return EatArray();
             }
             if( _currentChar == '{' )
             {
-                return new SerializedValue( EatObject() );
+                return EatObject();
             }
             if( _currentChar == '"' )
             {
-                return new SerializedValue( EatString() );
+                return EatString();
             }
             if( _currentChar == '-' || (_currentChar != null && char.IsDigit( _currentChar.Value )) )
-                return new SerializedValue( EatNumber() );
+                return EatNumber();
 
             throw new InvalidOperationException( $"Unexpected token at {_pos}." );
         }
 
         public SerializedObject EatObject()
         {
-            Eat_ObjectStart();
+            Contract.Assert( _currentChar == '{' );
+            Advance();
+
+            EatWhiteSpace();
 
             SerializedObject obj = new SerializedObject();
 
@@ -197,10 +190,8 @@ namespace UnityEngine.Serialization.Json
                     continue;
                 }
 
-                if( _currentChar == '}' )
-                {
-                    break;
-                }
+                // current char assumed to be `}`, since it was not `,`, so there is no next value
+                break;
             }
 
             Eat_ObjectEnd();
@@ -208,6 +199,7 @@ namespace UnityEngine.Serialization.Json
             return obj;
         }
 
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
         public (string, SerializedValue) EatMember()
         {
             string name = EatString();
@@ -221,7 +213,10 @@ namespace UnityEngine.Serialization.Json
 
         public SerializedArray EatArray()
         {
-            Eat_ArrayStart();
+            Contract.Assert( _currentChar == '[' );
+            Advance();
+
+            EatWhiteSpace();
 
             SerializedArray arr = new SerializedArray();
 
@@ -233,7 +228,6 @@ namespace UnityEngine.Serialization.Json
                 // value sep
                 EatWhiteSpace();
 
-#warning TODO - `,` can be missing and it will still parse. make it better.
                 if( _currentChar == ',' )
                 {
                     Advance();
@@ -242,10 +236,8 @@ namespace UnityEngine.Serialization.Json
                     continue;
                 }
 
-                if( _currentChar == ']' )
-                {
-                    break;
-                }
+                // current char assumed to be `]`, since it was not `,`, so there is no next value
+                break;
             }
 
             Eat_ArrayEnd();
@@ -259,15 +251,74 @@ namespace UnityEngine.Serialization.Json
             Advance();
 
             int start = _pos;
+            StringBuilder sb = null;
 
             // Unescaped quote means the end of string
-            while( _currentChar != '"' || (_previousChar == '\\') )
+            while( _currentChar != '"' /*|| (_previousChar == '\\')*/)
             {
-                Advance();
+                if( _currentChar == '\\' )
+                {
+                    if( sb == null )
+                    {
+                        sb = new StringBuilder();
+                    }
+                    int len = _pos - start;
+                    if( len > 0 )
+                    {
+                        sb.Append( _s.Substring( start, len ) );
+                    }
+
+                    string seeked = Seek( 0, 2 );
+                    if( seeked[1] == '\\' )
+                        sb.Append( '\\' );
+                    else if( seeked[1] == '/' )
+                        sb.Append( '/' );
+                    else if( seeked[1] == 'n' )
+                        sb.Append( '\n' );
+                    else if( seeked[1] == 'r' )
+                        sb.Append( '\r' );
+                    else if( seeked[1] == 'f' )
+                        sb.Append( '\f' );
+                    else if( seeked[1] == 'b' )
+                        sb.Append( '\b' );
+                    else if( seeked[1] == 't' )
+                        sb.Append( '\t' );
+                    else if( seeked[1] == 'u' )
+                    {
+                        string s = Seek( 2, 4 );
+                        if( s == null )
+                            throw new InvalidOperationException( $"Expected an escaped unicode char in the format `\\uNNNN`, where N is a digit 0-9. {_pos}" );
+
+                        foreach( var ch in s )
+                        {
+                            if( !char.IsDigit( ch ) )
+                                throw new InvalidOperationException( $"Expected an escaped unicode char in the format `\\uNNNN`, where N is a digit 0-9. {_pos}" );
+                        }
+
+                        // digit chars have a continuous underlying int value, and length is fixed,
+                        // so we can hardcode that by casting the char to int, subtracting int 48, and multiplying that by position base 16
+                        // I wonder if that's how int.Parse does it or not.
+                        char c = (char)int.Parse( s, NumberStyles.HexNumber );
+                        sb.Append( c );
+                        Advance( 4 );
+                    }
+                    else
+                        throw new InvalidOperationException( $"Expected an escaped unicode char. {_pos}" );
+                    Advance( 2 );
+                    start = _pos;
+                }
+                else
+                {
+                    Advance();
+                }
             }
 
-            string val = _s[start.._pos];
-            // needs to un-escape other escaped sequences.
+            int len2 = _pos - start - 1;
+            //string val = _s[start.._pos];
+            if( sb != null && len2 > 0 ) // append last section, if not empty
+                sb.Append( _s.Substring( start + 1, len2 ) );
+
+            string val = sb == null ? _s.Substring( start, _pos - start ) : sb.ToString();
 
             Contract.Assert( _currentChar == '"' );
             Advance();
@@ -275,7 +326,7 @@ namespace UnityEngine.Serialization.Json
             return val;
         }
 
-        public object EatNumber()
+        public SerializedValue EatNumber()
         {
             int start = _pos;
             bool hasDecimalPoint = false;
@@ -322,12 +373,15 @@ namespace UnityEngine.Serialization.Json
 
             string val = _s[start..(_pos)];
 
-            return (hasDecimalPoint || hasExponent) ? double.Parse( val, CultureInfo.InvariantCulture ) : long.Parse( val, CultureInfo.InvariantCulture );
+            return (hasDecimalPoint || hasExponent)
+                ? (SerializedValue)double.Parse( val, CultureInfo.InvariantCulture )
+                : (SerializedValue)long.Parse( val, CultureInfo.InvariantCulture );
         }
 
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
         private void EatInt()
         {
-            while( char.IsDigit( _s[_pos] ) )
+            while( _currentChar != null && char.IsDigit( _currentChar.Value ) )
             {
                 Advance();
             }

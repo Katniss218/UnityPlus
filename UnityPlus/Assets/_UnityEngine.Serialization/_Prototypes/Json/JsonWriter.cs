@@ -61,7 +61,8 @@ namespace UnityEngine.Serialization.Json
 
         public static void WriteJson( this SerializedValue value, Stream stream )
         {
-            object val = value?.GetValue();
+            object val = "test";
+            //object val = value?.GetValue();
             string str = null;
 
             if( val == null )
@@ -84,6 +85,7 @@ namespace UnityEngine.Serialization.Json
                 str = ((decimal)val).ToString( CultureInfo.InvariantCulture );
             else if( val is string )
                 str = $"\"{val}\"";
+#warning TODO - this should scan through the string and escape the escapable values.
             else if( val is SerializedObject obj )
                 obj.WriteJson( stream );
             else if( val is SerializedArray list )
