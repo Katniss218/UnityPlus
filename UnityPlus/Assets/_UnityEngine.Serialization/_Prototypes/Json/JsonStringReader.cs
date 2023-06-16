@@ -271,8 +271,6 @@ namespace UnityEngine.Serialization.Json
                     string seeked = Seek( 0, 2 );
                     if( seeked[1] == '\\' )
                         sb.Append( '\\' );
-                    else if( seeked[1] == '/' )
-                        sb.Append( '/' );
                     else if( seeked[1] == 'n' )
                         sb.Append( '\n' );
                     else if( seeked[1] == 'r' )

@@ -28,7 +28,7 @@ public class _tester : MonoBehaviour
 
         using( MemoryStream s = new MemoryStream() )
         {
-            serobject.WriteJson( s );
+            new JsonStreamWriter( serobject, s ).Write();
             string ssss = Encoding.UTF8.GetString( s.ToArray() );
         }
 

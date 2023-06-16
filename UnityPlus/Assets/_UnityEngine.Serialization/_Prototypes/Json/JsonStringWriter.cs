@@ -8,20 +8,18 @@ using System.Threading.Tasks;
 
 namespace UnityEngine.Serialization.Json
 {
-    public static class JsonWriter
+    public class JsonStringWriter
     {
-        static Encoding enc = Encoding.UTF8;
-
-        public static void WriteJson( this SerializedObject obj, Stream stream )
+        public void WriteJson( SerializedObject obj, StringBuilder sb )
         {
-            stream.Write( enc.GetBytes( "{" ), 0, 1 );
+            sb.Append( '{' );
 
             bool seen = false;
             foreach( var child in obj )
             {
                 if( seen )
                 {
-                    stream.Write( enc.GetBytes( "," ), 0, 1 );
+                    sb.Append( ':' );
                 }
                 else
                 {
@@ -30,40 +28,40 @@ namespace UnityEngine.Serialization.Json
 
                 var str = $"\"{child.Key}\":";
 
-                stream.Write( enc.GetBytes( str ), 0, str.Length );
+                sb.Append( str );
 
-                child.Value.WriteJson( stream );
+                WriteJson( child.Value, sb );
             }
 
-            stream.Write( enc.GetBytes( "}" ), 0, 1 );
+            sb.Append( '}' );
         }
 
-        public static void WriteJson( this SerializedArray obj, Stream stream )
+        public void WriteJson( SerializedArray obj, StringBuilder sb )
         {
-            stream.Write( enc.GetBytes( "[" ), 0, 1 );
+            sb.Append( '[' );
 
             bool seen = false;
             foreach( var child in obj )
             {
                 if( seen )
                 {
-                    stream.Write( enc.GetBytes( "," ), 0, 1 );
+                    sb.Append( ',' );
                 }
                 else
                 {
                     seen = true;
                 }
-                child.WriteJson( stream );
+                WriteJson( child, sb );
             }
 
-            stream.Write( enc.GetBytes( "]" ), 0, 1 );
+            sb.Append( ']' );
         }
 
-        public static void WriteJson( this SerializedValue value, Stream stream )
+        public void WriteJson( SerializedValue value, StringBuilder sb )
         {
             if( value == null )
             {
-                stream.Write( enc.GetBytes( "null" ), 0, "null".Length );
+                sb.Append( "null" );
                 return;
             }
 
@@ -83,12 +81,12 @@ namespace UnityEngine.Serialization.Json
                 case SerializedValue.DataType.String:
                     s = $"\"{(string)value._value.obj}\""; break;
                 case SerializedValue.DataType.Object:
-                    ((SerializedObject)value._value.obj).WriteJson( stream ); return;
+                    WriteJson( (SerializedObject)value._value.obj, sb ); return;
                 case SerializedValue.DataType.Array:
-                    ((SerializedArray)value._value.obj).WriteJson( stream ); return;
+                    WriteJson( (SerializedArray)value._value.obj, sb ); return;
             }
 
-            stream.Write( enc.GetBytes( s ), 0, s.Length );
+            sb.Append( s );
         }
     }
 }

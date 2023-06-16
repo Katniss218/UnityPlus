@@ -16,7 +16,7 @@ namespace Serialization.Json
     public class JsonWriterTests
     {
         [Test]
-        public void EatValue___True___ParsesCorrectly()
+        public void Write_String_Object()
         {
             // Arrange
             SerializedObject json = new SerializedObject()
@@ -27,11 +27,30 @@ namespace Serialization.Json
             using( MemoryStream s = new MemoryStream() )
             {
                 // Act
-                json.WriteJson( s );
+                new JsonStreamWriter(json, s ).Write();
 
                 string str = Encoding.UTF8.GetString( s.ToArray() );
                 // Assert
                 Assert.That( str, Is.EqualTo( "{\"test\":\"hello\"}" ) );
+            }
+        }
+        [Test]
+        public void Write_String_Object_Escaped()
+        {
+            // Arrange
+            SerializedObject json = new SerializedObject()
+            {
+                { "test", "Hello World \r\n \t \\ Hello / 2" }
+            };
+
+            using( MemoryStream s = new MemoryStream() )
+            {
+                // Act
+                new JsonStreamWriter(json, s ).Write();
+
+                string str = Encoding.UTF8.GetString( s.ToArray() );
+                // Assert
+                Assert.That( str, Is.EqualTo( "{\"test\":\"Hello World \\r\\n \\t \\\\ Hello / 2\"}" ) );
             }
         }
     }

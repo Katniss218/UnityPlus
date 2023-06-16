@@ -73,7 +73,7 @@ namespace Serialization.Json
         public void EatString___Escaped___ParsesCorrectly()
         {
             // Arrange
-            string json = "\"Hello World \\r\\n \\t \\\\ Hello \\/ \\u0032\"";
+            string json = "\"Hello World \\r\\n \\t \\\\ Hello / \\u0032\"";
             JsonReader sut = new JsonReader( json );
 
             // Act
