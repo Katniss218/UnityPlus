@@ -377,8 +377,6 @@ MonoBehaviour:
     asset: {fileID: 11026, guid: 0000000000000000e000000000000000, type: 0}
   - assetID: builtin::UnitySplash-HolographicTrackingLoss
     asset: {fileID: 15000, guid: 0000000000000000e000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Diffuse
-    asset: {fileID: 7, guid: 0000000000000000f000000000000000, type: 0}
   - assetID: builtin::Sprites/Default
     asset: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
   - assetID: builtin::UI/Default
@@ -389,82 +387,6 @@ MonoBehaviour:
     asset: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   - assetID: builtin::Autodesk Interactive
     asset: {fileID: 47, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/VertexLit
-    asset: {fileID: 6, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Diffuse Fast
-    asset: {fileID: 1, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Bumped Diffuse
-    asset: {fileID: 2, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Specular
-    asset: {fileID: 3, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Bumped Specular
-    asset: {fileID: 4, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Diffuse Detail
-    asset: {fileID: 5, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Self-Illumin/VertexLit
-    asset: {fileID: 14, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Self-Illumin/Diffuse
-    asset: {fileID: 10, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Self-Illumin/Bumped Diffuse
-    asset: {fileID: 11, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Self-Illumin/Specular
-    asset: {fileID: 12, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Self-Illumin/Bumped Specular
-    asset: {fileID: 13, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Reflective/VertexLit
-    asset: {fileID: 24, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Reflective/Bumped Unlit
-    asset: {fileID: 25, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Reflective/Diffuse
-    asset: {fileID: 20, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Reflective/Bumped Diffuse
-    asset: {fileID: 21, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Reflective/Bumped VertexLit
-    asset: {fileID: 26, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Reflective/Specular
-    asset: {fileID: 22, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Reflective/Bumped Specular
-    asset: {fileID: 23, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Transparent/VertexLit
-    asset: {fileID: 34, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Transparent/Diffuse
-    asset: {fileID: 30, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Transparent/Bumped Diffuse
-    asset: {fileID: 31, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Transparent/Specular
-    asset: {fileID: 32, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Transparent/Bumped Specular
-    asset: {fileID: 33, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Transparent/Cutout/VertexLit
-    asset: {fileID: 50, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Transparent/Cutout/Diffuse
-    asset: {fileID: 51, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Transparent/Cutout/Bumped Diffuse
-    asset: {fileID: 52, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Transparent/Cutout/Specular
-    asset: {fileID: 53, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Transparent/Cutout/Bumped Specular
-    asset: {fileID: 54, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Parallax Diffuse
-    asset: {fileID: 8, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Parallax Specular
-    asset: {fileID: 9, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Self-Illumin/Parallax Diffuse
-    asset: {fileID: 15, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Self-Illumin/Parallax Specular
-    asset: {fileID: 16, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Reflective/Parallax Diffuse
-    asset: {fileID: 27, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Reflective/Parallax Specular
-    asset: {fileID: 28, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Transparent/Parallax Diffuse
-    asset: {fileID: 35, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Transparent/Parallax Specular
-    asset: {fileID: 36, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Transparent/Cutout/Soft Edge Unlit
-    asset: {fileID: 10512, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Decal
-    asset: {fileID: 100, guid: 0000000000000000f000000000000000, type: 0}
   - assetID: builtin::FX/Flare
     asset: {fileID: 101, guid: 0000000000000000f000000000000000, type: 0}
   - assetID: builtin::Skybox/Cubemap
@@ -475,24 +397,6 @@ MonoBehaviour:
     asset: {fileID: 106, guid: 0000000000000000f000000000000000, type: 0}
   - assetID: builtin::Skybox/Panoramic
     asset: {fileID: 108, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Particles/Additive
-    asset: {fileID: 200, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Particles/~Additive-Multiply
-    asset: {fileID: 201, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Particles/Additive (Soft)
-    asset: {fileID: 202, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Particles/Alpha Blended
-    asset: {fileID: 203, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Particles/Multiply
-    asset: {fileID: 205, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Particles/Multiply (Double)
-    asset: {fileID: 206, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Particles/Alpha Blended Premultiply
-    asset: {fileID: 207, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Particles/VertexLit Blended
-    asset: {fileID: 208, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Particles/Anim Alpha Blended
-    asset: {fileID: 209, guid: 0000000000000000f000000000000000, type: 0}
   - assetID: builtin::Particles/Standard Surface
     asset: {fileID: 210, guid: 0000000000000000f000000000000000, type: 0}
   - assetID: builtin::Particles/Standard Unlit
@@ -501,16 +405,6 @@ MonoBehaviour:
     asset: {fileID: 10800, guid: 0000000000000000f000000000000000, type: 0}
   - assetID: builtin::Nature/Terrain/Diffuse
     asset: {fileID: 10505, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Lightmapped/VertexLit
-    asset: {fileID: 40, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Lightmapped/Diffuse
-    asset: {fileID: 41, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Lightmapped/Bumped Diffuse
-    asset: {fileID: 42, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Lightmapped/Specular
-    asset: {fileID: 43, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Legacy Shaders/Lightmapped/Bumped Specular
-    asset: {fileID: 44, guid: 0000000000000000f000000000000000, type: 0}
   - assetID: builtin::Nature/Tree Soft Occlusion Bark
     asset: {fileID: 10509, guid: 0000000000000000f000000000000000, type: 0}
   - assetID: builtin::Nature/Tree Soft Occlusion Leaves
@@ -661,24 +555,79 @@ MonoBehaviour:
     asset: {fileID: 15302, guid: 0000000000000000f000000000000000, type: 0}
   - assetID: builtin::SpatialMappingWireframe
     asset: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::_UnityEngine.Serialization/___UnityEngine.Serialization
-    asset: {fileID: 5897886265953266890, guid: f00983dade8147042b611005c376fd7e, type: 3}
+  - assetID: builtin::TextMesh Pro/Shaders/TMPro
+    asset: {fileID: 10900000, guid: 407bc68d299748449bbf7f48ee690f8d, type: 3}
+  - assetID: builtin::TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay
+    asset: {fileID: 4800000, guid: a02a7d8c237544f1962732b55a9aebf1, type: 3}
   - assetID: builtin::Resources/New Material
     asset: {fileID: 2100000, guid: a159ab60ddf0c6a488e9feba51948ec6, type: 2}
-  - assetID: builtin::Tests/PlayMode/PlayMode
-    asset: {fileID: 5897886265953266890, guid: 74295531e13e7cb4a933085336b72783, type: 3}
-  - assetID: builtin::_UnityEngine/___UnityEngine
-    asset: {fileID: 5897886265953266890, guid: 27d62e6e15e3fa24eabddedaa74a2424, type: 3}
+  - assetID: builtin::TextMesh Pro/Shaders/TMP_Bitmap
+    asset: {fileID: 4800000, guid: 128e987d567d4e2c824d754223b3f3b0, type: 3}
+  - assetID: builtin::TextMesh Pro/Shaders/TMPro_Mobile
+    asset: {fileID: 10900000, guid: c334973cef89a9840b0b0c507e0377ab, type: 3}
+  - assetID: builtin::TextMesh Pro/Fonts/LiberationSans
+    asset: {fileID: 12800000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
+  - assetID: builtin::TextMesh Pro/Shaders/TMP_SDF SSD
+    asset: {fileID: 4800000, guid: 14eb328de4b8eb245bb7cea29e4ac00b, type: 3}
+  - assetID: builtin::TextMesh Pro/Resources/Sprite Assets/EmojiOne
+    asset: {fileID: 11400000, guid: c41005c129ba4d66911b75229fd70b45, type: 2}
+  - assetID: builtin::TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile
+    asset: {fileID: 4800000, guid: 85187c2149c549c5b33f0cdb02836b17, type: 3}
+  - assetID: builtin::TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF
+      - Drop Shadow
+    asset: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
+  - assetID: builtin::TextMesh Pro/Shaders/TMP_SDF-Surface
+    asset: {fileID: 4800000, guid: f7ada0af4f174f0694ca6a487b8f543d, type: 3}
+  - assetID: builtin::TextMesh Pro/Sprites/EmojiOne Attribution
+    asset: {fileID: 4900000, guid: 381dcb09d5029d14897e55f98031fca5, type: 3}
+  - assetID: builtin::TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas
+    asset: {fileID: 4800000, guid: 48bb5f55d8670e349b6e614913f9d910, type: 3}
+  - assetID: builtin::TextMesh Pro/Shaders/TMP_SDF
+    asset: {fileID: 4800000, guid: 68e6db2ebdc24f95958faec2be5558d6, type: 3}
   - assetID: builtin::New Test
     asset: {fileID: 11400000, guid: 88aba2fa97e6abd469a8e04396940f30, type: 2}
+  - assetID: builtin::TextMesh Pro/Shaders/TMP_SDF-Mobile SSD
+    asset: {fileID: 4800000, guid: c8d12adcee749c344b8117cf7c7eb912, type: 3}
+  - assetID: builtin::TextMesh Pro/Resources/LineBreaking Leading Characters
+    asset: {fileID: 4900000, guid: d82c1b31c7e74239bff1220585707d2b, type: 3}
+  - assetID: builtin::TextMesh Pro/Shaders/TMPro_Properties
+    asset: {fileID: 10900000, guid: 3997e2241185407d80309a82f9148466, type: 3}
+  - assetID: builtin::TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF
+      - Outline
+    asset: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
+  - assetID: builtin::TextMesh Pro/Shaders/TMPro_Surface
+    asset: {fileID: 10900000, guid: d930090c0cd643c7b55f19a38538c162, type: 3}
+  - assetID: builtin::TextMesh Pro/Resources/Style Sheets/Default Style Sheet
+    asset: {fileID: 11400000, guid: f952c082cb03451daed3ee968ac6c63e, type: 2}
+  - assetID: builtin::TextMesh Pro/Resources/LineBreaking Following Characters
+    asset: {fileID: 4900000, guid: fade42e8bc714b018fac513c043d323b, type: 3}
   - assetID: builtin::Resources/Prefabs/Cube2
     asset: {fileID: 735042289000868348, guid: 4b148970c3f39ac488e624d42826e697, type: 3}
-  - assetID: builtin::Tests/EditMode/EditMode
-    asset: {fileID: 5897886265953266890, guid: be1faee832da675479a22b50f64b7208, type: 3}
-  - assetID: builtin::_UnityEngine.AssetManagement/___UnityEngine.AssetManagement
-    asset: {fileID: 5897886265953266890, guid: 3f85132a81c90724483587ec215e1407, type: 3}
+  - assetID: builtin::TextMesh Pro/Shaders/TMP_SDF-Mobile Masking
+    asset: {fileID: 4800000, guid: bc1ede39bf3643ee8e493720e4259791, type: 3}
+  - assetID: builtin::TextMesh Pro/Shaders/TMP_SDF Overlay
+    asset: {fileID: 4800000, guid: dd89cf5b9246416f84610a006f916af7, type: 3}
+  - assetID: builtin::TextMesh Pro/Shaders/TMP_Bitmap-Mobile
+    asset: {fileID: 4800000, guid: 1e3b057af24249748ff873be7fafee47, type: 3}
+  - assetID: builtin::TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF
+      - Fallback
+    asset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  - assetID: builtin::TextMesh Pro/Fonts/LiberationSans - OFL
+    asset: {fileID: 4900000, guid: 6e59c59b81ab47f9b6ec5781fa725d2c, type: 3}
+  - assetID: builtin::TextMesh Pro/Shaders/TMP_SDF-Mobile
+    asset: {fileID: 4800000, guid: fe393ace9b354375a9cb14cdbbc28be4, type: 3}
+  - assetID: builtin::TextMesh Pro/Resources/TMP Settings
+    asset: {fileID: 11400000, guid: 3f5b5dff67a942289a9defa416b206f3, type: 2}
+  - assetID: builtin::TextMesh Pro/Sprites/EmojiOne
+    asset: {fileID: 4900000, guid: 8f05276190cf498a8153f6cbe761d4e6, type: 3}
+  - assetID: builtin::TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF
+    asset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   - assetID: builtin::Scenes/SampleScene
     asset: {fileID: 102900000, guid: 9fc0d4010bbf28b4594072e72b8655ab, type: 3}
+  - assetID: builtin::TextMesh Pro/Shaders/TMP_Sprite
+    asset: {fileID: 4800000, guid: cf81c85f95fe47e1a27f6ae460cf182c, type: 3}
+  - assetID: builtin::TextMesh Pro/Sprites/EmojiOne
+    asset: {fileID: 2800000, guid: dffef66376be4fa480fb02b19edbe903, type: 3}
 --- !u!114 &694540549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -847,7 +796,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: "\u200B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -856,7 +805,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4281479730
   m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -1005,14 +954,14 @@ MonoBehaviour:
       m_Calls: []
   m_text: Enter text...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 0}
-  m_sharedMaterial: {fileID: 0}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 2150773298
   m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 0.5}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -1025,7 +974,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -1056,7 +1005,7 @@ MonoBehaviour:
   checkPaddingRequired: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
-  m_isOrthographic: 0
+  m_isOrthographic: 1
   m_isCullingEnabled: 0
   m_horizontalMapping: 0
   m_verticalMapping: 0
@@ -1293,7 +1242,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
