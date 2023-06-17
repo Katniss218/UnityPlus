@@ -164,7 +164,7 @@ namespace UnityPlus.Serialization.Strategies
 
             // create dummy GOs with factories.
 
-            SerializedArray objectsJson = (SerializedArray)new Serialization.Json.JsonStringReader( jsonO ).Parse();
+            SerializedArray objectsJson = (SerializedArray)new Serialization.Json.JsonStringReader( jsonO ).Read();
 
             foreach( var goJson in objectsJson )
             {
@@ -176,7 +176,7 @@ namespace UnityPlus.Serialization.Strategies
         {
             // loop through object data, get the corresponding objects using ID from registry, and apply.
 
-            SerializedArray objectsJson = (SerializedArray)new Serialization.Json.JsonStringReader( jsonD ).Parse();
+            SerializedArray objectsJson = (SerializedArray)new Serialization.Json.JsonStringReader( jsonD ).Read();
 
             foreach( var goJson in objectsJson )
             {

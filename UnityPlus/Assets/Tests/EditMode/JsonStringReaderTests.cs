@@ -106,7 +106,7 @@ namespace Serialization.Json
             JsonStringReader sut = new JsonStringReader( json );
 
             // Act
-            SerializedObject val = (SerializedObject)sut.Parse();
+            SerializedObject val = (SerializedObject)sut.Read();
 
             // Assert
             Assert.That( (int)val["Image"]["Width"], Is.EqualTo( 800 ) );

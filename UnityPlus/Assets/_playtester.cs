@@ -44,9 +44,9 @@ public class _tester : MonoBehaviour
         JsonStringReader sut = new JsonStringReader( json );
 
         // Act
-        SerializedObject val = (SerializedObject)sut.Parse();
+        SerializedObject val = (SerializedObject)sut.Read();
 
-        SerializedObject serobject = (SerializedObject)new JsonStringReader( File.ReadAllText( "c:/test/testjson.json" ) ).Parse();
+        SerializedObject serobject = (SerializedObject)new JsonStringReader( File.ReadAllText( "c:/test/testjson.json" ) ).Read();
 
         using( MemoryStream s = new MemoryStream() )
         {

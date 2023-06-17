@@ -63,7 +63,7 @@ namespace UnityPlus.Serialization.Json
             return _s.Substring( _pos + startOffset, length );
         }
 
-        public SerializedData Parse()
+        public SerializedData Read()
         {
             EatWhiteSpace();
 
@@ -254,7 +254,7 @@ namespace UnityPlus.Serialization.Json
             StringBuilder sb = null;
 
             // Unescaped quote means the end of string
-            while( _currentChar != '"' /*|| (_previousChar == '\\')*/)
+            while( _currentChar != '"' )
             {
                 if( _currentChar == '\\' )
                 {
