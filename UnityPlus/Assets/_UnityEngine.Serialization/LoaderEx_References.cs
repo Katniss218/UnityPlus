@@ -13,13 +13,13 @@ namespace UnityEngine.Serialization
     public static class LoaderEx_References
     {
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static object ReadObjectReference( this Loader l, JToken json )
+        public static object ReadObjectReference( this Loader l, SerializedData json )
         {
             // should only be called in data actions.
 
             // A missing '$ref' node means the reference couldn't save properly.
 
-            if( ((JObject)json).TryGetValue( $"{Saver_Ex_References.REF}", out JToken refJson ) )
+            if( ((SerializedObject)json).TryGetValue( $"{Saver_Ex_References.REF}", out SerializedData refJson ) )
             {
                 Guid guid = l.ReadGuid( refJson );
 
@@ -29,9 +29,11 @@ namespace UnityEngine.Serialization
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static T ReadAssetReference<T>( this Loader l, JToken json ) where T : class
+        public static T ReadAssetReference<T>( this Loader l, SerializedData json ) where T : class
         {
-            if( ((JObject)json).TryGetValue( $"{Saver_Ex_References.ASSETREF}", out JToken refJson ) )
+#warning TODO - cast problem - `json` is a SerializedValue hiding behind a Serializeddata variable, and it doesn't know how to cast that into a SerializedObject.
+#warning TODO - seems that something is broken still, saved reference can't be loaded back, key doesn't exist.
+            if( ((SerializedObject)json).TryGetValue( $"{Saver_Ex_References.ASSETREF}", out SerializedData refJson ) )
             {
                 string assetID = (string)refJson;
 
@@ -49,9 +51,9 @@ namespace UnityEngine.Serialization
         /// 2. CHANGING CODE MIGHT INVALIDATE REFERENCES TO LAMBDAS.
         /// </remarks>
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static Delegate ReadDelegate( this Loader l, JToken json )
+        public static Delegate ReadDelegate( this Loader l, SerializedData json )
         {
-            JArray jsonA = (JArray)json;
+            SerializedArray jsonA = (SerializedArray)json;
 
             if( jsonA.Count == 1 )
             {
@@ -67,7 +69,7 @@ namespace UnityEngine.Serialization
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        private static Delegate ReadSingleDelegate( this Loader l, JToken json )
+        private static Delegate ReadSingleDelegate( this Loader l, SerializedData json )
         {
             // TODO - this requires the target to be already deserialized.
             object target = l.ReadObjectReference( json["Target"] );
@@ -75,7 +77,7 @@ namespace UnityEngine.Serialization
             Type delegateType = l.ReadType( json["method"]["delegate_type"] );
             Type declaringType = l.ReadType( json["method"]["declaring_type"] );
             List<Type> parameters = new List<Type>();
-            foreach( var jsonParam in json["method"]["parameters"] )
+            foreach( var jsonParam in (SerializedArray)json["method"]["parameters"] )
             {
                 parameters.Add( l.ReadType( jsonParam ) );
             }

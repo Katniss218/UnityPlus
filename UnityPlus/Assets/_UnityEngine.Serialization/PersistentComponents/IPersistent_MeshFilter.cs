@@ -12,16 +12,16 @@ namespace UnityEngine.Serialization
     public static class IPersistent_MeshFilter
     {
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static JToken GetData( this MeshFilter mf, Saver s )
+        public static SerializedData GetData( this MeshFilter mf, Saver s )
         {
-            return new JObject()
+            return new SerializedObject()
             {
                 { "shared_mesh", s.WriteAssetReference( mf.sharedMesh ) }
             };
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static void SetData( this MeshFilter mf, Loader l, JObject json )
+        public static void SetData( this MeshFilter mf, Loader l, SerializedObject json )
         {
             if( json.TryGetValue( "shared_mesh", out var jsonSharedMesh ) )
                 mf.sharedMesh = l.ReadAssetReference<Mesh>( jsonSharedMesh );

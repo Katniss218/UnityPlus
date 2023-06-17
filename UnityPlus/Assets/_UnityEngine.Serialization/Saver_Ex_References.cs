@@ -30,38 +30,38 @@ namespace UnityEngine.Serialization
 
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static JToken WriteObjectReference( this Saver s, object value )
+        public static SerializedData WriteObjectReference( this Saver s, object value )
         {
             // A missing '$ref' node means the reference is broken.
 
             if( value == null )
             {
-                return new JObject();
+                return new SerializedObject();
             }
 
             Guid guid = s.GetID( value );
 
-            return new JObject()
+            return new SerializedObject()
             {
                 { $"{REF}", s.WriteGuid( guid) }
             };
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static JToken WriteAssetReference( this Saver s, object assetRef )
+        public static SerializedObject WriteAssetReference( this Saver s, object assetRef )
         {
             if( assetRef == null )
             {
-                return new JObject();
+                return new SerializedObject();
             }
 
             string assetID = AssetRegistry.GetAssetID( assetRef );
             if( assetID == null )
             {
-                return new JObject();
+                return new SerializedObject();
             }
 
-            return new JObject()
+            return new SerializedObject()
             {
                 { $"{ASSETREF}", assetID }
             };
@@ -75,13 +75,13 @@ namespace UnityEngine.Serialization
         /// 2. CHANGING CODE MIGHT INVALIDATE REFERENCES TO LAMBDAS.
         /// </remarks>
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static JToken WriteDelegate( this Saver s, Delegate delegateObj )
+        public static SerializedData WriteDelegate( this Saver s, Delegate delegateObj )
         {
-            JArray invocationListJson = new JArray();
+            SerializedArray invocationListJson = new SerializedArray();
 
             foreach( var del in delegateObj.GetInvocationList() )
             {
-                JToken delJson = s.WriteSingleDelegate( del );
+                SerializedData delJson = s.WriteSingleDelegate( del );
                 invocationListJson.Add( delJson );
             }
 
@@ -89,7 +89,7 @@ namespace UnityEngine.Serialization
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        private static JToken WriteSingleDelegate( this Saver s, Delegate delegateObj )
+        private static SerializedData WriteSingleDelegate( this Saver s, Delegate delegateObj )
         {
             Type delegateType = delegateObj.GetType();
 
@@ -97,16 +97,16 @@ namespace UnityEngine.Serialization
             Type declaringType = method.DeclaringType;
             object target = delegateObj.Target;
 
-            JArray jsonParameters = new JArray();
+            SerializedArray jsonParameters = new SerializedArray();
             ParameterInfo[] parameters = method.GetParameters();
             foreach( var param in parameters )
             {
-                jsonParameters.Add( param.ParameterType.AssemblyQualifiedName );
+                jsonParameters.Add( (SerializedPrimitive)param.ParameterType.AssemblyQualifiedName );
             }
 
-            JObject obj = new JObject()
+            SerializedObject obj = new SerializedObject()
             {
-                { "method", new JObject() {
+                { "method", new SerializedObject() {
                     { "delegate_type", s.WriteType( delegateType ) },
                     { "identifier", method.Name },
                     { "parameters", jsonParameters },

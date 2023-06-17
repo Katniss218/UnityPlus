@@ -29,11 +29,16 @@ namespace UnityEngine.Serialization.Json
 
         public void Write()
         {
-            if( _data is SerializedObject o )
+            WriteJson( _data );
+        }
+        
+        void WriteJson( SerializedData data )
+        {
+            if( data is SerializedObject o )
                 WriteJson( o );
-            else if( _data is SerializedArray a )
+            else if( data is SerializedArray a )
                 WriteJson( a );
-            else if( _data is SerializedValue v )
+            else if( data is SerializedPrimitive v )
                 WriteJson( v );
         }
 
@@ -84,7 +89,7 @@ namespace UnityEngine.Serialization.Json
             _stream.Write( closeArray, 0, 1 );
         }
 
-        void WriteJson( SerializedValue value )
+        void WriteJson( SerializedPrimitive value )
         {
             if( value == null )
             {
@@ -93,24 +98,20 @@ namespace UnityEngine.Serialization.Json
             }
 
             string s = null;
-            switch( value._valueType )
+            switch( value._type )
             {
-                case SerializedValue.DataType.Boolean:
+                case SerializedPrimitive.DataType.Boolean:
                     s = value._value.boolean ? "true" : "false"; break;
-                case SerializedValue.DataType.Int:
+                case SerializedPrimitive.DataType.Int:
                     s = value._value.@int.ToString( CultureInfo.InvariantCulture ); break;
-                case SerializedValue.DataType.UInt:
+                case SerializedPrimitive.DataType.UInt:
                     s = value._value.@uint.ToString( CultureInfo.InvariantCulture ); break;
-                case SerializedValue.DataType.Float:
+                case SerializedPrimitive.DataType.Float:
                     s = value._value.@float.ToString( CultureInfo.InvariantCulture ); break;
-                case SerializedValue.DataType.Decimal:
+                case SerializedPrimitive.DataType.Decimal:
                     s = value._value.@decimal.ToString( CultureInfo.InvariantCulture ); break;
-                case SerializedValue.DataType.String:
-                    WriteString((string)value._value.obj); return;
-                case SerializedValue.DataType.Object:
-                    WriteJson( (SerializedObject)value._value.obj ); return;
-                case SerializedValue.DataType.Array:
-                    WriteJson( (SerializedArray)value._value.obj ); return;
+                case SerializedPrimitive.DataType.String:
+                    WriteString(value._value.str); return;
             }
 
             _stream.Write( enc.GetBytes( s ), 0, s.Length );

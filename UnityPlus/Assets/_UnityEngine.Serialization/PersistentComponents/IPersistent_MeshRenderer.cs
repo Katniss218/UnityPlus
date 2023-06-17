@@ -11,12 +11,16 @@ namespace UnityEngine.Serialization
 {
     public static class IPersistent_MeshRenderer
     {
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static JToken GetData( this MeshRenderer mr, Saver s )
+        public static SerializedData GetData( this MeshRenderer mr, Saver s )
         {
-            JArray matsJson = new JArray( mr.sharedMaterials.Select( mat => s.WriteAssetReference( mat ) ) );
+            SerializedArray matsJson = new SerializedArray();
+            var mats = mr.sharedMaterials.Select( mat => s.WriteAssetReference( mat ) );
+            foreach( var mat in mats )
+            {
+                matsJson.Add( mat );
+            }
 
-            return new JObject()
+            return new SerializedObject()
             {
                 { "shared_materials", matsJson },
                 { "shadow_casting_mode", mr.shadowCastingMode.ToString() },
@@ -24,13 +28,12 @@ namespace UnityEngine.Serialization
             };
         }
 
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static void SetData( this MeshRenderer mr, Loader l, JObject json )
+        public static void SetData( this MeshRenderer mr, Loader l, SerializedObject json )
         {
             if( json.TryGetValue( "shared_materials", out var jsonSharedMaterials ) )
             {
                 List<Material> mats = new List<Material>();
-                foreach( var sharedMatJson in jsonSharedMaterials )
+                foreach( var sharedMatJson in (SerializedArray)jsonSharedMaterials )
                 {
                     Material mat = l.ReadAssetReference<Material>( sharedMatJson );
                     mats.Add( mat );

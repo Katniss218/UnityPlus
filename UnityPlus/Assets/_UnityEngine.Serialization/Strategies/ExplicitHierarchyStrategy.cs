@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,7 +26,7 @@ namespace UnityEngine.Serialization.Strategies
             return SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
         }
 
-        private static JToken WriteAssetGameObject( Saver s, GameObject go )
+        private static SerializedObject WriteAssetGameObject( Saver s, GameObject go )
         {
             ClonedGameObject cbf = go.GetComponent<ClonedGameObject>();
             if( cbf == null )
@@ -38,7 +36,7 @@ namespace UnityEngine.Serialization.Strategies
 
             Guid objectGuid = s.GetID( go );
 
-            JObject goJson = new JObject()
+            SerializedObject goJson = new SerializedObject()
             {
                 { Saver_Ex_References.ID, s.WriteGuid(objectGuid) },
                 { "prefab", s.WriteAssetReference(cbf.OriginalAsset) }
@@ -47,7 +45,7 @@ namespace UnityEngine.Serialization.Strategies
             return goJson;
         }
 
-        private static GameObject ReadAssetGameObject( Loader l, JToken goJson )
+        private static GameObject ReadAssetGameObject( Loader l, SerializedData goJson )
         {
             Guid objectGuid = l.ReadGuid( goJson[Saver_Ex_References.ID] );
 
@@ -73,20 +71,23 @@ namespace UnityEngine.Serialization.Strategies
 
             IEnumerable<GameObject> rootObjects = GetRootGameObjects();
 
-            JArray objectsJson = new JArray();
+            SerializedArray objectsJson = new SerializedArray();
 
             foreach( var go in rootObjects )
             {
 #warning TODO - if root doesn't have factory component, look through children.
                 // maybe some sort of customizable tag/layer masking
 
-                JToken goJson = WriteAssetGameObject( s, go );
+                SerializedObject goJson = WriteAssetGameObject( s, go );
                 if( goJson == null )
                     continue;
                 objectsJson.Add( goJson );
             }
 
-            jsonO = JsonConvert.SerializeObject( objectsJson );
+            var sb = new StringBuilder();
+            new Serialization.Json.JsonStringWriter( objectsJson, sb ).Write();
+            jsonO = sb.ToString();
+
             TMPro.TMP_InputField inp = Object.FindObjectOfType<TMPro.TMP_InputField>();
             inp.text = jsonO;
             Debug.Log( jsonO );
@@ -100,7 +101,7 @@ namespace UnityEngine.Serialization.Strategies
 
             IEnumerable<GameObject> rootObjects = GetRootGameObjects();
 
-            JArray objectsJson = new JArray();
+            SerializedArray objectsJson = new SerializedArray();
 
 #warning TODO - loop through children to save/load comps.
             foreach( var go in rootObjects )
@@ -112,7 +113,7 @@ namespace UnityEngine.Serialization.Strategies
                 }
                 Guid id = s.GetID( go );
 
-                JArray componentsJson = new JArray();
+                SerializedArray componentsJson = new SerializedArray();
 
                 Component[] comps = go.GetComponents<Component>();
                 int i = 0;
@@ -122,11 +123,11 @@ namespace UnityEngine.Serialization.Strategies
 
                     if( dataJson != null )
                     {
-                        JObject compJson = new JObject()
+                        SerializedObject compJson = new SerializedObject()
                         {
 #warning TODO - ugly magic string value of `predicate_type`.
                             { "predicate_type", "index" },
-                            { "predicate", new JObject()
+                            { "predicate", new SerializedObject()
                             {
                                 { "index", i }
                             } },
@@ -139,7 +140,7 @@ namespace UnityEngine.Serialization.Strategies
 
                 if( componentsJson.Any() )
                 {
-                    objectsJson.Add( new JObject()
+                    objectsJson.Add( new SerializedObject()
                     {
                         { "$ref", id.ToString( "D" ) },
                         { "components", componentsJson }
@@ -147,7 +148,10 @@ namespace UnityEngine.Serialization.Strategies
                 }
             }
 
-            jsonD = JsonConvert.SerializeObject( objectsJson );
+            var sb = new StringBuilder();
+            new Serialization.Json.JsonStringWriter( objectsJson, sb ).Write();
+            jsonD = sb.ToString();
+
             TMPro.TMP_InputField inp = Object.FindObjectOfType<TMPro.TMP_InputField>();
             inp.text = jsonD;
             Debug.Log( jsonD );
@@ -159,7 +163,7 @@ namespace UnityEngine.Serialization.Strategies
 
             // create dummy GOs with factories.
 
-            JArray objectsJson = JsonConvert.DeserializeObject<JArray>( jsonO );
+            SerializedArray objectsJson = (SerializedArray)new Serialization.Json.JsonStringReader( jsonO ).Parse();
 
             foreach( var goJson in objectsJson )
             {
@@ -171,7 +175,7 @@ namespace UnityEngine.Serialization.Strategies
         {
             // loop through object data, get the corresponding objects using ID from registry, and apply.
 
-            JArray objectsJson = JsonConvert.DeserializeObject<JArray>( jsonD );
+            SerializedArray objectsJson = (SerializedArray)new Serialization.Json.JsonStringReader( jsonD ).Parse();
 
             foreach( var goJson in objectsJson )
             {
@@ -181,7 +185,7 @@ namespace UnityEngine.Serialization.Strategies
 
                 Component[] comps = go.GetComponents();
 
-                foreach( var compjson in goJson["components"] )
+                foreach( var compjson in (SerializedArray)goJson["components"] )
                 {
                     var func = GameObjectData.PredicateRegistry[(string)compjson["predicate_type"]];
 #warning TODO - self-serialize for these.

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace UnityEngine.Serialization.Json
 {
-    public class JsonReader
+    public class JsonStringReader
     {
         // make a custom parser + reader/writer.
 
@@ -19,7 +19,7 @@ namespace UnityEngine.Serialization.Json
 
         char? _currentChar;
 
-        public JsonReader( string json )
+        public JsonStringReader( string json )
         {
             this._s = json;
             this._pos = 0;
@@ -63,11 +63,11 @@ namespace UnityEngine.Serialization.Json
             return _s.Substring( _pos + startOffset, length );
         }
 
-        public SerializedValue Parse()
+        public SerializedData Parse()
         {
             EatWhiteSpace();
 
-            SerializedValue val = EatValue();
+            SerializedData val = EatValue();
 
             EatWhiteSpace();
 
@@ -130,7 +130,7 @@ namespace UnityEngine.Serialization.Json
             EatWhiteSpace();
         }
 
-        public SerializedValue EatValue()
+        public SerializedData EatValue()
         {
             if( SeekCompare( "false" ) )
             {
@@ -176,7 +176,7 @@ namespace UnityEngine.Serialization.Json
 
             while( true )
             {
-                (string name, SerializedValue val) = EatMember();
+                (string name, SerializedData val) = EatMember();
                 obj.Add( name, val );
 
                 // value sep
@@ -200,13 +200,13 @@ namespace UnityEngine.Serialization.Json
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public (string, SerializedValue) EatMember()
+        public (string, SerializedData) EatMember()
         {
             string name = EatString();
 
             Eat_NameSeparator();
 
-            SerializedValue val = EatValue();
+            SerializedData val = EatValue();
 
             return (name, val);
         }
@@ -222,7 +222,7 @@ namespace UnityEngine.Serialization.Json
 
             while( true )
             {
-                SerializedValue val = EatValue();
+                SerializedData val = EatValue();
                 arr.Add( val );
 
                 // value sep
@@ -324,7 +324,7 @@ namespace UnityEngine.Serialization.Json
             return val;
         }
 
-        public SerializedValue EatNumber()
+        public SerializedPrimitive EatNumber()
         {
             int start = _pos;
             bool hasDecimalPoint = false;
@@ -372,8 +372,8 @@ namespace UnityEngine.Serialization.Json
             string val = _s[start..(_pos)];
 
             return (hasDecimalPoint || hasExponent)
-                ? (SerializedValue)double.Parse( val, CultureInfo.InvariantCulture )
-                : (SerializedValue)long.Parse( val, CultureInfo.InvariantCulture );
+                ? (SerializedPrimitive)double.Parse( val, CultureInfo.InvariantCulture )
+                : (SerializedPrimitive)long.Parse( val, CultureInfo.InvariantCulture );
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]

@@ -24,18 +24,34 @@ public class _tester : MonoBehaviour
     // Update is called once per frame
     void Start()
     {
-        SerializedObject serobject = new UnityEngine.Serialization.Json.JsonReader( System.IO.File.ReadAllText( "c:/test/testjson.json" ) ).Parse();
+        string json = @"{
+    ""Image"": 
+    {
+        ""Width"": 800,
+        ""Height"": 600,
+        ""Title"": ""View from 15th Floor"",
+        ""Thumbnail"":
+        {
+            ""Url"": ""http://www.example.com/image/481989943"",
+            ""Height"": 125,
+            ""Width"": 100
+        },
+        ""Animated"" : false,
+        ""IDs"": [116, 943, 234, 38793]
+    }
+}";
+        JsonStringReader sut = new JsonStringReader( json );
+
+        // Act
+        SerializedObject val = (SerializedObject)sut.Parse();
+
+
+        SerializedObject serobject = (SerializedObject)new UnityEngine.Serialization.Json.JsonStringReader( System.IO.File.ReadAllText( "c:/test/testjson.json" ) ).Parse();
 
         using( MemoryStream s = new MemoryStream() )
         {
             new JsonStreamWriter( serobject, s ).Write();
             string ssss = Encoding.UTF8.GetString( s.ToArray() );
-        }
-
-        var x = Resources.LoadAll<Object>( "" );
-        foreach( var xx in x )
-        {
-            Debug.Log( xx.name );
         }
 
         GameObject f2 = AssetRegistry.Get<GameObject>( "builtin::Resources/Prefabs/Cube2" );

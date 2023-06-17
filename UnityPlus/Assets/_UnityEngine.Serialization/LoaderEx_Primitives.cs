@@ -15,37 +15,37 @@ namespace UnityEngine.Serialization
         // Primitives in this context are types that are always saved in-place.
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static Vector2 ReadVector2( this Loader _, JToken json )
+        public static Vector2 ReadVector2( this Loader _, SerializedData json )
         {
             return new Vector2( (float)json[0], (float)json[1] );
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static Vector2Int ReadVector2Int( this Loader _, JToken json )
+        public static Vector2Int ReadVector2Int( this Loader _, SerializedData json )
         {
             return new Vector2Int( (int)json[0], (int)json[1] );
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static Vector3 ReadVector3( this Loader _, JToken json )
+        public static Vector3 ReadVector3( this Loader _, SerializedData json )
         {
             return new Vector3( (float)json[0], (float)json[1], (float)json[2] );
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static Vector3Int ReadVector3Int( this Loader _, JToken json )
+        public static Vector3Int ReadVector3Int( this Loader _, SerializedData json )
         {
             return new Vector3Int( (int)json[0], (int)json[1], (int)json[2] );
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static Vector4 ReadVector4( this Loader _, JToken json )
+        public static Vector4 ReadVector4( this Loader _, SerializedData json )
         {
             return new Vector4( (float)json[0], (float)json[1], (float)json[2], (float)json[3] );
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static Quaternion ReadQuaternion( this Loader _, JToken json )
+        public static Quaternion ReadQuaternion( this Loader _, SerializedData json )
         {
             return new Quaternion( (float)json[0], (float)json[1], (float)json[2], (float)json[3] );
         }
@@ -54,17 +54,17 @@ namespace UnityEngine.Serialization
         /// Reads a Globally-Unique Identifier (GUID/UUID)
         /// </summary>
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static Guid ReadGuid( this Loader _, JToken json )
+        public static Guid ReadGuid( this Loader _, SerializedData json )
         {
             // GUIDs should be saved in the '00000000-0000-0000-0000-000000000000' format.
-            return Guid.ParseExact( (string)json, "D" );
+            return Guid.ParseExact( (string)(SerializedPrimitive)json, "D" );
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static Type ReadType( this Loader _, JToken json )
+        public static Type ReadType( this Loader _, SerializedData json )
         {
             // 'AssemblyQualifiedName' is guaranteed to always uniquely identify a type.
-            string assemblyQualifiedName = (string)json;
+            string assemblyQualifiedName = (string)(SerializedPrimitive)json;
             if( _stringToType.TryGetValue( assemblyQualifiedName, out Type type ) )
             {
                 return type;

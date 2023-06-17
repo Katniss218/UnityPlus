@@ -11,20 +11,20 @@ using UnityEngine.TestTools;
 
 namespace Serialization.Json
 {
-    public class JsonReaderTests
+    public class JsonStringReaderTests
     {
         [Test]
         public void EatValue___True___ParsesCorrectly()
         {
             // Arrange
             string json = "true";
-            JsonReader sut = new JsonReader( json );
+            JsonStringReader sut = new JsonStringReader( json );
 
             // Act
-            SerializedValue val = sut.EatValue();
+            SerializedData val = sut.EatValue();
 
             // Assert
-            Assert.That( val, Is.EqualTo( (SerializedValue)true ) );
+            Assert.That( val, Is.EqualTo( (SerializedData)true ) );
         }
 
         [Test]
@@ -32,13 +32,13 @@ namespace Serialization.Json
         {
             // Arrange
             string json = "false";
-            JsonReader sut = new JsonReader( json );
+            JsonStringReader sut = new JsonStringReader( json );
 
             // Act
-            SerializedValue val = sut.EatValue();
+            SerializedData val = sut.EatValue();
 
             // Assert
-            Assert.That( val, Is.EqualTo( (SerializedValue)false ) );
+            Assert.That( val, Is.EqualTo( (SerializedData)false ) );
         }
 
         [Test]
@@ -46,13 +46,13 @@ namespace Serialization.Json
         {
             // Arrange
             string json = "null";
-            JsonReader sut = new JsonReader( json );
+            JsonStringReader sut = new JsonStringReader( json );
 
             // Act
-            SerializedValue val = sut.EatValue();
+            SerializedData val = sut.EatValue();
 
             // Assert
-            Assert.That( val, Is.EqualTo( (SerializedValue)null ) );
+            Assert.That( val, Is.EqualTo( (SerializedData)null ) );
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace Serialization.Json
         {
             // Arrange
             string json = "\"Hello World!\"";
-            JsonReader sut = new JsonReader( json );
+            JsonStringReader sut = new JsonStringReader( json );
 
             // Act
             string val = sut.EatString();
@@ -74,7 +74,7 @@ namespace Serialization.Json
         {
             // Arrange
             string json = "\"Hello World \\r\\n \\t \\\\ Hello / \\u0032\"";
-            JsonReader sut = new JsonReader( json );
+            JsonStringReader sut = new JsonStringReader( json );
 
             // Act
             string val = sut.EatString();
@@ -104,24 +104,25 @@ namespace Serialization.Json
         ""IDs"": [116, 943, 234, 38793]
     }
 }";
-            JsonReader sut = new JsonReader( json );
+            JsonStringReader sut = new JsonStringReader( json );
 
             // Act
             SerializedObject val = (SerializedObject)sut.Parse();
 
             // Assert
-            Assert.That( (int)((SerializedObject)val["Image"])["Width"], Is.EqualTo( 800 ) );
-            Assert.That( (int)((SerializedObject)val["Image"])["Height"], Is.EqualTo( 600 ) );
-            Assert.That( (string)((SerializedObject)val["Image"])["Title"], Is.EqualTo( "View from 15th Floor" ) );
-            Assert.That( (string)((SerializedObject)((SerializedObject)val["Image"])["Thumbnail"])["Url"], Is.EqualTo( "http://www.example.com/image/481989943" ) );
-            Assert.That( (int)((SerializedObject)((SerializedObject)val["Image"])["Thumbnail"])["Height"], Is.EqualTo( 125 ) );
-            Assert.That( (int)((SerializedObject)((SerializedObject)val["Image"])["Thumbnail"])["Width"], Is.EqualTo( 100 ) );
-            Assert.That( (bool)((SerializedObject)val["Image"])["Animated"], Is.EqualTo( false ) );
-            Assert.That( (int)((SerializedArray)((SerializedObject)val["Image"])["IDs"]).Count, Is.EqualTo( 4 ) );
-            Assert.That( (int)((SerializedArray)((SerializedObject)val["Image"])["IDs"])[0], Is.EqualTo( 116 ) );
-            Assert.That( (int)((SerializedArray)((SerializedObject)val["Image"])["IDs"])[1], Is.EqualTo( 943 ) );
-            Assert.That( (int)((SerializedArray)((SerializedObject)val["Image"])["IDs"])[2], Is.EqualTo( 234 ) );
-            Assert.That( (int)((SerializedArray)((SerializedObject)val["Image"])["IDs"])[3], Is.EqualTo( 38793 ) );
+            Assert.That( (int)val["Image"]["Width"], Is.EqualTo( 800 ) );
+            Assert.That( (int)val["Image"]["Height"], Is.EqualTo( 600 ) );
+            Assert.That( (string)val["Image"]["Title"], Is.EqualTo( "View from 15th Floor" ) );
+            Assert.That( (string)val["Image"]["Thumbnail"]["Url"], Is.EqualTo( "http://www.example.com/image/481989943" ) );
+            Assert.That( (int)val["Image"]["Thumbnail"]["Height"], Is.EqualTo( 125 ) );
+            Assert.That( (int)val["Image"]["Thumbnail"]["Width"], Is.EqualTo( 100 ) );
+            Assert.That( (bool)val["Image"]["Animated"], Is.EqualTo( false ) );
+
+            Assert.That( (int)((SerializedArray)val["Image"]["IDs"]).Count, Is.EqualTo( 4 ) );
+            Assert.That( (int)val["Image"]["IDs"][0], Is.EqualTo( 116 ) );
+            Assert.That( (int)val["Image"]["IDs"][1], Is.EqualTo( 943 ) );
+            Assert.That( (int)val["Image"]["IDs"][2], Is.EqualTo( 234 ) );
+            Assert.That( (int)val["Image"]["IDs"][3], Is.EqualTo( 38793 ) );
         }
 
         [Test]
@@ -129,13 +130,13 @@ namespace Serialization.Json
         {
             // Arrange
             string json = "218";
-            JsonReader sut = new JsonReader( json );
+            JsonStringReader sut = new JsonStringReader( json );
 
             // Act
-            SerializedValue val = sut.EatNumber();
+            SerializedPrimitive val = sut.EatNumber();
 
             // Assert
-            Assert.That( val, Is.EqualTo( (SerializedValue)218 ) );
+            Assert.That( val, Is.EqualTo( (SerializedPrimitive)218 ) );
         }
 
         [Test]
@@ -143,10 +144,10 @@ namespace Serialization.Json
         {
             // Arrange
             string json = "-3.1415E+11";
-            JsonReader sut = new JsonReader( json );
+            JsonStringReader sut = new JsonStringReader( json );
 
             // Act
-            SerializedValue val = sut.EatNumber();
+            SerializedPrimitive val = sut.EatNumber();
 
             // Assert
             Assert.That( (float)val, Is.EqualTo( -3.1415E+11f ) ); // not ideal because depends on the round-tripping in SerializedValue working correctly.
@@ -157,7 +158,7 @@ namespace Serialization.Json
         {
             // Arrange
             string json = "[ 1, 2.0, 3 ]";
-            JsonReader sut = new JsonReader( json );
+            JsonStringReader sut = new JsonStringReader( json );
 
             // Act
             SerializedArray val = sut.EatArray();
@@ -174,7 +175,7 @@ namespace Serialization.Json
         {
             // Arrange
             string json = "[ 1, 2.0 3 ]";
-            JsonReader sut = new JsonReader( json );
+            JsonStringReader sut = new JsonStringReader( json );
 
             // Act
             // Assert
@@ -186,7 +187,7 @@ namespace Serialization.Json
         {
             // Arrange
             string json = "[ \"hello\", \"hi\" \"hey\" ]";
-            JsonReader sut = new JsonReader( json );
+            JsonStringReader sut = new JsonStringReader( json );
 
             // Act
             // Assert
@@ -198,7 +199,7 @@ namespace Serialization.Json
         {
             // Arrange
             string json = "{ \"name\": \"value\", \"name2\": 218 }";
-            JsonReader sut = new JsonReader( json );
+            JsonStringReader sut = new JsonStringReader( json );
 
             // Act
             SerializedObject val = sut.EatObject();

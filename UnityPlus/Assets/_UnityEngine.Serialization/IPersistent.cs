@@ -16,14 +16,14 @@ namespace UnityEngine.Serialization
         /// Sets the persistent data after creating the object with default parameters.
         /// </summary>
         /// <param name="l">The loader. Can be used to read references, etc.</param>
-        /// <param name="json">The JSON value that contains the data. Identical to what is created by <see cref="GetData"/>.</param>
-        void SetData( Loader l, JToken json );
+        /// <param name="json">The serialized structure that contains the data. Identical to what is created by <see cref="GetData"/>.</param>
+        void SetData( Loader l, SerializedData json );
 
         /// <summary>
         /// Gets the persistent data from an object.
         /// </summary>
         /// <param name="s">The saver. Can be used to write references, etc.</param>
-        /// <returns>The JSON value that contains the data. Identical to what is read by <see cref="SetData"/>.</returns>
-        JToken GetData( Saver s );
+        /// <returns>The serialized structure that contains the data. Identical to what is read by <see cref="SetData"/>.</returns>
+        SerializedData GetData( Saver s );
     }
 }

@@ -10,70 +10,70 @@ namespace UnityEngine.Serialization
 {
     public static class Saver_Ex_Primitives
     {
-        static Dictionary<Type, string> _typeToString = new Dictionary<Type, string>();
+        static readonly Dictionary<Type, string> _typeToString = new Dictionary<Type, string>();
 
         // Primitives in this context are types that are always saved in-place.
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static JToken WriteVector2( this Saver _, Vector2 v )
+        public static SerializedArray WriteVector2( this Saver _, Vector2 v )
         {
-            return new JArray() { v.x, v.y };
+            return new SerializedArray() { (SerializedPrimitive)v.x, (SerializedPrimitive)v.y };
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static JToken WriteVector2Int( this Saver _, Vector2Int v )
+        public static SerializedArray WriteVector2Int( this Saver _, Vector2Int v )
         {
-            return new JArray() { v.x, v.y };
+            return new SerializedArray() { (SerializedPrimitive)v.x, (SerializedPrimitive)v.y };
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static JToken WriteVector3( this Saver _, Vector3 v )
+        public static SerializedArray WriteVector3( this Saver _, Vector3 v )
         {
-            return new JArray() { v.x, v.y, v.z };
+            return new SerializedArray() { (SerializedPrimitive)v.x, (SerializedPrimitive)v.y, (SerializedPrimitive)v.z };
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static JToken WriteVector3Int( this Saver _, Vector3Int v )
+        public static SerializedArray WriteVector3Int( this Saver _, Vector3Int v )
         {
-            return new JArray() { v.x, v.y, v.z };
+            return new SerializedArray() { (SerializedPrimitive)v.x, (SerializedPrimitive)v.y, (SerializedPrimitive)v.z };
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static JToken WriteVector4( this Saver _, Vector4 v )
+        public static SerializedArray WriteVector4( this Saver _, Vector4 v )
         {
-            return new JArray() { v.x, v.y, v.z, v.w };
+            return new SerializedArray() { (SerializedPrimitive)v.x, (SerializedPrimitive)v.y, (SerializedPrimitive)v.z, (SerializedPrimitive)v.w };
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static JToken WriteQuaternion( this Saver _, Quaternion q )
+        public static SerializedArray WriteQuaternion( this Saver _, Quaternion q )
         {
-            return new JArray() { q.x, q.y, q.z, q.w };
+            return new SerializedArray() { (SerializedPrimitive)q.x, (SerializedPrimitive)q.y, (SerializedPrimitive)q.z, (SerializedPrimitive)q.w };
         }
 
         /// <summary>
         /// Writes a Globally-Unique Identifier (GUID/UUID)
         /// </summary>
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static JToken WriteGuid( this Saver _, Guid value )
+        public static SerializedPrimitive WriteGuid( this Saver _, Guid value )
         {
             // GUIDs should be saved in the '00000000-0000-0000-0000-000000000000' format.
-            return new JValue( value.ToString( "D" ) );
+            return (SerializedPrimitive)value.ToString( "D" );
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static JToken WriteType( this Saver _, Type value )
+        public static SerializedPrimitive WriteType( this Saver _, Type value )
         {
             // 'AssemblyQualifiedName' is guaranteed to always uniquely identify a type.
             if( _typeToString.TryGetValue( value, out string assemblyQualifiedName ) )
             {
-                return new JValue( assemblyQualifiedName );
+                return (SerializedPrimitive)assemblyQualifiedName;
             }
 
             // Cache the type because accessing the Type.AssemblyQualifiedName and Type.GetType(string) is very slow.
             assemblyQualifiedName = value.AssemblyQualifiedName;
             _typeToString.Add( value, assemblyQualifiedName );
 
-            return new JValue( assemblyQualifiedName );
+            return (SerializedPrimitive)assemblyQualifiedName;
         }
     }
 }

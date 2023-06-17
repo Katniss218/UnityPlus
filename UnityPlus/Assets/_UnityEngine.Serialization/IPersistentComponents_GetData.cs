@@ -11,7 +11,7 @@ namespace UnityEngine.Serialization
     public static partial class IPersistentComponents_GetData
     {
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static JToken GetData( this Component c, Saver s )
+        public static SerializedData GetData( this Component c, Saver s )
         {
             switch( c )
             {

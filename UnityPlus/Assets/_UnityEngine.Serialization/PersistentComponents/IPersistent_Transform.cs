@@ -11,9 +11,9 @@ namespace UnityEngine.Serialization
     public static class IPersistent_Transform
     {
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static JToken GetData( this Transform t, Saver s )
+        public static SerializedData GetData( this Transform t, Saver s )
         {
-            return new JObject()
+            return new SerializedObject()
             {
                 { "local_position", s.WriteVector3( t.localPosition ) },
                 { "local_rotation", s.WriteQuaternion( t.localRotation ) },
@@ -22,7 +22,7 @@ namespace UnityEngine.Serialization
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static void SetData( this Transform t, Loader l, JObject json )
+        public static void SetData( this Transform t, Loader l, SerializedObject json )
         {
             if( json.TryGetValue( "local_position", out var jsonLocalPosition ) )
                 t.localPosition = l.ReadVector3( jsonLocalPosition );
