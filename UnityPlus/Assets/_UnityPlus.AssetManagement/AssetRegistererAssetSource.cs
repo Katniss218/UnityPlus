@@ -101,6 +101,7 @@ namespace UnityPlus.AssetManagement
                     continue;
                 }
 
+#warning TODO - Sprites and Texture2D are under the same name and asset, need to support that.
                 UnityEngine.Object asset = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>( path );
 
                 int start = _constrainPath.Length;
