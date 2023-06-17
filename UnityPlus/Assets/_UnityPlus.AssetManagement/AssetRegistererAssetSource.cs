@@ -6,17 +6,18 @@ using System.Threading.Tasks;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
+//using UnityEditorInternal;
 #endif
 
 namespace UnityPlus.AssetManagement
 {
 #if UNITY_EDITOR
-    [CustomEditor( typeof( ConstrainedRegUpdater ) )]
-    public class ConstrainedRegUpdaterEditor : Editor
+    [CustomEditor( typeof( AssetRegistererAssetSource ) )]
+    public class AssetRegistererAssetSourceEditor : Editor
     {
         public override void OnInspectorGUI()
         {
-            ConstrainedRegUpdater updater = (ConstrainedRegUpdater)target;
+            AssetRegistererAssetSource updater = (AssetRegistererAssetSource)target;
 
             // Display the default inspector GUI elements
             DrawDefaultInspector();
@@ -30,7 +31,7 @@ namespace UnityPlus.AssetManagement
     }
 #endif
 
-    public class ConstrainedRegUpdater : MonoBehaviour
+    public class AssetRegistererAssetSource : MonoBehaviour
     {
         [SerializeField]
         AssetRegisterer _registerer;
@@ -48,6 +49,7 @@ namespace UnityPlus.AssetManagement
         void AddEntry( ref List<AssetRegisterer.Entry> entries, string assetID, UnityEngine.Object asset )
         {
             if( asset is DefaultAsset // folders (maybe more)
+             || asset is UnityEditorInternal.AssemblyDefinitionAsset
              || asset is MonoScript ) // C# files, but not scriptable object instances.
             {
                 return;
@@ -62,10 +64,10 @@ namespace UnityPlus.AssetManagement
 
             List<AssetRegisterer.Entry> entries = new List<AssetRegisterer.Entry>();
 
-            var x = AssetDatabase.LoadAllAssetsAtPath( "Library/unity default resources" );
-            foreach( var asset in x )
+            var unityDefaultResources = AssetDatabase.LoadAllAssetsAtPath( "Library/unity default resources" );
+            foreach( var asset in unityDefaultResources )
             {
-                if( asset.name.StartsWith( "Hidden/" ) )
+                if( asset.name.StartsWith( "Hidden/" ) || asset.name.Contains( "Legacy " ) )
                 {
                     continue;
                 }
@@ -77,10 +79,10 @@ namespace UnityPlus.AssetManagement
                 AddEntry( ref entries, assetID, asset );
             }
 
-            var y = AssetDatabase.LoadAllAssetsAtPath( "Resources/unity_builtin_extra" );
-            foreach( var asset in y )
+            var unityBuiltinExtra = AssetDatabase.LoadAllAssetsAtPath( "Resources/unity_builtin_extra" );
+            foreach( var asset in unityBuiltinExtra )
             {
-                if( asset.name.StartsWith( "Hidden/" ) )
+                if( asset.name.StartsWith( "Hidden/" ) || asset.name.StartsWith( "Legacy Shaders/" ) )
                 {
                     continue;
                 }
