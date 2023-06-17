@@ -6,9 +6,8 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.Serialization.ComponentData;
-using UnityEngine.Serialization.Json;
+using UnityPlus.Serialization;
+using UnityPlus.Serialization.Json;
 using UnityEngine.TestTools;
 
 namespace Serialization.Json

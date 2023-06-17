@@ -5,8 +5,9 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "_UnityEngine",
-        "_UnityEngine.AssetManagement",
-        "_UnityEngine.Serialization"
+        "_UnityPlus.AssetManagement",
+        "_UnityPlus.Serialization",
+        "UnityPlus.Animation"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

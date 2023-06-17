@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.Serialization.ComponentData;
-using UnityEngine.Serialization.Json;
+using UnityPlus.Serialization;
+using UnityPlus.Serialization.Json;
 using UnityEngine.TestTools;
 
 namespace Serialization.Json
