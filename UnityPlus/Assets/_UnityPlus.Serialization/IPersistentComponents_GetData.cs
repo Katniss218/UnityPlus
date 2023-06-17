@@ -24,6 +24,16 @@ namespace UnityPlus.Serialization
                     return comp.GetData( s );
                 case MeshRenderer comp:
                     return comp.GetData( s );
+
+                    // particle system
+
+                    // navmesh stuff
+
+                    // colliders
+
+                    // rigidbody
+
+
             }
             return null;
         }

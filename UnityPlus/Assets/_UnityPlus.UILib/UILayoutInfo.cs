@@ -54,6 +54,27 @@ namespace UILib
                 sizeDelta = Vector2.zero //new Vector2( -left - right, -top - bottom )
             };
         }
+
+        [System.Obsolete( "needs testing" )]
+        public static UILayoutInfo Fill( Vector2 pivot, float left, float right, float top, float bottom )
+        {
+            return new UILayoutInfo()
+            {
+                // Stretches it to the edges, sets the pivot, left, right, top, bottom are padding.
+                pivot = pivot,
+                anchorMin = Vector2.zero,
+                anchorMax = Vector2.one,
+                // left = 10, right = 20
+                // pivot.x 0 => 10, 0.5 => -5, 1 => -20 -> lerp
+                // so Mathf.Lerp( left, -right, pivot.x )
+
+                // top = 10, bottom = 20
+                // pivot.y 0 => 20, 0.5 => 5, 1 => -10
+                // fo Mathf.Lerp( bottom, -top, pivot.y )
+                anchoredPosition = new Vector2( Mathf.Lerp( left, -right, pivot.x ), Mathf.Lerp( bottom, -top, pivot.y ) ),
+                sizeDelta = new Vector2( -(left + right), -(top + bottom) )
+            };
+        }
     }
 
     public static class LayoutInfoEx
