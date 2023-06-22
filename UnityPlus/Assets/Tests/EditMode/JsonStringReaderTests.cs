@@ -168,6 +168,34 @@ namespace Serialization.Json
             Assert.That( (float)val[1], Is.EqualTo( 2.0f ) );
             Assert.That( (int)val[2], Is.EqualTo( 3 ) );
         }
+        
+        [Test]
+        public void EatArray___Empty___ParsesCorrectly()
+        {
+            // Arrange
+            string json = "[]";
+            JsonStringReader sut = new JsonStringReader( json );
+
+            // Act
+            SerializedArray val = sut.EatArray();
+
+            // Assert
+            Assert.That( val.Count, Is.EqualTo( 0 ) );
+        }
+        
+        [Test]
+        public void Eatobject___Empty___ParsesCorrectly()
+        {
+            // Arrange
+            string json = "{}";
+            JsonStringReader sut = new JsonStringReader( json );
+
+            // Act
+            SerializedObject val = sut.EatObject();
+
+            // Assert
+            Assert.That( val.Count, Is.EqualTo( 0 ) );
+        }
 
         [Test]
         public void EatArray___Numbers_Missing_Comma___ThrowsError()

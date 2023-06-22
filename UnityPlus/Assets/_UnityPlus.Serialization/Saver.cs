@@ -85,6 +85,12 @@ namespace UnityPlus.Serialization
             this._objectActions.Add( action );
         }
 
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public bool TryGetID( object obj, out Guid id )
+        {
+            return _objectToGuid.TryGetValue( obj, out id );
+        }
+
         /// <summary>
         /// Registers the specified object in the registry (if not registered already) and returns its reference ID.
         /// </summary>
@@ -113,12 +119,13 @@ namespace UnityPlus.Serialization
         {
             ClearReferenceRegistry();
 
-            foreach( var action in _objectActions )
+            // Should save data before objects, because data will add the objects that are referenced to the registry.
+            foreach( var action in _dataActions )
             {
                 action?.Invoke( this );
             }
 
-            foreach( var action in _dataActions )
+            foreach( var action in _objectActions )
             {
                 action?.Invoke( this );
             }

@@ -54,6 +54,7 @@ namespace UnityPlus.Serialization
         {
             this.SaveDirectory = saveDirectory;
 
+            // Loader should load objects before data.
             foreach( var action in objectActions )
             {
                 this._objectActions.Add( action );
@@ -129,6 +130,7 @@ namespace UnityPlus.Serialization
         {
             ClearReferenceRegistry();
 
+            // Create objects first, since data will reference them, so they must exist to be dereferenced.
             foreach( var action in _objectActions )
             {
                 action?.Invoke( this );

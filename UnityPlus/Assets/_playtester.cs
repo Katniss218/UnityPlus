@@ -10,7 +10,7 @@ using UnityPlus.Serialization;
 using UnityPlus.Serialization.Json;
 using UnityPlus.Serialization.Strategies;
 
-public class _tester : MonoBehaviour
+public class _playtester : MonoBehaviour
 {
     // Start is called before the first frame update
     void Awake()
@@ -20,7 +20,7 @@ public class _tester : MonoBehaviour
 
     Saver s;
     Loader l;
-    PrefabAndDataStrategy strat;
+    JsonPrefabAndDataStrategy strat;
 
     // Update is called once per frame
     void Start()
@@ -58,7 +58,7 @@ public class _tester : MonoBehaviour
 
         ClonedGameObject.Instantiate( f2 );
 
-        strat = new PrefabAndDataStrategy();
+        strat = new JsonPrefabAndDataStrategy();
 
         s = new Saver( "test", new System.Action<Saver>[] { strat.SaveSceneObjects_Data }, new System.Action<Saver>[] { strat.SaveSceneObjects_Object } );
 

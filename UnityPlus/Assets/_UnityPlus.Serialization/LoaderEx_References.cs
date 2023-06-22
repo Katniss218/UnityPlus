@@ -31,8 +31,6 @@ namespace UnityPlus.Serialization
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
         public static T ReadAssetReference<T>( this Loader l, SerializedData json ) where T : class
         {
-#warning TODO - cast problem - `json` is a SerializedValue hiding behind a Serializeddata variable, and it doesn't know how to cast that into a SerializedObject.
-#warning TODO - seems that something is broken still, saved reference can't be loaded back, key doesn't exist.
             if( ((SerializedObject)json).TryGetValue( $"{Saver_Ex_References.ASSETREF}", out SerializedData refJson ) )
             {
                 string assetID = (string)refJson;

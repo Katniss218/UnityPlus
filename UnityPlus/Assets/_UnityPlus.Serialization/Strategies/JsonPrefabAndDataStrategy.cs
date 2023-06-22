@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace UnityPlus.Serialization.Strategies
     /// <summary>
     /// Can be used to save the scene using the factory-gameobjectdata scheme.
     /// </summary>
-    public sealed class PrefabAndDataStrategy
+    public sealed class JsonPrefabAndDataStrategy
     {
         // Object actions are suffixed by _Object
         // Data actions are suffixed by _Data
@@ -27,23 +28,108 @@ namespace UnityPlus.Serialization.Strategies
             return UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
         }
 
-        private static SerializedObject WriteAssetGameObject( Saver s, GameObject go )
+        private static void WriteReferencedChildRecursive( Saver s, GameObject go, ref SerializedArray sArr, string parentPath )
         {
-            ClonedGameObject cbf = go.GetComponent<ClonedGameObject>();
-            if( cbf == null )
+            // write the IDs of referenced components/child gameobjects of the parent into the array, along with the path to them.
+
+            // root is always added, recursive children might not be.
+            if( !string.IsNullOrEmpty( parentPath ) )
             {
-                return null;
+                if( s.TryGetID( go, out Guid id ) )
+                {
+                    sArr.Add( new SerializedObject()
+                {
+                    { "$id", s.WriteGuid( id ) },
+                    { "path", $"{parentPath}" }
+                } );
+                }
             }
 
+            int i = 0;
+            foreach( var comp in go.GetComponents() )
+            {
+                if( s.TryGetID( comp, out Guid id ) )
+                {
+                    sArr.Add( new SerializedObject()
+                    {
+                        { "$id", s.WriteGuid( id ) },
+                        { "path", $"{parentPath}*{i.ToString(CultureInfo.InvariantCulture)}" }
+                    } );
+                }
+                i++;
+            }
+
+            i = 0;
+            foreach( Transform ct in go.transform )
+            {
+                string path = $"{i.ToString( CultureInfo.InvariantCulture )}:"; // colon at the end is important
+                WriteReferencedChildRecursive( s, ct.gameObject, ref sArr, path );
+                i++;
+            }
+        }
+
+        private static SerializedObject WriteAssetGameObject( Saver s, GameObject go, ClonedGameObject cbf )
+        {
             Guid objectGuid = s.GetID( go );
+
+            SerializedArray sArr = new SerializedArray();
+            WriteReferencedChildRecursive( s, go, ref sArr, "" );
 
             SerializedObject goJson = new SerializedObject()
             {
                 { Saver_Ex_References.ID, s.WriteGuid(objectGuid) },
-                { "prefab", s.WriteAssetReference(cbf.OriginalAsset) }
+                { "prefab", s.WriteAssetReference(cbf.OriginalAsset) },
+                { "referenced_children", sArr }
             };
 
             return goJson;
+        }
+
+        private static UnityEngine.Object GetComponentOrGameObject( GameObject root, string path )
+        {
+            if( path == "" )
+                return root;
+
+            string[] pathSegments = path.Split( ':' );
+
+            Transform obj = root.transform;
+            for( int i = 0; i < pathSegments.Length - 1; i++ )
+            {
+                int index = int.Parse( pathSegments[i] );
+                obj = obj.transform.GetChild( index );
+            }
+
+            // component is always last.
+            string lastSegment = pathSegments[pathSegments.Length - 1];
+            if( lastSegment == "" )
+            {
+                return obj.gameObject;
+            }
+            if( lastSegment[0] == '*' )
+            {
+                int index = int.Parse( lastSegment[1..] );
+                return obj.GetComponents()[index];
+            }
+            else
+            {
+                int index = int.Parse( lastSegment );
+                obj = obj.transform.GetChild( index );
+                return obj;
+            }
+        }
+
+        private static void SetReferencedChildrenIDs( Loader l, GameObject go, ref SerializedArray sArr )
+        {
+            // Set the IDs of all objects in the array.
+            foreach( var s in sArr )
+            {
+                Guid id = l.ReadGuid( s["$id"] );
+                string path = s["path"];
+
+                var obj = GetComponentOrGameObject( go, path );
+
+                l.SetID( obj, id );
+            }
         }
 
         private static GameObject ReadAssetGameObject( Loader l, SerializedData goJson )
@@ -60,6 +146,9 @@ namespace UnityPlus.Serialization.Strategies
             GameObject go = ClonedGameObject.Instantiate( prefab );
 
             l.SetID( go, objectGuid );
+
+            SerializedArray refChildren = (SerializedArray)goJson["referenced_children"];
+            SetReferencedChildrenIDs( l, go, ref refChildren );
 
             return go;
         }
@@ -79,9 +168,13 @@ namespace UnityPlus.Serialization.Strategies
 #warning TODO - if root doesn't have factory component, look through children.
                 // maybe some sort of customizable tag/layer masking
 
-                SerializedObject goJson = WriteAssetGameObject( s, go );
-                if( goJson == null )
+                ClonedGameObject cbf = go.GetComponent<ClonedGameObject>();
+                if( cbf == null )
+                {
                     continue;
+                }
+
+                SerializedObject goJson = WriteAssetGameObject( s, go, cbf );
                 objectsJson.Add( goJson );
             }
 
@@ -89,8 +182,8 @@ namespace UnityPlus.Serialization.Strategies
             new Serialization.Json.JsonStringWriter( objectsJson, sb ).Write();
             jsonO = sb.ToString();
 
-            TMPro.TMP_InputField inp = UnityEngine.Object.FindObjectOfType<TMPro.TMP_InputField>();
-            inp.text = jsonO;
+            //TMPro.TMP_InputField inp = UnityEngine.Object.FindObjectOfType<TMPro.TMP_InputField>();
+            //inp.text = jsonO;
             Debug.Log( jsonO );
         }
 
@@ -124,14 +217,10 @@ namespace UnityPlus.Serialization.Strategies
 
                     if( dataJson != null )
                     {
+                        Guid cid = s.GetID( comp );
                         SerializedObject compJson = new SerializedObject()
                         {
-#warning TODO - ugly magic string value of `predicate_type`.
-                            { "predicate_type", "index" },
-                            { "predicate", new SerializedObject()
-                            {
-                                { "index", i }
-                            } },
+                            { "$ref", s.WriteGuid(cid) },
                             { "data", dataJson }
                         };
                         componentsJson.Add( compJson );
@@ -186,11 +275,11 @@ namespace UnityPlus.Serialization.Strategies
 
                 Component[] comps = go.GetComponents();
 
-                foreach( var compjson in (SerializedArray)goJson["components"] )
+                foreach( var compjson in (SerializedArray)goJson["components"] ) // the components don't have to be under the gameobject. They will be found anyway.
                 {
-                    var func = GameObjectData.PredicateRegistry[(string)compjson["predicate_type"]];
-#warning TODO - self-serialize for these.
-                    Component comp = func( comps, (int)(compjson["predicate"]["index"]) );
+                    Guid id = l.ReadGuid( compjson["$ref"] );
+
+                    Component comp = (Component)l.Get( id );
 
                     comp.SetData( l, compjson["data"] );
                 }

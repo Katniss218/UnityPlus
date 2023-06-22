@@ -16,8 +16,8 @@ namespace UnityPlus.Serialization
         /// Sets the persistent data after creating the object with default parameters.
         /// </summary>
         /// <param name="l">The loader. Can be used to read references, etc.</param>
-        /// <param name="json">The serialized structure that contains the data. Identical to what is created by <see cref="GetData"/>.</param>
-        void SetData( Loader l, SerializedData json );
+        /// <param name="data">The serialized structure that contains the data. Identical to what is created by <see cref="GetData"/>.</param>
+        void SetData( Loader l, SerializedData data );
 
         /// <summary>
         /// Gets the persistent data from an object.
