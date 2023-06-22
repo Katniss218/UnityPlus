@@ -165,12 +165,12 @@ namespace UnityPlus.Serialization.Strategies
 
             foreach( var go in rootObjects )
             {
-#warning TODO - if root doesn't have factory component, look through children.
                 // maybe some sort of customizable tag/layer masking
 
                 ClonedGameObject cbf = go.GetComponent<ClonedGameObject>();
                 if( cbf == null )
                 {
+#warning TODO - if root doesn't have factory component, look through children.
                     continue;
                 }
 
@@ -187,6 +187,46 @@ namespace UnityPlus.Serialization.Strategies
             Debug.Log( jsonO );
         }
 
+        private static void SaveObjectDataRecursive( Saver s, GameObject go, ref SerializedArray objects )
+        {
+            Guid id = s.GetID( go );
+
+            SerializedArray components = new SerializedArray();
+
+            Component[] comps = go.GetComponents();
+            int i = 0;
+            foreach( var comp in comps )
+            {
+                var dataJson = comp.GetData( s );
+
+                if( dataJson != null )
+                {
+                    Guid cid = s.GetID( comp );
+                    SerializedObject compData = new SerializedObject()
+                        {
+                            { "$ref", s.WriteGuid(cid) },
+                            { "data", dataJson }
+                        };
+                    components.Add( compData );
+                }
+                i++;
+            }
+
+            if( components.Any() )
+            {
+                objects.Add( new SerializedObject()
+                {
+                    { "$ref", id.ToString( "D" ) },
+                    { "components", components }
+                } );
+            }
+
+            foreach( Transform ct in go.transform )
+            {
+                SaveObjectDataRecursive( s, ct.gameObject, ref objects );
+            }
+        }
+
         public void SaveSceneObjects_Data( Saver s )
         {
             // saves the persistent information about the existing objects.
@@ -195,9 +235,8 @@ namespace UnityPlus.Serialization.Strategies
 
             IEnumerable<GameObject> rootObjects = GetRootGameObjects();
 
-            SerializedArray objectsJson = new SerializedArray();
+            SerializedArray objData = new SerializedArray();
 
-#warning TODO - loop through children to save/load comps.
             foreach( var go in rootObjects )
             {
                 ClonedGameObject cbf = go.GetComponent<ClonedGameObject>();
@@ -205,45 +244,16 @@ namespace UnityPlus.Serialization.Strategies
                 {
                     continue;
                 }
-                Guid id = s.GetID( go );
 
-                SerializedArray componentsJson = new SerializedArray();
-
-                Component[] comps = go.GetComponents<Component>();
-                int i = 0;
-                foreach( var comp in comps )
-                {
-                    var dataJson = comp.GetData( s );
-
-                    if( dataJson != null )
-                    {
-                        Guid cid = s.GetID( comp );
-                        SerializedObject compJson = new SerializedObject()
-                        {
-                            { "$ref", s.WriteGuid(cid) },
-                            { "data", dataJson }
-                        };
-                        componentsJson.Add( compJson );
-                    }
-                    i++;
-                }
-
-                if( componentsJson.Any() )
-                {
-                    objectsJson.Add( new SerializedObject()
-                    {
-                        { "$ref", id.ToString( "D" ) },
-                        { "components", componentsJson }
-                    } );
-                }
+                SaveObjectDataRecursive( s, go, ref objData );
             }
 
             var sb = new StringBuilder();
-            new Serialization.Json.JsonStringWriter( objectsJson, sb ).Write();
+            new Serialization.Json.JsonStringWriter( objData, sb ).Write();
             jsonD = sb.ToString();
 
-            TMPro.TMP_InputField inp = UnityEngine.Object.FindObjectOfType<TMPro.TMP_InputField>();
-            inp.text = jsonD;
+            //TMPro.TMP_InputField inp = UnityEngine.Object.FindObjectOfType<TMPro.TMP_InputField>();
+            //inp.text = jsonD;
             Debug.Log( jsonD );
         }
 
