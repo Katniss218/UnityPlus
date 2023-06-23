@@ -60,9 +60,9 @@ public class _playtester : MonoBehaviour
 
         strat = new JsonPrefabAndDataStrategy();
 
-        s = new Saver( "test", new System.Action<Saver>[] { strat.SaveSceneObjects_Data }, new System.Action<Saver>[] { strat.SaveSceneObjects_Object } );
+        s = new Saver( "test", new System.Action<ISaver>[] { strat.SaveSceneObjects_Data }, new System.Action<ISaver>[] { strat.SaveSceneObjects_Object } );
 
-        l = new Loader( "test", new System.Action<Loader>[] { strat.LoadSceneObjects_Object }, new System.Action<Loader>[] { strat.LoadSceneObjects_Data } );
+        l = new Loader( "test", new System.Action<ILoader>[] { strat.LoadSceneObjects_Object }, new System.Action<ILoader>[] { strat.LoadSceneObjects_Data } );
     }
 
     void Update()

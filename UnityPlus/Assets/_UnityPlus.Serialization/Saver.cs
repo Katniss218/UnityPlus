@@ -10,32 +10,15 @@ namespace UnityPlus.Serialization
     /// <summary>
     /// Manages the task of serialization.
     /// </summary>
-    public class Saver
+    public class Saver : ISaver
     {
-        // Core ideas:
-        /*
-        
-        Saving is split into 2 main steps:
-        
-        1. Save object data.
-            Loop through every object and save its persistent data.
-            When serializing a reference, ask what the ID of that object is by passing the object to the `RegisterOrGet` method.
-
-        2. Save object instances (references).
-            Loop through these objects again, and save them, along with their IDs (if referenced by anything).
-            Use the object registry to get the IDs of objects that have been assigned to them in step 1.
-
-        Benefit: We know what is referenced before we save the objects (all of which could potentially be referenced).
-
-        */
-
         /// <summary>
         /// Specifies where to save the data.
         /// </summary>
         public string SaveDirectory { get; set; }
 
-        List<Action<Saver>> _dataActions = new List<Action<Saver>>();
-        List<Action<Saver>> _objectActions = new List<Action<Saver>>();
+        List<Action<ISaver>> _dataActions = new List<Action<ISaver>>();
+        List<Action<ISaver>> _objectActions = new List<Action<ISaver>>();
 
         Dictionary<object, Guid> _objectToGuid = new Dictionary<object, Guid>();
 
@@ -46,7 +29,7 @@ namespace UnityPlus.Serialization
             this.SaveDirectory = saveDirectory;
         }
 
-        public Saver( string saveDirectory, Action<Saver>[] dataActions, Action<Saver>[] objectActions )
+        public Saver( string saveDirectory, Action<ISaver>[] dataActions, Action<ISaver>[] objectActions )
         {
             this.SaveDirectory = saveDirectory;
 
@@ -71,7 +54,7 @@ namespace UnityPlus.Serialization
         /// Adds a new data action (used to save persistent data about instances of objects). <br />
         /// See also: <see cref="AddObjectAction"/>
         /// </summary>
-        public void AddDataAction( Action<Saver> action )
+        public void AddDataAction( Action<ISaver> action )
         {
             this._dataActions.Add( action );
         }
@@ -80,7 +63,7 @@ namespace UnityPlus.Serialization
         /// Adds a new object action (used to persist an object instance, so that the references can be reconstructed using a loader's data action). <br />
         /// See also: <see cref="AddDataAction"/>
         /// </summary>
-        public void AddObjectAction( Action<Saver> action )
+        public void AddObjectAction( Action<ISaver> action )
         {
             this._objectActions.Add( action );
         }

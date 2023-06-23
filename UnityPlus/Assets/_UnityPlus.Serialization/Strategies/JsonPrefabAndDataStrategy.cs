@@ -28,7 +28,7 @@ namespace UnityPlus.Serialization.Strategies
             return UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
         }
 
-        private static void WriteReferencedChildRecursive( Saver s, GameObject go, ref SerializedArray sArr, string parentPath )
+        private static void WriteReferencedChildRecursive( ISaver s, GameObject go, ref SerializedArray sArr, string parentPath )
         {
             // write the IDs of referenced components/child gameobjects of the parent into the array, along with the path to them.
 
@@ -68,7 +68,7 @@ namespace UnityPlus.Serialization.Strategies
             }
         }
 
-        private static SerializedObject WriteAssetGameObject( Saver s, GameObject go, ClonedGameObject cbf )
+        private static SerializedObject WriteAssetGameObject( ISaver s, GameObject go, ClonedGameObject cbf )
         {
             Guid objectGuid = s.GetID( go );
 
@@ -77,7 +77,7 @@ namespace UnityPlus.Serialization.Strategies
 
             SerializedObject goJson = new SerializedObject()
             {
-                { Saver_Ex_References.ID, s.WriteGuid(objectGuid) },
+                { ISaver_Ex_References.ID, s.WriteGuid(objectGuid) },
                 { "prefab", s.WriteAssetReference(cbf.OriginalAsset) },
                 { "referenced_children", sArr }
             };
@@ -118,7 +118,7 @@ namespace UnityPlus.Serialization.Strategies
             }
         }
 
-        private static void SetReferencedChildrenIDs( Loader l, GameObject go, ref SerializedArray sArr )
+        private static void SetReferencedChildrenIDs( ILoader l, GameObject go, ref SerializedArray sArr )
         {
             // Set the IDs of all objects in the array.
             foreach( var s in sArr )
@@ -132,9 +132,9 @@ namespace UnityPlus.Serialization.Strategies
             }
         }
 
-        private static GameObject ReadAssetGameObject( Loader l, SerializedData goJson )
+        private static GameObject ReadAssetGameObject( ILoader l, SerializedData goJson )
         {
-            Guid objectGuid = l.ReadGuid( goJson[Saver_Ex_References.ID] );
+            Guid objectGuid = l.ReadGuid( goJson[ISaver_Ex_References.ID] );
 
             GameObject prefab = l.ReadAssetReference<GameObject>( goJson["prefab"] );
 
@@ -153,7 +153,7 @@ namespace UnityPlus.Serialization.Strategies
             return go;
         }
 
-        public void SaveSceneObjects_Object( Saver s )
+        public void SaveSceneObjects_Object( ISaver s )
         {
             // saves the information about what exists and what factory can be used to create that thing.
 
@@ -187,7 +187,7 @@ namespace UnityPlus.Serialization.Strategies
             Debug.Log( jsonO );
         }
 
-        private static void SaveObjectDataRecursive( Saver s, GameObject go, ref SerializedArray objects )
+        private static void SaveObjectDataRecursive( ISaver s, GameObject go, ref SerializedArray objects )
         {
             Guid id = s.GetID( go );
 
@@ -227,7 +227,7 @@ namespace UnityPlus.Serialization.Strategies
             }
         }
 
-        public void SaveSceneObjects_Data( Saver s )
+        public void SaveSceneObjects_Data( ISaver s )
         {
             // saves the persistent information about the existing objects.
 
@@ -257,7 +257,7 @@ namespace UnityPlus.Serialization.Strategies
             Debug.Log( jsonD );
         }
 
-        public void LoadSceneObjects_Object( Loader l )
+        public void LoadSceneObjects_Object( ILoader l )
         {
             // Assumes that factories are already registered.
 
@@ -271,7 +271,7 @@ namespace UnityPlus.Serialization.Strategies
             }
         }
 
-        public void LoadSceneObjects_Data( Loader l )
+        public void LoadSceneObjects_Data( ILoader l )
         {
             // loop through object data, get the corresponding objects using ID from registry, and apply.
 

@@ -12,7 +12,7 @@ namespace UnityPlus.Serialization
     public static partial class IPersistentComponents_GetData
     {
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static SerializedData GetData( this Component c, Saver s )
+        public static SerializedData GetData( this Component c, ISaver s )
         {
             switch( c )
             {

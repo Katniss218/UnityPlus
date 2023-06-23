@@ -11,35 +11,15 @@ namespace UnityPlus.Serialization
     /// <summary>
     /// Managed the task of deserialization.
     /// </summary>
-    public class Loader
+    public class Loader : ILoader
     {
-        // Core ideas:
-        /*
-        
-        Loading is split into 2 main steps:
-        
-        1. Creation of referencable objects.
-            These objects will have default parameters, can can be created by a factory, or a number of other methods.
-            This step includes deserializing other save-specific items, such as dialogues (if applicable).
-
-        2. Applying data to the created objects. 
-            After every referencable object has been created, we can load the things that reference them. In practice, this means we apply *all* data after everything has been created.
-
-        Benefit: When a reference is deserialized, the object that it refers to is already created. 
-        Benefit: We don't have to store the information about how to load the referenced object in the reference.
-
-        Loading a scene when a previous scene is already loaded is not a concern of this class. The user should unload it first.
-
-        */
-
-
         /// <summary>
         /// Specifies where to save the data.
         /// </summary>
         public string SaveDirectory { get; set; }
 
-        List<Action<Loader>> _objectActions = new List<Action<Loader>>();
-        List<Action<Loader>> _dataActions = new List<Action<Loader>>();
+        List<Action<ILoader>> _objectActions = new List<Action<ILoader>>();
+        List<Action<ILoader>> _dataActions = new List<Action<ILoader>>();
 
         Dictionary<Guid, object> _guidToObject = new Dictionary<Guid, object>();
 
@@ -50,7 +30,7 @@ namespace UnityPlus.Serialization
             this.SaveDirectory = saveDirectory;
         }
 
-        public Loader( string saveDirectory, Action<Loader>[] objectActions, Action<Loader>[] dataActions )
+        public Loader( string saveDirectory, Action<ILoader>[] objectActions, Action<ILoader>[] dataActions )
         {
             this.SaveDirectory = saveDirectory;
 
@@ -76,7 +56,7 @@ namespace UnityPlus.Serialization
         /// Adds a new object action (used to create an object instance, so that the references can be reconstructed using a data action). <br />
         /// See also: <see cref="AddDataAction"/>
         /// </summary>
-        public void AddObjectAction( Action<Loader> action )
+        public void AddObjectAction( Action<ILoader> action )
         {
             this._objectActions.Add( action );
         }
@@ -85,7 +65,7 @@ namespace UnityPlus.Serialization
         /// Adds a new data action (used to load and apply persistent data to an already-loaded default instance). <br />
         /// See also: <see cref="AddObjectAction"/>
         /// </summary>
-        public void AddDataAction( Action<Loader> action )
+        public void AddDataAction( Action<ILoader> action )
         {
             this._dataActions.Add( action );
         }
