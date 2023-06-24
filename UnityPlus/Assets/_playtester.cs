@@ -20,6 +20,8 @@ public class _playtester : MonoBehaviour
 
     Saver s;
     Loader l;
+    AsyncSaver _as;
+    AsyncLoader _al;
     JsonPrefabAndDataStrategy strat;
 
     // Update is called once per frame
@@ -60,20 +62,24 @@ public class _playtester : MonoBehaviour
 
         strat = new JsonPrefabAndDataStrategy();
 
-        s = new Saver( "test", new System.Action<ISaver>[] { strat.SaveSceneObjects_Data }, new System.Action<ISaver>[] { strat.SaveSceneObjects_Object } );
+        // s = new Saver( "test", new Action<ISaver>[] { strat.SaveSceneObjects_Data }, new Action<ISaver>[] { strat.SaveSceneObjects_Object } );
 
-        l = new Loader( "test", new System.Action<ILoader>[] { strat.LoadSceneObjects_Object }, new System.Action<ILoader>[] { strat.LoadSceneObjects_Data } );
+        // l = new Loader( "test", new Action<ILoader>[] { strat.LoadSceneObjects_Object }, new Action<ILoader>[] { strat.LoadSceneObjects_Data } );
+
+        _as = new AsyncSaver( "test", new Func<ISaver, IEnumerator>[] { strat.SaveSceneObjects_Data }, new Func<ISaver, IEnumerator>[] { strat.SaveSceneObjects_Object } );
+
+        _al = new AsyncLoader( "test", new Func<ILoader, IEnumerator>[] { strat.LoadSceneObjects_Object }, new Func<ILoader, IEnumerator>[] { strat.LoadSceneObjects_Data } );
     }
 
     void Update()
     {
         if( Input.GetKeyDown( KeyCode.S ) )
         {
-            s.Save();
+            _as.SaveAsync( this );
         }
         if( Input.GetKeyDown( KeyCode.L ) )
         {
-            l.Load();
+            _al.LoadAsync( this );
         }
     }
 }

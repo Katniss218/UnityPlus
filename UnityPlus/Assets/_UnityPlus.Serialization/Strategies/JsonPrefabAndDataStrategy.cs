@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -153,7 +154,8 @@ namespace UnityPlus.Serialization.Strategies
             return go;
         }
 
-        public void SaveSceneObjects_Object( ISaver s )
+        //public void SaveSceneObjects_Object( ISaver s )
+        public IEnumerator SaveSceneObjects_Object( ISaver s )
         {
             // saves the information about what exists and what factory can be used to create that thing.
 
@@ -173,6 +175,8 @@ namespace UnityPlus.Serialization.Strategies
 #warning TODO - if root doesn't have factory component, look through children.
                     continue;
                 }
+
+                yield return null;
 
                 SerializedObject goJson = WriteAssetGameObject( s, go, cbf );
                 objectsJson.Add( goJson );
@@ -227,7 +231,8 @@ namespace UnityPlus.Serialization.Strategies
             }
         }
 
-        public void SaveSceneObjects_Data( ISaver s )
+        //public void SaveSceneObjects_Data( ISaver s )
+        public IEnumerator SaveSceneObjects_Data( ISaver s )
         {
             // saves the persistent information about the existing objects.
 
@@ -244,6 +249,7 @@ namespace UnityPlus.Serialization.Strategies
                 {
                     continue;
                 }
+                yield return null;
 
                 SaveObjectDataRecursive( s, go, ref objData );
             }
@@ -257,7 +263,8 @@ namespace UnityPlus.Serialization.Strategies
             Debug.Log( jsonD );
         }
 
-        public void LoadSceneObjects_Object( ILoader l )
+        //public void LoadSceneObjects_Object( ILoader l )
+        public IEnumerator LoadSceneObjects_Object( ILoader l )
         {
             // Assumes that factories are already registered.
 
@@ -268,10 +275,13 @@ namespace UnityPlus.Serialization.Strategies
             foreach( var goJson in objectsJson )
             {
                 ReadAssetGameObject( l, goJson );
+
+                yield return null;
             }
         }
 
-        public void LoadSceneObjects_Data( ILoader l )
+        //public void LoadSceneObjects_Data( ILoader l )
+        public IEnumerator LoadSceneObjects_Data( ILoader l )
         {
             // loop through object data, get the corresponding objects using ID from registry, and apply.
 
@@ -293,6 +303,8 @@ namespace UnityPlus.Serialization.Strategies
 
                     comp.SetData( l, compjson["data"] );
                 }
+
+                yield return null;
             }
         }
     }

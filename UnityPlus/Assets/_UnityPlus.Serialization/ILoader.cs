@@ -9,28 +9,39 @@ using UnityEngine;
 namespace UnityPlus.Serialization
 {
     /// <summary>
-    /// Managed the task of deserialization.
+    /// Represents an abstract functionality that can load a collection of objects while persisting their references.
     /// </summary>
     public interface ILoader
     {
-        // Core ideas:
-        /*
-        
-        Loading is split into 2 main steps:
-        
-        1. Creation of referencable objects.
-            These objects will have default parameters, can can be created by a factory, or a number of other methods.
-            This step includes deserializing other save-specific items, such as dialogues (if applicable).
+        /// <summary>
+        /// The current state of the loader. <br />
+        /// Loading is split into 2 stages.
+        /// </summary>
+        public enum State : byte
+        {
+            /// <summary>
+            /// Not saving.
+            /// </summary>
+            Idle = 0,
 
-        2. Applying data to the created objects. 
-            After every referencable object has been created, we can load the things that reference them. In practice, this means we apply *all* data after everything has been created.
+            /// <summary>
+            /// 1. Creation of referencable objects. <br />
+            ///    These objects will have default parameters, can can be created by a factory, or a number of other methods. <br />
+            ///    This step includes deserializing other save-specific items, such as dialogues (if applicable).
+            /// </summary>
+            LoadingObjects,
 
-        Benefit: When a reference is deserialized, the object that it refers to is already created. 
-        Benefit: We don't have to store the information about how to load the referenced object in the reference.
+            /// <summary>
+            /// 2. Applying data to the created objects.  <br />
+            ///    After every referencable object has been created, we can load the things that reference them. In practice, this means we apply *all* data after everything has been created.
+            /// </summary>
+            LoadingData
 
-        Loading a scene when a previous scene is already loaded is not a concern of this class. The user should unload it first.
+            // This setup disallows reading references while the objects are being created,
+            // but lets us be sure that when we start reading them later, every reference that can be referenced will exist.
 
-        */
+            // It lets us do that without hacking some system together, that loads objects as the references are resolved, and also allows circular referencing.
+        }
 
         /// <summary>
         /// Registers the specified object with the specified ID.
@@ -47,5 +58,14 @@ namespace UnityPlus.Serialization
         /// Call this method to deserialize a previously loaded object reference.
         /// </remarks>
         public object Get( Guid id );
+    }
+
+    /// <summary>
+    /// <see cref="ILoader"/>, but can save over multiple frames.
+    /// </summary>
+    public interface IAsyncLoader : ILoader
+    {
+        float CurrentActionPercentCompleted { get; set; }
+        float TotalPercentCompleted { get; }
     }
 }
