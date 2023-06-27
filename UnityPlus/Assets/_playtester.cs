@@ -32,7 +32,7 @@ public class CodeGenerated
         go2.transform.rotation = Quaternion.Euler( -31, -31, -31 );
     }
 }";
-       // GameObject go2 = GameObject.Find( "Plane" );
+
         Assembly assembly = CSharpScript.CompileCode( code );
 
         if( assembly != null )
@@ -52,27 +52,6 @@ public class CodeGenerated
     // Update is called once per frame
     void Start()
     {
-        string json = @"{
-    ""Image"": 
-    {
-        ""Width"": 800,
-        ""Height"": 600,
-        ""Title"": ""View from 15th Floor"",
-        ""Thumbnail"":
-        {
-            ""Url"": ""http://www.example.com/image/481989943"",
-            ""Height"": 125,
-            ""Width"": 100
-        },
-        ""Animated"" : false,
-        ""IDs"": [116, 943, 234, 38793]
-    }
-}";
-        JsonStringReader sut = new JsonStringReader( json );
-
-        // Act
-        SerializedObject val = (SerializedObject)sut.Read();
-
         SerializedObject serobject = (SerializedObject)new JsonStringReader( File.ReadAllText( "c:/test/testjson.json" ) ).Read();
 
         using( MemoryStream s = new MemoryStream() )
