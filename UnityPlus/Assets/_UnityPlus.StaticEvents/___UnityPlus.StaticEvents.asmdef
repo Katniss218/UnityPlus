@@ -1,9 +1,7 @@
 {
     "name": "_UnityPlus.StaticEvents",
     "rootNamespace": "",
-    "references": [
-        "GUID:27d62e6e15e3fa24eabddedaa74a2424"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
