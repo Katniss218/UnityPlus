@@ -207,10 +207,10 @@ namespace UnityPlus.Serialization.Strategies
                 {
                     Guid cid = s.GetID( comp );
                     SerializedObject compData = new SerializedObject()
-                        {
-                            { "$ref", s.WriteGuid(cid) },
-                            { "data", dataJson }
-                        };
+                    {
+                        { "$ref", s.WriteGuid(cid) },
+                        { "data", dataJson }
+                    };
                     components.Add( compData );
                 }
                 i++;

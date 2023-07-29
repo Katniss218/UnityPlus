@@ -11,7 +11,8 @@ namespace UnityPlus.AssetManagement
     /// Marks the GameObject as created from a specified asset (prefab).
     /// </summary>
     /// <remarks>
-    /// Not supposed to be added by hand. Please use <see cref="ClonedGameObject.Instantiate"/> to create an object from an asset.
+    /// This component is NOT supposed to be added by hand. <br />
+    /// Use <see cref="ClonedGameObject.Instantiate"/> to instantiate a <see cref="GameObject"/> from an asset.
     /// </remarks>
     [DisallowMultipleComponent]
     public class ClonedGameObject : MonoBehaviour

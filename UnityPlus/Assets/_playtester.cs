@@ -70,9 +70,18 @@ public class CodeGenerated
 
         // l = new Loader( "test", new Action<ILoader>[] { strat.LoadSceneObjects_Object }, new Action<ILoader>[] { strat.LoadSceneObjects_Data } );
 
-        _as = new AsyncSaver( "test", new Func<ISaver, IEnumerator>[] { strat.SaveSceneObjects_Data }, new Func<ISaver, IEnumerator>[] { strat.SaveSceneObjects_Object } );
+        Action pause = () =>
+        {
+            Time.timeScale = 0;
+        };
+        Action unpause = () =>
+        {
+            Time.timeScale = 1;
+        };
 
-        _al = new AsyncLoader( "test", new Func<ILoader, IEnumerator>[] { strat.LoadSceneObjects_Object }, new Func<ILoader, IEnumerator>[] { strat.LoadSceneObjects_Data } );
+        _as = new AsyncSaver( pause, unpause, new Func<ISaver, IEnumerator>[] { strat.SaveSceneObjects_Data }, new Func<ISaver, IEnumerator>[] { strat.SaveSceneObjects_Object } );
+
+        _al = new AsyncLoader( pause, unpause, new Func<ILoader, IEnumerator>[] { strat.LoadSceneObjects_Object }, new Func<ILoader, IEnumerator>[] { strat.LoadSceneObjects_Data } );
     }
 
     void Update()
