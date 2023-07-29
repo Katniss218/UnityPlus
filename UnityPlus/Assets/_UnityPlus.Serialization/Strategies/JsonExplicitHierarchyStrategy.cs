@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,21 +32,25 @@ namespace UnityPlus.Serialization.Strategies
         public IEnumerator SaveSceneObjects_Object( ISaver s )
         {
 
+            throw new Exception();
         }
 
         public IEnumerator SaveSceneObjects_Data( ISaver s )
         {
 
+            throw new Exception();
         }
 
         public IEnumerator LoadSceneObjects_Object( ILoader l )
         {
 
+            throw new Exception();
         }
 
         public IEnumerator LoadSceneObjects_Data( ILoader l )
         {
 
+            throw new Exception();
         }
     }
 }
