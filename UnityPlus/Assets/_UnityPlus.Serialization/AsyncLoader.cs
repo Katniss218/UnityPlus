@@ -109,6 +109,7 @@ namespace UnityPlus.Serialization
 #if DEBUG
             Debug.Log( "Loading..." );
 #endif
+            _pauseFunc();
             ClearReferenceRegistry();
             _currentState = ILoader.State.LoadingObjects;
             _completedActions = 0;
@@ -133,6 +134,7 @@ namespace UnityPlus.Serialization
 #if DEBUG
             Debug.Log( "Finished Loading" );
 #endif
+            _unpauseFunc();
         }
 
         /// <summary>
@@ -144,9 +146,7 @@ namespace UnityPlus.Serialization
             {
                 throw new InvalidOperationException( $"This loader instance is already running." );
             }
-            _pauseFunc();
             coroutineContainer.StartCoroutine( LoadCoroutine( coroutineContainer ) );
-            _unpauseFunc();
         }
     }
 }

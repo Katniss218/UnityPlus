@@ -110,6 +110,7 @@ namespace UnityPlus.Serialization
 #if DEBUG
             Debug.Log( "Saving..." );
 #endif
+            _pauseFunc();
             ClearReferenceRegistry();
             _currentState = ISaver.State.SavingData;
             _completedActions = 0;
@@ -135,6 +136,7 @@ namespace UnityPlus.Serialization
 #if DEBUG
             Debug.Log( "Finished Saving" );
 #endif
+            _unpauseFunc();
         }
 
         /// <summary>
@@ -147,9 +149,7 @@ namespace UnityPlus.Serialization
                 throw new InvalidOperationException( $"This saver instance is already running." );
             }
 
-            _pauseFunc();
             coroutineContainer.StartCoroutine( SaveCoroutine( coroutineContainer ) );
-            _unpauseFunc();
         }
     }
 }
