@@ -24,209 +24,8 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 332
+  controlID: 42
 --- !u!114 &2
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 1
-  m_Script: {fileID: 12019, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_TitleContent:
-    m_Text: Inspector
-    m_Image: {fileID: -2667387946076563598, guid: 0000000000000000d000000000000000, type: 0}
-    m_Tooltip: 
-  m_Pos:
-    serializedVersion: 2
-    x: 1465
-    y: 73
-    width: 454
-    height: 926
-  m_ViewDataDictionary: {fileID: 0}
-  m_OverlayCanvas:
-    m_LastAppliedPresetName: Default
-    m_SaveData: []
-  m_ObjectsLockedBeforeSerialization: []
-  m_InstanceIDsLockedBeforeSerialization: 
-  m_PreviewResizer:
-    m_CachedPref: 160
-    m_ControlHash: -371814159
-    m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: -1
-  m_LastVerticalScrollValue: 0
-  m_GlobalObjectId: 
-  m_InspectorMode: 0
-  m_LockTracker:
-    m_IsLocked: 0
-  m_PreviewWindow: {fileID: 0}
---- !u!114 &3
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 1
-  m_Script: {fileID: 12010, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Children:
-  - {fileID: 4}
-  - {fileID: 10}
-  m_Position:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1465
-    height: 947
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 16192, y: 16192}
-  vertical: 1
-  controlID: 40
---- !u!114 &4
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 1
-  m_Script: {fileID: 12010, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Children:
-  - {fileID: 5}
-  - {fileID: 7}
-  m_Position:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1465
-    height: 559
-  m_MinSize: {x: 200, y: 100}
-  m_MaxSize: {x: 16192, y: 8096}
-  vertical: 0
-  controlID: 41
---- !u!114 &5
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 1
-  m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Children: []
-  m_Position:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 363
-    height: 559
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 6}
-  m_Panes:
-  - {fileID: 6}
-  m_Selected: 0
-  m_LastSelected: 0
---- !u!114 &6
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 1
-  m_Script: {fileID: 12061, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_TitleContent:
-    m_Text: Hierarchy
-    m_Image: {fileID: 7966133145522015247, guid: 0000000000000000d000000000000000, type: 0}
-    m_Tooltip: 
-  m_Pos:
-    serializedVersion: 2
-    x: 0
-    y: 73
-    width: 362
-    height: 538
-  m_ViewDataDictionary: {fileID: 0}
-  m_OverlayCanvas:
-    m_LastAppliedPresetName: Default
-    m_SaveData: []
-  m_SceneHierarchy:
-    m_TreeViewState:
-      scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 34fbffff
-      m_RenameOverlay:
-        m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
-        m_EditFieldRect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        m_UserData: 0
-        m_IsWaitingForDelay: 0
-        m_IsRenaming: 0
-        m_OriginalEventType: 11
-        m_IsRenamingFilename: 0
-        m_ClientGUIView: {fileID: 5}
-      m_SearchString: 
-    m_ExpandedScenes: []
-    m_CurrenRootInstanceID: 0
-    m_LockTracker:
-      m_IsLocked: 0
-    m_CurrentSortingName: TransformSorting
-  m_WindowGUID: 4c969a2b90040154d917609493e03593
---- !u!114 &7
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 1
-  m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: GameView
-  m_EditorClassIdentifier: 
-  m_Children: []
-  m_Position:
-    serializedVersion: 2
-    x: 363
-    y: 0
-    width: 1102
-    height: 559
-  m_MinSize: {x: 202, y: 221}
-  m_MaxSize: {x: 4002, y: 4021}
-  m_ActualView: {fileID: 9}
-  m_Panes:
-  - {fileID: 8}
-  - {fileID: 9}
-  m_Selected: 1
-  m_LastSelected: 0
---- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -246,10 +45,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 363
+    x: 288
     y: 73
-    width: 1100
-    height: 538
+    width: 1175
+    height: 583
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -303,7 +102,7 @@ MonoBehaviour:
       floating: 0
       collapsed: 0
       displayed: 1
-      snapOffset: {x: 0, y: 0}
+      snapOffset: {x: 0, y: 25}
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 0
       id: unity-transform-toolbar
@@ -484,9 +283,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 101.05249, y: 18.97417, z: 23.960632}
+    m_Target: {x: -217.37054, y: 281.23447, z: 150.38446}
     speed: 2
-    m_Value: {x: 101.05249, y: 18.97417, z: 23.960632}
+    m_Value: {x: -217.37054, y: 281.23447, z: 150.38446}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -532,13 +331,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.10209566, y: -0.026261894, z: 0.002696226, w: -0.9944239}
+    m_Target: {x: -0.20403485, y: -0.055183463, z: 0.011520358, w: -0.9773403}
     speed: 2
-    m_Value: {x: -0.10209569, y: -0.026261901, z: 0.0026962266, w: -0.9944242}
+    m_Value: {x: -0.20403463, y: -0.055183403, z: 0.011520346, w: -0.9773392}
   m_Size:
-    m_Target: 81.394104
+    m_Target: 10
     speed: 2
-    m_Value: 81.394104
+    m_Value: 10
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -563,7 +362,168 @@ MonoBehaviour:
   m_SceneVisActive: 1
   m_LastLockedObject: {fileID: 0}
   m_ViewIsLockedToObject: 0
---- !u!114 &9
+--- !u!114 &3
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 1
+  m_Script: {fileID: 12010, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Children:
+  - {fileID: 4}
+  - {fileID: 10}
+  m_Position:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1465
+    height: 947
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 16192, y: 16192}
+  vertical: 1
+  controlID: 43
+--- !u!114 &4
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 1
+  m_Script: {fileID: 12010, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Children:
+  - {fileID: 5}
+  - {fileID: 7}
+  m_Position:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1465
+    height: 604
+  m_MinSize: {x: 200, y: 100}
+  m_MaxSize: {x: 16192, y: 8096}
+  vertical: 0
+  controlID: 44
+--- !u!114 &5
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 1
+  m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Children: []
+  m_Position:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 288
+    height: 604
+  m_MinSize: {x: 201, y: 221}
+  m_MaxSize: {x: 4001, y: 4021}
+  m_ActualView: {fileID: 6}
+  m_Panes:
+  - {fileID: 6}
+  m_Selected: 0
+  m_LastSelected: 0
+--- !u!114 &6
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 1
+  m_Script: {fileID: 12061, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_TitleContent:
+    m_Text: Hierarchy
+    m_Image: {fileID: 7966133145522015247, guid: 0000000000000000d000000000000000, type: 0}
+    m_Tooltip: 
+  m_Pos:
+    serializedVersion: 2
+    x: 0
+    y: 73
+    width: 287
+    height: 583
+  m_ViewDataDictionary: {fileID: 0}
+  m_OverlayCanvas:
+    m_LastAppliedPresetName: Default
+    m_SaveData: []
+  m_SceneHierarchy:
+    m_TreeViewState:
+      scrollPos: {x: 0, y: 0}
+      m_SelectedIDs: 
+      m_LastClickedID: 0
+      m_ExpandedIDs: aeddffffd2ddfffffaddffff52deffff4cdfffff10e3ffff28e3ffff38e3ffff4ce3ffff32e5ffff02e9ffff12e9ffff22e9ffff32e9ffff24eaffff02ecffff04ecffff0eecffff14ecffffbcecffffbeecffffc0ecffffdcecffffdeecffffe0ecffff44edffffacedffff38eeffffcceeffff34fbffff
+      m_RenameOverlay:
+        m_UserAcceptedRename: 0
+        m_Name: 
+        m_OriginalName: 
+        m_EditFieldRect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        m_UserData: 0
+        m_IsWaitingForDelay: 0
+        m_IsRenaming: 0
+        m_OriginalEventType: 11
+        m_IsRenamingFilename: 0
+        m_ClientGUIView: {fileID: 5}
+      m_SearchString: 
+    m_ExpandedScenes: []
+    m_CurrenRootInstanceID: 0
+    m_LockTracker:
+      m_IsLocked: 0
+    m_CurrentSortingName: TransformSorting
+  m_WindowGUID: 4c969a2b90040154d917609493e03593
+--- !u!114 &7
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 1
+  m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: SceneView
+  m_EditorClassIdentifier: 
+  m_Children: []
+  m_Position:
+    serializedVersion: 2
+    x: 288
+    y: 0
+    width: 1177
+    height: 604
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
+  m_ActualView: {fileID: 2}
+  m_Panes:
+  - {fileID: 2}
+  - {fileID: 8}
+  - {fileID: 9}
+  m_Selected: 0
+  m_LastSelected: 1
+--- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -583,10 +543,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 363
+    x: 288
     y: 73
-    width: 1100
-    height: 538
+    width: 1175
+    height: 583
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -597,7 +557,7 @@ MonoBehaviour:
   m_ShowGizmos: 0
   m_TargetDisplay: 0
   m_ClearColor: {r: 0, g: 0, b: 0, a: 0}
-  m_TargetSize: {x: 1100, y: 517}
+  m_TargetSize: {x: 1175, y: 562}
   m_TextureFilterMode: 0
   m_TextureHideFlags: 61
   m_RenderIMGUI: 1
@@ -617,10 +577,10 @@ MonoBehaviour:
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
-    m_HBaseRangeMin: -550
-    m_HBaseRangeMax: 550
-    m_VBaseRangeMin: -258.5
-    m_VBaseRangeMax: 258.5
+    m_HBaseRangeMin: -587.5
+    m_HBaseRangeMax: 587.5
+    m_VBaseRangeMin: -281
+    m_VBaseRangeMax: 281
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -629,7 +589,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 1
+    m_EnableMouseInput: 0
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -638,23 +598,23 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
-      width: 1100
-      height: 517
+      width: 1175
+      height: 562
     m_Scale: {x: 1, y: 1}
-    m_Translation: {x: 550, y: 258.5}
+    m_Translation: {x: 587.5, y: 281}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -550
-      y: -258.5
-      width: 1100
-      height: 517
+      x: -587.5
+      y: -281
+      width: 1175
+      height: 562
     m_MinimalGUI: 1
   m_defaultScale: 1
-  m_LastWindowPixelSize: {x: 1100, y: 538}
+  m_LastWindowPixelSize: {x: 1175, y: 583}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
@@ -662,6 +622,894 @@ MonoBehaviour:
   m_RenderTexture: {fileID: 0}
   m_showToolbar: 1
   m_showToolbarOnFullscreen: 0
+--- !u!114 &9
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 12070, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSize: {x: 900, y: 216}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_TitleContent:
+    m_Text: Profiler
+    m_Image: {fileID: -1089619856830078684, guid: 0000000000000000d000000000000000, type: 0}
+    m_Tooltip: 
+  m_Pos:
+    serializedVersion: 2
+    x: 327
+    y: 73
+    width: 1136
+    height: 535
+  m_ViewDataDictionary: {fileID: 0}
+  m_OverlayCanvas:
+    m_LastAppliedPresetName: Default
+    m_SaveData: []
+  m_Recording: 1
+  m_ActiveNativePlatformSupportModuleName: 
+  m_AllModules:
+  - rid: 5230494972682960991
+  - rid: 5230494972682960992
+  - rid: 5230494972682960993
+  - rid: 5230494972682960994
+  - rid: 5230494972682960995
+  - rid: 5230494972682960996
+  - rid: 5230494972682960997
+  - rid: 5230494972682960998
+  - rid: 5230494972682960999
+  - rid: 5230494972682961000
+  - rid: 5230494972682961001
+  - rid: 5230494972682961002
+  - rid: 5230494972682961003
+  - rid: 5230494972682961004
+  - rid: 5230494972682961005
+  - rid: 5230494972682961006
+  m_CallstackRecordMode: 1
+  m_ClearOnPlay: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 5230494972682960991
+      type: {class: CPUProfilerModule, ns: UnityEditorInternal.Profiling, asm: UnityEditor.CoreModule}
+      data:
+        m_Identifier: UnityEditorInternal.Profiling.CPUProfilerModule, UnityEditor.CoreModule,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_PaneScroll: {x: 0, y: 0}
+        m_ViewType: 1
+        updateViewLive: 0
+        m_CurrentFrameIndex: -1
+        m_HierarchyOverruledThreadFromSelection: 0
+        m_ProfilerViewFilteringOptions: 1
+        m_FrameDataHierarchyView:
+          m_Serialized: 0
+          m_TreeViewState:
+            scrollPos: {x: 0, y: 0}
+            m_SelectedIDs: 
+            m_LastClickedID: 0
+            m_ExpandedIDs: 
+            m_RenameOverlay:
+              m_UserAcceptedRename: 0
+              m_Name: 
+              m_OriginalName: 
+              m_EditFieldRect:
+                serializedVersion: 2
+                x: 0
+                y: 0
+                width: 0
+                height: 0
+              m_UserData: 0
+              m_IsWaitingForDelay: 0
+              m_IsRenaming: 0
+              m_OriginalEventType: 11
+              m_IsRenamingFilename: 0
+              m_ClientGUIView: {fileID: 0}
+            m_SearchString: 
+          m_MultiColumnHeaderState:
+            m_Columns: []
+            m_VisibleColumns: 
+            m_SortedColumns: 
+          m_ThreadIndexInThreadNames: 0
+          m_DetailedViewType: 0
+          m_DetailedViewSpliterState:
+            ID: 0
+            splitterInitialOffset: 0
+            currentActiveSplitter: 0
+            realSizes: []
+            relativeSizes: []
+            minSizes: []
+            maxSizes: []
+            lastTotalSize: 0
+            splitSize: 0
+            xOffset: 0
+            m_Version: 1
+            oldRealSizes: 
+            oldMinSizes: 
+            oldMaxSizes: 
+            oldSplitSize: 0
+          m_DetailedObjectsView:
+            m_SelectedID: 0
+            m_TreeViewState:
+              scrollPos: {x: 0, y: 0}
+              m_SelectedIDs: 
+              m_LastClickedID: 0
+              m_ExpandedIDs: 
+              m_RenameOverlay:
+                m_UserAcceptedRename: 0
+                m_Name: 
+                m_OriginalName: 
+                m_EditFieldRect:
+                  serializedVersion: 2
+                  x: 0
+                  y: 0
+                  width: 0
+                  height: 0
+                m_UserData: 0
+                m_IsWaitingForDelay: 0
+                m_IsRenaming: 0
+                m_OriginalEventType: 11
+                m_IsRenamingFilename: 0
+                m_ClientGUIView: {fileID: 0}
+              m_SearchString: 
+            m_MultiColumnHeaderState:
+              m_Columns: []
+              m_VisibleColumns: 
+              m_SortedColumns: 
+            m_VertSplit:
+              ID: 0
+              splitterInitialOffset: 0
+              currentActiveSplitter: 0
+              realSizes: []
+              relativeSizes: []
+              minSizes: []
+              maxSizes: []
+              lastTotalSize: 0
+              splitSize: 0
+              xOffset: 0
+              m_Version: 1
+              oldRealSizes: 
+              oldMinSizes: 
+              oldMaxSizes: 
+              oldSplitSize: 0
+          m_DetailedCallsView:
+            m_SelectedID: -1
+            m_VertSplit:
+              ID: 0
+              splitterInitialOffset: 0
+              currentActiveSplitter: 0
+              realSizes: []
+              relativeSizes: []
+              minSizes: []
+              maxSizes: []
+              lastTotalSize: 0
+              splitSize: 0
+              xOffset: 0
+              m_Version: 1
+              oldRealSizes: 
+              oldMinSizes: 
+              oldMaxSizes: 
+              oldSplitSize: 0
+            m_CalleesTreeView:
+              m_ViewState:
+                scrollPos: {x: 0, y: 0}
+                m_SelectedIDs: 
+                m_LastClickedID: 0
+                m_ExpandedIDs: 
+                m_RenameOverlay:
+                  m_UserAcceptedRename: 0
+                  m_Name: 
+                  m_OriginalName: 
+                  m_EditFieldRect:
+                    serializedVersion: 2
+                    x: 0
+                    y: 0
+                    width: 0
+                    height: 0
+                  m_UserData: 0
+                  m_IsWaitingForDelay: 0
+                  m_IsRenaming: 0
+                  m_OriginalEventType: 11
+                  m_IsRenamingFilename: 0
+                  m_ClientGUIView: {fileID: 0}
+                m_SearchString: 
+              m_ViewHeaderState:
+                m_Columns:
+                - width: 150
+                  sortedAscending: 1
+                  headerContent:
+                    m_Text: Called From
+                    m_Image: {fileID: 0}
+                    m_Tooltip: 'Parents the selected function is called from
+
+
+                      (Press
+                      ''F'' for frame selection)'
+                  contextMenuText: 
+                  headerTextAlignment: 0
+                  sortingArrowAlignment: 2
+                  minWidth: 150
+                  maxWidth: 1000000
+                  autoResize: 1
+                  allowToggleVisibility: 0
+                  canSort: 1
+                  userData: 0
+                - width: 60
+                  sortedAscending: 0
+                  headerContent:
+                    m_Text: Calls
+                    m_Image: {fileID: 0}
+                    m_Tooltip: Total number of calls in a selected frame
+                  contextMenuText: 
+                  headerTextAlignment: 0
+                  sortingArrowAlignment: 2
+                  minWidth: 60
+                  maxWidth: 1000000
+                  autoResize: 0
+                  allowToggleVisibility: 1
+                  canSort: 1
+                  userData: 0
+                - width: 60
+                  sortedAscending: 0
+                  headerContent:
+                    m_Text: GC Alloc
+                    m_Image: {fileID: 0}
+                    m_Tooltip: 
+                  contextMenuText: 
+                  headerTextAlignment: 0
+                  sortingArrowAlignment: 2
+                  minWidth: 60
+                  maxWidth: 1000000
+                  autoResize: 0
+                  allowToggleVisibility: 1
+                  canSort: 1
+                  userData: 0
+                - width: 60
+                  sortedAscending: 0
+                  headerContent:
+                    m_Text: Time ms
+                    m_Image: {fileID: 0}
+                    m_Tooltip: Total time the selected function spends within a parent
+                  contextMenuText: 
+                  headerTextAlignment: 0
+                  sortingArrowAlignment: 2
+                  minWidth: 60
+                  maxWidth: 1000000
+                  autoResize: 0
+                  allowToggleVisibility: 1
+                  canSort: 1
+                  userData: 0
+                - width: 60
+                  sortedAscending: 0
+                  headerContent:
+                    m_Text: Time %
+                    m_Image: {fileID: 0}
+                    m_Tooltip: Shows how often the selected function was called from
+                      the parent call
+                  contextMenuText: 
+                  headerTextAlignment: 0
+                  sortingArrowAlignment: 2
+                  minWidth: 60
+                  maxWidth: 1000000
+                  autoResize: 0
+                  allowToggleVisibility: 1
+                  canSort: 1
+                  userData: 0
+                m_VisibleColumns: 0000000001000000020000000300000004000000
+                m_SortedColumns: 03000000
+            m_CallersTreeView:
+              m_ViewState:
+                scrollPos: {x: 0, y: 0}
+                m_SelectedIDs: 
+                m_LastClickedID: 0
+                m_ExpandedIDs: 
+                m_RenameOverlay:
+                  m_UserAcceptedRename: 0
+                  m_Name: 
+                  m_OriginalName: 
+                  m_EditFieldRect:
+                    serializedVersion: 2
+                    x: 0
+                    y: 0
+                    width: 0
+                    height: 0
+                  m_UserData: 0
+                  m_IsWaitingForDelay: 0
+                  m_IsRenaming: 0
+                  m_OriginalEventType: 11
+                  m_IsRenamingFilename: 0
+                  m_ClientGUIView: {fileID: 0}
+                m_SearchString: 
+              m_ViewHeaderState:
+                m_Columns:
+                - width: 150
+                  sortedAscending: 1
+                  headerContent:
+                    m_Text: Called From
+                    m_Image: {fileID: 0}
+                    m_Tooltip: 'Parents the selected function is called from
+
+
+                      (Press
+                      ''F'' for frame selection)'
+                  contextMenuText: 
+                  headerTextAlignment: 0
+                  sortingArrowAlignment: 2
+                  minWidth: 150
+                  maxWidth: 1000000
+                  autoResize: 1
+                  allowToggleVisibility: 0
+                  canSort: 1
+                  userData: 0
+                - width: 60
+                  sortedAscending: 0
+                  headerContent:
+                    m_Text: Calls
+                    m_Image: {fileID: 0}
+                    m_Tooltip: Total number of calls in a selected frame
+                  contextMenuText: 
+                  headerTextAlignment: 0
+                  sortingArrowAlignment: 2
+                  minWidth: 60
+                  maxWidth: 1000000
+                  autoResize: 0
+                  allowToggleVisibility: 1
+                  canSort: 1
+                  userData: 0
+                - width: 60
+                  sortedAscending: 0
+                  headerContent:
+                    m_Text: GC Alloc
+                    m_Image: {fileID: 0}
+                    m_Tooltip: 
+                  contextMenuText: 
+                  headerTextAlignment: 0
+                  sortingArrowAlignment: 2
+                  minWidth: 60
+                  maxWidth: 1000000
+                  autoResize: 0
+                  allowToggleVisibility: 1
+                  canSort: 1
+                  userData: 0
+                - width: 60
+                  sortedAscending: 0
+                  headerContent:
+                    m_Text: Time ms
+                    m_Image: {fileID: 0}
+                    m_Tooltip: Total time the selected function spends within a parent
+                  contextMenuText: 
+                  headerTextAlignment: 0
+                  sortingArrowAlignment: 2
+                  minWidth: 60
+                  maxWidth: 1000000
+                  autoResize: 0
+                  allowToggleVisibility: 1
+                  canSort: 1
+                  userData: 0
+                - width: 60
+                  sortedAscending: 0
+                  headerContent:
+                    m_Text: Time %
+                    m_Image: {fileID: 0}
+                    m_Tooltip: Shows how often the selected function was called from
+                      the parent call
+                  contextMenuText: 
+                  headerTextAlignment: 0
+                  sortingArrowAlignment: 2
+                  minWidth: 60
+                  maxWidth: 1000000
+                  autoResize: 0
+                  allowToggleVisibility: 1
+                  canSort: 1
+                  userData: 0
+                m_VisibleColumns: 0000000001000000020000000300000004000000
+                m_SortedColumns: 03000000
+          m_FullThreadName: Main Thread
+          m_ThreadName: Main Thread
+          <threadId>k__BackingField: 0
+          <threadIndex>k__BackingField: -1
+          m_GroupName: 
+    - rid: 5230494972682960992
+      type: {class: GPUProfilerModule, ns: UnityEditorInternal.Profiling, asm: UnityEditor.CoreModule}
+      data:
+        m_Identifier: UnityEditorInternal.Profiling.GPUProfilerModule, UnityEditor.CoreModule,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_PaneScroll: {x: 0, y: 0}
+        m_ViewType: 0
+        updateViewLive: 0
+        m_CurrentFrameIndex: -1
+        m_HierarchyOverruledThreadFromSelection: 0
+        m_ProfilerViewFilteringOptions: 1
+        m_FrameDataHierarchyView:
+          m_Serialized: 0
+          m_TreeViewState:
+            scrollPos: {x: 0, y: 0}
+            m_SelectedIDs: 
+            m_LastClickedID: 0
+            m_ExpandedIDs: 
+            m_RenameOverlay:
+              m_UserAcceptedRename: 0
+              m_Name: 
+              m_OriginalName: 
+              m_EditFieldRect:
+                serializedVersion: 2
+                x: 0
+                y: 0
+                width: 0
+                height: 0
+              m_UserData: 0
+              m_IsWaitingForDelay: 0
+              m_IsRenaming: 0
+              m_OriginalEventType: 11
+              m_IsRenamingFilename: 0
+              m_ClientGUIView: {fileID: 0}
+            m_SearchString: 
+          m_MultiColumnHeaderState:
+            m_Columns: []
+            m_VisibleColumns: 
+            m_SortedColumns: 
+          m_ThreadIndexInThreadNames: 0
+          m_DetailedViewType: 0
+          m_DetailedViewSpliterState:
+            ID: 0
+            splitterInitialOffset: 0
+            currentActiveSplitter: 0
+            realSizes: []
+            relativeSizes: []
+            minSizes: []
+            maxSizes: []
+            lastTotalSize: 0
+            splitSize: 0
+            xOffset: 0
+            m_Version: 1
+            oldRealSizes: 
+            oldMinSizes: 
+            oldMaxSizes: 
+            oldSplitSize: 0
+          m_DetailedObjectsView:
+            m_SelectedID: 0
+            m_TreeViewState:
+              scrollPos: {x: 0, y: 0}
+              m_SelectedIDs: 
+              m_LastClickedID: 0
+              m_ExpandedIDs: 
+              m_RenameOverlay:
+                m_UserAcceptedRename: 0
+                m_Name: 
+                m_OriginalName: 
+                m_EditFieldRect:
+                  serializedVersion: 2
+                  x: 0
+                  y: 0
+                  width: 0
+                  height: 0
+                m_UserData: 0
+                m_IsWaitingForDelay: 0
+                m_IsRenaming: 0
+                m_OriginalEventType: 11
+                m_IsRenamingFilename: 0
+                m_ClientGUIView: {fileID: 0}
+              m_SearchString: 
+            m_MultiColumnHeaderState:
+              m_Columns: []
+              m_VisibleColumns: 
+              m_SortedColumns: 
+            m_VertSplit:
+              ID: 0
+              splitterInitialOffset: 0
+              currentActiveSplitter: 0
+              realSizes: []
+              relativeSizes: []
+              minSizes: []
+              maxSizes: []
+              lastTotalSize: 0
+              splitSize: 0
+              xOffset: 0
+              m_Version: 1
+              oldRealSizes: 
+              oldMinSizes: 
+              oldMaxSizes: 
+              oldSplitSize: 0
+          m_DetailedCallsView:
+            m_SelectedID: -1
+            m_VertSplit:
+              ID: 0
+              splitterInitialOffset: 0
+              currentActiveSplitter: 0
+              realSizes: []
+              relativeSizes: []
+              minSizes: []
+              maxSizes: []
+              lastTotalSize: 0
+              splitSize: 0
+              xOffset: 0
+              m_Version: 1
+              oldRealSizes: 
+              oldMinSizes: 
+              oldMaxSizes: 
+              oldSplitSize: 0
+            m_CalleesTreeView:
+              m_ViewState:
+                scrollPos: {x: 0, y: 0}
+                m_SelectedIDs: 
+                m_LastClickedID: 0
+                m_ExpandedIDs: 
+                m_RenameOverlay:
+                  m_UserAcceptedRename: 0
+                  m_Name: 
+                  m_OriginalName: 
+                  m_EditFieldRect:
+                    serializedVersion: 2
+                    x: 0
+                    y: 0
+                    width: 0
+                    height: 0
+                  m_UserData: 0
+                  m_IsWaitingForDelay: 0
+                  m_IsRenaming: 0
+                  m_OriginalEventType: 11
+                  m_IsRenamingFilename: 0
+                  m_ClientGUIView: {fileID: 0}
+                m_SearchString: 
+              m_ViewHeaderState:
+                m_Columns:
+                - width: 150
+                  sortedAscending: 1
+                  headerContent:
+                    m_Text: Called From
+                    m_Image: {fileID: 0}
+                    m_Tooltip: 'Parents the selected function is called from
+
+
+                      (Press
+                      ''F'' for frame selection)'
+                  contextMenuText: 
+                  headerTextAlignment: 0
+                  sortingArrowAlignment: 2
+                  minWidth: 150
+                  maxWidth: 1000000
+                  autoResize: 1
+                  allowToggleVisibility: 0
+                  canSort: 1
+                  userData: 0
+                - width: 60
+                  sortedAscending: 0
+                  headerContent:
+                    m_Text: Calls
+                    m_Image: {fileID: 0}
+                    m_Tooltip: Total number of calls in a selected frame
+                  contextMenuText: 
+                  headerTextAlignment: 0
+                  sortingArrowAlignment: 2
+                  minWidth: 60
+                  maxWidth: 1000000
+                  autoResize: 0
+                  allowToggleVisibility: 1
+                  canSort: 1
+                  userData: 0
+                - width: 60
+                  sortedAscending: 0
+                  headerContent:
+                    m_Text: GC Alloc
+                    m_Image: {fileID: 0}
+                    m_Tooltip: 
+                  contextMenuText: 
+                  headerTextAlignment: 0
+                  sortingArrowAlignment: 2
+                  minWidth: 60
+                  maxWidth: 1000000
+                  autoResize: 0
+                  allowToggleVisibility: 1
+                  canSort: 1
+                  userData: 0
+                - width: 60
+                  sortedAscending: 0
+                  headerContent:
+                    m_Text: Time ms
+                    m_Image: {fileID: 0}
+                    m_Tooltip: Total time the selected function spends within a parent
+                  contextMenuText: 
+                  headerTextAlignment: 0
+                  sortingArrowAlignment: 2
+                  minWidth: 60
+                  maxWidth: 1000000
+                  autoResize: 0
+                  allowToggleVisibility: 1
+                  canSort: 1
+                  userData: 0
+                - width: 60
+                  sortedAscending: 0
+                  headerContent:
+                    m_Text: Time %
+                    m_Image: {fileID: 0}
+                    m_Tooltip: Shows how often the selected function was called from
+                      the parent call
+                  contextMenuText: 
+                  headerTextAlignment: 0
+                  sortingArrowAlignment: 2
+                  minWidth: 60
+                  maxWidth: 1000000
+                  autoResize: 0
+                  allowToggleVisibility: 1
+                  canSort: 1
+                  userData: 0
+                m_VisibleColumns: 0000000001000000020000000300000004000000
+                m_SortedColumns: 03000000
+            m_CallersTreeView:
+              m_ViewState:
+                scrollPos: {x: 0, y: 0}
+                m_SelectedIDs: 
+                m_LastClickedID: 0
+                m_ExpandedIDs: 
+                m_RenameOverlay:
+                  m_UserAcceptedRename: 0
+                  m_Name: 
+                  m_OriginalName: 
+                  m_EditFieldRect:
+                    serializedVersion: 2
+                    x: 0
+                    y: 0
+                    width: 0
+                    height: 0
+                  m_UserData: 0
+                  m_IsWaitingForDelay: 0
+                  m_IsRenaming: 0
+                  m_OriginalEventType: 11
+                  m_IsRenamingFilename: 0
+                  m_ClientGUIView: {fileID: 0}
+                m_SearchString: 
+              m_ViewHeaderState:
+                m_Columns:
+                - width: 150
+                  sortedAscending: 1
+                  headerContent:
+                    m_Text: Called From
+                    m_Image: {fileID: 0}
+                    m_Tooltip: 'Parents the selected function is called from
+
+
+                      (Press
+                      ''F'' for frame selection)'
+                  contextMenuText: 
+                  headerTextAlignment: 0
+                  sortingArrowAlignment: 2
+                  minWidth: 150
+                  maxWidth: 1000000
+                  autoResize: 1
+                  allowToggleVisibility: 0
+                  canSort: 1
+                  userData: 0
+                - width: 60
+                  sortedAscending: 0
+                  headerContent:
+                    m_Text: Calls
+                    m_Image: {fileID: 0}
+                    m_Tooltip: Total number of calls in a selected frame
+                  contextMenuText: 
+                  headerTextAlignment: 0
+                  sortingArrowAlignment: 2
+                  minWidth: 60
+                  maxWidth: 1000000
+                  autoResize: 0
+                  allowToggleVisibility: 1
+                  canSort: 1
+                  userData: 0
+                - width: 60
+                  sortedAscending: 0
+                  headerContent:
+                    m_Text: GC Alloc
+                    m_Image: {fileID: 0}
+                    m_Tooltip: 
+                  contextMenuText: 
+                  headerTextAlignment: 0
+                  sortingArrowAlignment: 2
+                  minWidth: 60
+                  maxWidth: 1000000
+                  autoResize: 0
+                  allowToggleVisibility: 1
+                  canSort: 1
+                  userData: 0
+                - width: 60
+                  sortedAscending: 0
+                  headerContent:
+                    m_Text: Time ms
+                    m_Image: {fileID: 0}
+                    m_Tooltip: Total time the selected function spends within a parent
+                  contextMenuText: 
+                  headerTextAlignment: 0
+                  sortingArrowAlignment: 2
+                  minWidth: 60
+                  maxWidth: 1000000
+                  autoResize: 0
+                  allowToggleVisibility: 1
+                  canSort: 1
+                  userData: 0
+                - width: 60
+                  sortedAscending: 0
+                  headerContent:
+                    m_Text: Time %
+                    m_Image: {fileID: 0}
+                    m_Tooltip: Shows how often the selected function was called from
+                      the parent call
+                  contextMenuText: 
+                  headerTextAlignment: 0
+                  sortingArrowAlignment: 2
+                  minWidth: 60
+                  maxWidth: 1000000
+                  autoResize: 0
+                  allowToggleVisibility: 1
+                  canSort: 1
+                  userData: 0
+                m_VisibleColumns: 0000000001000000020000000300000004000000
+                m_SortedColumns: 03000000
+          m_FullThreadName: Main Thread
+          m_ThreadName: Main Thread
+          <threadId>k__BackingField: 0
+          <threadIndex>k__BackingField: -1
+          m_GroupName: 
+    - rid: 5230494972682960993
+      type: {class: RenderingProfilerModule, ns: UnityEditorInternal.Profiling, asm: UnityEditor.CoreModule}
+      data:
+        m_Identifier: UnityEditorInternal.Profiling.RenderingProfilerModule, UnityEditor.CoreModule,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_PaneScroll: {x: 0, y: 0}
+    - rid: 5230494972682960994
+      type: {class: MemoryProfilerModule, ns: UnityEditorInternal.Profiling, asm: UnityEditor.CoreModule}
+      data:
+        m_Identifier: UnityEditorInternal.Profiling.MemoryProfilerModule, UnityEditor.CoreModule,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_PaneScroll: {x: 0, y: 0}
+        m_ViewSplit:
+          ID: 0
+          splitterInitialOffset: 0
+          currentActiveSplitter: -1
+          realSizes:
+          - 0
+          - 0
+          relativeSizes:
+          - 0.7
+          - 0.3
+          minSizes:
+          - 450
+          - 50
+          maxSizes:
+          - 0
+          - 0
+          lastTotalSize: 0
+          splitSize: 6
+          xOffset: 0
+          m_Version: 1
+          oldRealSizes: 
+          oldMinSizes: 
+          oldMaxSizes: 
+          oldSplitSize: 0
+    - rid: 5230494972682960995
+      type: {class: AudioProfilerModule, ns: UnityEditorInternal.Profiling, asm: UnityEditor.CoreModule}
+      data:
+        m_Identifier: UnityEditorInternal.Profiling.AudioProfilerModule, UnityEditor.CoreModule,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_PaneScroll: {x: 0, y: 0}
+        m_ShowInactiveDSPChains: 0
+        m_HighlightAudibleDSPChains: 1
+        m_DSPGraphZoomFactor: 1
+        m_DSPGraphHorizontalLayout: 0
+    - rid: 5230494972682960996
+      type: {class: VideoProfilerModule, ns: UnityEditorInternal.Profiling, asm: UnityEditor.CoreModule}
+      data:
+        m_Identifier: UnityEditorInternal.Profiling.VideoProfilerModule, UnityEditor.CoreModule,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_PaneScroll: {x: 0, y: 0}
+    - rid: 5230494972682960997
+      type: {class: PhysicsProfilerModule, ns: UnityEditorInternal.Profiling, asm: UnityEditor.CoreModule}
+      data:
+        m_Identifier: UnityEditorInternal.Profiling.PhysicsProfilerModule, UnityEditor.CoreModule,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_PaneScroll: {x: 0, y: 0}
+    - rid: 5230494972682960998
+      type: {class: Physics2DProfilerModule, ns: UnityEditorInternal.Profiling, asm: UnityEditor.CoreModule}
+      data:
+        m_Identifier: UnityEditorInternal.Profiling.Physics2DProfilerModule, UnityEditor.CoreModule,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_PaneScroll: {x: 0, y: 0}
+    - rid: 5230494972682960999
+      type: {class: NetworkingMessagesProfilerModule, ns: UnityEditorInternal.Profiling, asm: UnityEditor.CoreModule}
+      data:
+        m_Identifier: UnityEditorInternal.Profiling.NetworkingMessagesProfilerModule,
+          UnityEditor.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_PaneScroll: {x: 0, y: 0}
+    - rid: 5230494972682961000
+      type: {class: NetworkingOperationsProfilerModule, ns: UnityEditorInternal.Profiling, asm: UnityEditor.CoreModule}
+      data:
+        m_Identifier: UnityEditorInternal.Profiling.NetworkingOperationsProfilerModule,
+          UnityEditor.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_PaneScroll: {x: 0, y: 0}
+        m_NetworkSplit:
+          ID: 0
+          splitterInitialOffset: 0
+          currentActiveSplitter: -1
+          realSizes:
+          - 0
+          - 0
+          relativeSizes:
+          - 0.2
+          - 0.8
+          minSizes:
+          - 100
+          - 100
+          maxSizes:
+          - 0
+          - 0
+          lastTotalSize: 0
+          splitSize: 6
+          xOffset: 0
+          m_Version: 1
+          oldRealSizes: 
+          oldMinSizes: 
+          oldMaxSizes: 
+          oldSplitSize: 0
+        msgNames:
+        - UserMessage
+        - ObjectDestroy
+        - ClientRpc
+        - ObjectSpawn
+        - Owner
+        - Command
+        - LocalPlayerTransform
+        - SyncEvent
+        - SyncVars
+        - SyncList
+        - ObjectSpawnScene
+        - NetworkInfo
+        - SpawnFinished
+        - ObjectHide
+        - CRC
+        - ClientAuthority
+    - rid: 5230494972682961001
+      type: {class: UIProfilerModule, ns: UnityEditorInternal.Profiling, asm: UnityEditor.CoreModule}
+      data:
+        m_Identifier: UnityEditorInternal.Profiling.UIProfilerModule, UnityEditor.CoreModule,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_PaneScroll: {x: 0, y: 0}
+    - rid: 5230494972682961002
+      type: {class: UIDetailsProfilerModule, ns: UnityEditorInternal.Profiling, asm: UnityEditor.CoreModule}
+      data:
+        m_Identifier: UnityEditorInternal.Profiling.UIDetailsProfilerModule, UnityEditor.CoreModule,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_PaneScroll: {x: 0, y: 0}
+    - rid: 5230494972682961003
+      type: {class: GlobalIlluminationProfilerModule, ns: UnityEditorInternal.Profiling, asm: UnityEditor.CoreModule}
+      data:
+        m_Identifier: UnityEditorInternal.Profiling.GlobalIlluminationProfilerModule,
+          UnityEditor.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_PaneScroll: {x: 0, y: 0}
+    - rid: 5230494972682961004
+      type: {class: VirtualTexturingProfilerModule, ns: UnityEditorInternal.Profiling, asm: UnityEditor.CoreModule}
+      data:
+        m_Identifier: UnityEditorInternal.Profiling.VirtualTexturingProfilerModule,
+          UnityEditor.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_PaneScroll: {x: 0, y: 0}
+        m_VTProfilerView:
+          rid: 5230494972682961007
+    - rid: 5230494972682961005
+      type: {class: FileIOProfilerModule, ns: UnityEditorInternal.Profiling, asm: UnityEditor.CoreModule}
+      data:
+        m_Identifier: UnityEditorInternal.Profiling.FileIOProfilerModule, UnityEditor.CoreModule,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_PaneScroll: {x: 0, y: 0}
+    - rid: 5230494972682961006
+      type: {class: AssetLoadingProfilerModule, ns: UnityEditorInternal.Profiling, asm: UnityEditor.CoreModule}
+      data:
+        m_Identifier: UnityEditorInternal.Profiling.AssetLoadingProfilerModule, UnityEditor.CoreModule,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_PaneScroll: {x: 0, y: 0}
+    - rid: 5230494972682961007
+      type: {class: VirtualTexturingProfilerView, ns: UnityEditor, asm: UnityEditor.CoreModule}
+      data:
+        m_SortAscending: 0
+        m_SortedColumn: -1
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -678,11 +1526,11 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 559
+    y: 604
     width: 1465
-    height: 388
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
+    height: 343
+  m_MinSize: {x: 101, y: 121}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 12}
   m_Panes:
   - {fileID: 11}
@@ -710,9 +1558,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 632
+    y: 677
     width: 1464
-    height: 367
+    height: 322
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -730,22 +1578,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/_UnityEngine.Animation
+    - Assets/_UnityPlus.Serialization/Strategies
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/_UnityEngine.Animation
+  - Assets/_UnityPlus.Serialization/Strategies
   m_LastFoldersGridSize: -1
   m_LastProjectPath: E:\GIT\UnityPlus\UnityPlus
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: cc4d0000
-    m_LastClickedID: 19916
-    m_ExpandedIDs: 000000009e4d0000a04d0000a24d0000a44d000000ca9a3b
+    scrollPos: {x: 0, y: 66}
+    m_SelectedIDs: 8a4e0000
+    m_LastClickedID: 20106
+    m_ExpandedIDs: 00000000644e0000664e0000684e00006a4e00006c4e00006e4e0000704e0000724e00007a4e0000824e0000c84e000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -761,7 +1609,7 @@ MonoBehaviour:
       m_IsRenaming: 0
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 0}
+      m_ClientGUIView: {fileID: 10}
     m_SearchString: 
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
@@ -773,7 +1621,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000009e4d0000a04d0000a24d0000a44d0000
+    m_ExpandedIDs: 00000000644e0000664e0000684e00006a4e00006c4e00006e4e0000704e0000724e0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -800,7 +1648,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c623000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -850,9 +1698,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 632
+    y: 677
     width: 1464
-    height: 367
+    height: 322
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -876,15 +1724,56 @@ MonoBehaviour:
     y: 0
     width: 455
     height: 947
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 2}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_ActualView: {fileID: 14}
   m_Panes:
-  - {fileID: 2}
   - {fileID: 14}
+  - {fileID: 15}
   m_Selected: 0
   m_LastSelected: 1
 --- !u!114 &14
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 1
+  m_Script: {fileID: 12019, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_TitleContent:
+    m_Text: Inspector
+    m_Image: {fileID: -2667387946076563598, guid: 0000000000000000d000000000000000, type: 0}
+    m_Tooltip: 
+  m_Pos:
+    serializedVersion: 2
+    x: 1465
+    y: 73
+    width: 454
+    height: 926
+  m_ViewDataDictionary: {fileID: 0}
+  m_OverlayCanvas:
+    m_LastAppliedPresetName: Default
+    m_SaveData: []
+  m_ObjectsLockedBeforeSerialization: []
+  m_InstanceIDsLockedBeforeSerialization: 
+  m_PreviewResizer:
+    m_CachedPref: 160
+    m_ControlHash: -371814159
+    m_PrefName: Preview_InspectorPreview
+  m_LastInspectedObjectInstanceID: -1
+  m_LastVerticalScrollValue: 0
+  m_GlobalObjectId: 
+  m_InspectorMode: 0
+  m_LockTracker:
+    m_IsLocked: 0
+  m_PreviewWindow: {fileID: 0}
+--- !u!114 &15
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -913,7 +1802,7 @@ MonoBehaviour:
     m_LastAppliedPresetName: Default
     m_SaveData: []
   m_Spl:
-    ID: 139
+    ID: 9741
     splitterInitialOffset: 0
     currentActiveSplitter: -1
     realSizes:
@@ -938,14 +1827,14 @@ MonoBehaviour:
     oldSplitSize: 0
   m_TestTypeToolbarIndex: 1
   m_PlayModeTestListGUI:
-    m_Window: {fileID: 14}
+    m_Window: {fileID: 15}
     m_NewResultList:
     - id: 1005
       uniqueId: '[UnityPlus][suite]'
       name: UnityPlus
       fullName: UnityPlus
       resultStatus: 1
-      duration: 0.0442023
+      duration: 0.0512859
       messages: 
       output: 
       stacktrace: 
@@ -961,7 +1850,7 @@ MonoBehaviour:
       name: PlayMode.dll
       fullName: E:/GIT/UnityPlus/UnityPlus/Library/ScriptAssemblies/PlayMode.dll
       resultStatus: 1
-      duration: 0.0326283
+      duration: 0.0358247
       messages: 
       output: 
       stacktrace: 
@@ -977,7 +1866,7 @@ MonoBehaviour:
       name: ComponentFinderTests
       fullName: ComponentFinderTests
       resultStatus: 1
-      duration: 0.0289178
+      duration: 0.0317742
       messages: 
       output: 
       stacktrace: 
@@ -993,7 +1882,7 @@ MonoBehaviour:
       name: GetByIndex___CorrectValue___ValidData
       fullName: ComponentFinderTests.GetByIndex___CorrectValue___ValidData
       resultStatus: 1
-      duration: 0.0120755
+      duration: 0.0128704
       messages: 
       output: 
       stacktrace: 
@@ -1010,7 +1899,7 @@ MonoBehaviour:
       name: GetByTypeAndIndex___CorrectValue___ValidData
       fullName: ComponentFinderTests.GetByTypeAndIndex___CorrectValue___ValidData
       resultStatus: 1
-      duration: 0.0007127
+      duration: 0.0007214
       messages: 
       output: 
       stacktrace: 
@@ -1027,7 +1916,7 @@ MonoBehaviour:
       name: GetComponents_Component____CorrectOrder
       fullName: ComponentFinderTests.GetComponents_Component____CorrectOrder
       resultStatus: 1
-      duration: 0.00076
+      duration: 0.0007806
       messages: 
       output: 
       stacktrace: 
@@ -1073,14 +1962,14 @@ MonoBehaviour:
       - Uncategorized
     m_SelectedOption: 0
   m_EditModeTestListGUI:
-    m_Window: {fileID: 14}
+    m_Window: {fileID: 15}
     m_NewResultList:
     - id: 1000
       uniqueId: '[UnityPlus][suite]'
       name: UnityPlus
       fullName: UnityPlus
       resultStatus: 1
-      duration: 0.0823286
+      duration: 0.0441258
       messages: 
       output: 
       stacktrace: 
@@ -1096,7 +1985,7 @@ MonoBehaviour:
       name: EditMode.dll
       fullName: E:/GIT/UnityPlus/UnityPlus/Library/ScriptAssemblies/EditMode.dll
       resultStatus: 1
-      duration: 0.0469386
+      duration: 0.0126027
       messages: 
       output: 
       stacktrace: 
@@ -1112,7 +2001,7 @@ MonoBehaviour:
       name: Serialization
       fullName: Serialization
       resultStatus: 1
-      duration: 0.0429302
+      duration: 0.0087724
       messages: 
       output: 
       stacktrace: 
@@ -1128,7 +2017,7 @@ MonoBehaviour:
       name: Json
       fullName: Serialization.Json
       resultStatus: 1
-      duration: 0.0422064
+      duration: 0.0079136
       messages: 
       output: 
       stacktrace: 
@@ -1139,215 +2028,28 @@ MonoBehaviour:
       categories: []
       parentId: 1008
       parentUniqueId: EditMode.dll/[Serialization][suite]
-    - id: 1003
-      uniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonReaderTests][suite]
-      name: JsonReaderTests
-      fullName: Serialization.Json.JsonReaderTests
-      resultStatus: 1
-      duration: 0.0449856
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1009
-      parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.Json][suite]
-    - id: 1031
-      uniqueId: EditMode.dll/Serialization/Json/JsonReaderTests/[EditMode][Serialization.Json.JsonReaderTests.EatArray___Numbers_Correct___ParsesCorrectly]
-      name: EatArray___Numbers_Correct___ParsesCorrectly
-      fullName: Serialization.Json.JsonReaderTests.EatArray___Numbers_Correct___ParsesCorrectly
-      resultStatus: 1
-      duration: 0.0224541
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1027
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonReaderTests][suite]
-    - id: 1032
-      uniqueId: EditMode.dll/Serialization/Json/JsonReaderTests/[EditMode][Serialization.Json.JsonReaderTests.EatArray___Numbers_Missing_Comma___ThrowsError]
-      name: EatArray___Numbers_Missing_Comma___ThrowsError
-      fullName: Serialization.Json.JsonReaderTests.EatArray___Numbers_Missing_Comma___ThrowsError
-      resultStatus: 1
-      duration: 0.0040096
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1027
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonReaderTests][suite]
-    - id: 1033
-      uniqueId: EditMode.dll/Serialization/Json/JsonReaderTests/[EditMode][Serialization.Json.JsonReaderTests.EatArray___Strings_Missing_Comma___ThrowsError]
-      name: EatArray___Strings_Missing_Comma___ThrowsError
-      fullName: Serialization.Json.JsonReaderTests.EatArray___Strings_Missing_Comma___ThrowsError
-      resultStatus: 1
-      duration: 0.0009529
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1027
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonReaderTests][suite]
-    - id: 1034
-      uniqueId: EditMode.dll/Serialization/Json/JsonReaderTests/[EditMode][Serialization.Json.JsonReaderTests.EatNumber___Easy___ParsesCorrectly]
-      name: EatNumber___Easy___ParsesCorrectly
-      fullName: Serialization.Json.JsonReaderTests.EatNumber___Easy___ParsesCorrectly
-      resultStatus: 1
-      duration: 0.0015039
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1028
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonReaderTests][suite]
-    - id: 1035
-      uniqueId: EditMode.dll/Serialization/Json/JsonReaderTests/[EditMode][Serialization.Json.JsonReaderTests.EatNumber___Hard___ParsesCorrectly]
-      name: EatNumber___Hard___ParsesCorrectly
-      fullName: Serialization.Json.JsonReaderTests.EatNumber___Hard___ParsesCorrectly
-      resultStatus: 1
-      duration: 0.0002389
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1028
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonReaderTests][suite]
-    - id: 1034
-      uniqueId: EditMode.dll/Serialization/Json/JsonReaderTests/[EditMode][Serialization.Json.JsonReaderTests.EatObject___Correct___ParsesCorrectly]
-      name: EatObject___Correct___ParsesCorrectly
-      fullName: Serialization.Json.JsonReaderTests.EatObject___Correct___ParsesCorrectly
-      resultStatus: 1
-      duration: 0.0015106
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1027
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonReaderTests][suite]
-    - id: 1032
-      uniqueId: EditMode.dll/Serialization/Json/JsonReaderTests/[EditMode][Serialization.Json.JsonReaderTests.EatString___Easy___ParsesCorrectly]
-      name: EatString___Easy___ParsesCorrectly
-      fullName: Serialization.Json.JsonReaderTests.EatString___Easy___ParsesCorrectly
-      resultStatus: 1
-      duration: 0.0001823
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1028
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonReaderTests][suite]
-    - id: 1033
-      uniqueId: EditMode.dll/Serialization/Json/JsonReaderTests/[EditMode][Serialization.Json.JsonReaderTests.EatString___Escaped___ParsesCorrectly]
-      name: EatString___Escaped___ParsesCorrectly
-      fullName: Serialization.Json.JsonReaderTests.EatString___Escaped___ParsesCorrectly
-      resultStatus: 1
-      duration: 0.019976
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1028
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonReaderTests][suite]
-    - id: 1029
-      uniqueId: EditMode.dll/Serialization/Json/JsonReaderTests/[EditMode][Serialization.Json.JsonReaderTests.EatValue___False___ParsesCorrectly]
-      name: EatValue___False___ParsesCorrectly
-      fullName: Serialization.Json.JsonReaderTests.EatValue___False___ParsesCorrectly
-      resultStatus: 1
-      duration: 0.0002941
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1027
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonReaderTests][suite]
-    - id: 1030
-      uniqueId: EditMode.dll/Serialization/Json/JsonReaderTests/[EditMode][Serialization.Json.JsonReaderTests.EatValue___Null___ParsesCorrectly]
-      name: EatValue___Null___ParsesCorrectly
-      fullName: Serialization.Json.JsonReaderTests.EatValue___Null___ParsesCorrectly
-      resultStatus: 1
-      duration: 0.000172
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1027
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonReaderTests][suite]
     - id: 1028
-      uniqueId: EditMode.dll/Serialization/Json/JsonReaderTests/[EditMode][Serialization.Json.JsonReaderTests.EatValue___True___ParsesCorrectly]
-      name: EatValue___True___ParsesCorrectly
-      fullName: Serialization.Json.JsonReaderTests.EatValue___True___ParsesCorrectly
+      uniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStreamWriterTests][suite]
+      name: JsonStreamWriterTests
+      fullName: Serialization.Json.JsonStreamWriterTests
       resultStatus: 1
-      duration: 0.000177
+      duration: 0.038446
       messages: 
       output: 
       stacktrace: 
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1027
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonReaderTests][suite]
-    - id: 1034
-      uniqueId: EditMode.dll/Serialization/Json/JsonReaderTests/[EditMode][Serialization.Json.JsonReaderTests.Parse___Complicated___ParsesCorrectly]
-      name: Parse___Complicated___ParsesCorrectly
-      fullName: Serialization.Json.JsonReaderTests.Parse___Complicated___ParsesCorrectly
+      isSuite: 1
+      categories: []
+      parentId: 1046
+      parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.Json][suite]
+    - id: 1032
+      uniqueId: EditMode.dll/Serialization/Json/JsonStreamWriterTests/[EditMode][Serialization.Json.JsonStreamWriterTests.Write_Bool]
+      name: Write_Bool
+      fullName: Serialization.Json.JsonStreamWriterTests.Write_Bool
       resultStatus: 1
-      duration: 0.028018
+      duration: 0.0174514
       messages: 
       output: 
       stacktrace: 
@@ -1358,29 +2060,13 @@ MonoBehaviour:
       categories:
       - Uncategorized
       parentId: 1028
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonReaderTests][suite]
-    - id: 1041
-      uniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonWriterTests][suite]
-      name: JsonWriterTests
-      fullName: Serialization.Json.JsonWriterTests
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStreamWriterTests][suite]
+    - id: 1031
+      uniqueId: EditMode.dll/Serialization/Json/JsonStreamWriterTests/[EditMode][Serialization.Json.JsonStreamWriterTests.Write_Multiple_Array]
+      name: Write_Multiple_Array
+      fullName: Serialization.Json.JsonStreamWriterTests.Write_Multiple_Array
       resultStatus: 1
-      duration: 0.0384913
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1045
-      parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.Json][suite]
-    - id: 1042
-      uniqueId: EditMode.dll/Serialization/Json/JsonWriterTests/[EditMode][Serialization.Json.JsonWriterTests.EatValue___True___ParsesCorrectly]
-      name: EatValue___True___ParsesCorrectly
-      fullName: Serialization.Json.JsonWriterTests.EatValue___True___ParsesCorrectly
-      resultStatus: 1
-      duration: 0.0216833
+      duration: 0.0014452
       messages: 
       output: 
       stacktrace: 
@@ -1390,14 +2076,420 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1041
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonWriterTests][suite]
+      parentId: 1028
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStreamWriterTests][suite]
+    - id: 1033
+      uniqueId: EditMode.dll/Serialization/Json/JsonStreamWriterTests/[EditMode][Serialization.Json.JsonStreamWriterTests.Write_Number]
+      name: Write_Number
+      fullName: Serialization.Json.JsonStreamWriterTests.Write_Number
+      resultStatus: 1
+      duration: 0.000682
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1028
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStreamWriterTests][suite]
+    - id: 1029
+      uniqueId: EditMode.dll/Serialization/Json/JsonStreamWriterTests/[EditMode][Serialization.Json.JsonStreamWriterTests.Write_String_Object]
+      name: Write_String_Object
+      fullName: Serialization.Json.JsonStreamWriterTests.Write_String_Object
+      resultStatus: 1
+      duration: 0.0009043
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1028
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStreamWriterTests][suite]
+    - id: 1030
+      uniqueId: EditMode.dll/Serialization/Json/JsonStreamWriterTests/[EditMode][Serialization.Json.JsonStreamWriterTests.Write_String_Object_Escaped]
+      name: Write_String_Object_Escaped
+      fullName: Serialization.Json.JsonStreamWriterTests.Write_String_Object_Escaped
+      resultStatus: 1
+      duration: 0.0002626
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1028
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStreamWriterTests][suite]
+    - id: 1031
+      uniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+      name: JsonStringReaderTests
+      fullName: Serialization.Json.JsonStringReaderTests
+      resultStatus: 1
+      duration: 0.0047867
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1046
+      parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.Json][suite]
+    - id: 1043
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatArray___Empty___ParsesCorrectly]
+      name: EatArray___Empty___ParsesCorrectly
+      fullName: Serialization.Json.JsonStringReaderTests.EatArray___Empty___ParsesCorrectly
+      resultStatus: 1
+      duration: 0.0324175
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1033
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1040
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatArray___Numbers_Correct___ParsesCorrectly]
+      name: EatArray___Numbers_Correct___ParsesCorrectly
+      fullName: Serialization.Json.JsonStringReaderTests.EatArray___Numbers_Correct___ParsesCorrectly
+      resultStatus: 1
+      duration: 0.0054809
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1031
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1041
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatArray___Numbers_Missing_Comma___ThrowsError]
+      name: EatArray___Numbers_Missing_Comma___ThrowsError
+      fullName: Serialization.Json.JsonStringReaderTests.EatArray___Numbers_Missing_Comma___ThrowsError
+      resultStatus: 1
+      duration: 0.0025918
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1031
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1042
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatArray___Strings_Missing_Comma___ThrowsError]
+      name: EatArray___Strings_Missing_Comma___ThrowsError
+      fullName: Serialization.Json.JsonStringReaderTests.EatArray___Strings_Missing_Comma___ThrowsError
+      resultStatus: 1
+      duration: 0.0010483
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1031
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1038
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatNumber___Easy___ParsesCorrectly]
+      name: EatNumber___Easy___ParsesCorrectly
+      fullName: Serialization.Json.JsonStringReaderTests.EatNumber___Easy___ParsesCorrectly
+      resultStatus: 1
+      duration: 0.0012866
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1031
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1039
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatNumber___Hard___ParsesCorrectly]
+      name: EatNumber___Hard___ParsesCorrectly
+      fullName: Serialization.Json.JsonStringReaderTests.EatNumber___Hard___ParsesCorrectly
+      resultStatus: 1
+      duration: 0.0002236
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1031
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1043
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatObject___Correct___ParsesCorrectly]
+      name: EatObject___Correct___ParsesCorrectly
+      fullName: Serialization.Json.JsonStringReaderTests.EatObject___Correct___ParsesCorrectly
+      resultStatus: 1
+      duration: 0.0012215
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1031
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1044
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.Eatobject___Empty___ParsesCorrectly]
+      name: Eatobject___Empty___ParsesCorrectly
+      fullName: Serialization.Json.JsonStringReaderTests.Eatobject___Empty___ParsesCorrectly
+      resultStatus: 1
+      duration: 0.0010376
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1033
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1035
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatString___Easy___ParsesCorrectly]
+      name: EatString___Easy___ParsesCorrectly
+      fullName: Serialization.Json.JsonStringReaderTests.EatString___Easy___ParsesCorrectly
+      resultStatus: 1
+      duration: 0.0001821
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1031
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1036
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatString___Escaped___ParsesCorrectly]
+      name: EatString___Escaped___ParsesCorrectly
+      fullName: Serialization.Json.JsonStringReaderTests.EatString___Escaped___ParsesCorrectly
+      resultStatus: 1
+      duration: 0.000681
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1031
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1033
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatValue___False___ParsesCorrectly]
+      name: EatValue___False___ParsesCorrectly
+      fullName: Serialization.Json.JsonStringReaderTests.EatValue___False___ParsesCorrectly
+      resultStatus: 1
+      duration: 0.0002261
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1031
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1034
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatValue___Null___ParsesCorrectly]
+      name: EatValue___Null___ParsesCorrectly
+      fullName: Serialization.Json.JsonStringReaderTests.EatValue___Null___ParsesCorrectly
+      resultStatus: 1
+      duration: 0.0001739
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1031
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1032
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatValue___True___ParsesCorrectly]
+      name: EatValue___True___ParsesCorrectly
+      fullName: Serialization.Json.JsonStringReaderTests.EatValue___True___ParsesCorrectly
+      resultStatus: 1
+      duration: 0.000183
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1031
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1037
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.Parse___Complicated___ParsesCorrectly]
+      name: Parse___Complicated___ParsesCorrectly
+      fullName: Serialization.Json.JsonStringReaderTests.Parse___Complicated___ParsesCorrectly
+      resultStatus: 1
+      duration: 0.0015296
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1031
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1044
+      uniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringWriterTests][suite]
+      name: JsonStringWriterTests
+      fullName: Serialization.Json.JsonStringWriterTests
+      resultStatus: 1
+      duration: 0.0123493
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1049
+      parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.Json][suite]
+    - id: 1048
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringWriterTests/[EditMode][Serialization.Json.JsonStringWriterTests.Write_Bool]
+      name: Write_Bool
+      fullName: Serialization.Json.JsonStringWriterTests.Write_Bool
+      resultStatus: 1
+      duration: 0.000936
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1044
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringWriterTests][suite]
+    - id: 1047
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringWriterTests/[EditMode][Serialization.Json.JsonStringWriterTests.Write_Multiple_Array]
+      name: Write_Multiple_Array
+      fullName: Serialization.Json.JsonStringWriterTests.Write_Multiple_Array
+      resultStatus: 1
+      duration: 0.0006126
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1044
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringWriterTests][suite]
+    - id: 1045
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringWriterTests/[EditMode][Serialization.Json.JsonStringWriterTests.Write_Multiple_Object]
+      name: Write_Multiple_Object
+      fullName: Serialization.Json.JsonStringWriterTests.Write_Multiple_Object
+      resultStatus: 1
+      duration: 0.0004138
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1044
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringWriterTests][suite]
+    - id: 1048
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringWriterTests/[EditMode][Serialization.Json.JsonStringWriterTests.Write_Number]
+      name: Write_Number
+      fullName: Serialization.Json.JsonStringWriterTests.Write_Number
+      resultStatus: 1
+      duration: 0.0002065
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1044
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringWriterTests][suite]
+    - id: 1046
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringWriterTests/[EditMode][Serialization.Json.JsonStringWriterTests.Write_String_Object_Escaped]
+      name: Write_String_Object_Escaped
+      fullName: Serialization.Json.JsonStringWriterTests.Write_String_Object_Escaped
+      resultStatus: 1
+      duration: 0.0002183
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1044
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringWriterTests][suite]
     - id: 1001
       uniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedArrayTests][suite]
       name: SerializedArrayTests
       fullName: Serialization.SerializedArrayTests
       resultStatus: 1
-      duration: 0.0092034
+      duration: 0.0090964
       messages: 
       output: 
       stacktrace: 
@@ -1413,7 +2505,7 @@ MonoBehaviour:
       name: AddedContentsRoundTrippedCorrectly
       fullName: Serialization.SerializedArrayTests.AddedContentsRoundTrippedCorrectly
       resultStatus: 1
-      duration: 0.0004531
+      duration: 0.0004307
       messages: 
       output: 
       stacktrace: 
@@ -1430,7 +2522,7 @@ MonoBehaviour:
       name: SerializedObjectTests
       fullName: Serialization.SerializedObjectTests
       resultStatus: 1
-      duration: 0.0092531
+      duration: 0.0091105
       messages: 
       output: 
       stacktrace: 
@@ -1446,7 +2538,7 @@ MonoBehaviour:
       name: AddedContentsRetrievedCorrectly
       fullName: Serialization.SerializedObjectTests.AddedContentsRetrievedCorrectly
       resultStatus: 1
-      duration: 0.0014678
+      duration: 0.0004342
       messages: 
       output: 
       stacktrace: 
@@ -1463,7 +2555,7 @@ MonoBehaviour:
       name: SerializedValueTests
       fullName: Serialization.SerializedValueTests
       resultStatus: 1
-      duration: 0.0255156
+      duration: 0.0266264
       messages: 
       output: 
       stacktrace: 
@@ -1479,7 +2571,7 @@ MonoBehaviour:
       name: Conversion___Int16_To_Int64
       fullName: Serialization.SerializedValueTests.Conversion___Int16_To_Int64
       resultStatus: 1
-      duration: 0.0008998
+      duration: 0.0009447
       messages: 
       output: 
       stacktrace: 
@@ -1496,7 +2588,7 @@ MonoBehaviour:
       name: Conversion___Int32_To_Float
       fullName: Serialization.SerializedValueTests.Conversion___Int32_To_Float
       resultStatus: 1
-      duration: 0.0001968
+      duration: 0.0001862
       messages: 
       output: 
       stacktrace: 
@@ -1513,7 +2605,7 @@ MonoBehaviour:
       name: Conversion___Int32_To_Int64
       fullName: Serialization.SerializedValueTests.Conversion___Int32_To_Int64
       resultStatus: 1
-      duration: 0.0001626
+      duration: 0.0001722
       messages: 
       output: 
       stacktrace: 
@@ -1530,7 +2622,7 @@ MonoBehaviour:
       name: Conversion___Int8_To_Int64
       fullName: Serialization.SerializedValueTests.Conversion___Int8_To_Int64
       resultStatus: 1
-      duration: 0.0004264
+      duration: 0.0004165
       messages: 
       output: 
       stacktrace: 
@@ -1547,7 +2639,7 @@ MonoBehaviour:
       name: Conversion___Single_To_Double
       fullName: Serialization.SerializedValueTests.Conversion___Single_To_Double
       resultStatus: 1
-      duration: 0.0008946
+      duration: 0.0008438
       messages: 
       output: 
       stacktrace: 
@@ -1564,7 +2656,7 @@ MonoBehaviour:
       name: Conversion___UInt32_To_Int64
       fullName: Serialization.SerializedValueTests.Conversion___UInt32_To_Int64
       resultStatus: 1
-      duration: 0.0003419
+      duration: 0.0003532
       messages: 
       output: 
       stacktrace: 
@@ -1576,29 +2668,12 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1005
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedValueTests][suite]
-    - id: 1004
-      uniqueId: EditMode.dll/Serialization/SerializedValueTests/[EditMode][Serialization.SerializedValueTests.Equality___Serialized_Content___ByReference]
-      name: Equality___Serialized_Content___ByReference
-      fullName: Serialization.SerializedValueTests.Equality___Serialized_Content___ByReference
-      resultStatus: 1
-      duration: 0.001133
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1001
-      parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedValueTests][suite]
     - id: 1003
       uniqueId: EditMode.dll/Serialization/SerializedValueTests/[EditMode][Serialization.SerializedValueTests.Equality___String_Content___ByValue]
       name: Equality___String_Content___ByValue
       fullName: Serialization.SerializedValueTests.Equality___String_Content___ByValue
       resultStatus: 1
-      duration: 0.0002131
+      duration: 0.0011252
       messages: 
       output: 
       stacktrace: 
@@ -1615,7 +2690,7 @@ MonoBehaviour:
       name: Equality___ValueType_Content___ByValue
       fullName: Serialization.SerializedValueTests.Equality___ValueType_Content___ByValue
       resultStatus: 1
-      duration: 0.000221
+      duration: 0.0002363
       messages: 
       output: 
       stacktrace: 
@@ -1632,7 +2707,7 @@ MonoBehaviour:
       name: RoundTrip___Boolean
       fullName: Serialization.SerializedValueTests.RoundTrip___Boolean
       resultStatus: 1
-      duration: 0.0001806
+      duration: 0.0003611
       messages: 
       output: 
       stacktrace: 
@@ -1649,7 +2724,7 @@ MonoBehaviour:
       name: RoundTrip___Decimal
       fullName: Serialization.SerializedValueTests.RoundTrip___Decimal
       resultStatus: 1
-      duration: 0.0015982
+      duration: 0.0016122
       messages: 
       output: 
       stacktrace: 
@@ -1666,7 +2741,7 @@ MonoBehaviour:
       name: RoundTrip___Double
       fullName: Serialization.SerializedValueTests.RoundTrip___Double
       resultStatus: 1
-      duration: 0.0003009
+      duration: 0.0003004
       messages: 
       output: 
       stacktrace: 
@@ -1683,7 +2758,7 @@ MonoBehaviour:
       name: RoundTrip___Int16
       fullName: Serialization.SerializedValueTests.RoundTrip___Int16
       resultStatus: 1
-      duration: 0.0003452
+      duration: 0.0003624
       messages: 
       output: 
       stacktrace: 
@@ -1700,7 +2775,7 @@ MonoBehaviour:
       name: RoundTrip___Int32
       fullName: Serialization.SerializedValueTests.RoundTrip___Int32
       resultStatus: 1
-      duration: 0.0001561
+      duration: 0.0001719
       messages: 
       output: 
       stacktrace: 
@@ -1717,7 +2792,7 @@ MonoBehaviour:
       name: RoundTrip___Int64
       fullName: Serialization.SerializedValueTests.RoundTrip___Int64
       resultStatus: 1
-      duration: 0.0001702
+      duration: 0.0001688
       messages: 
       output: 
       stacktrace: 
@@ -1734,7 +2809,7 @@ MonoBehaviour:
       name: RoundTrip___Int8
       fullName: Serialization.SerializedValueTests.RoundTrip___Int8
       resultStatus: 1
-      duration: 0.0003131
+      duration: 0.0003308
       messages: 
       output: 
       stacktrace: 
@@ -1751,7 +2826,7 @@ MonoBehaviour:
       name: RoundTrip___Single
       fullName: Serialization.SerializedValueTests.RoundTrip___Single
       resultStatus: 1
-      duration: 0.0001621
+      duration: 0.0001738
       messages: 
       output: 
       stacktrace: 
@@ -1768,7 +2843,7 @@ MonoBehaviour:
       name: RoundTrip___String
       fullName: Serialization.SerializedValueTests.RoundTrip___String
       resultStatus: 1
-      duration: 0.0001585
+      duration: 0.0001776
       messages: 
       output: 
       stacktrace: 
@@ -1785,7 +2860,7 @@ MonoBehaviour:
       name: RoundTrip___UInt16
       fullName: Serialization.SerializedValueTests.RoundTrip___UInt16
       resultStatus: 1
-      duration: 0.0005318
+      duration: 0.0005455
       messages: 
       output: 
       stacktrace: 
@@ -1802,7 +2877,7 @@ MonoBehaviour:
       name: RoundTrip___UInt32
       fullName: Serialization.SerializedValueTests.RoundTrip___UInt32
       resultStatus: 1
-      duration: 0.0007527
+      duration: 0.0007203
       messages: 
       output: 
       stacktrace: 
@@ -1819,7 +2894,7 @@ MonoBehaviour:
       name: RoundTrip___UInt64
       fullName: Serialization.SerializedValueTests.RoundTrip___UInt64
       resultStatus: 1
-      duration: 0.0007429
+      duration: 0.0009428
       messages: 
       output: 
       stacktrace: 
@@ -1836,7 +2911,7 @@ MonoBehaviour:
       name: RoundTrip___UInt8
       fullName: Serialization.SerializedValueTests.RoundTrip___UInt8
       resultStatus: 1
-      duration: 0.0005214
+      duration: 0.0005722
       messages: 
       output: 
       stacktrace: 
@@ -1848,13 +2923,13 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedValueTests][suite]
-    m_ResultText: EatValue___True___ParsesCorrectly (0,022s)
+    m_ResultText: Eatobject___Empty___ParsesCorrectly (0,001s)
     m_ResultStacktrace: 
     m_TestListState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 2a85fca5
-      m_LastClickedID: -1510177494
-      m_ExpandedIDs: 2026c08ecc856f9aeba168ada7da5dbdc6f21cfb50b8d623f580f53a58bcc369fb2cbd6ab58db36f3b2591793fea547b4b5ea47cffffff7f
+      m_SelectedIDs: 217e730f
+      m_LastClickedID: 259227169
+      m_ExpandedIDs: 2026c08e436c6193cc856f9ada46919ceba168ada7da5dbdc6f21cfb50b8d623f580f53a463b4e6458bcc369fb2cbd6ab58db36f3b2591793fea547b4b5ea47cffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
