@@ -34,7 +34,7 @@ namespace UnityPlus.Serialization
 
         /// <param name="pauseFunc">A function delegate that can pause the game completely.</param>
         /// <param name="unpauseFunc">A function delegate that can unpause the game, and bring it to its previous state.</param>
-        public AsyncSaver( Action pauseFunc, Action unpauseFunc, IEnumerable<Func<ISaver, IEnumerator>> dataActions, IEnumerable<Func<ISaver, IEnumerator>> objectActions )
+        public AsyncSaver( Action pauseFunc, Action unpauseFunc, IEnumerable<Func<ISaver, IEnumerator>> objectActions, IEnumerable<Func<ISaver, IEnumerator>> dataActions )
         {
             if( pauseFunc == null )
                 throw new ArgumentNullException( nameof( pauseFunc ), $"Pause delegate can't be null. {nameof( AsyncSaver )} requires the application to be paused to deserialize correctly." );

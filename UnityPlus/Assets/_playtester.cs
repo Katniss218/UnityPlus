@@ -80,12 +80,13 @@ public class CodeGenerated
         };
 
         JsonExplicitHierarchyStrategy stratExpl = new JsonExplicitHierarchyStrategy();
-        stratExpl.IncludedObjectsMask = 1 << 0;
+        stratExpl.IncludedObjectsMask = 1 << 30;
 
         //_as = new AsyncSaver( pause, unpause, new Func<ISaver, IEnumerator>[] { strat.SaveSceneObjects_Data }, new Func<ISaver, IEnumerator>[] { strat.SaveSceneObjects_Object } );
         _as = new AsyncSaver( pause, unpause, new Func<ISaver, IEnumerator>[] { stratExpl.SaveSceneObjects_Data }, new Func<ISaver, IEnumerator>[] { stratExpl.SaveSceneObjects_Object } );
 
-        _al = new AsyncLoader( pause, unpause, new Func<ILoader, IEnumerator>[] { strat.LoadSceneObjects_Object }, new Func<ILoader, IEnumerator>[] { strat.LoadSceneObjects_Data } );
+        //_al = new AsyncLoader( pause, unpause, new Func<ILoader, IEnumerator>[] { strat.LoadSceneObjects_Object }, new Func<ILoader, IEnumerator>[] { strat.LoadSceneObjects_Data } );
+        _al = new AsyncLoader( pause, unpause, new Func<ILoader, IEnumerator>[] { stratExpl.LoadSceneObjects_Object }, new Func<ILoader, IEnumerator>[] { stratExpl.LoadSceneObjects_Data } );
     }
 
     void Update()

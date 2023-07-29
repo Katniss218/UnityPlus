@@ -1,14 +1,10 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityPlus.AssetManagement;
-using UnityPlus.Serialization.ComponentData;
 
 namespace UnityPlus.Serialization.Strategies
 {
@@ -29,6 +25,35 @@ namespace UnityPlus.Serialization.Strategies
         private static IEnumerable<GameObject> GetRootGameObjects()
         {
             return UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
+        }
+        private static GameObject CreateGameObjectWithComponents( ILoader l, SerializedData goJson, GameObject parent )
+        {
+            Guid objectGuid = l.ReadGuid( goJson[ISaver_Ex_References.ID] );
+
+            GameObject go = new GameObject();
+            l.SetID( go, objectGuid );
+
+            if( parent != null )
+            {
+                go.transform.SetParent( parent.transform );
+            }
+
+            SerializedArray components = (SerializedArray)goJson["components"];
+            foreach( var c in components )
+            {
+                Type type = l.ReadType( c["$type"] );
+                Guid compID = l.ReadGuid( c["$id"] );
+                Component co = go.AddComponent( type );
+                l.SetID( co, compID );
+            }
+
+            SerializedArray children = (SerializedArray)goJson["children"];
+            foreach( var c in children )
+            {
+                CreateGameObjectWithComponents( l, c, go );
+            }
+
+            return go;
         }
 
         private void WriteGameObjectHierarchy( GameObject go, ISaver s, ref SerializedArray arr )
@@ -75,7 +100,6 @@ namespace UnityPlus.Serialization.Strategies
 
         public IEnumerator SaveSceneObjects_Object( ISaver s )
         {
-
             IEnumerable<GameObject> rootObjects = GetRootGameObjects();
 
             SerializedArray objectsJson = new SerializedArray();
@@ -95,8 +119,13 @@ namespace UnityPlus.Serialization.Strategies
 
             Debug.Log( jsonO );
         }
-        private static void SaveObjectDataRecursive( ISaver s, GameObject go, ref SerializedArray objects )
+        private void SaveObjectDataRecursive( ISaver s, GameObject go, ref SerializedArray objects )
         {
+            if( !go.IsInLayerMask( IncludedObjectsMask ) )
+            {
+                return;
+            }
+
             Guid id = s.GetID( go );
 
             SerializedArray components = new SerializedArray();
@@ -176,13 +205,45 @@ namespace UnityPlus.Serialization.Strategies
 
         public IEnumerator LoadSceneObjects_Object( ILoader l )
         {
-            throw new Exception();
+            SerializedArray objectsJson = (SerializedArray)new Serialization.Json.JsonStringReader( jsonO ).Read();
+
+            foreach( var goJson in objectsJson )
+            {
+                CreateGameObjectWithComponents( l, goJson, null );
+
+                yield return null;
+            }
         }
 
         public IEnumerator LoadSceneObjects_Data( ILoader l )
         {
-            // same as prefab+data strat
-            throw new Exception();
+            SerializedArray objectsJson = (SerializedArray)new Serialization.Json.JsonStringReader( jsonD ).Read();
+
+            foreach( var goJson in objectsJson )
+            {
+                object obj = l.Get( l.ReadGuid( goJson["$ref"] ) );
+
+                GameObject go = (GameObject)obj;
+
+                go.name = (string)goJson["name"];
+                go.layer = (int)goJson["layer"];
+                go.SetActive( (bool)goJson["is_active"] );
+                go.isStatic = (bool)goJson["is_static"];
+                go.tag = (string)goJson["tag"];
+
+                Component[] comps = go.GetComponents();
+
+                foreach( var compjson in (SerializedArray)goJson["components"] ) // the components don't have to be under the gameobject. They will be found anyway.
+                {
+                    Guid id = l.ReadGuid( compjson["$ref"] );
+
+                    Component comp = (Component)l.Get( id );
+
+                    comp.SetData( l, compjson["data"] );
+                }
+
+                yield return null;
+            }
         }
     }
 }
