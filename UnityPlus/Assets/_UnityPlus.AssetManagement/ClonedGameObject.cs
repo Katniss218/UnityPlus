@@ -25,9 +25,9 @@ namespace UnityPlus.AssetManagement
 
         void Start()
         {
-            if( OriginalAsset == null )
+            if( OriginalAsset == null ) // this is broken if the component is deserialized over multiple frames.
             {
-                Debug.LogWarning( $"{nameof( ClonedGameObject )} `{this.name}` - The `{nameof( OriginalAsset )}` was left unset, or the asset was unloaded destroying the link. Deleting the marker component..." );
+                Debug.LogWarning( $"{nameof( ClonedGameObject )} `{this.name}` - The `{nameof( OriginalAsset )}` was left unset (possibly by adding this component explicitly) or the asset was unloaded, destroying the link to the asset. Deleting the marker component..." );
                 Destroy( this );
             }
         }
