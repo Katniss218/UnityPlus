@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
-using UnityPlus.Serialization.ComponentData;
+using UnityPlus.Serialization;
 using UnityEngine.TestTools;
 
 public class ComponentFinderTests

@@ -4,23 +4,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using UnityPlus.UILib.UIElements;
 
-namespace UnityPlus.UILib
+namespace UnityPlus.UILib.UIElements
 {
     public static class UIButtonEx
     {
-        public static UIButton AddButton( this UIElement parent, UILayoutInfo layout, Sprite sprite, UnityAction onClick = null )
+        public static T AddButton<T>( this T parent, UILayoutInfo layout, Sprite sprite, UnityAction onClick, out UIButton button ) where T : IUIElementContainer
         {
-            (GameObject rootGameObject, RectTransform rootTransform) = UIHelper.CreateUI( parent, "uilib-button", layout );
+            button = AddButton( parent, layout, sprite, onClick );
+            return parent;
+        }
 
-            Image imageComponent = rootGameObject.AddComponent<Image>();
-            imageComponent.raycastTarget = true;
-            imageComponent.sprite = sprite;
-            imageComponent.type = Image.Type.Sliced;
+        public static UIButton AddButton( this IUIElementContainer parent, UILayoutInfo layout, Sprite sprite, UnityAction onClick )
+        {
+            (GameObject rootGameObject, RectTransform rootTransform) = UIElement.CreateUI( parent.contents, "uilib-button", layout );
+
+            Image backgroundComponent = rootGameObject.AddComponent<Image>();
+            backgroundComponent.raycastTarget = true;
+            backgroundComponent.sprite = sprite;
+            backgroundComponent.type = Image.Type.Sliced;
 
             Button buttonComponent = rootGameObject.AddComponent<Button>();
-            buttonComponent.targetGraphic = imageComponent;
+            buttonComponent.targetGraphic = backgroundComponent;
             buttonComponent.transition = Selectable.Transition.ColorTint;
             buttonComponent.colors = new ColorBlock()
             {
@@ -31,14 +36,14 @@ namespace UnityPlus.UILib
                 pressedColor = Color.white,
                 disabledColor = Color.gray
             };
-            buttonComponent.targetGraphic = imageComponent;
+            buttonComponent.targetGraphic = backgroundComponent;
 
             if( onClick != null )
             {
                 buttonComponent.onClick.AddListener( onClick ); // Find a way to cast System.Action to UnityAction if possible (the signatures of both delegates match).
             }
 
-            return new UIButton( rootTransform, buttonComponent );
+            return new UIButton( rootTransform, parent, buttonComponent, backgroundComponent );
         }
 
         public static UIButton WithTint( this UIButton button, Color tint )

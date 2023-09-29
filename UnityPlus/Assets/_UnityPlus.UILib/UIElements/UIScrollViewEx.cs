@@ -2,34 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityPlus.UILib.UIElements;
 
-namespace UnityPlus.UILib
+namespace UnityPlus.UILib.UIElements
 {
     public static class UIScrollViewEx
     {
-        public static UIScrollView AddHorizontalScrollView( this UIElement parent, UILayoutInfo layout, Vector2 contentSize )
+        public static UIScrollView AddHorizontalScrollView( this IUIElementContainer parent, UILayoutInfo layout, float contentWidth )
         {
-            return AddScrollView( parent, layout, contentSize, true, false );
+            return AddScrollView( parent, layout, UILayoutInfo.FillVertical( 0, 0, 0.0f, 0, contentWidth ), true, false );
         }
 
-        public static UIScrollView AddVerticalScrollView( this UIElement parent, UILayoutInfo layout, Vector2 contentSize )
+        public static UIScrollView AddVerticalScrollView( this IUIElementContainer parent, UILayoutInfo layout, float contentHeight )
         {
-            return AddScrollView( parent, layout, contentSize, false, true );
+            return AddScrollView( parent, layout, UILayoutInfo.FillHorizontal( 0, 0, 0.0f, 0, contentHeight ), false, true );
         }
 
-        public static UIScrollView AddScrollView( this UIElement parent, UILayoutInfo layout, Vector2 contentSize, bool horizontal, bool vertical )
+        static UIScrollView AddScrollView( this IUIElementContainer parent, UILayoutInfo layout, UILayoutInfo contentLayout, bool horizontal, bool vertical )
         {
-            (GameObject root, RectTransform rootTransform) = UIHelper.CreateUI( parent, "uilib-scrollview", layout );
+            (GameObject root, RectTransform rootTransform) = UIElement.CreateUI( parent.contents, "uilib-scrollview", layout );
 
-            (GameObject viewport, RectTransform viewportTransform) = UIHelper.CreateUI( rootTransform, "uilib-scrollviewviewport", UILayoutInfo.Fill() );
+            (GameObject viewport, RectTransform viewportTransform) = UIElement.CreateUI( rootTransform, "uilib-scrollviewviewport", UILayoutInfo.Fill() );
 
             Image maskImage = viewport.AddComponent<Image>();
             maskImage.maskable = true;
             Mask mask = viewport.AddComponent<Mask>();
             mask.showMaskGraphic = false;
 
-            (GameObject content, RectTransform contentTransform) = UIHelper.CreateUI( viewportTransform, "uilib-scrollviewcontent", new UILayoutInfo( new Vector2( 0.0f, 1.0f ), new Vector2( 1, 1 ), Vector2.zero, contentSize ) );
+            (GameObject content, RectTransform contentTransform) = UIElement.CreateUI( viewportTransform, "uilib-scrollviewcontent", contentLayout );
 
             ScrollRect scrollRect = root.AddComponent<ScrollRect>();
             scrollRect.content = (RectTransform)content.transform;
@@ -44,7 +43,7 @@ namespace UnityPlus.UILib
             scrollRect.scrollSensitivity = 30f;
             scrollRect.decelerationRate = 0.5f;
 
-            return new UIScrollView( rootTransform, scrollRect, null, null, new UIElement( contentTransform ) );
+            return new UIScrollView( rootTransform, parent, scrollRect, null, null, contentTransform );
         }
 
         public static UIScrollView WithSensitivity( this UIScrollView scrollView, float sensitivity, float deceleration )
@@ -60,6 +59,7 @@ namespace UnityPlus.UILib
 
         public static UIScrollView WithHorizontalScrollbar( this UIScrollView scrollView, UILayoutInfo layout, Sprite background, Sprite foreground, out UIScrollBar scrollBar )
         {
+#warning TODO - the contents should take the margin around the scrollbars. Also, the scrollbars should be more restricted in size. only the "free" axis is allowed to be set, and bottom/top margin depends on the presence and the size of the other scrollbar.
             scrollBar = scrollView.AddScrollbar( layout, background, foreground, false );
             return scrollView;
         }

@@ -2,28 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityPlus.UILib.UIElements;
 
-namespace UnityPlus.UILib
+namespace UnityPlus.UILib.UIElements
 {
     public static class UIIconEx
     {
-        public static T WithIcon<T>( this T parent, UILayoutInfo layout, Sprite icon, out UIIcon uiIcon ) where T : UIElement
+        public static T WithIcon<T>( this T parent, UILayoutInfo layout, Sprite icon, out UIIcon uiIcon ) where T : IUIElementContainer
         {
             uiIcon = AddIcon( parent, layout, icon );
             return parent;
         }
 
-        public static UIIcon AddIcon( this UIElement parent, UILayoutInfo layoutInfo, Sprite icon )
+        public static UIIcon AddIcon( this IUIElementContainer parent, UILayoutInfo layoutInfo, Sprite icon )
         {
-            (GameObject rootGameObject, RectTransform rootTransform) = UIHelper.CreateUI( parent, "uilib-icon", layoutInfo );
+            (GameObject rootGameObject, RectTransform rootTransform) = UIElement.CreateUI( parent.contents, "uilib-icon", layoutInfo );
 
             Image imageComponent = rootGameObject.AddComponent<Image>();
             imageComponent.raycastTarget = false;
             imageComponent.sprite = icon;
             imageComponent.type = Image.Type.Simple;
 
-            return new UIIcon( rootTransform, imageComponent );
+            return new UIIcon( rootTransform, parent, imageComponent );
         }
 
         public static UIIcon WithTint( this UIIcon icon, Color tint )
