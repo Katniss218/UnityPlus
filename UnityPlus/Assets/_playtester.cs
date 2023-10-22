@@ -6,6 +6,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityPlus.AssetManagement;
 using UnityPlus.CSharp;
 using UnityPlus.Serialization;
@@ -47,7 +48,7 @@ public class CodeGenerated
     Loader l;
     AsyncSaver _as;
     AsyncLoader _al;
-    JsonPrefabAndDataStrategy strat;
+    JsonAssetGameObjectsStrategy strat;
 
     // Update is called once per frame
     void Start()
@@ -64,7 +65,7 @@ public class CodeGenerated
 
         ClonedGameObject.Instantiate( f2 );
 
-        strat = new JsonPrefabAndDataStrategy();
+        strat = new JsonAssetGameObjectsStrategy( SceneManager.GetActiveScene().GetRootGameObjects );
 
         // s = new Saver( "test", new Action<ISaver>[] { strat.SaveSceneObjects_Data }, new Action<ISaver>[] { strat.SaveSceneObjects_Object } );
 
@@ -79,14 +80,14 @@ public class CodeGenerated
             Time.timeScale = 1;
         };
 
-        JsonExplicitHierarchyStrategy stratExpl = new JsonExplicitHierarchyStrategy();
+        JsonExplicitHierarchyGameObjectsStrategy stratExpl = new JsonExplicitHierarchyGameObjectsStrategy( SceneManager.GetActiveScene().GetRootGameObjects );
         stratExpl.IncludedObjectsMask = 1 << 30;
 
-        //_as = new AsyncSaver( pause, unpause, new Func<ISaver, IEnumerator>[] { strat.SaveSceneObjects_Object }, new Func<ISaver, IEnumerator>[] { strat.SaveSceneObjects_Data } );
-        _as = new AsyncSaver( pause, unpause, new Func<ISaver, IEnumerator>[] { stratExpl.SaveSceneObjects_Object }, new Func<ISaver, IEnumerator>[] { stratExpl.SaveSceneObjects_Data } );
+        //_as = new AsyncSaver( pause, unpause, new Func<ISaver, IEnumerator>[] { strat.Save_Object }, new Func<ISaver, IEnumerator>[] { strat.Save_Data } );
+        _as = new AsyncSaver( pause, unpause, new Func<ISaver, IEnumerator>[] { stratExpl.Save_Object }, new Func<ISaver, IEnumerator>[] { stratExpl.Save_Data } );
 
-        //_al = new AsyncLoader( pause, unpause, new Func<ILoader, IEnumerator>[] { strat.LoadSceneObjects_Object }, new Func<ILoader, IEnumerator>[] { strat.LoadSceneObjects_Data } );
-        _al = new AsyncLoader( pause, unpause, new Func<ILoader, IEnumerator>[] { stratExpl.LoadSceneObjects_Object }, new Func<ILoader, IEnumerator>[] { stratExpl.LoadSceneObjects_Data } );
+        //_al = new AsyncLoader( pause, unpause, new Func<ILoader, IEnumerator>[] { strat.Load_Object }, new Func<ILoader, IEnumerator>[] { strat.Load_Data } );
+        _al = new AsyncLoader( pause, unpause, new Func<ILoader, IEnumerator>[] { stratExpl.Load_Object }, new Func<ILoader, IEnumerator>[] { stratExpl.Load_Data } );
     }
 
     void Update()
