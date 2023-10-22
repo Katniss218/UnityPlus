@@ -24,6 +24,7 @@ namespace Serialization.Json
 
             // Assert
             Assert.That( val, Is.EqualTo( (SerializedData)true ) );
+            Assert.That( (bool)val, Is.EqualTo( true ) );
         }
 
         [Test]
@@ -38,6 +39,7 @@ namespace Serialization.Json
 
             // Assert
             Assert.That( val, Is.EqualTo( (SerializedData)false ) );
+            Assert.That( (bool)val, Is.EqualTo( false ) );
         }
 
         [Test]
@@ -52,6 +54,7 @@ namespace Serialization.Json
 
             // Assert
             Assert.That( val, Is.EqualTo( (SerializedData)null ) );
+            Assert.That( (object)val, Is.EqualTo( null ) );
         }
 
         [Test]
@@ -66,6 +69,7 @@ namespace Serialization.Json
 
             // Assert
             Assert.That( val, Is.EqualTo( "Hello World!" ) );
+            Assert.That( (string)val, Is.EqualTo( "Hello World!" ) );
         }
 
         [Test]
@@ -80,6 +84,7 @@ namespace Serialization.Json
 
             // Assert
             Assert.That( val, Is.EqualTo( "Hello World \r\n \t \\ Hello / \u0032" ) );
+            Assert.That( (string)val, Is.EqualTo( "Hello World \r\n \t \\ Hello / \u0032" ) );
         }
 
         [Test]
@@ -93,6 +98,7 @@ namespace Serialization.Json
         ""Width"": 800,
         ""Height"": 600,
         ""Title"": ""View from 15th Floor"",
+        ""Author"": null,
         ""Thumbnail"":
         {
             ""Url"": ""http://www.example.com/image/481989943"",
@@ -116,6 +122,7 @@ namespace Serialization.Json
             Assert.That( (int)val["Image"]["Thumbnail"]["Height"], Is.EqualTo( 125 ) );
             Assert.That( (int)val["Image"]["Thumbnail"]["Width"], Is.EqualTo( 100 ) );
             Assert.That( (bool)val["Image"]["Animated"], Is.EqualTo( false ) );
+            Assert.That( (object)val["Image"]["Author"], Is.Null );
 
             Assert.That( (int)((SerializedArray)val["Image"]["IDs"]).Count, Is.EqualTo( 4 ) );
             Assert.That( (int)val["Image"]["IDs"][0], Is.EqualTo( 116 ) );
@@ -136,6 +143,8 @@ namespace Serialization.Json
 
             // Assert
             Assert.That( val, Is.EqualTo( (SerializedPrimitive)218 ) );
+            Assert.That( (int)val, Is.EqualTo( 218 ) );
+            Assert.That( (float)val, Is.EqualTo( 218.0f ) );
         }
 
         [Test]

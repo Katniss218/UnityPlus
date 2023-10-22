@@ -24,12 +24,16 @@ namespace Serialization
             SerializedPrimitive val5 = (SerializedPrimitive)5.125f;
             SerializedPrimitive val6 = (SerializedPrimitive)5.125f;
 
+            SerializedPrimitive val7 = (SerializedPrimitive)1.1f;
+            SerializedPrimitive val8 = (SerializedPrimitive)2.2f;
+
             // Act
 
             // Assert
             Assert.That( val1, Is.EqualTo( val2 ) );
             Assert.That( val3, Is.Not.EqualTo( val4 ) );
             Assert.That( val5, Is.EqualTo( val6 ) );
+            Assert.That( val7, Is.Not.EqualTo( val8 ) );
         }
 
         [Test]
@@ -255,12 +259,24 @@ namespace Serialization
         }
 
         [Test]
-        public void Conversion___Int32_To_Float()
+        public void Conversion___Int32_To_Single()
         {
             // Arrange
             int original = 32767;
             float expected = 32767.0f;
             float roundtripped = (float)(SerializedPrimitive)original;
+
+            // Assert
+            Assert.That( roundtripped, Is.EqualTo( expected ) );
+        }
+
+        [Test]
+        public void Conversion___Int32_To_Double()
+        {
+            // Arrange
+            int original = 32767;
+            double expected = 32767.0;
+            double roundtripped = (double)(SerializedPrimitive)original;
 
             // Assert
             Assert.That( roundtripped, Is.EqualTo( expected ) );

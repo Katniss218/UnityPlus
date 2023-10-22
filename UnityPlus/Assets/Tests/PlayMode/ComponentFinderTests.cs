@@ -42,10 +42,18 @@ public class ComponentFinderTests
         components[4] = go.AddComponent<MeshFilter>();
 
         // Act
-        Component c = ComponentFinder.GetComponentByIndex( components, 1 );
+        Component c0 = ComponentFinder.GetComponentByIndex( components, 0 );
+        Component c1 = ComponentFinder.GetComponentByIndex( components, 1 );
+        Component c2 = ComponentFinder.GetComponentByIndex( components, 2 );
+        Component c3 = ComponentFinder.GetComponentByIndex( components, 3 );
+        Component c4 = ComponentFinder.GetComponentByIndex( components, 4 );
 
         // Assert
-        Assert.IsTrue( c == components[1] );
+        Assert.IsTrue( c0 == components[0] );
+        Assert.IsTrue( c1 == components[1] );
+        Assert.IsTrue( c2 == components[2] );
+        Assert.IsTrue( c3 == components[3] );
+        Assert.IsTrue( c4 == components[4] );
     }
 
     [Test]
@@ -61,9 +69,11 @@ public class ComponentFinderTests
         components[4] = go.AddComponent<MeshFilter>();
 
         // Act
-        Component c = ComponentFinder.GetComponentByTypeAndIndex( components, (typeof( TestComponent ), 1) );
+        Component c0 = ComponentFinder.GetComponentByTypeAndIndex( components, (typeof( TestComponent ), 0) );
+        Component c1 = ComponentFinder.GetComponentByTypeAndIndex( components, (typeof( TestComponent ), 1) );
 
         // Assert
-        Assert.IsTrue( c == components[3] );
+        Assert.IsTrue( c0 == components[2] );
+        Assert.IsTrue( c1 == components[3] );
     }
 }
