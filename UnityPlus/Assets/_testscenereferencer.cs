@@ -15,7 +15,7 @@ public class _testscenereferencer : MonoBehaviour, IPersistent
     public GameObject go;
     public Component c;
 
-    public SerializedData GetData( ISaver s )
+    public SerializedData GetData( IReverseReferenceMap s )
     {
         return new SerializedObject()
         {
@@ -24,7 +24,7 @@ public class _testscenereferencer : MonoBehaviour, IPersistent
         };
     }
 
-    public void SetData( ILoader l, SerializedData json )
+    public void SetData( IForwardReferenceMap l, SerializedData json )
     {
         this.go = (GameObject)l.ReadObjectReference( json["go"] );
         this.c = (Component)l.ReadObjectReference( json["c"] );

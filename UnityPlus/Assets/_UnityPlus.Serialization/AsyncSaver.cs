@@ -34,12 +34,28 @@ namespace UnityPlus.Serialization
 
         /// <param name="startFunc">A function delegate that can pause the game completely.</param>
         /// <param name="finishFunc">A function delegate that can unpause the game, and bring it to its previous state.</param>
+        public AsyncSaver( Action startFunc, Action finishFunc, Func<ISaver, IEnumerator> objectAction, Func<ISaver, IEnumerator> dataAction )
+        {
+            if( startFunc == null )
+                throw new ArgumentNullException( nameof( startFunc ), $"Start delegate can't be null. {nameof( AsyncSaver )} requires the function to pause to deserialize correctly." );
+            if( finishFunc == null )
+                throw new ArgumentNullException( nameof( finishFunc ), $"Finish delegate can't be null. {nameof( AsyncSaver )} requires the function to unpause to deserialize correctly." );
+
+            this._startFunc = startFunc;
+            this._finishFunc = finishFunc;
+
+            this._objectActions.Add( objectAction );
+            this._dataActions.Add( dataAction );
+        }
+
+        /// <param name="startFunc">A function delegate that can pause the game completely.</param>
+        /// <param name="finishFunc">A function delegate that can unpause the game, and bring it to its previous state.</param>
         public AsyncSaver( Action startFunc, Action finishFunc, IEnumerable<Func<ISaver, IEnumerator>> objectActions, IEnumerable<Func<ISaver, IEnumerator>> dataActions )
         {
             if( startFunc == null )
-                throw new ArgumentNullException( nameof( startFunc ), $"Start delegate can't be null. {nameof( AsyncSaver )} requires the application to be paused to deserialize correctly." );
+                throw new ArgumentNullException( nameof( startFunc ), $"Start delegate can't be null. {nameof( AsyncSaver )} requires the function to pause to deserialize correctly." );
             if( finishFunc == null )
-                throw new ArgumentNullException( nameof( finishFunc ), $"Finish delegate can't be null. {nameof( AsyncSaver )} requires the application to be paused to deserialize correctly." );
+                throw new ArgumentNullException( nameof( finishFunc ), $"Finish delegate can't be null. {nameof( AsyncSaver )} requires the function to unpause to deserialize correctly." );
 
             this._startFunc = startFunc;
             this._finishFunc = finishFunc;
@@ -80,14 +96,8 @@ namespace UnityPlus.Serialization
             return _objectToGuid.TryGetValue( obj, out id );
         }
 
-        /// <summary>
-        /// Registers the specified object in the registry (if not registered already) and returns its reference ID.
-        /// </summary>
-        /// <remarks>
-        /// Call this to map an object to an ID when saving an object reference.
-        /// </remarks>
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public Guid GetReferenceID( object obj )
+        public Guid GetID( object obj )
         {
             if( CurrentState == ISaver.State.Idle )
             {
@@ -108,20 +118,17 @@ namespace UnityPlus.Serialization
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public Guid GetReferenceID( object obj, Guid guid )
+        public void SetID( object obj, Guid id )
         {
             if( CurrentState == ISaver.State.Idle )
             {
                 throw new InvalidOperationException( $"Can't save an object (or its ID) when the saver is idle." );
             }
 
-            if( _objectToGuid.TryGetValue( obj, out Guid id ) )
-            {
-                return id;
-            }
+            if( id == Guid.Empty )
+                return;
 
-            _objectToGuid.Add( obj, guid );
-            return guid;
+            _objectToGuid.Add( obj, id );
         }
 
         //
@@ -136,9 +143,9 @@ namespace UnityPlus.Serialization
 #if DEBUG
             Debug.Log( "Saving..." );
 #endif
-            _startFunc?.Invoke();
-            ClearReferenceRegistry();
             CurrentState = ISaver.State.SavingData;
+            ClearReferenceRegistry();
+            _startFunc?.Invoke();
             _completedActions = 0;
             CurrentActionPercentCompleted = 0.0f;
 
@@ -157,12 +164,12 @@ namespace UnityPlus.Serialization
                 _completedActions++;
             }
 
+            _finishFunc?.Invoke();
             ClearReferenceRegistry();
             CurrentState = ISaver.State.Idle;
 #if DEBUG
             Debug.Log( "Finished Saving" );
 #endif
-            _finishFunc?.Invoke();
         }
 
         /// <summary>

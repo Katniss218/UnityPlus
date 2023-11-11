@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityPlus.UILib.Layout;
 
 namespace UnityPlus.UILib.UIElements
@@ -10,27 +11,37 @@ namespace UnityPlus.UILib.UIElements
     /// </summary>
     public sealed class UIWindow : UIElement, IUIElementContainer, IUIElementChild /* The window really shouldn't be a child tbh. It can only be the child of a canvas. */, IUILayoutDriven
     {
-        internal readonly UnityEngine.UI.Image backgroundComponent;
+        internal Image backgroundComponent;
         public RectTransform contents => base.rectTransform;
 
-        public IUIElementContainer Parent { get; }
-        public List<IUIElementChild> Children { get; }
+        public IUIElementContainer Parent { get; set; }
+        public List<IUIElementChild> Children { get; } = new List<IUIElementChild>();
+
         public LayoutDriver LayoutDriver { get; set; }
 
-        internal UIWindow( RectTransform transform, UICanvas parent, UnityEngine.UI.Image backgroundComponent ) : base( transform )
+        void OnDestroy()
         {
-            this.Children = new List<IUIElementChild>();
-            this.Parent = parent;
-            this.Parent.Children.Add( this );
-            this.backgroundComponent = backgroundComponent;
-        }
-
-        public override void Destroy()
-        {
-            base.Destroy();
             this.Parent.Children.Remove( this );
         }
 
         public Sprite Background { get => backgroundComponent.sprite; set => backgroundComponent.sprite = value; }
+
+        public static UIWindow Create( UICanvas parent, UILayoutInfo layoutInfo, Sprite background )
+        {
+            (GameObject rootGameObject, RectTransform rootTransform, UIWindow uiWindow) = UIElement.CreateUIGameObject<UIWindow>( parent, "uilib-window", layoutInfo );
+
+            Image backgroundComponent = rootGameObject.AddComponent<Image>();
+            backgroundComponent.raycastTarget = true;
+            backgroundComponent.sprite = background;
+            backgroundComponent.type = Image.Type.Sliced;
+
+            if( background == null )
+            {
+                backgroundComponent.color = new Color( 0, 0, 0, 0 );
+            }
+
+            uiWindow.backgroundComponent = backgroundComponent;
+            return uiWindow;
+        }
     }
 }

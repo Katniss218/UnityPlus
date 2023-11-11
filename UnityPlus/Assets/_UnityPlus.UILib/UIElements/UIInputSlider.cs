@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,12 +9,12 @@ namespace UnityPlus.UILib.UIElements
     {
         // A slider produces float values, between a and b, with rounding to the nearest multiple of x.
 
-        internal readonly IUIElementContainer _parent;
-        public IUIElementContainer Parent { get => _parent; }
+        public IUIElementContainer Parent { get; set; }
 
-        internal UIInputSlider( RectTransform transform, IUIElementContainer parent ) : base( transform )
+        public static UIInputSlider Create()
         {
-            this._parent = parent;
+            throw new NotImplementedException();
+            // uiInputSlider._parent = parent;
         }
     }
 }

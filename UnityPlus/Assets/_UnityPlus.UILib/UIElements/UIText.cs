@@ -12,11 +12,9 @@ namespace UnityPlus.UILib.UIElements
     {
         // possibly we could have different types of text elements that format themselves in different ways. Headers, paragraphs, etc.
 
-        internal readonly TMPro.TextMeshProUGUI textComponent;
+        internal TMPro.TextMeshProUGUI textComponent;
 
-        internal readonly IUIElementContainer _parent;
-
-        public IUIElementContainer Parent { get => _parent; }
+        public IUIElementContainer Parent { get; set; }
 
         public bool FitToContents { get; set; } = false;
 
@@ -30,16 +28,8 @@ namespace UnityPlus.UILib.UIElements
             }
         }
 
-        internal UIText( RectTransform transform, IUIElementContainer parent, TMPro.TextMeshProUGUI textComponent ) : base( transform )
+        void OnDestroy()
         {
-            this._parent = parent;
-            this.Parent.Children.Add( this );
-            this.textComponent = textComponent;
-        }
-
-        public override void Destroy()
-        {
-            base.Destroy();
             this.Parent.Children.Remove( this );
         }
 
@@ -64,6 +54,22 @@ namespace UnityPlus.UILib.UIElements
                 this.rectTransform.sizeDelta = new Vector2( textComponent.GetPreferredValues().x, this.rectTransform.GetActualSize().y );
                 return;
             }
+        }
+
+        public static UIText Create( IUIElementContainer parent, UILayoutInfo layoutInfo, string text )
+        {
+            (GameObject rootGameObject, RectTransform rootTransform, UIText uiText) = UIElement.CreateUIGameObject<UIText>( parent, "uilib-text", layoutInfo );
+
+            TMPro.TextMeshProUGUI textComponent = rootGameObject.AddComponent<TMPro.TextMeshProUGUI>();
+            textComponent.raycastTarget = false;
+            textComponent.richText = false;
+            textComponent.horizontalAlignment = TMPro.HorizontalAlignmentOptions.Left;
+            textComponent.verticalAlignment = TMPro.VerticalAlignmentOptions.Middle;
+
+            textComponent.text = text;
+
+            uiText.textComponent = textComponent;
+            return uiText;
         }
     }
 }

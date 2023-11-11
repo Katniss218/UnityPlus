@@ -53,52 +53,9 @@ public class CodeGenerated
     // Update is called once per frame
     void Start()
     {
-        SerializedObject serobject = (SerializedObject)new JsonStringReader( File.ReadAllText( "c:/test/testjson.json" ) ).Read();
-
-        using( MemoryStream s = new MemoryStream() )
-        {
-            new JsonStreamWriter( serobject, s ).Write();
-            string ssss = Encoding.UTF8.GetString( s.ToArray() );
-        }
-
-        GameObject f2 = AssetRegistry.Get<GameObject>( "builtin::Resources/Prefabs/Cube2" );
-
-        ClonedGameObject.Instantiate( f2 );
-
-        strat = new JsonAssetGameObjectsStrategy( SceneManager.GetActiveScene().GetRootGameObjects );
-
-        // s = new Saver( "test", new Action<ISaver>[] { strat.SaveSceneObjects_Data }, new Action<ISaver>[] { strat.SaveSceneObjects_Object } );
-
-        // l = new Loader( "test", new Action<ILoader>[] { strat.LoadSceneObjects_Object }, new Action<ILoader>[] { strat.LoadSceneObjects_Data } );
-
-        Action pause = () =>
-        {
-            Time.timeScale = 0;
-        };
-        Action unpause = () =>
-        {
-            Time.timeScale = 1;
-        };
-
-        JsonExplicitHierarchyGameObjectsStrategy stratExpl = new JsonExplicitHierarchyGameObjectsStrategy( SceneManager.GetActiveScene().GetRootGameObjects );
-        stratExpl.IncludedObjectsMask = 1 << 30;
-
-        //_as = new AsyncSaver( pause, unpause, new Func<ISaver, IEnumerator>[] { strat.Save_Object }, new Func<ISaver, IEnumerator>[] { strat.Save_Data } );
-        _as = new AsyncSaver( pause, unpause, new Func<ISaver, IEnumerator>[] { stratExpl.Save_Object }, new Func<ISaver, IEnumerator>[] { stratExpl.Save_Data } );
-
-        //_al = new AsyncLoader( pause, unpause, new Func<ILoader, IEnumerator>[] { strat.Load_Object }, new Func<ILoader, IEnumerator>[] { strat.Load_Data } );
-        _al = new AsyncLoader( pause, unpause, new Func<ILoader, IEnumerator>[] { stratExpl.Load_Object }, new Func<ILoader, IEnumerator>[] { stratExpl.Load_Data } );
     }
 
     void Update()
     {
-        if( Input.GetKeyDown( KeyCode.S ) )
-        {
-            _as.SaveAsync( this );
-        }
-        if( Input.GetKeyDown( KeyCode.L ) )
-        {
-            _al.LoadAsync( this );
-        }
     }
 }
