@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace UnityPlus.UILib.UIElements
     /// <summary>
     /// Represents a section of the canvas, or of a different UI element.
     /// </summary>
-    public sealed class UIPanel : UIElement, IUIElementContainer, IUIElementChild, IUILayoutDriven
+    public sealed class UIMask : UIElement, IUIElementContainer, IUIElementChild, IUILayoutDriven
     {
         internal Image backgroundComponent;
         public RectTransform contents => base.rectTransform;
@@ -21,23 +22,26 @@ namespace UnityPlus.UILib.UIElements
 
         public Sprite Background { get => backgroundComponent.sprite; set => backgroundComponent.sprite = value; }
 
-        public static UIPanel Create( IUIElementContainer parent, UILayoutInfo layoutInfo, Sprite background )
+        public static UIMask Create( IUIElementContainer parent, UILayoutInfo layoutInfo, Sprite mask )
         {
-            (GameObject rootGameObject, RectTransform rootTransform, UIPanel uiPanel) = UIElement.CreateUIGameObject<UIPanel>( parent, "uilib-panel", layoutInfo );
+            if( mask == null )
+            {
+                throw new ArgumentNullException( nameof( mask ), $"Mask can't be null." );
+            }
+
+            (GameObject rootGameObject, RectTransform rootTransform, UIMask uiMask) = UIElement.CreateUIGameObject<UIMask>( parent, "uilib-mask", layoutInfo );
 
             Image backgroundComponent = rootGameObject.AddComponent<Image>();
             backgroundComponent.raycastTarget = false;
-            backgroundComponent.sprite = background;
-            backgroundComponent.type = Image.Type.Sliced;
+            backgroundComponent.sprite = mask;
+            backgroundComponent.type = Image.Type.Simple;
 
-            if( background == null )
-            {
-                backgroundComponent.color = new Color( 0, 0, 0, 0 );
-            }
+            uiMask.backgroundComponent = backgroundComponent;
 
-            uiPanel.backgroundComponent = backgroundComponent;
+            Mask maskC = rootGameObject.AddComponent<Mask>();
+            maskC.showMaskGraphic = false;
 
-            return uiPanel;
+            return uiMask;
         }
     }
 }

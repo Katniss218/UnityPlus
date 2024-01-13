@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,13 +29,15 @@ namespace UnityPlus.UILib.UIElements
             return window;
         }
 
+        /// <summary>
+        /// A shorthand for AddButton that closes the window.
+        /// </summary>
         public static UIWindow WithCloseButton( this UIWindow window, UILayoutInfo layoutInfo, Sprite buttonSprite, out UIButton closeButton )
         {
-            closeButton = window.AddButton( layoutInfo, buttonSprite, null );
-
-            RectTransformCloser closer = closeButton.gameObject.AddComponent<RectTransformCloser>();
-            closer.ExitButton = closeButton.buttonComponent;
-            closer.UITransform = window.rectTransform;
+            closeButton = window.AddButton( layoutInfo, buttonSprite, () =>
+            {
+                window.Destroy();
+            } );
 
             return window;
         }
