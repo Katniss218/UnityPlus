@@ -5,6 +5,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityPlus.Serialization;
 using UnityEngine.TestTools;
+using UnityPlus.Serialization.Strategies;
 
 public class ComponentFinderTests
 {
@@ -42,11 +43,11 @@ public class ComponentFinderTests
         components[4] = go.AddComponent<MeshFilter>();
 
         // Act
-        Component c0 = ComponentFinder.GetComponentByIndex( components, 0 );
-        Component c1 = ComponentFinder.GetComponentByIndex( components, 1 );
-        Component c2 = ComponentFinder.GetComponentByIndex( components, 2 );
-        Component c3 = ComponentFinder.GetComponentByIndex( components, 3 );
-        Component c4 = ComponentFinder.GetComponentByIndex( components, 4 );
+        Component c0 = (Component)StratUtils.GetComponentOrGameObject( go, "*0" );
+        Component c1 = (Component)StratUtils.GetComponentOrGameObject( go, "*1" );
+        Component c2 = (Component)StratUtils.GetComponentOrGameObject( go, "*2" );
+        Component c3 = (Component)StratUtils.GetComponentOrGameObject( go, "*3" );
+        Component c4 = (Component)StratUtils.GetComponentOrGameObject( go, "*4" );
 
         // Assert
         Assert.IsTrue( c0 == components[0] );
@@ -54,26 +55,5 @@ public class ComponentFinderTests
         Assert.IsTrue( c2 == components[2] );
         Assert.IsTrue( c3 == components[3] );
         Assert.IsTrue( c4 == components[4] );
-    }
-
-    [Test]
-    public void GetByTypeAndIndex___CorrectValue___ValidData()
-    {
-        // Arrange
-        Component[] components = new Component[5];
-        GameObject go = new GameObject();
-        components[0] = go.GetComponent<Transform>();
-        components[1] = go.AddComponent<MeshRenderer>();
-        components[2] = go.AddComponent<TestComponent>();
-        components[3] = go.AddComponent<TestComponent>();
-        components[4] = go.AddComponent<MeshFilter>();
-
-        // Act
-        Component c0 = ComponentFinder.GetComponentByTypeAndIndex( components, (typeof( TestComponent ), 0) );
-        Component c1 = ComponentFinder.GetComponentByTypeAndIndex( components, (typeof( TestComponent ), 1) );
-
-        // Assert
-        Assert.IsTrue( c0 == components[2] );
-        Assert.IsTrue( c1 == components[3] );
     }
 }

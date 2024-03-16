@@ -48,7 +48,7 @@ public class CodeGenerated
     Loader l;
     AsyncSaver _as;
     AsyncLoader _al;
-    JsonAssetGameObjectsStrategy strat;
+    AssetGameObjectsStrategy strat;
 
     // Update is called once per frame
     void Start()

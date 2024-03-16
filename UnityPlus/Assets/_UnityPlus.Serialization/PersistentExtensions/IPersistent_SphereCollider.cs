@@ -11,23 +11,23 @@ namespace UnityPlus.Serialization
 {
     public static class IPersistent_SphereCollider
     {
-        public static SerializedData GetData( this SphereCollider sc, ISaver s )
+        public static SerializedData GetData( this SphereCollider sc, IReverseReferenceMap s )
         {
             return new SerializedObject()
             {
                 { "radius", sc.radius },
-                { "center", s.WriteVector3( sc.center ) },
+                { "center", sc.center.GetData() },
                 { "is_trigger", sc.isTrigger }
             };
         }
 
-        public static void SetData( this SphereCollider sc, ILoader l, SerializedObject data )
+        public static void SetData( this SphereCollider sc, IForwardReferenceMap l, SerializedData data )
         {
             if( data.TryGetValue( "radius", out var radius ) )
                 sc.radius = (float)radius;
 
             if( data.TryGetValue( "center", out var center ) )
-                sc.center = l.ReadVector3( center );
+                sc.center = center.ToVector3();
 
             if( data.TryGetValue( "is_trigger", out var isTrigger ) )
                 sc.isTrigger = (bool)isTrigger;

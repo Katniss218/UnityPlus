@@ -10,7 +10,7 @@ using UnityPlus.Serialization;
 using UnityPlus.Serialization.Json;
 using UnityPlus.Serialization.Strategies;
 
-public class _testscenereferencer : MonoBehaviour, IPersistent
+public class _testscenereferencer : MonoBehaviour, IPersistsData
 {
     public GameObject go;
     public Component c;

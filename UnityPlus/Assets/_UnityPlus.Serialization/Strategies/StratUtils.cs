@@ -1,323 +1,342 @@
-﻿using System;
+﻿using Codice.CM.Common;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace UnityPlus.Serialization.Strategies
 {
-    /// <summary>
-    /// Another class with common strategy utilities.
-    /// </summary>
-    public static class StratUtils
-    {
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static void TryWriteData( ISaver s, object obj, SerializedData data, ref SerializedArray objects )
-        {
-            if( data != null )
-            {
-                objects.Add( new SerializedObject()
-                {
-                    { KeyNames.REF, s.WriteGuid( s.GetID( obj ) ) },
-                    { "data", data }
-                } );
-            }
-        }
+	/// <summary>
+	/// Another class with common strategy utilities.
+	/// </summary>
+	public static class StratUtils
+	{
+		[MethodImpl( MethodImplOptions.AggressiveInlining )]
+		public static void TryWriteData( IReverseReferenceMap s, object obj, SerializedData data, ref SerializedArray objects )
+		{
+			if( data != null )
+			{
+				objects.Add( new SerializedObject()
+				{
+					{ KeyNames.REF, s.GetID( obj ).GetData() },
+					{ "data", data }
+				} );
+			}
+		}
 
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static void TryWriteDataWithChildrenPaths( ISaver s, object obj, SerializedData data, SerializedArray childrenPaths, ref SerializedArray objects )
-        {
-            if( data != null )
-            {
-                objects.Add( new SerializedObject()
-                {
-                    { KeyNames.REF, s.WriteGuid( s.GetID( obj ) ) },
-                    { "data", data },
-                    { "children_ids", childrenPaths }
-                } );
-            }
-        }
+		[MethodImpl( MethodImplOptions.AggressiveInlining )]
+		public static void TryWriteDataWithChildrenPaths( IReverseReferenceMap s, object obj, SerializedData data, SerializedArray childrenPaths, ref SerializedArray objects )
+		{
+			if( data != null )
+			{
+				objects.Add( new SerializedObject()
+				{
+					{ KeyNames.REF, s.GetID( obj ).GetData() },
+					{ "data", data },
+					{ "children_ids", childrenPaths }
+				} );
+			}
+		}
 
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static void AssignIDsToReferencedChildren( ILoader l, GameObject go, ref SerializedArray sArr )
-        {
-            // Set the IDs of all objects in the array.
-            foreach( var s in sArr )
-            {
-                Guid id = l.ReadGuid( s[KeyNames.ID] );
-                string path = s["path"];
+		[MethodImpl( MethodImplOptions.AggressiveInlining )]
+		public static void AssignIDsToReferencedChildren( IForwardReferenceMap l, GameObject go, ref SerializedArray sArr )
+		{
+			// Set the IDs of all objects in the array.
+			foreach( var s in sArr )
+			{
+				Guid id = s[KeyNames.ID].ToGuid();
+				string path = s["path"];
 
-                var refObj = go.GetComponentOrGameObject( path );
+				var refObj = go.GetComponentOrGameObject( path );
 
-                l.SetObj( id, refObj );
-            }
-        }
+				l.SetObj( id, refObj );
+			}
+		}
 
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static void WriteReferencedChildrenRecursive( ISaver s, GameObject go, ref SerializedArray sArr, string parentPath )
-        {
-            // write the IDs of referenced components/child gameobjects of the parent into the array, along with the path to them.
+		[MethodImpl( MethodImplOptions.AggressiveInlining )]
+		public static void WriteReferencedChildrenRecursive( IReverseReferenceMap s, GameObject go, ref SerializedArray sArr, string parentPath )
+		{
+			// write the IDs of referenced components/child gameobjects of the parent into the array, along with the path to them.
 
-            // root is always added, recursive children might not be.
-            if( !string.IsNullOrEmpty( parentPath ) )
-            {
-                if( s.TryGetID( go, out Guid id ) )
-                {
-                    sArr.Add( new SerializedObject()
-                {
-                    { KeyNames.ID, s.WriteGuid( id ) },
-                    { "path", $"{parentPath}" }
-                } );
-                }
-            }
+			// root is always added, recursive children might not be.
+			if( !string.IsNullOrEmpty( parentPath ) )
+			{
+				if( s.TryGetID( go, out Guid id ) )
+				{
+					sArr.Add( new SerializedObject()
+					{
+						{ KeyNames.ID, id.GetData() },
+						{ "path", $"{parentPath}" }
+					} );
+				}
+			}
 
-            int i = 0;
-            foreach( var comp in go.GetComponents() )
-            {
-                if( s.TryGetID( comp, out Guid id ) )
-                {
-                    sArr.Add( new SerializedObject()
-                    {
-                        { KeyNames.ID, s.WriteGuid( id ) },
-                        { "path", $"{parentPath}*{i:#########0}" }
-                    } );
-                }
-                i++;
-            }
+			int i = 0;
+			foreach( var comp in go.GetComponents() )
+			{
+				if( s.TryGetID( comp, out Guid id ) )
+				{
+					sArr.Add( new SerializedObject()
+					{
+						{ KeyNames.ID, id.GetData() },
+						{ "path", $"{parentPath}*{i:#########0}" }
+					} );
+				}
+				i++;
+			}
 
-            i = 0;
-            foreach( Transform ct in go.transform )
-            {
-                string path = $"{i:#########0}:"; // colon at the end is important
-                WriteReferencedChildrenRecursive( s, ct.gameObject, ref sArr, path );
-                i++;
-            }
-        }
+			i = 0;
+			foreach( Transform ct in go.transform )
+			{
+				string path = $"{i:#########0}:"; // colon at the end is important
+				WriteReferencedChildrenRecursive( s, ct.gameObject, ref sArr, path );
+				i++;
+			}
+		}
 
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static UnityEngine.Object GetComponentOrGameObject( this GameObject root, string path )
-        {
-            if( string.IsNullOrEmpty( path ) )
-            {
-                return root;
-            }
+		[MethodImpl( MethodImplOptions.AggressiveInlining )]
+		public static UnityEngine.Object GetComponentOrGameObject( this GameObject root, string path )
+		{
+			if( string.IsNullOrEmpty( path ) )
+			{
+				return root;
+			}
 
-            string[] pathSegments = path.Split( ':' );
+			string[] pathSegments = path.Split( ':' );
 
-            Transform obj = root.transform;
-            for( int i = 0; i < pathSegments.Length - 1; i++ )
-            {
-                int index = int.Parse( pathSegments[i] );
-                obj = obj.transform.GetChild( index );
-            }
+			Transform obj = root.transform;
+			for( int i = 0; i < pathSegments.Length - 1; i++ )
+			{
+				int index = int.Parse( pathSegments[i] );
+				obj = obj.transform.GetChild( index );
+			}
 
-            // component is always last.
-            string lastSegment = pathSegments[pathSegments.Length - 1];
-            if( lastSegment == "" )
-            {
-                return obj.gameObject;
-            }
-            if( lastSegment[0] == '*' )
-            {
-                int index = int.Parse( lastSegment[1..] );
-                return obj.GetComponents()[index];
-            }
-            else
-            {
-                int index = int.Parse( lastSegment );
-                obj = obj.transform.GetChild( index );
-                return obj;
-            }
-        }
+			// component is always last.
+			string lastSegment = pathSegments[pathSegments.Length - 1];
+			if( lastSegment == "" )
+			{
+				return obj.gameObject;
+			}
+			if( lastSegment[0] == '*' )
+			{
+				int index = int.Parse( lastSegment[1..] );
+				return obj.GetComponents()[index];
+			}
+			else
+			{
+				int index = int.Parse( lastSegment );
+				obj = obj.transform.GetChild( index );
+				return obj;
+			}
+		}
 
-        //
-        //  explicit hierarchy writing.
-        //
+		//
+		//  explicit hierarchy writing.
+		//
 
-        /// <summary>
-        /// Saves the components a gameobject (object pass).
-        /// </summary>
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static SerializedArray SaveComponents_Objects( GameObject go, ISaver s )
-        {
-            SerializedArray components = new SerializedArray();
+		public static SerializedObject WriteObjectInstance( this IReverseReferenceMap s, object obj )
+		{
+			return new SerializedObject()
+			{
+				{ KeyNames.ID, s.GetID( obj ).GetData() },
+				{ KeyNames.TYPE, obj.GetType().GetData() }
+			};
+		}
+		
+		/// <summary>
+		/// Saves the components a gameobject (object pass).
+		/// </summary>
+		[MethodImpl( MethodImplOptions.AggressiveInlining )]
+		public static SerializedArray SaveComponents_Objects( GameObject go, IReverseReferenceMap s )
+		{
+			SerializedArray components = new SerializedArray();
 
-            foreach( var comp in go.GetComponents() )
-            {
-                Guid id = s.GetID( comp );
-                SerializedObject compObj = new SerializedObject()
-                {
-                    { KeyNames.ID, s.WriteGuid(id) },
-                    { KeyNames.TYPE, s.WriteType(comp.GetType()) }
-                };
+			foreach( var comp in go.GetComponents() )
+			{
+				SerializedObject compObj = WriteObjectInstance( s, comp );
 
-                components.Add( compObj );
-            }
-            return components;
-        }
+				if( comp is IPersistsObjects po )
+				{
+					var sData = po.GetObjects( s );
+					compObj.Add( "objects", sData );
+				}
 
-        /// <summary>
-        /// Saves the hierarchy of a gameobject (object pass).
-        /// </summary>
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static void SaveGameObjectHierarchy_Objects( GameObject go, ISaver s, uint includedObjectsMask, SerializedArray siblingsArray )
-        {
-            if( go == null )
-            {
-                return;
-            }
-            if( !go.IsInLayerMask( includedObjectsMask ) )
-            {
-                return;
-            }
+				components.Add( compObj );
+			}
+			return components;
+		}
 
-            Guid objectGuid = s.GetID( go );
+		/// <summary>
+		/// Saves the hierarchy of a gameobject (object pass).
+		/// </summary>
+		[MethodImpl( MethodImplOptions.AggressiveInlining )]
+		public static void SaveGameObjectHierarchy_Objects( GameObject go, IReverseReferenceMap s, uint includedObjectsMask, SerializedArray siblingsArray )
+		{
+			if( go == null )
+			{
+				return;
+			}
+			if( !go.IsInLayerMask( includedObjectsMask ) )
+			{
+				return;
+			}
 
-            // recursive.
-            SerializedObject obj = new SerializedObject()
-            {
-                { KeyNames.ID, s.WriteGuid(objectGuid) }
-            };
+			Guid objectGuid = s.GetID( go );
 
-            SerializedArray children = new SerializedArray();
+			// recursive.
+			SerializedObject obj = new SerializedObject()
+			{
+				{ KeyNames.ID, objectGuid.GetData() }
+			};
 
-            foreach( Transform child in go.transform )
-            {
-                SaveGameObjectHierarchy_Objects( child.gameObject, s, includedObjectsMask, children );
-            }
+			SerializedArray children = new SerializedArray();
 
-            SerializedArray components = SaveComponents_Objects( go, s );
+			foreach( Transform child in go.transform )
+			{
+				SaveGameObjectHierarchy_Objects( child.gameObject, s, includedObjectsMask, children );
 
-            obj.Add( "children", children );
-            obj.Add( "components", components );
+			}
 
-            siblingsArray.Add( obj );
-        }
+			SerializedArray components = SaveComponents_Objects( go, s );
 
-        /// <summary>
-        /// Saves the hierarchy of a gameobject (data pass).
-        /// </summary>
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static void SaveGameObjectHierarchy_Data( ISaver s, GameObject go, uint includedObjectsMask, ref SerializedArray dataArray )
-        {
-            if( go == null )
-            {
-                return;
-            }
-            if( !go.IsInLayerMask( includedObjectsMask ) )
-            {
-                return;
-            }
+			obj.Add( "children", children );
+			obj.Add( "components", components );
 
-            Component[] comps = go.GetComponents();
-            for( int i = 0; i < comps.Length; i++ )
-            {
-                Component comp = comps[i];
-                SerializedData compData = null;
-                try
-                {
-                    compData = comp.GetData( s );
-                }
-                catch( Exception ex )
-                {
-                    Debug.LogWarning( $"Couldn't serialize component '{comp}': {ex.Message}." );
-                    Debug.LogException( ex );
-                }
+			siblingsArray.Add( obj );
+		}
 
-                StratUtils.TryWriteData( s, comp, compData, ref dataArray );
-            }
+		/// <summary>
+		/// Saves the hierarchy of a gameobject (data pass).
+		/// </summary>
+		[MethodImpl( MethodImplOptions.AggressiveInlining )]
+		public static void SaveGameObjectHierarchy_Data( IReverseReferenceMap s, GameObject go, uint includedObjectsMask, ref SerializedArray dataArray )
+		{
+			if( go == null )
+			{
+				return;
+			}
+			if( !go.IsInLayerMask( includedObjectsMask ) )
+			{
+				return;
+			}
 
-            SerializedData goData = go.GetData( s );
-            StratUtils.TryWriteData( s, go, goData, ref dataArray );
+			Component[] comps = go.GetComponents();
+			for( int i = 0; i < comps.Length; i++ )
+			{
+				Component comp = comps[i];
+				SerializedData compData = null;
+				try
+				{
+					compData = comp.GetData( s );
+				}
+				catch( Exception ex )
+				{
+					Debug.LogWarning( $"Couldn't serialize component '{comp}': {ex.Message}." );
+					Debug.LogException( ex );
+				}
 
-            foreach( Transform ct in go.transform )
-            {
-                SaveGameObjectHierarchy_Data( s, ct.gameObject, includedObjectsMask, ref dataArray );
-            }
-        }
+				StratUtils.TryWriteData( s, comp, compData, ref dataArray );
+			}
 
-        /// <summary>
-        /// Loads (instantiates) a hierarchy of gameobjects from saved data (object pass).
-        /// </summary>
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static GameObject InstantiateHierarchyObjects( ILoader l, SerializedData goJson, GameObject parent, List<Behaviour> behsUGLYDONTDOTHIS )
-        {
-            Guid objectGuid = l.ReadGuid( goJson[KeyNames.ID] );
+			SerializedData goData = go.GetData( s );
+			StratUtils.TryWriteData( s, go, goData, ref dataArray );
 
-            GameObject go = new GameObject();
-            l.SetObj( objectGuid, go );
+			foreach( Transform ct in go.transform )
+			{
+				SaveGameObjectHierarchy_Data( s, ct.gameObject, includedObjectsMask, ref dataArray );
+			}
+		}
 
-            if( parent != null )
-            {
-                go.transform.SetParent( parent.transform );
-            }
+		/// <summary>
+		/// Loads (instantiates) a hierarchy of gameobjects from saved data (object pass).
+		/// </summary>
+		[MethodImpl( MethodImplOptions.AggressiveInlining )]
+		public static GameObject InstantiateHierarchyObjects( IForwardReferenceMap l, SerializedData goData, GameObject parent, List<Behaviour> behsUGLYDONTDOTHIS )
+		{
+			Guid objectGuid = goData[KeyNames.ID].ToGuid();
 
-            SerializedArray components = (SerializedArray)goJson["components"];
-            foreach( var compData in components )
-            {
-                try
-                {
-                    Guid compID = l.ReadGuid( compData[KeyNames.ID] );
-                    Type compType = l.ReadType( compData[KeyNames.TYPE] );
+			GameObject go = new GameObject();
+			l.SetObj( objectGuid, go );
 
-                    Component co = go.GetTransformOrAddComponent( compType );
+			if( parent != null )
+			{
+				go.transform.SetParent( parent.transform );
+			}
 
-                    if( co is Behaviour b ) // disable to prevent 'start' firing prematurely if async.
-                    {
-                        b.enabled = false;
-                        behsUGLYDONTDOTHIS?.Add( b );
-                    }
-                    l.SetObj( compID, co );
-                }
-                catch( Exception ex )
-                {
-                    Debug.LogError( $"Failed to deserialize a component with ID: `{compData?[KeyNames.ID] ?? "<null>"}`." );
-                    Debug.LogException( ex );
-                }
-            }
+			SerializedArray components = (SerializedArray)goData["components"];
+			foreach( var compData in components )
+			{
+				try
+				{
+					Guid compID = compData[KeyNames.ID].ToGuid();
+					Type compType = compData[KeyNames.TYPE].ToType();
 
-            SerializedArray children = (SerializedArray)goJson["children"];
-            foreach( var childData in children )
-            {
-                try
-                {
-                    InstantiateHierarchyObjects( l, childData, go, behsUGLYDONTDOTHIS );
-                }
-                catch( Exception ex )
-                {
-                    Debug.LogError( $"Failed to deserialize a child GameObject with ID: `{childData?[KeyNames.ID] ?? "<null>"}`." );
-                    Debug.LogException( ex );
-                }
-            }
-            return go;
-        }
+					Component co = go.GetTransformOrAddComponent( compType );
 
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static void ApplyDataToHierarchyElement( ILoader l, SerializedData dataElement )
-        {
-            // Get whatever the data is pointing to.
-            // If it's a gameobject or a component on a gameobject, apply the data to it.
+					if( co is Behaviour b ) // disable to prevent 'start' firing prematurely if async.
+					{
+						b.enabled = false;
+						behsUGLYDONTDOTHIS?.Add( b );
+					}
+					l.SetObj( compID, co );
 
-            Guid id = l.ReadGuid( dataElement[KeyNames.REF] );
-            object obj = l.GetObj( id );
+					if( co is IPersistsObjects po )
+					{
+						var objData = compData["objects"];
+						po.SetObjects( l, objData );
+					}
 
-            switch( obj )
-            {
-                case GameObject go:
-                    go.SetData( l, dataElement["data"] );
-                    break;
+				}
+				catch( Exception ex )
+				{
+					Debug.LogError( $"Failed to deserialize a component with ID: `{compData?[KeyNames.ID] ?? "<null>"}`." );
+					Debug.LogException( ex );
+				}
+			}
 
-                case Component comp:
-                    try
-                    {
-                        comp.SetData( l, dataElement["data"] );
-                    }
-                    catch( Exception ex )
-                    {
-                        Debug.LogError( $"Failed to deserialize data of component with ID: `{dataElement?[KeyNames.REF] ?? "<null>"}`." );
-                        Debug.LogException( ex );
-                    }
-                    break;
-            }
-        }
-    }
+			SerializedArray children = (SerializedArray)goData["children"];
+			foreach( var childData in children )
+			{
+				try
+				{
+					InstantiateHierarchyObjects( l, childData, go, behsUGLYDONTDOTHIS );
+				}
+				catch( Exception ex )
+				{
+					Debug.LogError( $"Failed to deserialize a child GameObject with ID: `{childData?[KeyNames.ID] ?? "<null>"}`." );
+					Debug.LogException( ex );
+				}
+			}
+			return go;
+		}
+
+		[MethodImpl( MethodImplOptions.AggressiveInlining )]
+		public static void ApplyDataToHierarchyElement( IForwardReferenceMap l, SerializedData dataElement )
+		{
+			// Get whatever the data is pointing to.
+			// If it's a gameobject or a component on a gameobject, apply the data to it.
+
+			Guid id = dataElement[KeyNames.REF].ToGuid();
+			object obj = l.GetObj( id );
+
+			switch( obj )
+			{
+				case GameObject go:
+					go.SetData( l, dataElement["data"] );
+					break;
+
+				case Component comp:
+					try
+					{
+						comp.SetData( l, dataElement["data"] );
+					}
+					catch( Exception ex )
+					{
+						Debug.LogError( $"Failed to deserialize data of component of type {comp.GetType()}, with ID: `{dataElement?[KeyNames.REF] ?? "<null>"}`." );
+						Debug.LogException( ex );
+					}
+					break;
+			}
+		}
+	}
 }

@@ -18,6 +18,18 @@ namespace UnityEngine
             return component.GetComponents<Component>();
         }
 
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public static void GetComponentsInChildren( this Component component, List<Component> results )
+        {
+            component.GetComponentsInChildren<Component>( results );
+        }
+
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public static Component[] GetComponentsInChildren( this Component component )
+        {
+            return component.GetComponentsInChildren<Component>();
+        }
+
         /// <summary>
         /// Gets every component attached to the component's gameobject, including its <see cref="Transform"/>.
         /// </summary>
@@ -32,7 +44,7 @@ namespace UnityEngine
         /// Checks if the component's gameobject has a component of a specified type.
         /// </summary>
         /// <remarks>
-        /// Don't use this overload if you want to later do something with the component. Use <see cref="Component.GetComponent{T}"/> or <see cref="HasComponent{T}(GameObject, out T)"/> instead.
+        /// Don't use this overload if you want to later do something with the component. Use <see cref="Component.GetComponent{T}"/> or <see cref="HasComponent{T}(Component, out T)"/> instead.
         /// </remarks>
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
         public static bool HasComponent<T>( this Component component )
@@ -51,10 +63,26 @@ namespace UnityEngine
         }
 
         /// <summary>
+        /// Checks if the component's gameobject has a component of a specified type, that is not the instance specified in the parameter.
+        /// </summary>
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public static bool HasComponentOtherThan<T>( this Component comp, T otherThanThis )
+        {
+            foreach( var po in comp.GetComponents<T>() )
+            {
+                if( !object.ReferenceEquals( otherThanThis, po ) )
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Checks if the component's gameobject or any of its children (recursive) have a component of a specified type.
         /// </summary>
         /// <remarks>
-        /// Don't use this overload if you want to later do something with the component. Use <see cref="Component.GetComponentInChildren{T}"/> or <see cref="GetComponentInChildren{T}(GameObject, out T)"/> instead.
+        /// Don't use this overload if you want to later do something with the component. Use <see cref="Component.GetComponentInChildren{T}"/> or <see cref="HasComponentInChildren{T}(Component, out T)"/> instead.
         /// </remarks>
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
         public static bool HasComponentInChildren<T>( this Component component )
