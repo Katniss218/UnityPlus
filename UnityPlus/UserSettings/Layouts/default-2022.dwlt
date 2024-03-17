@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
-  m_Title: Project
+  m_Title: Test Runner
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 97
+  controlID: 99
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 43
+  controlID: 42
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -165,11 +165,11 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1465
-    height: 604
+    height: 605
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 44
+  controlID: 43
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -188,7 +188,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 271
-    height: 604
+    height: 605
   m_MinSize: {x: 201, y: 221}
   m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 13}
@@ -214,9 +214,9 @@ MonoBehaviour:
     x: 271
     y: 0
     width: 1194
-    height: 604
-  m_MinSize: {x: 202, y: 221}
-  m_MaxSize: {x: 4002, y: 4021}
+    height: 605
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 12}
   m_Panes:
   - {fileID: 12}
@@ -234,23 +234,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ProjectBrowser
+  m_Name: ConsoleWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 604
+    y: 605
     width: 1465
-    height: 343
-  m_MinSize: {x: 231, y: 271}
-  m_MaxSize: {x: 10001, y: 10021}
-  m_ActualView: {fileID: 16}
+    height: 342
+  m_MinSize: {x: 101, y: 121}
+  m_MaxSize: {x: 4001, y: 4021}
+  m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 16}
   - {fileID: 17}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -261,7 +261,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: InspectorWindow
+  m_Name: TestRunnerWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -270,14 +270,14 @@ MonoBehaviour:
     y: 0
     width: 455
     height: 947
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 18}
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 18}
   - {fileID: 19}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -301,7 +301,7 @@ MonoBehaviour:
     x: 271
     y: 73
     width: 1192
-    height: 583
+    height: 584
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -638,7 +638,7 @@ MonoBehaviour:
     x: 0
     y: 73
     width: 270
-    height: 583
+    height: 584
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -648,7 +648,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: a2f5ffffecf5ffff60f7ffff8af8ffff34fbffff
+      m_ExpandedIDs: d6b6ffff3eb7fffff0baffff0cbcffff96d7ffffeed7ffffecd8ffff44d9ffff6edaffff82dbffffd8dbffff40ddffff6cdfffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -695,7 +695,7 @@ MonoBehaviour:
     x: 271
     y: 73
     width: 1192
-    height: 583
+    height: 584
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -706,7 +706,7 @@ MonoBehaviour:
   m_ShowGizmos: 0
   m_TargetDisplay: 0
   m_ClearColor: {r: 0, g: 0, b: 0, a: 0}
-  m_TargetSize: {x: 1192, y: 562}
+  m_TargetSize: {x: 1192, y: 563}
   m_TextureFilterMode: 0
   m_TextureHideFlags: 61
   m_RenderIMGUI: 1
@@ -728,8 +728,8 @@ MonoBehaviour:
     vZoomLockedByDefault: 0
     m_HBaseRangeMin: -596
     m_HBaseRangeMax: 596
-    m_VBaseRangeMin: -281
-    m_VBaseRangeMax: 281
+    m_VBaseRangeMin: -281.5
+    m_VBaseRangeMax: 281.5
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -748,9 +748,9 @@ MonoBehaviour:
       x: 0
       y: 21
       width: 1192
-      height: 562
+      height: 563
     m_Scale: {x: 1, y: 1}
-    m_Translation: {x: 596, y: 281}
+    m_Translation: {x: 596, y: 281.5}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
@@ -758,12 +758,12 @@ MonoBehaviour:
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
       x: -596
-      y: -281
+      y: -281.5
       width: 1192
-      height: 562
+      height: 563
     m_MinimalGUI: 1
   m_defaultScale: 1
-  m_LastWindowPixelSize: {x: 1192, y: 583}
+  m_LastWindowPixelSize: {x: 1192, y: 584}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
@@ -1680,9 +1680,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 677
+    y: 678
     width: 1464
-    height: 322
+    height: 321
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -1713,9 +1713,9 @@ MonoBehaviour:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: e24e0000
-    m_LastClickedID: 20194
-    m_ExpandedIDs: 00000000d24e0000d44e0000d64e0000d84e0000da4e0000dc4e0000de4e0000e04e0000e24e0000e44e0000e64e000000ca9a3b
+    m_SelectedIDs: 8c690000
+    m_LastClickedID: 27020
+    m_ExpandedIDs: 000000008a69000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1743,7 +1743,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000d24e0000d44e0000d64e0000d84e0000da4e0000dc4e0000de4e0000e04e0000e24e0000e44e0000e64e0000
+    m_ExpandedIDs: 
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1820,9 +1820,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 677
+    y: 678
     width: 1464
-    height: 322
+    height: 321
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -1897,7 +1897,7 @@ MonoBehaviour:
     m_LastAppliedPresetName: Default
     m_SaveData: []
   m_Spl:
-    ID: 244
+    ID: 172
     splitterInitialOffset: 0
     currentActiveSplitter: -1
     realSizes:
@@ -1920,7 +1920,7 @@ MonoBehaviour:
     oldMinSizes: 
     oldMaxSizes: 
     oldSplitSize: 0
-  m_TestTypeToolbarIndex: 0
+  m_TestTypeToolbarIndex: 1
   m_PlayModeTestListGUI:
     m_Window: {fileID: 19}
     m_NewResultList:
@@ -1929,7 +1929,7 @@ MonoBehaviour:
       name: UnityPlus
       fullName: UnityPlus
       resultStatus: 1
-      duration: 0.0513215
+      duration: 0.0271205
       messages: 
       output: 
       stacktrace: 
@@ -1945,7 +1945,7 @@ MonoBehaviour:
       name: PlayMode.dll
       fullName: E:/GIT/UnityPlus/UnityPlus/Library/ScriptAssemblies/PlayMode.dll
       resultStatus: 1
-      duration: 0.0372698
+      duration: 0.0194575
       messages: 
       output: 
       stacktrace: 
@@ -1961,7 +1961,7 @@ MonoBehaviour:
       name: ComponentFinderTests
       fullName: ComponentFinderTests
       resultStatus: 1
-      duration: 0.0327685
+      duration: 0.0173714
       messages: 
       output: 
       stacktrace: 
@@ -1977,24 +1977,7 @@ MonoBehaviour:
       name: GetByIndex___CorrectValue___ValidData
       fullName: ComponentFinderTests.GetByIndex___CorrectValue___ValidData
       resultStatus: 1
-      duration: 0.0140042
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1043
-      parentUniqueId: PlayMode.dll/[PlayMode][ComponentFinderTests][suite]
-    - id: 1046
-      uniqueId: PlayMode.dll/ComponentFinderTests/[PlayMode][ComponentFinderTests.GetByTypeAndIndex___CorrectValue___ValidData]
-      name: GetByTypeAndIndex___CorrectValue___ValidData
-      fullName: ComponentFinderTests.GetByTypeAndIndex___CorrectValue___ValidData
-      resultStatus: 1
-      duration: 0.00078
+      duration: 0.0071664
       messages: 
       output: 
       stacktrace: 
@@ -2011,7 +1994,7 @@ MonoBehaviour:
       name: GetComponents_Component____CorrectOrder
       fullName: ComponentFinderTests.GetComponents_Component____CorrectOrder
       resultStatus: 1
-      duration: 0.0007892
+      duration: 0.0004098
       messages: 
       output: 
       stacktrace: 
@@ -2064,7 +2047,7 @@ MonoBehaviour:
       name: UnityPlus
       fullName: UnityPlus
       resultStatus: 1
-      duration: 0.1868006
+      duration: 0.037513
       messages: 
       output: 
       stacktrace: 
@@ -2080,7 +2063,7 @@ MonoBehaviour:
       name: EditMode.dll
       fullName: E:/GIT/UnityPlus/UnityPlus/Library/ScriptAssemblies/EditMode.dll
       resultStatus: 1
-      duration: 0.1493326
+      duration: 0.0248022
       messages: 
       output: 
       stacktrace: 
@@ -2096,7 +2079,7 @@ MonoBehaviour:
       name: Serialization
       fullName: Serialization
       resultStatus: 1
-      duration: 0.1437918
+      duration: 0.0240554
       messages: 
       output: 
       stacktrace: 
@@ -2112,7 +2095,7 @@ MonoBehaviour:
       name: Json
       fullName: Serialization.Json
       resultStatus: 1
-      duration: 0.0971465
+      duration: 0.0395123
       messages: 
       output: 
       stacktrace: 
@@ -2128,7 +2111,7 @@ MonoBehaviour:
       name: JsonStreamWriterTests
       fullName: Serialization.Json.JsonStreamWriterTests
       resultStatus: 1
-      duration: 0.0512579
+      duration: 0.0184478
       messages: 
       output: 
       stacktrace: 
@@ -2144,7 +2127,7 @@ MonoBehaviour:
       name: Write_Bool
       fullName: Serialization.Json.JsonStreamWriterTests.Write_Bool
       resultStatus: 1
-      duration: 0.029123
+      duration: 0.0077026
       messages: 
       output: 
       stacktrace: 
@@ -2161,7 +2144,7 @@ MonoBehaviour:
       name: Write_Multiple_Array
       fullName: Serialization.Json.JsonStreamWriterTests.Write_Multiple_Array
       resultStatus: 1
-      duration: 0.0015021
+      duration: 0.0007423
       messages: 
       output: 
       stacktrace: 
@@ -2178,7 +2161,7 @@ MonoBehaviour:
       name: Write_Number
       fullName: Serialization.Json.JsonStreamWriterTests.Write_Number
       resultStatus: 1
-      duration: 0.0010632
+      duration: 0.0005561
       messages: 
       output: 
       stacktrace: 
@@ -2195,7 +2178,7 @@ MonoBehaviour:
       name: Write_String_Object
       fullName: Serialization.Json.JsonStreamWriterTests.Write_String_Object
       resultStatus: 1
-      duration: 0.000927
+      duration: 0.0004853
       messages: 
       output: 
       stacktrace: 
@@ -2212,7 +2195,7 @@ MonoBehaviour:
       name: Write_String_Object_Escaped
       fullName: Serialization.Json.JsonStreamWriterTests.Write_String_Object_Escaped
       resultStatus: 1
-      duration: 0.0002913
+      duration: 0.0001624
       messages: 
       output: 
       stacktrace: 
@@ -2229,7 +2212,7 @@ MonoBehaviour:
       name: JsonStringReaderTests
       fullName: Serialization.Json.JsonStringReaderTests
       resultStatus: 1
-      duration: 0.0300035
+      duration: 0.0142286
       messages: 
       output: 
       stacktrace: 
@@ -2245,7 +2228,7 @@ MonoBehaviour:
       name: EatArray___Empty___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatArray___Empty___ParsesCorrectly
       resultStatus: 1
-      duration: 0.0027152
+      duration: 0.0012015
       messages: 
       output: 
       stacktrace: 
@@ -2262,7 +2245,7 @@ MonoBehaviour:
       name: EatArray___Numbers_Correct___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatArray___Numbers_Correct___ParsesCorrectly
       resultStatus: 1
-      duration: 0.0034539
+      duration: 0.0017373
       messages: 
       output: 
       stacktrace: 
@@ -2279,7 +2262,7 @@ MonoBehaviour:
       name: EatArray___Numbers_Missing_Comma___ThrowsError
       fullName: Serialization.Json.JsonStringReaderTests.EatArray___Numbers_Missing_Comma___ThrowsError
       resultStatus: 1
-      duration: 0.0027962
+      duration: 0.0012164
       messages: 
       output: 
       stacktrace: 
@@ -2296,7 +2279,7 @@ MonoBehaviour:
       name: EatArray___Strings_Missing_Comma___ThrowsError
       fullName: Serialization.Json.JsonStringReaderTests.EatArray___Strings_Missing_Comma___ThrowsError
       resultStatus: 1
-      duration: 0.0009729
+      duration: 0.0005059
       messages: 
       output: 
       stacktrace: 
@@ -2313,7 +2296,7 @@ MonoBehaviour:
       name: EatNumber___Easy___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatNumber___Easy___ParsesCorrectly
       resultStatus: 1
-      duration: 0.0014672
+      duration: 0.0006832
       messages: 
       output: 
       stacktrace: 
@@ -2330,7 +2313,7 @@ MonoBehaviour:
       name: EatNumber___Hard___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatNumber___Hard___ParsesCorrectly
       resultStatus: 1
-      duration: 0.0002327
+      duration: 0.0001307
       messages: 
       output: 
       stacktrace: 
@@ -2347,7 +2330,7 @@ MonoBehaviour:
       name: EatObject___Correct___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatObject___Correct___ParsesCorrectly
       resultStatus: 1
-      duration: 0.0012637
+      duration: 0.0006606
       messages: 
       output: 
       stacktrace: 
@@ -2364,7 +2347,7 @@ MonoBehaviour:
       name: Eatobject___Empty___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.Eatobject___Empty___ParsesCorrectly
       resultStatus: 1
-      duration: 0.0001998
+      duration: 0.0001181
       messages: 
       output: 
       stacktrace: 
@@ -2381,7 +2364,7 @@ MonoBehaviour:
       name: EatString___Easy___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatString___Easy___ParsesCorrectly
       resultStatus: 1
-      duration: 0.0002039
+      duration: 0.0001212
       messages: 
       output: 
       stacktrace: 
@@ -2398,7 +2381,7 @@ MonoBehaviour:
       name: EatString___Escaped___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatString___Escaped___ParsesCorrectly
       resultStatus: 1
-      duration: 0.0006886
+      duration: 0.0003759
       messages: 
       output: 
       stacktrace: 
@@ -2415,7 +2398,7 @@ MonoBehaviour:
       name: EatValue___False___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatValue___False___ParsesCorrectly
       resultStatus: 1
-      duration: 0.0011319
+      duration: 0.0005895
       messages: 
       output: 
       stacktrace: 
@@ -2432,7 +2415,7 @@ MonoBehaviour:
       name: EatValue___Null___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatValue___Null___ParsesCorrectly
       resultStatus: 1
-      duration: 0.0002023
+      duration: 0.0001237
       messages: 
       output: 
       stacktrace: 
@@ -2449,7 +2432,7 @@ MonoBehaviour:
       name: EatValue___True___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatValue___True___ParsesCorrectly
       resultStatus: 1
-      duration: 0.0002206
+      duration: 0.0001652
       messages: 
       output: 
       stacktrace: 
@@ -2466,7 +2449,7 @@ MonoBehaviour:
       name: Parse___Complicated___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.Parse___Complicated___ParsesCorrectly
       resultStatus: 1
-      duration: 0.0009166
+      duration: 0.0005785
       messages: 
       output: 
       stacktrace: 
@@ -2483,7 +2466,7 @@ MonoBehaviour:
       name: JsonStringWriterTests
       fullName: Serialization.Json.JsonStringWriterTests
       resultStatus: 1
-      duration: 0.012345
+      duration: 0.0054573
       messages: 
       output: 
       stacktrace: 
@@ -2499,7 +2482,7 @@ MonoBehaviour:
       name: Write_Bool
       fullName: Serialization.Json.JsonStringWriterTests.Write_Bool
       resultStatus: 1
-      duration: 0.0010741
+      duration: 0.0005211
       messages: 
       output: 
       stacktrace: 
@@ -2516,7 +2499,7 @@ MonoBehaviour:
       name: Write_Multiple_Array
       fullName: Serialization.Json.JsonStringWriterTests.Write_Multiple_Array
       resultStatus: 1
-      duration: 0.0007104
+      duration: 0.0003714
       messages: 
       output: 
       stacktrace: 
@@ -2533,7 +2516,7 @@ MonoBehaviour:
       name: Write_Multiple_Object
       fullName: Serialization.Json.JsonStringWriterTests.Write_Multiple_Object
       resultStatus: 1
-      duration: 0.0004495
+      duration: 0.0002424
       messages: 
       output: 
       stacktrace: 
@@ -2550,7 +2533,7 @@ MonoBehaviour:
       name: Write_Number
       fullName: Serialization.Json.JsonStringWriterTests.Write_Number
       resultStatus: 1
-      duration: 0.0002314
+      duration: 0.0001262
       messages: 
       output: 
       stacktrace: 
@@ -2567,7 +2550,7 @@ MonoBehaviour:
       name: Write_String_Object_Escaped
       fullName: Serialization.Json.JsonStringWriterTests.Write_String_Object_Escaped
       resultStatus: 1
-      duration: 0.0002197
+      duration: 0.0001395
       messages: 
       output: 
       stacktrace: 
@@ -2580,11 +2563,112 @@ MonoBehaviour:
       parentId: 1044
       parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringWriterTests][suite]
     - id: 1001
+      uniqueId: EditMode.dll/Serialization/[EditMode][Serialization.PersistentCompoundTests][suite]
+      name: PersistentCompoundTests
+      fullName: Serialization.PersistentCompoundTests
+      resultStatus: 1
+      duration: 0.019451
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1058
+      parentUniqueId: EditMode.dll/[Serialization][suite]
+    - id: 1005
+      uniqueId: EditMode.dll/Serialization/PersistentCompoundTests/[EditMode][Serialization.PersistentCompoundTests.Guid___All]
+      name: Guid___All
+      fullName: Serialization.PersistentCompoundTests.Guid___All
+      resultStatus: 1
+      duration: 0.008699
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.PersistentCompoundTests][suite]
+    - id: 1004
+      uniqueId: EditMode.dll/Serialization/PersistentCompoundTests/[EditMode][Serialization.PersistentCompoundTests.Quaternion___All]
+      name: Quaternion___All
+      fullName: Serialization.PersistentCompoundTests.Quaternion___All
+      resultStatus: 1
+      duration: 0.0009208
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.PersistentCompoundTests][suite]
+    - id: 1006
+      uniqueId: EditMode.dll/Serialization/PersistentCompoundTests/[EditMode][Serialization.PersistentCompoundTests.Type___RoundTrip]
+      name: Type___RoundTrip
+      fullName: Serialization.PersistentCompoundTests.Type___RoundTrip
+      resultStatus: 1
+      duration: 0.0005177
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.PersistentCompoundTests][suite]
+    - id: 1002
+      uniqueId: EditMode.dll/Serialization/PersistentCompoundTests/[EditMode][Serialization.PersistentCompoundTests.Vector2___All]
+      name: Vector2___All
+      fullName: Serialization.PersistentCompoundTests.Vector2___All
+      resultStatus: 1
+      duration: 0.0004429
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.PersistentCompoundTests][suite]
+    - id: 1003
+      uniqueId: EditMode.dll/Serialization/PersistentCompoundTests/[EditMode][Serialization.PersistentCompoundTests.Vector3___All]
+      name: Vector3___All
+      fullName: Serialization.PersistentCompoundTests.Vector3___All
+      resultStatus: 1
+      duration: 0.0004298
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.PersistentCompoundTests][suite]
+    - id: 1001
       uniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedArrayTests][suite]
       name: SerializedArrayTests
       fullName: Serialization.SerializedArrayTests
       resultStatus: 1
-      duration: 0.0085164
+      duration: 0.0066796
       messages: 
       output: 
       stacktrace: 
@@ -2600,7 +2684,7 @@ MonoBehaviour:
       name: AddedContentsRoundTrippedCorrectly
       fullName: Serialization.SerializedArrayTests.AddedContentsRoundTrippedCorrectly
       resultStatus: 1
-      duration: 0.0004936
+      duration: 0.000208
       messages: 
       output: 
       stacktrace: 
@@ -2617,7 +2701,7 @@ MonoBehaviour:
       name: SerializedObjectTests
       fullName: Serialization.SerializedObjectTests
       resultStatus: 1
-      duration: 0.0083342
+      duration: 0.0056547
       messages: 
       output: 
       stacktrace: 
@@ -2633,7 +2717,7 @@ MonoBehaviour:
       name: AddedContentsRetrievedCorrectly
       fullName: Serialization.SerializedObjectTests.AddedContentsRetrievedCorrectly
       resultStatus: 1
-      duration: 0.0004432
+      duration: 0.000202
       messages: 
       output: 
       stacktrace: 
@@ -2650,7 +2734,7 @@ MonoBehaviour:
       name: SerializedValueTests
       fullName: Serialization.SerializedValueTests
       resultStatus: 1
-      duration: 0.0278374
+      duration: 0.0136849
       messages: 
       output: 
       stacktrace: 
@@ -2666,7 +2750,7 @@ MonoBehaviour:
       name: Conversion___Int16_To_Int64
       fullName: Serialization.SerializedValueTests.Conversion___Int16_To_Int64
       resultStatus: 1
-      duration: 0.0009778
+      duration: 0.0004735
       messages: 
       output: 
       stacktrace: 
@@ -2683,7 +2767,7 @@ MonoBehaviour:
       name: Conversion___Int32_To_Double
       fullName: Serialization.SerializedValueTests.Conversion___Int32_To_Double
       resultStatus: 1
-      duration: 0.0009252
+      duration: 0.0005206
       messages: 
       output: 
       stacktrace: 
@@ -2700,7 +2784,7 @@ MonoBehaviour:
       name: Conversion___Int32_To_Int64
       fullName: Serialization.SerializedValueTests.Conversion___Int32_To_Int64
       resultStatus: 1
-      duration: 0.0001822
+      duration: 0.0001142
       messages: 
       output: 
       stacktrace: 
@@ -2717,7 +2801,7 @@ MonoBehaviour:
       name: Conversion___Int32_To_Single
       fullName: Serialization.SerializedValueTests.Conversion___Int32_To_Single
       resultStatus: 1
-      duration: 0.0001795
+      duration: 0.0001111
       messages: 
       output: 
       stacktrace: 
@@ -2734,7 +2818,7 @@ MonoBehaviour:
       name: Conversion___Int8_To_Int64
       fullName: Serialization.SerializedValueTests.Conversion___Int8_To_Int64
       resultStatus: 1
-      duration: 0.0004331
+      duration: 0.0002358
       messages: 
       output: 
       stacktrace: 
@@ -2751,7 +2835,7 @@ MonoBehaviour:
       name: Conversion___Single_To_Double
       fullName: Serialization.SerializedValueTests.Conversion___Single_To_Double
       resultStatus: 1
-      duration: 0.0002705
+      duration: 0.0001548
       messages: 
       output: 
       stacktrace: 
@@ -2768,7 +2852,7 @@ MonoBehaviour:
       name: Conversion___UInt32_To_Int64
       fullName: Serialization.SerializedValueTests.Conversion___UInt32_To_Int64
       resultStatus: 1
-      duration: 0.0003679
+      duration: 0.0001995
       messages: 
       output: 
       stacktrace: 
@@ -2785,7 +2869,7 @@ MonoBehaviour:
       name: Equality___String_Content___ByValue
       fullName: Serialization.SerializedValueTests.Equality___String_Content___ByValue
       resultStatus: 1
-      duration: 0.0011417
+      duration: 0.0005145
       messages: 
       output: 
       stacktrace: 
@@ -2802,7 +2886,7 @@ MonoBehaviour:
       name: Equality___ValueType_Content___ByValue
       fullName: Serialization.SerializedValueTests.Equality___ValueType_Content___ByValue
       resultStatus: 1
-      duration: 0.0002769
+      duration: 0.0001554
       messages: 
       output: 
       stacktrace: 
@@ -2819,7 +2903,7 @@ MonoBehaviour:
       name: RoundTrip___Boolean
       fullName: Serialization.SerializedValueTests.RoundTrip___Boolean
       resultStatus: 1
-      duration: 0.000367
+      duration: 0.0001195
       messages: 
       output: 
       stacktrace: 
@@ -2836,7 +2920,7 @@ MonoBehaviour:
       name: RoundTrip___Decimal
       fullName: Serialization.SerializedValueTests.RoundTrip___Decimal
       resultStatus: 1
-      duration: 0.0019175
+      duration: 0.0009427
       messages: 
       output: 
       stacktrace: 
@@ -2853,7 +2937,7 @@ MonoBehaviour:
       name: RoundTrip___Double
       fullName: Serialization.SerializedValueTests.RoundTrip___Double
       resultStatus: 1
-      duration: 0.0001917
+      duration: 0.0001461
       messages: 
       output: 
       stacktrace: 
@@ -2870,7 +2954,7 @@ MonoBehaviour:
       name: RoundTrip___Int16
       fullName: Serialization.SerializedValueTests.RoundTrip___Int16
       resultStatus: 1
-      duration: 0.0004105
+      duration: 0.0002643
       messages: 
       output: 
       stacktrace: 
@@ -2887,7 +2971,7 @@ MonoBehaviour:
       name: RoundTrip___Int32
       fullName: Serialization.SerializedValueTests.RoundTrip___Int32
       resultStatus: 1
-      duration: 0.0001998
+      duration: 0.0001369
       messages: 
       output: 
       stacktrace: 
@@ -2904,7 +2988,7 @@ MonoBehaviour:
       name: RoundTrip___Int64
       fullName: Serialization.SerializedValueTests.RoundTrip___Int64
       resultStatus: 1
-      duration: 0.0001808
+      duration: 0.0001117
       messages: 
       output: 
       stacktrace: 
@@ -2921,7 +3005,7 @@ MonoBehaviour:
       name: RoundTrip___Int8
       fullName: Serialization.SerializedValueTests.RoundTrip___Int8
       resultStatus: 1
-      duration: 0.000339
+      duration: 0.0002053
       messages: 
       output: 
       stacktrace: 
@@ -2938,7 +3022,7 @@ MonoBehaviour:
       name: RoundTrip___Single
       fullName: Serialization.SerializedValueTests.RoundTrip___Single
       resultStatus: 1
-      duration: 0.0001807
+      duration: 0.0001153
       messages: 
       output: 
       stacktrace: 
@@ -2955,7 +3039,7 @@ MonoBehaviour:
       name: RoundTrip___String
       fullName: Serialization.SerializedValueTests.RoundTrip___String
       resultStatus: 1
-      duration: 0.0001836
+      duration: 0.0001116
       messages: 
       output: 
       stacktrace: 
@@ -2972,7 +3056,7 @@ MonoBehaviour:
       name: RoundTrip___UInt16
       fullName: Serialization.SerializedValueTests.RoundTrip___UInt16
       resultStatus: 1
-      duration: 0.0005715
+      duration: 0.0003215
       messages: 
       output: 
       stacktrace: 
@@ -2989,7 +3073,7 @@ MonoBehaviour:
       name: RoundTrip___UInt32
       fullName: Serialization.SerializedValueTests.RoundTrip___UInt32
       resultStatus: 1
-      duration: 0.0007566
+      duration: 0.0003982
       messages: 
       output: 
       stacktrace: 
@@ -3006,7 +3090,7 @@ MonoBehaviour:
       name: RoundTrip___UInt64
       fullName: Serialization.SerializedValueTests.RoundTrip___UInt64
       resultStatus: 1
-      duration: 0.0007845
+      duration: 0.0004168
       messages: 
       output: 
       stacktrace: 
@@ -3023,7 +3107,7 @@ MonoBehaviour:
       name: RoundTrip___UInt8
       fullName: Serialization.SerializedValueTests.RoundTrip___UInt8
       resultStatus: 1
-      duration: 0.0005543
+      duration: 0.0002963
       messages: 
       output: 
       stacktrace: 
@@ -3035,13 +3119,13 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedValueTests][suite]
-    m_ResultText: SerializedValueTests (0,028s)
+    m_ResultText: PersistentCompoundTests (0,019s)
     m_ResultStacktrace: 
     m_TestListState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 58bcc369
-      m_LastClickedID: 1774435416
-      m_ExpandedIDs: 2026c08e436c6193cc856f9ada46919ceba168ada7da5dbdc6f21cfb50b8d623f580f53a463b4e6458bcc369fb2cbd6ab58db36f3b2591793fea547b4b5ea47cffffff7f
+      m_SelectedIDs: ad608d96
+      m_LastClickedID: -1769119571
+      m_ExpandedIDs: 2026c08e436c6193ad608d96cc856f9ada46919ceba168ada7da5dbdc6f21cfb50b8d623f580f53a463b4e6458bcc369fb2cbd6ab58db36f3b2591793fea547b4b5ea47cffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 

@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace UnityPlus.Serialization
 {
-	public static class PersistentQuaternionDbl
+	public static class Persistent_QuaternionDbl
 	{
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static SerializedData GetData( this QuaternionDbl q )

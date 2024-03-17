@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace UnityPlus.Serialization
 {
-	public static class PersistentGuid
+	public static class Persistent_Guid
 	{
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static SerializedPrimitive GetData( this Guid guid )

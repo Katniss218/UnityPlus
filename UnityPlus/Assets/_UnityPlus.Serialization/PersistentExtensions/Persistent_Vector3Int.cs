@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace UnityPlus.Serialization
 {
-	public static class PersistentVector3Int
+	public static class Persistent_Vector3Int
 	{
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static SerializedData GetData( this Vector3Int v )

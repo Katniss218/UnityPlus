@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace UnityPlus.Serialization
 {
-	public static class PersistentVector3Dbl
+	public static class Persistent_Vector3Dbl
 	{
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static SerializedData GetData( this Vector3Dbl v )

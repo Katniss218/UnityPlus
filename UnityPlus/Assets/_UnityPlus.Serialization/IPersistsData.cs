@@ -37,16 +37,4 @@ namespace UnityPlus.Serialization
         /// <param name="data">The serialized structure that contains the data. Identical to what is created by <see cref="GetData"/>.</param>
         void SetData( [AllowNull] IForwardReferenceMap l, [DisallowNull] SerializedData data );
     }
-
-    /// <summary>
-    /// Inherit from this interface to specify that this component handles creation of objects during (de)serialization.
-    /// </summary>
-    /// <remarks>
-    /// Invocation is not strictly enforced, and up to the serialization strategy.
-    /// </remarks>
-    public interface IPersistsObjects
-    {
-        SerializedData GetObjects( [AllowNull] IReverseReferenceMap s );
-        void SetObjects( [AllowNull] IForwardReferenceMap l, [DisallowNull] SerializedData data );
-    }
 }

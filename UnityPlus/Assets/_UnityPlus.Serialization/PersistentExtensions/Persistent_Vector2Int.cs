@@ -8,25 +8,25 @@ using UnityEngine;
 
 namespace UnityPlus.Serialization
 {
-	public static class PersistentVector2
+	public static class Persistent_Vector2Int
 	{
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static SerializedData GetData( this Vector2 v )
+		public static SerializedData GetData( this Vector2Int v )
 		{
 			return new SerializedArray() { (SerializedPrimitive)v.x, (SerializedPrimitive)v.y };
 		}
 		
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static void SetData( this ref Vector2 v, SerializedData data )
+		public static void SetData( this ref Vector2Int v, SerializedData data )
 		{
-			v.x = (float)data[0];
-			v.y = (float)data[1];
+			v.x = (int)data[0];
+			v.y = (int)data[1];
 		}
 		
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static Vector2 ToVector2( this SerializedData data ) 
+		public static Vector2Int Vector2Int( this SerializedData data ) 
 		{
-            return new Vector2( (float)data[0], (float)data[1] );
+            return new Vector2Int( (int)data[0], (int)data[1] );
 		}
 	}
 }
