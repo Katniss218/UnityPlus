@@ -13,7 +13,7 @@ namespace UnityPlus.Serialization
 		private static readonly Dictionary<Type, string> _typeToString = new();
 		private static readonly Dictionary<string, Type> _stringToType = new();
 
-		// We are caching the type and its string representation because accessing the Type.AssemblyQualifiedName and Type.GetType(string) is very slow.
+		// I'm caching the type and its string representation because accessing the Type.AssemblyQualifiedName and Type.GetType(string) is very slow.
 
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static SerializedPrimitive GetData( this Type type )

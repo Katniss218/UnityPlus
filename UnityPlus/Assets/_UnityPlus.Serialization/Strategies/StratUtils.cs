@@ -283,7 +283,7 @@ namespace UnityPlus.Serialization.Strategies
 					if( co is IPersistsObjects po )
 					{
 						var objData = compData["objects"];
-						po.SetObjects( l, objData );
+						po.SetObjects( l, (SerializedObject)objData );
 					}
 
 				}

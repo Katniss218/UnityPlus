@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace UnityPlus.Serialization
 {
-    public static class IPersistent_GameObject
+    public static class Persistent_GameObject
     {
         /// <summary>
         /// Writes the 'data' part of a gameobject (only gameobject, not components).
@@ -44,6 +44,20 @@ namespace UnityPlus.Serialization
 
             if( data.TryGetValue( "tag", out var tag ) )
                 gameObject.tag = (string)tag;
+        }
+
+        // persistent objects (factory).
+
+        public static GameObject SetObjects_GameObjectFactory( this SerializedObject data )
+        {
+
+            throw new NotImplementedException();
+        }
+
+        public static SerializedObject GetObjects_GameObjectFactory( GameObject gameObject )
+        {
+            
+            throw new NotImplementedException();
         }
     }
 }

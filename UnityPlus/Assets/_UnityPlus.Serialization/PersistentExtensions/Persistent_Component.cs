@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace UnityPlus.Serialization
 {
-    public static class IPersistent_Component
+    public static class Persistent_Component
     {
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
         public static SerializedData GetData( this Component c, IReverseReferenceMap s )
@@ -75,5 +75,7 @@ namespace UnityPlus.Serialization
                     comp.SetData( l, data ); break;
             }
         }
+
+        // Components can't be instantiated themselves. They only can be part of gameobjects.
     }
 }

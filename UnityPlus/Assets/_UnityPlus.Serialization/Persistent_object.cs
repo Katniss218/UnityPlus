@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace UnityPlus.Serialization
@@ -67,9 +68,71 @@ namespace UnityPlus.Serialization
 
 		// gameobjects are not auto-persistent, so the factory will create the entire hierarchy (if applicable), or spawn a prefab (if marked as prefab)
 
+		// This will replace the explicit hierarchy and asset gameobjects with a single "load scene from file" type thing.
 
-		private static readonly Dictionary<Type, Func<Type, SerializedObject, object>> _factoryCache;
-		
+
+		// backwards compatibility of save files can be done with a separate system, which takes in the version of the file and updates the file itself before it is loaded.
+
+		// when gameobject factory creates children, it should call the factory recursively, on those children.
+
+
+		private static readonly Dictionary<Type, Func<Type, SerializedObject, object>> _factoryCache = new(); // pass in the target type, and creation data.
+
+		public static void RegisterFactory<T>( Func<Type, SerializedObject, object> factory )
+		{
+			Type keyType = typeof(T);
+			_factoryCache[keyType] = factory;
+		}
+
+		public static Func<Type, SerializedObject, object> GetMostCompatibleFactory( Type type )
+		{
+			if( !_factoryCache.Any() )
+			{
+				return null;
+			}
+
+			Type targetType = type;
+
+			_factoryCache.TryGetValue( targetType, out var factory );
+
+			if( factory == null )
+			{
+				if( type.IsGenericType ) // if there is no entry for a specific generic type, get the entry for the unspecified generic type (if any).
+				{
+					targetType = type.GetGenericTypeDefinition();
+
+					_factoryCache.TryGetValue( targetType, out factory );
+
+					// maybe use parent types here as well.
+					// what about interfaces?
+				}
+				else // drawer for the base type of the type we want.
+				{
+					targetType = type.BaseType;
+
+					while( true )
+					{
+						_factoryCache.TryGetValue( targetType, out factory );
+
+						if( factory != null )
+						{
+							break;
+						}
+						if( targetType.BaseType == null )
+						{
+							break;
+						}
+
+						targetType = targetType.BaseType;
+					}
+				}
+			}
+
+			_factoryCache[type] = factory;
+
+			return factory;
+		}
+
 		/// <summary>
 		/// Returns the serialized instance of the object (without the internal state). To get the state, call <see cref="GetData(object, IReverseReferenceMap)"/>.
 		/// </summary>
@@ -180,7 +243,7 @@ namespace UnityPlus.Serialization
 			if( obj is IAutoPersistsData )
 			{
 				Type type = obj.GetType();
-				
+
 				if( !_datapersistentMembers.TryGetValue( type, out var array ) )
 				{
 					array = CacheType( type ).refT;
@@ -211,14 +274,14 @@ namespace UnityPlus.Serialization
 				case IPersistsData o:
 					return o.GetData( s );
 				case Component o:
-					return IPersistent_Component.GetData( o, s );
+					return Persistent_Component.GetData( o, s );
 			}
 			return null;
 		}
 
 		public static void SetData( this object obj, IForwardReferenceMap l, SerializedData data )
 		{
-			if(  obj is IAutoPersistsData )
+			if( obj is IAutoPersistsData )
 			{
 				Type type = obj.GetType();
 
@@ -250,7 +313,7 @@ namespace UnityPlus.Serialization
 				case IPersistsData o:
 					o.SetData( l, data ); break;
 				case Component o:
-					IPersistent_Component.SetData( o, l, data ); break;
+					Persistent_Component.SetData( o, l, data ); break;
 			}
 		}
 	}
