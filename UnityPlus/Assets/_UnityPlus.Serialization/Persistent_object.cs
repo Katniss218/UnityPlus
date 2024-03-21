@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using static Codice.CM.Common.Serialization.PacketFileReader;
 
 namespace UnityPlus.Serialization
 {
@@ -78,12 +80,6 @@ namespace UnityPlus.Serialization
 
 		private static readonly Dictionary<Type, Func<Type, SerializedObject, object>> _factoryCache = new(); // pass in the target type, and creation data.
 
-		public static void RegisterFactory<T>( Func<Type, SerializedObject, object> factory )
-		{
-			Type keyType = typeof(T);
-			_factoryCache[keyType] = factory;
-		}
-
 		public static Func<Type, SerializedObject, object> GetMostCompatibleFactory( Type type )
 		{
 			if( !_factoryCache.Any() )
@@ -97,16 +93,15 @@ namespace UnityPlus.Serialization
 
 			if( factory == null )
 			{
-				if( type.IsGenericType ) // if there is no entry for a specific generic type, get the entry for the unspecified generic type (if any).
+				if( type.IsGenericType && type.ContainsGenericParameters ) // if there is no entry for a specific generic type, get the entry for the unspecified generic type (if any).
 				{
 					targetType = type.GetGenericTypeDefinition();
 
 					_factoryCache.TryGetValue( targetType, out factory );
-
-					// maybe use parent types here as well.
-					// what about interfaces?
 				}
-				else // drawer for the base type of the type we want.
+
+				// TODO - what about interfaces?
+				if( factory == null )
 				{
 					targetType = type.BaseType;
 
@@ -133,59 +128,58 @@ namespace UnityPlus.Serialization
 			return factory;
 		}
 
-		/// <summary>
-		/// Returns the serialized instance of the object (without the internal state). To get the state, call <see cref="GetData(object, IReverseReferenceMap)"/>.
-		/// </summary>
-		public static SerializedObject GetObjects( this object obj, IReverseReferenceMap s )
+		private static readonly Dictionary<Type, MethodInfo> _getDatas = new(); // TODO - replace with Func<...> and make a lambda to bridge.
+		private static readonly Dictionary<Type, MethodInfo> _setDatas = new();
+
+		public static void CacheMethods()
 		{
-			Type type = obj.GetType();
+			_getDatas.Clear();
+			_setDatas.Clear();
 
-			SerializedObject rootSO = new SerializedObject()
+			List<Type> availableContainingClasses = AppDomain.CurrentDomain.GetAssemblies()
+				.SelectMany( a => a.GetTypes() )
+				.Where( dt => !dt.IsSealed && !dt.IsGenericType )
+				.ToList();
+
+			foreach( var cls in availableContainingClasses )
 			{
-				{ KeyNames.ID, s.GetID( obj ).GetData() },
-				{ KeyNames.TYPE, type.GetData() }
-			};
+				MethodInfo[] methods = cls.GetMethods( BindingFlags.Public | BindingFlags.Static );
 
-			if( obj is IAutoPersistsObjects )
-			{
-				if( !_referencepersistentMembers.TryGetValue( type, out var array ) )
+				foreach( var method in methods )
 				{
-					array = CacheType( type ).refT;
-				}
+					if( method.Name == nameof( IPersistsData.GetData ) )
+					{
+						ParameterInfo retParam = method.ReturnParameter;
+						ParameterInfo[] methodParams = method.GetParameters();
 
-				foreach( var field in array.fields ) // for each field, save the field, and whatever it owns
-				{
-					object fieldValue = field.f.GetValue( obj );
+						if( retParam.ParameterType == typeof( SerializedData )
+						 && methodParams.Length == 2
+						 && methodParams[1].ParameterType == typeof( IReverseReferenceMap ) )
+						{
+							_getDatas.Add( methodParams[0].ParameterType, method );
+						}
+					}
+					if( method.Name == nameof( IPersistsData.SetData ) )
+					{
+						ParameterInfo retParam = method.ReturnParameter;
+						ParameterInfo[] methodParams = method.GetParameters();
 
-					SerializedObject so = GetObjects( fieldValue, s );
-					rootSO.Add( field.attr.Key, so );
-				}
-				foreach( var property in array.properties )
-				{
-					object propertyValue = property.p.GetValue( obj );
-
-					SerializedObject so = GetObjects( propertyValue, s );
-					rootSO.Add( property.attr.Key, so );
+						if( retParam.ParameterType == typeof( void )
+						 && methodParams.Length == 3
+						 && methodParams[1].ParameterType == typeof( IReverseReferenceMap )
+						 && methodParams[2].ParameterType == typeof( SerializedData ) )
+						{
+							_setDatas.Add( methodParams[0].ParameterType, method );
+						}
+					}
 				}
 			}
-
-			if( obj is IPersistsObjects p )
-			{
-				SerializedObject ownsMap = p.GetObjects( s ); // this can override auto-serialized members
-
-				foreach( var kvp in ownsMap )
-				{
-					rootSO.Add( kvp.Key, kvp.Value );
-				}
-			}
-
-			return rootSO;
 		}
-
+		
 		/// <summary>
 		/// Creates an object instance from the serialized data (without the internal state). To set the state, call <see cref="SetData(object, IReverseReferenceMap)"/>.
 		/// </summary>
-		public static object SetObjects( IForwardReferenceMap l, SerializedObject data )
+		public static object ToInstance( IForwardReferenceMap l, SerializedObject data )
 		{
 			Type type = data[KeyNames.TYPE].ToType();
 
@@ -212,7 +206,7 @@ namespace UnityPlus.Serialization
 				{
 					if( data.TryGetValue( field.attr.Key, out var fieldData ) )
 					{
-						object fieldValue = SetObjects( l, (SerializedObject)fieldData );
+						object fieldValue = ToInstance( l, (SerializedObject)fieldData );
 						field.f.SetValue( obj, fieldValue );
 					}
 				}
@@ -220,7 +214,7 @@ namespace UnityPlus.Serialization
 				{
 					if( data.TryGetValue( property.attr.Key, out var propertyData ) )
 					{
-						object fieldValue = SetObjects( l, (SerializedObject)propertyData );
+						object fieldValue = ToInstance( l, (SerializedObject)propertyData );
 						property.p.SetValue( obj, fieldValue );
 					}
 				}
@@ -232,6 +226,55 @@ namespace UnityPlus.Serialization
 			}
 
 			return obj;
+		}
+
+		/// <summary>
+		/// Returns the serialized instance of the object (without the internal state). To get the state, call <see cref="GetData(object, IReverseReferenceMap)"/>.
+		/// </summary>
+		public static SerializedObject ToSerialized( this object obj, IReverseReferenceMap s )
+		{
+			Type type = obj.GetType();
+
+			SerializedObject rootSO = new SerializedObject()
+			{
+				{ KeyNames.ID, s.GetID( obj ).GetData() },
+				{ KeyNames.TYPE, type.GetData() }
+			};
+
+			if( obj is IAutoPersistsObjects )
+			{
+				if( !_referencepersistentMembers.TryGetValue( type, out var array ) )
+				{
+					array = CacheType( type ).refT;
+				}
+
+				foreach( var field in array.fields ) // for each field, save the field, and whatever it owns
+				{
+					object fieldValue = field.f.GetValue( obj );
+
+					SerializedObject so = ToSerialized( fieldValue, s );
+					rootSO.Add( field.attr.Key, so );
+				}
+				foreach( var property in array.properties )
+				{
+					object propertyValue = property.p.GetValue( obj );
+
+					SerializedObject so = ToSerialized( propertyValue, s );
+					rootSO.Add( property.attr.Key, so );
+				}
+			}
+
+			if( obj is IPersistsObjects p )
+			{
+				SerializedObject ownsMap = p.GetObjects( s ); // this can override auto-serialized members
+
+				foreach( var kvp in ownsMap )
+				{
+					rootSO.Add( kvp.Key, kvp.Value );
+				}
+			}
+
+			return rootSO;
 		}
 
 		//
@@ -255,14 +298,14 @@ namespace UnityPlus.Serialization
 				{
 					object fieldValue = field.f.GetValue( obj );
 
-					SerializedObject so = GetObjects( fieldValue, s );
+					SerializedData so = GetData( fieldValue, s );
 					rootSO.Add( field.attr.Key, so );
 				}
 				foreach( var property in array.properties )
 				{
 					object propertyValue = property.p.GetValue( obj );
 
-					SerializedObject so = GetObjects( propertyValue, s );
+					SerializedData so = GetData( propertyValue, s );
 					rootSO.Add( property.attr.Key, so );
 				}
 
@@ -275,6 +318,12 @@ namespace UnityPlus.Serialization
 					return o.GetData( s );
 				case Component o:
 					return Persistent_Component.GetData( o, s );
+				default:
+					if( _getDatas.TryGetValue( obj.GetType(), out var method ) )
+					{
+						return (SerializedData)method.Invoke( obj, new object[] { s } );
+					}
+					break;
 			}
 			return null;
 		}
@@ -294,16 +343,16 @@ namespace UnityPlus.Serialization
 				{
 					if( data.TryGetValue( field.attr.Key, out var fieldData ) )
 					{
-						object fieldValue = SetObjects( l, (SerializedObject)fieldData );
-						field.f.SetValue( obj, fieldValue );
+						object fieldValue = field.f.GetValue( obj );
+						SetData( fieldValue, l, fieldData );
 					}
 				}
 				foreach( var property in array.properties )
 				{
 					if( data.TryGetValue( property.attr.Key, out var propertyData ) )
 					{
-						object fieldValue = SetObjects( l, (SerializedObject)propertyData );
-						property.p.SetValue( obj, fieldValue );
+						object fieldValue = property.p.GetValue( obj );
+						SetData( fieldValue, l, propertyData );
 					}
 				}
 			}
@@ -314,6 +363,12 @@ namespace UnityPlus.Serialization
 					o.SetData( l, data ); break;
 				case Component o:
 					Persistent_Component.SetData( o, l, data ); break;
+				default:
+					if( _setDatas.TryGetValue( obj.GetType(), out var method ) )
+					{
+						method.Invoke( obj, new object[] { l, data } );
+					}
+					break;
 			}
 		}
 	}

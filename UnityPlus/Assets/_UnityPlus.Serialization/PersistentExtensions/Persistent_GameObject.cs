@@ -48,13 +48,13 @@ namespace UnityPlus.Serialization
 
         // persistent objects (factory).
 
-        public static GameObject SetObjects_GameObjectFactory( this SerializedObject data )
+        public static GameObject ToGameObject( this SerializedObject data, IForwardReferenceMap l )
         {
 
             throw new NotImplementedException();
         }
 
-        public static SerializedObject GetObjects_GameObjectFactory( GameObject gameObject )
+        public static SerializedObject ToSerialized( this GameObject gameObject, IReverseReferenceMap s )
         {
             
             throw new NotImplementedException();
