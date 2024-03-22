@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
-  m_Title: Console
+  m_Title: Test Runner
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 41
+  controlID: 85
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -646,9 +646,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: dc0f0000
+      m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 34fbffff
+      m_ExpandedIDs: 7eb9ffffb6baffff32c1ffff96c1ffffa6c8ffff0ac9ffff04caffff5ccaffff56cbffffaecbffffaaccffff0ecdffff08ceffff6cceffffbad0ffff1ed1ffffaed5ffff06d6ffff0ad7ffff6ed7ffffbed7ffff22d8ffff1cd9ffff80d9ffff78daffffd0daffffccdbffff24dcffff7edeffffdedeffff34e1ffff94e1ffff8ee2ffffeee2ffffece5ffff44e6ffff40e7ffff9ce7ffff6ee9ffffc6e9ffffccf1ffff24f2ffffccf3ffff24f4ffff1cf5ffff74f5ffffecf6ffff44f7ffff46f8ffffa0f8ffff34fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1768,8 +1768,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: dc0f0000
-    m_LastClickedInstanceID: 4060
+    m_SelectedInstanceIDs: 
+    m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c623000000000000
     m_RenameOverlay:
@@ -1861,7 +1861,7 @@ MonoBehaviour:
     m_CachedPref: 160
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: 4060
+  m_LastInspectedObjectInstanceID: -1
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0
@@ -2047,7 +2047,7 @@ MonoBehaviour:
       name: UnityPlus
       fullName: UnityPlus
       resultStatus: 1
-      duration: 0.0719384
+      duration: 0.0971277
       messages: 
       output: 
       stacktrace: 
@@ -2062,8 +2062,8 @@ MonoBehaviour:
       uniqueId: '[EditMode.dll][suite]'
       name: EditMode.dll
       fullName: E:/GIT/UnityPlus/UnityPlus/Library/ScriptAssemblies/EditMode.dll
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0836852
       messages: 
       output: 
       stacktrace: 
@@ -2078,8 +2078,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/[Serialization][suite]
       name: Serialization
       fullName: Serialization
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0769438
       messages: 
       output: 
       stacktrace: 
@@ -2094,8 +2094,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/[EditMode][Serialization.Json][suite]
       name: Json
       fullName: Serialization.Json
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0469856
       messages: 
       output: 
       stacktrace: 
@@ -2110,8 +2110,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStreamWriterTests][suite]
       name: JsonStreamWriterTests
       fullName: Serialization.Json.JsonStreamWriterTests
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0194966
       messages: 
       output: 
       stacktrace: 
@@ -2126,8 +2126,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/Json/JsonStreamWriterTests/[EditMode][Serialization.Json.JsonStreamWriterTests.Write_Bool]
       name: Write_Bool
       fullName: Serialization.Json.JsonStreamWriterTests.Write_Bool
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0085901
       messages: 
       output: 
       stacktrace: 
@@ -2143,8 +2143,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/Json/JsonStreamWriterTests/[EditMode][Serialization.Json.JsonStreamWriterTests.Write_Multiple_Array]
       name: Write_Multiple_Array
       fullName: Serialization.Json.JsonStreamWriterTests.Write_Multiple_Array
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0007613
       messages: 
       output: 
       stacktrace: 
@@ -2160,8 +2160,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/Json/JsonStreamWriterTests/[EditMode][Serialization.Json.JsonStreamWriterTests.Write_Number]
       name: Write_Number
       fullName: Serialization.Json.JsonStreamWriterTests.Write_Number
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0005859
       messages: 
       output: 
       stacktrace: 
@@ -2177,8 +2177,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/Json/JsonStreamWriterTests/[EditMode][Serialization.Json.JsonStreamWriterTests.Write_String_Object]
       name: Write_String_Object
       fullName: Serialization.Json.JsonStreamWriterTests.Write_String_Object
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0004979
       messages: 
       output: 
       stacktrace: 
@@ -2194,8 +2194,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/Json/JsonStreamWriterTests/[EditMode][Serialization.Json.JsonStreamWriterTests.Write_String_Object_Escaped]
       name: Write_String_Object_Escaped
       fullName: Serialization.Json.JsonStreamWriterTests.Write_String_Object_Escaped
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0001773
       messages: 
       output: 
       stacktrace: 
@@ -2211,8 +2211,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
       name: JsonStringReaderTests
       fullName: Serialization.Json.JsonStringReaderTests
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0170151
       messages: 
       output: 
       stacktrace: 
@@ -2227,8 +2227,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatArray___Empty___ParsesCorrectly]
       name: EatArray___Empty___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatArray___Empty___ParsesCorrectly
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0013142
       messages: 
       output: 
       stacktrace: 
@@ -2244,8 +2244,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatArray___Numbers_Correct___ParsesCorrectly]
       name: EatArray___Numbers_Correct___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatArray___Numbers_Correct___ParsesCorrectly
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0018164
       messages: 
       output: 
       stacktrace: 
@@ -2261,8 +2261,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatArray___Numbers_Missing_Comma___ThrowsError]
       name: EatArray___Numbers_Missing_Comma___ThrowsError
       fullName: Serialization.Json.JsonStringReaderTests.EatArray___Numbers_Missing_Comma___ThrowsError
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0012334
       messages: 
       output: 
       stacktrace: 
@@ -2278,8 +2278,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatArray___Strings_Missing_Comma___ThrowsError]
       name: EatArray___Strings_Missing_Comma___ThrowsError
       fullName: Serialization.Json.JsonStringReaderTests.EatArray___Strings_Missing_Comma___ThrowsError
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0005289
       messages: 
       output: 
       stacktrace: 
@@ -2295,8 +2295,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatNumber___Easy___ParsesCorrectly]
       name: EatNumber___Easy___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatNumber___Easy___ParsesCorrectly
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0007342
       messages: 
       output: 
       stacktrace: 
@@ -2312,8 +2312,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatNumber___Hard___ParsesCorrectly]
       name: EatNumber___Hard___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatNumber___Hard___ParsesCorrectly
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0001424
       messages: 
       output: 
       stacktrace: 
@@ -2329,8 +2329,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatObject___Correct___ParsesCorrectly]
       name: EatObject___Correct___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatObject___Correct___ParsesCorrectly
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0011072
       messages: 
       output: 
       stacktrace: 
@@ -2346,8 +2346,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.Eatobject___Empty___ParsesCorrectly]
       name: Eatobject___Empty___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.Eatobject___Empty___ParsesCorrectly
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0001297
       messages: 
       output: 
       stacktrace: 
@@ -2363,8 +2363,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatString___Easy___ParsesCorrectly]
       name: EatString___Easy___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatString___Easy___ParsesCorrectly
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0001345
       messages: 
       output: 
       stacktrace: 
@@ -2380,8 +2380,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatString___Escaped___ParsesCorrectly]
       name: EatString___Escaped___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatString___Escaped___ParsesCorrectly
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0003876
       messages: 
       output: 
       stacktrace: 
@@ -2397,8 +2397,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatValue___False___ParsesCorrectly]
       name: EatValue___False___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatValue___False___ParsesCorrectly
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0006066
       messages: 
       output: 
       stacktrace: 
@@ -2414,8 +2414,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatValue___Null___ParsesCorrectly]
       name: EatValue___Null___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatValue___Null___ParsesCorrectly
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0001401
       messages: 
       output: 
       stacktrace: 
@@ -2431,8 +2431,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatValue___True___ParsesCorrectly]
       name: EatValue___True___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatValue___True___ParsesCorrectly
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0001632
       messages: 
       output: 
       stacktrace: 
@@ -2448,8 +2448,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.Parse___Complicated___ParsesCorrectly]
       name: Parse___Complicated___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.Parse___Complicated___ParsesCorrectly
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0004984
       messages: 
       output: 
       stacktrace: 
@@ -2465,8 +2465,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringWriterTests][suite]
       name: JsonStringWriterTests
       fullName: Serialization.Json.JsonStringWriterTests
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0053748
       messages: 
       output: 
       stacktrace: 
@@ -2481,8 +2481,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/Json/JsonStringWriterTests/[EditMode][Serialization.Json.JsonStringWriterTests.Write_Bool]
       name: Write_Bool
       fullName: Serialization.Json.JsonStringWriterTests.Write_Bool
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0005185
       messages: 
       output: 
       stacktrace: 
@@ -2498,8 +2498,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/Json/JsonStringWriterTests/[EditMode][Serialization.Json.JsonStringWriterTests.Write_Multiple_Array]
       name: Write_Multiple_Array
       fullName: Serialization.Json.JsonStringWriterTests.Write_Multiple_Array
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0003808
       messages: 
       output: 
       stacktrace: 
@@ -2515,8 +2515,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/Json/JsonStringWriterTests/[EditMode][Serialization.Json.JsonStringWriterTests.Write_Multiple_Object]
       name: Write_Multiple_Object
       fullName: Serialization.Json.JsonStringWriterTests.Write_Multiple_Object
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0002816
       messages: 
       output: 
       stacktrace: 
@@ -2532,8 +2532,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/Json/JsonStringWriterTests/[EditMode][Serialization.Json.JsonStringWriterTests.Write_Number]
       name: Write_Number
       fullName: Serialization.Json.JsonStringWriterTests.Write_Number
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0001488
       messages: 
       output: 
       stacktrace: 
@@ -2549,8 +2549,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/Json/JsonStringWriterTests/[EditMode][Serialization.Json.JsonStringWriterTests.Write_String_Object_Escaped]
       name: Write_String_Object_Escaped
       fullName: Serialization.Json.JsonStringWriterTests.Write_String_Object_Escaped
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0001459
       messages: 
       output: 
       stacktrace: 
@@ -2566,8 +2566,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/[EditMode][Serialization.PersistentCompoundTests][suite]
       name: PersistentCompoundTests
       fullName: Serialization.PersistentCompoundTests
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0063354
       messages: 
       output: 
       stacktrace: 
@@ -2582,8 +2582,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/PersistentCompoundTests/[EditMode][Serialization.PersistentCompoundTests.Guid___All]
       name: Guid___All
       fullName: Serialization.PersistentCompoundTests.Guid___All
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0008443
       messages: 
       output: 
       stacktrace: 
@@ -2599,8 +2599,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/PersistentCompoundTests/[EditMode][Serialization.PersistentCompoundTests.Quaternion___All]
       name: Quaternion___All
       fullName: Serialization.PersistentCompoundTests.Quaternion___All
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0006236
       messages: 
       output: 
       stacktrace: 
@@ -2616,8 +2616,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/PersistentCompoundTests/[EditMode][Serialization.PersistentCompoundTests.Type___RoundTrip]
       name: Type___RoundTrip
       fullName: Serialization.PersistentCompoundTests.Type___RoundTrip
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0003474
       messages: 
       output: 
       stacktrace: 
@@ -2633,8 +2633,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/PersistentCompoundTests/[EditMode][Serialization.PersistentCompoundTests.Vector2___All]
       name: Vector2___All
       fullName: Serialization.PersistentCompoundTests.Vector2___All
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0004476
       messages: 
       output: 
       stacktrace: 
@@ -2650,8 +2650,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/PersistentCompoundTests/[EditMode][Serialization.PersistentCompoundTests.Vector3___All]
       name: Vector3___All
       fullName: Serialization.PersistentCompoundTests.Vector3___All
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0004439
       messages: 
       output: 
       stacktrace: 
@@ -2667,8 +2667,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedArrayTests][suite]
       name: SerializedArrayTests
       fullName: Serialization.SerializedArrayTests
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0028589
       messages: 
       output: 
       stacktrace: 
@@ -2683,8 +2683,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/SerializedArrayTests/[EditMode][Serialization.SerializedArrayTests.AddedContentsRoundTrippedCorrectly]
       name: AddedContentsRoundTrippedCorrectly
       fullName: Serialization.SerializedArrayTests.AddedContentsRoundTrippedCorrectly
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0002216
       messages: 
       output: 
       stacktrace: 
@@ -2700,8 +2700,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedObjectTests][suite]
       name: SerializedObjectTests
       fullName: Serialization.SerializedObjectTests
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0028524
       messages: 
       output: 
       stacktrace: 
@@ -2716,8 +2716,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/SerializedObjectTests/[EditMode][Serialization.SerializedObjectTests.AddedContentsRetrievedCorrectly]
       name: AddedContentsRetrievedCorrectly
       fullName: Serialization.SerializedObjectTests.AddedContentsRetrievedCorrectly
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0002092
       messages: 
       output: 
       stacktrace: 
@@ -2733,8 +2733,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedValueTests][suite]
       name: SerializedValueTests
       fullName: Serialization.SerializedValueTests
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.013517
       messages: 
       output: 
       stacktrace: 
@@ -2749,8 +2749,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/SerializedValueTests/[EditMode][Serialization.SerializedValueTests.Conversion___Int16_To_Int64]
       name: Conversion___Int16_To_Int64
       fullName: Serialization.SerializedValueTests.Conversion___Int16_To_Int64
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0004577
       messages: 
       output: 
       stacktrace: 
@@ -2766,8 +2766,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/SerializedValueTests/[EditMode][Serialization.SerializedValueTests.Conversion___Int32_To_Double]
       name: Conversion___Int32_To_Double
       fullName: Serialization.SerializedValueTests.Conversion___Int32_To_Double
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.000493
       messages: 
       output: 
       stacktrace: 
@@ -2783,8 +2783,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/SerializedValueTests/[EditMode][Serialization.SerializedValueTests.Conversion___Int32_To_Int64]
       name: Conversion___Int32_To_Int64
       fullName: Serialization.SerializedValueTests.Conversion___Int32_To_Int64
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0001236
       messages: 
       output: 
       stacktrace: 
@@ -2800,8 +2800,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/SerializedValueTests/[EditMode][Serialization.SerializedValueTests.Conversion___Int32_To_Single]
       name: Conversion___Int32_To_Single
       fullName: Serialization.SerializedValueTests.Conversion___Int32_To_Single
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0001227
       messages: 
       output: 
       stacktrace: 
@@ -2817,8 +2817,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/SerializedValueTests/[EditMode][Serialization.SerializedValueTests.Conversion___Int8_To_Int64]
       name: Conversion___Int8_To_Int64
       fullName: Serialization.SerializedValueTests.Conversion___Int8_To_Int64
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0002794
       messages: 
       output: 
       stacktrace: 
@@ -2834,8 +2834,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/SerializedValueTests/[EditMode][Serialization.SerializedValueTests.Conversion___Single_To_Double]
       name: Conversion___Single_To_Double
       fullName: Serialization.SerializedValueTests.Conversion___Single_To_Double
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0001716
       messages: 
       output: 
       stacktrace: 
@@ -2851,8 +2851,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/SerializedValueTests/[EditMode][Serialization.SerializedValueTests.Conversion___UInt32_To_Int64]
       name: Conversion___UInt32_To_Int64
       fullName: Serialization.SerializedValueTests.Conversion___UInt32_To_Int64
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.000212
       messages: 
       output: 
       stacktrace: 
@@ -2868,8 +2868,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/SerializedValueTests/[EditMode][Serialization.SerializedValueTests.Equality___String_Content___ByValue]
       name: Equality___String_Content___ByValue
       fullName: Serialization.SerializedValueTests.Equality___String_Content___ByValue
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0005204
       messages: 
       output: 
       stacktrace: 
@@ -2885,8 +2885,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/SerializedValueTests/[EditMode][Serialization.SerializedValueTests.Equality___ValueType_Content___ByValue]
       name: Equality___ValueType_Content___ByValue
       fullName: Serialization.SerializedValueTests.Equality___ValueType_Content___ByValue
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0001694
       messages: 
       output: 
       stacktrace: 
@@ -2902,8 +2902,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/SerializedValueTests/[EditMode][Serialization.SerializedValueTests.RoundTrip___Boolean]
       name: RoundTrip___Boolean
       fullName: Serialization.SerializedValueTests.RoundTrip___Boolean
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0001304
       messages: 
       output: 
       stacktrace: 
@@ -2919,8 +2919,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/SerializedValueTests/[EditMode][Serialization.SerializedValueTests.RoundTrip___Decimal]
       name: RoundTrip___Decimal
       fullName: Serialization.SerializedValueTests.RoundTrip___Decimal
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0010191
       messages: 
       output: 
       stacktrace: 
@@ -2936,8 +2936,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/SerializedValueTests/[EditMode][Serialization.SerializedValueTests.RoundTrip___Double]
       name: RoundTrip___Double
       fullName: Serialization.SerializedValueTests.RoundTrip___Double
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0001262
       messages: 
       output: 
       stacktrace: 
@@ -2953,8 +2953,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/SerializedValueTests/[EditMode][Serialization.SerializedValueTests.RoundTrip___Int16]
       name: RoundTrip___Int16
       fullName: Serialization.SerializedValueTests.RoundTrip___Int16
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0002384
       messages: 
       output: 
       stacktrace: 
@@ -2970,8 +2970,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/SerializedValueTests/[EditMode][Serialization.SerializedValueTests.RoundTrip___Int32]
       name: RoundTrip___Int32
       fullName: Serialization.SerializedValueTests.RoundTrip___Int32
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0001175
       messages: 
       output: 
       stacktrace: 
@@ -2987,8 +2987,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/SerializedValueTests/[EditMode][Serialization.SerializedValueTests.RoundTrip___Int64]
       name: RoundTrip___Int64
       fullName: Serialization.SerializedValueTests.RoundTrip___Int64
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0001232
       messages: 
       output: 
       stacktrace: 
@@ -3004,8 +3004,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/SerializedValueTests/[EditMode][Serialization.SerializedValueTests.RoundTrip___Int8]
       name: RoundTrip___Int8
       fullName: Serialization.SerializedValueTests.RoundTrip___Int8
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0002259
       messages: 
       output: 
       stacktrace: 
@@ -3021,8 +3021,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/SerializedValueTests/[EditMode][Serialization.SerializedValueTests.RoundTrip___Single]
       name: RoundTrip___Single
       fullName: Serialization.SerializedValueTests.RoundTrip___Single
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0001263
       messages: 
       output: 
       stacktrace: 
@@ -3038,8 +3038,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/SerializedValueTests/[EditMode][Serialization.SerializedValueTests.RoundTrip___String]
       name: RoundTrip___String
       fullName: Serialization.SerializedValueTests.RoundTrip___String
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0001239
       messages: 
       output: 
       stacktrace: 
@@ -3055,8 +3055,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/SerializedValueTests/[EditMode][Serialization.SerializedValueTests.RoundTrip___UInt16]
       name: RoundTrip___UInt16
       fullName: Serialization.SerializedValueTests.RoundTrip___UInt16
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0003105
       messages: 
       output: 
       stacktrace: 
@@ -3072,8 +3072,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/SerializedValueTests/[EditMode][Serialization.SerializedValueTests.RoundTrip___UInt32]
       name: RoundTrip___UInt32
       fullName: Serialization.SerializedValueTests.RoundTrip___UInt32
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0004252
       messages: 
       output: 
       stacktrace: 
@@ -3089,8 +3089,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/SerializedValueTests/[EditMode][Serialization.SerializedValueTests.RoundTrip___UInt64]
       name: RoundTrip___UInt64
       fullName: Serialization.SerializedValueTests.RoundTrip___UInt64
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0004404
       messages: 
       output: 
       stacktrace: 
@@ -3106,8 +3106,8 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Serialization/SerializedValueTests/[EditMode][Serialization.SerializedValueTests.RoundTrip___UInt8]
       name: RoundTrip___UInt8
       fullName: Serialization.SerializedValueTests.RoundTrip___UInt8
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0003099
       messages: 
       output: 
       stacktrace: 
@@ -3119,13 +3119,113 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1011
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedValueTests][suite]
-    m_ResultText: 
+    - id: 1064
+      uniqueId: EditMode.dll/[EditMode][UnityEngine][suite]
+      name: UnityEngine
+      fullName: UnityEngine
+      resultStatus: 1
+      duration: 0.0056304
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1063
+      parentUniqueId: '[EditMode.dll][suite]'
+    - id: 1001
+      uniqueId: EditMode.dll/UnityEngine/[EditMode][UnityEngine.TypeMapTests][suite]
+      name: TypeMapTests
+      fullName: UnityEngine.TypeMapTests
+      resultStatus: 1
+      duration: 0.002561
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1064
+      parentUniqueId: EditMode.dll/[EditMode][UnityEngine][suite]
+    - id: 1005
+      uniqueId: EditMode.dll/UnityEngine/TypeMapTests/[EditMode][UnityEngine.TypeMapTests.GetClosest___GenericDerived___PrioritizesUnconstructedTypeOverBaseType]
+      name: GetClosest___GenericDerived___PrioritizesUnconstructedTypeOverBaseType
+      fullName: UnityEngine.TypeMapTests.GetClosest___GenericDerived___PrioritizesUnconstructedTypeOverBaseType
+      resultStatus: 1
+      duration: 0.0009718
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: EditMode.dll/UnityEngine/[EditMode][UnityEngine.TypeMapTests][suite]
+    - id: 1004
+      uniqueId: EditMode.dll/UnityEngine/TypeMapTests/[EditMode][UnityEngine.TypeMapTests.GetClosest___GenericDerived___ReturnsBaseType]
+      name: GetClosest___GenericDerived___ReturnsBaseType
+      fullName: UnityEngine.TypeMapTests.GetClosest___GenericDerived___ReturnsBaseType
+      resultStatus: 1
+      duration: 0.0001689
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: EditMode.dll/UnityEngine/[EditMode][UnityEngine.TypeMapTests][suite]
+    - id: 1002
+      uniqueId: EditMode.dll/UnityEngine/TypeMapTests/[EditMode][UnityEngine.TypeMapTests.GetClosest___Simple___ReturnsCorrectType]
+      name: GetClosest___Simple___ReturnsCorrectType
+      fullName: UnityEngine.TypeMapTests.GetClosest___Simple___ReturnsCorrectType
+      resultStatus: 1
+      duration: 0.0001612
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: EditMode.dll/UnityEngine/[EditMode][UnityEngine.TypeMapTests][suite]
+    - id: 1003
+      uniqueId: EditMode.dll/UnityEngine/TypeMapTests/[EditMode][UnityEngine.TypeMapTests.GetClosest___SimpleDerived___ReturnsCorrectType]
+      name: GetClosest___SimpleDerived___ReturnsCorrectType
+      fullName: UnityEngine.TypeMapTests.GetClosest___SimpleDerived___ReturnsCorrectType
+      resultStatus: 1
+      duration: 0.0002202
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: EditMode.dll/UnityEngine/[EditMode][UnityEngine.TypeMapTests][suite]
+    m_ResultText: UnityPlus (0,097s)
     m_ResultStacktrace: 
     m_TestListState:
-      scrollPos: {x: 0, y: 386}
-      m_SelectedIDs: ad608d96
-      m_LastClickedID: -1769119571
-      m_ExpandedIDs: 2026c08e436c6193ad608d96cc856f9ada46919ceba168ada7da5dbdc6f21cfb50b8d623f580f53a463b4e6458bcc369fb2cbd6ab58db36f3b2591793fea547b4b5ea47cffffff7f
+      scrollPos: {x: 0, y: 482}
+      m_SelectedIDs: 3b259179
+      m_LastClickedID: 2039555387
+      m_ExpandedIDs: 2026c08e436c6193ad608d96cc856f9aedc39d9bda46919ceba168ada7da5dbdc6f21cfb50b8d623b2b38c2bf580f53a463b4e6458bcc369fb2cbd6ab58db36f3b2591793fea547b4b5ea47cffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 

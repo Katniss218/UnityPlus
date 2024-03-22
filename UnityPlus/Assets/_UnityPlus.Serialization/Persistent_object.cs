@@ -24,7 +24,7 @@ namespace UnityPlus.Serialization
 			List<(PropertyInfo p, PersistAttribute attr)> finalDataProperties = new();
 			List<(PropertyInfo p, PersistAttribute attr)> finalReferenceProperties = new();
 
-			FieldInfo[] fields = type.GetFields( BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy );
+			FieldInfo[] fields = type.GetFields( BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic );
 			foreach( var field in fields )
 			{
 				PersistAttribute attr = field.GetCustomAttribute<PersistAttribute>();
@@ -37,7 +37,7 @@ namespace UnityPlus.Serialization
 				}
 			}
 
-			PropertyInfo[] properties = type.GetProperties( BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy );
+			PropertyInfo[] properties = type.GetProperties( BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic );
 			foreach( var property in properties )
 			{
 				PersistAttribute attr = property.GetCustomAttribute<PersistAttribute>();
@@ -78,55 +78,8 @@ namespace UnityPlus.Serialization
 		// when gameobject factory creates children, it should call the factory recursively, on those children.
 
 
-		private static readonly Dictionary<Type, Func<Type, SerializedObject, object>> _factoryCache = new(); // pass in the target type, and creation data.
 
-		public static Func<Type, SerializedObject, object> GetMostCompatibleFactory( Type type )
-		{
-			if( !_factoryCache.Any() )
-			{
-				return null;
-			}
-
-			Type targetType = type;
-
-			_factoryCache.TryGetValue( targetType, out var factory );
-
-			if( factory == null )
-			{
-				if( type.IsGenericType && type.ContainsGenericParameters ) // if there is no entry for a specific generic type, get the entry for the unspecified generic type (if any).
-				{
-					targetType = type.GetGenericTypeDefinition();
-
-					_factoryCache.TryGetValue( targetType, out factory );
-				}
-
-				// TODO - what about interfaces?
-				if( factory == null )
-				{
-					targetType = type.BaseType;
-
-					while( true )
-					{
-						_factoryCache.TryGetValue( targetType, out factory );
-
-						if( factory != null )
-						{
-							break;
-						}
-						if( targetType.BaseType == null )
-						{
-							break;
-						}
-
-						targetType = targetType.BaseType;
-					}
-				}
-			}
-
-			_factoryCache[type] = factory;
-
-			return factory;
-		}
+		private static readonly TypeMap<Func<Type, SerializedObject, object>> _factoryCache = new(); // pass in the target type, and creation data.
 
 		private static readonly Dictionary<Type, MethodInfo> _getDatas = new(); // TODO - replace with Func<...> and make a lambda to bridge.
 		private static readonly Dictionary<Type, MethodInfo> _setDatas = new();
@@ -184,13 +137,14 @@ namespace UnityPlus.Serialization
 			Type type = data[KeyNames.TYPE].ToType();
 
 			object obj = null;
-			if( _factoryCache.TryGetValue( type, out var factoryFunc ) )
+			var factoryFunc = _factoryCache.GetClosestOrDefault( type );
+			if( factoryFunc == null )
 			{
-				obj = factoryFunc.Invoke( type, data );
+				obj = Activator.CreateInstance( type );
 			}
 			else
 			{
-				obj = Activator.CreateInstance( type );
+				obj = factoryFunc.Invoke( type, data );
 			}
 
 			l.SetObj( data[KeyNames.ID].ToGuid(), obj );
@@ -344,15 +298,21 @@ namespace UnityPlus.Serialization
 					if( data.TryGetValue( field.attr.Key, out var fieldData ) )
 					{
 						object fieldValue = field.f.GetValue( obj );
-						SetData( fieldValue, l, fieldData );
+						if( fieldValue != null )
+						{
+							SetData( fieldValue, l, fieldData );
+						}
 					}
 				}
 				foreach( var property in array.properties )
 				{
 					if( data.TryGetValue( property.attr.Key, out var propertyData ) )
 					{
-						object fieldValue = property.p.GetValue( obj );
-						SetData( fieldValue, l, propertyData );
+						object propertyValue = property.p.GetValue( obj );
+						if( propertyValue != null )
+						{
+							SetData( propertyValue, l, propertyData );
+						}
 					}
 				}
 			}
