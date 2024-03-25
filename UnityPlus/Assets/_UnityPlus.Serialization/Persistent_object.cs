@@ -8,21 +8,44 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using static Codice.CM.Common.Serialization.PacketFileReader;
 
 namespace UnityPlus.Serialization
 {
 	public static class Persistent_object
 	{
-		private static readonly Dictionary<Type, ((FieldInfo f, PersistAttribute attr)[] fields, (PropertyInfo p, PersistAttribute attr)[] properties)> _referencepersistentMembers = new();
-		private static readonly Dictionary<Type, ((FieldInfo f, PersistAttribute attr)[] fields, (PropertyInfo p, PersistAttribute attr)[] properties)> _datapersistentMembers = new();
-
-		private static (((FieldInfo f, PersistAttribute attr)[] fields, (PropertyInfo p, PersistAttribute attr)[] properties) refT, ((FieldInfo f, PersistAttribute attr)[] fields, (PropertyInfo p, PersistAttribute attr)[] properties) dataT) CacheType( Type type )
+		private struct PersistentField
 		{
-			List<(FieldInfo f, PersistAttribute attr)> finalDataFields = new();
-			List<(FieldInfo f, PersistAttribute attr)> finalReferenceFields = new();
-			List<(PropertyInfo p, PersistAttribute attr)> finalDataProperties = new();
-			List<(PropertyInfo p, PersistAttribute attr)> finalReferenceProperties = new();
+			public FieldInfo f;
+			public PersistAttribute attr;
+
+			public PersistentField( FieldInfo f, PersistAttribute attr )
+			{
+				this.f = f;
+				this.attr = attr;
+			}
+		}
+
+		private struct PersistentProperty
+		{
+			public PropertyInfo p;
+			public PersistAttribute attr;
+
+			public PersistentProperty( PropertyInfo p, PersistAttribute attr )
+			{
+				this.p = p;
+				this.attr = attr;
+			}
+		}
+
+		private static readonly Dictionary<Type, (PersistentField[] fields, PersistentProperty[] properties)> _referencepersistentMembers = new();
+		private static readonly Dictionary<Type, (PersistentField[] fields, PersistentProperty[] properties)> _datapersistentMembers = new();
+
+		private static ((PersistentField[] fields, PersistentProperty[] properties) refT, (PersistentField[] fields, PersistentProperty[] properties) dataT) CacheType( Type type )
+		{
+			List<PersistentField> finalDataFields = new();
+			List<PersistentField> finalReferenceFields = new();
+			List<PersistentProperty> finalDataProperties = new();
+			List<PersistentProperty> finalReferenceProperties = new();
 
 			FieldInfo[] fields = type.GetFields( BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic );
 			foreach( var field in fields )
@@ -31,9 +54,9 @@ namespace UnityPlus.Serialization
 				if( attr != null )
 				{
 					if( attr.PersistsReference )
-						finalReferenceFields.Add( (field, attr) );
+						finalReferenceFields.Add( new PersistentField( field, attr ) );
 					if( attr.PersistsData )
-						finalDataFields.Add( (field, attr) );
+						finalDataFields.Add( new PersistentField(field, attr) );
 				}
 			}
 
@@ -44,9 +67,9 @@ namespace UnityPlus.Serialization
 				if( attr != null )
 				{
 					if( attr.PersistsReference )
-						finalReferenceProperties.Add( (property, attr) );
+						finalReferenceProperties.Add( new PersistentProperty(property, attr) );
 					if( attr.PersistsData )
-						finalDataProperties.Add( (property, attr) );
+						finalDataProperties.Add( new PersistentProperty(property, attr) );
 				}
 			}
 
@@ -62,27 +85,24 @@ namespace UnityPlus.Serialization
 		//	REFERENCES
 		//
 
-#warning TODO - replace "serialization strategies" by these factories. i.e. a hierarchy strategy is just a method that can create a gameobject instance when it sees a type of gameobject.
+		private struct Entry
+		{
+			public readonly Func<SerializedObject, IForwardReferenceMap, object> ToInstanceFuncs;
+			public readonly Func<object, IReverseReferenceMap, SerializedObject> ToSerializedFuncs;
 
-		// asset strategy sees something that tells it that it's an asset.
-		// - this allows both to work simultaneously.
+			//public readonly Func<object, IReverseReferenceMap, SerializedData> GetDataFuncs;
+			//public readonly Action<object, IForwardReferenceMap, SerializedData> SetDataFuncs;
+		}
 
-
-		// gameobjects are not auto-persistent, so the factory will create the entire hierarchy (if applicable), or spawn a prefab (if marked as prefab)
-
-		// This will replace the explicit hierarchy and asset gameobjects with a single "load scene from file" type thing.
-
-
-		// backwards compatibility of save files can be done with a separate system, which takes in the version of the file and updates the file itself before it is loaded.
-
-		// when gameobject factory creates children, it should call the factory recursively, on those children.
-
-
-
-		private static readonly TypeMap<Func<Type, SerializedObject, object>> _factoryCache = new(); // pass in the target type, and creation data.
+		private static readonly TypeMap<Entry> _cache = new();
 
 		private static readonly Dictionary<Type, MethodInfo> _getDatas = new(); // TODO - replace with Func<...> and make a lambda to bridge.
 		private static readonly Dictionary<Type, MethodInfo> _setDatas = new();
+
+		// there are basically 3 different ways to serialize data - IPersistsData, auto-serialization, and the extension methods.
+
+		// can we ensure that the data for the endpoint ends up on the correct endpoint?
+		// technically, the data for the endpoint should be stored separately.
 
 		public static void CacheMethods()
 		{
@@ -128,26 +148,26 @@ namespace UnityPlus.Serialization
 				}
 			}
 		}
-		
+
 		/// <summary>
 		/// Creates an object instance from the serialized data (without the internal state). To set the state, call <see cref="SetData(object, IReverseReferenceMap)"/>.
 		/// </summary>
-		public static object ToInstance( IForwardReferenceMap l, SerializedObject data )
+		public static object ToInstance( SerializedObject data, IForwardReferenceMap l )
 		{
 			Type type = data[KeyNames.TYPE].ToType();
+			Guid id = data[KeyNames.ID].ToGuid();
 
 			object obj = null;
-			var factoryFunc = _factoryCache.GetClosestOrDefault( type );
-			if( factoryFunc == null )
+			if( _cache.TryGetClosest( type, out var factoryFunc ) )
 			{
-				obj = Activator.CreateInstance( type );
+				obj = factoryFunc.ToInstanceFuncs.Invoke( data, l );
 			}
 			else
 			{
-				obj = factoryFunc.Invoke( type, data );
+				obj = Activator.CreateInstance( type );
 			}
 
-			l.SetObj( data[KeyNames.ID].ToGuid(), obj );
+			l.SetObj( id, obj );
 
 			if( obj is IAutoPersistsObjects )
 			{
@@ -160,7 +180,7 @@ namespace UnityPlus.Serialization
 				{
 					if( data.TryGetValue( field.attr.Key, out var fieldData ) )
 					{
-						object fieldValue = ToInstance( l, (SerializedObject)fieldData );
+						object fieldValue = ToInstance( (SerializedObject)fieldData, l );
 						field.f.SetValue( obj, fieldValue );
 					}
 				}
@@ -168,7 +188,7 @@ namespace UnityPlus.Serialization
 				{
 					if( data.TryGetValue( property.attr.Key, out var propertyData ) )
 					{
-						object fieldValue = ToInstance( l, (SerializedObject)propertyData );
+						object fieldValue = ToInstance( (SerializedObject)propertyData, l );
 						property.p.SetValue( obj, fieldValue );
 					}
 				}
@@ -234,6 +254,10 @@ namespace UnityPlus.Serialization
 		//
 		//	DATA
 		//
+
+		// TODO - For get/setdata of derived objects, we actually want to call the get/setdata of every base type as well. Including if that type is not "ours".
+
+		// The use case is to enable serialization of base fields/properties without having access to the base type (e.g. for `enabled` from UnityEngine.Behaviour).
 
 		public static SerializedData GetData( this object obj, IReverseReferenceMap s )
 		{

@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityPlus.Serialization;
 
 namespace UnityPlus.Serialization
@@ -14,7 +15,7 @@ namespace UnityPlus.Serialization
     /// <remarks>
     /// Invocation is not strictly enforced, and up to the serialization strategy.
     /// </remarks>
-    public interface IPersistsObjects
+    public interface IPersistsObjects : IComponent
     {
         SerializedObject GetObjects( [AllowNull] IReverseReferenceMap s );
         void SetObjects( [AllowNull] IForwardReferenceMap l, [DisallowNull] SerializedObject data );
