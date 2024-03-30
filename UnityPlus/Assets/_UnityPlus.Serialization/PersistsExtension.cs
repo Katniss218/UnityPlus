@@ -9,13 +9,20 @@ namespace UnityPlus.Serialization
 {
     public static class PersistsExtension
     {
-        private static readonly Dictionary<Type, Func<object, IReverseReferenceMap, SerializedObject>> _extensionGetObjects = new();
-        private static readonly Dictionary<Type, Action<object, IForwardReferenceMap, SerializedObject>> _extensionSetObjects = new();
+        //private static readonly Dictionary<Type, Func<object, IReverseReferenceMap, SerializedObject>> _extensionGetObjects = new();
+        //private static readonly Dictionary<Type, Action<object, IForwardReferenceMap, SerializedObject>> _extensionSetObjects = new();
 
-        private static readonly Dictionary<Type, Func<object, IReverseReferenceMap, SerializedData>> _extensionGetDatas = new();
-        private static readonly Dictionary<Type, Action<object, IForwardReferenceMap, SerializedData>> _extensionSetDatas = new();
+        //private static readonly Dictionary<Type, Func<object, IReverseReferenceMap, SerializedData>> _extensionGetDatas = new();
+        //private static readonly Dictionary<Type, Action<object, IForwardReferenceMap, SerializedData>> _extensionSetDatas = new();
+        private static readonly Dictionary<Type, Delegate> _extensionGetObjects = new();
+        private static readonly Dictionary<Type, Delegate> _extensionSetObjects = new();
 
-        public static void ReloadCache()
+        private static readonly Dictionary<Type, Delegate> _extensionGetDatas = new();
+        private static readonly Dictionary<Type, Delegate> _extensionSetDatas = new();
+
+        private static bool _isInitialized = false;
+
+        public static void ReloadExtensionMethods()
         {
             _extensionGetObjects.Clear();
             _extensionSetObjects.Clear();
@@ -25,7 +32,7 @@ namespace UnityPlus.Serialization
 
             List<Type> availableContainingClasses = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany( a => a.GetTypes() )
-                .Where( dt => !dt.IsSealed && !dt.IsGenericType )
+                .Where( dt => dt.IsSealed && !dt.IsGenericType )
                 .ToList();
 
             foreach( var cls in availableContainingClasses )
@@ -45,7 +52,9 @@ namespace UnityPlus.Serialization
                          && methodParams.Length == 2
                          && methodParams[1].ParameterType == typeof( IReverseReferenceMap ) )
                         {
-                            var del = (Func<object, IReverseReferenceMap, SerializedObject>)Delegate.CreateDelegate( cls, method );
+                            Type methodType = typeof( Func<,,> ).MakeGenericType( methodParams[0].ParameterType, typeof( IReverseReferenceMap ), typeof( SerializedObject ) );
+                            //var del = (Func<object, IReverseReferenceMap, SerializedObject>)Delegate.CreateDelegate( methodType, method );
+                            var del = Delegate.CreateDelegate( methodType, method );
 
                             _extensionGetObjects.Add( methodParams[0].ParameterType, del );
                         }
@@ -60,7 +69,12 @@ namespace UnityPlus.Serialization
                          && methodParams[1].ParameterType == typeof( IForwardReferenceMap )
                          && methodParams[2].ParameterType == typeof( SerializedObject ) )
                         {
-                            var del = (Action<object, IForwardReferenceMap, SerializedObject>)Delegate.CreateDelegate( cls, method );
+                            if( methodParams[0].ParameterType.IsByRef )
+                                continue;
+
+                            Type methodType = typeof( Action<,,> ).MakeGenericType( methodParams[0].ParameterType, typeof( IForwardReferenceMap ), typeof( SerializedObject ) );
+                            //var del = (Action<object, IForwardReferenceMap, SerializedObject>)Delegate.CreateDelegate( methodType, method );
+                            var del = Delegate.CreateDelegate( methodType, method );
 
                             _extensionSetObjects.Add( methodParams[0].ParameterType, del );
                         }
@@ -77,7 +91,9 @@ namespace UnityPlus.Serialization
                          && methodParams.Length == 2
                          && methodParams[1].ParameterType == typeof( IReverseReferenceMap ) )
                         {
-                            var del = (Func<object, IReverseReferenceMap, SerializedData>)Delegate.CreateDelegate( cls, method );
+                            Type methodType = typeof( Func<,,> ).MakeGenericType( methodParams[0].ParameterType, typeof( IReverseReferenceMap ), typeof( SerializedData ) );
+                            //var del = (Func<object, IReverseReferenceMap, SerializedData>)Delegate.CreateDelegate( methodType, method );
+                            var del = Delegate.CreateDelegate( methodType, method );
 
                             _extensionGetDatas.Add( methodParams[0].ParameterType, del );
                         }
@@ -92,46 +108,80 @@ namespace UnityPlus.Serialization
                          && methodParams[1].ParameterType == typeof( IForwardReferenceMap )
                          && methodParams[2].ParameterType == typeof( SerializedData ) )
                         {
-                            var del = (Action<object, IForwardReferenceMap, SerializedData>)Delegate.CreateDelegate( cls, method );
+                            if( methodParams[0].ParameterType.IsByRef )
+                                continue;
+
+                            Type methodType = typeof( Action<,,> ).MakeGenericType( methodParams[0].ParameterType, typeof( IForwardReferenceMap ), typeof( SerializedData ) );
+                            //var del = (Action<object, IForwardReferenceMap, SerializedData>)Delegate.CreateDelegate( methodType, method );
+                            var del = Delegate.CreateDelegate( methodType, method );
 
                             _extensionSetDatas.Add( methodParams[0].ParameterType, del );
                         }
                     }
                 }
             }
+
+            _isInitialized = true;
         }
 
         public static SerializedObject GetObjects( object obj, Type objType, IReverseReferenceMap s )
         {
+            if( !_isInitialized )
+                ReloadExtensionMethods();
+
             if( _extensionGetObjects.TryGetValue( objType, out var extensionMethod ) )
             {
-                return extensionMethod.Invoke( obj, s );
+                return (SerializedObject)extensionMethod.DynamicInvoke( obj, s );
             }
             return null;
         }
 
         public static void SetObjects( object obj, Type objType, SerializedObject data, IForwardReferenceMap l )
         {
-            if( _extensionSetObjects.TryGetValue( objType, out var extensionMethod ) )
+            if( !_isInitialized )
+                ReloadExtensionMethods();
+
+            if( objType.IsValueType )
             {
-                extensionMethod.Invoke( obj, l, data );
+#warning TODO - actually, ref is not a great idea. probably better to have a proper 'serialize-in-place' option instead (that will work on immutable objs too).
+                // pass by ref, if possible.
+            }
+            else
+            {
+                if( _extensionSetObjects.TryGetValue( objType, out var extensionMethod ) )
+                {
+                    extensionMethod.DynamicInvoke( obj, l, data );
+                }
             }
         }
 
         public static SerializedData GetData( object obj, Type objType, IReverseReferenceMap s )
         {
+            if( !_isInitialized )
+                ReloadExtensionMethods();
+
             if( _extensionGetDatas.TryGetValue( objType, out var extensionMethod ) )
             {
-                return extensionMethod.Invoke( obj, s );
+                return (SerializedData)extensionMethod.DynamicInvoke( obj, s );
             }
             return null;
         }
 
         public static void SetData( object obj, Type objType, IForwardReferenceMap l, SerializedData data )
         {
-            if( _extensionSetDatas.TryGetValue( objType, out var extensionMethod ) )
+            if( !_isInitialized )
+                ReloadExtensionMethods();
+
+            if( objType.IsValueType )
             {
-                extensionMethod.Invoke( obj, l, data );
+                // pass by ref, if possible.
+            }
+            else
+            {
+                if( _extensionSetDatas.TryGetValue( objType, out var extensionMethod ) )
+                {
+                    extensionMethod.DynamicInvoke( obj, l, data );
+                }
             }
         }
     }

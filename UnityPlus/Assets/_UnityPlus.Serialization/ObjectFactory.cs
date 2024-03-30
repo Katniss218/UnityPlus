@@ -7,6 +7,11 @@ namespace UnityPlus.Serialization
     {
         private static readonly TypeMap<Func<Type, object>> _cache = new();
 
+        public static void ReloadFactoryMethods()
+        {
+            // Load extension methods `Object ToObject( this SerializedData, IForwardReferenceMap l )`, where 'Object' is the identifier of the type in question, with special chars replaced by `_`.
+        }
+
         public static object Create( SerializedObject data, IForwardReferenceMap l )
         {
             // this just instantiates.

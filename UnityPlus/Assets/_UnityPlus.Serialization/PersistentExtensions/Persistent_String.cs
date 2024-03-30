@@ -8,26 +8,27 @@ using UnityPlus.Serialization;
 
 namespace UnityPlus.Serialization
 {
-	public static class Persistent_Boolean
+	public static class Persistent_String
 	{
 		// TODO - add equivalent for all other types.
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static SerializedData GetData( this bool value, IForwardReferenceMap l )
+		public static SerializedData GetData( this string value, IReverseReferenceMap s )
 		{
 			return (SerializedPrimitive)value;
 		}
 		
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static void SetData( this ref bool value, IForwardReferenceMap l, SerializedData data )
+		// Immutable - can't do.
+        /*[MethodImpl( MethodImplOptions.AggressiveInlining )]
+		public static void SetData( this ref string value, IForwardReferenceMap l, SerializedData data )
 		{
-			value = (bool)data;
-		}
+			value = (string)data;
+		}*/
 		
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static bool ToBoolean( this SerializedData data, IForwardReferenceMap l ) 
+		public static string ToString( this SerializedData data, IForwardReferenceMap l ) 
 		{
-            return (bool)data;
+            return (string)data;
 		}
 	}
 }
