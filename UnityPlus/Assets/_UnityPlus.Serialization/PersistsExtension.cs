@@ -1,0 +1,138 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using UnityEngine;
+
+namespace UnityPlus.Serialization
+{
+    public static class PersistsExtension
+    {
+        private static readonly Dictionary<Type, Func<object, IReverseReferenceMap, SerializedObject>> _extensionGetObjects = new();
+        private static readonly Dictionary<Type, Action<object, IForwardReferenceMap, SerializedObject>> _extensionSetObjects = new();
+
+        private static readonly Dictionary<Type, Func<object, IReverseReferenceMap, SerializedData>> _extensionGetDatas = new();
+        private static readonly Dictionary<Type, Action<object, IForwardReferenceMap, SerializedData>> _extensionSetDatas = new();
+
+        public static void ReloadCache()
+        {
+            _extensionGetObjects.Clear();
+            _extensionSetObjects.Clear();
+
+            _extensionGetDatas.Clear();
+            _extensionSetDatas.Clear();
+
+            List<Type> availableContainingClasses = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany( a => a.GetTypes() )
+                .Where( dt => !dt.IsSealed && !dt.IsGenericType )
+                .ToList();
+
+            foreach( var cls in availableContainingClasses )
+            {
+                MethodInfo[] methods = cls.GetMethods( BindingFlags.Public | BindingFlags.Static );
+
+                foreach( var method in methods )
+                {
+                    // Objects
+
+                    if( method.Name == nameof( IPersistsObjects.GetObjects ) )
+                    {
+                        ParameterInfo retParam = method.ReturnParameter;
+                        ParameterInfo[] methodParams = method.GetParameters();
+
+                        if( retParam.ParameterType == typeof( SerializedObject )
+                         && methodParams.Length == 2
+                         && methodParams[1].ParameterType == typeof( IReverseReferenceMap ) )
+                        {
+                            var del = (Func<object, IReverseReferenceMap, SerializedObject>)Delegate.CreateDelegate( cls, method );
+
+                            _extensionGetObjects.Add( methodParams[0].ParameterType, del );
+                        }
+                    }
+                    else if( method.Name == nameof( IPersistsObjects.SetObjects ) )
+                    {
+                        ParameterInfo retParam = method.ReturnParameter;
+                        ParameterInfo[] methodParams = method.GetParameters();
+
+                        if( retParam.ParameterType == typeof( void )
+                         && methodParams.Length == 3
+                         && methodParams[1].ParameterType == typeof( IForwardReferenceMap )
+                         && methodParams[2].ParameterType == typeof( SerializedObject ) )
+                        {
+                            var del = (Action<object, IForwardReferenceMap, SerializedObject>)Delegate.CreateDelegate( cls, method );
+
+                            _extensionSetObjects.Add( methodParams[0].ParameterType, del );
+                        }
+                    }
+
+                    // Data
+
+                    else if( method.Name == nameof( IPersistsData.GetData ) )
+                    {
+                        ParameterInfo retParam = method.ReturnParameter;
+                        ParameterInfo[] methodParams = method.GetParameters();
+
+                        if( retParam.ParameterType == typeof( SerializedData )
+                         && methodParams.Length == 2
+                         && methodParams[1].ParameterType == typeof( IReverseReferenceMap ) )
+                        {
+                            var del = (Func<object, IReverseReferenceMap, SerializedData>)Delegate.CreateDelegate( cls, method );
+
+                            _extensionGetDatas.Add( methodParams[0].ParameterType, del );
+                        }
+                    }
+                    else if( method.Name == nameof( IPersistsData.SetData ) )
+                    {
+                        ParameterInfo retParam = method.ReturnParameter;
+                        ParameterInfo[] methodParams = method.GetParameters();
+
+                        if( retParam.ParameterType == typeof( void )
+                         && methodParams.Length == 3
+                         && methodParams[1].ParameterType == typeof( IForwardReferenceMap )
+                         && methodParams[2].ParameterType == typeof( SerializedData ) )
+                        {
+                            var del = (Action<object, IForwardReferenceMap, SerializedData>)Delegate.CreateDelegate( cls, method );
+
+                            _extensionSetDatas.Add( methodParams[0].ParameterType, del );
+                        }
+                    }
+                }
+            }
+        }
+
+        public static SerializedObject GetObjects( object obj, Type objType, IReverseReferenceMap s )
+        {
+            if( _extensionGetObjects.TryGetValue( objType, out var extensionMethod ) )
+            {
+                return extensionMethod.Invoke( obj, s );
+            }
+            return null;
+        }
+
+        public static void SetObjects( object obj, Type objType, SerializedObject data, IForwardReferenceMap l )
+        {
+            if( _extensionSetObjects.TryGetValue( objType, out var extensionMethod ) )
+            {
+                extensionMethod.Invoke( obj, l, data );
+            }
+        }
+
+        public static SerializedData GetData( object obj, Type objType, IReverseReferenceMap s )
+        {
+            if( _extensionGetDatas.TryGetValue( objType, out var extensionMethod ) )
+            {
+                return extensionMethod.Invoke( obj, s );
+            }
+            return null;
+        }
+
+        public static void SetData( object obj, Type objType, IForwardReferenceMap l, SerializedData data )
+        {
+            if( _extensionSetDatas.TryGetValue( objType, out var extensionMethod ) )
+            {
+                extensionMethod.Invoke( obj, l, data );
+            }
+        }
+    }
+}
