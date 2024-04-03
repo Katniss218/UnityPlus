@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
-  m_Title: Game
+  m_Title: Console
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 102
+  controlID: 41
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 48
+  controlID: 42
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -169,7 +169,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 49
+  controlID: 43
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -189,8 +189,8 @@ MonoBehaviour:
     y: 0
     width: 271
     height: 605
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 201, y: 221}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}
@@ -270,8 +270,8 @@ MonoBehaviour:
     y: 0
     width: 455
     height: 947
-  m_MinSize: {x: 101, y: 121}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 18}
@@ -646,9 +646,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
+      m_SelectedIDs: 3e0e0000
       m_LastClickedID: 0
-      m_ExpandedIDs: 8cc5ffffaec5ffffdacaffff96cdffffeecdffffe8ceffff42cfffff34fbffff
+      m_ExpandedIDs: 32f3ffff22faffff34fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1700,22 +1700,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes
+    - Assets/Tests/EditMode
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scenes
+  - Assets/Tests/EditMode
   m_LastFoldersGridSize: -1
   m_LastProjectPath: E:\GIT\UnityPlus\UnityPlus
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 60}
-    m_SelectedIDs: ca4e0000
-    m_LastClickedID: 20170
-    m_ExpandedIDs: 000000008e4e000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 87}
+    m_SelectedIDs: 144f0000
+    m_LastClickedID: 20244
+    m_ExpandedIDs: 00000000ac4e0000ec4e000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1743,7 +1743,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000008e4e0000
+    m_ExpandedIDs: 00000000ac4e0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1768,8 +1768,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 7c4f0000
-    m_LastClickedInstanceID: 20348
+    m_SelectedInstanceIDs: 3e0e0000
+    m_LastClickedInstanceID: 3646
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c623000000000000
     m_RenameOverlay:
@@ -1861,7 +1861,7 @@ MonoBehaviour:
     m_CachedPref: 160
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: -1
+  m_LastInspectedObjectInstanceID: 3646
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0
@@ -1897,7 +1897,7 @@ MonoBehaviour:
     m_LastAppliedPresetName: Default
     m_SaveData: []
   m_Spl:
-    ID: 1284
+    ID: 223
     splitterInitialOffset: 0
     currentActiveSplitter: -1
     realSizes:
@@ -2047,7 +2047,7 @@ MonoBehaviour:
       name: UnityPlus
       fullName: UnityPlus
       resultStatus: 2
-      duration: 0.0423011
+      duration: 0.0365167
       messages: One or more child tests had errors
       output: 
       stacktrace: 
@@ -2063,7 +2063,7 @@ MonoBehaviour:
       name: EditMode.dll
       fullName: E:/GIT/UnityPlus/UnityPlus/Library/ScriptAssemblies/EditMode.dll
       resultStatus: 2
-      duration: 0.0242343
+      duration: 0.0171986
       messages: One or more child tests had errors
       output: 
       stacktrace: 
@@ -2079,7 +2079,7 @@ MonoBehaviour:
       name: Serialization
       fullName: Serialization
       resultStatus: 2
-      duration: 0.0235482
+      duration: 0.0156011
       messages: One or more child tests had errors
       output: 
       stacktrace: 
@@ -2668,7 +2668,7 @@ MonoBehaviour:
       name: PersistentTrimodalTests
       fullName: Serialization.PersistentTrimodalTests
       resultStatus: 2
-      duration: 0.0196884
+      duration: 0.0147984
       messages: One or more child tests had errors
       output: 
       stacktrace: 
@@ -2684,14 +2684,18 @@ MonoBehaviour:
       name: Test
       fullName: Serialization.PersistentTrimodalTests.Test
       resultStatus: 2
-      duration: 0.0121919
-      messages: "  Expected: <UnityPlus.Serialization.SerializedPrimitive>\r\n  But
-        was:  null\r\n"
+      duration: 0.0071453
+      messages: 'System.Collections.Generic.KeyNotFoundException : The given key
+        ''field_1'' was not present in the dictionary.'
       output: 
-      stacktrace: 'at Serialization.PersistentTrimodalTests.Test () [0x00028] in
-        E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\PersistentTrimodalTests.cs:41
-
-'
+      stacktrace: "  at System.Collections.Generic.Dictionary`2[TKey,TValue].get_Item
+        (TKey key) [0x0001e] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 \r\n  at UnityPlus.Serialization.SerializedObject.get_Item
+        (System.String name) [0x00001] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializedObject.cs:28
+        \r\n  at Serialization.PersistentTrimodalTests.Test () [0x0002d] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\PersistentTrimodalTests.cs:42
+        \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
+        at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
+        invokeAttr, System.Reflection.Binder binder, System.Object[] parameters,
+        System.Globalization.CultureInfo culture) [0x0006a] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 "
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -3375,13 +3379,23 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: EditMode.dll/UnityEngine/[EditMode][UnityEngine.TypeMapTests][suite]
-    m_ResultText: "Test (0,012s)\n---\nExpected: <UnityPlus.Serialization.SerializedPrimitive>\r\n 
-      But was:  null\n---\nat Serialization.PersistentTrimodalTests.Test () [0x00028]
-      in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\PersistentTrimodalTests.cs:41"
-    m_ResultStacktrace: 'at Serialization.PersistentTrimodalTests.Test () [0x00028]
-      in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\PersistentTrimodalTests.cs:41
-
-'
+    m_ResultText: "Test (0,007s)\n---\nSystem.Collections.Generic.KeyNotFoundException
+      : The given key 'field_1' was not present in the dictionary.\n---\nat System.Collections.Generic.Dictionary`2[TKey,TValue].get_Item
+      (TKey key) [0x0001e] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 \r\n  at UnityPlus.Serialization.SerializedObject.get_Item
+      (System.String name) [0x00001] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializedObject.cs:28
+      \r\n  at Serialization.PersistentTrimodalTests.Test () [0x0002d] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\PersistentTrimodalTests.cs:42
+      \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
+      at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
+      invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo
+      culture) [0x0006a] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0"
+    m_ResultStacktrace: "  at System.Collections.Generic.Dictionary`2[TKey,TValue].get_Item
+      (TKey key) [0x0001e] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 \r\n  at UnityPlus.Serialization.SerializedObject.get_Item
+      (System.String name) [0x00001] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializedObject.cs:28
+      \r\n  at Serialization.PersistentTrimodalTests.Test () [0x0002d] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\PersistentTrimodalTests.cs:42
+      \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
+      at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
+      invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo
+      culture) [0x0006a] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 "
     m_TestListState:
       scrollPos: {x: 0, y: 180}
       m_SelectedIDs: 93ad6e73

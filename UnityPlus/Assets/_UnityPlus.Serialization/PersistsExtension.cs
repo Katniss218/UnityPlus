@@ -9,6 +9,14 @@ namespace UnityPlus.Serialization
 {
     public static class PersistsExtension
     {
+        /*
+        
+        'extension' serialization mode.
+
+        Extension mirrors the direct (manual) mode, but uses extension methods instead of implementing an interface.
+
+        */
+
         //private static readonly Dictionary<Type, Func<object, IReverseReferenceMap, SerializedObject>> _extensionGetObjects = new();
         //private static readonly Dictionary<Type, Action<object, IForwardReferenceMap, SerializedObject>> _extensionSetObjects = new();
 
@@ -141,17 +149,9 @@ namespace UnityPlus.Serialization
             if( !_isInitialized )
                 ReloadExtensionMethods();
 
-            if( objType.IsValueType )
+            if( _extensionSetObjects.TryGetValue( objType, out var extensionMethod ) )
             {
-#warning TODO - actually, ref is not a great idea. probably better to have a proper 'serialize-in-place' option instead (that will work on immutable objs too).
-                // pass by ref, if possible.
-            }
-            else
-            {
-                if( _extensionSetObjects.TryGetValue( objType, out var extensionMethod ) )
-                {
-                    extensionMethod.DynamicInvoke( obj, l, data );
-                }
+                extensionMethod.DynamicInvoke( obj, l, data );
             }
         }
 

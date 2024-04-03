@@ -15,21 +15,12 @@ namespace Serialization
     {
         public class TestClass : IAutoPersistsData
         {
-            [Persist( "field_1", PersistMode.Data )]
-            public int field1;
-
-            [Persist( "property_1", PersistMode.Data )]
-            public string Property1 { get; set; }
-        }
-
-        /*public class TestClass2 : IAutoPersistsData
-        {
-            [PersistObject( "field_1", AsImmutable = true )] // PersistObject defines ownership.
+            [Persist( "field_1" )]
             public object field1;
 
-            [PersistData( "property_1", AsImmutable = true )]
+            [Persist( "property_1" )]
             public string Property1 { get; set; }
-        }*/
+        }
 
         [Test]
         public void Test()

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using static Codice.CM.Common.Serialization.PacketFileReader;
 
 namespace UnityPlus.Serialization
 {
@@ -11,24 +12,32 @@ namespace UnityPlus.Serialization
         private struct PersistentField
         {
             public FieldInfo f;
-            public PersistAttribute attr;
 
-            public PersistentField( FieldInfo f, PersistAttribute attr )
+            public string serializedName;
+
+            public PersistentField( FieldInfo f, string serializedName )
             {
                 this.f = f;
-                this.attr = attr;
+                this.serializedName = serializedName;
             }
         }
 
         private struct PersistentProperty
         {
             public PropertyInfo p;
-            public PersistAttribute attr;
 
-            public PersistentProperty( PropertyInfo p, PersistAttribute attr )
+            public string serializedName;
+
+#warning actually, the type itself should decide whether or not to serialize itself as immutable. Not the property. And whether or not to serialize data or objects or both also.
+
+            // auto should probably call both obj and data on every field anyway right?
+
+            // so automatic doesn't care about that, unless we want to add another attribute for the entire thing. automatic doesn't serialize immutables.
+
+            public PersistentProperty( PropertyInfo p, string serializedName )
             {
                 this.p = p;
-                this.attr = attr;
+                this.serializedName = serializedName;
             }
         }
 
@@ -45,26 +54,32 @@ namespace UnityPlus.Serialization
             FieldInfo[] fields = type.GetFields( BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic );
             foreach( var field in fields )
             {
-                PersistAttribute attr = field.GetCustomAttribute<PersistAttribute>();
-                if( attr != null )
+                PersistObjectAttribute objAttr = field.GetCustomAttribute<PersistObjectAttribute>();
+                if( objAttr != null )
                 {
-                    if( attr.PersistsObjects )
-                        finalReferenceFields.Add( new PersistentField( field, attr ) );
-                    if( attr.PersistsData )
-                        finalDataFields.Add( new PersistentField( field, attr ) );
+                    finalReferenceFields.Add( new PersistentField( field, objAttr.SerializedName, objAttr.AsImmutable ) );
+                }
+
+                PersistDataAttribute dataAttr = field.GetCustomAttribute<PersistDataAttribute>();
+                if( dataAttr != null )
+                {
+                    finalDataFields.Add( new PersistentField( field, dataAttr.SerializedName, dataAttr.AsImmutable ) );
                 }
             }
 
             PropertyInfo[] properties = type.GetProperties( BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic );
             foreach( var property in properties )
             {
-                PersistAttribute attr = property.GetCustomAttribute<PersistAttribute>();
-                if( attr != null )
+                PersistObjectAttribute objAttr = property.GetCustomAttribute<PersistObjectAttribute>();
+                if( objAttr != null )
                 {
-                    if( attr.PersistsObjects )
-                        finalReferenceProperties.Add( new PersistentProperty( property, attr ) );
-                    if( attr.PersistsData )
-                        finalDataProperties.Add( new PersistentProperty( property, attr ) );
+                    finalReferenceProperties.Add( new PersistentProperty( property, objAttr.SerializedName, objAttr.AsImmutable ) );
+                }
+
+                PersistDataAttribute dataAttr = property.GetCustomAttribute<PersistDataAttribute>();
+                if( dataAttr != null )
+                {
+                    finalDataProperties.Add( new PersistentProperty( property, dataAttr.SerializedName, dataAttr.AsImmutable ) );
                 }
             }
 
@@ -83,24 +98,44 @@ namespace UnityPlus.Serialization
                 array = CacheType( objType ).refT;
             }
 
-            foreach( var field in array.fields ) // for each field, save the field, and whatever it owns
+            foreach( var field in array.fields )
             {
-                if( data.TryGetValue<SerializedObject>( field.attr.SerializedName, out var fieldData ) )
+                if( data.TryGetValue<SerializedObject>( field.serializedName, out var fieldData ) )
                 {
-                    object fieldValue = ObjectFactory.Create( fieldData, l );
+                    if( field.asImmutable )
+                    {
+                        // AsImmutable means that we want to serialize the object and its data and assign the data at creation time.
+                        object fieldValue = ObjectFactory.CreateImmutable( fieldData, l );
 
-                    fieldValue.SetObjects( fieldData, l );
-                    field.f.SetValue( obj, fieldValue );
+                        field.f.SetValue( obj, fieldValue );
+                    }
+                    else
+                    {
+                        object fieldValue = ObjectFactory.Create( fieldData, l );
+
+                        fieldValue.SetObjects( fieldData, l );
+                        field.f.SetValue( obj, fieldValue );
+                    }
                 }
             }
             foreach( var property in array.properties )
             {
-                if( data.TryGetValue<SerializedObject>( property.attr.SerializedName, out var propertyData ) )
+                if( data.TryGetValue<SerializedObject>( property.serializedName, out var propertyData ) )
                 {
-                    object fieldValue = ObjectFactory.Create( propertyData, l );
+                    if( property.asImmutable )
+                    {
+                        // AsImmutable means that we want to serialize the object and its data and assign the data at creation time.
+                        object fieldValue = ObjectFactory.CreateImmutable( propertyData, l );
 
-                    fieldValue.SetObjects( propertyData, l );
-                    property.p.SetValue( obj, fieldValue );
+                        property.p.SetValue( obj, fieldValue );
+                    }
+                    else
+                    {
+                        object fieldValue = ObjectFactory.Create( propertyData, l );
+
+                        fieldValue.SetObjects( propertyData, l );
+                        property.p.SetValue( obj, fieldValue );
+                    }
                 }
             }
         }
@@ -114,19 +149,20 @@ namespace UnityPlus.Serialization
 
             SerializedObject data = new SerializedObject();
 
-            foreach( var field in array.fields ) // for each field, save the field, and whatever it owns
+            foreach( var field in array.fields )
             {
+#warning TODO - immutable needs separate extension methods that will handle adding the extra data.
                 object fieldValue = field.f.GetValue( obj );
 
                 SerializedObject so = fieldValue.GetObjects( s );
-                data.Add( field.attr.SerializedName, so );
+                data.Add( field.serializedName, so );
             }
             foreach( var property in array.properties )
             {
                 object propertyValue = property.p.GetValue( obj );
 
                 SerializedObject so = propertyValue.GetObjects( s );
-                data.Add( property.attr.SerializedName, so );
+                data.Add( property.serializedName, so );
             }
             return data;
         }
@@ -141,19 +177,19 @@ namespace UnityPlus.Serialization
 
             SerializedObject rootSO = new SerializedObject();
 
-            foreach( var field in array.fields ) // for each field, save the field, and whatever it owns
+            foreach( var field in array.fields )
             {
                 object fieldValue = field.f.GetValue( obj );
 
                 SerializedData so = fieldValue.GetData( s );
-                rootSO.Add( field.attr.SerializedName, so );
+                rootSO.Add( field.serializedName, so );
             }
             foreach( var property in array.properties )
             {
                 object propertyValue = property.p.GetValue( obj );
 
                 SerializedData so = propertyValue.GetData( s );
-                rootSO.Add( property.attr.SerializedName, so );
+                rootSO.Add( property.serializedName, so );
             }
             return rootSO;
         }
@@ -166,25 +202,45 @@ namespace UnityPlus.Serialization
                 array = CacheType( objType ).dataT;
             }
 
-            foreach( var field in array.fields ) // for each field, save the field, and whatever it owns
+            foreach( var field in array.fields )
             {
-                if( data.TryGetValue( field.attr.SerializedName, out var fieldData ) )
+                if( data.TryGetValue( field.serializedName, out var fieldData ) )
                 {
-                    object fieldValue = field.f.GetValue( obj );
-                    if( fieldValue != null )
+                    if( field.asImmutable )
                     {
-                        fieldValue.SetData( l, fieldData );
+                        // AsImmutable means that we want to serialize the object and its data and assign the data at creation time.
+                        object fieldValue = ObjectFactory.CreateImmutable( (SerializedObject)fieldData, l );
+
+                        field.f.SetValue( obj, fieldValue );
+                    }
+                    else
+                    {
+                        object fieldValue = field.f.GetValue( obj );
+                        if( fieldValue != null )
+                        {
+                            fieldValue.SetData( l, fieldData );
+                        }
                     }
                 }
             }
             foreach( var property in array.properties )
             {
-                if( data.TryGetValue( property.attr.SerializedName, out var propertyData ) )
+                if( data.TryGetValue( property.serializedName, out var propertyData ) )
                 {
-                    object propertyValue = property.p.GetValue( obj );
-                    if( propertyValue != null )
+                    if( property.asImmutable )
                     {
-                        propertyValue.SetData( l, propertyData );
+                        // AsImmutable means that we want to serialize the object and its data and assign the data at creation time.
+                        object fieldValue = ObjectFactory.CreateImmutable( (SerializedObject)propertyData, l );
+
+                        property.p.SetValue( obj, fieldValue );
+                    }
+                    else
+                    {
+                        object propertyValue = property.p.GetValue( obj );
+                        if( propertyValue != null )
+                        {
+                            propertyValue.SetData( l, propertyData );
+                        }
                     }
                 }
             }

@@ -47,10 +47,10 @@ public class CodeGenerated
 
     public class TestClass : IAutoPersistsData
     {
-        [Persist( "field_1", PersistMode.Data )]
+        [Persist( "field_1" )]
         public int field1;
 
-        [Persist( "property_1", PersistMode.Data )]
+        [Persist( "property_1" )]
         public string Property1 { get; set; }
     }
 
