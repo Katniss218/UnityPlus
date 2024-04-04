@@ -17,7 +17,7 @@ namespace UnityPlus.Serialization
     /// </remarks>
     public interface IPersistsObjects : IComponent
     {
-        SerializedObject GetObjects( [AllowNull] IReverseReferenceMap s );
-        void SetObjects( [AllowNull] IForwardReferenceMap l, [DisallowNull] SerializedObject data );
+        SerializedObject GetObjects( IReverseReferenceMap s );
+        void SetObjects( SerializedObject data, IForwardReferenceMap l );
     }
 }

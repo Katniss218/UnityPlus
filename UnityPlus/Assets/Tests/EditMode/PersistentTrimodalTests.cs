@@ -13,7 +13,7 @@ namespace Serialization
 {
     public class PersistentTrimodalTests
     {
-        public class TestClass : IAutoPersistsData
+        /*public class TestClass : IAutoPersistsData
         {
             [Persist( "field_1" )]
             public object field1;
@@ -39,6 +39,6 @@ namespace Serialization
 
             // Assert
             Assert.That( data["field_1"], Is.EqualTo( (SerializedPrimitive)"hello" ) );
-        }
+        }*/
     }
 }

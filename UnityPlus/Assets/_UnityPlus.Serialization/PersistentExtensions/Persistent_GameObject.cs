@@ -65,11 +65,7 @@ namespace UnityPlus.Serialization
 
 			l.SetObj( id, component );
 
-			if( component is IPersistsObjects persistsObjects )
-			{
-				persistsObjects.SetObjects( l, data );
-			}
-			// TODO - Run appropriate extension method for component types that we don't own.
+			component.SetObjects( data, l );
 
 			return component;
 		}

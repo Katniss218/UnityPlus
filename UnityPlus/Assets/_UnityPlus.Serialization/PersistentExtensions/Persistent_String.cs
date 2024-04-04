@@ -10,8 +10,6 @@ namespace UnityPlus.Serialization
 {
 	public static class Persistent_String
 	{
-		// TODO - add equivalent for all other types.
-
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static SerializedData GetData( this string value, IReverseReferenceMap s )
 		{

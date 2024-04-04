@@ -45,14 +45,14 @@ public class CodeGenerated
         }
     }
 
-    public class TestClass : IAutoPersistsData
+    /*public class TestClass : IAutoPersistsData
     {
         [Persist( "field_1" )]
         public int field1;
 
         [Persist( "property_1" )]
         public string Property1 { get; set; }
-    }
+    }*/
 
     Saver s;
     Loader l;
@@ -68,14 +68,14 @@ public class CodeGenerated
         s = "aasdaa";
 
         var refMap = new BidirectionalReferenceStore();
-        TestClass sut = new TestClass()
+        /*TestClass sut = new TestClass()
         {
             field1 = 5,
             Property1 = "hello"
         };
 
         // Act
-        var data = sut.GetData( refMap );
+        var data = sut.GetData( refMap );*/
 
         // Assert
         //Assert.That( data["field_1"], Is.EqualTo( (SerializedPrimitive)"hello" ) );

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace UnityPlus.Serialization
 {
-    public static class PersistsExtension
+    public static class PersistWithExtension
     {
         /*
         

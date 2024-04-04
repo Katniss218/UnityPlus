@@ -18,7 +18,7 @@ namespace UnityPlus.Serialization
                 { KeyNames.TYPE, type.GetData() }
             };
 
-            if( obj is IAutoPersistsObjects )
+            /*if( obj is IAutoPersistsObjects )
             {
                 SerializedObject ownsMap = PersistsAutomatic.GetObjects( obj, type, s );
 
@@ -26,7 +26,7 @@ namespace UnityPlus.Serialization
                 {
                     data.Add( kvp.Key, kvp.Value );
                 }
-            }
+            }*/
 
             if( obj is IPersistsObjects p )
             {
@@ -39,7 +39,7 @@ namespace UnityPlus.Serialization
             }
             else
             {
-                SerializedObject ownsMap = PersistsExtension.GetObjects( obj, type, s );
+                SerializedObject ownsMap = PersistWithExtension.GetObjects( obj, type, s );
 
                 foreach( var kvp in ownsMap )
                 {
@@ -52,18 +52,18 @@ namespace UnityPlus.Serialization
 
         public static void SetObjects( this object obj, SerializedObject data, IForwardReferenceMap l )
         {
-            if( obj is IAutoPersistsObjects )
+            /*if( obj is IAutoPersistsObjects )
             {
                 PersistsAutomatic.SetObjects( obj, obj.GetType(), data, l );
-            }
+            }*/
 
             if( obj is IPersistsObjects p )
             {
-                p.SetObjects( l, data ); // this can override auto-serialized members
+                p.SetObjects( data, l ); // this can override auto-serialized members
             }
             else
             {
-                PersistsExtension.SetObjects( obj, obj.GetType(), data, l );
+                PersistWithExtension.SetObjects( obj, obj.GetType(), data, l );
             }
         }
 
@@ -74,35 +74,35 @@ namespace UnityPlus.Serialization
 
         public static SerializedData GetData( this object obj, IReverseReferenceMap s )
         {
-            if( obj is IAutoPersistsData )
+            /*if( obj is IAutoPersistsData )
             {
                 var rootSO = PersistsAutomatic.GetData( obj, obj.GetType(), s );
 
                 return rootSO; // TODO - combine with rest.
-            }
+            }*/
 
             switch( obj )
             {
                 case IPersistsData o:
                     return o.GetData( s );
                 default:
-                    return PersistsExtension.GetData( obj, obj.GetType(), s );
+                    return PersistWithExtension.GetData( obj, obj.GetType(), s );
             }
         }
 
         public static void SetData( this object obj, IForwardReferenceMap l, SerializedData data )
         {
-            if( obj is IAutoPersistsData )
+            /*if( obj is IAutoPersistsData )
             {
                 PersistsAutomatic.SetData( obj, obj.GetType(), l, data );
-            }
+            }*/
 
             switch( obj )
             {
                 case IPersistsData o:
                     o.SetData( l, data ); break;
                 default:
-                    PersistsExtension.SetData( obj, obj.GetType(), l, data ); break;
+                    PersistWithExtension.SetData( obj, obj.GetType(), l, data ); break;
             }
         }
     }

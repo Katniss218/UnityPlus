@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace UnityPlus.Serialization
 {
-	public interface IAutoPersistsData
+	/*public interface IAutoPersistsData
 	{
 
-	}
+	}*/
 }

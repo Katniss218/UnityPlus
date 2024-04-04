@@ -23,8 +23,7 @@ namespace UnityPlus.Serialization
         /// </remarks>
         /// <param name="s">The reference map to use to resolve object references.</param>
         /// <returns>The serialized structure that contains the data. Identical to what is read by <see cref="SetData"/>.</returns>
-        [return: NotNull]
-        SerializedData GetData( [AllowNull] IReverseReferenceMap s );
+        SerializedData GetData( IReverseReferenceMap s );
 
         /// <summary>
         /// Sets the persistent data after creating the object with default parameters.
@@ -35,6 +34,6 @@ namespace UnityPlus.Serialization
         /// </remarks>
         /// <param name="l">The reference map to use to resolve object references.</param>
         /// <param name="data">The serialized structure that contains the data. Identical to what is created by <see cref="GetData"/>.</param>
-        void SetData( [AllowNull] IForwardReferenceMap l, [DisallowNull] SerializedData data );
+        void SetData( SerializedData data, IForwardReferenceMap l );
     }
 }

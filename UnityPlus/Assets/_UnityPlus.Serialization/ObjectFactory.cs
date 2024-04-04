@@ -10,7 +10,7 @@ namespace UnityPlus.Serialization
         public static void ReloadFactoryMethods()
         {
             // Load extension methods `Object ToObject( this SerializedData, IForwardReferenceMap l )`, where 'Object' is the identifier of the type in question, with special chars replaced by `_`.
-        
+
             // this should also handle immutables.
         }
 

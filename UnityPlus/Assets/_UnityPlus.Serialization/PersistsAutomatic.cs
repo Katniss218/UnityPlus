@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
-using static Codice.CM.Common.Serialization.PacketFileReader;
 
 namespace UnityPlus.Serialization
 {
-    public static class PersistsAutomatic
+   /*public static class PersistsAutomatic
     {
         private struct PersistentField
         {
@@ -245,5 +243,5 @@ namespace UnityPlus.Serialization
                 }
             }
         }
-    }
+    }*/
 }

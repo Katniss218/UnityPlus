@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UnityPlus.Serialization
 {
-    [AttributeUsage( AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false )]
+    /*[AttributeUsage( AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false )]
     public sealed class PersistAttribute : Attribute
     {
         public string SerializedName { get; set; }
@@ -15,5 +15,5 @@ namespace UnityPlus.Serialization
         {
             this.SerializedName = serializedName;
         }
-    }
+    }*/
 }

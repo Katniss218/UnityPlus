@@ -10,8 +10,6 @@ namespace UnityPlus.Serialization
 {
 	public static class Persistent_Boolean
 	{
-		// TODO - add equivalent for all other types.
-
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static SerializedData GetData( this bool value, IForwardReferenceMap l )
 		{
