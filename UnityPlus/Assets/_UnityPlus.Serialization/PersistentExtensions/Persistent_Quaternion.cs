@@ -11,13 +11,13 @@ namespace UnityPlus.Serialization
 	public static class Persistent_Quaternion
 	{
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static SerializedData GetData( this Quaternion q )
+		public static SerializedData GetData( this Quaternion q, IReverseReferenceMap s = null )
 		{
 			return new SerializedArray() { (SerializedPrimitive)q.x, (SerializedPrimitive)q.y, (SerializedPrimitive)q.z, (SerializedPrimitive)q.w };
 		}
 		
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static void SetData( this ref Quaternion q, SerializedData data )
+		public static void SetData( this ref Quaternion q, SerializedData data, IForwardReferenceMap l = null )
 		{
 			q.x = (float)data[0];
 			q.y = (float)data[1];
@@ -26,7 +26,7 @@ namespace UnityPlus.Serialization
 		}
 		
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static Quaternion ToQuaternion( this SerializedData data ) 
+		public static Quaternion ToQuaternion( this SerializedData data, IForwardReferenceMap l = null ) 
 		{
             return new Quaternion( (float)data[0], (float)data[1], (float)data[2], (float)data[3] );
 		}

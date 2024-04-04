@@ -11,13 +11,13 @@ namespace UnityPlus.Serialization
 	public static class Persistent_Vector3Int
 	{
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static SerializedData GetData( this Vector3Int v )
+		public static SerializedData GetData( this Vector3Int v, IReverseReferenceMap s = null )
 		{
 			return new SerializedArray() { (SerializedPrimitive)v.x, (SerializedPrimitive)v.y, (SerializedPrimitive)v.z };
 		}
 		
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static void SetData( this ref Vector3Int v, SerializedData data )
+		public static void SetData( this ref Vector3Int v, SerializedData data, IForwardReferenceMap l = null )
 		{
 			v.x = (int)data[0];
 			v.y = (int)data[1];
@@ -25,7 +25,7 @@ namespace UnityPlus.Serialization
 		}
 		
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static Vector3Int Vector3Int( this SerializedData data ) 
+		public static Vector3Int Vector3Int( this SerializedData data, IForwardReferenceMap l = null ) 
 		{
             return new Vector3Int( (int)data[0], (int)data[1], (int)data[2] );
 		}

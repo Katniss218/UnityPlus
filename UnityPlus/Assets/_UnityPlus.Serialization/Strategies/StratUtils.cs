@@ -321,13 +321,13 @@ namespace UnityPlus.Serialization.Strategies
 			switch( obj )
 			{
 				case GameObject go:
-					go.SetData( l, dataElement["data"] );
+					go.SetData( dataElement["data"], l );
 					break;
 
 				case Component comp:
 					try
 					{
-						comp.SetData( l, dataElement["data"] );
+						comp.SetData( dataElement["data"], l );
 					}
 					catch( Exception ex )
 					{

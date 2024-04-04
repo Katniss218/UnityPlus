@@ -23,7 +23,7 @@ namespace UnityPlus.Serialization
             };
         }
 
-        public static void SetData( this CapsuleCollider cc, IForwardReferenceMap l, SerializedData data )
+        public static void SetData( this CapsuleCollider cc, SerializedData data, IForwardReferenceMap l )
         {
             if( data.TryGetValue( "radius", out var radius ) )
                 cc.radius = (float)radius;

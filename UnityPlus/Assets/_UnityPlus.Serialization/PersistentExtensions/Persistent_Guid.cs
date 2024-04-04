@@ -12,20 +12,20 @@ namespace UnityPlus.Serialization
 	public static class Persistent_Guid
 	{
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static SerializedPrimitive GetData( this Guid guid )
+		public static SerializedPrimitive GetData( this Guid guid, IReverseReferenceMap l = null )
 		{
 			// GUIDs should be saved in the '00000000-0000-0000-0000-000000000000' format, with dashes, and without extra anything.
 			return (SerializedPrimitive)guid.ToString( "D" );
 		}
 		
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static void SetData( this ref Guid guid, SerializedData data )
+		public static void SetData( this ref Guid guid, SerializedData data, IForwardReferenceMap l = null )
 		{
 			guid = Guid.ParseExact( (string)data, "D" );
 		}
 		
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static Guid ToGuid( this SerializedData data ) 
+		public static Guid ToGuid( this SerializedData data, IForwardReferenceMap l = null ) 
 		{
 			return Guid.ParseExact( (string)data, "D" );
 		}

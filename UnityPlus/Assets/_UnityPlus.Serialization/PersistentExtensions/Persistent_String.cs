@@ -11,7 +11,7 @@ namespace UnityPlus.Serialization
 	public static class Persistent_String
 	{
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static SerializedData GetData( this string value, IReverseReferenceMap s )
+		public static SerializedData GetData( this string value, IReverseReferenceMap s = null )
 		{
 			return (SerializedPrimitive)value;
 		}
@@ -24,7 +24,7 @@ namespace UnityPlus.Serialization
 		}*/
 		
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static string ToString( this SerializedData data, IForwardReferenceMap l ) 
+		public static string ToString( this SerializedData data, IForwardReferenceMap l = null ) 
 		{
             return (string)data;
 		}

@@ -90,7 +90,7 @@ namespace UnityPlus.Serialization
             }
         }
 
-        public static void SetData( this object obj, IForwardReferenceMap l, SerializedData data )
+        public static void SetData( this object obj, SerializedData data, IForwardReferenceMap l )
         {
             /*if( obj is IAutoPersistsData )
             {
@@ -100,7 +100,7 @@ namespace UnityPlus.Serialization
             switch( obj )
             {
                 case IPersistsData o:
-                    o.SetData( l, data ); break;
+                    o.SetData( data, l ); break;
                 default:
                     PersistWithExtension.SetData( obj, obj.GetType(), l, data ); break;
             }

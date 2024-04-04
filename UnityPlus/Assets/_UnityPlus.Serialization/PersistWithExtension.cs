@@ -18,10 +18,10 @@ namespace UnityPlus.Serialization
         */
 
         //private static readonly Dictionary<Type, Func<object, IReverseReferenceMap, SerializedObject>> _extensionGetObjects = new();
-        //private static readonly Dictionary<Type, Action<object, IForwardReferenceMap, SerializedObject>> _extensionSetObjects = new();
+        //private static readonly Dictionary<Type, Action<object, SerializedObject, IForwardReferenceMap>> _extensionSetObjects = new();
 
         //private static readonly Dictionary<Type, Func<object, IReverseReferenceMap, SerializedData>> _extensionGetDatas = new();
-        //private static readonly Dictionary<Type, Action<object, IForwardReferenceMap, SerializedData>> _extensionSetDatas = new();
+        //private static readonly Dictionary<Type, Action<object, SerializedData, IForwardReferenceMap>> _extensionSetDatas = new();
         private static readonly Dictionary<Type, Delegate> _extensionGetObjects = new();
         private static readonly Dictionary<Type, Delegate> _extensionSetObjects = new();
 
@@ -74,13 +74,13 @@ namespace UnityPlus.Serialization
 
                         if( retParam.ParameterType == typeof( void )
                          && methodParams.Length == 3
-                         && methodParams[1].ParameterType == typeof( IForwardReferenceMap )
-                         && methodParams[2].ParameterType == typeof( SerializedObject ) )
+                         && methodParams[1].ParameterType == typeof( SerializedObject )
+                         && methodParams[2].ParameterType == typeof( IForwardReferenceMap ) )
                         {
                             if( methodParams[0].ParameterType.IsByRef )
                                 continue;
 
-                            Type methodType = typeof( Action<,,> ).MakeGenericType( methodParams[0].ParameterType, typeof( IForwardReferenceMap ), typeof( SerializedObject ) );
+                            Type methodType = typeof( Action<,,> ).MakeGenericType( methodParams[0].ParameterType, typeof( SerializedObject ), typeof( IForwardReferenceMap ) );
                             //var del = (Action<object, IForwardReferenceMap, SerializedObject>)Delegate.CreateDelegate( methodType, method );
                             var del = Delegate.CreateDelegate( methodType, method );
 
@@ -113,13 +113,13 @@ namespace UnityPlus.Serialization
 
                         if( retParam.ParameterType == typeof( void )
                          && methodParams.Length == 3
-                         && methodParams[1].ParameterType == typeof( IForwardReferenceMap )
-                         && methodParams[2].ParameterType == typeof( SerializedData ) )
+                         && methodParams[1].ParameterType == typeof( SerializedData )
+                         && methodParams[2].ParameterType == typeof( IForwardReferenceMap ) )
                         {
                             if( methodParams[0].ParameterType.IsByRef )
                                 continue;
 
-                            Type methodType = typeof( Action<,,> ).MakeGenericType( methodParams[0].ParameterType, typeof( IForwardReferenceMap ), typeof( SerializedData ) );
+                            Type methodType = typeof( Action<,,> ).MakeGenericType( methodParams[0].ParameterType, typeof( SerializedData ), typeof( IForwardReferenceMap ) );
                             //var del = (Action<object, IForwardReferenceMap, SerializedData>)Delegate.CreateDelegate( methodType, method );
                             var del = Delegate.CreateDelegate( methodType, method );
 
@@ -151,7 +151,7 @@ namespace UnityPlus.Serialization
 
             if( _extensionSetObjects.TryGetValue( objType, out var extensionMethod ) )
             {
-                extensionMethod.DynamicInvoke( obj, l, data );
+                extensionMethod.DynamicInvoke( obj, data, l );
             }
         }
 
@@ -180,7 +180,7 @@ namespace UnityPlus.Serialization
             {
                 if( _extensionSetDatas.TryGetValue( objType, out var extensionMethod ) )
                 {
-                    extensionMethod.DynamicInvoke( obj, l, data );
+                    extensionMethod.DynamicInvoke( obj, data, l );
                 }
             }
         }

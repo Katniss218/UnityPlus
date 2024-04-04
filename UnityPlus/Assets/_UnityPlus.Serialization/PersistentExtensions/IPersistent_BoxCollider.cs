@@ -21,7 +21,7 @@ namespace UnityPlus.Serialization
 			};
 		}
 
-		public static void SetData( this BoxCollider bc, IForwardReferenceMap l, SerializedData data )
+		public static void SetData( this BoxCollider bc, SerializedData data, IForwardReferenceMap l )
 		{
 			if( data.TryGetValue( "size", out var size ) )
 				bc.size = size.ToVector3();

@@ -22,7 +22,7 @@ namespace UnityPlus.Serialization
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static void SetData( this Transform t, IForwardReferenceMap l, SerializedData data )
+        public static void SetData( this Transform t, SerializedData data, IForwardReferenceMap l )
         {
             if( data.TryGetValue( "local_position", out var localPosition ) )
                 t.localPosition = localPosition.ToVector3();

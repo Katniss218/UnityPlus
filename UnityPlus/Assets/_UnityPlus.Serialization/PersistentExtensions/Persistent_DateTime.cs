@@ -13,20 +13,20 @@ namespace UnityPlus.Serialization
 	public static class Persistent_DateTime
 	{
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static SerializedPrimitive GetData( this DateTime dateTime )
+		public static SerializedPrimitive GetData( this DateTime dateTime, IReverseReferenceMap l = null )
 		{
 			// DateTime should be saved as an ISO-8601 string.
 			return (SerializedPrimitive)dateTime.ToString( "s", CultureInfo.InvariantCulture );
 		}
 		
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static void SetData( this ref DateTime dateTime, SerializedData data )
+		public static void SetData( this ref DateTime dateTime, SerializedData data, IForwardReferenceMap l = null )
 		{
 			dateTime = DateTime.Parse( (string)data, CultureInfo.InvariantCulture );
 		}
 		
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static DateTime ToDateTime( this SerializedData data ) 
+		public static DateTime ToDateTime( this SerializedData data, IForwardReferenceMap l = null ) 
 		{
 			return DateTime.Parse( (string)data, CultureInfo.InvariantCulture );
 		}

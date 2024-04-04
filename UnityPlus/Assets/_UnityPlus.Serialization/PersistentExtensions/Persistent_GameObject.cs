@@ -29,7 +29,7 @@ namespace UnityPlus.Serialization
 		}
 
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static void SetData( this GameObject gameObject, IForwardReferenceMap l, SerializedData data )
+		public static void SetData( this GameObject gameObject, SerializedData data, IForwardReferenceMap l )
 		{
 			if( data.TryGetValue( "name", out var name ) )
 				gameObject.name = (string)name;
@@ -115,12 +115,6 @@ namespace UnityPlus.Serialization
 			}
 
 			return gameObject;
-		}
-
-		public static SerializedObject ToSerialized( this GameObject gameObject, IReverseReferenceMap s )
-		{
-
-			throw new NotImplementedException();
 		}
 	}
 }

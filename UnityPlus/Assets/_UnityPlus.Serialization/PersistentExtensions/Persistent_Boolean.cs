@@ -11,19 +11,19 @@ namespace UnityPlus.Serialization
 	public static class Persistent_Boolean
 	{
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static SerializedData GetData( this bool value, IForwardReferenceMap l )
+		public static SerializedData GetData( this bool value, IReverseReferenceMap l = null )
 		{
 			return (SerializedPrimitive)value;
 		}
 		
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static void SetData( this ref bool value, IForwardReferenceMap l, SerializedData data )
+		public static void SetData( this ref bool value, SerializedData data, IForwardReferenceMap l = null )
 		{
 			value = (bool)data;
 		}
 		
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static bool ToBoolean( this SerializedData data, IForwardReferenceMap l ) 
+		public static bool ToBoolean( this SerializedData data, IForwardReferenceMap l = null ) 
 		{
             return (bool)data;
 		}
