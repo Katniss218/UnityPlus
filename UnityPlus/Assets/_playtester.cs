@@ -11,6 +11,7 @@ using UnityPlus.AssetManagement;
 using UnityPlus.CSharp;
 using UnityPlus.Serialization;
 using UnityPlus.Serialization.Json;
+using UnityPlus.Serialization.ReferenceMaps;
 using UnityPlus.Serialization.Strategies;
 
 public class _playtester : MonoBehaviour
@@ -44,6 +45,15 @@ public class CodeGenerated
         }
     }
 
+    /*public class TestClass : IAutoPersistsData
+    {
+        [Persist( "field_1" )]
+        public int field1;
+
+        [Persist( "property_1" )]
+        public string Property1 { get; set; }
+    }*/
+
     Saver s;
     Loader l;
     AsyncSaver _as;
@@ -53,6 +63,22 @@ public class CodeGenerated
     // Update is called once per frame
     void Start()
     {
+        string s = "aa";
+        string a = s;
+        s = "aasdaa";
+
+        var refMap = new BidirectionalReferenceStore();
+        /*TestClass sut = new TestClass()
+        {
+            field1 = 5,
+            Property1 = "hello"
+        };
+
+        // Act
+        var data = sut.GetData( refMap );*/
+
+        // Assert
+        //Assert.That( data["field_1"], Is.EqualTo( (SerializedPrimitive)"hello" ) );
     }
 
     void Update()
