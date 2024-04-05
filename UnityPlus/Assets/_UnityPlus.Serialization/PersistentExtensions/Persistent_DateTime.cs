@@ -20,15 +20,9 @@ namespace UnityPlus.Serialization
 		}
 		
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static void SetData( this ref DateTime dateTime, SerializedData data, IForwardReferenceMap l = null )
-		{
-			dateTime = DateTime.Parse( (string)data, CultureInfo.InvariantCulture );
-		}
-		
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static DateTime ToDateTime( this SerializedData data, IForwardReferenceMap l = null ) 
 		{
-			return DateTime.Parse( (string)data, CultureInfo.InvariantCulture );
+			return DateTime.ParseExact( (string)data, "s", CultureInfo.InvariantCulture );
 		}
 	}
 }

@@ -9,7 +9,7 @@ using UnityEngine.TestTools;
 
 namespace Serialization
 {
-    public class SerializedValueTests
+    public class SerializedPrimitiveTests
     {
         [Test]
         public void Equality___ValueType_Content___ByValue()

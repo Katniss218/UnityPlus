@@ -8,6 +8,8 @@ namespace UnityPlus.Serialization
 {
     public static class Persistent_object
     {
+        // In practice, this isn't really needed anymore. Since auto-serialization is out the window now, all binding is done at compile time now.
+
         public static SerializedObject GetObjects( this object obj, IReverseReferenceMap s )
         {
             Type type = obj.GetType();
@@ -18,32 +20,26 @@ namespace UnityPlus.Serialization
                 { KeyNames.TYPE, type.GetData() }
             };
 
-            /*if( obj is IAutoPersistsObjects )
-            {
-                SerializedObject ownsMap = PersistsAutomatic.GetObjects( obj, type, s );
-
-                foreach( var kvp in ownsMap )
-                {
-                    data.Add( kvp.Key, kvp.Value );
-                }
-            }*/
-
             if( obj is IPersistsObjects p )
             {
                 SerializedObject ownsMap = p.GetObjects( s ); // this can override auto-serialized members
-
-                foreach( var kvp in ownsMap )
+                if( ownsMap != null )
                 {
-                    data.Add( kvp.Key, kvp.Value );
+                    foreach( var kvp in ownsMap )
+                    {
+                        data.Add( kvp.Key, kvp.Value );
+                    }
                 }
             }
             else
             {
                 SerializedObject ownsMap = PersistWithExtension.GetObjects( obj, type, s );
-
-                foreach( var kvp in ownsMap )
+                if( ownsMap != null )
                 {
-                    data.Add( kvp.Key, kvp.Value );
+                    foreach( var kvp in ownsMap )
+                    {
+                        data.Add( kvp.Key, kvp.Value );
+                    }
                 }
             }
 
@@ -52,11 +48,6 @@ namespace UnityPlus.Serialization
 
         public static void SetObjects( this object obj, SerializedObject data, IForwardReferenceMap l )
         {
-            /*if( obj is IAutoPersistsObjects )
-            {
-                PersistsAutomatic.SetObjects( obj, obj.GetType(), data, l );
-            }*/
-
             if( obj is IPersistsObjects p )
             {
                 p.SetObjects( data, l ); // this can override auto-serialized members
@@ -67,20 +58,8 @@ namespace UnityPlus.Serialization
             }
         }
 
-        // TODO - For get/setdata of derived objects, we actually want to call the get/setdata of every base type as well. Including if that type is not "ours".
-               // The use case is to enable serialization of base fields/properties without having access to the base type (e.g. for `enabled` from UnityEngine.Behaviour).
-
-        // hmm, since when overriding, we're using 'base.X()', maybe just call to serialize/deserialize the base thing.
-
         public static SerializedData GetData( this object obj, IReverseReferenceMap s )
         {
-            /*if( obj is IAutoPersistsData )
-            {
-                var rootSO = PersistsAutomatic.GetData( obj, obj.GetType(), s );
-
-                return rootSO; // TODO - combine with rest.
-            }*/
-
             switch( obj )
             {
                 case IPersistsData o:
@@ -92,11 +71,6 @@ namespace UnityPlus.Serialization
 
         public static void SetData( this object obj, SerializedData data, IForwardReferenceMap l )
         {
-            /*if( obj is IAutoPersistsData )
-            {
-                PersistsAutomatic.SetData( obj, obj.GetType(), l, data );
-            }*/
-
             switch( obj )
             {
                 case IPersistsData o:

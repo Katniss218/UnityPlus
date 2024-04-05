@@ -32,7 +32,7 @@ namespace Serialization
             transform.localPosition = default;
             transform.localRotation = default;
             transform.localScale = default;
-            transform.SetData( new BidirectionalReferenceStore(), data );
+            transform.SetData( data, new BidirectionalReferenceStore() );
 
             // Assert
             Assert.That( transform.localPosition, Is.EqualTo( localPosition ) );

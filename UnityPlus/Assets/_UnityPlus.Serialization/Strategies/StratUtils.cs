@@ -152,13 +152,7 @@ namespace UnityPlus.Serialization.Strategies
 
 			foreach( var comp in go.GetComponents() )
 			{
-				SerializedObject compObj = WriteObjectInstance( s, comp );
-
-				if( comp is IPersistsObjects po )
-				{
-					var sData = po.GetObjects( s );
-					compObj.Add( "objects", sData );
-				}
+				SerializedObject compObj = comp.GetObjects( s );
 
 				components.Add( compObj );
 			}
@@ -250,7 +244,7 @@ namespace UnityPlus.Serialization.Strategies
 		/// Loads (instantiates) a hierarchy of gameobjects from saved data (object pass).
 		/// </summary>
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static GameObject InstantiateHierarchyObjects( IForwardReferenceMap l, SerializedData goData, GameObject parent, List<Behaviour> behsUGLYDONTDOTHIS )
+		public static GameObject InstantiateHierarchyObjects( IForwardReferenceMap l, SerializedData goData, GameObject parent )
 		{
 			Guid objectGuid = goData[KeyNames.ID].ToGuid();
 
@@ -270,21 +264,15 @@ namespace UnityPlus.Serialization.Strategies
 					Guid compID = compData[KeyNames.ID].ToGuid();
 					Type compType = compData[KeyNames.TYPE].ToType();
 
-					Component co = go.GetTransformOrAddComponent( compType );
+					Component co = go.GetTransformOrAddComponent( compType ); // factory.
 
 					if( co is Behaviour b ) // disable to prevent 'start' firing prematurely if async.
 					{
 						b.enabled = false;
-						behsUGLYDONTDOTHIS?.Add( b );
 					}
 					l.SetObj( compID, co );
 
-					if( co is IPersistsObjects po )
-					{
-						var objData = compData["objects"];
-						po.SetObjects( (SerializedObject)objData, l );
-					}
-
+					co.SetObjects( (SerializedObject)compData, l );
 				}
 				catch( Exception ex )
 				{
@@ -298,7 +286,7 @@ namespace UnityPlus.Serialization.Strategies
 			{
 				try
 				{
-					InstantiateHierarchyObjects( l, childData, go, behsUGLYDONTDOTHIS );
+					InstantiateHierarchyObjects( l, childData, go );
 				}
 				catch( Exception ex )
 				{
