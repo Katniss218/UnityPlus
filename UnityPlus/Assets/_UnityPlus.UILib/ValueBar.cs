@@ -10,7 +10,7 @@ namespace UnityPlus.UILib
     /// <summary>
     /// A multi-segmented value (progress) bar.
     /// </summary>
-    public class ValueBar : MonoBehaviour
+    internal class ValueBar : MonoBehaviour
     {
         [Serializable]
         public class Element

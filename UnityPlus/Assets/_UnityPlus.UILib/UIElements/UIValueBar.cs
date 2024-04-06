@@ -7,7 +7,6 @@ namespace UnityPlus.UILib.UIElements
 {
     public sealed class UIValueBar : UIElement, IUIElementChild
     {
-        // TODO - Merge UIValueBar with ValueBar?
         internal ValueBar valueBarComponent;
 
         public IUIElementContainer Parent { get; set; }
