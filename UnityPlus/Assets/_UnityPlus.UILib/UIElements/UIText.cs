@@ -8,10 +8,8 @@ namespace UnityPlus.UILib.UIElements
     /// <summary>
     /// A UI element that is a container for text.
     /// </summary>
-    public sealed class UIText : UIElement, IUIElementChild, IUILayoutSelf
+    public class UIText : UIElement, IUIElementChild, IUILayoutSelf
     {
-        // possibly we could have different types of text elements that format themselves in different ways. Headers, paragraphs, etc.
-
         internal TMPro.TextMeshProUGUI textComponent;
 
         public IUIElementContainer Parent { get; set; }
@@ -34,10 +32,7 @@ namespace UnityPlus.UILib.UIElements
             {
                 return;
             }
-            if( this.rectTransform == null )
-            {
 
-            }
             UILayoutInfo layout = this.rectTransform.GetLayoutInfo();
 
             // Preferred size depends on how many line breaks exist in the text after wrapping to the size of the container.
@@ -54,7 +49,7 @@ namespace UnityPlus.UILib.UIElements
             }
         }
 
-        public static UIText Create( IUIElementContainer parent, UILayoutInfo layoutInfo, string text )
+        internal static UIText Create( IUIElementContainer parent, UILayoutInfo layoutInfo, string text )
         {
             (GameObject rootGameObject, RectTransform rootTransform, UIText uiText) = UIElement.CreateUIGameObject<UIText>( parent, "uilib-text", layoutInfo );
 

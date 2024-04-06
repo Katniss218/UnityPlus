@@ -24,7 +24,7 @@ namespace UnityPlus.UILib.UIElements
         {
             (GameObject rootGameObject, RectTransform rootTransform, UIScrollView uiScrollView) = UIElement.CreateUIGameObject<UIScrollView>( parent, "uilib-scrollview", layout );
 
-            (GameObject viewport, RectTransform viewportTransform) = UIElement.CreateUIGameObject( rootTransform, "uilib-scrollviewviewport", UILayoutInfo.Fill() );
+            (GameObject viewport, RectTransform viewportTransform) = UIElement.CreateUIGameObject( rootTransform, "uilib-scrollviewviewport", new UILayoutInfo( UIFill.Fill() ) );
 
             Image maskImage = viewport.AddComponent<Image>();
             maskImage.maskable = true;

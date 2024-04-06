@@ -32,12 +32,12 @@ namespace UnityPlus.UILib.UIElements
             imageComponent.sprite = background;
             imageComponent.type = Image.Type.Sliced;
 
-            (GameObject textareaGameObject, RectTransform textareaTransform) = UIElement.CreateUIGameObject( rootTransform, "uilib-inputfieldtextarea", new UILayoutInfo( Vector2.zero, Vector2.one, Vector2.zero, new Vector2( -10, -10 ) ) );
+            (GameObject textareaGameObject, RectTransform textareaTransform) = UIElement.CreateUIGameObject( rootTransform, "uilib-inputfieldtextarea", new UILayoutInfo( UIFill.Fill( 5, 5, 5, 5 ) ) );
 
             RectMask2D mask = textareaGameObject.AddComponent<RectMask2D>();
             mask.padding = new Vector4( -5, -5, -5, -5 );
 
-            (GameObject placeholderGameObject, _) = UIElement.CreateUIGameObject( textareaTransform, "uilib-inputfieldplaceholder", UILayoutInfo.Fill() );
+            (GameObject placeholderGameObject, _) = UIElement.CreateUIGameObject( textareaTransform, "uilib-inputfieldplaceholder", new UILayoutInfo( UIFill.Fill() ) );
 
             TMPro.TextMeshProUGUI placeholderText = placeholderGameObject.AddComponent<TMPro.TextMeshProUGUI>();
             placeholderText.raycastTarget = false;
@@ -45,7 +45,7 @@ namespace UnityPlus.UILib.UIElements
             placeholderText.horizontalAlignment = TMPro.HorizontalAlignmentOptions.Left;
             placeholderText.fontStyle = TMPro.FontStyles.Italic;
 
-            (GameObject textGameObject, _) = UIElement.CreateUIGameObject( textareaTransform, "uilib-inputfieldtext", UILayoutInfo.Fill() );
+            (GameObject textGameObject, _) = UIElement.CreateUIGameObject( textareaTransform, "uilib-inputfieldtext", new UILayoutInfo( UIFill.Fill() ) );
 
             TMPro.TextMeshProUGUI realText = textGameObject.AddComponent<TMPro.TextMeshProUGUI>();
             realText.raycastTarget = false;

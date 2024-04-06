@@ -14,8 +14,8 @@ namespace UnityPlus.UILib.UIElements
 
         public static UIInputField WithMargins( this UIInputField inputField, float left, float right, float top, float bottom )
         {
-            inputField.textComponent.rectTransform.SetLayoutInfo( UILayoutInfo.Fill( left, right, top, bottom ) );
-            inputField.placeholderComponent.rectTransform.SetLayoutInfo( UILayoutInfo.Fill( left, right, top, bottom ) );
+            inputField.textComponent.rectTransform.SetLayoutInfo( new UILayoutInfo( UIFill.Fill( left, right, top, bottom ) ) );
+            inputField.placeholderComponent.rectTransform.SetLayoutInfo( new UILayoutInfo( UIFill.Fill( left, right, top, bottom ) ) );
             return inputField;
         }
 

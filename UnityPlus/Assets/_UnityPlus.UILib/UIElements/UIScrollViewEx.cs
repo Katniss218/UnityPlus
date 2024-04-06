@@ -9,12 +9,12 @@ namespace UnityPlus.UILib.UIElements
     {
         public static UIScrollView AddHorizontalScrollView( this IUIElementContainer parent, UILayoutInfo layout, float contentWidth )
         {
-            return AddScrollView( parent, layout, UILayoutInfo.FillVertical( 0, 0, 0.0f, 0, contentWidth ), true, false );
+            return AddScrollView( parent, layout, new UILayoutInfo( UIAnchor.Left, UIFill.Vertical(), 0, contentWidth ), true, false );
         }
 
         public static UIScrollView AddVerticalScrollView( this IUIElementContainer parent, UILayoutInfo layout, float contentHeight )
         {
-            return AddScrollView( parent, layout, UILayoutInfo.FillHorizontal( 0, 0, 1.0f, 0, contentHeight ), false, true );
+            return AddScrollView( parent, layout, new UILayoutInfo( UIFill.Horizontal(), UIAnchor.Top, 0, contentHeight ), false, true );
         }
 
         public static UIScrollView AddScrollView( this IUIElementContainer parent, UILayoutInfo layout, UILayoutInfo contentLayout, bool horizontal, bool vertical )

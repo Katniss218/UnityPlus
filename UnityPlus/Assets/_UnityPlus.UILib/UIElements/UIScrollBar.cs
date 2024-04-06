@@ -23,8 +23,8 @@ namespace UnityPlus.UILib.UIElements
                 bg.raycastTarget = true;
             }
 
-            (GameObject slidingAreaGameObject, RectTransform slidingAreaTransform) = UIElement.CreateUIGameObject( rootTransform, "uilib-scrollbar-slidingarea", UILayoutInfo.Fill() );
-            (GameObject handleGameObject, RectTransform handleTransform) = UIElement.CreateUIGameObject( slidingAreaTransform, "uilib-scrollbar-handle", UILayoutInfo.Fill() );
+            (GameObject slidingAreaGameObject, RectTransform slidingAreaTransform) = UIElement.CreateUIGameObject( rootTransform, "uilib-scrollbar-slidingarea", new UILayoutInfo( UIFill.Fill() ) );
+            (GameObject handleGameObject, RectTransform handleTransform) = UIElement.CreateUIGameObject( slidingAreaTransform, "uilib-scrollbar-handle", new UILayoutInfo( UIFill.Fill() ) );
 
             Image handleImage = handleGameObject.AddComponent<Image>();
             handleImage.sprite = foreground;
