@@ -5,17 +5,17 @@ using UnityEngine.UI;
 
 namespace UnityPlus.UILib.UIElements
 {
-    public static class UIIconEx
+    public static class UIIcon_Ex
     {
         public static T WithIcon<T>( this T parent, UILayoutInfo layoutInfo, Sprite icon, out UIIcon uiIcon ) where T : IUIElementContainer
         {
-            uiIcon = UIIcon.Create( parent, layoutInfo, icon );
+            uiIcon = UIIcon.Create<UIIcon>( parent, layoutInfo, icon );
             return parent;
         }
 
         public static UIIcon AddIcon( this IUIElementContainer parent, UILayoutInfo layoutInfo, Sprite icon )
         {
-            return UIIcon.Create( parent, layoutInfo, icon );
+            return UIIcon.Create<UIIcon>( parent, layoutInfo, icon );
         }
 
         public static UIIcon WithTint( this UIIcon icon, Color tint )

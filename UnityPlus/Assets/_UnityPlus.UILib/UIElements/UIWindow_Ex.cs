@@ -6,11 +6,11 @@ using UnityEngine.UI;
 
 namespace UnityPlus.UILib.UIElements
 {
-    public static class UIWindowEx
+    public static class UIWindow_Ex
     {
         public static UIWindow AddWindow( this UICanvas parent, UILayoutInfo layoutInfo, Sprite background )
         {
-            return UIWindow.Create( parent, layoutInfo, background );
+            return UIWindow.Create<UIWindow>( parent, layoutInfo, background );
         }
 
         public static UIWindow Focusable( this UIWindow window )

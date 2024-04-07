@@ -7,11 +7,11 @@ using UnityPlus.UILib.Layout;
 namespace UnityPlus.UILib.UIElements
 {
     /// <summary>
-    /// Represents a window, which is a defined section of the canvas.
+    /// Represents a generic window, which is a defined section of the canvas.
     /// </summary>
-    public sealed class UIWindow : UIElement, IUIElementContainer, IUIElementChild /* The window really shouldn't be a child tbh. It can only be the child of a canvas. */, IUILayoutDriven
+    public class UIWindow : UIElement, IUIElementContainer, IUIElementChild, IUILayoutDriven
     {
-        internal Image backgroundComponent;
+        protected internal Image backgroundComponent;
         public RectTransform contents => base.rectTransform;
 
         public IUIElementContainer Parent { get; set; }
@@ -21,9 +21,9 @@ namespace UnityPlus.UILib.UIElements
 
         public Sprite Background { get => backgroundComponent.sprite; set => backgroundComponent.sprite = value; }
 
-        public static UIWindow Create( UICanvas parent, UILayoutInfo layoutInfo, Sprite background )
+        protected internal static T Create<T>( UICanvas parent, UILayoutInfo layoutInfo, Sprite background ) where T : UIWindow
         {
-            (GameObject rootGameObject, RectTransform rootTransform, UIWindow uiWindow) = UIElement.CreateUIGameObject<UIWindow>( parent, "uilib-window", layoutInfo );
+            (GameObject rootGameObject, RectTransform rootTransform, T uiWindow) = UIElement.CreateUIGameObject<T>( parent, $"uilib-{nameof( T )}", layoutInfo );
 
             Image backgroundComponent = rootGameObject.AddComponent<Image>();
             backgroundComponent.raycastTarget = true;

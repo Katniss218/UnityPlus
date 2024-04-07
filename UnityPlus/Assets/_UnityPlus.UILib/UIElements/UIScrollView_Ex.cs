@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace UnityPlus.UILib.UIElements
 {
-    public static class UIScrollViewEx
+    public static class UIScrollView_Ex
     {
         public static UIScrollView AddHorizontalScrollView( this IUIElementContainer parent, UILayoutInfo layout, float contentWidth )
         {
@@ -19,7 +19,7 @@ namespace UnityPlus.UILib.UIElements
 
         public static UIScrollView AddScrollView( this IUIElementContainer parent, UILayoutInfo layout, UILayoutInfo contentLayout, bool horizontal, bool vertical )
         {
-            return UIScrollView.Create( parent, layout, contentLayout, horizontal, vertical );
+            return UIScrollView.Create<UIScrollView>( parent, layout, contentLayout, horizontal, vertical );
         }
 
         public static UIScrollView WithSensitivity( this UIScrollView scrollView, float sensitivity, float deceleration )

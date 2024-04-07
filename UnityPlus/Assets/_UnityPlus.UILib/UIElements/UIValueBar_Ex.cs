@@ -8,11 +8,11 @@ using UnityEngine.UI;
 
 namespace UnityPlus.UILib.UIElements
 {
-    public static class UIValueBarEx
+    public static class UIValueBar_Ex
     {
         public static UIValueBar AddHorizontalValueBar( this IUIElementContainer parent, UILayoutInfo layoutInfo, Sprite background )
         {
-            return UIValueBar.Create( parent, layoutInfo, background );
+            return UIValueBar.Create<UIValueBar>( parent, layoutInfo, background );
         }
 
         public static UIValueBar WithPadding( this UIValueBar valueBar, float paddingleft, float paddingRight, float spacing )

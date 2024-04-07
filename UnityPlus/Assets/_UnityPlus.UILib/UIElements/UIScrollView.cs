@@ -6,9 +6,9 @@ using UnityPlus.UILib.Layout;
 
 namespace UnityPlus.UILib.UIElements
 {
-    public sealed class UIScrollView : UIElement, IUIElementContainer, IUIElementChild, IUILayoutDriven
+    public class UIScrollView : UIElement, IUIElementContainer, IUIElementChild, IUILayoutDriven
     {
-        internal ScrollRect scrollRectComponent;
+        protected internal ScrollRect scrollRectComponent;
 
         public UIScrollBar scrollbarHorizontal;
         public UIScrollBar scrollbarVertical;
@@ -20,18 +20,18 @@ namespace UnityPlus.UILib.UIElements
 
         public LayoutDriver LayoutDriver { get; set; }
 
-        public static UIScrollView Create( IUIElementContainer parent, UILayoutInfo layout, UILayoutInfo contentLayout, bool horizontal, bool vertical )
+        protected internal static T Create<T>( IUIElementContainer parent, UILayoutInfo layout, UILayoutInfo contentLayout, bool horizontal, bool vertical ) where T : UIScrollView
         {
-            (GameObject rootGameObject, RectTransform rootTransform, UIScrollView uiScrollView) = UIElement.CreateUIGameObject<UIScrollView>( parent, "uilib-scrollview", layout );
+            (GameObject rootGameObject, RectTransform rootTransform, T uiScrollView) = UIElement.CreateUIGameObject<T>( parent, $"uilib-{nameof( T )}", layout );
 
-            (GameObject viewport, RectTransform viewportTransform) = UIElement.CreateUIGameObject( rootTransform, "uilib-scrollviewviewport", new UILayoutInfo( UIFill.Fill() ) );
+            (GameObject viewport, RectTransform viewportTransform) = UIElement.CreateUIGameObject( rootTransform, "uilib-scrollview-viewport", new UILayoutInfo( UIFill.Fill() ) );
 
             Image maskImage = viewport.AddComponent<Image>();
             maskImage.maskable = true;
             Mask mask = viewport.AddComponent<Mask>();
             mask.showMaskGraphic = false;
 
-            (GameObject content, RectTransform contentTransform) = UIElement.CreateUIGameObject( viewportTransform, "uilib-scrollviewcontent", contentLayout );
+            (GameObject content, RectTransform contentTransform) = UIElement.CreateUIGameObject( viewportTransform, "uilib-scrollview-content", contentLayout );
 
             ScrollRect scrollRect = rootGameObject.AddComponent<ScrollRect>();
             scrollRect.content = (RectTransform)content.transform;

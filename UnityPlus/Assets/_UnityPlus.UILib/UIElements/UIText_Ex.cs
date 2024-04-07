@@ -4,17 +4,17 @@ using UnityEngine;
 
 namespace UnityPlus.UILib.UIElements
 {
-    public static class UITextEx
+    public static class UIText_Ex
     {
         public static T WithText<T>( this T parent, UILayoutInfo layoutInfo, string text, out UIText uiText ) where T : IUIElementContainer
         {
-            uiText = UIText.Create( parent, layoutInfo, text );
+            uiText = UIText.Create<UIText>( parent, layoutInfo, text );
             return parent;
         }
 
         public static UIText AddText( this IUIElementContainer parent, UILayoutInfo layoutInfo, string text )
         {
-            return UIText.Create( parent, layoutInfo, text );
+            return UIText.Create<UIText>( parent, layoutInfo, text );
         }
 
         public static UIText WithFont( this UIText text, TMPro.TMP_FontAsset font, float fontSize, Color color )

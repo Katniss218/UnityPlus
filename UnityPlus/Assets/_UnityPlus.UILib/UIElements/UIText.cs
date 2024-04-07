@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace UnityPlus.UILib.UIElements
     /// </summary>
     public class UIText : UIElement, IUIElementChild, IUILayoutSelf
     {
-        internal TMPro.TextMeshProUGUI textComponent;
+        protected internal TMPro.TextMeshProUGUI textComponent;
 
         public IUIElementContainer Parent { get; set; }
 
@@ -22,7 +23,7 @@ namespace UnityPlus.UILib.UIElements
             set
             {
                 textComponent.text = value;
-                UILayout.BroadcastLayoutUpdate( this );
+                UILayoutManager.BroadcastLayoutUpdate( this );
             }
         }
 
@@ -42,16 +43,16 @@ namespace UnityPlus.UILib.UIElements
                 this.rectTransform.sizeDelta = new Vector2( this.rectTransform.sizeDelta.x, textComponent.GetPreferredValues().y );
                 return;
             }
-            if( layout.FillsHeight && !layout.FillsWidth )
+            if( !layout.FillsWidth && layout.FillsHeight )
             {
                 this.rectTransform.sizeDelta = new Vector2( textComponent.GetPreferredValues().x, this.rectTransform.GetActualSize().y );
                 return;
             }
         }
 
-        internal static UIText Create( IUIElementContainer parent, UILayoutInfo layoutInfo, string text )
+        protected internal static T Create<T>( IUIElementContainer parent, UILayoutInfo layoutInfo, string text ) where T : UIText
         {
-            (GameObject rootGameObject, RectTransform rootTransform, UIText uiText) = UIElement.CreateUIGameObject<UIText>( parent, "uilib-text", layoutInfo );
+            (GameObject rootGameObject, RectTransform rootTransform, T uiText) = UIElement.CreateUIGameObject<T>( parent, $"uilib-{nameof( T )}", layoutInfo );
 
             TMPro.TextMeshProUGUI textComponent = rootGameObject.AddComponent<TMPro.TextMeshProUGUI>();
             textComponent.raycastTarget = false;

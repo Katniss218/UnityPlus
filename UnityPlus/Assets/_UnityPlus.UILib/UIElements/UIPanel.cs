@@ -11,7 +11,7 @@ namespace UnityPlus.UILib.UIElements
     /// </summary>
     public class UIPanel : UIElement, IUIElementContainer, IUIElementChild, IUILayoutDriven
     {
-        internal Image backgroundComponent;
+        protected internal Image backgroundComponent;
         public RectTransform contents => base.rectTransform;
 
         public IUIElementContainer Parent { get; set; }
@@ -21,9 +21,9 @@ namespace UnityPlus.UILib.UIElements
 
         public Sprite Background { get => backgroundComponent.sprite; set => backgroundComponent.sprite = value; }
 
-        public static UIPanel Create( IUIElementContainer parent, UILayoutInfo layoutInfo, Sprite background )
+        protected internal static T Create<T>( IUIElementContainer parent, UILayoutInfo layoutInfo, Sprite background ) where T : UIPanel
         {
-            (GameObject rootGameObject, RectTransform rootTransform, UIPanel uiPanel) = UIElement.CreateUIGameObject<UIPanel>( parent, "uilib-panel", layoutInfo );
+            (GameObject rootGameObject, RectTransform rootTransform, T uiPanel) = UIElement.CreateUIGameObject<T>( parent, $"uilib-{nameof( T )}", layoutInfo );
 
             Image backgroundComponent = rootGameObject.AddComponent<Image>();
             backgroundComponent.raycastTarget = false;

@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 namespace UnityPlus.UILib.UIElements
 {
-    public static class UIInputFieldEx
+    public static class UIInputField_Ex
     {
         public static UIInputField AddInputField( this IUIElementContainer parent, UILayoutInfo layoutInfo, Sprite background )
         {
-            return UIInputField.Create( parent, layoutInfo, background );
+            return UIInputField.Create<UIInputField>( parent, layoutInfo, background );
         }
 
         public static UIInputField WithMargins( this UIInputField inputField, float left, float right, float top, float bottom )

@@ -9,10 +9,11 @@ namespace UnityPlus.UILib.UIElements
     /// <summary>
     /// A context menu contains a list of items.
     /// </summary>
-    public sealed class UIContextMenu : UIElement, IUIElementContainer, IUIElementChild, IUILayoutDriven
+    public class UIContextMenu : UIElement, IUIElementContainer, IUIElementChild, IUILayoutDriven
     {
-        internal ContextMenu contextMenuComponent;
-        internal Image backgroundComponent;
+        protected internal RectTransformTracker trackerComponent;
+        protected internal RectTransformDestroyOnLeave destroyOnLeaveComponent;
+        protected internal Image backgroundComponent;
         public RectTransform contents => base.rectTransform;
 
         public IUIElementContainer Parent { get; set; }
@@ -22,22 +23,27 @@ namespace UnityPlus.UILib.UIElements
 
         public Sprite Background { get => backgroundComponent.sprite; set => backgroundComponent.sprite = value; }
 
-        public static UIContextMenu Create( RectTransform track, UICanvas contextMenuCanvas, UILayoutInfo layoutInfo, Sprite background )
+        protected internal static T Create<T>( RectTransform track, UICanvas contextMenuCanvas, UILayoutInfo layoutInfo, Sprite background ) where T : UIContextMenu
         {
-            (GameObject rootGameObject, RectTransform rootTransform) = UIElement.CreateUIGameObject( contextMenuCanvas.contents, "uilib-contextmenu", layoutInfo );
+            (GameObject rootGameObject, RectTransform rootTransform, T uiContextMenu) = UIElement.CreateUIGameObject<T>( contextMenuCanvas, $"uilib-{nameof( T )}", layoutInfo );
 
             Image backgroundComponent = rootGameObject.AddComponent<Image>();
-            backgroundComponent.raycastTarget = true;
+            backgroundComponent.raycastTarget = false;
             backgroundComponent.sprite = background;
             backgroundComponent.type = Image.Type.Sliced;
 
-            ContextMenu contextMenuComponent = rootGameObject.AddComponent<ContextMenu>();
-            contextMenuComponent.Target = track;
+            if( background == null )
+            {
+                backgroundComponent.color = new Color( 0, 0, 0, 0 );
+            }
 
-            UIContextMenu uiContextMenu = rootGameObject.AddComponent<UIContextMenu>();
-            //uiContextMenu.Parent = null;
-            //uiContextMenu.Parent?.Children.Add( uiContextMenu );
-            uiContextMenu.contextMenuComponent = contextMenuComponent;
+            RectTransformTracker trackerComponent = rootGameObject.AddComponent<RectTransformTracker>();
+            trackerComponent.Target = track;
+            
+            RectTransformDestroyOnLeave destroyOnLeaveComponent = rootGameObject.AddComponent<RectTransformDestroyOnLeave>();
+
+            uiContextMenu.trackerComponent = trackerComponent;
+            uiContextMenu.destroyOnLeaveComponent = destroyOnLeaveComponent;
             uiContextMenu.backgroundComponent = backgroundComponent;
             return uiContextMenu;
         }

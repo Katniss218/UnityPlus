@@ -7,17 +7,17 @@ using UnityEngine.UI;
 
 namespace UnityPlus.UILib.UIElements
 {
-    public static class UIButtonEx
+    public static class UIButton_Ex
     {
         public static T AddButton<T>( this T parent, UILayoutInfo layout, Sprite sprite, Action onClick, out UIButton button ) where T : IUIElementContainer
         {
-            button = UIButton.Create( parent, layout, sprite, onClick );
+            button = UIButton.Create<UIButton>( parent, layout, sprite, onClick );
             return parent;
         }
 
         public static UIButton AddButton( this IUIElementContainer parent, UILayoutInfo layout, Sprite sprite, Action onClick )
         {
-            return UIButton.Create( parent, layout, sprite, onClick );
+            return UIButton.Create<UIButton>( parent, layout, sprite, onClick );
         }
 
         public static UIButton WithTint( this UIButton button, Color tint )

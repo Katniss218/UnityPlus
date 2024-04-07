@@ -228,6 +228,15 @@ namespace UnityPlus.UILib
         /// </summary>
         public bool FillsHeight => (anchorMin.y != anchorMax.y);
 
+        public UILayoutInfo( Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot, Vector2 anchoredPosition, Vector2 sizeDelta )
+        {
+            this.anchorMin = anchorMin;
+            this.anchorMax = anchorMax;
+            this.pivot = pivot;
+            this.anchoredPosition = anchoredPosition;
+            this.sizeDelta = sizeDelta;
+        }
+
         public UILayoutInfo( UIAnchor anchor, UIPosition pos, UISize size )
         {
             this.anchorMin = new Vector2( anchor.x, anchor.y );
