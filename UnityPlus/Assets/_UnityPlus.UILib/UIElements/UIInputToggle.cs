@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace UnityPlus.UILib.UIElements
 {
-    public class UIInputToggle : UIElement, IUIElementChild
+    public partial class UIInputToggle : UIElement, IUIElementChild
     {
         // Toggle has 2 sprites, one for inactive, and other for active.
 

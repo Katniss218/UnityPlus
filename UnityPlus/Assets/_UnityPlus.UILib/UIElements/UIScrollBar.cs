@@ -7,7 +7,7 @@ namespace UnityPlus.UILib.UIElements
 {
     public class UIScrollBar : UIElement
     {
-        protected internal Scrollbar scrollbarComponent;
+        protected Scrollbar scrollbarComponent;
 
         protected UIScrollView parent;
 

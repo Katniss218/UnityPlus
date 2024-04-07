@@ -4,12 +4,12 @@ using UnityEngine.UI;
 
 namespace UnityPlus.UILib.UIElements
 {
-    public class UIInputField : UIElement, IUIElementChild
+    public partial class UIInputField : UIElement, IUIElementChild
     {
-        protected internal TMPro.TMP_InputField inputFieldComponent;
-        protected internal TMPro.TextMeshProUGUI textComponent;
-        protected internal TMPro.TextMeshProUGUI placeholderComponent;
-        protected internal Image backgroundComponent;
+        protected TMPro.TMP_InputField inputFieldComponent;
+        protected TMPro.TextMeshProUGUI textComponent;
+        protected TMPro.TextMeshProUGUI placeholderComponent;
+        protected Image backgroundComponent;
 
         public IUIElementContainer Parent { get; set; }
 

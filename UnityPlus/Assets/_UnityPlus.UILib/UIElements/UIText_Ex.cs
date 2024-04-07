@@ -16,36 +16,39 @@ namespace UnityPlus.UILib.UIElements
         {
             return UIText.Create<UIText>( parent, layoutInfo, text );
         }
+    }
 
-        public static UIText WithFont( this UIText text, TMPro.TMP_FontAsset font, float fontSize, Color color )
+    public partial class UIText
+    {
+        public UIText WithFont( TMPro.TMP_FontAsset font, float fontSize, Color color )
         {
-            var textComponent = text.textComponent;
+            var textComponent = this.textComponent;
             textComponent.font = font;
             textComponent.fontSize = fontSize;
             textComponent.color = color;
 
-            return text;
+            return this;
         }
 
-        public static UIText WithAlignment( this UIText text, TMPro.HorizontalAlignmentOptions horizontalAlignment )
+        public UIText WithAlignment( TMPro.HorizontalAlignmentOptions horizontalAlignment )
         {
-            text.textComponent.horizontalAlignment = horizontalAlignment;
-            return text;
+            this.textComponent.horizontalAlignment = horizontalAlignment;
+            return this;
         }
 
-        public static UIText WithAlignment( this UIText text, TMPro.VerticalAlignmentOptions verticalAlignment )
+        public UIText WithAlignment( TMPro.VerticalAlignmentOptions verticalAlignment )
         {
-            text.textComponent.verticalAlignment = verticalAlignment;
-            return text;
+            this.textComponent.verticalAlignment = verticalAlignment;
+            return this;
         }
 
-        public static UIText WithAlignment( this UIText text, TMPro.HorizontalAlignmentOptions horizontalAlignment, TMPro.VerticalAlignmentOptions verticalAlignment )
+        public UIText WithAlignment( TMPro.HorizontalAlignmentOptions horizontalAlignment, TMPro.VerticalAlignmentOptions verticalAlignment )
         {
-            var textComponent = text.textComponent;
+            var textComponent = this.textComponent;
             textComponent.horizontalAlignment = horizontalAlignment;
             textComponent.verticalAlignment = verticalAlignment;
 
-            return text;
+            return this;
         }
     }
 }

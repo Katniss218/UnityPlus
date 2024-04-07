@@ -17,18 +17,21 @@ namespace UnityPlus.UILib.UIElements
         {
             return UIIcon.Create<UIIcon>( parent, layoutInfo, icon );
         }
+    }
 
-        public static UIIcon WithTint( this UIIcon icon, Color tint )
+    public partial class UIIcon 
+    {
+        public UIIcon WithTint( Color tint )
         {
-            icon.imageComponent.color = tint;
-            return icon;
+            this.imageComponent.color = tint;
+            return this;
         }
 
-        public static UIIcon Raycastable( this UIIcon icon, bool raycastable = true )
+        public UIIcon Raycastable( bool raycastable = true )
         {
-            icon.imageComponent.raycastTarget = raycastable;
+            this.imageComponent.raycastTarget = raycastable;
 
-            return icon;
+            return this;
         }
     }
 }

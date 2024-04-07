@@ -21,29 +21,27 @@ namespace UnityPlus.UILib.UIElements
         {
             return UIScrollView.Create<UIScrollView>( parent, layout, contentLayout, horizontal, vertical );
         }
+    }
 
-        public static UIScrollView WithSensitivity( this UIScrollView scrollView, float sensitivity, float deceleration )
+    public partial class UIScrollView
+    {
+        public UIScrollView WithSensitivity( float sensitivity )
         {
-            var scrollRectComponent = scrollView.scrollRectComponent;
-            scrollRectComponent.movementType = ScrollRect.MovementType.Clamped;
-            scrollRectComponent.inertia = true;
-            scrollRectComponent.scrollSensitivity = sensitivity;
-            scrollRectComponent.decelerationRate = deceleration;
-
-            return scrollView;
+            this.scrollRectComponent.scrollSensitivity = sensitivity;
+            return this;
         }
 
-        public static UIScrollView WithHorizontalScrollbar( this UIScrollView scrollView, UILayoutInfo layout, Sprite background, Sprite foreground, out UIScrollBar scrollBar )
+        public UIScrollView WithHorizontalScrollbar( UILayoutInfo layout, Sprite background, Sprite foreground, out UIScrollBar scrollBar )
         {
 #warning TODO - the contents should take the margin around the scrollbars. Also, the scrollbars should be more restricted in size. only the "free" axis is allowed to be set, and bottom/top margin depends on the presence and the size of the other scrollbar.
-            scrollBar = scrollView.AddScrollbar( layout, background, foreground, false );
-            return scrollView;
+            scrollBar = this.AddScrollbar( layout, background, foreground, false );
+            return this;
         }
 
-        public static UIScrollView WithVerticalScrollbar( this UIScrollView scrollView, UILayoutInfo layout, Sprite background, Sprite foreground, out UIScrollBar scrollBar )
+        public UIScrollView WithVerticalScrollbar( UILayoutInfo layout, Sprite background, Sprite foreground, out UIScrollBar scrollBar )
         {
-            scrollBar = scrollView.AddScrollbar( layout, background, foreground, true );
-            return scrollView;
+            scrollBar = this.AddScrollbar( layout, background, foreground, true );
+            return this;
         }
     }
 }

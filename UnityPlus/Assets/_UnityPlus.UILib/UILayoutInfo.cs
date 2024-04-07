@@ -219,15 +219,6 @@ namespace UnityPlus.UILib
         public Vector2 anchoredPosition;
         public Vector2 sizeDelta;
 
-        /// <summary>
-        /// True if the UI element is set to fill the width of its parent.
-        /// </summary>
-        public bool FillsWidth => (anchorMin.x != anchorMax.x);
-        /// <summary>
-        /// True if the UI element is set to fill the height of its parent.
-        /// </summary>
-        public bool FillsHeight => (anchorMin.y != anchorMax.y);
-
         public UILayoutInfo( Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot, Vector2 anchoredPosition, Vector2 sizeDelta )
         {
             this.anchorMin = anchorMin;

@@ -12,34 +12,37 @@ namespace UnityPlus.UILib.UIElements
         {
             return UIWindow.Create<UIWindow>( parent, layoutInfo, background );
         }
+    }
 
-        public static UIWindow Focusable( this UIWindow window )
+    public partial class UIWindow
+    {
+        public UIWindow Focusable()
         {
-            RectTransformFocuser windowDrag = window.gameObject.AddComponent<RectTransformFocuser>();
-            windowDrag.UITransform = window.rectTransform;
+            RectTransformFocuser windowDrag = this.gameObject.AddComponent<RectTransformFocuser>();
+            windowDrag.UITransform = this.rectTransform;
 
-            return window;
+            return this;
         }
 
-        public static UIWindow Draggable( this UIWindow window )
+        public UIWindow Draggable()
         {
-            RectTransformDragger windowDrag = window.gameObject.AddComponent<RectTransformDragger>();
-            windowDrag.UITransform = window.rectTransform;
+            RectTransformDragger windowDrag = this.gameObject.AddComponent<RectTransformDragger>();
+            windowDrag.UITransform = this.rectTransform;
 
-            return window;
+            return this;
         }
 
         /// <summary>
         /// A shorthand for AddButton that closes the window.
         /// </summary>
-        public static UIWindow WithCloseButton( this UIWindow window, UILayoutInfo layoutInfo, Sprite buttonSprite, out UIButton closeButton )
+        public UIWindow WithCloseButton( UILayoutInfo layoutInfo, Sprite buttonSprite, out UIButton closeButton )
         {
-            closeButton = window.AddButton( layoutInfo, buttonSprite, () =>
+            closeButton = this.AddButton( layoutInfo, buttonSprite, () =>
             {
-                window.Destroy();
+                this.Destroy();
             } );
 
-            return window;
+            return this;
         }
     }
 }

@@ -14,15 +14,18 @@ namespace UnityPlus.UILib.UIElements
         {
             return UIValueBar.Create<UIValueBar>( parent, layoutInfo, background );
         }
+    }
 
-        public static UIValueBar WithPadding( this UIValueBar valueBar, float paddingleft, float paddingRight, float spacing )
+    public partial class UIValueBar
+    {
+        public UIValueBar WithPadding( float paddingleft, float paddingRight, float spacing )
         {
-            var valueBarComponent = valueBar.valueBarComponent;
+            var valueBarComponent = this.valueBarComponent;
             valueBarComponent.PaddingLeft = paddingleft;
             valueBarComponent.PaddingRight = paddingRight;
             valueBarComponent.Spacing = spacing;
 
-            return valueBar;
+            return this;
         }
     }
 }

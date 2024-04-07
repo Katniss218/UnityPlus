@@ -9,9 +9,9 @@ namespace UnityPlus.UILib.UIElements
     /// <summary>
     /// Represents a generic window, which is a defined section of the canvas.
     /// </summary>
-    public class UIWindow : UIElement, IUIElementContainer, IUIElementChild, IUILayoutDriven
+    public partial class UIWindow : UIElement, IUIElementContainer, IUIElementChild, IUILayoutDriven
     {
-        protected internal Image backgroundComponent;
+        protected Image backgroundComponent;
         public RectTransform contents => base.rectTransform;
 
         public IUIElementContainer Parent { get; set; }

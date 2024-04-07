@@ -9,7 +9,7 @@ namespace UnityPlus.UILib.UIElements
 {
     public static class UIButton_Ex
     {
-        public static T AddButton<T>( this T parent, UILayoutInfo layout, Sprite sprite, Action onClick, out UIButton button ) where T : IUIElementContainer
+        public static T WithButton<T>( this T parent, UILayoutInfo layout, Sprite sprite, Action onClick, out UIButton button ) where T : IUIElementContainer
         {
             button = UIButton.Create<UIButton>( parent, layout, sprite, onClick );
             return parent;
@@ -19,11 +19,14 @@ namespace UnityPlus.UILib.UIElements
         {
             return UIButton.Create<UIButton>( parent, layout, sprite, onClick );
         }
+    }
 
-        public static UIButton WithTint( this UIButton button, Color tint )
+    public partial class UIButton
+    {
+        public UIButton WithTint( Color tint )
         {
-            var colors = button.buttonComponent.colors;
-            button.buttonComponent.colors = new ColorBlock()
+            var colors = this.buttonComponent.colors;
+            this.buttonComponent.colors = new ColorBlock()
             {
                 normalColor = tint,
                 selectedColor = colors.selectedColor,
@@ -33,13 +36,13 @@ namespace UnityPlus.UILib.UIElements
                 disabledColor = colors.disabledColor
             };
 
-            return button;
+            return this;
         }
 
-        public static UIButton WithColors( this UIButton button, Color hovered, Color clicked, Color disabled )
+        public UIButton WithColors( Color hovered, Color clicked, Color disabled )
         {
-            var colors = button.buttonComponent.colors;
-            button.buttonComponent.colors = new ColorBlock()
+            var colors = this.buttonComponent.colors;
+            this.buttonComponent.colors = new ColorBlock()
             {
                 normalColor = colors.normalColor,
                 selectedColor = colors.selectedColor,
@@ -49,14 +52,14 @@ namespace UnityPlus.UILib.UIElements
                 disabledColor = disabled
             };
 
-            return button;
+            return this;
         }
 
-        public static UIButton Disabled( this UIButton button )
+        public UIButton Disabled()
         {
-            button.buttonComponent.interactable = false;
+            this.buttonComponent.interactable = false;
 
-            return button;
+            return this;
         }
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace UnityPlus.UILib.UIElements
 {
-    public class UIInputSlider : UIElement, IUIElementChild
+    public partial class UIInputSlider : UIElement, IUIElementChild
     {
         // A slider produces float values, between a and b, with rounding to the nearest multiple of x.
 

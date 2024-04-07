@@ -8,10 +8,10 @@ using UnityPlus.UILib.Layout;
 
 namespace UnityPlus.UILib.UIElements
 {
-    public class UIButton : UIElement, IUIElementContainer, IUIElementChild, IUILayoutDriven
+    public partial class UIButton : UIElement, IUIElementContainer, IUIElementChild, IUILayoutDriven
     {
-        protected internal Button buttonComponent;
-        protected internal Image backgroundComponent;
+        protected Button buttonComponent;
+        protected Image backgroundComponent;
         public RectTransform contents => base.rectTransform;
 
         public IUIElementContainer Parent { get; set; }
@@ -36,9 +36,9 @@ namespace UnityPlus.UILib.UIElements
             }
         }
 
-        public static T Create<T>( IUIElementContainer parent, UILayoutInfo layout, Sprite background, Action onClick ) where T : UIButton
+        protected internal static T Create<T>( IUIElementContainer parent, UILayoutInfo layout, Sprite background, Action onClick ) where T : UIButton
         {
-            (GameObject rootGameObject, RectTransform rootTransform, T uiButton) = UIElement.CreateUIGameObject<T>( parent, "uilib-button", layout );
+            (GameObject rootGameObject, RectTransform rootTransform, T uiButton) = UIElement.CreateUIGameObject<T>( parent, $"uilib-{nameof( T )}", layout );
 
             Image backgroundComponent = rootGameObject.AddComponent<Image>();
             backgroundComponent.raycastTarget = true;

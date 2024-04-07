@@ -17,18 +17,21 @@ namespace UnityPlus.UILib.UIElements
         {
             return UIPanel.Create<UIPanel>( parent, layoutInfo, background );
         }
+    }
 
-        public static UIPanel WithTint( this UIPanel panel, Color tint )
+    public partial class UIPanel
+    {
+        public UIPanel WithTint( Color tint )
         {
-            panel.backgroundComponent.color = tint;
-            return panel;
+            this.backgroundComponent.color = tint;
+            return this;
         }
 
-        public static UIPanel Raycastable( this UIPanel panel, bool raycastable = true )
+        public UIPanel Raycastable( bool raycastable = true )
         {
-            panel.backgroundComponent.raycastTarget = raycastable;
+            this.backgroundComponent.raycastTarget = raycastable;
 
-            return panel;
+            return this;
         }
     }
 }

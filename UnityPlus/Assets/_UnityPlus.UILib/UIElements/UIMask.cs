@@ -10,9 +10,9 @@ namespace UnityPlus.UILib.UIElements
     /// <summary>
     /// Represents a section of the canvas, or of a different UI element.
     /// </summary>
-    public class UIMask : UIElement, IUIElementContainer, IUIElementChild, IUILayoutDriven
+    public partial class UIMask : UIElement, IUIElementContainer, IUIElementChild, IUILayoutDriven
     {
-        protected internal Image backgroundComponent;
+        protected Image backgroundComponent;
         public RectTransform contents => base.rectTransform;
 
         public IUIElementContainer Parent { get; set; }
