@@ -1,12 +1,9 @@
-﻿using Humanizer;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using static Humanizer.In;
-using static UnityEditor.PlayerSettings;
 
 namespace UnityPlus.UILib
 {
@@ -14,17 +11,66 @@ namespace UnityPlus.UILib
     {
         public float x, y;
 
+        /// <summary>
+        /// (x = 0, y = 1)
+        /// </summary>
         public static UIAnchor TopLeft => new UIAnchor() { x = 0, y = 1 };
+        /// <summary>
+        /// (_____, y = 1), a.k.a. TopCenter
+        /// </summary>
         public static UIAnchorVertical Top => new UIAnchorVertical() { y = 1 };
+        /// <summary>
+        /// (x = 1, y = 1)
+        /// </summary>
         public static UIAnchor TopRight => new UIAnchor() { x = 1, y = 1 };
 
+        /// <summary>
+        /// (x = 0, _____), a.k.a. MiddleLeft
+        /// </summary>
         public static UIAnchorHorizontal Left => new UIAnchorHorizontal() { x = 0 };
-        public static UIAnchor Middle => new UIAnchor() { x = 0.5f, y = 0.5f };
+        /// <summary>
+        /// (x = 0.5, y = 0.5)
+        /// </summary>
+        public static UIAnchor Center => new UIAnchor() { x = 0.5f, y = 0.5f };
+        /// <summary>
+        /// (x = 1, _____), a.k.a. MiddleRight
+        /// </summary>
         public static UIAnchorHorizontal Right => new UIAnchorHorizontal() { x = 1 };
 
+        /// <summary>
+        /// (x = 0, y = 0)
+        /// </summary>
         public static UIAnchor BottomLeft => new UIAnchor() { x = 0, y = 0 };
+        /// <summary>
+        /// (_____, y = 0), a.k.a. BottomCenter
+        /// </summary>
         public static UIAnchorVertical Bottom => new UIAnchorVertical() { y = 0 };
+        /// <summary>
+        /// (x = 1, y = 0)
+        /// </summary>
         public static UIAnchor BottomRight => new UIAnchor() { x = 1, y = 0 };
+
+        public static implicit operator UIAnchor( (float x, float y) pos ) => new UIAnchor()
+        {
+            x = pos.x,
+            y = pos.y
+        };
+
+        public static explicit operator UIAnchor( Vector2 pos ) => new UIAnchor()
+        {
+            x = pos.x,
+            y = pos.y
+        };
+
+        public static implicit operator UIAnchorHorizontal( UIAnchor anchor ) => new UIAnchorHorizontal()
+        {
+            x = anchor.x
+        };
+
+        public static implicit operator UIAnchorVertical( UIAnchor anchor ) => new UIAnchorVertical()
+        {
+            y = anchor.y
+        };
     }
 
     public struct UIAnchorHorizontal
@@ -187,7 +233,7 @@ namespace UnityPlus.UILib
             y = pos.y
         };
 
-        public static implicit operator UIPosition( Vector2 pos ) => new UIPosition()
+        public static explicit operator UIPosition( Vector2 pos ) => new UIPosition()
         {
             x = pos.x,
             y = pos.y
@@ -204,7 +250,7 @@ namespace UnityPlus.UILib
             y = pos.y
         };
 
-        public static implicit operator UISize( Vector2 pos ) => new UISize()
+        public static explicit operator UISize( Vector2 pos ) => new UISize()
         {
             x = pos.x,
             y = pos.y
