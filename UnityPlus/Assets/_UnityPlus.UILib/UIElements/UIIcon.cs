@@ -14,7 +14,7 @@ namespace UnityPlus.UILib.UIElements
 
         public IUIElementContainer Parent { get; set; }
 
-        public Sprite Sprite { get => imageComponent.sprite; set => imageComponent.sprite = value; }
+        public virtual Sprite Sprite { get => imageComponent.sprite; set => imageComponent.sprite = value; }
 
         protected internal static T Create<T>( IUIElementContainer parent, UILayoutInfo layoutInfo, Sprite icon ) where T : UIIcon
         {

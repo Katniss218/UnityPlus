@@ -19,9 +19,9 @@ namespace UnityPlus.UILib.UIElements
             inputFieldComponent.onValueChanged.AddListener( ( s ) => onTextChange( inputFieldComponent.text ) );
         }
 
-        public string Text { get => inputFieldComponent.text; set => inputFieldComponent.text = value; }
+        public virtual string Text { get => inputFieldComponent.text; set => inputFieldComponent.text = value; }
 
-        public Sprite Background { get => backgroundComponent.sprite; set => backgroundComponent.sprite = value; }
+        public virtual Sprite Background { get => backgroundComponent.sprite; set => backgroundComponent.sprite = value; }
 
         protected internal static T Create<T>( IUIElementContainer parent, UILayoutInfo layout, Sprite background ) where T : UIInputField
         {

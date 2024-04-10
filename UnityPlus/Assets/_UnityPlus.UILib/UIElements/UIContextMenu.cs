@@ -14,14 +14,14 @@ namespace UnityPlus.UILib.UIElements
         protected internal RectTransformTracker trackerComponent;
         protected internal RectTransformDestroyOnLeave destroyOnLeaveComponent;
         protected internal Image backgroundComponent;
-        public RectTransform contents => base.rectTransform;
+        public virtual RectTransform contents => base.rectTransform;
 
         public IUIElementContainer Parent { get; set; }
         public List<IUIElementChild> Children { get; } = new List<IUIElementChild>();
 
         public LayoutDriver LayoutDriver { get; set; }
 
-        public Sprite Background { get => backgroundComponent.sprite; set => backgroundComponent.sprite = value; }
+        public virtual Sprite Background { get => backgroundComponent.sprite; set => backgroundComponent.sprite = value; }
 
         protected internal static T Create<T>( RectTransform track, UICanvas contextMenuCanvas, UILayoutInfo layoutInfo, Sprite background ) where T : UIContextMenu
         {

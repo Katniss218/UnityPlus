@@ -17,7 +17,7 @@ namespace UnityPlus.UILib.UIElements
 
         public bool FitToContents { get; set; } = false;
 
-        public string Text
+        public virtual string Text
         {
             get => textComponent.text;
             set

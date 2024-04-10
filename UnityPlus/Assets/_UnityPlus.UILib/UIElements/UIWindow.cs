@@ -12,14 +12,14 @@ namespace UnityPlus.UILib.UIElements
     public partial class UIWindow : UIElement, IUIElementContainer, IUIElementChild, IUILayoutDriven
     {
         protected Image backgroundComponent;
-        public RectTransform contents => base.rectTransform;
+        public virtual RectTransform contents => base.rectTransform;
 
         public IUIElementContainer Parent { get; set; }
         public List<IUIElementChild> Children { get; } = new List<IUIElementChild>();
 
         public LayoutDriver LayoutDriver { get; set; }
 
-        public Sprite Background { get => backgroundComponent.sprite; set => backgroundComponent.sprite = value; }
+        public virtual Sprite Background { get => backgroundComponent.sprite; set => backgroundComponent.sprite = value; }
 
         protected internal static T Create<T>( UICanvas parent, UILayoutInfo layoutInfo, Sprite background ) where T : UIWindow
         {

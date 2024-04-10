@@ -13,8 +13,8 @@ namespace UnityPlus.UILib.UIElements
         public UIScrollBar scrollbarHorizontal;
         public UIScrollBar scrollbarVertical;
 
-        RectTransform _contents;
-        public RectTransform contents { get => _contents; }
+        RectTransform _contentTransform;
+        public virtual RectTransform contents { get => _contentTransform; }
 
         public IUIElementContainer Parent { get; set; }
         public List<IUIElementChild> Children { get; } = new List<IUIElementChild>();
@@ -49,7 +49,7 @@ namespace UnityPlus.UILib.UIElements
             uiScrollView.scrollRectComponent = scrollRect;
             uiScrollView.scrollbarHorizontal = null;
             uiScrollView.scrollbarVertical = null;
-            uiScrollView._contents = contentTransform;
+            uiScrollView._contentTransform = contentTransform;
             return uiScrollView;
         }
     }
