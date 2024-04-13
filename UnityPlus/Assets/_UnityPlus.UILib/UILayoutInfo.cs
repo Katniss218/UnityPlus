@@ -282,7 +282,7 @@ namespace UnityPlus.UILib
             this.anchoredPosition = new Vector2( pos.x, pos.y );
             this.sizeDelta = new Vector2( size.x, size.y );
         }
-        
+
         public UILayoutInfo( UIFill fill )
         {
             anchorMin = Vector2.zero;

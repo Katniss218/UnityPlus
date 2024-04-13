@@ -8,23 +8,22 @@ using UnityEngine.EventSystems;
 
 namespace UnityPlus.UILib
 {
-    /// <summary>
-    /// Enables a <see cref="RectTransform"/> to be dragged around by the mouse.
-    /// </summary>
-    public class RectTransformDragger : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+	/// <summary>
+	/// Enables a <see cref="RectTransform"/> to be dragged around by the mouse.
+	/// </summary>
+	public class RectTransformDragger : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        [field: SerializeField]
-        public RectTransform UITransform { get; set; }
+		[field: SerializeField]
+		public RectTransform UITransform { get; set; }
 
-        [field: SerializeField]
-        public PointerEventData.InputButton MouseButton { get; set; } = PointerEventData.InputButton.Left;
+		[field: SerializeField]
+		public PointerEventData.InputButton MouseButton { get; set; } = PointerEventData.InputButton.Left;
 
-        bool _isDragging = false;
-        Vector2 _cursorOffset = Vector2.zero;
+		Vector2 _cursorOffset = Vector2.zero;
 
-        public Action OnBeginDragging { get; set; }
-        public Action OnDragging { get; set; }
-        public Action OnEndDragging { get; set; }
+		public Action OnBeginDragging { get; set; }
+		public Action OnDragging { get; set; }
+		public Action OnEndDragging { get; set; }
 
         public void OnBeginDrag( PointerEventData eventData )
         {
@@ -38,8 +37,7 @@ namespace UnityPlus.UILib
                 return;
             }
 
-            _cursorOffset = new Vector2( UITransform.position.x, UITransform.position.y ) - new Vector2( Input.mousePosition.x, Input.mousePosition.y );
-            _isDragging = true;
+            _cursorOffset = new Vector2( UITransform.position.x, UITransform.position.y ) - eventData.position + (eventData.position - eventData.pressPosition);
             OnBeginDragging?.Invoke();
         }
 
@@ -50,11 +48,8 @@ namespace UnityPlus.UILib
                 return;
             }
 
-            if( _isDragging )
-            {
                 UITransform.position = new Vector2( Input.mousePosition.x, Input.mousePosition.y ) + _cursorOffset;
                 OnDragging?.Invoke();
-            }
         }
 
         public void OnEndDrag( PointerEventData eventData )
@@ -69,8 +64,7 @@ namespace UnityPlus.UILib
                 return;
             }
 
-            _isDragging = false;
             OnEndDragging?.Invoke();
         }
-    }
+	}
 }

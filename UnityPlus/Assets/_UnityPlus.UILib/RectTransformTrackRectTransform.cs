@@ -8,10 +8,10 @@ using UnityEngine;
 
 namespace UnityPlus.UILib
 {
-    public class RectTransformTracker : MonoBehaviour
+    public class RectTransformTrackRectTransform : MonoBehaviour
     {
         /// <summary>
-        /// The RectTransformTracker will track this RectTransform.
+        /// The RectTransform to follow the position of.
         /// </summary>
         public RectTransform Target { get; set; }
 
