@@ -11,7 +11,7 @@ namespace UnityPlus.UILib
 	/// <summary>
 	/// Enables a <see cref="RectTransform"/> to be dragged around by the mouse.
 	/// </summary>
-	public class RectTransformDragger : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+	public class RectTransformDragMove : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
 		[field: SerializeField]
 		public RectTransform UITransform { get; set; }
