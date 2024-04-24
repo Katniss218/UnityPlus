@@ -1,10 +1,15 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityPlus.UILib.Layout;
 
 namespace UnityPlus.UILib.UIElements
 {
-    public partial class UIInputField : UIElement, IUIElementChild
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TValue">The type of the outputted value.</typeparam>
+    public partial class UIInputField<TValue> : UIElement, IUIInputElement<TValue>, IUIElementChild
     {
         protected TMPro.TMP_InputField inputFieldComponent;
         protected TMPro.TextMeshProUGUI textComponent;
@@ -13,17 +18,36 @@ namespace UnityPlus.UILib.UIElements
 
         public IUIElementContainer Parent { get; set; }
 
-        public void SetOnTextChange( Action<string> onTextChange )
-        {
-            inputFieldComponent.onValueChanged.RemoveAllListeners();
-            inputFieldComponent.onValueChanged.AddListener( ( s ) => onTextChange( inputFieldComponent.text ) );
-        }
-
         public virtual string Text { get => inputFieldComponent.text; set => inputFieldComponent.text = value; }
+
+        public virtual string Placeholder { get => placeholderComponent.text; set => placeholderComponent.text = value; }
 
         public virtual Sprite Background { get => backgroundComponent.sprite; set => backgroundComponent.sprite = value; }
 
-        protected internal static T Create<T>( IUIElementContainer parent, UILayoutInfo layout, Sprite background ) where T : UIInputField
+        public event Action<IUIInputElement<TValue>.ValueChangedEventData> OnValueChanged;
+
+        protected Func<string, bool> valueValidator;
+        protected Func<string, TValue> stringToValue;
+        protected Func<TValue, string> valueToString;
+
+        public bool TryGetValue( out TValue value )
+        {
+            if( valueValidator.Invoke( this.Text ) )
+            {
+                value = this.stringToValue.Invoke( this.Text );
+                return true;
+            }
+            value = default;
+            return false;
+        }
+        
+        public void SetValue( TValue value )
+        {
+            this.Text = this.valueToString.Invoke( value );
+            OnValueChanged?.Invoke( value );
+        }
+
+        protected internal static T Create<T>( IUIElementContainer parent, UILayoutInfo layout, Sprite background ) where T : UIInputField<TValue>
         {
             (GameObject rootGameObject, RectTransform rootTransform, T uiInputField) = UIElement.CreateUIGameObject<T>( parent, $"uilib-{typeof( T ).Name}", layout );
 

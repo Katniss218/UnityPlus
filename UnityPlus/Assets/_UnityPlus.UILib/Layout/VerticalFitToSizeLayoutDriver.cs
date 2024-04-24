@@ -15,7 +15,7 @@ namespace UnityPlus.UILib.Layout
         public float MarginTop { get; set; }
         public float MarginBottom { get; set; }
 
-        public override void DoLayout( IUIElementContainer c )
+        public override void DoLayout( IUILayoutDriven c )
         {
             if( c.contents.anchorMin.y != c.contents.anchorMax.y )
             {

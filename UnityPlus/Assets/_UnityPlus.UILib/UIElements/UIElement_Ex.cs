@@ -37,7 +37,7 @@ namespace UnityPlus.UILib.UIElements
             parent.Children.Add( child );
             child.rectTransform.SetParent( parent.contents );
 
-            UILayoutManager.BroadcastLayoutUpdate( child );
+            UILayoutManager.ForceLayoutUpdate( child );
         }
 
         public static void MoveBefore( this IUIElementChild child, IUIElementChild anotherChild )
@@ -52,7 +52,7 @@ namespace UnityPlus.UILib.UIElements
 
             child.rectTransform.SetSiblingIndex( anotherChild.rectTransform.GetSiblingIndex() - 1 );
 
-            UILayoutManager.BroadcastLayoutUpdate( child );
+            UILayoutManager.ForceLayoutUpdate( child );
         }
 
         public static void MoveAfter( this IUIElementChild child, IUIElementChild anotherChild )
@@ -67,7 +67,7 @@ namespace UnityPlus.UILib.UIElements
 
             child.rectTransform.SetSiblingIndex( anotherChild.rectTransform.GetSiblingIndex() );
 
-            UILayoutManager.BroadcastLayoutUpdate( child );
+            UILayoutManager.ForceLayoutUpdate( child );
         }
 
         public static void MoveToStart( this IUIElementChild child )
@@ -77,7 +77,7 @@ namespace UnityPlus.UILib.UIElements
 
             child.rectTransform.SetAsFirstSibling();
 
-            UILayoutManager.BroadcastLayoutUpdate( child );
+            UILayoutManager.ForceLayoutUpdate( child );
         }
 
         public static void MoveToEnd( this IUIElementChild child )
@@ -87,7 +87,7 @@ namespace UnityPlus.UILib.UIElements
 
             child.rectTransform.SetAsLastSibling();
 
-            UILayoutManager.BroadcastLayoutUpdate( child );
+            UILayoutManager.ForceLayoutUpdate( child );
         }
     }
 }

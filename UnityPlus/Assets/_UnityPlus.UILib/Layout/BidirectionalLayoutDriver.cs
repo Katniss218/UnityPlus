@@ -44,7 +44,7 @@ namespace UnityPlus.UILib.Layout
         /// </summary>
         public bool FitToSize { get; set; } // fit to size is only applied on the axis different from primary.
 
-        public override void DoLayout( IUIElementContainer c )
+        public override void DoLayout( IUILayoutDriven c )
         {
             // lays out the children in a vertical list.
             // doesn't care about the horizontal dimensions at all, just aligns everything to line up.
