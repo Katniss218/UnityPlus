@@ -8,7 +8,9 @@ namespace UnityPlus.UILib.UIElements
     /// <summary>
     /// 
     /// </summary>
-    public partial class UIInputField<TValue> : UIElementNonMonobehaviour, IUIInputElement<TValue>, IUIElementChild
+    /// <typeparam name="TValue">The type of the outputted value.</typeparam>
+    [Obsolete("not implemented")]
+    public partial class UIInputAutocomplete<TValue> : UIElementNonMonobehaviour, IUIInputElement<TValue>, IUIElementChild
     {
         protected TMPro.TMP_InputField inputFieldComponent;
         protected TMPro.TextMeshProUGUI textComponent;
@@ -17,79 +19,37 @@ namespace UnityPlus.UILib.UIElements
 
         public IUIElementContainer Parent { get; set; }
 
+        public virtual string Text { get => inputFieldComponent.text; set => inputFieldComponent.text = value; }
+
         public virtual string Placeholder { get => placeholderComponent.text; set => placeholderComponent.text = value; }
 
         public virtual Sprite Background { get => backgroundComponent.sprite; set => backgroundComponent.sprite = value; }
 
         public event Action<IUIInputElement<TValue>.ValueChangedEventData> OnValueChanged;
 
-        protected Func<string, bool> validator;
+        protected Func<string, bool> valueValidator;
         protected Func<string, TValue> stringToValue;
         protected Func<TValue, string> valueToString;
 
-        protected bool hasValue;
-        protected TValue value;
-
         public bool TryGetValue( out TValue value )
         {
-            value = this.value;
-            return this.hasValue;
+            throw new NotImplementedException();
         }
 
         public TValue GetOrDefault( TValue defaultValue )
         {
-            return hasValue ? this.value : defaultValue;
-        }
-
-        public void ResetValue()
-        {
-            hasValue = false;
-            value = default;
-            SyncVisual();
-
-            try
-            {
-                OnValueChanged?.Invoke( IUIInputElement<TValue>.ValueChangedEventData.Value( value ) );
-            }
-            catch
-            {
-            }
+            throw new NotImplementedException();
         }
 
         public void SetValue( TValue value )
         {
-            hasValue = true;
-            this.value = value;
-            SyncVisual();
+            throw new NotImplementedException();
 
-            try
-            {
-                OnValueChanged?.Invoke( IUIInputElement<TValue>.ValueChangedEventData.Value( value ) );
-            }
-            catch
-            {
-            }
+            this.Text = this.valueToString.Invoke( value );
+            OnValueChanged?.Invoke( new IUIInputElement<TValue>.ValueChangedEventData() { HasValue = true, NewValue = value } );
         }
 
-        protected virtual void SyncVisual()
-        {
-            if( !hasValue )
-            {
-                this.inputFieldComponent.text = "";
-                return;
-            }
-
-            try
-            {
-                this.inputFieldComponent.text = this.valueToString.Invoke( value );
-            }
-            catch
-            {
-                this.inputFieldComponent.text = $"$errorvalue$"; // valueToString should never throw, but just in case...
-            }
-        }
-
-        protected internal static T Create<T>( IUIElementContainer parent, UILayoutInfo layout, Sprite background, Func<string, bool> validator, Func<string, TValue> stringToValue, Func<TValue, string> valueToString ) where T : UIInputField<TValue>
+        protected internal static T Create<T>( IUIElementContainer parent, UILayoutInfo layout, Sprite background ) where T : UIInputAutocomplete<TValue>
         {
             (GameObject rootGameObject, RectTransform rootTransform, T uiInputField) = UIElementNonMonobehaviour.CreateUIGameObject<T>( parent, $"uilib-{typeof( T ).Name}", layout );
 
@@ -141,22 +101,6 @@ namespace UnityPlus.UILib.UIElements
             uiInputField.inputFieldComponent = inputFieldComponent;
             uiInputField.textComponent = realText;
             uiInputField.placeholderComponent = placeholderText;
-            uiInputField.validator = validator;
-            uiInputField.stringToValue = stringToValue;
-            uiInputField.valueToString = valueToString;
-
-            inputFieldComponent.onValueChanged.AddListener( s =>
-            {
-                if( uiInputField.validator.Invoke( s ) )
-                {
-                    uiInputField.SetValue( uiInputField.stringToValue( s ) );
-                }
-                else
-                {
-                    uiInputField.SyncVisual(); // Reset the text to the previous value.
-                }
-            } );
-
             return uiInputField;
         }
     }

@@ -1,4 +1,3 @@
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,72 +12,17 @@ using UnityPlus.Serialization;
 using UnityPlus.Serialization.Json;
 using UnityPlus.Serialization.ReferenceMaps;
 using UnityPlus.Serialization.Strategies;
+using UnityPlus.UILib;
+using UnityPlus.UILib.UIElements;
 
 public class _playtester : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Awake()
-    {
-        string code = @"
-using System;
-using UnityEngine;
-
-public class CodeGenerated
-{
-    public static void Run()
-    {
-        GameObject go = new GameObject();
-        object o = ""hi"";
-        UnityEngine.Debug.Log(o);
-        GameObject go2 = GameObject.Find(""Plane"");
-        go2.transform.rotation = Quaternion.Euler( -31, -31, -31 );
-    }
-}";
-
-        Assembly assembly = CSharpScript.CompileCode( code );
-
-        if( assembly != null )
-        {
-            Type type = assembly.GetType( "CodeGenerated" );
-            MethodInfo method = type.GetMethod( "Run" );
-            method.Invoke( null, null );
-        }
-    }
-
-    /*public class TestClass : IAutoPersistsData
-    {
-        [Persist( "field_1" )]
-        public int field1;
-
-        [Persist( "property_1" )]
-        public string Property1 { get; set; }
-    }*/
-
-    Saver s;
-    Loader l;
-    AsyncSaver _as;
-    AsyncLoader _al;
-    AssetGameObjectsStrategy strat;
-
-    // Update is called once per frame
     void Start()
     {
-        string s = "aa";
-        string a = s;
-        s = "aasdaa";
+        UICanvas staticCanvas = CanvasManager.Get( "static" );
+        UICanvas contextMenuCanvas = CanvasManager.Get( "contextmenus" );
 
-        var refMap = new BidirectionalReferenceStore();
-        /*TestClass sut = new TestClass()
-        {
-            field1 = 5,
-            Property1 = "hello"
-        };
-
-        // Act
-        var data = sut.GetData( refMap );*/
-
-        // Assert
-        //Assert.That( data["field_1"], Is.EqualTo( (SerializedPrimitive)"hello" ) );
+        staticCanvas.AddPanel( new UILayoutInfo( UIAnchor.Center, (0, 0), (300, 300) ), null );
     }
 
     void Update()

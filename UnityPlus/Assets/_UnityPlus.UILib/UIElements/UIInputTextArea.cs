@@ -8,7 +8,9 @@ namespace UnityPlus.UILib.UIElements
     /// <summary>
     /// 
     /// </summary>
-    public partial class UIInputField<TValue> : UIElementNonMonobehaviour, IUIInputElement<TValue>, IUIElementChild
+    /// <typeparam name="TValue">The type of the outputted value.</typeparam>
+    [Obsolete("not implemented")]
+    public partial class UIInputTextArea<TValue> : UIElementNonMonobehaviour, IUIInputElement<TValue>, IUIElementChild
     {
         protected TMPro.TMP_InputField inputFieldComponent;
         protected TMPro.TextMeshProUGUI textComponent;
@@ -59,7 +61,7 @@ namespace UnityPlus.UILib.UIElements
         public void SetValue( TValue value )
         {
             hasValue = true;
-            this.value = value;
+            value = this.value;
             SyncVisual();
 
             try
@@ -75,21 +77,21 @@ namespace UnityPlus.UILib.UIElements
         {
             if( !hasValue )
             {
-                this.inputFieldComponent.text = "";
+                this.textComponent.text = null;
                 return;
             }
 
             try
             {
-                this.inputFieldComponent.text = this.valueToString.Invoke( value );
+                this.textComponent.text = this.valueToString.Invoke( value );
             }
             catch
             {
-                this.inputFieldComponent.text = $"$errorvalue$"; // valueToString should never throw, but just in case...
+                this.textComponent.text = $"$errorvalue$"; // valueToString should never throw, but just in case...
             }
         }
 
-        protected internal static T Create<T>( IUIElementContainer parent, UILayoutInfo layout, Sprite background, Func<string, bool> validator, Func<string, TValue> stringToValue, Func<TValue, string> valueToString ) where T : UIInputField<TValue>
+        protected internal static T Create<T>( IUIElementContainer parent, UILayoutInfo layout, Sprite background, Func<string, bool> validator, Func<string, TValue> stringToValue, Func<TValue, string> valueToString ) where T : UIInputTextArea<TValue>
         {
             (GameObject rootGameObject, RectTransform rootTransform, T uiInputField) = UIElementNonMonobehaviour.CreateUIGameObject<T>( parent, $"uilib-{typeof( T ).Name}", layout );
 
@@ -145,7 +147,7 @@ namespace UnityPlus.UILib.UIElements
             uiInputField.stringToValue = stringToValue;
             uiInputField.valueToString = valueToString;
 
-            inputFieldComponent.onValueChanged.AddListener( s =>
+            inputFieldComponent.onSubmit.AddListener( s =>
             {
                 if( uiInputField.validator.Invoke( s ) )
                 {

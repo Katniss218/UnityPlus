@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine.EventSystems;
 using UnityEngine;
 
 namespace UnityPlus.UILib
@@ -11,18 +6,15 @@ namespace UnityPlus.UILib
     public class RectTransformTrackRectTransform : MonoBehaviour
     {
         /// <summary>
-        /// The RectTransform to follow the position of.
+        /// The RectTransform to follow the center of.
         /// </summary>
         public RectTransform Target { get; set; }
 
-        /// <summary>
-        /// The offset to apply to the position of this object.
-        /// </summary>
         public Vector2 Offset { get; set; }
 
         void LateUpdate()
         {
-            Vector2 pos = Target.TransformPoint( Vector2.zero );
+            Vector2 pos = Target.TransformPoint( Target.rect.center );
             this.transform.position = pos + Offset;
         }
     }

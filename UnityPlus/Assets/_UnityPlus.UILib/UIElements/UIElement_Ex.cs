@@ -15,7 +15,7 @@ namespace UnityPlus.UILib.UIElements
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
         public static bool IsNullOrDestroyed( this IUIElement uiElement )
         {
-            return uiElement.IsUnityNull();
+            return Object_Ex.IsUnityNull( uiElement );
         }
 
         /// <summary>
