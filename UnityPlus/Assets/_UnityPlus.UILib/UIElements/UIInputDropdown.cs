@@ -99,43 +99,50 @@ namespace UnityPlus.UILib.UIElements
             }
         }
 
+        // TODO - The context menu could alternatively 'stay' until the player clicks somewhere else (input.getkeydown on all possible mouse keys) with any mouse button - instead of disappearing when the mouse exits.
+
         public void OnPointerClick()
         {
-            if( !this.contextMenu.IsNullOrDestroyed() )
+            if( this.contextMenu.IsNullOrDestroyed() )
+            {
+                float step = this.rectTransform.GetActualSize().y;
+
+                float cmHeight = Mathf.Min( 250, step * this.options.Length );
+
+                // open a context menu with a scrollable list of options.
+                this.backgroundComponent.sprite = this.backgroundActive;
+                this.contextMenu = this.CreateContextMenu( contextMenuCanvas, new UILayoutInfo( UIAnchor.Top, (0, 0), (this.rectTransform.GetActualSize().x, cmHeight) ), contextMenuBackground );
+                this.contextMenu.OnHide = () =>
+                {
+                    if( this.textComponent != null && this.placeholderComponent != null && this.backgroundComponent != null ) // prevents being invoked when scene is destroyed.
+                    {
+                        this.SyncVisual();
+                    }
+                };
+                var TEMP_TRACKER_DO_IT_PROPERLY = this.contextMenu.GetComponent<RectTransformTrackRectTransform>();
+                TEMP_TRACKER_DO_IT_PROPERLY.SelfCorner = new Vector2( 0, 1 );
+                TEMP_TRACKER_DO_IT_PROPERLY.TargetCorner = new Vector2( 0, 0 );
+
+                UIScrollView uiScrollView = this.contextMenu.AddVerticalScrollView( new UILayoutInfo( UIFill.Fill() ), step * this.options.Length );
+
+                for( int i = 0; i < this.options.Length; i++ )
+                {
+                    string str = valueToString.Invoke( this.options[i] );
+
+                    int val = i;
+                    var button = uiScrollView.AddButton( new UILayoutInfo( UIFill.Horizontal(), UIAnchor.Top, -step * i, step ), this.contextMenuElement, () =>
+                    {
+                        this.TrySelect( val );
+                        this.contextMenu.Destroy();
+                    } )
+                        .AddText( new UILayoutInfo( UIFill.Fill() ), str )
+                            .WithAlignment( TMPro.HorizontalAlignmentOptions.Left )
+                            .WithFont( contextMenuFont, contextMenuFontSize, contextMenuFontColor );
+                }
+            }
+            else
             {
                 this.contextMenu.Destroy();
-            }
-
-            float step = this.rectTransform.GetActualSize().y;
-
-            float cmHeight = Mathf.Min( 250, step * this.options.Length );
-
-            // open a context menu with a scrollable list of options.
-            this.backgroundComponent.sprite = this.backgroundActive;
-            this.contextMenu = this.CreateContextMenu( contextMenuCanvas, new UILayoutInfo( UIAnchor.Top, (0, 0), (this.rectTransform.GetActualSize().x, cmHeight) ), contextMenuBackground );
-            this.contextMenu.OnHide = () =>
-            {
-                if( this.textComponent != null && this.placeholderComponent != null && this.backgroundComponent != null ) // prevents being invoked when scene is destroyed.
-                {
-                    this.SyncVisual();
-                }
-            };
-
-            UIScrollView uiScrollView = this.contextMenu.AddVerticalScrollView( new UILayoutInfo( UIFill.Fill() ), step * this.options.Length );
-
-            for( int i = 0; i < this.options.Length; i++ )
-            {
-                string str = valueToString.Invoke( this.options[i] );
-
-                int val = i;
-                var button = uiScrollView.AddButton( new UILayoutInfo( UIFill.Horizontal(), UIAnchor.Top, -step * i, step ), this.contextMenuElement, () =>
-                {
-                    this.TrySelect( val );
-                    this.contextMenu.Destroy();
-                } )
-                    .AddText( new UILayoutInfo( UIFill.Fill() ), str )
-                        .WithAlignment( TMPro.HorizontalAlignmentOptions.Left )
-                        .WithFont( contextMenuFont, contextMenuFontSize, contextMenuFontColor );
             }
         }
 
@@ -143,8 +150,10 @@ namespace UnityPlus.UILib.UIElements
         {
             if( contextMenu != null )
             {
-                Vector2 halfSize = this.rectTransform.rect.size * 0.5f;
-                contextMenu.Offset = new Vector2( -halfSize.x, -halfSize.y );
+                //Vector2 halfSize = this.rectTransform.rect.size * 0.5f;
+                //contextMenu.Offset = new Vector2( -halfSize.x, -halfSize.y );
+
+                contextMenu.AllowClickDestroy = !this.rectTransform.rect.Contains( this.rectTransform.InverseTransformPoint( Input.mousePosition ) );
             }
         }
 

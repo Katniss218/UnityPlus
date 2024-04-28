@@ -110,7 +110,11 @@ namespace UnityPlus.UILib.UIElements
 
         public TValue GetOrDefault( TValue defaultValue )
         {
-            throw new NotImplementedException();
+            if( TryGetValue( out var value ) )
+            {
+                return value;
+            }
+            return defaultValue;
         }
 
         /// <summary>

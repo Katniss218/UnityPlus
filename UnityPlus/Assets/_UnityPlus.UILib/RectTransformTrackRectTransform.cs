@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEditor;
 using UnityEngine;
 
 namespace UnityPlus.UILib
@@ -12,10 +13,19 @@ namespace UnityPlus.UILib
 
         public Vector2 Offset { get; set; }
 
+        public Vector2 TargetCorner { get; set; }
+        public Vector2 SelfCorner { get; set; }
+
         void LateUpdate()
         {
-            Vector2 pos = Target.TransformPoint( Target.rect.center );
-            this.transform.position = pos + Offset;
+            RectTransform self = (RectTransform)transform;
+            Rect targetRect = Target.rect;
+
+            Vector2 targetCornerPos = Target.TransformPoint( new Vector2( targetRect.width * (TargetCorner.x - Target.pivot.x), targetRect.height * (TargetCorner.y - Target.pivot.y) ) );
+
+            self.pivot = SelfCorner;
+
+            this.transform.position = targetCornerPos + Offset;
         }
     }
 }
