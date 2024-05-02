@@ -9,7 +9,7 @@ namespace UnityEngine
 {
     public class ExtensionMap
     {
-        private readonly Dictionary<Type, Delegate> _map = new();
+        private readonly TypeMap<Delegate> _map = new();
 
         private readonly string _methodName;
 
@@ -88,7 +88,9 @@ namespace UnityEngine
 
         public bool TryGetValue( Type type, out Delegate del )
         {
-            return _map.TryGetValue( type, out del );
+            bool b = type.IsInterface;
+
+            return _map.TryGetClosest( type, out del );
         }
 
         public void Reload()
@@ -108,6 +110,7 @@ namespace UnityEngine
 
                         if( retParam.ParameterType == _returnType
                          && methodParams.Length == (_parameterTypes.Length + 1)
+                         && methodParams[0].ParameterType != typeof( object ) // prevent infinite recursion and stack overflow when the method doesn't exist.
                          && methodParams.Skip( 1 ).Select( p => p.ParameterType ).SequenceEqual( _parameterTypes ) )
                         {
                             Type unconstructedDelegateType = _returnType == typeof( void )
@@ -126,7 +129,7 @@ namespace UnityEngine
 
                             Delegate del = Delegate.CreateDelegate( methodType, method );
 
-                            _map.Add( methodParams[0].ParameterType, del );
+                            _map.Set( methodParams[0].ParameterType, del );
                         }
                     }
                 }
