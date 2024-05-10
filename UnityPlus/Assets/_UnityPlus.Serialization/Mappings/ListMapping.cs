@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,16 @@ namespace UnityPlus.Serialization
     public class ListMapping<TSource> : SerializationMapping, IEnumerable<MemberMapping<TSource>>
     {
         private List<MemberMapping<TSource>> _items = new();
+
+        public IEnumerator<MemberMapping<TSource>> GetEnumerator()
+        {
+            return ((IEnumerable<MemberMapping<TSource>>)_items).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable)_items).GetEnumerator();
+        }
 
         public void Add( MemberMapping<TSource> item )
         {

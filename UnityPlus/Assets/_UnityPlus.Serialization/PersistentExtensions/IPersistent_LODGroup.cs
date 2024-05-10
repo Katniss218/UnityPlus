@@ -58,7 +58,7 @@ namespace UnityPlus.Serialization
                         int j = 0;
                         foreach( var renderer in renderersArray )
                         {
-                            renderers[j] = (Renderer)l.ReadObjectReference( renderer );
+                            renderers[j] = l.ReadObjectReference<Renderer>( renderer );
                             j++;
                         }
                     }

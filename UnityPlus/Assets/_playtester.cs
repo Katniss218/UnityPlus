@@ -26,7 +26,8 @@ public class _playtester : MonoBehaviour
         //staticCanvas.AddPanel( new UILayoutInfo( UIAnchor.Center, (0, 0), (300, 300) ), null );
 
         // var mapping = (SerializationMapping<MeshFilter>)TestMappings.MeshFilterMapping();
-        var mapping = (SerializationMapping<GameObject>)TestMappings.GameObjectMapping();
+        // var mapping = (CompoundMapping<GameObject>)TestMappings.GameObjectMapping();
+        var mapping = (CompoundMapping<GameObject>)SerializationMapping.GetMappingFor<GameObject>();
 
         var mf = this.gameObject.AddComponent<MeshFilter>();
 
@@ -36,7 +37,7 @@ public class _playtester : MonoBehaviour
         new JsonStringWriter( data, sb ).Write();
         string s = sb.ToString();
 
-        s.Replace( "true", "false" );
+        s = s.Replace( "true", "false" );
 
         data = (SerializedObject)new JsonStringReader( s ).Read();
 

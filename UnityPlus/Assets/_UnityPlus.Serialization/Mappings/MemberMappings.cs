@@ -63,7 +63,7 @@ namespace UnityPlus.Serialization
         {
             var member = _getter.Invoke( source );
 
-            var mapping = SerializationMapping.GetMappingFor( member );
+            var mapping = (IDataMapping<TMember>)SerializationMapping.GetMappingFor( member );
 
             return mapping.GetDataPass( member, s );
         }
@@ -72,9 +72,10 @@ namespace UnityPlus.Serialization
         {
             var member = _getter.Invoke( source );
 
-            var mapping = SerializationMapping.GetMappingFor( member );
+            var mapping = (IDataMapping<TMember>)SerializationMapping.GetMappingFor( member );
 
             mapping.SetDataPass( member, memberData, l ); // SetData doesn't assign anything, it retrieves the member, and calls setdata further, on it.
+#warning TODO - it should assign, the entire setting stuff should probably be reworked.
         }
     }
 
@@ -151,7 +152,7 @@ namespace UnityPlus.Serialization
         {
             var member = _getter.Invoke( source );
 
-            var mapping = SerializationMapping.GetMappingFor( member );
+            var mapping = (IObjectMapping<TMember>)SerializationMapping.GetMappingFor( member );
 
             return mapping.GetObjectsPass( member, s ); // TODO - this needs to create `$id` and `$type` keys, and recursively call getobjects on the children.
         }
@@ -162,7 +163,7 @@ namespace UnityPlus.Serialization
 
             var member = _getter.Invoke( source );
 
-            var mapping = SerializationMapping.GetMappingFor( member );
+            var mapping = (IObjectMapping<TMember>)SerializationMapping.GetMappingFor( member );
 
             mapping.SetObjectsPass( member, memberData, l ); // SetObjects doesn't assign anything, it retrieves the member, and calls setobjects further, on it.
         }

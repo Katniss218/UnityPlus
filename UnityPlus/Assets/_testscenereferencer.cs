@@ -26,7 +26,7 @@ public class _testscenereferencer : MonoBehaviour, IPersistsData
 
     public void SetData( SerializedData json, IForwardReferenceMap l )
     {
-        this.go = (GameObject)l.ReadObjectReference( json["go"] );
-        this.c = (Component)l.ReadObjectReference( json["c"] );
+        this.go = l.ReadObjectReference<GameObject>( json["go"] );
+        this.c = l.ReadObjectReference<Component>( json["c"] );
     }
 }

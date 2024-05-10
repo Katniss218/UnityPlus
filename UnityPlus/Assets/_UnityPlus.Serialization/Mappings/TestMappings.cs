@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Extensions;
 
 namespace UnityPlus.Serialization.Mappings
 {
@@ -19,7 +20,34 @@ namespace UnityPlus.Serialization.Mappings
                 AsObject = ( data, l ) => (float)data
             };
         }
-
+        [SerializationMappingProvider( typeof( int ) )]
+        public static SerializationMapping Int32Mapping()
+        {
+            return new DirectMapping<int>()
+            {
+                AsSerialized = ( o, s ) => (SerializedPrimitive)o,
+                AsObject = ( data, l ) => (int)data
+            };
+        }
+        [SerializationMappingProvider( typeof( string ) )]
+        public static SerializationMapping StringMapping()
+        {
+            return new DirectMapping<string>()
+            {
+                AsSerialized = ( o, s ) => (SerializedPrimitive)o,
+                AsObject = ( data, l ) => (string)data
+            };
+        }
+        [SerializationMappingProvider( typeof( bool ) )]
+        public static SerializationMapping BooleanMapping()
+        {
+            return new DirectMapping<bool>()
+            {
+                AsSerialized = ( o, s ) => (SerializedPrimitive)o,
+                AsObject = ( data, l ) => (bool)data
+            };
+        }
+        /*
         [SerializationMappingProvider( typeof( Vector3 ) )]
         public static SerializationMapping Vector3Mapping()
         {
@@ -30,7 +58,7 @@ namespace UnityPlus.Serialization.Mappings
                 new MemberData<Vector3, float>( o => o.z )
             };
         }
-
+        */
         [SerializationMappingProvider( typeof( MeshFilter ) )]
         public static SerializationMapping MeshFilterMapping()
         {
@@ -63,8 +91,8 @@ namespace UnityPlus.Serialization.Mappings
                 ("is_active", new MemberData<GameObject, bool>( o => o.activeSelf, (o, v) => o.SetActive(v) )),
                 ("is_static", new MemberData<GameObject, bool>( o => o.isStatic )),
                 ("tag", new MemberData<GameObject, string>( o => o.tag )),
-                ("children", new ListMapping<GameObject, GameObject>( o => o.)),
-                ("components", new ListMapping<GameObject, Component>( o => o.))
+               // ("children", new MemberData<GameObject, List<GameObject>>( o => o.transform.Children().Select(t=>t.gameObject).ToList(), null)),
+              //  ("components", new MemberData<GameObject, Component[]>( o => o.GetComponents(), null))
             };
         }
 

@@ -85,7 +85,7 @@ namespace UnityPlus.Serialization
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
         private static Delegate ReadSingleDelegate( SerializedData data, IForwardReferenceMap l )
         {
-            object target = l.ReadObjectReference( data["target"] );
+            object target = l.ReadObjectReference<object>( data["target"] );
 
             Type delegateType = data["method"]["delegate_type"].ToType();
             Type declaringType = data["method"]["declaring_type"].ToType();
