@@ -7,7 +7,7 @@ namespace UnityPlus.Serialization
 	public static class IReverseReferenceMap_Ex_References
 	{
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static SerializedData WriteObjectReference( this IReverseReferenceMap s, object value )
+		public static SerializedData WriteObjectReference<T>( this IReverseReferenceMap s, T value ) where T : class
 		{
 			// A missing '$ref' node means the reference is broken.
 
@@ -25,8 +25,8 @@ namespace UnityPlus.Serialization
 		}
 
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static SerializedObject WriteAssetReference( this IReverseReferenceMap s, object assetRef )
-		{
+		public static SerializedObject WriteAssetReference<T>( this IReverseReferenceMap s, T assetRef ) where T : class
+        {
 			if( assetRef == null )
 			{
 				return new SerializedObject();

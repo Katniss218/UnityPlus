@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 99
+  controlID: 51
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 42
+  controlID: 52
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -646,8 +646,8 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 8c0e0000
-      m_LastClickedID: 0
+      m_SelectedIDs: ac4e0000
+      m_LastClickedID: 20140
       m_ExpandedIDs: 34fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
@@ -1700,36 +1700,36 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/_UnityPlus.UILib
+    - Assets/_UnityPlus.Serialization
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/_UnityPlus.UILib
+  - Assets/_UnityPlus.Serialization
   m_LastFoldersGridSize: -1
   m_LastProjectPath: E:\GIT\UnityPlus\UnityPlus
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 87}
-    m_SelectedIDs: 104f0000
-    m_LastClickedID: 20240
+    scrollPos: {x: 0, y: 135}
+    m_SelectedIDs: 484f0000
+    m_LastClickedID: 20296
     m_ExpandedIDs: 000000000c4f00000e4f0000104f0000124f000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: _UnityPlus.Serialization
+      m_OriginalName: _UnityPlus.Serialization
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 20296
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 10}
     m_SearchString: 
@@ -1768,8 +1768,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 8c0e0000
-    m_LastClickedInstanceID: 3724
+    m_SelectedInstanceIDs: ac4e0000
+    m_LastClickedInstanceID: 20140
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c623000000000000
     m_RenameOverlay:
@@ -1897,7 +1897,7 @@ MonoBehaviour:
     m_LastAppliedPresetName: Default
     m_SaveData: []
   m_Spl:
-    ID: 127
+    ID: 129
     splitterInitialOffset: 0
     currentActiveSplitter: -1
     realSizes:
@@ -2096,7 +2096,7 @@ MonoBehaviour:
       name: UnityPlus
       fullName: UnityPlus
       resultStatus: 1
-      duration: 0.1159518
+      duration: 0.041889
       messages: 
       output: 
       stacktrace: 
@@ -2112,7 +2112,7 @@ MonoBehaviour:
       name: EditMode.dll
       fullName: E:/GIT/UnityPlus/UnityPlus/Library/ScriptAssemblies/EditMode.dll
       resultStatus: 1
-      duration: 0.0997409
+      duration: 0.0217677
       messages: 
       output: 
       stacktrace: 
@@ -3343,7 +3343,7 @@ MonoBehaviour:
       name: UnityEngine
       fullName: UnityEngine
       resultStatus: 1
-      duration: 0.0082818
+      duration: 0.0205936
       messages: 
       output: 
       stacktrace: 
@@ -3359,7 +3359,7 @@ MonoBehaviour:
       name: TypeMapTests
       fullName: UnityEngine.TypeMapTests
       resultStatus: 1
-      duration: 0.0053951
+      duration: 0.0197191
       messages: 
       output: 
       stacktrace: 
@@ -3370,12 +3370,29 @@ MonoBehaviour:
       categories: []
       parentId: 1074
       parentUniqueId: EditMode.dll/[EditMode][UnityEngine][suite]
+    - id: 1013
+      uniqueId: EditMode.dll/UnityEngine/TypeMapTests/[EditMode][UnityEngine.TypeMapTests.Delegates]
+      name: Delegates
+      fullName: UnityEngine.TypeMapTests.Delegates
+      resultStatus: 1
+      duration: 0.0099101
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: EditMode.dll/UnityEngine/[EditMode][UnityEngine.TypeMapTests][suite]
     - id: 1008
       uniqueId: EditMode.dll/UnityEngine/TypeMapTests/[EditMode][UnityEngine.TypeMapTests.GetClosestOrDefault___Derived___ReturnsBaseType]
       name: GetClosestOrDefault___Derived___ReturnsBaseType
       fullName: UnityEngine.TypeMapTests.GetClosestOrDefault___Derived___ReturnsBaseType
       resultStatus: 1
-      duration: 0.0011346
+      duration: 0.0575498
       messages: 
       output: 
       stacktrace: 
@@ -3392,7 +3409,7 @@ MonoBehaviour:
       name: GetClosestOrDefault___GenericDerived___PrioritizesUnconstructedTypeOverBaseType
       fullName: UnityEngine.TypeMapTests.GetClosestOrDefault___GenericDerived___PrioritizesUnconstructedTypeOverBaseType
       resultStatus: 1
-      duration: 0.0002012
+      duration: 0.0002194
       messages: 
       output: 
       stacktrace: 
@@ -3409,7 +3426,7 @@ MonoBehaviour:
       name: GetClosestOrDefault___GenericDerived___ReturnsBaseType
       fullName: UnityEngine.TypeMapTests.GetClosestOrDefault___GenericDerived___ReturnsBaseType
       resultStatus: 1
-      duration: 0.0001344
+      duration: 0.0001419
       messages: 
       output: 
       stacktrace: 
@@ -3426,7 +3443,7 @@ MonoBehaviour:
       name: GetClosestOrDefault___Match___ReturnsMatching
       fullName: UnityEngine.TypeMapTests.GetClosestOrDefault___Match___ReturnsMatching
       resultStatus: 1
-      duration: 0.0001282
+      duration: 0.000129
       messages: 
       output: 
       stacktrace: 
@@ -3443,7 +3460,7 @@ MonoBehaviour:
       name: GetClosestOrDefault___NoMatch___ReturnsDefault
       fullName: UnityEngine.TypeMapTests.GetClosestOrDefault___NoMatch___ReturnsDefault
       resultStatus: 1
-      duration: 0.0001267
+      duration: 0.0001242
       messages: 
       output: 
       stacktrace: 
@@ -3460,7 +3477,7 @@ MonoBehaviour:
       name: GetOrDefault___Match___ReturnsMatching
       fullName: UnityEngine.TypeMapTests.GetOrDefault___Match___ReturnsMatching
       resultStatus: 1
-      duration: 0.0001941
+      duration: 0.0001895
       messages: 
       output: 
       stacktrace: 
@@ -3477,7 +3494,7 @@ MonoBehaviour:
       name: GetOrDefault___NoMatch___ReturnsDefault
       fullName: UnityEngine.TypeMapTests.GetOrDefault___NoMatch___ReturnsDefault
       resultStatus: 1
-      duration: 0.0001295
+      duration: 0.0001281
       messages: 
       output: 
       stacktrace: 
@@ -3494,7 +3511,7 @@ MonoBehaviour:
       name: TryGet___Match___ReturnsMatching
       fullName: UnityEngine.TypeMapTests.TryGet___Match___ReturnsMatching
       resultStatus: 1
-      duration: 0.0002777
+      duration: 0.0003722
       messages: 
       output: 
       stacktrace: 
@@ -3511,7 +3528,7 @@ MonoBehaviour:
       name: TryGet___NoMatch___ReturnsFalse
       fullName: UnityEngine.TypeMapTests.TryGet___NoMatch___ReturnsFalse
       resultStatus: 1
-      duration: 0.0002004
+      duration: 0.0002064
       messages: 
       output: 
       stacktrace: 
@@ -3528,7 +3545,7 @@ MonoBehaviour:
       name: TryGetClosest___GenericDerived___PrioritizesUnconstructedTypeOverBaseType
       fullName: UnityEngine.TypeMapTests.TryGetClosest___GenericDerived___PrioritizesUnconstructedTypeOverBaseType
       resultStatus: 1
-      duration: 0.0002556
+      duration: 0.000252
       messages: 
       output: 
       stacktrace: 
@@ -3545,7 +3562,7 @@ MonoBehaviour:
       name: TryGetClosest___NoMatch___ReturnsFalse
       fullName: UnityEngine.TypeMapTests.TryGetClosest___NoMatch___ReturnsFalse
       resultStatus: 1
-      duration: 0.0001242
+      duration: 0.0001258
       messages: 
       output: 
       stacktrace: 
@@ -3557,12 +3574,12 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: EditMode.dll/UnityEngine/[EditMode][UnityEngine.TypeMapTests][suite]
-    m_ResultText: PersistentPrimitiveLikeTests (0,023s)
+    m_ResultText: Delegates (0,010s)
     m_ResultStacktrace: 
     m_TestListState:
-      scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: f6a28305
-      m_LastClickedID: 92513014
+      scrollPos: {x: 0, y: 418}
+      m_SelectedIDs: 7185fbcd
+      m_LastClickedID: -839154319
       m_ExpandedIDs: 2026c08e436c6193ad608d96cc856f9aedc39d9bda46919ceba168ada7da5dbdd6d190dbc6f21cfbf6a2830550b8d623b2b38c2bf580f53a463b4e6458bcc369fb2cbd6ab58db36f3b2591793fea547b4b5ea47cffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0

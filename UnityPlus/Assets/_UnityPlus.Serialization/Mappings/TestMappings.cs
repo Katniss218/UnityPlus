@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -12,17 +13,21 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( float ) )]
         public static SerializationMapping FloatMapping()
         {
-            return new FloatMapping();
+            return new DirectMapping<float>()
+            {
+                AsSerialized = ( o, s ) => (SerializedPrimitive)o,
+                AsObject = ( data, l ) => (float)data
+            };
         }
-        
+
         [SerializationMappingProvider( typeof( Vector3 ) )]
         public static SerializationMapping Vector3Mapping()
         {
             return new ListMapping<Vector3>()
             {
-                new FloatMapping( o => o.x ),
-                new FloatMapping( o => o.y ),
-                new FloatMapping( o => o.z )
+                new MemberData<Vector3, float>( o => o.x ),
+                new MemberData<Vector3, float>( o => o.y ),
+                new MemberData<Vector3, float>( o => o.z )
             };
         }
 
@@ -31,7 +36,20 @@ namespace UnityPlus.Serialization.Mappings
         {
             return new CompoundMapping<MeshFilter>()
             {
-                new AssetDataMapping<MeshFilter, Mesh>( "shared_mesh", o => o.sharedMesh )
+                ("shared_mesh", new MemberAsset<MeshFilter, Mesh>( o => o.sharedMesh ))
+
+#warning TODO - some way of automatically including members of the mapping of the base class (recursive) (union the list of members)?
+            };
+        }
+
+        [SerializationMappingProvider( typeof( Transform ) )]
+        public static SerializationMapping TransformMapping()
+        {
+            return new CompoundMapping<Transform>()
+            {
+                ("local_position", new MemberData<Transform, Vector3>( o => o.localPosition )),
+                ("local_rotation", new MemberData<Transform, Quaternion>( o => o.localRotation )),
+                ("local_scale", new MemberData<Transform, Vector3>( o => o.localScale ))
             };
         }
 
@@ -40,11 +58,13 @@ namespace UnityPlus.Serialization.Mappings
         {
             return new CompoundMapping<GameObject>()
             {
-                new DataMapping<GameObject, string>( "name", o => o.name ),
-                new DataMapping<GameObject, int>( "layer", o => o.layer ),
-                new DataMapping<GameObject, bool>( "is_active", o => o.activeSelf, (o, v) => o.SetActive(v) ),
-                new DataMapping<GameObject, bool>( "is_static", o => o.isStatic ),
-                new DataMapping<GameObject, string>( "tag", o => o.tag )
+                ("name", new MemberData<GameObject, string>( o => o.name )),
+                ("layer", new MemberData<GameObject, int>( o => o.layer )),
+                ("is_active", new MemberData<GameObject, bool>( o => o.activeSelf, (o, v) => o.SetActive(v) )),
+                ("is_static", new MemberData<GameObject, bool>( o => o.isStatic )),
+                ("tag", new MemberData<GameObject, string>( o => o.tag )),
+                ("children", new ListMapping<GameObject, GameObject>( o => o.)),
+                ("components", new ListMapping<GameObject, Component>( o => o.))
             };
         }
 

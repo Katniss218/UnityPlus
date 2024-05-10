@@ -7,8 +7,8 @@ namespace UnityPlus.Serialization
 	public static class IForwardReferenceMap_Ex_References
 	{
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static object ReadObjectReference( this IForwardReferenceMap l, SerializedData data )
-		{
+		public static T ReadObjectReference<T>( this IForwardReferenceMap l, SerializedData data ) where T : class
+        {
 			// should only be called in data actions.
 
 			// A missing '$ref' node means the reference couldn't save properly.
@@ -17,7 +17,7 @@ namespace UnityPlus.Serialization
 			{
 				Guid guid = refData.ToGuid();
 
-				return l.GetObj( guid );
+				return l.GetObj( guid ) as T;
 			}
 			return null;
 		}
