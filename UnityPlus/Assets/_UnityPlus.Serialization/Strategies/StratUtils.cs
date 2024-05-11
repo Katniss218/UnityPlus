@@ -17,7 +17,7 @@ namespace UnityPlus.Serialization.Strategies
 			{
 				objects.Add( new SerializedObject()
 				{
-					{ KeyNames.REF, s.GetID( obj ).GetData() },
+					{ KeyNames.REF, s.GetID( obj ).SerializeGuid() },
 					{ "data", data }
 				} );
 			}
@@ -30,7 +30,7 @@ namespace UnityPlus.Serialization.Strategies
 			{
 				objects.Add( new SerializedObject()
 				{
-					{ KeyNames.REF, s.GetID( obj ).GetData() },
+					{ KeyNames.REF, s.GetID( obj ).SerializeGuid() },
 					{ "data", data },
 					{ "children_ids", childrenPaths }
 				} );
@@ -43,7 +43,7 @@ namespace UnityPlus.Serialization.Strategies
 			// Set the IDs of all objects in the array.
 			foreach( var s in sArr )
 			{
-				Guid id = s[KeyNames.ID].ToGuid();
+				Guid id = s[KeyNames.ID].DeserializeGuid();
 				string path = s["path"];
 
 				var refObj = go.GetComponentOrGameObject( path );
@@ -64,7 +64,7 @@ namespace UnityPlus.Serialization.Strategies
 				{
 					sArr.Add( new SerializedObject()
 					{
-						{ KeyNames.ID, id.GetData() },
+						{ KeyNames.ID, id.SerializeGuid() },
 						{ "path", $"{parentPath}" }
 					} );
 				}
@@ -77,7 +77,7 @@ namespace UnityPlus.Serialization.Strategies
 				{
 					sArr.Add( new SerializedObject()
 					{
-						{ KeyNames.ID, id.GetData() },
+						{ KeyNames.ID, id.SerializeGuid() },
 						{ "path", $"{parentPath}*{i:#########0}" }
 					} );
 				}
@@ -137,7 +137,7 @@ namespace UnityPlus.Serialization.Strategies
 		{
 			return new SerializedObject()
 			{
-				{ KeyNames.ID, s.GetID( obj ).GetData() },
+				{ KeyNames.ID, s.GetID( obj ).SerializeGuid() },
 				{ KeyNames.TYPE, obj.GetType().GetData() }
 			};
 		}
@@ -179,7 +179,7 @@ namespace UnityPlus.Serialization.Strategies
 			// recursive.
 			SerializedObject obj = new SerializedObject()
 			{
-				{ KeyNames.ID, objectGuid.GetData() }
+				{ KeyNames.ID, objectGuid.SerializeGuid() }
 			};
 
 			SerializedArray children = new SerializedArray();
@@ -246,7 +246,7 @@ namespace UnityPlus.Serialization.Strategies
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static GameObject InstantiateHierarchyObjects( IForwardReferenceMap l, SerializedData goData, GameObject parent )
 		{
-			Guid objectGuid = goData[KeyNames.ID].ToGuid();
+			Guid objectGuid = goData[KeyNames.ID].DeserializeGuid();
 
 			GameObject go = new GameObject();
 			l.SetObj( objectGuid, go );
@@ -261,7 +261,7 @@ namespace UnityPlus.Serialization.Strategies
 			{
 				try
 				{
-					Guid compID = compData[KeyNames.ID].ToGuid();
+					Guid compID = compData[KeyNames.ID].DeserializeGuid();
 					Type compType = compData[KeyNames.TYPE].ToType();
 
 					Component co = go.GetTransformOrAddComponent( compType ); // factory.
@@ -303,7 +303,7 @@ namespace UnityPlus.Serialization.Strategies
 			// Get whatever the data is pointing to.
 			// If it's a gameobject or a component on a gameobject, apply the data to it.
 
-			Guid id = dataElement[KeyNames.REF].ToGuid();
+			Guid id = dataElement[KeyNames.REF].DeserializeGuid();
 			object obj = l.GetObj( id );
 
 			switch( obj )

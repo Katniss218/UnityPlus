@@ -46,7 +46,7 @@ namespace Serialization
             Guid original = Guid.NewGuid();
 
             // Act
-            Guid roundTripped = original.GetData().ToGuid();
+            Guid roundTripped = original.SerializeGuid().DeserializeGuid();
 
             // Assert
             Assert.That( roundTripped, Is.EqualTo( original ) );

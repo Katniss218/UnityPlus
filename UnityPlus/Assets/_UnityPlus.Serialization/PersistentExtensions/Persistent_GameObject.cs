@@ -52,7 +52,7 @@ namespace UnityPlus.Serialization
 		public static Component ToComponent( this SerializedObject data, GameObject gameObject, IForwardReferenceMap l )
 		{
 			Type type = data[KeyNames.TYPE].ToType();
-			Guid id = data[KeyNames.ID].ToGuid();
+			Guid id = data[KeyNames.ID].DeserializeGuid();
 
 			Component component = gameObject.GetTransformOrAddComponent( type );
 			if( component is Behaviour behaviour )
@@ -73,7 +73,7 @@ namespace UnityPlus.Serialization
 		{
 			// assume that data["$type"] is equal to typeof(GameObject), or missing (since this method is called recursively).
 
-			Guid objectGuid = data[KeyNames.ID].ToGuid();
+			Guid objectGuid = data[KeyNames.ID].DeserializeGuid();
 
 			GameObject gameObject = new GameObject();
 			l.SetObj( objectGuid, gameObject );

@@ -15,7 +15,7 @@ namespace UnityPlus.Serialization
 
 			if( ((SerializedObject)data).TryGetValue( KeyNames.REF, out SerializedData refData ) )
 			{
-				Guid guid = refData.ToGuid();
+				Guid guid = refData.DeserializeGuid();
 
 				return l.GetObj( guid ) as T;
 			}

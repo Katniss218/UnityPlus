@@ -17,7 +17,7 @@ namespace UnityPlus.Serialization
         public static object ToObject( this SerializedObject data, IForwardReferenceMap l )
         {
             Type type = data[KeyNames.TYPE].ToType();
-            Guid id = data[KeyNames.ID].ToGuid();
+            Guid id = data[KeyNames.ID].DeserializeGuid();
 
             object obj = null;
             if( _cache.TryGetClosest( type, out var factoryFunc ) )

@@ -20,7 +20,7 @@ namespace UnityPlus.Serialization
 
 			return new SerializedObject()
 			{
-				{ KeyNames.REF, guid.GetData() }
+				{ KeyNames.REF, guid.SerializeGuid() }
 			};
 		}
 

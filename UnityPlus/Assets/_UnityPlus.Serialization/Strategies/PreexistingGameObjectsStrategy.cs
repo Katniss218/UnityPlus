@@ -57,7 +57,7 @@ namespace UnityPlus.Serialization.Strategies
 
             SerializedObject goJson = new SerializedObject()
             {
-                { KeyNames.ID, guidComp.GetPersistentGuid().GetData() },
+                { KeyNames.ID, guidComp.GetPersistentGuid().SerializeGuid() },
                 { "children_ids", sArr }
             };
 
@@ -92,7 +92,7 @@ namespace UnityPlus.Serialization.Strategies
             SerializedData goData = go.GetData( s );
             objects.Add( new SerializedObject()
             {
-                { KeyNames.REF, guidComp.GetPersistentGuid().GetData() },
+                { KeyNames.REF, guidComp.GetPersistentGuid().SerializeGuid() },
                 { "data", goData }
             } );
         }
@@ -172,7 +172,7 @@ namespace UnityPlus.Serialization.Strategies
 
             foreach( var goData in (SerializedArray)_objects )
             {
-                Guid objectGuid = goData[KeyNames.ID].ToGuid();
+                Guid objectGuid = goData[KeyNames.ID].DeserializeGuid();
                 SerializedArray refChildren = (SerializedArray)goData["children_ids"];
                 StratUtils.AssignIDsToReferencedChildren( l, (GameObject)l.GetObj( objectGuid ), ref refChildren );
 

@@ -16,7 +16,7 @@ namespace UnityPlus.Serialization
 
             SerializedObject data = new SerializedObject()
             {
-                { KeyNames.ID, s.GetID( obj ).GetData() },
+                { KeyNames.ID, s.GetID( obj ).SerializeGuid() },
                 { KeyNames.TYPE, type.GetData() }
             };
 
