@@ -20,28 +20,18 @@ public class _playtester : MonoBehaviour
 {
     void Start()
     {
-        //UICanvas staticCanvas = CanvasManager.Get( "static" );
-        // UICanvas contextMenuCanvas = CanvasManager.Get( "contextmenus" );
+        var mapping = SerializationMapping.GetMappingFor( this.gameObject );
 
-        //staticCanvas.AddPanel( new UILayoutInfo( UIAnchor.Center, (0, 0), (300, 300) ), null );
-
-        // var mapping = (SerializationMapping<MeshFilter>)TestMappings.MeshFilterMapping();
-        // var mapping = (CompoundMapping<GameObject>)TestMappings.GameObjectMapping();
-        var mapping = (CompoundMapping<GameObject>)SerializationMapping.GetMappingFor<GameObject>();
-
-        var mf = this.gameObject.AddComponent<MeshFilter>();
-
-        SerializedObject data = mapping.GetDataPass( this.gameObject, new BidirectionalReferenceStore() );
+        SerializedData data = mapping.Save( this.gameObject, new BidirectionalReferenceStore() );
 
         StringBuilder sb = new StringBuilder();
         new JsonStringWriter( data, sb ).Write();
         string s = sb.ToString();
-
         s = s.Replace( "true", "false" );
 
-        data = (SerializedObject)new JsonStringReader( s ).Read();
+        data = new JsonStringReader( s ).Read();
 
-        mapping.SetDataPass( this.gameObject, data, new BidirectionalReferenceStore() );
+        object obj = mapping.Load( data, new BidirectionalReferenceStore() );
     }
 
     void Update()

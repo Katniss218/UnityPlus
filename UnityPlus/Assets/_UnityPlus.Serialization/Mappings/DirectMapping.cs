@@ -3,38 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine.Networking.Types;
 
 namespace UnityPlus.Serialization
 {
     /// <summary>
-    /// Factory mapping.
+    /// Maps the source type to a SerializedData directly, using methods.
     /// </summary>
     /// <typeparam name="TSource">The type of the object being mapped.</typeparam>
-    public class DirectMapping<TSource> : SerializationMapping, IObjectMapping<TSource>, IDataMapping<TSource>
+    public class DirectMapping<TSource> : SerializationMapping
     {
         public Func<TSource, IReverseReferenceMap, SerializedData> AsSerialized { get; set; }
         public Func<SerializedData, IForwardReferenceMap, TSource> AsObject { get; set; }
 
-        public SerializedObject GetObjectsPass( TSource source, IReverseReferenceMap s )
+        public DirectMapping()
         {
-            throw new NotImplementedException( "replace serializedobject with serializeddata for general case" );
+
         }
 
-        public void SetObjectsPass( TSource source, SerializedObject data, IForwardReferenceMap l )
+        public override SerializedData Save( object obj, IReverseReferenceMap s )
         {
-            throw new NotImplementedException( "replace serializedobject with serializeddata for general case" );
+            return AsSerialized.Invoke( (TSource)obj, s );
         }
 
-        public SerializedData GetDataPass( TSource source, IReverseReferenceMap s )
+        public override object Load( SerializedData data, IForwardReferenceMap l )
         {
-            return AsSerialized.Invoke( source, s );
+            return AsObject.Invoke( data, l );
         }
 
-        public void SetDataPass( TSource source, SerializedData data, IForwardReferenceMap l )
+        public override void LoadReferences( ref object obj, SerializedData data, IForwardReferenceMap l )
         {
-            AsObject.Invoke( data, l );
-        }
+            // Do nothing ...
 
-        // maps to an object directly.
+#warning TODO - Add a direct reference mapping DirectReferenceMapping
+        }
     }
 }

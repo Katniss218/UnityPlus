@@ -8,78 +8,77 @@ using UnityPlus.Serialization;
 
 namespace UnityPlus.Serialization
 {
-    // saving is easy, can be done in any order.
-
-    // the general idea for loading would be to traverse the tree twice.
-    // once to create every object that may referenced somewhere (class).
-    // and once more to fill in the members of those objects.
-
-#warning TODO - determine what is referencable.
-
-
-#warning TODO - only references aren't owned by the type. i.e. only references might not have a setobjects/asobject pass.
-
     /// <summary>
     /// Maps a member of an object of type <typeparamref name="TSource"/>.
     /// </summary>
-    public abstract class MemberMapping<TSource>
+    public abstract class MappedMember<TSource>
     {
     }
 
-    internal interface IObjectMapping<TSource>
+    internal interface IMappedMember<TSource>
     {
-        SerializedObject GetObjectsPass( TSource source, IReverseReferenceMap s );
+        /// <summary>
+        /// Saves the member, and returns the <see cref="SerializedData"/> representing it.
+        /// </summary>
+        SerializedData Save( TSource source, IReverseReferenceMap s );
 
-        void SetObjectsPass( TSource source, SerializedObject data, IForwardReferenceMap l );
+        /// <summary>
+        /// Instantiates the member from <see cref="SerializedData"/> using the most appropriate mapping for the member type and serialized object's '$type', and assigns it to the member.
+        /// </summary>
+        void Load( TSource source, SerializedData data, IForwardReferenceMap l );
     }
 
-    internal interface IDataMapping<TSource>
+    internal interface IMappedReferenceMember<TSource>
     {
-        SerializedData GetDataPass( TSource source, IReverseReferenceMap s );
+        SerializedData Save( TSource source, IReverseReferenceMap s );
 
-        void SetDataPass( TSource source, SerializedData data, IForwardReferenceMap l );
+        void LoadReferences( TSource source, SerializedData data, IForwardReferenceMap l );
     }
 
-    public class MemberData<TSource, TMember> : MemberMapping<TSource>, IDataMapping<TSource>
+    public class Member<TSource, TMember> : MappedMember<TSource>, IMappedMember<TSource>
     {
         private readonly Func<TSource, TMember> _getter;
         private readonly Action<TSource, TMember> _setter;
 
 #warning TODO - caching of member mappings is possible for field/property types that don't have any types deriving from them (e.g. member of type `float`, GameObject, etc).
 
-        public MemberData( Expression<Func<TSource, TMember>> member )
+        public Member( Expression<Func<TSource, TMember>> member )
         {
             _getter = MappingUtils.CreateGetter( member );
             _setter = MappingUtils.CreateSetter( member );
         }
 
-        public MemberData( Func<TSource, TMember> getter, Action<TSource, TMember> setter )
+        public Member( Func<TSource, TMember> getter, Action<TSource, TMember> setter )
         {
             _getter = getter;
             _setter = setter;
         }
 
-        public SerializedData GetDataPass( TSource source, IReverseReferenceMap s )
+        public SerializedData Save( TSource source, IReverseReferenceMap s )
         {
             var member = _getter.Invoke( source );
 
-            var mapping = (IDataMapping<TMember>)SerializationMapping.GetMappingFor( member );
+            var mapping = SerializationMapping.GetMappingFor( member );
 
-            return mapping.GetDataPass( member, s );
+            return mapping.Save( member, s );
         }
 
-        public void SetDataPass( TSource source, SerializedData memberData, IForwardReferenceMap l )
+        public void Load( TSource source, SerializedData memberData, IForwardReferenceMap l )
         {
-            var member = _getter.Invoke( source );
+            Type memberType = typeof( TMember );
+            if( memberData.TryGetValue( KeyNames.TYPE, out var type ) )
+            {
+                memberType = type.ToType();
+            }
 
-            var mapping = (IDataMapping<TMember>)SerializationMapping.GetMappingFor( member );
+            var mapping = SerializationMapping.GetMappingFor<TMember>( memberType );
 
-            mapping.SetDataPass( member, memberData, l ); // SetData doesn't assign anything, it retrieves the member, and calls setdata further, on it.
-#warning TODO - it should assign, the entire setting stuff should probably be reworked.
+            var member = (TMember)mapping.Load( memberData, l );
+            _setter.Invoke( source, member );
         }
     }
 
-    public class MemberAsset<TSource, TMember> : MemberMapping<TSource>, IDataMapping<TSource> where TMember : class
+    public class MemberAsset<TSource, TMember> : MappedMember<TSource>, IMappedMember<TSource> where TMember : class
     {
         private readonly Func<TSource, TMember> _getter;
         private readonly Action<TSource, TMember> _setter;
@@ -90,21 +89,23 @@ namespace UnityPlus.Serialization
             _setter = MappingUtils.CreateSetter( member );
         }
 
-        public SerializedData GetDataPass( TSource source, IReverseReferenceMap s )
+
+        public SerializedData Save( TSource source, IReverseReferenceMap s )
         {
             var member = _getter.Invoke( source );
 
             return s.WriteAssetReference( member );
         }
 
-        public void SetDataPass( TSource source, SerializedData memberData, IForwardReferenceMap l )
+        public void Load( TSource source, SerializedData memberData, IForwardReferenceMap l )
         {
             var newMemberValue = l.ReadAssetReference<TMember>( memberData );
             _setter.Invoke( source, newMemberValue );
         }
     }
 
-    public class MemberReference<TSource, TMember> : MemberMapping<TSource>, IDataMapping<TSource> where TMember : class
+    
+    public class MemberReference<TSource, TMember> : MappedMember<TSource>, IMappedReferenceMember<TSource> where TMember : class
     {
         private readonly Func<TSource, TMember> _getter;
         private readonly Action<TSource, TMember> _setter;
@@ -115,57 +116,18 @@ namespace UnityPlus.Serialization
             _setter = MappingUtils.CreateSetter( member );
         }
 
-        public SerializedData GetDataPass( TSource source, IReverseReferenceMap s )
+        public SerializedData Save( TSource source, IReverseReferenceMap s )
         {
             var member = _getter.Invoke( source );
 
             return s.WriteObjectReference( member );
         }
 
-        public void SetDataPass( TSource source, SerializedData memberData, IForwardReferenceMap l )
+        public void LoadReferences( TSource source, SerializedData memberData, IForwardReferenceMap l )
         {
             var newMemberValue = l.ReadObjectReference<TMember>( memberData );
+
             _setter.Invoke( source, newMemberValue );
-        }
-    }
-
-    public class MemberObjectMapping<TSource, TMember> : MemberMapping<TSource>, IObjectMapping<TSource>
-    {
-        private readonly Func<TSource, TMember> _getter;
-        private readonly Action<TSource, TMember> _setter;
-        private readonly Func<TSource, TMember> _customFactory = null;
-
-        public MemberObjectMapping( Expression<Func<TSource, TMember>> member )
-        {
-            _getter = MappingUtils.CreateGetter( member );
-            _setter = MappingUtils.CreateSetter( member );
-        }
-
-        public MemberObjectMapping( Expression<Func<TSource, TMember>> member, Func<TSource, TMember> customFactory )
-        {
-            _getter = MappingUtils.CreateGetter( member );
-            _setter = MappingUtils.CreateSetter( member );
-            _customFactory = customFactory;
-        }
-
-        public SerializedObject GetObjectsPass( TSource source, IReverseReferenceMap s )
-        {
-            var member = _getter.Invoke( source );
-
-            var mapping = (IObjectMapping<TMember>)SerializationMapping.GetMappingFor( member );
-
-            return mapping.GetObjectsPass( member, s ); // TODO - this needs to create `$id` and `$type` keys, and recursively call getobjects on the children.
-        }
-
-        public void SetObjectsPass( TSource source, SerializedObject memberData, IForwardReferenceMap l )
-        {
-            //var mapping = SerializationMapping.GetMappingFor<TMember>(); // TODO - use the `$type` field.
-
-            var member = _getter.Invoke( source );
-
-            var mapping = (IObjectMapping<TMember>)SerializationMapping.GetMappingFor( member );
-
-            mapping.SetObjectsPass( member, memberData, l ); // SetObjects doesn't assign anything, it retrieves the member, and calls setobjects further, on it.
         }
     }
 }

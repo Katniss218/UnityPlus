@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Extensions;
 
 namespace UnityPlus.Serialization.Mappings
 {
@@ -20,15 +18,6 @@ namespace UnityPlus.Serialization.Mappings
                 AsObject = ( data, l ) => (float)data
             };
         }
-        [SerializationMappingProvider( typeof( int ) )]
-        public static SerializationMapping Int32Mapping()
-        {
-            return new DirectMapping<int>()
-            {
-                AsSerialized = ( o, s ) => (SerializedPrimitive)o,
-                AsObject = ( data, l ) => (int)data
-            };
-        }
         [SerializationMappingProvider( typeof( string ) )]
         public static SerializationMapping StringMapping()
         {
@@ -36,6 +25,15 @@ namespace UnityPlus.Serialization.Mappings
             {
                 AsSerialized = ( o, s ) => (SerializedPrimitive)o,
                 AsObject = ( data, l ) => (string)data
+            };
+        }
+        [SerializationMappingProvider( typeof( int ) )]
+        public static SerializationMapping Int32Mapping()
+        {
+            return new DirectMapping<int>()
+            {
+                AsSerialized = ( o, s ) => (SerializedPrimitive)o,
+                AsObject = ( data, l ) => (int)data
             };
         }
         [SerializationMappingProvider( typeof( bool ) )]
@@ -47,18 +45,65 @@ namespace UnityPlus.Serialization.Mappings
                 AsObject = ( data, l ) => (bool)data
             };
         }
-        /*
+
         [SerializationMappingProvider( typeof( Vector3 ) )]
         public static SerializationMapping Vector3Mapping()
         {
-            return new ListMapping<Vector3>()
+            return new DirectMapping<Vector3>()
             {
-                new MemberData<Vector3, float>( o => o.x ),
-                new MemberData<Vector3, float>( o => o.y ),
-                new MemberData<Vector3, float>( o => o.z )
+                AsSerialized = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z },
+                AsObject = ( data, l ) => new Vector3( (float)data[0], (float)data[1], (float)data[2] )
             };
         }
-        */
+
+        [SerializationMappingProvider( typeof( Quaternion ) )]
+        public static SerializationMapping QuaternionMapping()
+        {
+            return new DirectMapping<Quaternion>()
+            {
+                AsSerialized = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z, (SerializedPrimitive)o.w },
+                AsObject = ( data, l ) => new Quaternion( (float)data[0], (float)data[1], (float)data[2], (float)data[3] )
+            };
+        }
+
+
+
+        [SerializationMappingProvider( typeof( GameObject ) )]
+        public static SerializationMapping GameObjectMapping()
+        {
+            return new CompoundMapping<GameObject>()
+            {
+                ("name", new Member<GameObject, string>( o => o.name )),
+                ("layer", new Member<GameObject, int>( o => o.layer )),
+                ("is_active", new Member<GameObject, bool>( o => o.activeSelf, (o, value) => o.SetActive(value) )),
+                ("is_static", new Member<GameObject, bool>( o => o.isStatic )),
+                ("tag", new Member<GameObject, string>( o => o.tag )),
+               // ("children", new MemberData<GameObject, List<GameObject>>( o => o.transform.Children().Select(t=>t.gameObject).ToList(), null)),
+              //  ("components", new MemberData<GameObject, Component[]>( o => o.GetComponents(), null))
+            }.WithFactory( ( data, l ) =>
+            {
+                var obj = new GameObject();
+                if( data.TryGetValue( KeyNames.ID, out var id ) )
+                {
+                    l.SetObj( id.DeserializeGuid(), obj );
+                }
+                return obj;
+            } );
+        }
+
+
+
+        [SerializationMappingProvider( typeof( Transform ) )]
+        public static SerializationMapping TransformMapping()
+        {
+            return new CompoundMapping<Transform>()
+            {
+                ("local_position", new Member<Transform, Vector3>( o => o.localPosition )),
+                ("local_rotation", new Member<Transform, Quaternion>( o => o.localRotation )),
+                ("local_scale", new Member<Transform, Vector3>( o => o.localScale ))
+            };
+        }
+
         [SerializationMappingProvider( typeof( MeshFilter ) )]
         public static SerializationMapping MeshFilterMapping()
         {
@@ -67,32 +112,6 @@ namespace UnityPlus.Serialization.Mappings
                 ("shared_mesh", new MemberAsset<MeshFilter, Mesh>( o => o.sharedMesh ))
 
 #warning TODO - some way of automatically including members of the mapping of the base class (recursive) (union the list of members)?
-            };
-        }
-
-        [SerializationMappingProvider( typeof( Transform ) )]
-        public static SerializationMapping TransformMapping()
-        {
-            return new CompoundMapping<Transform>()
-            {
-                ("local_position", new MemberData<Transform, Vector3>( o => o.localPosition )),
-                ("local_rotation", new MemberData<Transform, Quaternion>( o => o.localRotation )),
-                ("local_scale", new MemberData<Transform, Vector3>( o => o.localScale ))
-            };
-        }
-
-        [SerializationMappingProvider( typeof( GameObject ) )]
-        public static SerializationMapping GameObjectMapping()
-        {
-            return new CompoundMapping<GameObject>()
-            {
-                ("name", new MemberData<GameObject, string>( o => o.name )),
-                ("layer", new MemberData<GameObject, int>( o => o.layer )),
-                ("is_active", new MemberData<GameObject, bool>( o => o.activeSelf, (o, v) => o.SetActive(v) )),
-                ("is_static", new MemberData<GameObject, bool>( o => o.isStatic )),
-                ("tag", new MemberData<GameObject, string>( o => o.tag )),
-               // ("children", new MemberData<GameObject, List<GameObject>>( o => o.transform.Children().Select(t=>t.gameObject).ToList(), null)),
-              //  ("components", new MemberData<GameObject, Component[]>( o => o.GetComponents(), null))
             };
         }
 
@@ -108,16 +127,42 @@ namespace UnityPlus.Serialization.Mappings
                 new DataMapping<F2AxisActuator>( "set_x", act => act.SetX )
             };
         }
-
-        
         
         [SerializationMappingProvider( typeof( List<> ) )]
         public static SerializationMapping List_T_Mapping()
         {
-            return new SerializationMapping()
+            return new DirectMapping<List<>>()
             {
-                ("")
-            }
-        }*/
+                AsSerialized = ( o, s ) =>
+                {
+                    SerializedArray arr = new SerializedArray();
+                    for( int i = 0; i < o.Count; i++ )
+                    {
+                        var mapping = SerializationMapping.GetMappingFor( o[i] );
+
+                        var ser = mapping.GetDataPass( s );
+                        arr.Add( ser );
+                    }
+
+                    return arr;
+                },
+                AsObject = ( data, l ) =>
+                {
+                    SerializedArray arr = new SerializedArray();
+                    for( int i = 0; i < o.Count; i++ )
+                    {
+                        var mapping = SerializationMapping.GetMappingFor( o[i] );
+
+                        var ser = mapping.GetDataPass( s );
+                        arr.Add( ser );
+                    }
+
+                    return arr;
+                }
+            };
+        }
+
+        
+        */
     }
 }

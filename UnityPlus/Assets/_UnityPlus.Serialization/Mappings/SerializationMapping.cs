@@ -16,6 +16,10 @@ namespace UnityPlus.Serialization
 
         private static bool _isInitialized = false;
 
+        public abstract SerializedData Save( object obj, IReverseReferenceMap s );
+        public abstract object Load( SerializedData data, IForwardReferenceMap l );
+        public abstract void LoadReferences( ref object obj, SerializedData data, IForwardReferenceMap l );
+
         private static IEnumerable<Type> GetTypes()
         {
             return AppDomain.CurrentDomain.GetAssemblies()
@@ -63,6 +67,19 @@ namespace UnityPlus.Serialization
                 Initialize();
 
             return _mappings.GetClosestOrDefault( memberObj.GetType() );
+        }
+
+        public static SerializationMapping GetMappingFor<TMember>( Type memberType )
+        {
+            if( !_isInitialized )
+                Initialize();
+
+            if( typeof( TMember ).IsAssignableFrom( memberType ) ) // this is slow, and will likely be called for every member (?)
+            {
+                return _mappings.GetClosestOrDefault( memberType );
+            }
+
+            throw new ArgumentException( $"Member type must be a subtype of TMember, was {typeof( TMember ).Name} <==/== {memberType.Name}.", nameof( memberType ) );
         }
     }
 }
