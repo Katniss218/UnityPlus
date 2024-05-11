@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Extensions;
 
 namespace UnityPlus.Serialization.Mappings
 {
@@ -14,8 +15,8 @@ namespace UnityPlus.Serialization.Mappings
         {
             return new DirectMapping<float>()
             {
-                AsSerialized = ( o, s ) => (SerializedPrimitive)o,
-                AsObject = ( data, l ) => (float)data
+                SaveFunc = ( o, s ) => (SerializedPrimitive)o,
+                LoadFunc = ( data, l ) => (float)data
             };
         }
         [SerializationMappingProvider( typeof( string ) )]
@@ -23,8 +24,8 @@ namespace UnityPlus.Serialization.Mappings
         {
             return new DirectMapping<string>()
             {
-                AsSerialized = ( o, s ) => (SerializedPrimitive)o,
-                AsObject = ( data, l ) => (string)data
+                SaveFunc = ( o, s ) => (SerializedPrimitive)o,
+                LoadFunc = ( data, l ) => (string)data
             };
         }
         [SerializationMappingProvider( typeof( int ) )]
@@ -32,8 +33,8 @@ namespace UnityPlus.Serialization.Mappings
         {
             return new DirectMapping<int>()
             {
-                AsSerialized = ( o, s ) => (SerializedPrimitive)o,
-                AsObject = ( data, l ) => (int)data
+                SaveFunc = ( o, s ) => (SerializedPrimitive)o,
+                LoadFunc = ( data, l ) => (int)data
             };
         }
         [SerializationMappingProvider( typeof( bool ) )]
@@ -41,8 +42,8 @@ namespace UnityPlus.Serialization.Mappings
         {
             return new DirectMapping<bool>()
             {
-                AsSerialized = ( o, s ) => (SerializedPrimitive)o,
-                AsObject = ( data, l ) => (bool)data
+                SaveFunc = ( o, s ) => (SerializedPrimitive)o,
+                LoadFunc = ( data, l ) => (bool)data
             };
         }
 
@@ -51,8 +52,8 @@ namespace UnityPlus.Serialization.Mappings
         {
             return new DirectMapping<Vector3>()
             {
-                AsSerialized = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z },
-                AsObject = ( data, l ) => new Vector3( (float)data[0], (float)data[1], (float)data[2] )
+                SaveFunc = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z },
+                LoadFunc = ( data, l ) => new Vector3( (float)data[0], (float)data[1], (float)data[2] )
             };
         }
 
@@ -61,8 +62,8 @@ namespace UnityPlus.Serialization.Mappings
         {
             return new DirectMapping<Quaternion>()
             {
-                AsSerialized = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z, (SerializedPrimitive)o.w },
-                AsObject = ( data, l ) => new Quaternion( (float)data[0], (float)data[1], (float)data[2], (float)data[3] )
+                SaveFunc = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z, (SerializedPrimitive)o.w },
+                LoadFunc = ( data, l ) => new Quaternion( (float)data[0], (float)data[1], (float)data[2], (float)data[3] )
             };
         }
 
@@ -78,8 +79,23 @@ namespace UnityPlus.Serialization.Mappings
                 ("is_active", new Member<GameObject, bool>( o => o.activeSelf, (o, value) => o.SetActive(value) )),
                 ("is_static", new Member<GameObject, bool>( o => o.isStatic )),
                 ("tag", new Member<GameObject, string>( o => o.tag )),
-               // ("children", new MemberData<GameObject, List<GameObject>>( o => o.transform.Children().Select(t=>t.gameObject).ToList(), null)),
-              //  ("components", new MemberData<GameObject, Component[]>( o => o.GetComponents(), null))
+                ("children", new Member<GameObject, GameObject[]>( o =>
+                {
+                    return o.transform.Children().Select( child => child.gameObject ).ToArray();
+                }, (o, value) =>
+                {
+                    foreach( var child in value )
+                    {
+                        child.transform.SetParent( o.transform );
+                    }
+                } )),
+                ("components", new Member<GameObject, Component[]>( o => {
+                return o.GetComponents();
+                }, (o, value) =>
+                {
+                    // Do nothing, since the instantiated components are already part of the gameobject.
+                    // This is very much a hack, but it's how Unity works :shrug:.
+                } ))
             }.WithFactory( ( data, l ) =>
             {
                 var obj = new GameObject();
@@ -87,11 +103,100 @@ namespace UnityPlus.Serialization.Mappings
                 {
                     l.SetObj( id.DeserializeGuid(), obj );
                 }
+                // Instantiate components along the gameobject.
+                // The component base class factory will then look up the component in the refmap ('$id'), instead of instantiating and setting it.
+                if( data.TryGetValue<SerializedArray>( "components", out var components ) )
+                {
+                    foreach( var compData in components.OfType<SerializedObject>() )
+                    {
+                        try
+                        {
+                            Guid id2 = compData[KeyNames.ID].DeserializeGuid();
+                            Type type = compData[KeyNames.TYPE].ToType();
+
+                            Component component = obj.GetTransformOrAddComponent( type );
+                            if( component is Behaviour behaviour )
+                            {
+                                // Disable the behaviour to prevent 'start' from firing prematurely if deserializing over multiple frames.
+                                // It will be re-enabled by SetData.
+                                behaviour.enabled = false;
+                            }
+
+                            l.SetObj( id2, component );
+                        }
+                        catch( Exception ex )
+                        {
+                            Debug.LogError( $"Failed to deserialize a component with ID: `{(string)compData?[KeyNames.ID] ?? "<null>"}`." );
+                            Debug.LogException( ex );
+                        }
+                    }
+                }
                 return obj;
             } );
         }
 
+        [SerializationMappingProvider( typeof( Array ) )]
+        public static SerializationMapping ArrayMapping<T>()
+        {
+            return new DirectMapping<T[]>()
+            {
+                SaveFunc = ( o, s ) =>
+                {
+                    SerializedArray serializedArray = new SerializedArray();
+                    for( int i = 0; i < o.Length; i++ )
+                    {
+                        T value = o[i];
+                        var mapping = SerializationMapping.GetMappingFor( value );
 
+                        var data = mapping.Save( value, s );
+
+                        serializedArray.Add( data );
+                    }
+
+                    return serializedArray;
+                },
+                LoadFunc = ( data, l ) =>
+                {
+                    SerializedArray serializedArray = (SerializedArray)data;
+
+                    T[] o = new T[serializedArray.Count];
+
+                    for( int i = 0; i < serializedArray.Count; i++ )
+                    {
+                        Type elementType = typeof( T );
+                        SerializedData elementData = serializedArray[i];
+                        if( elementData.TryGetValue( KeyNames.TYPE, out var elementType2 ) )
+                        {
+                            elementType = elementType2.ToType();
+                        }
+
+                        var mapping = SerializationMapping.GetMappingFor<T>( elementType );
+
+                        var element = (T)mapping.Load( elementData, l );
+
+                        o[i] = element;
+                    }
+
+                    return o;
+                }
+            };
+        }
+
+        [SerializationMappingProvider( typeof( Component ) )]
+        public static SerializationMapping ComponentMapping()
+        {
+
+#warning TODO - some way of automatically including members of the mapping of the base class (recursive) (union the list of members)?
+            return new CompoundMapping<Component>()
+                .WithFactory( ( data, l ) =>
+            {
+                Guid id = data[KeyNames.ID].DeserializeGuid();
+
+                Component c = (Component)l.GetObj( id );
+
+                return c;
+            } );
+        }
 
         [SerializationMappingProvider( typeof( Transform ) )]
         public static SerializationMapping TransformMapping()
@@ -101,7 +206,14 @@ namespace UnityPlus.Serialization.Mappings
                 ("local_position", new Member<Transform, Vector3>( o => o.localPosition )),
                 ("local_rotation", new Member<Transform, Quaternion>( o => o.localRotation )),
                 ("local_scale", new Member<Transform, Vector3>( o => o.localScale ))
-            };
+            }.WithFactory( ( data, l ) =>
+            {
+                Guid id = data[KeyNames.ID].DeserializeGuid();
+
+                Transform c = (Transform)l.GetObj( id );
+
+                return c;
+            } );
         }
 
         [SerializationMappingProvider( typeof( MeshFilter ) )]
@@ -110,9 +222,16 @@ namespace UnityPlus.Serialization.Mappings
             return new CompoundMapping<MeshFilter>()
             {
                 ("shared_mesh", new MemberAsset<MeshFilter, Mesh>( o => o.sharedMesh ))
+            }.WithFactory( ( data, l ) =>
+            {
+                Guid id = data[KeyNames.ID].DeserializeGuid();
+
+                MeshFilter c = (MeshFilter)l.GetObj( id );
+
+                return c;
+            } );
 
 #warning TODO - some way of automatically including members of the mapping of the base class (recursive) (union the list of members)?
-            };
         }
 
 

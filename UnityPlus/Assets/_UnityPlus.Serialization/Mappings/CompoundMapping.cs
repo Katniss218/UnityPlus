@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine.Profiling;
 
 namespace UnityPlus.Serialization
 {
@@ -99,17 +100,17 @@ namespace UnityPlus.Serialization
             return obj;
         }
 
-        public override void LoadReferences( ref object obj, SerializedData data, IForwardReferenceMap l )
+        public override void LoadReferences( object obj, SerializedData data, IForwardReferenceMap l )
         {
             TSource sourceObj = (TSource)obj;
 
             foreach( var item in _items )
             {
-                if( item.Item2 is IMappedMember<TSource> member )
+                if( item.Item2 is IMappedReferenceMember<TSource> member )
                 {
                     if( data.TryGetValue( item.Item1, out var memberData ) )
                     {
-                        member.Load( sourceObj, memberData, l );
+                        member.LoadReferences( sourceObj, memberData, l );
                     }
                 }
             }

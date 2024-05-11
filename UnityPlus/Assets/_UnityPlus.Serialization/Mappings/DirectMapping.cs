@@ -13,8 +13,9 @@ namespace UnityPlus.Serialization
     /// <typeparam name="TSource">The type of the object being mapped.</typeparam>
     public class DirectMapping<TSource> : SerializationMapping
     {
-        public Func<TSource, IReverseReferenceMap, SerializedData> AsSerialized { get; set; }
-        public Func<SerializedData, IForwardReferenceMap, TSource> AsObject { get; set; }
+        public Func<TSource, IReverseReferenceMap, SerializedData> SaveFunc { get; set; }
+        public Func<SerializedData, IForwardReferenceMap, TSource> LoadFunc { get; set; }
+       // public Action<object, SerializedData, IForwardReferenceMap> LoadReferencesFunc { get; set; }
 
         public DirectMapping()
         {
@@ -23,15 +24,15 @@ namespace UnityPlus.Serialization
 
         public override SerializedData Save( object obj, IReverseReferenceMap s )
         {
-            return AsSerialized.Invoke( (TSource)obj, s );
+            return SaveFunc.Invoke( (TSource)obj, s );
         }
 
         public override object Load( SerializedData data, IForwardReferenceMap l )
         {
-            return AsObject.Invoke( data, l );
+            return LoadFunc.Invoke( data, l );
         }
 
-        public override void LoadReferences( ref object obj, SerializedData data, IForwardReferenceMap l )
+        public override void LoadReferences( object obj, SerializedData data, IForwardReferenceMap l )
         {
             // Do nothing ...
 

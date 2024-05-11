@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEditor;
+using UnityEngine.Profiling;
 
 namespace UnityEngine
 {
@@ -66,7 +67,7 @@ namespace UnityEngine
             {
                 throw new ArgumentNullException( nameof( type ) );
             }
-            if( type.IsInterface )
+            if( type.IsInterface ) // IsInterface is about half the runtime of the guards, and the guards are about half of the entire runtime of this method.
             {
                 throw new ArgumentException( $"The type to check can't be an interface.", nameof( type ) );
             }
@@ -78,6 +79,7 @@ namespace UnityEngine
             }
 
             Type currentTypeToCheck = type;
+            bool setLater = false;
 
             while( !_map.TryGetValue( currentTypeToCheck, out value ) )
             {
@@ -92,11 +94,16 @@ namespace UnityEngine
                 currentTypeToCheck = currentTypeToCheck.BaseType;
                 if( currentTypeToCheck == null )
                 {
+                    _map[type] = value;
                     return false;
                 }
-            }
 
-            _map[type] = value;
+                setLater = true;
+            }
+            if( setLater )
+            {
+                _map[type] = value;
+            }
 
             return true;
         }
@@ -119,6 +126,7 @@ namespace UnityEngine
 
             Type currentTypeToCheck = type;
             T value;
+            bool setLater = false;
 
             while( !_map.TryGetValue( currentTypeToCheck, out value ) )
             {
@@ -135,13 +143,17 @@ namespace UnityEngine
                 {
                     return default;
                 }
+
+                setLater = true;
             }
 
-            _map[type] = value;
+            if( setLater )
+            {
+                _map[type] = value;
+            }
 
             return value;
         }
-
 
         /// <summary>
         /// Sets the value for the corresponding type.

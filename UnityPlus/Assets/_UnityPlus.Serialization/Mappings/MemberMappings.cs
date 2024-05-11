@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine.Profiling;
 using UnityPlus.Serialization;
 
 namespace UnityPlus.Serialization
@@ -65,6 +66,9 @@ namespace UnityPlus.Serialization
 
         public void Load( TSource source, SerializedData memberData, IForwardReferenceMap l )
         {
+            if( _setter == null )
+                return;
+
             Type memberType = typeof( TMember );
             if( memberData.TryGetValue( KeyNames.TYPE, out var type ) )
             {
