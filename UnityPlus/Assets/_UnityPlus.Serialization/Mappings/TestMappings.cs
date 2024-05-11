@@ -138,6 +138,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( Array ) )]
         public static SerializationMapping ArrayMapping<T>()
         {
+#warning TODO - multidimensional arrays?
             return new DirectMapping<T[]>()
             {
                 SaveFunc = ( o, s ) =>
