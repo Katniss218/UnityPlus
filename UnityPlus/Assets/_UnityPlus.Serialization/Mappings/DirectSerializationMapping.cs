@@ -11,13 +11,19 @@ namespace UnityPlus.Serialization
     /// Maps the source type to a SerializedData directly, using methods.
     /// </summary>
     /// <typeparam name="TSource">The type of the object being mapped.</typeparam>
-    public class DirectMapping<TSource> : SerializationMapping
+    public class DirectSerializationMapping<TSource> : SerializationMapping
     {
+        /// <summary>
+        /// The function invoked to convert the C# object into its serialized representation.
+        /// </summary>
         public Func<TSource, IReverseReferenceMap, SerializedData> SaveFunc { get; set; }
-        public Func<SerializedData, IForwardReferenceMap, TSource> LoadFunc { get; set; }
-       // public Action<object, SerializedData, IForwardReferenceMap> LoadReferencesFunc { get; set; }
 
-        public DirectMapping()
+        /// <summary>
+        /// The function invoked to convert the serialized representation back into its corresponding C# object.
+        /// </summary>
+        public Func<SerializedData, IForwardReferenceMap, TSource> LoadFunc { get; set; }
+
+        public DirectSerializationMapping()
         {
 
         }
@@ -35,8 +41,6 @@ namespace UnityPlus.Serialization
         public override void LoadReferences( object obj, SerializedData data, IForwardReferenceMap l )
         {
             // Do nothing ...
-
-#warning TODO - Add a direct reference mapping DirectReferenceMapping
         }
     }
 }

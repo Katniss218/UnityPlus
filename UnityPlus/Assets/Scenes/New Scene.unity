@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 401418319}
   - component: {fileID: 401418318}
+  - component: {fileID: 401418320}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -166,8 +167,16 @@ Transform:
   m_Children:
   - {fileID: 1944332992}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &401418320
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401418317}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &492301448
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,7 +285,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -432,7 +441,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1265668084
 GameObject:
@@ -528,6 +537,378 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1538083246
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1538083249}
+  - component: {fileID: 1538083248}
+  - component: {fileID: 1538083247}
+  m_Layer: 0
+  m_Name: AssetManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1538083247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538083246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfbad14e977fcbc4c8edf15ea507789d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _registerer: {fileID: 1538083248}
+  _autoUpdate: 0
+  _constrainPath: Assets/Resources/
+  _assetPrefix: 'builtin::'
+--- !u!114 &1538083248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538083246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 616dcb8ac2fa7da4d9fe4543d53ea5e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _assetsToRegister:
+  - assetID: builtin::GUI/Text Shader
+    asset: {fileID: 10101, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::Internal-Skinning
+    asset: {fileID: 300, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::Internal-BlendShape
+    asset: {fileID: 301, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::Internal-VT-TranslationTableReplace
+    asset: {fileID: 400, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::Internal-VT-TranslationTableUpsample
+    asset: {fileID: 401, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::Soft
+    asset: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::Font Material
+    asset: {fileID: 10100, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::Arial
+    asset: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::Font Texture
+    asset: {fileID: 10103, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::Cube
+    asset: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::Cylinder
+    asset: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::Sphere
+    asset: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::Capsule
+    asset: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::Plane
+    asset: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::Quad
+    asset: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::Icosphere
+    asset: {fileID: 10211, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::icosahedron
+    asset: {fileID: 10212, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::pyramid
+    asset: {fileID: 10213, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::pSphere1
+    asset: {fileID: 10200, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::pCylinder1
+    asset: {fileID: 10203, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::pPlane1
+    asset: {fileID: 10204, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::polySurface2
+    asset: {fileID: 10205, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::UnityWatermark-small
+    asset: {fileID: 10400, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::EscToExit_back
+    asset: {fileID: 10401, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::EscToExit_Text
+    asset: {fileID: 10402, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::UnityWatermark-trial-big
+    asset: {fileID: 10406, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::UnityWatermark-trial
+    asset: {fileID: 10407, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::UnityWatermark-beta
+    asset: {fileID: 10408, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::UnityWatermark-edu
+    asset: {fileID: 10409, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::UnityWatermark-dev
+    asset: {fileID: 10410, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::WarningSign
+    asset: {fileID: 10411, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::UnityWatermark-proto
+    asset: {fileID: 10413, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::UnityWatermarkPlugin-beta
+    asset: {fileID: 10414, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::UnitySplash-cube
+    asset: {fileID: 10403, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::UnitySplash-cube
+    asset: {fileID: 10404, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::FrameDebuggerRenderTargetDisplay
+    asset: {fileID: 10756, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::GameSkin
+    asset: {fileID: 11000, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::box
+    asset: {fileID: 11001, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::button active
+    asset: {fileID: 11002, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::button hover
+    asset: {fileID: 11003, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::button on hover
+    asset: {fileID: 11004, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::button on
+    asset: {fileID: 11005, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::button
+    asset: {fileID: 11006, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::horizontal scrollbar thumb
+    asset: {fileID: 11007, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::horizontal scrollbar
+    asset: {fileID: 11008, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::horizontalslider
+    asset: {fileID: 11009, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::slider thumb active
+    asset: {fileID: 11010, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::slider thumb
+    asset: {fileID: 11011, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::slidert humb hover
+    asset: {fileID: 11012, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::toggle active
+    asset: {fileID: 11013, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::toggle hover
+    asset: {fileID: 11014, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::toggle on hover
+    asset: {fileID: 11015, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::toggle on
+    asset: {fileID: 11016, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::toggle on active
+    asset: {fileID: 11017, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::toggle
+    asset: {fileID: 11018, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::vertical scrollbar thumb
+    asset: {fileID: 11019, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::vertical scrollbar
+    asset: {fileID: 11020, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::verticalslider
+    asset: {fileID: 11021, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::window on
+    asset: {fileID: 11022, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::window
+    asset: {fileID: 11023, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::textfield
+    asset: {fileID: 11024, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::textfield on
+    asset: {fileID: 11025, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::textfield hover
+    asset: {fileID: 11026, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::UnitySplash-HolographicTrackingLoss
+    asset: {fileID: 15000, guid: 0000000000000000e000000000000000, type: 0}
+  - assetID: builtin::Sprites/Default
+    asset: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::UI/Default
+    asset: {fileID: 10770, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Standard (Specular setup)
+    asset: {fileID: 45, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Standard
+    asset: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Autodesk Interactive
+    asset: {fileID: 47, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::FX/Flare
+    asset: {fileID: 101, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Skybox/Cubemap
+    asset: {fileID: 103, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Skybox/6 Sided
+    asset: {fileID: 104, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Skybox/Procedural
+    asset: {fileID: 106, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Skybox/Panoramic
+    asset: {fileID: 108, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Particles/Standard Surface
+    asset: {fileID: 210, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Particles/Standard Unlit
+    asset: {fileID: 211, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Sprites/Diffuse
+    asset: {fileID: 10800, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Nature/Terrain/Diffuse
+    asset: {fileID: 10505, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Nature/Tree Soft Occlusion Bark
+    asset: {fileID: 10509, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Nature/Tree Soft Occlusion Leaves
+    asset: {fileID: 10511, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Nature/Tree Creator Bark
+    asset: {fileID: 10600, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Nature/Tree Creator Leaves
+    asset: {fileID: 10601, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Nature/Tree Creator Leaves Fast
+    asset: {fileID: 10606, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Nature/Terrain/Specular
+    asset: {fileID: 10620, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Nature/Terrain/Standard
+    asset: {fileID: 10623, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Mobile/Skybox
+    asset: {fileID: 10700, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Mobile/VertexLit
+    asset: {fileID: 10701, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Mobile/Diffuse
+    asset: {fileID: 10703, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Mobile/Bumped Diffuse
+    asset: {fileID: 10704, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Mobile/Bumped Specular
+    asset: {fileID: 10705, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Mobile/Bumped Specular (1 Directional Realtime Light)
+    asset: {fileID: 10706, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Mobile/VertexLit (Only Directional Lights)
+    asset: {fileID: 10707, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Mobile/Unlit (Supports Lightmap)
+    asset: {fileID: 10708, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Mobile/Particles/Additive
+    asset: {fileID: 10720, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Mobile/Particles/Alpha Blended
+    asset: {fileID: 10721, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Mobile/Particles/VertexLit Blended
+    asset: {fileID: 10722, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Mobile/Particles/Multiply
+    asset: {fileID: 10723, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Unlit/Transparent
+    asset: {fileID: 10750, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Unlit/Transparent Cutout
+    asset: {fileID: 10751, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Unlit/Texture
+    asset: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Unlit/Color
+    asset: {fileID: 10755, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Sprites/Mask
+    asset: {fileID: 10757, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::UI/Unlit/Transparent
+    asset: {fileID: 10760, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::UI/Unlit/Detail
+    asset: {fileID: 10761, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::UI/Unlit/Text
+    asset: {fileID: 10762, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::UI/Unlit/Text Detail
+    asset: {fileID: 10763, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::UI/Lit/Transparent
+    asset: {fileID: 10764, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::UI/Lit/Bumped
+    asset: {fileID: 10765, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::UI/Lit/Detail
+    asset: {fileID: 10766, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::UI/Lit/Refraction
+    asset: {fileID: 10767, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::UI/Lit/Refraction Detail
+    asset: {fileID: 10768, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::UI/Default Font
+    asset: {fileID: 10782, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::UI/DefaultETC1
+    asset: {fileID: 10783, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Nature/SpeedTree
+    asset: {fileID: 14000, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Nature/SpeedTree Billboard
+    asset: {fileID: 14001, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Nature/SpeedTree8
+    asset: {fileID: 14002, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::VR/SpatialMapping/Occlusion
+    asset: {fileID: 15300, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::VR/SpatialMapping/Wireframe
+    asset: {fileID: 15301, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Sprites-Default
+    asset: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Default-Terrain-Diffuse
+    asset: {fileID: 10650, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Default-Terrain-Specular
+    asset: {fileID: 10651, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Default-Terrain-Standard
+    asset: {fileID: 10652, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Sprites-Mask
+    asset: {fileID: 10758, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Default-Particle
+    asset: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Default-Particle
+    asset: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Default-Diffuse
+    asset: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Default-Material
+    asset: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Default-Skybox
+    asset: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Default-Checker
+    asset: {fileID: 10305, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Default-Line
+    asset: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Default-ParticleSystem
+    asset: {fileID: 10307, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Default-ParticleSystem
+    asset: {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Default-Checker-Gray
+    asset: {fileID: 10309, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Checkmark
+    asset: {fileID: 10900, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Checkmark
+    asset: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::UISprite
+    asset: {fileID: 10904, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::UISprite
+    asset: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Background
+    asset: {fileID: 10906, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Background
+    asset: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::InputFieldBackground
+    asset: {fileID: 10910, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::InputFieldBackground
+    asset: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Knob
+    asset: {fileID: 10912, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Knob
+    asset: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::DropdownArrow
+    asset: {fileID: 10914, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::DropdownArrow
+    asset: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::UIMask
+    asset: {fileID: 10916, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::UIMask
+    asset: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Default-HighResolution
+    asset: {fileID: 15200, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Default-LowResolution
+    asset: {fileID: 15201, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Default-VeryLowResolution
+    asset: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::Default-Medium
+    asset: {fileID: 15204, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::SpatialMappingOcclusion
+    asset: {fileID: 15302, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::SpatialMappingWireframe
+    asset: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
+  - assetID: builtin::New Material
+    asset: {fileID: 2100000, guid: a159ab60ddf0c6a488e9feba51948ec6, type: 2}
+  - assetID: builtin::Prefabs/Cube2
+    asset: {fileID: 735042289000868348, guid: 4b148970c3f39ac488e624d42826e697, type: 3}
+--- !u!4 &1538083249
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538083246}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.4202273, y: 0.17746729, z: 3.0039673}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1568459033
 GameObject:
   m_ObjectHideFlags: 0
@@ -636,7 +1017,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

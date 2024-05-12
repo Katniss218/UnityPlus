@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace UnityPlus.Serialization
 {
-    public static class MappingUtils
+    /// <summary>
+    /// Contains static helper methods that create getter/setter lambdas from expressions.
+    /// </summary>
+    public static class AccessorUtils
     {
         public static Func<TSource, TMember> CreateGetter<TSource, TMember>( Expression<Func<TSource, TMember>> memberExpression )
         {

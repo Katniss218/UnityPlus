@@ -1,19 +1,15 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Profiling;
-using UnityEngine.SceneManagement;
 using UnityPlus.AssetManagement;
 using UnityPlus.CSharp;
 using UnityPlus.Serialization;
 using UnityPlus.Serialization.Json;
-using UnityPlus.Serialization.Mappings;
 using UnityPlus.Serialization.ReferenceMaps;
-using UnityPlus.Serialization.Strategies;
 using UnityPlus.UILib;
 using UnityPlus.UILib.UIElements;
 
@@ -22,21 +18,15 @@ public class _playtester : MonoBehaviour
     [SerializationMappingProvider( typeof( _playtester ) )]
     public static SerializationMapping _playtesterMapping()
     {
-        return new CompoundMapping<_playtester>()
+        return new CompoundSerializationMapping<_playtester>()
         {
-        }.WithFactory( ( data, l ) =>
-        {
-            Guid id = data[KeyNames.ID].DeserializeGuid();
-
-            _playtester c = (_playtester)l.GetObj( id );
-
-            return c;
-        } );
+        }
+        .IncludeRecursiveBaseTypeFactory();
     }
 
     void Start()
     {
-        var mapping = SerializationMapping.GetMappingFor( this.gameObject );
+        var mapping = SerializationMappingRegistry.GetMappingOrDefault( this.gameObject );
 
         SerializedData data = mapping.Save( this.gameObject, new BidirectionalReferenceStore() );
 
@@ -51,7 +41,7 @@ public class _playtester : MonoBehaviour
 
         object obj = mapping.Load( data, new BidirectionalReferenceStore() );
     }
-    
+    /*
     void Update()
     {
         List<GameObject> list = new List<GameObject>( 100 );
@@ -59,7 +49,7 @@ public class _playtester : MonoBehaviour
         {
             Profiler.BeginSample( "t1" );
 
-            var mapping = SerializationMapping.GetMappingFor( this.gameObject );
+            var mapping = SerializationMappingRegistry.GetMappingOrDefault( this.gameObject );
             SerializedData data = mapping.Save( this.gameObject, new BidirectionalReferenceStore() );
 
             Profiler.EndSample();
@@ -67,7 +57,7 @@ public class _playtester : MonoBehaviour
 
             Profiler.BeginSample( "t2" );
 
-            mapping = SerializationMapping.GetMappingFor( this.gameObject );
+            mapping = SerializationMappingRegistry.GetMappingOrDefault( this.gameObject );
             GameObject go = (GameObject)mapping.Load( data, refStore );
             mapping.LoadReferences( go, data, refStore );
 
@@ -79,5 +69,5 @@ public class _playtester : MonoBehaviour
             Destroy( go );
             list.Clear();
         }
-    }
+    }*/
 }

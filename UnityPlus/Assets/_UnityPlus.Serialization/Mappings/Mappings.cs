@@ -8,39 +8,42 @@ using UnityEngine.Extensions;
 
 namespace UnityPlus.Serialization.Mappings
 {
-    public static class TestMappings
+    public static class Mappings
     {
         [SerializationMappingProvider( typeof( float ) )]
         public static SerializationMapping FloatMapping()
         {
-            return new DirectMapping<float>()
+            return new DirectSerializationMapping<float>()
             {
                 SaveFunc = ( o, s ) => (SerializedPrimitive)o,
                 LoadFunc = ( data, l ) => (float)data
             };
         }
+
         [SerializationMappingProvider( typeof( string ) )]
         public static SerializationMapping StringMapping()
         {
-            return new DirectMapping<string>()
+            return new DirectSerializationMapping<string>()
             {
                 SaveFunc = ( o, s ) => (SerializedPrimitive)o,
                 LoadFunc = ( data, l ) => (string)data
             };
         }
+
         [SerializationMappingProvider( typeof( int ) )]
         public static SerializationMapping Int32Mapping()
         {
-            return new DirectMapping<int>()
+            return new DirectSerializationMapping<int>()
             {
                 SaveFunc = ( o, s ) => (SerializedPrimitive)o,
                 LoadFunc = ( data, l ) => (int)data
             };
         }
+
         [SerializationMappingProvider( typeof( bool ) )]
         public static SerializationMapping BooleanMapping()
         {
-            return new DirectMapping<bool>()
+            return new DirectSerializationMapping<bool>()
             {
                 SaveFunc = ( o, s ) => (SerializedPrimitive)o,
                 LoadFunc = ( data, l ) => (bool)data
@@ -50,7 +53,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( Vector3 ) )]
         public static SerializationMapping Vector3Mapping()
         {
-            return new DirectMapping<Vector3>()
+            return new DirectSerializationMapping<Vector3>()
             {
                 SaveFunc = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z },
                 LoadFunc = ( data, l ) => new Vector3( (float)data[0], (float)data[1], (float)data[2] )
@@ -60,19 +63,81 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( Quaternion ) )]
         public static SerializationMapping QuaternionMapping()
         {
-            return new DirectMapping<Quaternion>()
+            return new DirectSerializationMapping<Quaternion>()
             {
                 SaveFunc = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z, (SerializedPrimitive)o.w },
                 LoadFunc = ( data, l ) => new Quaternion( (float)data[0], (float)data[1], (float)data[2], (float)data[3] )
             };
         }
 
+        [SerializationMappingProvider( typeof( Array ) )]
+        public static SerializationMapping ArrayMapping<T>()
+        {
+#warning TODO - multidimensional arrays?
+            return new DirectSerializationMapping<T[]>()
+            {
+                SaveFunc = ( o, s ) =>
+                {
+                    SerializedArray serializedArray = new SerializedArray();
+                    for( int i = 0; i < o.Length; i++ )
+                    {
+                        T value = o[i];
+                        var mapping = SerializationMappingRegistry.GetMappingOrDefault<T>( value );
 
+                        var data = mapping.Save( value, s );
+
+                        serializedArray.Add( data );
+                    }
+
+                    return serializedArray;
+                },
+                LoadFunc = ( data, l ) =>
+                {
+                    SerializedArray serializedArray = (SerializedArray)data;
+
+                    T[] o = new T[serializedArray.Count];
+
+                    for( int i = 0; i < serializedArray.Count; i++ )
+                    {
+                        Type elementType = typeof( T );
+                        SerializedData elementData = serializedArray[i];
+                        if( elementData.TryGetValue( KeyNames.TYPE, out var elementType2 ) )
+                        {
+                            elementType = elementType2.ToType();
+                        }
+
+                        var mapping = SerializationMappingRegistry.GetMappingOrDefault<T>( elementType );
+
+                        var element = (T)mapping.Load( elementData, l );
+
+                        o[i] = element;
+                    }
+
+                    return o;
+                }
+            };
+        }
+
+
+
+        [SerializationMappingProvider( typeof( Component ) )]
+        public static SerializationMapping ComponentMapping()
+        {
+            return new CompoundSerializationMapping<Component>()
+                .WithFactory( ( data, l ) =>
+                {
+                    Guid id = data[KeyNames.ID].DeserializeGuid();
+
+                    Component c = (Component)l.GetObj( id );
+
+                    return c;
+                } );
+        }
 
         [SerializationMappingProvider( typeof( GameObject ) )]
         public static SerializationMapping GameObjectMapping()
         {
-            return new CompoundMapping<GameObject>()
+            return new CompoundSerializationMapping<GameObject>()
             {
                 ("name", new Member<GameObject, string>( o => o.name )),
                 ("layer", new Member<GameObject, int>( o => o.layer )),
@@ -135,154 +200,26 @@ namespace UnityPlus.Serialization.Mappings
             } );
         }
 
-        [SerializationMappingProvider( typeof( Array ) )]
-        public static SerializationMapping ArrayMapping<T>()
-        {
-#warning TODO - multidimensional arrays?
-            return new DirectMapping<T[]>()
-            {
-                SaveFunc = ( o, s ) =>
-                {
-                    SerializedArray serializedArray = new SerializedArray();
-                    for( int i = 0; i < o.Length; i++ )
-                    {
-                        T value = o[i];
-                        var mapping = SerializationMapping.GetMappingFor( value );
-
-                        var data = mapping.Save( value, s );
-
-                        serializedArray.Add( data );
-                    }
-
-                    return serializedArray;
-                },
-                LoadFunc = ( data, l ) =>
-                {
-                    SerializedArray serializedArray = (SerializedArray)data;
-
-                    T[] o = new T[serializedArray.Count];
-
-                    for( int i = 0; i < serializedArray.Count; i++ )
-                    {
-                        Type elementType = typeof( T );
-                        SerializedData elementData = serializedArray[i];
-                        if( elementData.TryGetValue( KeyNames.TYPE, out var elementType2 ) )
-                        {
-                            elementType = elementType2.ToType();
-                        }
-
-                        var mapping = SerializationMapping.GetMappingFor<T>( elementType );
-
-                        var element = (T)mapping.Load( elementData, l );
-
-                        o[i] = element;
-                    }
-
-                    return o;
-                }
-            };
-        }
-
-        [SerializationMappingProvider( typeof( Component ) )]
-        public static SerializationMapping ComponentMapping()
-        {
-
-#warning TODO - some way of automatically including members of the mapping of the base class (recursive) (union the list of members)?
-            return new CompoundMapping<Component>()
-                .WithFactory( ( data, l ) =>
-            {
-                Guid id = data[KeyNames.ID].DeserializeGuid();
-
-                Component c = (Component)l.GetObj( id );
-
-                return c;
-            } );
-        }
-
         [SerializationMappingProvider( typeof( Transform ) )]
         public static SerializationMapping TransformMapping()
         {
-            return new CompoundMapping<Transform>()
+            return new CompoundSerializationMapping<Transform>()
             {
                 ("local_position", new Member<Transform, Vector3>( o => o.localPosition )),
                 ("local_rotation", new Member<Transform, Quaternion>( o => o.localRotation )),
                 ("local_scale", new Member<Transform, Vector3>( o => o.localScale ))
-            }.WithFactory( ( data, l ) =>
-            {
-                Guid id = data[KeyNames.ID].DeserializeGuid();
-
-                Transform c = (Transform)l.GetObj( id );
-
-                return c;
-            } );
+            }
+            .IncludeRecursiveBaseTypeFactory();
         }
 
         [SerializationMappingProvider( typeof( MeshFilter ) )]
         public static SerializationMapping MeshFilterMapping()
         {
-            return new CompoundMapping<MeshFilter>()
+            return new CompoundSerializationMapping<MeshFilter>()
             {
                 ("shared_mesh", new MemberAsset<MeshFilter, Mesh>( o => o.sharedMesh ))
-            }.WithFactory( ( data, l ) =>
-            {
-                Guid id = data[KeyNames.ID].DeserializeGuid();
-
-                MeshFilter c = (MeshFilter)l.GetObj( id );
-
-                return c;
-            } );
-
-#warning TODO - some way of automatically including members of the mapping of the base class (recursive) (union the list of members)?
+            }
+            .IncludeRecursiveBaseTypeFactory();
         }
-
-
-        /*
-        
-        [SerializationMappingProvider( typeof( F2AxisActuator ) )]
-        public static SerializationMapping F2AxisActuatorMapping()
-        {
-            return new SerializationMapping<F2AxisActuator>()
-            {
-                new ObjectMapping<F2AxisActuator, ControleeInput>( "set_x", act => act.SetX, act => new ControleeInput<float>( act.SetXListener ) ),
-                new DataMapping<F2AxisActuator>( "set_x", act => act.SetX )
-            };
-        }
-        
-        [SerializationMappingProvider( typeof( List<> ) )]
-        public static SerializationMapping List_T_Mapping()
-        {
-            return new DirectMapping<List<>>()
-            {
-                AsSerialized = ( o, s ) =>
-                {
-                    SerializedArray arr = new SerializedArray();
-                    for( int i = 0; i < o.Count; i++ )
-                    {
-                        var mapping = SerializationMapping.GetMappingFor( o[i] );
-
-                        var ser = mapping.GetDataPass( s );
-                        arr.Add( ser );
-                    }
-
-                    return arr;
-                },
-                AsObject = ( data, l ) =>
-                {
-                    SerializedArray arr = new SerializedArray();
-                    for( int i = 0; i < o.Count; i++ )
-                    {
-                        var mapping = SerializationMapping.GetMappingFor( o[i] );
-
-                        var ser = mapping.GetDataPass( s );
-                        arr.Add( ser );
-                    }
-
-                    return arr;
-                }
-            };
-        }
-
-        
-        */
     }
 }

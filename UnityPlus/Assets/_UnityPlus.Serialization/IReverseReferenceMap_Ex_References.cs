@@ -12,9 +12,9 @@ namespace UnityPlus.Serialization
 			// A missing '$ref' node means the reference is broken.
 
 			if( value == null )
-			{
-				return new SerializedObject();
-			}
+            {
+                return null;
+            }
 
 			Guid guid = s.GetID( value );
 
@@ -29,14 +29,14 @@ namespace UnityPlus.Serialization
         {
 			if( assetRef == null )
 			{
-				return new SerializedObject();
+				return null;
 			}
 
 			string assetID = AssetRegistry.GetAssetID( assetRef );
 			if( assetID == null )
-			{
-				return new SerializedObject();
-			}
+            {
+				return null;
+            }
 
 			return new SerializedObject()
 			{

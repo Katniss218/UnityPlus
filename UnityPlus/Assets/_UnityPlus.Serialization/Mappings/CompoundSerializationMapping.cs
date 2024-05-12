@@ -1,40 +1,74 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine.Profiling;
 
 namespace UnityPlus.Serialization
 {
+    internal interface ISerializationMappingWithCustomFactory
+    {
+        Func<SerializedData, IForwardReferenceMap, object> CustomFactory { get; }
+    }
 
     /// <summary>
     /// Creates a <see cref="SerializedObject"/> from the child mappings.
     /// </summary>
     /// <typeparam name="TSource">The type of the object being mapped.</typeparam>
-    public class CompoundMapping<TSource> : SerializationMapping, IEnumerable<(string, MappedMember<TSource>)>
+    public class CompoundSerializationMapping<TSource> : SerializationMapping, IEnumerable<(string, MemberBase<TSource>)>, ISerializationMappingWithCustomFactory
     {
-        private List<(string, MappedMember<TSource>)> _items = new();
-        private Func<SerializedData, IForwardReferenceMap, TSource> _customFactory = null;
+        private List<(string, MemberBase<TSource>)> _items = new();
+        public Func<SerializedData, IForwardReferenceMap, object> CustomFactory { get; private set; } = null;
 
-        public CompoundMapping()
+        public CompoundSerializationMapping()
         {
 
         }
 
-        public CompoundMapping<TSource> WithFactory( Func<SerializedData, IForwardReferenceMap, TSource> customFactory )
+        /// <summary>
+        /// Makes the deserialization use a custom factory method instead of <see cref="Activator.CreateInstance{T}()"/>.
+        /// </summary>
+        /// <remarks>
+        /// The factory is only needed to create an instance, not to set its internal state. The state should be set using the members.
+        /// </remarks>
+        /// <param name="customFactory">The method used to create an instance of <typeparamref name="TSource"/> from its serialized representation.</param>
+        public CompoundSerializationMapping<TSource> WithFactory( Func<SerializedData, IForwardReferenceMap, object> customFactory )
         {
-            this._customFactory = customFactory;
+            this.CustomFactory = customFactory;
             return this;
         }
 
-        public void Add( (string, MappedMember<TSource>) item )
+        /// <summary>
+        /// Makes the deserialization use the factory of the nearest base type of <typeparamref name="TSource"/>.
+        /// </summary>
+        public CompoundSerializationMapping<TSource> IncludeRecursiveBaseTypeFactory()
+        {
+            do
+            {
+                Type baseType = typeof( TSource ).BaseType;
+                if( baseType == null )
+                    return this;
+
+                try
+                {
+                    SerializationMapping mapping = SerializationMappingRegistry.GetMapping( baseType );
+                    if( mapping is ISerializationMappingWithCustomFactory m )
+                    {
+                        this.CustomFactory = m.CustomFactory;
+                        return this;
+                    }
+                }
+                catch { }
+
+            } while( this.CustomFactory == null );
+
+            return this;
+        }
+
+        public void Add( (string, MemberBase<TSource>) item )
         {
             _items.Add( item );
         }
 
-        public IEnumerator<(string, MappedMember<TSource>)> GetEnumerator()
+        public IEnumerator<(string, MemberBase<TSource>)> GetEnumerator()
         {
             return _items.GetEnumerator();
         }
@@ -73,7 +107,7 @@ namespace UnityPlus.Serialization
         public override object Load( SerializedData data, IForwardReferenceMap l )
         {
             TSource obj;
-            if( _customFactory == null )
+            if( CustomFactory == null )
             {
                 obj = Activator.CreateInstance<TSource>();
                 if( data.TryGetValue( KeyNames.ID, out var id ) )
@@ -83,7 +117,7 @@ namespace UnityPlus.Serialization
             }
             else
             {
-                obj = _customFactory.Invoke( data, l );
+                obj = (TSource)CustomFactory.Invoke( data, l );
             }
 
             foreach( var item in _items )
@@ -102,7 +136,7 @@ namespace UnityPlus.Serialization
 
         public override void LoadReferences( object obj, SerializedData data, IForwardReferenceMap l )
         {
-            TSource sourceObj = (TSource)obj;
+            var objM = (TSource)obj;
 
             foreach( var item in _items )
             {
@@ -110,7 +144,7 @@ namespace UnityPlus.Serialization
                 {
                     if( data.TryGetValue( item.Item1, out var memberData ) )
                     {
-                        member.LoadReferences( sourceObj, memberData, l );
+                        member.LoadReferences( objM, memberData, l );
                     }
                 }
             }

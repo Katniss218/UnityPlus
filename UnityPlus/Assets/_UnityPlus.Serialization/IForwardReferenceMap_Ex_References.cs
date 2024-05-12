@@ -9,11 +9,10 @@ namespace UnityPlus.Serialization
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static T ReadObjectReference<T>( this IForwardReferenceMap l, SerializedData data ) where T : class
         {
-			// should only be called in data actions.
+			if( data == null )
+				return null;
 
-			// A missing '$ref' node means the reference couldn't save properly.
-
-			if( ((SerializedObject)data).TryGetValue( KeyNames.REF, out SerializedData refData ) )
+			if( data.TryGetValue( KeyNames.REF, out SerializedData refData ) )
 			{
 				Guid guid = refData.DeserializeGuid();
 
@@ -24,8 +23,11 @@ namespace UnityPlus.Serialization
 
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static T ReadAssetReference<T>( this IForwardReferenceMap l, SerializedData data ) where T : class
-		{
-			if( ((SerializedObject)data).TryGetValue( KeyNames.ASSETREF, out SerializedData refData ) )
+        {
+            if( data == null )
+                return null;
+
+            if( data.TryGetValue( KeyNames.ASSETREF, out SerializedData refData ) )
 			{
 				string assetID = (string)refData;
 
