@@ -28,6 +28,8 @@ public class _playtester : MonoBehaviour
     {
         var mapping = SerializationMappingRegistry.GetMappingOrDefault( this.gameObject );
 
+        var sharedma = this.gameObject.GetComponent<MeshRenderer>();
+
         SerializedData data = mapping.Save( this.gameObject, new BidirectionalReferenceStore() );
 
 

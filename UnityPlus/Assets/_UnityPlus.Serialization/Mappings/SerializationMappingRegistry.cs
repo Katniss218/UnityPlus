@@ -69,13 +69,14 @@ namespace UnityPlus.Serialization
             {
                 method = method.MakeGenericMethod( objType.GetElementType() );
             }
+            else if( objType.IsEnum )
+            {
+                method = method.MakeGenericMethod( objType );
+            }
             else if( method.ContainsGenericParameters )
             {
                 method = method.MakeGenericMethod( objType.GetGenericArguments() );
             }
-
-#warning TODO - Automatically include members contained in the mapping for the base class (recursive) (union the list of members).
-            // unless the factory is custom, then don't pass through the base type's factory.
 
             var mapping = (SerializationMapping)method.Invoke( null, null );
             entry.isReady = true;

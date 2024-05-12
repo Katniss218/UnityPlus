@@ -36,6 +36,9 @@ namespace UnityPlus.Serialization
             return this;
         }
 
+#warning TODO - Automatically include members contained in the mapping for the base class (recursive) (union the list of members).
+        // unless the factory is custom, then don't pass through the base type's factory.
+
         /// <summary>
         /// Makes the deserialization use the factory of the nearest base type of <typeparamref name="TSource"/>.
         /// </summary>

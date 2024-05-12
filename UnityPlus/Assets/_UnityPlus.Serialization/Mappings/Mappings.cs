@@ -1,32 +1,66 @@
-﻿using System;
+﻿using Codice.CM.Common.Serialization;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Extensions;
+using UnityEngine.Rendering;
+using static log4net.Appender.RollingFileAppender;
 
 namespace UnityPlus.Serialization.Mappings
 {
     public static class Mappings
     {
-        [SerializationMappingProvider( typeof( float ) )]
-        public static SerializationMapping FloatMapping()
+        [SerializationMappingProvider( typeof( bool ) )]
+        public static SerializationMapping BooleanMapping()
         {
-            return new DirectSerializationMapping<float>()
+            return new DirectSerializationMapping<bool>()
             {
                 SaveFunc = ( o, s ) => (SerializedPrimitive)o,
-                LoadFunc = ( data, l ) => (float)data
+                LoadFunc = ( data, l ) => (bool)data
             };
         }
 
-        [SerializationMappingProvider( typeof( string ) )]
-        public static SerializationMapping StringMapping()
+        [SerializationMappingProvider( typeof( byte ) )]
+        public static SerializationMapping ByteMapping()
         {
-            return new DirectSerializationMapping<string>()
+            return new DirectSerializationMapping<byte>()
             {
                 SaveFunc = ( o, s ) => (SerializedPrimitive)o,
-                LoadFunc = ( data, l ) => (string)data
+                LoadFunc = ( data, l ) => (byte)data
+            };
+        }
+
+        [SerializationMappingProvider( typeof( sbyte ) )]
+        public static SerializationMapping SByteMapping()
+        {
+            return new DirectSerializationMapping<sbyte>()
+            {
+                SaveFunc = ( o, s ) => (SerializedPrimitive)o,
+                LoadFunc = ( data, l ) => (sbyte)data
+            };
+        }
+
+        [SerializationMappingProvider( typeof( short ) )]
+        public static SerializationMapping Int16Mapping()
+        {
+            return new DirectSerializationMapping<short>()
+            {
+                SaveFunc = ( o, s ) => (SerializedPrimitive)o,
+                LoadFunc = ( data, l ) => (short)data
+            };
+        }
+
+        [SerializationMappingProvider( typeof( ushort ) )]
+        public static SerializationMapping UInt16Mapping()
+        {
+            return new DirectSerializationMapping<ushort>()
+            {
+                SaveFunc = ( o, s ) => (SerializedPrimitive)o,
+                LoadFunc = ( data, l ) => (ushort)data
             };
         }
 
@@ -40,13 +74,117 @@ namespace UnityPlus.Serialization.Mappings
             };
         }
 
-        [SerializationMappingProvider( typeof( bool ) )]
-        public static SerializationMapping BooleanMapping()
+        [SerializationMappingProvider( typeof( uint ) )]
+        public static SerializationMapping UInt32Mapping()
         {
-            return new DirectSerializationMapping<bool>()
+            return new DirectSerializationMapping<uint>()
             {
                 SaveFunc = ( o, s ) => (SerializedPrimitive)o,
-                LoadFunc = ( data, l ) => (bool)data
+                LoadFunc = ( data, l ) => (uint)data
+            };
+        }
+
+        [SerializationMappingProvider( typeof( long ) )]
+        public static SerializationMapping Int64Mapping()
+        {
+            return new DirectSerializationMapping<long>()
+            {
+                SaveFunc = ( o, s ) => (SerializedPrimitive)o,
+                LoadFunc = ( data, l ) => (long)data
+            };
+        }
+
+        [SerializationMappingProvider( typeof( ulong ) )]
+        public static SerializationMapping UInt64Mapping()
+        {
+            return new DirectSerializationMapping<ulong>()
+            {
+                SaveFunc = ( o, s ) => (SerializedPrimitive)o,
+                LoadFunc = ( data, l ) => (ulong)data
+            };
+        }
+
+        [SerializationMappingProvider( typeof( float ) )]
+        public static SerializationMapping FloatMapping()
+        {
+            return new DirectSerializationMapping<float>()
+            {
+                SaveFunc = ( o, s ) => (SerializedPrimitive)o,
+                LoadFunc = ( data, l ) => (float)data
+            };
+        }
+
+        [SerializationMappingProvider( typeof( double ) )]
+        public static SerializationMapping DoubleMapping()
+        {
+            return new DirectSerializationMapping<double>()
+            {
+                SaveFunc = ( o, s ) => (SerializedPrimitive)o,
+                LoadFunc = ( data, l ) => (double)data
+            };
+        }
+
+        [SerializationMappingProvider( typeof( decimal ) )]
+        public static SerializationMapping DecimalMapping()
+        {
+            return new DirectSerializationMapping<decimal>()
+            {
+                SaveFunc = ( o, s ) => (SerializedPrimitive)o,
+                LoadFunc = ( data, l ) => (decimal)data
+            };
+        }
+
+        [SerializationMappingProvider( typeof( char ) )]
+        public static SerializationMapping CharMapping()
+        {
+            return new DirectSerializationMapping<char>()
+            {
+                SaveFunc = ( o, s ) => (SerializedPrimitive)(o.ToString()),
+                LoadFunc = ( data, l ) => ((string)data)[0]
+            };
+        }
+
+        [SerializationMappingProvider( typeof( string ) )]
+        public static SerializationMapping StringMapping()
+        {
+            return new DirectSerializationMapping<string>()
+            {
+                SaveFunc = ( o, s ) => (SerializedPrimitive)o,
+                LoadFunc = ( data, l ) => (string)data
+            };
+        }
+
+        [SerializationMappingProvider( typeof( DateTime ) )]
+        public static SerializationMapping DateTimeMapping()
+        {
+            // DateTime is saved as an ISO-8601 string.
+            return new DirectSerializationMapping<DateTime>()
+            {
+                SaveFunc = ( o, s ) => (SerializedPrimitive)o.ToString( "s", CultureInfo.InvariantCulture ),
+                LoadFunc = ( data, l ) => DateTime.ParseExact( (string)data, "s", CultureInfo.InvariantCulture )
+            };
+        }
+
+        [SerializationMappingProvider( typeof( TimeSpan ) )]
+        public static SerializationMapping TimeSpanMapping()
+        {
+            // TimeSpan is saved as `[-][d'.']hh':'mm':'ss['.'fffffff]`.
+            return new DirectSerializationMapping<TimeSpan>()
+            {
+                SaveFunc = ( o, s ) => (SerializedPrimitive)o.ToString( "c", CultureInfo.InvariantCulture ),
+                LoadFunc = ( data, l ) => TimeSpan.ParseExact( (string)data, "c", CultureInfo.InvariantCulture )
+            };
+        }
+
+
+
+        [SerializationMappingProvider( typeof( Vector2 ) )]
+        public static SerializationMapping Vector2Mapping()
+        {
+            return new DirectSerializationMapping<Vector2>()
+            {
+                SaveFunc = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y },
+                LoadFunc = ( data, l ) => new Vector2( (float)data[0], (float)data[1] )
             };
         }
 
@@ -60,6 +198,26 @@ namespace UnityPlus.Serialization.Mappings
             };
         }
 
+        [SerializationMappingProvider( typeof( Vector3Dbl ) )]
+        public static SerializationMapping Vector3DblMapping()
+        {
+            return new DirectSerializationMapping<Vector3Dbl>()
+            {
+                SaveFunc = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z },
+                LoadFunc = ( data, l ) => new Vector3Dbl( (double)data[0], (double)data[1], (double)data[2] )
+            };
+        }
+
+        [SerializationMappingProvider( typeof( Vector4 ) )]
+        public static SerializationMapping Vector4Mapping()
+        {
+            return new DirectSerializationMapping<Vector4>()
+            {
+                SaveFunc = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z, (SerializedPrimitive)o.w },
+                LoadFunc = ( data, l ) => new Vector4( (float)data[0], (float)data[1], (float)data[2], (float)data[3] )
+            };
+        }
+
         [SerializationMappingProvider( typeof( Quaternion ) )]
         public static SerializationMapping QuaternionMapping()
         {
@@ -67,6 +225,26 @@ namespace UnityPlus.Serialization.Mappings
             {
                 SaveFunc = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z, (SerializedPrimitive)o.w },
                 LoadFunc = ( data, l ) => new Quaternion( (float)data[0], (float)data[1], (float)data[2], (float)data[3] )
+            };
+        }
+
+        [SerializationMappingProvider( typeof( QuaternionDbl ) )]
+        public static SerializationMapping QuaternionDblMapping()
+        {
+            return new DirectSerializationMapping<QuaternionDbl>()
+            {
+                SaveFunc = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z, (SerializedPrimitive)o.w },
+                LoadFunc = ( data, l ) => new QuaternionDbl( (double)data[0], (double)data[1], (double)data[2], (double)data[3] )
+            };
+        }
+
+        [SerializationMappingProvider( typeof( Enum ) )]
+        public static SerializationMapping EnumMapping<T>() where T : struct, Enum
+        {
+            return new DirectSerializationMapping<T>()
+            {
+                SaveFunc = ( o, s ) => (SerializedPrimitive)o.ToString( "G" ),
+                LoadFunc = ( data, l ) => Enum.Parse<T>( (string)data )
             };
         }
 
@@ -82,6 +260,7 @@ namespace UnityPlus.Serialization.Mappings
                     for( int i = 0; i < o.Length; i++ )
                     {
                         T value = o[i];
+
                         var mapping = SerializationMappingRegistry.GetMappingOrDefault<T>( value );
 
                         var data = mapping.Save( value, s );
@@ -99,8 +278,9 @@ namespace UnityPlus.Serialization.Mappings
 
                     for( int i = 0; i < serializedArray.Count; i++ )
                     {
-                        Type elementType = typeof( T );
                         SerializedData elementData = serializedArray[i];
+
+                        Type elementType = typeof( T );
                         if( elementData.TryGetValue( KeyNames.TYPE, out var elementType2 ) )
                         {
                             elementType = elementType2.ToType();
@@ -109,7 +289,6 @@ namespace UnityPlus.Serialization.Mappings
                         var mapping = SerializationMappingRegistry.GetMappingOrDefault<T>( elementType );
 
                         var element = (T)mapping.Load( elementData, l );
-
                         o[i] = element;
                     }
 
@@ -119,6 +298,16 @@ namespace UnityPlus.Serialization.Mappings
         }
 
 
+
+        [SerializationMappingProvider( typeof( Behaviour ) )]
+        public static SerializationMapping BehaviourMapping()
+        {
+            return new CompoundSerializationMapping<Behaviour>()
+            {
+                ("is_enabled", new Member<Behaviour, bool>( o => o.enabled ))
+            }
+            .IncludeRecursiveBaseTypeFactory();
+        }
 
         [SerializationMappingProvider( typeof( Component ) )]
         public static SerializationMapping ComponentMapping()
@@ -200,6 +389,16 @@ namespace UnityPlus.Serialization.Mappings
             } );
         }
 
+        [SerializationMappingProvider( typeof( Renderer ) )]
+        public static SerializationMapping RendererMapping()
+        {
+            return new CompoundSerializationMapping<Renderer>()
+            {
+                ("is_enabled", new Member<Renderer, bool>( o => o.enabled ))
+            }
+            .IncludeRecursiveBaseTypeFactory();
+        }
+
         [SerializationMappingProvider( typeof( Transform ) )]
         public static SerializationMapping TransformMapping()
         {
@@ -218,6 +417,99 @@ namespace UnityPlus.Serialization.Mappings
             return new CompoundSerializationMapping<MeshFilter>()
             {
                 ("shared_mesh", new MemberAsset<MeshFilter, Mesh>( o => o.sharedMesh ))
+            }
+            .IncludeRecursiveBaseTypeFactory();
+        }
+
+        [SerializationMappingProvider( typeof( MeshRenderer ) )]
+        public static SerializationMapping MeshRendererMapping()
+        {
+            return new CompoundSerializationMapping<MeshRenderer>()
+            {
+                ("shared_materials", new MemberAsset<MeshRenderer, Material[]>( o => o.sharedMaterials )),
+                ("shadow_casting_mode", new Member<MeshRenderer, ShadowCastingMode>( o => o.shadowCastingMode )),
+                ("receive_shadows", new Member<MeshRenderer, bool>( o => o.receiveShadows ))
+            }
+            .IncludeRecursiveBaseTypeFactory();
+        }
+
+        [SerializationMappingProvider( typeof( Rigidbody ) )]
+        public static SerializationMapping RigidbodyMapping()
+        {
+            return new CompoundSerializationMapping<Rigidbody>()
+            {
+                ("is_kinematic", new Member<Rigidbody, bool>( o => o.isKinematic ))
+            }
+            .IncludeRecursiveBaseTypeFactory();
+        }
+
+        [SerializationMappingProvider( typeof( BoxCollider ) )]
+        public static SerializationMapping BoxColliderMapping()
+        {
+            return new CompoundSerializationMapping<BoxCollider>()
+            {
+                ("size", new Member<BoxCollider, Vector3>( o => o.size )),
+                ("center", new Member<BoxCollider, Vector3>( o => o.center )),
+                ("is_trigger", new Member<BoxCollider, bool>( o => o.isTrigger ))
+            }
+            .IncludeRecursiveBaseTypeFactory();
+        }
+
+        [SerializationMappingProvider( typeof( SphereCollider ) )]
+        public static SerializationMapping SphereColliderMapping()
+        {
+            return new CompoundSerializationMapping<SphereCollider>()
+            {
+                ("radius", new Member<SphereCollider, float>( o => o.radius )),
+                ("center", new Member<SphereCollider, Vector3>( o => o.center )),
+                ("is_trigger", new Member<SphereCollider, bool>( o => o.isTrigger ))
+            }
+            .IncludeRecursiveBaseTypeFactory();
+        }
+
+        [SerializationMappingProvider( typeof( CapsuleCollider ) )]
+        public static SerializationMapping CapsuleColliderMapping()
+        {
+            return new CompoundSerializationMapping<CapsuleCollider>()
+            {
+                ("radius", new Member<CapsuleCollider, float>( o => o.radius )),
+                ("height", new Member<CapsuleCollider, float>( o => o.height )),
+                ("direction", new Member<CapsuleCollider, int>( o => o.direction )),
+                ("center", new Member<CapsuleCollider, Vector3>( o => o.center )),
+                ("is_trigger", new Member<CapsuleCollider, bool>( o => o.isTrigger ))
+            }
+            .IncludeRecursiveBaseTypeFactory();
+        }
+
+        [SerializationMappingProvider( typeof( MeshCollider ) )]
+        public static SerializationMapping MeshColliderMapping()
+        {
+            return new CompoundSerializationMapping<MeshCollider>()
+            {
+                ("shared_mesh", new MemberAsset<MeshCollider, Mesh>( o => o.sharedMesh )),
+                ("is_convex", new Member<MeshCollider, bool>( o => o.convex )),
+                ("is_trigger", new Member<MeshCollider, bool>( o => o.isTrigger ))
+            }
+            .IncludeRecursiveBaseTypeFactory();
+        }
+
+        [SerializationMappingProvider( typeof( LOD ) )]
+        public static SerializationMapping LODMapping()
+        {
+            return new CompoundSerializationMapping<LOD>()
+            {
+                ("percent", new Member<LOD, float>( o => o.screenRelativeTransitionHeight )),
+                ("renderers", new MemberReference<LOD, Renderer[]>( o => o.renderers ))
+            };
+        }
+
+        [SerializationMappingProvider( typeof( LODGroup ) )]
+        public static SerializationMapping LODGroupMapping()
+        {
+            return new CompoundSerializationMapping<LODGroup>()
+            {
+                ("lods", new Member<LODGroup, LOD[]>( o => o.GetLODs(), (o, value) => o.SetLODs( value ) )),
+                ("size", new Member<LODGroup, float>( o => o.size ))
             }
             .IncludeRecursiveBaseTypeFactory();
         }

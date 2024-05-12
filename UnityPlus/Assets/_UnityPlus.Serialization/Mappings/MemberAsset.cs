@@ -20,9 +20,20 @@ namespace UnityPlus.Serialization
             _setter = AccessorUtils.CreateSetter( member );
         }
 
-
         public SerializedData Save( TSource source, IReverseReferenceMap s )
         {
+#warning TODO - support arrays and other. Same for MemberReference
+
+            // using the existing array mapping will require it to support references.
+            // maybe just have a single member type that'll handle everything?
+
+#warning TODO - pass through how the member desires to save itself to the array / other mappings, in case the mapping represents a collection?
+            // maybe instead of calling something to get the mapping and stuff, we could overwrite that for a specific member? so the array will call our function instead of being hardcoded.
+            // Currently, array contains the same duplicated code that a normal member has.
+            // And a list / dict, will probably contain very similar code.
+
+            // or maybe even do another layer?
+
             var member = _getter.Invoke( source );
 
             return s.WriteAssetReference( member );

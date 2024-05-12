@@ -11,6 +11,12 @@ using UnityPlus.Serialization.ReferenceMaps;
 
 namespace Serialization
 {
+    /*
+     * 
+     * 
+     * removed because neoserialization.
+     * 
+     * 
     public class PersistentPrimitiveLikeTests
     {
         [Test]
@@ -242,5 +248,5 @@ namespace Serialization
             // Assert
             Assert.That( roundTripped, Is.EqualTo( original ) );
         }
-    }
+    }*/
 }
