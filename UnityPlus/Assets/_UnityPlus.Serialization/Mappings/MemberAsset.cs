@@ -33,6 +33,7 @@ namespace UnityPlus.Serialization
             // And a list / dict, will probably contain very similar code.
 
             // or maybe even do another layer?
+            // Basically, we need per-member data, as well as per-type data. Not just member overriding type completely.
 
             var member = _getter.Invoke( source );
 
