@@ -6,6 +6,11 @@ namespace UnityPlus.Serialization
     /// </summary>
     public class EmptySerializationMapping<TSource> : SerializationMapping
     {
+        internal EmptySerializationMapping() 
+        {
+
+        }
+
         public override SerializedData Save( object obj, IReverseReferenceMap s )
         {
             return null;

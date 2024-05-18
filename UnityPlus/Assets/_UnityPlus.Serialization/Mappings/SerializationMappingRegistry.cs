@@ -92,22 +92,23 @@ namespace UnityPlus.Serialization
         /// <typeparam name="TMember">The type of the member ("variable") that the object is/will be assigned to.</typeparam>
         /// <param name="memberObj">The object.</param>
         /// <returns>The correct serialization mapping for the given object.</returns>
-        internal static SerializationMapping GetMapping( Type objType )
+        internal static SerializationMapping GetMappingOrEmpty( Type memberType )
         {
             if( !_isInitialized )
                 Initialize();
 
-            if( _mappings.TryGetClosest( objType, out var entry ) )
+            if( _mappings.TryGetClosest( memberType, out var entry ) )
             {
                 if( !entry.isReady )
                 {
-                    var entry2 = MakeReady( entry, objType );
+                    var entry2 = MakeReady( entry, memberType );
                     return entry2.mapping;
                 }
 
                 return entry.mapping;
             }
-            throw new Exception();
+
+            return SerializationMapping.Empty( memberType );
         }
 
         /// <summary>
@@ -133,21 +134,21 @@ namespace UnityPlus.Serialization
                 return entry.mapping;
             }
 
-            return new EmptySerializationMapping<TMember>();
+            return SerializationMapping.Empty<TMember>();
         }
 
-        public static SerializationMapping GetMappingOrDefault<TMember>( Type objType )
+        public static SerializationMapping GetMappingOrDefault<TMember>( Type memberType )
         {
             if( !_isInitialized )
                 Initialize();
 
-            if( typeof( TMember ).IsAssignableFrom( objType ) ) // This doesn't appear to be much of a slow point.
+            if( typeof( TMember ).IsAssignableFrom( memberType ) ) // This doesn't appear to be much of a slow point.
             {
-                if( _mappings.TryGetClosest( objType, out var entry ) )
+                if( _mappings.TryGetClosest( memberType, out var entry ) )
                 {
                     if( !entry.isReady )
                     {
-                        var entry2 = MakeReady( entry, objType );
+                        var entry2 = MakeReady( entry, memberType );
                         return entry2.mapping;
                     }
 
@@ -155,7 +156,7 @@ namespace UnityPlus.Serialization
                 }
             }
 
-            return new EmptySerializationMapping<TMember>();
+            return SerializationMapping.Empty<TMember>();
         }
     }
 }

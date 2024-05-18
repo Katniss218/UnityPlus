@@ -530,11 +530,27 @@ namespace UnityPlus.Serialization.Mappings
         {
             return new CompoundSerializationMapping<LODGroup>()
             {
-#warning TODO - maybe create all structs in the reference pass too? Structs can't be referenced.
                 ("size", new Member<LODGroup, float>( o => o.size )),
                 ("lods", new Member<LODGroup, LOD[]>( o => o.GetLODs(), (o, value) => o.SetLODs( value ) ))
             }
             .UseBaseTypeFactory();
+        }
+
+        [SerializationMappingProvider( typeof( Delegate ) )]
+        public static SerializationMapping DelegateMapping()
+        {
+            return new DirectSerializationMapping<Delegate>()
+            {
+                SaveFunc = ( o, s ) =>
+                {
+                    return Persistent_Delegate.GetData( o, s );
+                },
+                LoadReferencesFunc = ( ref Delegate o, SerializedData data, IForwardReferenceMap l ) =>
+                {
+                    // reference is needed to create the thing.
+                    o = Persistent_Delegate.ToDelegate( data, l );
+                }
+            };
         }
     }
 }

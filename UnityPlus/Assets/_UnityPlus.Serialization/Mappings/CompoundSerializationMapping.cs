@@ -12,52 +12,6 @@ namespace UnityPlus.Serialization
         Func<SerializedData, IForwardReferenceMap, object> CustomFactory { get; }
     }
 
-
-    /// <summary>
-    /// Serializes a member of type <typeparamref name="TMember"/>, that belongs to a type <typeparamref name="TSource"/>.
-    /// </summary>
-    /// <typeparam name="TSource">The type that contains the member.</typeparam>
-    /// <typeparam name="TMember">The type of the member (field/property/etc).</typeparam>
-    internal class PassthroughMember<TSource, TSourceBase> : MemberBase<TSource>, IMappedMember<TSource>, IMappedReferenceMember<TSource> where TSourceBase : class
-    {
-        IMappedMember<TSourceBase> _member;
-        IMappedReferenceMember<TSourceBase> _refmember;
-
-        internal static PassthroughMember<TSource, TSourceBase> Create( MemberBase<TSourceBase> member )
-        {
-            var m = new PassthroughMember<TSource, TSourceBase>()
-            {
-                _member = member as IMappedMember<TSourceBase>,
-                _refmember = member as IMappedReferenceMember<TSourceBase>
-            };
-            return m;
-        }
-
-        public SerializedData Save( TSource source, IReverseReferenceMap s )
-        {
-            if( _refmember == null )
-                return _member?.Save( source as TSourceBase, s ) ?? null;
-            else
-                return _refmember?.Save( source as TSourceBase, s ) ?? null;
-        }
-
-        public void Load( ref TSource source, SerializedData data, IForwardReferenceMap l )
-        {
-            TSourceBase src = source as TSourceBase; // won't work for structs, but structs aren't inheritable anyway.
-
-            if( _member != null )
-                _member?.Load( ref src, data, l );
-        }
-
-        public void LoadReferences( ref TSource source, SerializedData data, IForwardReferenceMap l )
-        {
-            TSourceBase src = source as TSourceBase; // won't work for structs, but structs aren't inheritable anyway.
-
-            if( _refmember != null )
-                _refmember?.LoadReferences( ref src, data, l );
-        }
-    }
-
     /// <summary>
     /// Creates a <see cref="SerializedObject"/> from the child mappings.
     /// </summary>
@@ -90,32 +44,30 @@ namespace UnityPlus.Serialization
         /// </summary>
         public CompoundSerializationMapping<TSource> IncludeMembers<TSourceBase>() where TSourceBase : class
         {
-            if( !typeof( TSourceBase ).IsAssignableFrom( typeof( TSource ) ) )
+            Type baseType = typeof( TSourceBase );
+            if( !baseType.IsAssignableFrom( typeof( TSource ) ) )
             {
-                Debug.LogWarning( $"Tried to include members of `{typeof( TSourceBase ).FullName}` into `{typeof( TSource ).FullName}`, which is not derived from `{typeof( TSourceBase ).FullName}`." );
+                Debug.LogWarning( $"Tried to include members of `{baseType.FullName}` into `{typeof( TSource ).FullName}`, which is not derived from `{baseType.FullName}`." );
                 return this;
             }
 
-            try
+#warning TODO - do this by default (somehow), without passing the IncludeMembers<TSourceBase> type parameter for every passthroughmember.
+            SerializationMapping mapping = SerializationMappingRegistry.GetMappingOrEmpty( baseType );
+
+            if( ReferenceEquals( mapping, this ) ) // mapping for `this` is a cached mapping of base type.
+                return this;
+
+            if( mapping is CompoundSerializationMapping<TSourceBase> baseMapping )
             {
-                SerializationMapping mapping = SerializationMappingRegistry.GetMapping( typeof( TSourceBase ) );
-
-                if( ReferenceEquals( mapping, this ) ) // mapping for `this` is a cached mapping of base type.
-                    return this;
-
-                if( mapping is CompoundSerializationMapping<TSourceBase> baseMapping )
+                foreach( var item in baseMapping._items )
                 {
-                    foreach( var item in baseMapping._items )
-                    {
-                        var member = item.Item2;
+                    var member = item.Item2;
 
-                        MemberBase<TSource> m = PassthroughMember<TSource, TSourceBase>.Create( member );
+                    MemberBase<TSource> m = PassthroughMember<TSource, TSourceBase>.Create( member );
 
-                        this._items.Add( (item.Item1, m) );
-                    }
+                    this._items.Add( (item.Item1, m) );
                 }
             }
-            catch { }
 
             return this;
         }
@@ -131,17 +83,13 @@ namespace UnityPlus.Serialization
                 if( baseType == null )
                     return this;
 
-                try
-                {
-                    SerializationMapping mapping = SerializationMappingRegistry.GetMapping( baseType );
+                SerializationMapping mapping = SerializationMappingRegistry.GetMappingOrEmpty( baseType );
 
-                    if( mapping is ISerializationMappingWithCustomFactory m )
-                    {
-                        this.CustomFactory = m.CustomFactory;
-                        return this;
-                    }
+                if( mapping is ISerializationMappingWithCustomFactory m )
+                {
+                    this.CustomFactory = m.CustomFactory;
+                    return this;
                 }
-                catch { }
 
             } while( this.CustomFactory == null );
 

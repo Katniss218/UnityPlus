@@ -25,7 +25,7 @@ namespace UnityPlus.Serialization
         public Func<SerializedData, IForwardReferenceMap, TSource> LoadFunc { get; set; }
 
         /// <summary>
-        /// The function invoked to convert the serialized representation back into its corresponding C# object.
+        /// The function invoked to fill in the references in the created object.
         /// </summary>
         public LoadReferencesAction<TSource> LoadReferencesFunc { get; set; }
 
@@ -48,6 +48,7 @@ namespace UnityPlus.Serialization
         {
             if( LoadReferencesFunc != null )
             {
+                // obj may be null here.
                 var obj2 = (TSource)obj;
                 LoadReferencesFunc.Invoke( ref obj2, data, l );
                 obj = obj2;

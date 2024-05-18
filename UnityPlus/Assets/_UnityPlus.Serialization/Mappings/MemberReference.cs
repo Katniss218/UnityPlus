@@ -136,7 +136,6 @@ namespace UnityPlus.Serialization
 
         public void LoadReferences( ref TSource source, SerializedData memberData, IForwardReferenceMap l )
         {
-            Debug.Log( "A" );
             SerializedArray serializedArray = (SerializedArray)memberData;
 
             TMember[] newMemberValue = new TMember[serializedArray.Count];
