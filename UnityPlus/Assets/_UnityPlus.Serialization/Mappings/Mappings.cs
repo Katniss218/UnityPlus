@@ -1,14 +1,10 @@
-﻿using Codice.CM.Common.Serialization;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Extensions;
 using UnityEngine.Rendering;
-using static log4net.Appender.RollingFileAppender;
 
 namespace UnityPlus.Serialization.Mappings
 {
@@ -293,6 +289,29 @@ namespace UnityPlus.Serialization.Mappings
                     }
 
                     return o;
+                },
+                LoadReferencesFunc = ( ref T[] o, SerializedData data, IForwardReferenceMap l ) =>
+                {
+                    SerializedArray serializedArray = (SerializedArray)data;
+
+                    for( int i = 0; i < o.Length; i++ )
+                    {
+                        T element = o[i];
+                        SerializedData elementData = serializedArray[i];
+
+                        Type elementType = typeof( T );
+                        if( elementData.TryGetValue( KeyNames.TYPE, out var elementType2 ) )
+                        {
+                            elementType = elementType2.ToType();
+                        }
+
+                        var mapping = SerializationMappingRegistry.GetMappingOrDefault<T>( elementType );
+
+                        object elem = element;
+                        mapping.LoadReferences( ref elem, elementData, l );
+
+                        o[i] = (T)elem;
+                    }
                 }
             };
         }
@@ -330,13 +349,13 @@ namespace UnityPlus.Serialization.Mappings
             {
                 ("name", new Member<GameObject, string>( o => o.name )),
                 ("layer", new Member<GameObject, int>( o => o.layer )),
-                ("is_active", new Member<GameObject, bool>( o => o.activeSelf, (ref GameObject o, bool value) => o.SetActive(value) )),
+                ("is_active", new Member<GameObject, bool>( o => o.activeSelf, (o, value) => o.SetActive(value) )),
                 ("is_static", new Member<GameObject, bool>( o => o.isStatic )),
                 ("tag", new Member<GameObject, string>( o => o.tag )),
                 ("children", new Member<GameObject, GameObject[]>( o =>
                 {
                     return o.transform.Children().Select( child => child.gameObject ).ToArray();
-                }, (ref GameObject o, GameObject[] value) =>
+                }, (o, value) =>
                 {
                     foreach( var child in value )
                     {
@@ -345,7 +364,7 @@ namespace UnityPlus.Serialization.Mappings
                 } )),
                 ("components", new Member<GameObject, Component[]>( o => {
                 return o.GetComponents();
-                }, (ref GameObject o, Component[] value) =>
+                }, (o, value) =>
                 {
                     // Do nothing, since the instantiated components are already part of the gameobject.
                     // This is very much a hack, but it's how Unity works :shrug:.
@@ -430,7 +449,8 @@ namespace UnityPlus.Serialization.Mappings
                 ("shadow_casting_mode", new Member<MeshRenderer, ShadowCastingMode>( o => o.shadowCastingMode )),
                 ("receive_shadows", new Member<MeshRenderer, bool>( o => o.receiveShadows ))
             }
-            .UseBaseTypeFactory();
+            .UseBaseTypeFactory()
+            .IncludeMembers<Renderer>();
         }
 
         [SerializationMappingProvider( typeof( Rigidbody ) )]
@@ -510,8 +530,9 @@ namespace UnityPlus.Serialization.Mappings
         {
             return new CompoundSerializationMapping<LODGroup>()
             {
+#warning TODO - maybe create all structs in the reference pass too? Structs can't be referenced.
                 ("size", new Member<LODGroup, float>( o => o.size )),
-                ("lods", new Member<LODGroup, LOD[]>( o => o.GetLODs(), (ref LODGroup o, LOD[] value) => o.SetLODs( value ) ))
+                ("lods", new Member<LODGroup, LOD[]>( o => o.GetLODs(), (o, value) => o.SetLODs( value ) ))
             }
             .UseBaseTypeFactory();
         }

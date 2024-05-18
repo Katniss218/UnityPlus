@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Reflection;
+using UnityEngine;
 
 namespace UnityPlus.Serialization
 {
@@ -9,13 +12,59 @@ namespace UnityPlus.Serialization
         Func<SerializedData, IForwardReferenceMap, object> CustomFactory { get; }
     }
 
+
+    /// <summary>
+    /// Serializes a member of type <typeparamref name="TMember"/>, that belongs to a type <typeparamref name="TSource"/>.
+    /// </summary>
+    /// <typeparam name="TSource">The type that contains the member.</typeparam>
+    /// <typeparam name="TMember">The type of the member (field/property/etc).</typeparam>
+    internal class PassthroughMember<TSource, TSourceBase> : MemberBase<TSource>, IMappedMember<TSource>, IMappedReferenceMember<TSource> where TSourceBase : class
+    {
+        IMappedMember<TSourceBase> _member;
+        IMappedReferenceMember<TSourceBase> _refmember;
+
+        internal static PassthroughMember<TSource, TSourceBase> Create( MemberBase<TSourceBase> member )
+        {
+            var m = new PassthroughMember<TSource, TSourceBase>()
+            {
+                _member = member as IMappedMember<TSourceBase>,
+                _refmember = member as IMappedReferenceMember<TSourceBase>
+            };
+            return m;
+        }
+
+        public SerializedData Save( TSource source, IReverseReferenceMap s )
+        {
+            if( _refmember == null )
+                return _member?.Save( source as TSourceBase, s ) ?? null;
+            else
+                return _refmember?.Save( source as TSourceBase, s ) ?? null;
+        }
+
+        public void Load( ref TSource source, SerializedData data, IForwardReferenceMap l )
+        {
+            TSourceBase src = source as TSourceBase; // won't work for structs, but structs aren't inheritable anyway.
+
+            if( _member != null )
+                _member?.Load( ref src, data, l );
+        }
+
+        public void LoadReferences( ref TSource source, SerializedData data, IForwardReferenceMap l )
+        {
+            TSourceBase src = source as TSourceBase; // won't work for structs, but structs aren't inheritable anyway.
+
+            if( _refmember != null )
+                _refmember?.LoadReferences( ref src, data, l );
+        }
+    }
+
     /// <summary>
     /// Creates a <see cref="SerializedObject"/> from the child mappings.
     /// </summary>
     /// <typeparam name="TSource">The type of the object being mapped.</typeparam>
     public class CompoundSerializationMapping<TSource> : SerializationMapping, IEnumerable<(string, MemberBase<TSource>)>, ISerializationMappingWithCustomFactory
     {
-        private List<(string, MemberBase<TSource>)> _items = new();
+        private readonly List<(string, MemberBase<TSource>)> _items = new();
         public Func<SerializedData, IForwardReferenceMap, object> CustomFactory { get; private set; } = null;
 
         public CompoundSerializationMapping()
@@ -36,8 +85,40 @@ namespace UnityPlus.Serialization
             return this;
         }
 
-#warning TODO - Automatically include members contained in the mapping for the base class (recursive) (union the list of members).
-        // unless the factory is custom, then don't pass through the base type's factory.
+        /// <summary>
+        /// Makes this type include the members of the specified base type in its serialization.
+        /// </summary>
+        public CompoundSerializationMapping<TSource> IncludeMembers<TSourceBase>() where TSourceBase : class
+        {
+            if( !typeof( TSourceBase ).IsAssignableFrom( typeof( TSource ) ) )
+            {
+                Debug.LogWarning( $"Tried to include members of `{typeof( TSourceBase ).FullName}` into `{typeof( TSource ).FullName}`, which is not derived from `{typeof( TSourceBase ).FullName}`." );
+                return this;
+            }
+
+            try
+            {
+                SerializationMapping mapping = SerializationMappingRegistry.GetMapping( typeof( TSourceBase ) );
+
+                if( ReferenceEquals( mapping, this ) ) // mapping for `this` is a cached mapping of base type.
+                    return this;
+
+                if( mapping is CompoundSerializationMapping<TSourceBase> baseMapping )
+                {
+                    foreach( var item in baseMapping._items )
+                    {
+                        var member = item.Item2;
+
+                        MemberBase<TSource> m = PassthroughMember<TSource, TSourceBase>.Create( member );
+
+                        this._items.Add( (item.Item1, m) );
+                    }
+                }
+            }
+            catch { }
+
+            return this;
+        }
 
         /// <summary>
         /// Makes the deserialization use the factory of the nearest base type of <typeparamref name="TSource"/>.
@@ -53,6 +134,7 @@ namespace UnityPlus.Serialization
                 try
                 {
                     SerializationMapping mapping = SerializationMappingRegistry.GetMapping( baseType );
+
                     if( mapping is ISerializationMappingWithCustomFactory m )
                     {
                         this.CustomFactory = m.CustomFactory;
@@ -137,7 +219,7 @@ namespace UnityPlus.Serialization
             return obj;
         }
 
-        public override void LoadReferences( object obj, SerializedData data, IForwardReferenceMap l )
+        public override void LoadReferences( ref object obj, SerializedData data, IForwardReferenceMap l )
         {
             var objM = (TSource)obj;
 
@@ -151,6 +233,8 @@ namespace UnityPlus.Serialization
                     }
                 }
             }
+
+            obj = objM;
         }
     }
 }

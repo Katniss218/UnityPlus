@@ -12,12 +12,35 @@ namespace UnityPlus.Serialization
     {
         private readonly Getter<TSource, TMember> _getter;
         private readonly Setter<TSource, TMember> _setter;
+        private readonly RefSetter<TSource, TMember> _structSetter;
 
         /// <param name="member">Example: `o => o.sharedMesh`.</param>
         public MemberAsset( Expression<Func<TSource, TMember>> member )
         {
             _getter = AccessorUtils.CreateGetter( member );
-            _setter = AccessorUtils.CreateSetter( member );
+
+            if( typeof( TSource ).IsValueType )
+                _structSetter = AccessorUtils.CreateStructSetter( member );
+            else
+                _setter = AccessorUtils.CreateSetter( member );
+        }
+
+        public MemberAsset( Getter<TSource, TMember> getter, Setter<TSource, TMember> setter )
+        {
+            if( typeof( TSource ).IsValueType )
+                throw new InvalidOperationException( $"[{typeof( TSource ).FullName}] Use the constructor with the value type setter." );
+
+            _getter = getter;
+            _setter = setter;
+        }
+
+        public MemberAsset( Getter<TSource, TMember> getter, RefSetter<TSource, TMember> setter )
+        {
+            if( !typeof( TSource ).IsValueType )
+                throw new InvalidOperationException( $"[{typeof( TSource ).FullName}] Use the constructor with the reference type setter." );
+
+            _getter = getter;
+            _structSetter = setter;
         }
 
         public SerializedData Save( TSource source, IReverseReferenceMap s )
@@ -30,7 +53,11 @@ namespace UnityPlus.Serialization
         public void Load( ref TSource source, SerializedData memberData, IForwardReferenceMap l )
         {
             var newMemberValue = l.ReadAssetReference<TMember>( memberData );
-            _setter.Invoke( ref source, newMemberValue );
+
+            if( _structSetter == null )
+                _setter.Invoke( source, newMemberValue );
+            else
+                _structSetter.Invoke( ref source, newMemberValue );
         }
     }
 
@@ -46,12 +73,35 @@ namespace UnityPlus.Serialization
 
         private readonly Getter<TSource, TMember[]> _getter;
         private readonly Setter<TSource, TMember[]> _setter;
+        private readonly RefSetter<TSource, TMember[]> _structSetter;
 
         /// <param name="member">Example: `o => o.thrustTransform`.</param>
         public MemberAssetArray( Expression<Func<TSource, TMember[]>> member )
         {
             _getter = AccessorUtils.CreateGetter( member );
-            _setter = AccessorUtils.CreateSetter( member );
+
+            if( typeof( TSource ).IsValueType )
+                _structSetter = AccessorUtils.CreateStructSetter( member );
+            else
+                _setter = AccessorUtils.CreateSetter( member );
+        }
+
+        public MemberAssetArray( Getter<TSource, TMember[]> getter, Setter<TSource, TMember[]> setter )
+        {
+            if( typeof( TSource ).IsValueType )
+                throw new InvalidOperationException( $"[{typeof( TSource ).FullName}] Use the constructor with the value type setter." );
+
+            _getter = getter;
+            _setter = setter;
+        }
+
+        public MemberAssetArray( Getter<TSource, TMember[]> getter, RefSetter<TSource, TMember[]> setter )
+        {
+            if( !typeof( TSource ).IsValueType )
+                throw new InvalidOperationException( $"[{typeof( TSource ).FullName}] Use the constructor with the reference type setter." );
+
+            _getter = getter;
+            _structSetter = setter;
         }
 
         public SerializedData Save( TSource source, IReverseReferenceMap s )
@@ -85,7 +135,10 @@ namespace UnityPlus.Serialization
                 newMemberValue[i] = element;
             }
 
-            _setter.Invoke( ref source, newMemberValue );
+            if( _structSetter == null )
+                _setter.Invoke( source, newMemberValue );
+            else
+                _structSetter.Invoke( ref source, newMemberValue );
         }
     }
 }

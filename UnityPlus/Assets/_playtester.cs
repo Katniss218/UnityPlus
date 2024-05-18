@@ -21,6 +21,7 @@ public class _playtester : MonoBehaviour
         return new CompoundSerializationMapping<_playtester>()
         {
         }
+        //.IncludeMembers<Behaviour>()
         .UseBaseTypeFactory();
     }
 
@@ -41,9 +42,11 @@ public class _playtester : MonoBehaviour
 
         data = new JsonStringReader( s ).Read();
 
-        object obj = mapping.Load( data, new BidirectionalReferenceStore() );
+        var refstore = new BidirectionalReferenceStore();
+        object obj = mapping.Load( data, refstore );
+        mapping.LoadReferences( ref obj, data, refstore );
     }
-    /*
+    
     void Update()
     {
         List<GameObject> list = new List<GameObject>( 100 );
@@ -60,16 +63,16 @@ public class _playtester : MonoBehaviour
             Profiler.BeginSample( "t2" );
 
             mapping = SerializationMappingRegistry.GetMappingOrDefault( this.gameObject );
-            GameObject go = (GameObject)mapping.Load( data, refStore );
-            mapping.LoadReferences( go, data, refStore );
+            object go = mapping.Load( data, refStore );
+            mapping.LoadReferences( ref go, data, refStore );
 
             Profiler.EndSample();
-            list.Add( go );
+            list.Add( (GameObject)go );
         }
         foreach( var go in list.ToArray() )
         {
             Destroy( go );
             list.Clear();
         }
-    }*/
+    }
 }

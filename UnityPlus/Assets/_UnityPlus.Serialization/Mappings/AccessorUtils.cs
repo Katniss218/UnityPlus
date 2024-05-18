@@ -7,10 +7,16 @@ namespace UnityPlus.Serialization
     /// A method that returns a TMember that is a member of TSource.
     /// </summary>
     public delegate TMember Getter<TSource, TMember>( TSource item );
+
     /// <summary>
     /// A method that sets a TMember that is a member of TSource.
     /// </summary>
-    public delegate void Setter<TSource, TMember>( ref TSource item, TMember member );
+    public delegate void Setter<TSource, TMember>( TSource item, TMember member );
+
+    /// <summary>
+    /// A method that sets a TMember that is a member of TSource.
+    /// </summary>
+    public delegate void RefSetter<TSource, TMember>( ref TSource item, TMember member );
 
     /// <summary>
     /// Contains static helper methods that create getter/setter lambdas from expressions.
@@ -50,7 +56,7 @@ namespace UnityPlus.Serialization
             }
 
             // Passing by ref allows member-wise loading of `struct` Source types.
-            ParameterExpression instance = Expression.Parameter( typeof( TSource ).MakeByRefType(), "instance" );
+            ParameterExpression instance = Expression.Parameter( typeof( TSource ), "instance" );
             ParameterExpression value = Expression.Parameter( typeof( TMember ), "value" );
 
             MemberExpression memberAccess = Expression.MakeMemberAccess( instance, memberExp.Member );
@@ -60,6 +66,31 @@ namespace UnityPlus.Serialization
             BinaryExpression assignment = Expression.Assign( memberAccess, convertedValue );
 
             return Expression.Lambda<Setter<TSource, TMember>>( assignment, instance, value )
+                .Compile();
+        }
+
+        /// <summary>
+        /// Creates a setter method from the member access expression.
+        /// </summary>
+        /// <exception cref="ArgumentException">Thrown when the expression is not a member access.</exception>
+        public static RefSetter<TSource, TMember> CreateStructSetter<TSource, TMember>( Expression<Func<TSource, TMember>> memberExpression )
+        {
+            if( !(memberExpression.Body is MemberExpression memberExp) )
+            {
+                throw new ArgumentException( "Expression is not a member access expression" );
+            }
+
+            // Passing by ref allows member-wise loading of `struct` Source types.
+            ParameterExpression instance = Expression.Parameter( typeof( TSource ).MakeByRefType(), "instance" );
+            ParameterExpression value = Expression.Parameter( typeof( TMember ), "value" );
+
+            MemberExpression memberAccess = Expression.MakeMemberAccess( instance, memberExp.Member );
+
+            UnaryExpression convertedValue = Expression.Convert( value, memberExp.Type );
+
+            BinaryExpression assignment = Expression.Assign( memberAccess, convertedValue );
+
+            return Expression.Lambda<RefSetter<TSource, TMember>>( assignment, instance, value )
                 .Compile();
         }
     }

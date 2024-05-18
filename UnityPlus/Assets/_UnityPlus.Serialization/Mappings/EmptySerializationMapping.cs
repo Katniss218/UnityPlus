@@ -16,7 +16,7 @@ namespace UnityPlus.Serialization
             return default( TSource );
         }
 
-        public override void LoadReferences( object obj, SerializedData data, IForwardReferenceMap l )
+        public override void LoadReferences( ref object obj, SerializedData data, IForwardReferenceMap l )
         {
             // Do nothing.
         }
