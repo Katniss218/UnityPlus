@@ -10,8 +10,8 @@ namespace UnityPlus.Serialization
     /// <typeparam name="TMember">The type of the member (field/property/etc).</typeparam>
     public class Member<TSource, TMember> : MemberBase<TSource>, IMappedMember<TSource>
     {
-        private readonly Func<TSource, TMember> _getter;
-        private readonly Action<TSource, TMember> _setter;
+        private readonly Getter<TSource, TMember> _getter;
+        private readonly Setter<TSource, TMember> _setter;
 
 #warning TODO - caching of member mappings is possible for field/property types that don't have any types deriving from them (e.g. member of type `float`, GameObject, etc).
 
@@ -22,7 +22,7 @@ namespace UnityPlus.Serialization
             _setter = AccessorUtils.CreateSetter( member );
         }
 
-        public Member( Func<TSource, TMember> getter, Action<TSource, TMember> setter )
+        public Member( Getter<TSource, TMember> getter, Setter<TSource, TMember> setter )
         {
             _getter = getter;
             _setter = setter;
@@ -37,7 +37,7 @@ namespace UnityPlus.Serialization
             return mapping.Save( member, s );
         }
 
-        public void Load( TSource source, SerializedData memberData, IForwardReferenceMap l )
+        public void Load( ref TSource source, SerializedData memberData, IForwardReferenceMap l )
         {
             if( _setter == null )
                 return;
@@ -51,7 +51,7 @@ namespace UnityPlus.Serialization
             var mapping = SerializationMappingRegistry.GetMappingOrDefault<TMember>( memberType );
 
             var member = (TMember)mapping.Load( memberData, l );
-            _setter.Invoke( source, member );
+            _setter.Invoke( ref source, member );
         }
     }
 }

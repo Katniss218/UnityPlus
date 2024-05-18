@@ -306,7 +306,7 @@ namespace UnityPlus.Serialization.Mappings
             {
                 ("is_enabled", new Member<Behaviour, bool>( o => o.enabled ))
             }
-            .IncludeRecursiveBaseTypeFactory();
+            .UseBaseTypeFactory();
         }
 
         [SerializationMappingProvider( typeof( Component ) )]
@@ -330,13 +330,13 @@ namespace UnityPlus.Serialization.Mappings
             {
                 ("name", new Member<GameObject, string>( o => o.name )),
                 ("layer", new Member<GameObject, int>( o => o.layer )),
-                ("is_active", new Member<GameObject, bool>( o => o.activeSelf, (o, value) => o.SetActive(value) )),
+                ("is_active", new Member<GameObject, bool>( o => o.activeSelf, (ref GameObject o, bool value) => o.SetActive(value) )),
                 ("is_static", new Member<GameObject, bool>( o => o.isStatic )),
                 ("tag", new Member<GameObject, string>( o => o.tag )),
                 ("children", new Member<GameObject, GameObject[]>( o =>
                 {
                     return o.transform.Children().Select( child => child.gameObject ).ToArray();
-                }, (o, value) =>
+                }, (ref GameObject o, GameObject[] value) =>
                 {
                     foreach( var child in value )
                     {
@@ -345,7 +345,7 @@ namespace UnityPlus.Serialization.Mappings
                 } )),
                 ("components", new Member<GameObject, Component[]>( o => {
                 return o.GetComponents();
-                }, (o, value) =>
+                }, (ref GameObject o, Component[] value) =>
                 {
                     // Do nothing, since the instantiated components are already part of the gameobject.
                     // This is very much a hack, but it's how Unity works :shrug:.
@@ -396,7 +396,7 @@ namespace UnityPlus.Serialization.Mappings
             {
                 ("is_enabled", new Member<Renderer, bool>( o => o.enabled ))
             }
-            .IncludeRecursiveBaseTypeFactory();
+            .UseBaseTypeFactory();
         }
 
         [SerializationMappingProvider( typeof( Transform ) )]
@@ -408,7 +408,7 @@ namespace UnityPlus.Serialization.Mappings
                 ("local_rotation", new Member<Transform, Quaternion>( o => o.localRotation )),
                 ("local_scale", new Member<Transform, Vector3>( o => o.localScale ))
             }
-            .IncludeRecursiveBaseTypeFactory();
+            .UseBaseTypeFactory();
         }
 
         [SerializationMappingProvider( typeof( MeshFilter ) )]
@@ -418,7 +418,7 @@ namespace UnityPlus.Serialization.Mappings
             {
                 ("shared_mesh", new MemberAsset<MeshFilter, Mesh>( o => o.sharedMesh ))
             }
-            .IncludeRecursiveBaseTypeFactory();
+            .UseBaseTypeFactory();
         }
 
         [SerializationMappingProvider( typeof( MeshRenderer ) )]
@@ -426,11 +426,11 @@ namespace UnityPlus.Serialization.Mappings
         {
             return new CompoundSerializationMapping<MeshRenderer>()
             {
-                ("shared_materials", new MemberAsset<MeshRenderer, Material[]>( o => o.sharedMaterials )),
+                ("shared_materials", new MemberAssetArray<MeshRenderer, Material>( o => o.sharedMaterials )),
                 ("shadow_casting_mode", new Member<MeshRenderer, ShadowCastingMode>( o => o.shadowCastingMode )),
                 ("receive_shadows", new Member<MeshRenderer, bool>( o => o.receiveShadows ))
             }
-            .IncludeRecursiveBaseTypeFactory();
+            .UseBaseTypeFactory();
         }
 
         [SerializationMappingProvider( typeof( Rigidbody ) )]
@@ -440,7 +440,7 @@ namespace UnityPlus.Serialization.Mappings
             {
                 ("is_kinematic", new Member<Rigidbody, bool>( o => o.isKinematic ))
             }
-            .IncludeRecursiveBaseTypeFactory();
+            .UseBaseTypeFactory();
         }
 
         [SerializationMappingProvider( typeof( BoxCollider ) )]
@@ -452,7 +452,7 @@ namespace UnityPlus.Serialization.Mappings
                 ("center", new Member<BoxCollider, Vector3>( o => o.center )),
                 ("is_trigger", new Member<BoxCollider, bool>( o => o.isTrigger ))
             }
-            .IncludeRecursiveBaseTypeFactory();
+            .UseBaseTypeFactory();
         }
 
         [SerializationMappingProvider( typeof( SphereCollider ) )]
@@ -464,7 +464,7 @@ namespace UnityPlus.Serialization.Mappings
                 ("center", new Member<SphereCollider, Vector3>( o => o.center )),
                 ("is_trigger", new Member<SphereCollider, bool>( o => o.isTrigger ))
             }
-            .IncludeRecursiveBaseTypeFactory();
+            .UseBaseTypeFactory();
         }
 
         [SerializationMappingProvider( typeof( CapsuleCollider ) )]
@@ -478,7 +478,7 @@ namespace UnityPlus.Serialization.Mappings
                 ("center", new Member<CapsuleCollider, Vector3>( o => o.center )),
                 ("is_trigger", new Member<CapsuleCollider, bool>( o => o.isTrigger ))
             }
-            .IncludeRecursiveBaseTypeFactory();
+            .UseBaseTypeFactory();
         }
 
         [SerializationMappingProvider( typeof( MeshCollider ) )]
@@ -490,7 +490,7 @@ namespace UnityPlus.Serialization.Mappings
                 ("is_convex", new Member<MeshCollider, bool>( o => o.convex )),
                 ("is_trigger", new Member<MeshCollider, bool>( o => o.isTrigger ))
             }
-            .IncludeRecursiveBaseTypeFactory();
+            .UseBaseTypeFactory();
         }
 
         [SerializationMappingProvider( typeof( LOD ) )]
@@ -498,8 +498,10 @@ namespace UnityPlus.Serialization.Mappings
         {
             return new CompoundSerializationMapping<LOD>()
             {
+                ("fade_width", new Member<LOD, float>( o => o.fadeTransitionWidth )),
                 ("percent", new Member<LOD, float>( o => o.screenRelativeTransitionHeight )),
-                ("renderers", new MemberReference<LOD, Renderer[]>( o => o.renderers ))
+                //("renderers", new MemberReference<LOD, Renderer[]>( o => o.renderers ))
+                ("renderers", new MemberReferenceArray<LOD, Renderer>( o => o.renderers ))
             };
         }
 
@@ -508,10 +510,10 @@ namespace UnityPlus.Serialization.Mappings
         {
             return new CompoundSerializationMapping<LODGroup>()
             {
-                ("lods", new Member<LODGroup, LOD[]>( o => o.GetLODs(), (o, value) => o.SetLODs( value ) )),
-                ("size", new Member<LODGroup, float>( o => o.size ))
+                ("size", new Member<LODGroup, float>( o => o.size )),
+                ("lods", new Member<LODGroup, LOD[]>( o => o.GetLODs(), (ref LODGroup o, LOD[] value) => o.SetLODs( value ) ))
             }
-            .IncludeRecursiveBaseTypeFactory();
+            .UseBaseTypeFactory();
         }
     }
 }

@@ -42,7 +42,7 @@ namespace UnityPlus.Serialization
         /// <summary>
         /// Makes the deserialization use the factory of the nearest base type of <typeparamref name="TSource"/>.
         /// </summary>
-        public CompoundSerializationMapping<TSource> IncludeRecursiveBaseTypeFactory()
+        public CompoundSerializationMapping<TSource> UseBaseTypeFactory()
         {
             do
             {
@@ -129,7 +129,7 @@ namespace UnityPlus.Serialization
                 {
                     if( data.TryGetValue( item.Item1, out var memberData ) )
                     {
-                        member.Load( obj, memberData, l );
+                        member.Load( ref obj, memberData, l );
                     }
                 }
             }
@@ -147,7 +147,7 @@ namespace UnityPlus.Serialization
                 {
                     if( data.TryGetValue( item.Item1, out var memberData ) )
                     {
-                        member.LoadReferences( objM, memberData, l );
+                        member.LoadReferences( ref objM, memberData, l );
                     }
                 }
             }

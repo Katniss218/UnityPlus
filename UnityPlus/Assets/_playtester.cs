@@ -21,7 +21,7 @@ public class _playtester : MonoBehaviour
         return new CompoundSerializationMapping<_playtester>()
         {
         }
-        .IncludeRecursiveBaseTypeFactory();
+        .UseBaseTypeFactory();
     }
 
     void Start()
@@ -37,7 +37,7 @@ public class _playtester : MonoBehaviour
         StringBuilder sb = new StringBuilder();
         new JsonStringWriter( data, sb ).Write();
         string s = sb.ToString();
-        s = s.Replace( "true", "false" );
+        //s = s.Replace( "true", "false" );
 
         data = new JsonStringReader( s ).Read();
 

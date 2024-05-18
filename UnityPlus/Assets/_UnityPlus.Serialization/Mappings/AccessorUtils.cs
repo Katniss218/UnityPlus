@@ -1,18 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UnityPlus.Serialization
 {
+    /// <summary>
+    /// A method that returns a TMember that is a member of TSource.
+    /// </summary>
+    public delegate TMember Getter<TSource, TMember>( TSource item );
+    /// <summary>
+    /// A method that sets a TMember that is a member of TSource.
+    /// </summary>
+    public delegate void Setter<TSource, TMember>( ref TSource item, TMember member );
+
     /// <summary>
     /// Contains static helper methods that create getter/setter lambdas from expressions.
     /// </summary>
     public static class AccessorUtils
     {
-        public static Func<TSource, TMember> CreateGetter<TSource, TMember>( Expression<Func<TSource, TMember>> memberExpression )
+        /// <summary>
+        /// Creates a getter method from the member access expression.
+        /// </summary>
+        /// <exception cref="ArgumentException">Thrown when the expression is not a member access.</exception>
+        public static Getter<TSource, TMember> CreateGetter<TSource, TMember>( Expression<Func<TSource, TMember>> memberExpression )
         {
             if( !(memberExpression.Body is MemberExpression memberExp) )
             {
@@ -25,18 +34,23 @@ namespace UnityPlus.Serialization
 
             UnaryExpression convert = Expression.Convert( memberAccess, typeof( TMember ) );
 
-            return Expression.Lambda<Func<TSource, TMember>>( convert, instance )
+            return Expression.Lambda<Getter<TSource, TMember>>( convert, instance )
                 .Compile();
         }
 
-        public static Action<TSource, TMember> CreateSetter<TSource, TMember>( Expression<Func<TSource, TMember>> memberExpression )
+        /// <summary>
+        /// Creates a setter method from the member access expression.
+        /// </summary>
+        /// <exception cref="ArgumentException">Thrown when the expression is not a member access.</exception>
+        public static Setter<TSource, TMember> CreateSetter<TSource, TMember>( Expression<Func<TSource, TMember>> memberExpression )
         {
             if( !(memberExpression.Body is MemberExpression memberExp) )
             {
                 throw new ArgumentException( "Expression is not a member access expression" );
             }
 
-            ParameterExpression instance = Expression.Parameter( typeof( TSource ), "instance" );
+            // Passing by ref allows member-wise loading of `struct` Source types.
+            ParameterExpression instance = Expression.Parameter( typeof( TSource ).MakeByRefType(), "instance" );
             ParameterExpression value = Expression.Parameter( typeof( TMember ), "value" );
 
             MemberExpression memberAccess = Expression.MakeMemberAccess( instance, memberExp.Member );
@@ -45,7 +59,7 @@ namespace UnityPlus.Serialization
 
             BinaryExpression assignment = Expression.Assign( memberAccess, convertedValue );
 
-            return Expression.Lambda<Action<TSource, TMember>>( assignment, instance, value )
+            return Expression.Lambda<Setter<TSource, TMember>>( assignment, instance, value )
                 .Compile();
         }
     }

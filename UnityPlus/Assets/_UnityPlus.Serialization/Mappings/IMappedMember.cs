@@ -15,6 +15,6 @@ namespace UnityPlus.Serialization
         /// <summary>
         /// Instantiates the member from <see cref="SerializedData"/> using the most appropriate mapping for the member type and serialized object's '$type', and assigns it to the member.
         /// </summary>
-        void Load( TSource source, SerializedData data, IForwardReferenceMap l );
+        void Load( ref TSource source, SerializedData data, IForwardReferenceMap l );
     }
 }
