@@ -122,7 +122,10 @@ namespace UnityPlus.Serialization
             if( !_isInitialized )
                 Initialize();
 
-            var objType = memberObj.GetType();
+            Type objType = typeof( TMember );
+            if( memberObj != null )
+                objType = memberObj.GetType();
+
             if( _mappings.TryGetClosest( objType, out var entry ) )
             {
                 if( !entry.isReady )

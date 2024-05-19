@@ -547,7 +547,7 @@ namespace UnityPlus.Serialization.Mappings
                 },
                 LoadReferencesFunc = ( ref Delegate o, SerializedData data, IForwardReferenceMap l ) =>
                 {
-                    // reference is needed to create the thing.
+                    // This is kinda non-standard, but since we need the reference to the `target` to even create the delegate, we can only create it here.
                     o = Persistent_Delegate.ToDelegate( data, l );
                 }
             };

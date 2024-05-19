@@ -41,7 +41,9 @@ namespace UnityPlus.Serialization
 
         public override object Load( SerializedData data, IForwardReferenceMap l )
         {
-            return LoadFunc.Invoke( data, l );
+            if( LoadFunc != null )
+                return LoadFunc.Invoke( data, l );
+            return default( TSource );
         }
 
         public override void LoadReferences( ref object obj, SerializedData data, IForwardReferenceMap l )

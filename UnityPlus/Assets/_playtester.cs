@@ -20,9 +20,22 @@ public class _playtester : MonoBehaviour
     {
         return new CompoundSerializationMapping<_playtester>()
         {
+            ("action", new Member<_playtester, Action<string>>(o => o.Action))
         }
         //.IncludeMembers<Behaviour>()
         .UseBaseTypeFactory();
+    }
+
+    public Action<string> Action { get; set; }
+
+    private void Awake()
+    {
+        this.Action = DoSomething;
+    }
+
+    private void DoSomething( string s )
+    {
+        Debug.Log( s );
     }
 
     void Start()
@@ -45,8 +58,10 @@ public class _playtester : MonoBehaviour
         var refstore = new BidirectionalReferenceStore();
         object obj = mapping.Load( data, refstore );
         mapping.LoadReferences( ref obj, data, refstore );
+
+        _playtester t = ((GameObject)obj).GetComponent<_playtester>();
     }
-    
+    /*
     void Update()
     {
         List<GameObject> list = new List<GameObject>( 100 );
@@ -74,5 +89,5 @@ public class _playtester : MonoBehaviour
             Destroy( go );
             list.Clear();
         }
-    }
+    }*/
 }

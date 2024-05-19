@@ -80,8 +80,9 @@ namespace UnityPlus.Serialization
             // This is needed to reach the references nested inside objects that themselves don't contain any references.
             var mapping = SerializationMappingRegistry.GetMappingOrDefault<TMember>( member );
 
-            object member2 = member;
-            mapping.LoadReferences( ref member2, data, l );
+            object refmember = member;
+            mapping.LoadReferences( ref refmember, data, l );
+            member = (TMember)refmember; // this is needed to re-assign the member to the variable.
 
             // This is needed, if the setter is custom (not auto-generated from field access (but NOT property access)) (look at LODGroup and its LOD[])
             // Basically, we don't have the guarantee that the class we have referenceequals the private state.
