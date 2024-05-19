@@ -8,6 +8,7 @@ using UnityEngine.Profiling;
 using UnityPlus.AssetManagement;
 using UnityPlus.CSharp;
 using UnityPlus.Serialization;
+using UnityPlus.Serialization.DataHandlers;
 using UnityPlus.Serialization.Json;
 using UnityPlus.Serialization.ReferenceMaps;
 using UnityPlus.UILib;
@@ -40,9 +41,13 @@ public class _playtester : MonoBehaviour
 
     void Start()
     {
-        var mapping = SerializationMappingRegistry.GetMappingOrDefault( this.gameObject );
+        //JsonSerializedDataHandler handler = new JsonSerializedDataHandler();
+#warning TODO - specify what objects we want to save.
+        //Saver saver = new Saver( new BidirectionalReferenceStore(), )
 
-        var sharedma = this.gameObject.GetComponent<MeshRenderer>();
+            #warning saver/loader work with a single serialization unit/group.
+
+        var mapping = SerializationMappingRegistry.GetMappingOrDefault( this.gameObject );
 
         SerializedData data = mapping.Save( this.gameObject, new BidirectionalReferenceStore() );
 

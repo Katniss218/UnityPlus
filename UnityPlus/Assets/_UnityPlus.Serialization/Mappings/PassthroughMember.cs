@@ -2,11 +2,6 @@
 
 namespace UnityPlus.Serialization
 {
-    /// <summary>
-    /// Serializes a member of type <typeparamref name="TMember"/>, that belongs to a type <typeparamref name="TSource"/>.
-    /// </summary>
-    /// <typeparam name="TSource">The type that contains the member.</typeparam>
-    /// <typeparam name="TMember">The type of the member (field/property/etc).</typeparam>
     internal class PassthroughMember<TSource, TSourceBase> : MemberBase<TSource>, IMappedMember<TSource>, IMappedReferenceMember<TSource> where TSourceBase : class
     {
         IMappedMember<TSourceBase> _member;
