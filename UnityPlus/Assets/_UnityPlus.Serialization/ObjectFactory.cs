@@ -16,7 +16,7 @@ namespace UnityPlus.Serialization
 
         public static object ToObject( this SerializedObject data, IForwardReferenceMap l )
         {
-            Type type = data[KeyNames.TYPE].ToType();
+            Type type = data[KeyNames.TYPE].DeserializeType();
             Guid id = data[KeyNames.ID].DeserializeGuid();
 
             object obj = null;

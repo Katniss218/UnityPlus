@@ -183,6 +183,16 @@ namespace UnityPlus.Serialization.Mappings
                 LoadFunc = ( data, l ) => new Vector2( (float)data[0], (float)data[1] )
             };
         }
+        
+        [SerializationMappingProvider( typeof( Vector2Int ) )]
+        public static SerializationMapping Vector2IntMapping()
+        {
+            return new DirectSerializationMapping<Vector2Int>()
+            {
+                SaveFunc = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y },
+                LoadFunc = ( data, l ) => new Vector2Int( (int)data[0], (int)data[1] )
+            };
+        }
 
         [SerializationMappingProvider( typeof( Vector3 ) )]
         public static SerializationMapping Vector3Mapping()
@@ -191,6 +201,16 @@ namespace UnityPlus.Serialization.Mappings
             {
                 SaveFunc = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z },
                 LoadFunc = ( data, l ) => new Vector3( (float)data[0], (float)data[1], (float)data[2] )
+            };
+        }
+        
+        [SerializationMappingProvider( typeof( Vector3Int ) )]
+        public static SerializationMapping Vector3IntMapping()
+        {
+            return new DirectSerializationMapping<Vector3Int>()
+            {
+                SaveFunc = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z },
+                LoadFunc = ( data, l ) => new Vector3Int( (int)data[0], (int)data[1], (int)data[2] )
             };
         }
 
@@ -279,7 +299,7 @@ namespace UnityPlus.Serialization.Mappings
                         Type elementType = typeof( T );
                         if( elementData.TryGetValue( KeyNames.TYPE, out var elementType2 ) )
                         {
-                            elementType = elementType2.ToType();
+                            elementType = elementType2.DeserializeType();
                         }
 
                         var mapping = SerializationMappingRegistry.GetMappingOrDefault<T>( elementType );
@@ -302,7 +322,7 @@ namespace UnityPlus.Serialization.Mappings
                         Type elementType = typeof( T );
                         if( elementData.TryGetValue( KeyNames.TYPE, out var elementType2 ) )
                         {
-                            elementType = elementType2.ToType();
+                            elementType = elementType2.DeserializeType();
                         }
 
                         var mapping = SerializationMappingRegistry.GetMappingOrDefault<T>( elementType );
@@ -385,7 +405,7 @@ namespace UnityPlus.Serialization.Mappings
                         try
                         {
                             Guid id2 = compData[KeyNames.ID].DeserializeGuid();
-                            Type type = compData[KeyNames.TYPE].ToType();
+                            Type type = compData[KeyNames.TYPE].DeserializeType();
 
                             Component component = obj.GetTransformOrAddComponent( type );
                             if( component is Behaviour behaviour )

@@ -118,7 +118,7 @@ namespace UnityPlus.Serialization
             TSource sourceObj = (TSource)obj;
 
             root[KeyNames.ID] = s.GetID( sourceObj ).SerializeGuid();
-            root[KeyNames.TYPE] = obj.GetType().GetData();
+            root[KeyNames.TYPE] = obj.GetType().SerializeType();
 
             foreach( var item in _items )
             {

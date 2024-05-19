@@ -60,7 +60,7 @@ namespace UnityPlus.Serialization
             Type memberType = typeof( TMember );
             if( data.TryGetValue( KeyNames.TYPE, out var type ) )
             {
-                memberType = type.ToType();
+                memberType = type.DeserializeType();
             }
 
             var mapping = SerializationMappingRegistry.GetMappingOrDefault<TMember>( memberType );

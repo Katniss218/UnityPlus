@@ -138,7 +138,7 @@ namespace UnityPlus.Serialization.Strategies
 			return new SerializedObject()
 			{
 				{ KeyNames.ID, s.GetID( obj ).SerializeGuid() },
-				{ KeyNames.TYPE, obj.GetType().GetData() }
+				{ KeyNames.TYPE, obj.GetType().SerializeType() }
 			};
 		}
 		
@@ -262,7 +262,7 @@ namespace UnityPlus.Serialization.Strategies
 				try
 				{
 					Guid compID = compData[KeyNames.ID].DeserializeGuid();
-					Type compType = compData[KeyNames.TYPE].ToType();
+					Type compType = compData[KeyNames.TYPE].DeserializeType();
 
 					Component co = go.GetTransformOrAddComponent( compType ); // factory.
 

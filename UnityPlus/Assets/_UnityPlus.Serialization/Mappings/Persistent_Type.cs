@@ -16,7 +16,7 @@ namespace UnityPlus.Serialization
 		// I'm caching the type and its string representation because accessing the Type.AssemblyQualifiedName and Type.GetType(string) is very slow.
 
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static SerializedPrimitive GetData( this Type type, IReverseReferenceMap s = null )
+		public static SerializedPrimitive SerializeType( this Type type, IReverseReferenceMap s = null )
 		{
 			if( _typeToString.TryGetValue( type, out string assemblyQualifiedName ) )
 			{
@@ -31,7 +31,7 @@ namespace UnityPlus.Serialization
 		}
 
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
-		public static Type ToType( this SerializedData data, IForwardReferenceMap l = null )
+		public static Type DeserializeType( this SerializedData data, IForwardReferenceMap l = null )
 		{
 			string assemblyQualifiedName = (string)data;
 			if( _stringToType.TryGetValue( assemblyQualifiedName, out Type type ) )
