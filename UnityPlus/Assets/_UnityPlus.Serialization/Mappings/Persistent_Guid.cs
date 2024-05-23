@@ -10,7 +10,7 @@ using UnityEngine;
 namespace UnityPlus.Serialization
 {
 	public static class Persistent_Guid
-	{
+    {
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
 		public static SerializedPrimitive SerializeGuid( this Guid guid, IReverseReferenceMap l = null )
 		{

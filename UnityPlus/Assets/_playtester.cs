@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using UnityEngine;
@@ -42,14 +43,18 @@ public class _playtester : MonoBehaviour
     void Start()
     {
         //JsonSerializedDataHandler handler = new JsonSerializedDataHandler();
-#warning TODO - specify what objects we want to save.
-        //Saver saver = new Saver( new BidirectionalReferenceStore(), )
 
-            #warning saver/loader work with a single serialization unit/group.
+        SerializedData data = SerializationUnit.Serialize<GameObject>( this.gameObject );
 
-        var mapping = SerializationMappingRegistry.GetMappingOrDefault( this.gameObject );
+        GameObject obj = SerializationUnit.Deserialize<GameObject>( data );
 
-        SerializedData data = mapping.Save( this.gameObject, new BidirectionalReferenceStore() );
+        SerializationUnit su = SerializationUnit.FromObjects( this.gameObject, this.transform );
+        su.Serialize();
+        SerializedData[] data2 = su.GetDataOfType<GameObject>().ToArray();
+
+        //var mapping = SerializationMappingRegistry.GetMappingOrDefault( this.gameObject );
+
+        //SerializedData data = mapping.Save( this.gameObject, new BidirectionalReferenceStore() );
 
 
 
@@ -60,11 +65,9 @@ public class _playtester : MonoBehaviour
 
         data = new JsonStringReader( s ).Read();
 
-        var refstore = new BidirectionalReferenceStore();
-        object obj = mapping.Load( data, refstore );
-        mapping.LoadReferences( ref obj, data, refstore );
+        obj = SerializationUnit.Deserialize<GameObject>( data );
 
-        _playtester t = ((GameObject)obj).GetComponent<_playtester>();
+        _playtester t = obj.GetComponent<_playtester>();
     }
     /*
     void Update()

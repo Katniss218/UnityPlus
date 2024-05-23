@@ -310,6 +310,7 @@ namespace UnityPlus.Serialization.Mappings
 
                     return o;
                 },
+                // LoadReferencesFunc is for pass-through to the elements. Not needed otherwise.
                 LoadReferencesFunc = ( ref T[] o, SerializedData data, IForwardReferenceMap l ) =>
                 {
                     SerializedArray serializedArray = (SerializedArray)data;

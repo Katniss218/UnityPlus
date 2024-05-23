@@ -29,11 +29,12 @@ namespace UnityPlus.Serialization
         /// <exception cref="ArgumentException">Thrown when the expression is not a member access.</exception>
         public static Getter<TSource, TMember> CreateGetter<TSource, TMember>( Expression<Func<TSource, TMember>> memberExpression )
         {
+            // Creates the following lambda: `(instance) => instance.member;`
+
             if( !(memberExpression.Body is MemberExpression memberExp) )
             {
                 throw new ArgumentException( "Expression is not a member access expression" );
             }
-
             ParameterExpression instance = Expression.Parameter( typeof( TSource ), "instance" );
 
             MemberExpression memberAccess = Expression.MakeMemberAccess( instance, memberExp.Member );
@@ -50,12 +51,12 @@ namespace UnityPlus.Serialization
         /// <exception cref="ArgumentException">Thrown when the expression is not a member access.</exception>
         public static Setter<TSource, TMember> CreateSetter<TSource, TMember>( Expression<Func<TSource, TMember>> memberExpression )
         {
+            // Creates the following lambda: `(instance, value) => instance.member = value;`
             if( !(memberExpression.Body is MemberExpression memberExp) )
             {
                 throw new ArgumentException( "Expression is not a member access expression" );
             }
 
-            // Passing by ref allows member-wise loading of `struct` Source types.
             ParameterExpression instance = Expression.Parameter( typeof( TSource ), "instance" );
             ParameterExpression value = Expression.Parameter( typeof( TMember ), "value" );
 
@@ -75,6 +76,7 @@ namespace UnityPlus.Serialization
         /// <exception cref="ArgumentException">Thrown when the expression is not a member access.</exception>
         public static RefSetter<TSource, TMember> CreateStructSetter<TSource, TMember>( Expression<Func<TSource, TMember>> memberExpression )
         {
+            // Creates the following lambda: `(ref TSource instance, TMember value) => instance = value;`
             if( !(memberExpression.Body is MemberExpression memberExp) )
             {
                 throw new ArgumentException( "Expression is not a member access expression" );

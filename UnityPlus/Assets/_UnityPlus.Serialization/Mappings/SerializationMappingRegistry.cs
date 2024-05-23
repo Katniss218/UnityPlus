@@ -45,8 +45,6 @@ namespace UnityPlus.Serialization
                     // Find every method that returns a mapping, and cache it.
                     // In case the mapping (and method) is generic, the call is deferred to when the type parameters are known.
 
-                    var targetType = attr.TargetType;
-
                     var entry = new Entry()
                     {
                         mapping = null,
@@ -54,7 +52,7 @@ namespace UnityPlus.Serialization
                         isReady = false
                     };
 
-                    _mappings.Set( targetType, entry );
+                    _mappings.Set( attr.TargetType, entry );
                 }
             }
 
@@ -63,22 +61,32 @@ namespace UnityPlus.Serialization
 
         private static Entry MakeReady( Entry entry, Type objType )
         {
-            var method = entry.method;
+            // Get the mapping using the previously found method.
+            // If the method is generic, we can fill in the generic parameters using the generic parameters of the type we want to save/load.
+            MethodInfo method = entry.method;
 
-            if( objType.IsArray )
+            if( method.ContainsGenericParameters )
             {
-                method = method.MakeGenericMethod( objType.GetElementType() );
-            }
-            else if( objType.IsEnum )
-            {
-                method = method.MakeGenericMethod( objType );
-            }
-            else if( method.ContainsGenericParameters )
-            {
-                method = method.MakeGenericMethod( objType.GetGenericArguments() );
+                // Arrays need a generic special-case (they technically don't, but it's faster and safer if they have it).
+                if( objType.IsArray )
+                {
+                    method = method.MakeGenericMethod( objType.GetElementType() );
+                }
+                // Enums also need a generic special-case to load properly.
+                else if( objType.IsEnum )
+                {
+                    method = method.MakeGenericMethod( objType );
+                }
+                // Catch-all clause for normal generic types (e.g. List<T>, Dictionary<TKey, TValue), etc).
+                // Only call it if special-cases don't match the type.
+                else
+                {
+                    method = method.MakeGenericMethod( objType.GetGenericArguments() );
+                }
             }
 
             var mapping = (SerializationMapping)method.Invoke( null, null );
+            entry.method = method; // Update with generic definition.
             entry.isReady = true;
             entry.mapping = mapping;
 
@@ -101,8 +109,8 @@ namespace UnityPlus.Serialization
             {
                 if( !entry.isReady )
                 {
-                    var entry2 = MakeReady( entry, memberType );
-                    return entry2.mapping;
+                    entry = MakeReady( entry, memberType );
+                    return entry.mapping;
                 }
 
                 return entry.mapping;
@@ -130,8 +138,8 @@ namespace UnityPlus.Serialization
             {
                 if( !entry.isReady )
                 {
-                    var entry2 = MakeReady( entry, objType );
-                    return entry2.mapping;
+                    entry = MakeReady( entry, objType );
+                    return entry.mapping;
                 }
 
                 return entry.mapping;
@@ -145,14 +153,14 @@ namespace UnityPlus.Serialization
             if( !_isInitialized )
                 Initialize();
 
-            if( typeof( TMember ).IsAssignableFrom( memberType ) ) // This doesn't appear to be much of a slow point.
+            if( typeof( TMember ).IsAssignableFrom( memberType ) ) // `IsAssignableFrom` doesn't appear to be much of a slow point, surprisingly.
             {
                 if( _mappings.TryGetClosest( memberType, out var entry ) )
                 {
                     if( !entry.isReady )
                     {
-                        var entry2 = MakeReady( entry, memberType );
-                        return entry2.mapping;
+                        entry = MakeReady( entry, memberType );
+                        return entry.mapping;
                     }
 
                     return entry.mapping;
