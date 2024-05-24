@@ -386,6 +386,7 @@ namespace UnityPlus.Serialization.Mappings
 
                         var mapping = SerializationMappingRegistry.GetMappingOrDefault<TValue>( elementType );
 
+                        // Calling `mapping.Load` inside LoadReferences makes the objects inside the dict unable to be referenced by other external objects.
                         object elem = mapping.Load( elementData, l );
 
                         mapping.LoadReferences( ref elem, elementData, l );
