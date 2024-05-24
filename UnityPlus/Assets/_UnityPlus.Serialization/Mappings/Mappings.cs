@@ -340,12 +340,18 @@ namespace UnityPlus.Serialization.Mappings
             };
         }
 
+#warning TODO - allow setting state of already existing objects.
+        // do the 2-pass object creation + data as before. (?)
+
         [SerializationMappingProvider( typeof( Dictionary<,> ) )]
         public static SerializationMapping Dictionary_TKey_TValue_Mapping<TKey, TValue>()
         {
             // Assume the dictionary is saved as a mapping from references to values.
 
 #warning TODO - we might want to save the dict as a mapping from references to references.
+
+#warning TODO - we also want to provide a different set of mappings for a different serialization context (ghosting for construction sites), but with fallback if the given mapping doesn't exist for the given context.
+            // fallback would just take the mapping for the default context.
 
             return new DirectSerializationMapping<Dictionary<TKey, TValue>>()
             {
