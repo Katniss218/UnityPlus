@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -288,7 +289,8 @@ namespace UnityPlus.Serialization.Mappings
                 },
                 LoadFunc = ( data, l ) =>
                 {
-                    SerializedArray serializedArray = (SerializedArray)data;
+                    if( data is not SerializedArray serializedArray )
+                        return new T[] { };
 
                     T[] o = new T[serializedArray.Count];
 
@@ -313,7 +315,8 @@ namespace UnityPlus.Serialization.Mappings
                 // LoadReferencesFunc is for pass-through to the elements. Not needed otherwise.
                 LoadReferencesFunc = ( ref T[] o, SerializedData data, IForwardReferenceMap l ) =>
                 {
-                    SerializedArray serializedArray = (SerializedArray)data;
+                    if( data is not SerializedArray serializedArray )
+                        return;
 
                     for( int i = 0; i < o.Length; i++ )
                     {
@@ -332,6 +335,64 @@ namespace UnityPlus.Serialization.Mappings
                         mapping.LoadReferences( ref elem, elementData, l );
 
                         o[i] = (T)elem;
+                    }
+                }
+            };
+        }
+
+        [SerializationMappingProvider( typeof( Dictionary<,> ) )]
+        public static SerializationMapping Dictionary_TKey_TValue_Mapping<TKey, TValue>()
+        {
+            // Assume the dictionary is saved as a mapping from references to values.
+
+#warning TODO - we might want to save the dict as a mapping from references to references.
+
+            return new DirectSerializationMapping<Dictionary<TKey, TValue>>()
+            {
+                SaveFunc = ( o, s ) =>
+                {
+                    SerializedObject obj = new SerializedObject();
+
+                    foreach( var (key, value) in o )
+                    {
+                        var mapping = SerializationMappingRegistry.GetMappingOrDefault<TValue>( value );
+
+                        var data = mapping.Save( value, s );
+
+                        string keyName = s.GetID( key ).SerializeGuidAsKey();
+                        obj[keyName] = data;
+                    }
+
+                    return obj;
+                },
+                LoadFunc = ( data, l ) =>
+                {
+                    return new Dictionary<TKey, TValue>();
+                },
+                LoadReferencesFunc = ( ref Dictionary<TKey, TValue> o, SerializedData data, IForwardReferenceMap l ) =>
+                {
+                    if( data is not SerializedObject dataObj )
+                        return;
+
+                    foreach( var (key, value) in dataObj )
+                    {
+                        SerializedData elementData = value;
+
+                        Type elementType = typeof( TValue );
+                        if( elementData.TryGetValue( KeyNames.TYPE, out var elementType2 ) )
+                        {
+                            elementType = elementType2.DeserializeType();
+                        }
+
+                        var mapping = SerializationMappingRegistry.GetMappingOrDefault<TValue>( elementType );
+
+                        object elem = mapping.Load( elementData, l );
+
+                        mapping.LoadReferences( ref elem, elementData, l );
+
+                        TKey keyObj = (TKey)l.GetObj( key.DeserializeGuidAsKey() );
+
+                        o[keyObj] = (TValue)elem;
                     }
                 }
             };

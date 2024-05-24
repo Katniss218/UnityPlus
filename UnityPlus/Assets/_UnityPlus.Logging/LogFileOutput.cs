@@ -24,7 +24,6 @@ namespace UnityPlus.Logging
             _output.WriteLine( $"Memory: {(float)SystemInfo.systemMemorySize / 1024f} GB" );
             _output.WriteLine( $"GPU: {SystemInfo.graphicsDeviceName} ({(float)SystemInfo.graphicsMemorySize / 1024f} GB)" );
             _output.WriteLine( "SIMD: " + (Vector.IsHardwareAccelerated ? $"Yes ({Vector<byte>.Count * 8} bytes)" : "No") );
-            _output.WriteLine( "https://cdn.discordapp.com/attachments/1008011722591850586/1165311655471759580/20230821_080113.jpg" );
             _output.WriteLine( "\n-- Log Starts Here -------------------------------------------------------\n" );
         }
 
