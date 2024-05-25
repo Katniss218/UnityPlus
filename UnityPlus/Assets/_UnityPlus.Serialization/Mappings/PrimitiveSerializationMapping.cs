@@ -12,47 +12,48 @@ namespace UnityPlus.Serialization
     /// Maps the source type to a SerializedData directly, using methods.
     /// </summary>
     /// <typeparam name="TSource">The type of the object being mapped.</typeparam>
-    public class DirectSerializationMapping<TSource> : SerializationMapping
+    public class PrimitiveSerializationMapping<TSource> : SerializationMapping
     {
         /// <summary>
         /// The function invoked to convert the C# object into its serialized representation.
         /// </summary>
-        public Func<TSource, IReverseReferenceMap, SerializedData> SaveFunc { get; set; }
+        public Func<TSource, IReverseReferenceMap, SerializedData> OnSave { get; set; }
 
         /// <summary>
         /// The function invoked to convert the serialized representation back into its corresponding C# object.
         /// </summary>
-        public Func<SerializedData, IForwardReferenceMap, TSource> LoadFunc { get; set; }
+        public Func<SerializedData, IForwardReferenceMap, TSource> OnLoad { get; set; }
 
+#warning TODO - primitives require to be pre-populsted on creation, so they will only ever have one step.
         /// <summary>
         /// The function invoked to fill in the references in the created object.
         /// </summary>
-        public LoadReferencesAction<TSource> LoadReferencesFunc { get; set; }
+        public LoadReferencesAction<TSource> OnPopulate { get; set; }
 
-        public DirectSerializationMapping()
+        public PrimitiveSerializationMapping()
         {
 
         }
 
         public override SerializedData Save( object obj, IReverseReferenceMap s )
         {
-            return SaveFunc.Invoke( (TSource)obj, s );
+            return OnSave.Invoke( (TSource)obj, s );
         }
 
         public override object Load( SerializedData data, IForwardReferenceMap l )
         {
-            if( LoadFunc != null )
-                return LoadFunc.Invoke( data, l );
+            if( OnLoad != null )
+                return OnLoad.Invoke( data, l );
             return default( TSource );
         }
 
-        public override void LoadReferences( ref object obj, SerializedData data, IForwardReferenceMap l )
+        public override void Populate( ref object obj, SerializedData data, IForwardReferenceMap l )
         {
-            if( LoadReferencesFunc != null )
+            if( OnPopulate != null )
             {
                 // obj may be null here.
                 var obj2 = (TSource)obj;
-                LoadReferencesFunc.Invoke( ref obj2, data, l );
+                OnPopulate.Invoke( ref obj2, data, l );
                 obj = obj2;
             }
             // Do nothing ...

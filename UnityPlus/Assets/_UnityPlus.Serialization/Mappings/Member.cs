@@ -73,7 +73,7 @@ namespace UnityPlus.Serialization
                 _structSetter.Invoke( ref source, member );
         }
 
-        public void LoadReferences( ref TSource source, SerializedData data, IForwardReferenceMap l )
+        public void Populate( ref TSource source, SerializedData data, IForwardReferenceMap l )
         {
             var member = _getter.Invoke( source );
 
@@ -81,7 +81,7 @@ namespace UnityPlus.Serialization
             var mapping = SerializationMappingRegistry.GetMappingOrDefault<TMember>( member );
 
             object refmember = member;
-            mapping.LoadReferences( ref refmember, data, l );
+            mapping.Populate( ref refmember, data, l );
             member = (TMember)refmember; // this is needed to re-assign the member to the variable.
 
             // This is needed, if the setter is custom (not auto-generated from field access (but NOT property access)) (look at LODGroup and its LOD[])

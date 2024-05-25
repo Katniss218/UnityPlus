@@ -32,6 +32,13 @@ namespace UnityPlus.Serialization
             ForwardRefMap = _loader.RefMap;
         }
 
+        public void Populate()
+        {
+            _loader = new Loader( ForwardRefMap, /* ... */ );
+            _loader.Load();
+            ForwardRefMap = _loader.RefMap;
+        }
+
         private void SaveCallback( IReverseReferenceMap s )
         {
             // Called by the saver.
@@ -93,7 +100,7 @@ namespace UnityPlus.Serialization
 
                 object obj = _objects[i];
                 //mapping.LoadReferences( ref _objects[i], data, l );
-                mapping.LoadReferences( ref obj, data, l );
+                mapping.Populate( ref obj, data, l );
                 _objects[i] = obj;
             }
         }
@@ -138,6 +145,12 @@ namespace UnityPlus.Serialization
             var su = FromData<T>( data );
             su.Deserialize();
             return su.GetObjectsOfType<T>().First();
+        }
+
+        public static void Populate<T>( T obj, SerializedData data )
+        {
+            var su = PopulateObject<T>( obj, data );
+            su.Populate();
         }
 
 
@@ -211,6 +224,11 @@ namespace UnityPlus.Serialization
                 ForwardRefMap = refMap,
                 ReverseRefMap = refMap
             };
+        }
+
+        public static SerializationUnit PopulateObject<T>( T obj, SerializedData data )
+        {
+
         }
     }
 }

@@ -137,6 +137,21 @@ namespace UnityPlus.Serialization
             return root;
         }
 
+        public override void LoadMembers( ref TSource obj, SerializedData data, IForwardReferenceMap l )
+        {
+#warning Something like this could need to be used to achieve populating fields (replace the call to Load of root object with LoadMembers, i.e. populate, but create new members).
+            foreach( var item in _items )
+            {
+                if( item.Item2 is IMappedMember<TSource> member )
+                {
+                    if( data.TryGetValue( item.Item1, out var memberData ) )
+                    {
+                        member.Load( ref obj, memberData, l );
+                    }
+                }
+            }
+        }
+
         public override object Load( SerializedData data, IForwardReferenceMap l )
         {
             TSource obj;
@@ -167,7 +182,7 @@ namespace UnityPlus.Serialization
             return obj;
         }
 
-        public override void LoadReferences( ref object obj, SerializedData data, IForwardReferenceMap l )
+        public override void Populate( ref object obj, SerializedData data, IForwardReferenceMap l )
         {
             var objM = (TSource)obj;
 
@@ -177,7 +192,7 @@ namespace UnityPlus.Serialization
                 {
                     if( data.TryGetValue( item.Item1, out var memberData ) )
                     {
-                        member.LoadReferences( ref objM, memberData, l );
+                        member.Populate( ref objM, memberData, l );
                     }
                 }
             }
