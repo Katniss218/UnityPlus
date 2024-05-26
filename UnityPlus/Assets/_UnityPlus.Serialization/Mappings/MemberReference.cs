@@ -64,7 +64,7 @@ namespace UnityPlus.Serialization
             return s.WriteObjectReference( member );
         }
 
-        public void Populate( ref TSource source, SerializedData memberData, IForwardReferenceMap l )
+        public void LoadReferences( ref TSource source, SerializedData memberData, IForwardReferenceMap l )
         {
             var newMemberValue = l.ReadObjectReference<TMember>( memberData );
 
@@ -134,7 +134,7 @@ namespace UnityPlus.Serialization
             return serializedArray;
         }
 
-        public void Populate( ref TSource source, SerializedData memberData, IForwardReferenceMap l )
+        public void LoadReferences( ref TSource source, SerializedData memberData, IForwardReferenceMap l )
         {
             SerializedArray serializedArray = (SerializedArray)memberData;
 

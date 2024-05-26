@@ -33,12 +33,12 @@ namespace UnityPlus.Serialization
                 _member?.Load( ref src, data, l );
         }
 
-        public void Populate( ref TSource source, SerializedData data, IForwardReferenceMap l )
+        public void LoadReferences( ref TSource source, SerializedData data, IForwardReferenceMap l )
         {
             TSourceBase src = source as TSourceBase; // won't work for structs, but structs aren't inheritable anyway.
 
             if( _refmember != null )
-                _refmember?.Populate( ref src, data, l );
+                _refmember?.LoadReferences( ref src, data, l );
         }
     }
 }

@@ -22,7 +22,7 @@ public class _playtester : MonoBehaviour
     {
         return new CompoundSerializationMapping<_playtester>()
         {
-            ("action", new Member<_playtester, Action<string>>(o => o.Action))
+           // ("action", new Member<_playtester, Action<string>>(o => o.Action))
         }
         //.IncludeMembers<Behaviour>()
         .UseBaseTypeFactory();
@@ -44,13 +44,14 @@ public class _playtester : MonoBehaviour
     {
         //JsonSerializedDataHandler handler = new JsonSerializedDataHandler();
 
-        SerializedData data = SerializationUnit.Serialize<GameObject>( this.gameObject );
+       // SerializedData data = SerializationUnit.Serialize<GameObject>( this.gameObject );
 
-        GameObject obj = SerializationUnit.Deserialize<GameObject>( data );
+       // GameObject obj = SerializationUnit.Deserialize<GameObject>( data );
 
-        SerializationUnit su = SerializationUnit.FromObjects( this.gameObject, this.transform );
+       //SerializationUnit su = SerializationUnit.FromObjects( this.gameObject, this.transform );
+        SerializationUnit su = SerializationUnit.FromObjects( this.gameObject );
         su.Serialize();
-        SerializedData[] data2 = su.GetDataOfType<GameObject>().ToArray();
+        SerializedData data = su.GetDataOfType<GameObject>().First();
 
         //var mapping = SerializationMappingRegistry.GetMappingOrDefault( this.gameObject );
 
@@ -65,37 +66,32 @@ public class _playtester : MonoBehaviour
 
         data = new JsonStringReader( s ).Read();
 
-        obj = SerializationUnit.Deserialize<GameObject>( data );
+        GameObject obj = SerializationUnit.Deserialize<GameObject>( data );
 
         _playtester t = obj.GetComponent<_playtester>();
     }
-    /*
+    
     void Update()
     {
         List<GameObject> list = new List<GameObject>( 100 );
+
         for( int i = 0; i < 1000; i++ )
         {
             Profiler.BeginSample( "t1" );
-
-            var mapping = SerializationMappingRegistry.GetMappingOrDefault( this.gameObject );
-            SerializedData data = mapping.Save( this.gameObject, new BidirectionalReferenceStore() );
-
+            SerializedData data = SerializationUnit.Serialize<GameObject>( this.gameObject );
             Profiler.EndSample();
-            BidirectionalReferenceStore refStore = new BidirectionalReferenceStore();
 
             Profiler.BeginSample( "t2" );
-
-            mapping = SerializationMappingRegistry.GetMappingOrDefault( this.gameObject );
-            object go = mapping.Load( data, refStore );
-            mapping.LoadReferences( ref go, data, refStore );
-
+            GameObject go = SerializationUnit.Deserialize<GameObject>( data );
             Profiler.EndSample();
-            list.Add( (GameObject)go );
+
+            list.Add( go );
         }
+
         foreach( var go in list.ToArray() )
         {
             Destroy( go );
             list.Clear();
         }
-    }*/
+    }
 }

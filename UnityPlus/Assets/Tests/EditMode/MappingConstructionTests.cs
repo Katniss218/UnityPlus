@@ -83,7 +83,7 @@ namespace Neoserialization
             SerializationMapping mapping2 = SerializationMappingRegistry.GetMappingOrDefault<bool>( true.GetType() );
 
             // Assert
-            Assert.That( mapping1, Is.InstanceOf( typeof( PrimitiveSerializationMapping<bool> ) ) );
+            Assert.That( mapping1, Is.InstanceOf( typeof( PrimitiveStructSerializationMapping<bool> ) ) );
             Assert.That( mapping1, Is.EqualTo( mapping2 ) );
         }
 
@@ -139,7 +139,7 @@ namespace Neoserialization
             SerializationMapping mapping2 = SerializationMappingRegistry.GetMappingOrDefault<int[]>( new int[] { 1 }.GetType() );
 
             // Assert
-            Assert.That( mapping1, Is.InstanceOf( typeof( PrimitiveSerializationMapping<int[]> ) ) );
+            Assert.That( mapping1, Is.InstanceOf( typeof( NonPrimitiveSerializationMapping<int[]> ) ) );
             Assert.That( mapping1, Is.EqualTo( mapping2 ) );
         }
 

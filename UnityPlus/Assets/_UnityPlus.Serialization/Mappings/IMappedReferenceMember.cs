@@ -9,6 +9,6 @@ namespace UnityPlus.Serialization
     {
         SerializedData Save( TSource source, IReverseReferenceMap s );
 
-        void Populate( ref TSource source, SerializedData data, IForwardReferenceMap l );
+        void LoadReferences( ref TSource source, SerializedData data, IForwardReferenceMap l );
     }
 }
