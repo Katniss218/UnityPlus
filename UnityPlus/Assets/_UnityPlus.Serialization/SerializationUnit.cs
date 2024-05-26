@@ -256,10 +256,16 @@ namespace UnityPlus.Serialization
         /// <summary>
         /// Helper method to populate the members of a single object easily.
         /// </summary>
-        /// <remarks>
-        /// This still works for struct and primitive types.
-        /// </remarks>
-        public static void Populate<T>( ref T obj, SerializedData data )
+        public static void Populate<T>( T obj, SerializedData data ) where T : class
+        {
+            var su = PopulateObject<T>( obj, data );
+            su.Populate();
+        }
+
+        /// <summary>
+        /// Helper method to populate the members of a single struct object easily.
+        /// </summary>
+        public static void Populate<T>( ref T obj, SerializedData data ) where T : struct
         {
             var su = PopulateObject<T>( obj, data );
             su.Populate();
