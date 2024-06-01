@@ -2,6 +2,9 @@
 
 namespace UnityPlus.Serialization
 {
+    /// <summary>
+    /// This is used when you need to store a member of the base type inside the memberwise mapping.
+    /// </summary>
     internal class PassthroughMember<TSource, TSourceBase> : MemberBase<TSource>, IMappedMember<TSource>, IMappedReferenceMember<TSource> where TSourceBase : class
     {
         IMappedMember<TSourceBase> _member;
@@ -9,12 +12,11 @@ namespace UnityPlus.Serialization
 
         internal static PassthroughMember<TSource, TSourceBase> Create( MemberBase<TSourceBase> member )
         {
-            var m = new PassthroughMember<TSource, TSourceBase>()
+            return new PassthroughMember<TSource, TSourceBase>()
             {
                 _member = member as IMappedMember<TSourceBase>,
                 _refmember = member as IMappedReferenceMember<TSourceBase>
             };
-            return m;
         }
 
         public SerializedData Save( TSource source, IReverseReferenceMap s )
