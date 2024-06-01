@@ -70,8 +70,13 @@ public class _playtester : MonoBehaviour
 
         _playtester t = obj.GetComponent<_playtester>();
     }
-    /*
+    
     void Update()
+    {
+        RunPerfTest();
+    }
+
+    private void RunPerfTest()
     {
         List<GameObject> list = new List<GameObject>( 100 );
 
@@ -93,5 +98,5 @@ public class _playtester : MonoBehaviour
             Destroy( go );
             list.Clear();
         }
-    }*/
+    }
 }

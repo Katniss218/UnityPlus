@@ -17,6 +17,7 @@ namespace UnityPlus.Serialization
         private object[] _objects;
 
         private Type _memberType; // Specifies the type that all serialized/deserialized objects will derive from. May be `typeof(object)`
+        private int _context = default;
 
         private SerializationMapping[] _mappingCache;
 
@@ -42,7 +43,7 @@ namespace UnityPlus.Serialization
                 if( obj == null )
                     continue;
 
-                var mapping = SerializationMappingRegistry.GetMappingOrDefault( obj );
+                var mapping = SerializationMappingRegistry.GetMappingOrDefault( _context, obj );
 
                 _data[i] = mapping.Save( obj, s );
             }
@@ -66,7 +67,7 @@ namespace UnityPlus.Serialization
 
                 Type type2 = type.DeserializeType();
 
-                var mapping = SerializationMappingRegistry.GetMappingOrEmpty( type2 );
+                var mapping = SerializationMappingRegistry.GetMappingOrEmpty( _context, type2 );
                 _mappingCache[i] = mapping;
 
                 // Parity with Member (mostly).
@@ -107,7 +108,7 @@ namespace UnityPlus.Serialization
                 if( data.TryGetValue( KeyNames.TYPE, out var type ) )
                     typeToAssignTo = type.DeserializeType();
 
-                var mapping = SerializationMappingRegistry.GetMappingOrEmpty( typeToAssignTo );
+                var mapping = SerializationMappingRegistry.GetMappingOrEmpty( _context, typeToAssignTo );
                 _mappingCache[i] = mapping;
 
                 // Parity with Member.

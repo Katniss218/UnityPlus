@@ -14,6 +14,10 @@ namespace UnityPlus.Serialization
 
     public abstract class SerializationMapping
     {
+        internal int context;
+
+        public int Context => this.context;
+
         public abstract SerializationStyle SerializationStyle { get; }
 
         // The reason these Save/Load/etc. methods use the `object` type instead of being generic,

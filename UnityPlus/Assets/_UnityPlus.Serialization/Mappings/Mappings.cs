@@ -11,6 +11,100 @@ namespace UnityPlus.Serialization.Mappings
 {
     public static class Mappings
     {
+        [SerializationMappingProvider( typeof( object ), Context = ObjectContext.Ref )]
+        public static SerializationMapping ObjectRefMapping()
+        {
+            return new PrimitiveReferencingSerializationMapping<object>()
+            {
+                OnSave = ( o, s ) => s.WriteObjectReference( o ),
+                OnInstantiate = ( data, l ) => (bool)data
+            };
+        }
+
+        [SerializationMappingProvider( typeof( Array ), Context = ObjectContext.Ref )]
+        public static SerializationMapping ArrayReferenceMapping<T>() where T : class
+        {
+            return new PrimitiveReferencingSerializationMapping<T[]>()
+            {
+                OnSave = ( o, s ) =>
+                {
+                    SerializedArray serializedArray = new SerializedArray();
+                    for( int i = 0; i < o.Length; i++ )
+                    {
+                        var data = s.WriteObjectReference( o[i] );
+
+                        serializedArray.Add( data );
+                    }
+
+                    return serializedArray;
+                },
+                OnInstantiate = ( data, l ) =>
+                {
+                    SerializedArray serializedArray = (SerializedArray)data;
+
+                    T[] array = new T[serializedArray.Count];
+
+                    for( int i = 0; i < serializedArray.Count; i++ )
+                    {
+                        SerializedData elementData = serializedArray[i];
+
+                        var element = l.ReadObjectReference<T>( elementData );
+                        array[i] = element;
+                    }
+
+                    return array;
+                }
+            };
+        }
+
+#warning TODO - generic mappings might want to be used on different types of things, kind of like the generic constraints. This method here is currently not safe because it can be invoked on a struct.
+        
+        [SerializationMappingProvider( typeof( object ), Context = ObjectContext.Asset )]
+        public static SerializationMapping ObjectAssetMapping<T>() where T : class
+        {
+            return new PrimitiveReferencingSerializationMapping<T>()
+            {
+                OnSave = ( o, s ) => s.WriteAssetReference<T>( o ),
+                OnInstantiate = ( data, l ) => l.ReadAssetReference<T>( data )
+            };
+        }
+
+        [SerializationMappingProvider( typeof( Array ), Context = ObjectContext.Asset )]
+        public static SerializationMapping ArrayAssetMapping<T>() where T : class
+        {
+            return new PrimitiveReferencingSerializationMapping<T[]>()
+            {
+                OnSave = ( o, s ) =>
+                {
+                    SerializedArray serializedArray = new SerializedArray();
+                    for( int i = 0; i < o.Length; i++ )
+                    {
+                        var data = s.WriteAssetReference<T>( o[i] );
+
+                        serializedArray.Add( data );
+                    }
+
+                    return serializedArray;
+                },
+                OnInstantiate = ( data, l ) =>
+                {
+                    SerializedArray serializedArray = (SerializedArray)data;
+
+                    T[] array = new T[serializedArray.Count];
+
+                    for( int i = 0; i < serializedArray.Count; i++ )
+                    {
+                        SerializedData elementData = serializedArray[i];
+
+                        var element = l.ReadAssetReference<T>( elementData );
+                        array[i] = element;
+                    }
+
+                    return array;
+                }
+            };
+        }
+
         [SerializationMappingProvider( typeof( bool ) )]
         public static SerializationMapping BooleanMapping()
         {
@@ -278,7 +372,7 @@ namespace UnityPlus.Serialization.Mappings
                     {
                         T value = o[i];
 
-                        var mapping = SerializationMappingRegistry.GetMappingOrDefault<T>( value );
+                        var mapping = SerializationMappingRegistry.GetMappingOrDefault<T>( ObjectContext.Default, value );
 
                         var data = mapping.Save( value, s );
 
@@ -309,7 +403,7 @@ namespace UnityPlus.Serialization.Mappings
                             elementType = elementType2.DeserializeType();
                         }
 
-                        var mapping = SerializationMappingRegistry.GetMappingOrDefault<T>( elementType );
+                        var mapping = SerializationMappingRegistry.GetMappingOrDefault<T>( ObjectContext.Default, elementType );
 
                         // Parity with Member.
                         T element;
@@ -350,7 +444,7 @@ namespace UnityPlus.Serialization.Mappings
 
                         var mapping = SerializationMappingRegistry.GetMappingOrDefault<T>( elementType );
                         */
-                        var mapping = SerializationMappingRegistry.GetMappingOrDefault<T>( element );
+                        var mapping = SerializationMappingRegistry.GetMappingOrDefault<T>( ObjectContext.Default, element );
 
                         // Parity with Member.
                         switch( mapping.SerializationStyle )
@@ -388,7 +482,7 @@ namespace UnityPlus.Serialization.Mappings
 
                     foreach( var (key, value) in o )
                     {
-                        var mapping = SerializationMappingRegistry.GetMappingOrDefault<TValue>( value );
+                        var mapping = SerializationMappingRegistry.GetMappingOrDefault<TValue>( ObjectContext.Default, value );
 
                         var data = mapping.Save( value, s );
 
@@ -418,7 +512,7 @@ namespace UnityPlus.Serialization.Mappings
                             elementType = elementType2.DeserializeType();
                         }
 
-                        var mapping = SerializationMappingRegistry.GetMappingOrDefault<TValue>( elementType );
+                        var mapping = SerializationMappingRegistry.GetMappingOrDefault<TValue>( ObjectContext.Default, elementType );
 
 #warning TODO - fix this mess.
                         // Calling `mapping.Load` inside LoadReferences makes the objects inside the dict unable to be referenced by other external objects.
@@ -554,7 +648,7 @@ namespace UnityPlus.Serialization.Mappings
         {
             return new MemberwiseSerializationMapping<MeshFilter>()
             {
-                ("shared_mesh", new MemberAsset<MeshFilter, Mesh>( o => o.sharedMesh ))
+                ("shared_mesh", new Member<MeshFilter, Mesh>( ObjectContext.Asset, o => o.sharedMesh ))
             }
             .UseBaseTypeFactory();
         }
@@ -564,7 +658,7 @@ namespace UnityPlus.Serialization.Mappings
         {
             return new MemberwiseSerializationMapping<MeshRenderer>()
             {
-                ("shared_materials", new MemberAssetArray<MeshRenderer, Material>( o => o.sharedMaterials )),
+                ("shared_materials", new Member<MeshRenderer, Material[]>( ArrayContext.Assets, o => o.sharedMaterials )),
                 ("shadow_casting_mode", new Member<MeshRenderer, ShadowCastingMode>( o => o.shadowCastingMode )),
                 ("receive_shadows", new Member<MeshRenderer, bool>( o => o.receiveShadows ))
             }
@@ -625,7 +719,7 @@ namespace UnityPlus.Serialization.Mappings
         {
             return new MemberwiseSerializationMapping<MeshCollider>()
             {
-                ("shared_mesh", new MemberAsset<MeshCollider, Mesh>( o => o.sharedMesh )),
+                ("shared_mesh", new Member<MeshCollider, Mesh>( ObjectContext.Asset, o => o.sharedMesh )),
                 ("is_convex", new Member<MeshCollider, bool>( o => o.convex )),
                 ("is_trigger", new Member<MeshCollider, bool>( o => o.isTrigger ))
             }
@@ -640,7 +734,7 @@ namespace UnityPlus.Serialization.Mappings
                 ("fade_width", new Member<LOD, float>( o => o.fadeTransitionWidth )),
                 ("percent", new Member<LOD, float>( o => o.screenRelativeTransitionHeight )),
                 //("renderers", new MemberReference<LOD, Renderer[]>( o => o.renderers ))
-                ("renderers", new MemberReferenceArray<LOD, Renderer>( o => o.renderers ))
+                ("renderers", new Member<LOD, Renderer[]>( ArrayContext.Refs, o => o.renderers ))
             };
         }
 

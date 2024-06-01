@@ -89,7 +89,7 @@ namespace UnityPlus.Serialization
         private readonly RefSetter<TSource, TMember[]> _structSetter;
 
         /// <param name="member">Example: `o => o.thrustTransform`.</param>
-        public MemberReferenceArray( Expression<Func<TSource, TMember[]>> member )
+        /*public MemberReferenceArray( Expression<Func<TSource, TMember[]>> member )
         {
             _getter = AccessorUtils.CreateGetter( member );
 
@@ -97,7 +97,7 @@ namespace UnityPlus.Serialization
                 _structSetter = AccessorUtils.CreateStructSetter( member );
             else
                 _setter = AccessorUtils.CreateSetter( member );
-        }
+        }*/
 
         public MemberReferenceArray( Getter<TSource, TMember[]> getter, Setter<TSource, TMember[]> setter )
         {

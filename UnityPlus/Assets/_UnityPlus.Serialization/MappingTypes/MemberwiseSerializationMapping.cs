@@ -55,7 +55,7 @@ namespace UnityPlus.Serialization
             }
 
 #warning TODO - do this by default (somehow), without passing the IncludeMembers<TSourceBase> type parameter for every passthroughmember.
-            SerializationMapping mapping = SerializationMappingRegistry.GetMappingOrEmpty( baseType );
+            SerializationMapping mapping = SerializationMappingRegistry.GetMappingOrEmpty( this.context, baseType );
 
             if( ReferenceEquals( mapping, this ) ) // mapping for `this` is a cached mapping of base type.
                 return this;
@@ -86,7 +86,7 @@ namespace UnityPlus.Serialization
                 if( baseType == null )
                     return this;
 
-                SerializationMapping mapping = SerializationMappingRegistry.GetMappingOrEmpty( baseType );
+                SerializationMapping mapping = SerializationMappingRegistry.GetMappingOrEmpty( this.context, baseType );
 
                 if( mapping is ISerializationMappingWithCustomFactory m )
                 {

@@ -13,13 +13,14 @@ namespace UnityPlus.Serialization
     /// <typeparam name="TMember">The type of the member (field/property/etc).</typeparam>
     public class Member<TSource, TMember> : MemberBase<TSource>, IMappedMember<TSource>, IMappedReferenceMember<TSource>
     {
+        private readonly int _context = default( int );
+
         private readonly Getter<TSource, TMember> _getter;
         private readonly Setter<TSource, TMember> _setter;
         private readonly RefSetter<TSource, TMember> _structSetter;
 
         private bool _isCacheable;
         private SerializationMapping _cachedMapping;
-#warning TODO - caching of member mappings is possible for field/property types that don't have any types deriving from them (e.g. member of type `float`, GameObject, etc).
 
         private void TryCacheMemberMapping()
         {
@@ -28,9 +29,11 @@ namespace UnityPlus.Serialization
              || (!type.IsInterface && type.BaseType == null) )
             {
                 _isCacheable = true;
-                _cachedMapping = SerializationMappingRegistry.GetMappingOrEmpty( typeof( TMember ) );
+                _cachedMapping = SerializationMappingRegistry.GetMappingOrEmpty( _context, typeof( TMember ) );
             }
         }
+
+        // expression-constructors
 
         /// <param name="member">Example: `o => o.position`.</param>
         public Member( Expression<Func<TSource, TMember>> member )
@@ -44,6 +47,21 @@ namespace UnityPlus.Serialization
                 _setter = AccessorUtils.CreateSetter( member );
         }
 
+        /// <param name="member">Example: `o => o.position`.</param>
+        public Member( int context, Expression<Func<TSource, TMember>> member )
+        {
+            _context = context;
+            TryCacheMemberMapping();
+            _getter = AccessorUtils.CreateGetter( member );
+
+            if( typeof( TSource ).IsValueType )
+                _structSetter = AccessorUtils.CreateStructSetter( member );
+            else
+                _setter = AccessorUtils.CreateSetter( member );
+        }
+
+        // class custom getters/setters
+
         public Member( Getter<TSource, TMember> getter, Setter<TSource, TMember> setter )
         {
             if( typeof( TSource ).IsValueType )
@@ -53,6 +71,19 @@ namespace UnityPlus.Serialization
             _getter = getter;
             _setter = setter;
         }
+
+        public Member( int context, Getter<TSource, TMember> getter, Setter<TSource, TMember> setter )
+        {
+            if( typeof( TSource ).IsValueType )
+                throw new InvalidOperationException( $"[{typeof( TSource ).FullName}] Use the constructor with the value type setter." );
+
+            _context = context;
+            TryCacheMemberMapping();
+            _getter = getter;
+            _setter = setter;
+        }
+
+        // struct custom getters/setters
 
         public Member( Getter<TSource, TMember> getter, RefSetter<TSource, TMember> setter )
         {
@@ -64,11 +95,26 @@ namespace UnityPlus.Serialization
             _structSetter = setter;
         }
 
+        public Member( int context, Getter<TSource, TMember> getter, RefSetter<TSource, TMember> setter )
+        {
+            if( !typeof( TSource ).IsValueType )
+                throw new InvalidOperationException( $"[{typeof( TSource ).FullName}] Use the constructor with the reference type setter." );
+
+            _context = context;
+            TryCacheMemberMapping();
+            _getter = getter;
+            _structSetter = setter;
+        }
+
+        //
+        //  Logic
+        //
+
         public SerializedData Save( TSource source, IReverseReferenceMap s )
         {
             var member = _getter.Invoke( source );
 
-            var mapping = SerializationMappingRegistry.GetMappingOrDefault<TMember>( member );
+            var mapping = SerializationMappingRegistry.GetMappingOrDefault<TMember>( _context, member );
 
             if( mapping.SerializationStyle != SerializationStyle.None )
                 return mapping.Save( member, s );
@@ -86,7 +132,7 @@ namespace UnityPlus.Serialization
                 memberType = type.DeserializeType();
             }
 
-            var mapping = _isCacheable ? _cachedMapping : SerializationMappingRegistry.GetMappingOrDefault<TMember>( memberType );
+            var mapping = _isCacheable ? _cachedMapping : SerializationMappingRegistry.GetMappingOrDefault<TMember>( _context, memberType );
 
             TMember member;
             switch( mapping.SerializationStyle )
@@ -114,7 +160,7 @@ namespace UnityPlus.Serialization
             var member = _getter.Invoke( source );
 
             // This is needed, to reach the references nested inside objects that themselves don't contain any references.
-            var mapping = SerializationMappingRegistry.GetMappingOrDefault<TMember>( member );
+            var mapping = SerializationMappingRegistry.GetMappingOrDefault<TMember>( _context, member );
 
             switch( mapping.SerializationStyle )
             {

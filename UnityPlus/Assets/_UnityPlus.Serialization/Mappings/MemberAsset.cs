@@ -15,7 +15,7 @@ namespace UnityPlus.Serialization
         private readonly RefSetter<TSource, TMember> _structSetter;
 
         /// <param name="member">Example: `o => o.sharedMesh`.</param>
-        public MemberAsset( Expression<Func<TSource, TMember>> member )
+        /*public MemberAsset( Expression<Func<TSource, TMember>> member )
         {
             _getter = AccessorUtils.CreateGetter( member );
 
@@ -23,7 +23,7 @@ namespace UnityPlus.Serialization
                 _structSetter = AccessorUtils.CreateStructSetter( member );
             else
                 _setter = AccessorUtils.CreateSetter( member );
-        }
+        }*/
 
         public MemberAsset( Getter<TSource, TMember> getter, Setter<TSource, TMember> setter )
         {
@@ -76,7 +76,7 @@ namespace UnityPlus.Serialization
         private readonly RefSetter<TSource, TMember[]> _structSetter;
 
         /// <param name="member">Example: `o => o.thrustTransform`.</param>
-        public MemberAssetArray( Expression<Func<TSource, TMember[]>> member )
+        /*public MemberAssetArray( Expression<Func<TSource, TMember[]>> member )
         {
             _getter = AccessorUtils.CreateGetter( member );
 
@@ -102,7 +102,7 @@ namespace UnityPlus.Serialization
 
             _getter = getter;
             _structSetter = setter;
-        }
+        }*/
 
         public SerializedData Save( TSource source, IReverseReferenceMap s )
         {

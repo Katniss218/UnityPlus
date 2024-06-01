@@ -83,8 +83,8 @@ namespace Neoserialization
             // Arrange
 
             // Act
-            SerializationMapping mapping1 = SerializationMappingRegistry.GetMappingOrDefault<bool>( (bool)true );
-            SerializationMapping mapping2 = SerializationMappingRegistry.GetMappingOrDefault<bool>( true.GetType() );
+            SerializationMapping mapping1 = SerializationMappingRegistry.GetMappingOrDefault<bool>( ObjectContext.Default, (bool)true );
+            SerializationMapping mapping2 = SerializationMappingRegistry.GetMappingOrDefault<bool>( ObjectContext.Default, true.GetType() );
 
             // Assert
             Assert.That( mapping1, Is.InstanceOf( typeof( PrimitiveReferencableSerializationMapping<bool> ) ) );
@@ -97,8 +97,8 @@ namespace Neoserialization
             // Arrange
 
             // Act
-            SerializationMapping mapping1 = SerializationMappingRegistry.GetMappingOrDefault<BaseClass>( new DerivedClass() );
-            SerializationMapping mapping2 = SerializationMappingRegistry.GetMappingOrDefault<BaseClass>( new DerivedClass().GetType() );
+            SerializationMapping mapping1 = SerializationMappingRegistry.GetMappingOrDefault<BaseClass>( ObjectContext.Default, new DerivedClass() );
+            SerializationMapping mapping2 = SerializationMappingRegistry.GetMappingOrDefault<BaseClass>( ObjectContext.Default, new DerivedClass().GetType() );
 
             // Assert
             Assert.That( mapping1, Is.InstanceOf( typeof( MemberwiseSerializationMapping<DerivedClass> ) ) );
@@ -111,8 +111,8 @@ namespace Neoserialization
             // Arrange
 
             // Act
-            SerializationMapping mapping1 = SerializationMappingRegistry.GetMappingOrDefault<GenericClass<float>>( new GenericClass<float>() );
-            SerializationMapping mapping2 = SerializationMappingRegistry.GetMappingOrDefault<GenericClass<float>>( new GenericClass<float>().GetType() );
+            SerializationMapping mapping1 = SerializationMappingRegistry.GetMappingOrDefault<GenericClass<float>>( ObjectContext.Default, new GenericClass<float>() );
+            SerializationMapping mapping2 = SerializationMappingRegistry.GetMappingOrDefault<GenericClass<float>>( ObjectContext.Default, new GenericClass<float>().GetType() );
 
             // Assert
             Assert.That( mapping1, Is.InstanceOf( typeof( MemberwiseSerializationMapping<GenericClass<float>> ) ) );
@@ -125,8 +125,8 @@ namespace Neoserialization
             // Arrange
 
             // Act
-            SerializationMapping mapping1 = SerializationMappingRegistry.GetMappingOrDefault<MultiGenericClass<float, int, float>>( new MultiGenericClass<float, int, float>() );
-            SerializationMapping mapping2 = SerializationMappingRegistry.GetMappingOrDefault<MultiGenericClass<float, int, float>>( new MultiGenericClass<float, int, float>().GetType() );
+            SerializationMapping mapping1 = SerializationMappingRegistry.GetMappingOrDefault<MultiGenericClass<float, int, float>>( ObjectContext.Default, new MultiGenericClass<float, int, float>() );
+            SerializationMapping mapping2 = SerializationMappingRegistry.GetMappingOrDefault<MultiGenericClass<float, int, float>>( ObjectContext.Default, new MultiGenericClass<float, int, float>().GetType() );
 
             // Assert
             Assert.That( mapping1, Is.InstanceOf( typeof( MemberwiseSerializationMapping<MultiGenericClass<float, int, float>> ) ) );
@@ -139,8 +139,8 @@ namespace Neoserialization
             // Arrange
 
             // Act
-            SerializationMapping mapping1 = SerializationMappingRegistry.GetMappingOrDefault<int[]>( new int[] { 1 } );
-            SerializationMapping mapping2 = SerializationMappingRegistry.GetMappingOrDefault<int[]>( new int[] { 1 }.GetType() );
+            SerializationMapping mapping1 = SerializationMappingRegistry.GetMappingOrDefault<int[]>( ObjectContext.Default, new int[] { 1 } );
+            SerializationMapping mapping2 = SerializationMappingRegistry.GetMappingOrDefault<int[]>( ObjectContext.Default, new int[] { 1 }.GetType() );
 
             // Assert
             Assert.That( mapping1, Is.InstanceOf( typeof( NonPrimitiveSerializationMapping<int[]> ) ) );
