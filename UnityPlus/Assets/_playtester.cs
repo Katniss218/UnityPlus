@@ -20,7 +20,7 @@ public class _playtester : MonoBehaviour
     [SerializationMappingProvider( typeof( _playtester ) )]
     public static SerializationMapping _playtesterMapping()
     {
-        return new CompoundSerializationMapping<_playtester>()
+        return new MemberwiseSerializationMapping<_playtester>()
         {
            // ("action", new Member<_playtester, Action<string>>(o => o.Action))
         }
@@ -70,7 +70,7 @@ public class _playtester : MonoBehaviour
 
         _playtester t = obj.GetComponent<_playtester>();
     }
-    
+    /*
     void Update()
     {
         List<GameObject> list = new List<GameObject>( 100 );
@@ -93,5 +93,5 @@ public class _playtester : MonoBehaviour
             Destroy( go );
             list.Clear();
         }
-    }
+    }*/
 }

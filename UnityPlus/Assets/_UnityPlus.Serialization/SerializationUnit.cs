@@ -16,6 +16,8 @@ namespace UnityPlus.Serialization
         private SerializedData[] _data;
         private object[] _objects;
 
+        private Type _memberType; // Specifies the type that all serialized/deserialized objects will derive from. May be `typeof(object)`
+
         private SerializationMapping[] _mappingCache;
 
         public IForwardReferenceMap ForwardRefMap { get; set; }
@@ -100,12 +102,12 @@ namespace UnityPlus.Serialization
                 if( data == null )
                     continue;
 
-                if( !data.TryGetValue( KeyNames.TYPE, out var type ) )
-                    continue;
+                Type typeToAssignTo = _memberType;
 
-                Type type2 = type.DeserializeType();
+                if( data.TryGetValue( KeyNames.TYPE, out var type ) )
+                    typeToAssignTo = type.DeserializeType();
 
-                var mapping = SerializationMappingRegistry.GetMappingOrEmpty( type2 );
+                var mapping = SerializationMappingRegistry.GetMappingOrEmpty( typeToAssignTo );
                 _mappingCache[i] = mapping;
 
                 // Parity with Member.
@@ -140,6 +142,9 @@ namespace UnityPlus.Serialization
 
                 var mapping = _mappingCache[i];
 
+                if( mapping == null )
+                    continue; // error.
+
                 object member = _objects[i];
                 switch( mapping.SerializationStyle )
                 {
@@ -171,6 +176,16 @@ namespace UnityPlus.Serialization
         }
 
         /// <summary>
+        /// Performs serialization of the previously specified objects.
+        /// </summary>
+        public void Serialize( IReverseReferenceMap s )
+        {
+            _saver = new Saver( s, SaveCallback );
+            _saver.Save();
+            ReverseRefMap = _saver.RefMap;
+        }
+
+        /// <summary>
         /// Performs deserialization of the previously specified objects.
         /// </summary>
         public void Deserialize()
@@ -181,11 +196,31 @@ namespace UnityPlus.Serialization
         }
 
         /// <summary>
+        /// Performs deserialization of the previously specified objects.
+        /// </summary>
+        public void Deserialize( IForwardReferenceMap l )
+        {
+            _loader = new Loader( l, LoadCallback, LoadReferencesCallback );
+            _loader.Load();
+            ForwardRefMap = _loader.RefMap;
+        }
+
+        /// <summary>
         /// Performs population of members of the previously specified objects.
         /// </summary>
         public void Populate()
         {
             _loader = new Loader( ForwardRefMap, PopulateCallback, LoadReferencesCallback );
+            _loader.Load();
+            ForwardRefMap = _loader.RefMap;
+        }
+
+        /// <summary>
+        /// Performs population of members of the previously specified objects.
+        /// </summary>
+        public void Populate( IForwardReferenceMap l )
+        {
+            _loader = new Loader( l, PopulateCallback, LoadReferencesCallback );
             _loader.Load();
             ForwardRefMap = _loader.RefMap;
         }
@@ -244,12 +279,32 @@ namespace UnityPlus.Serialization
         }
 
         /// <summary>
+        /// Helper method to serialize a single object easily.
+        /// </summary>
+        public static SerializedData Serialize<T>( T obj, IReverseReferenceMap s )
+        {
+            var su = FromObjects<T>( obj );
+            su.Serialize( s );
+            return su.GetData().First();
+        }
+
+        /// <summary>
         /// Helper method to deserialize a single object easily.
         /// </summary>
         public static T Deserialize<T>( SerializedData data )
         {
             var su = FromData<T>( data );
             su.Deserialize();
+            return su.GetObjectsOfType<T>().First();
+        }
+
+        /// <summary>
+        /// Helper method to deserialize a single object easily.
+        /// </summary>
+        public static T Deserialize<T>( SerializedData data, IForwardReferenceMap l )
+        {
+            var su = FromData<T>( data );
+            su.Deserialize( l );
             return su.GetObjectsOfType<T>().First();
         }
 
@@ -263,12 +318,31 @@ namespace UnityPlus.Serialization
         }
 
         /// <summary>
+        /// Helper method to populate the members of a single object easily.
+        /// </summary>
+        public static void Populate<T>( T obj, SerializedData data, IForwardReferenceMap l ) where T : class
+        {
+            var su = PopulateObject<T>( obj, data );
+            su.Populate( l );
+        }
+
+        /// <summary>
         /// Helper method to populate the members of a single struct object easily.
         /// </summary>
         public static void Populate<T>( ref T obj, SerializedData data ) where T : struct
         {
             var su = PopulateObject<T>( obj, data );
             su.Populate();
+            obj = (T)su._objects.First();
+        }
+
+        /// <summary>
+        /// Helper method to populate the members of a single struct object easily.
+        /// </summary>
+        public static void Populate<T>( ref T obj, SerializedData data, IForwardReferenceMap l ) where T : struct
+        {
+            var su = PopulateObject<T>( obj, data );
+            su.Populate( l );
             obj = (T)su._objects.First();
         }
 
@@ -286,6 +360,7 @@ namespace UnityPlus.Serialization
             return new SerializationUnit()
             {
                 _objects = new object[] { obj },
+                _memberType = typeof( T ),
                 ForwardRefMap = refMap,
                 ReverseRefMap = refMap
             };
@@ -301,6 +376,7 @@ namespace UnityPlus.Serialization
             return new SerializationUnit()
             {
                 _objects = objects.ToArray(),
+                _memberType = typeof( object ),
                 ForwardRefMap = refMap,
                 ReverseRefMap = refMap
             };
@@ -316,6 +392,7 @@ namespace UnityPlus.Serialization
             return new SerializationUnit()
             {
                 _objects = objects,
+                _memberType = typeof( object ),
                 ForwardRefMap = refMap,
                 ReverseRefMap = refMap
             };
@@ -331,6 +408,7 @@ namespace UnityPlus.Serialization
             return new SerializationUnit()
             {
                 _data = new SerializedData[] { data },
+                _memberType = typeof( T ),
                 ForwardRefMap = refMap,
                 ReverseRefMap = refMap
             };
@@ -346,6 +424,7 @@ namespace UnityPlus.Serialization
             return new SerializationUnit()
             {
                 _data = data.ToArray(),
+                _memberType = typeof( object ),
                 ForwardRefMap = refMap,
                 ReverseRefMap = refMap
             };
@@ -361,6 +440,7 @@ namespace UnityPlus.Serialization
             return new SerializationUnit()
             {
                 _data = data,
+                _memberType = typeof( object ),
                 ForwardRefMap = refMap,
                 ReverseRefMap = refMap
             };
@@ -377,6 +457,7 @@ namespace UnityPlus.Serialization
             {
                 _objects = new object[] { obj },
                 _data = new SerializedData[] { data },
+                _memberType = typeof( T ),
                 ForwardRefMap = refMap,
                 ReverseRefMap = refMap
             };
@@ -393,6 +474,7 @@ namespace UnityPlus.Serialization
             {
                 _objects = objects,
                 _data = data,
+                _memberType = typeof( object ),
                 ForwardRefMap = refMap,
                 ReverseRefMap = refMap
             };

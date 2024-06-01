@@ -11,7 +11,7 @@ using UnityPlus.Serialization.Json;
 
 namespace Neoserialization
 {
-    public class MappingConstructionTests
+    public class MappingRegistryTests
     {
         public class BaseClass
         {
@@ -38,7 +38,7 @@ namespace Neoserialization
         [SerializationMappingProvider( typeof( BaseClass ) )]
         public static SerializationMapping BaseClassMapping()
         {
-            return new CompoundSerializationMapping<BaseClass>()
+            return new MemberwiseSerializationMapping<BaseClass>()
             {
                 ("base_member", new Member<BaseClass, float>( o => o.baseMember ))
             };
@@ -47,7 +47,7 @@ namespace Neoserialization
         [SerializationMappingProvider( typeof( DerivedClass ) )]
         public static SerializationMapping DerivedClassMapping()
         {
-            return new CompoundSerializationMapping<DerivedClass>()
+            return new MemberwiseSerializationMapping<DerivedClass>()
             {
                 ("derived_member", new Member<DerivedClass, string>( o => o.derivedMember ))
             };
@@ -56,7 +56,7 @@ namespace Neoserialization
         [SerializationMappingProvider( typeof( GenericClass<> ) )]
         public static SerializationMapping TestclassMapping<T>()
         {
-            return new CompoundSerializationMapping<GenericClass<T>>()
+            return new MemberwiseSerializationMapping<GenericClass<T>>()
             {
                 ("member", new Member<GenericClass<T>, T>( o => o.member ))
             };
@@ -65,13 +65,17 @@ namespace Neoserialization
         [SerializationMappingProvider( typeof( MultiGenericClass<,,> ) )]
         public static SerializationMapping TestclassMapping<T1, T2, T3>()
         {
-            return new CompoundSerializationMapping<MultiGenericClass<T1, T2, T3>>()
+            return new MemberwiseSerializationMapping<MultiGenericClass<T1, T2, T3>>()
             {
                 ("member1", new Member<MultiGenericClass<T1, T2, T3>, T1>( o => o.member1 )),
                 ("member2", new Member<MultiGenericClass<T1, T2, T3>, T2>( o => o.member2 )),
                 ("member3", new Member<MultiGenericClass<T1, T2, T3>, T3>( o => o.member3 ))
             };
         }
+
+        //
+        //  These tests test both the mapping registry search algorithm, and the construction of the mappings that's inside it.
+        //
 
         [Test]
         public void GetMappingFor___Simple___ReturnsCorrectMapping()
@@ -83,7 +87,7 @@ namespace Neoserialization
             SerializationMapping mapping2 = SerializationMappingRegistry.GetMappingOrDefault<bool>( true.GetType() );
 
             // Assert
-            Assert.That( mapping1, Is.InstanceOf( typeof( PrimitiveStructSerializationMapping<bool> ) ) );
+            Assert.That( mapping1, Is.InstanceOf( typeof( PrimitiveReferencableSerializationMapping<bool> ) ) );
             Assert.That( mapping1, Is.EqualTo( mapping2 ) );
         }
 
@@ -97,7 +101,7 @@ namespace Neoserialization
             SerializationMapping mapping2 = SerializationMappingRegistry.GetMappingOrDefault<BaseClass>( new DerivedClass().GetType() );
 
             // Assert
-            Assert.That( mapping1, Is.InstanceOf( typeof( CompoundSerializationMapping<DerivedClass> ) ) );
+            Assert.That( mapping1, Is.InstanceOf( typeof( MemberwiseSerializationMapping<DerivedClass> ) ) );
             Assert.That( mapping1, Is.EqualTo( mapping2 ) );
         }
 
@@ -111,7 +115,7 @@ namespace Neoserialization
             SerializationMapping mapping2 = SerializationMappingRegistry.GetMappingOrDefault<GenericClass<float>>( new GenericClass<float>().GetType() );
 
             // Assert
-            Assert.That( mapping1, Is.InstanceOf( typeof( CompoundSerializationMapping<GenericClass<float>> ) ) );
+            Assert.That( mapping1, Is.InstanceOf( typeof( MemberwiseSerializationMapping<GenericClass<float>> ) ) );
             Assert.That( mapping1, Is.EqualTo( mapping2 ) );
         }
 
@@ -125,7 +129,7 @@ namespace Neoserialization
             SerializationMapping mapping2 = SerializationMappingRegistry.GetMappingOrDefault<MultiGenericClass<float, int, float>>( new MultiGenericClass<float, int, float>().GetType() );
 
             // Assert
-            Assert.That( mapping1, Is.InstanceOf( typeof( CompoundSerializationMapping<MultiGenericClass<float, int, float>> ) ) );
+            Assert.That( mapping1, Is.InstanceOf( typeof( MemberwiseSerializationMapping<MultiGenericClass<float, int, float>> ) ) );
             Assert.That( mapping1, Is.EqualTo( mapping2 ) );
         }
 
@@ -142,6 +146,5 @@ namespace Neoserialization
             Assert.That( mapping1, Is.InstanceOf( typeof( NonPrimitiveSerializationMapping<int[]> ) ) );
             Assert.That( mapping1, Is.EqualTo( mapping2 ) );
         }
-
     }
 }

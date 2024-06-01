@@ -14,7 +14,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( bool ) )]
         public static SerializationMapping BooleanMapping()
         {
-            return new PrimitiveStructSerializationMapping<bool>()
+            return new PrimitiveReferencingSerializationMapping<bool>()
             {
                 OnSave = ( o, s ) => (SerializedPrimitive)o,
                 OnInstantiate = ( data, l ) => (bool)data
@@ -24,7 +24,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( byte ) )]
         public static SerializationMapping ByteMapping()
         {
-            return new PrimitiveStructSerializationMapping<byte>()
+            return new PrimitiveReferencingSerializationMapping<byte>()
             {
                 OnSave = ( o, s ) => (SerializedPrimitive)o,
                 OnInstantiate = ( data, l ) => (byte)data
@@ -34,7 +34,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( sbyte ) )]
         public static SerializationMapping SByteMapping()
         {
-            return new PrimitiveStructSerializationMapping<sbyte>()
+            return new PrimitiveReferencingSerializationMapping<sbyte>()
             {
                 OnSave = ( o, s ) => (SerializedPrimitive)o,
                 OnInstantiate = ( data, l ) => (sbyte)data
@@ -44,7 +44,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( short ) )]
         public static SerializationMapping Int16Mapping()
         {
-            return new PrimitiveStructSerializationMapping<short>()
+            return new PrimitiveReferencingSerializationMapping<short>()
             {
                 OnSave = ( o, s ) => (SerializedPrimitive)o,
                 OnInstantiate = ( data, l ) => (short)data
@@ -54,7 +54,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( ushort ) )]
         public static SerializationMapping UInt16Mapping()
         {
-            return new PrimitiveStructSerializationMapping<ushort>()
+            return new PrimitiveReferencingSerializationMapping<ushort>()
             {
                 OnSave = ( o, s ) => (SerializedPrimitive)o,
                 OnInstantiate = ( data, l ) => (ushort)data
@@ -64,7 +64,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( int ) )]
         public static SerializationMapping Int32Mapping()
         {
-            return new PrimitiveStructSerializationMapping<int>()
+            return new PrimitiveReferencingSerializationMapping<int>()
             {
                 OnSave = ( o, s ) => (SerializedPrimitive)o,
                 OnInstantiate = ( data, l ) => (int)data
@@ -74,7 +74,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( uint ) )]
         public static SerializationMapping UInt32Mapping()
         {
-            return new PrimitiveStructSerializationMapping<uint>()
+            return new PrimitiveReferencingSerializationMapping<uint>()
             {
                 OnSave = ( o, s ) => (SerializedPrimitive)o,
                 OnInstantiate = ( data, l ) => (uint)data
@@ -84,7 +84,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( long ) )]
         public static SerializationMapping Int64Mapping()
         {
-            return new PrimitiveStructSerializationMapping<long>()
+            return new PrimitiveReferencingSerializationMapping<long>()
             {
                 OnSave = ( o, s ) => (SerializedPrimitive)o,
                 OnInstantiate = ( data, l ) => (long)data
@@ -94,7 +94,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( ulong ) )]
         public static SerializationMapping UInt64Mapping()
         {
-            return new PrimitiveStructSerializationMapping<ulong>()
+            return new PrimitiveReferencingSerializationMapping<ulong>()
             {
                 OnSave = ( o, s ) => (SerializedPrimitive)o,
                 OnInstantiate = ( data, l ) => (ulong)data
@@ -104,7 +104,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( float ) )]
         public static SerializationMapping FloatMapping()
         {
-            return new PrimitiveStructSerializationMapping<float>()
+            return new PrimitiveReferencingSerializationMapping<float>()
             {
                 OnSave = ( o, s ) => (SerializedPrimitive)o,
                 OnInstantiate = ( data, l ) => (float)data
@@ -114,7 +114,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( double ) )]
         public static SerializationMapping DoubleMapping()
         {
-            return new PrimitiveStructSerializationMapping<double>()
+            return new PrimitiveReferencingSerializationMapping<double>()
             {
                 OnSave = ( o, s ) => (SerializedPrimitive)o,
                 OnInstantiate = ( data, l ) => (double)data
@@ -124,7 +124,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( decimal ) )]
         public static SerializationMapping DecimalMapping()
         {
-            return new PrimitiveStructSerializationMapping<decimal>()
+            return new PrimitiveReferencingSerializationMapping<decimal>()
             {
                 OnSave = ( o, s ) => (SerializedPrimitive)o,
                 OnInstantiate = ( data, l ) => (decimal)data
@@ -134,7 +134,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( char ) )]
         public static SerializationMapping CharMapping()
         {
-            return new PrimitiveStructSerializationMapping<char>()
+            return new PrimitiveReferencingSerializationMapping<char>()
             {
                 OnSave = ( o, s ) => (SerializedPrimitive)(o.ToString()),
                 OnInstantiate = ( data, l ) => ((string)data)[0]
@@ -144,7 +144,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( string ) )]
         public static SerializationMapping StringMapping()
         {
-            return new PrimitiveStructSerializationMapping<string>()
+            return new PrimitiveReferencingSerializationMapping<string>()
             {
                 OnSave = ( o, s ) => (SerializedPrimitive)o,
                 OnInstantiate = ( data, l ) => (string)data
@@ -155,7 +155,7 @@ namespace UnityPlus.Serialization.Mappings
         public static SerializationMapping DateTimeMapping()
         {
             // DateTime is saved as an ISO-8601 string.
-            return new PrimitiveStructSerializationMapping<DateTime>()
+            return new PrimitiveReferencingSerializationMapping<DateTime>()
             {
                 OnSave = ( o, s ) => (SerializedPrimitive)o.ToString( "s", CultureInfo.InvariantCulture ),
                 OnInstantiate = ( data, l ) => DateTime.ParseExact( (string)data, "s", CultureInfo.InvariantCulture )
@@ -166,7 +166,7 @@ namespace UnityPlus.Serialization.Mappings
         public static SerializationMapping TimeSpanMapping()
         {
             // TimeSpan is saved as `[-][d'.']hh':'mm':'ss['.'fffffff]`.
-            return new PrimitiveStructSerializationMapping<TimeSpan>()
+            return new PrimitiveReferencingSerializationMapping<TimeSpan>()
             {
                 OnSave = ( o, s ) => (SerializedPrimitive)o.ToString( "c", CultureInfo.InvariantCulture ),
                 OnInstantiate = ( data, l ) => TimeSpan.ParseExact( (string)data, "c", CultureInfo.InvariantCulture )
@@ -178,7 +178,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( Vector2 ) )]
         public static SerializationMapping Vector2Mapping()
         {
-            return new PrimitiveStructSerializationMapping<Vector2>()
+            return new PrimitiveReferencingSerializationMapping<Vector2>()
             {
                 OnSave = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y },
                 OnInstantiate = ( data, l ) => new Vector2( (float)data[0], (float)data[1] )
@@ -188,7 +188,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( Vector2Int ) )]
         public static SerializationMapping Vector2IntMapping()
         {
-            return new PrimitiveStructSerializationMapping<Vector2Int>()
+            return new PrimitiveReferencingSerializationMapping<Vector2Int>()
             {
                 OnSave = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y },
                 OnInstantiate = ( data, l ) => new Vector2Int( (int)data[0], (int)data[1] )
@@ -198,7 +198,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( Vector3 ) )]
         public static SerializationMapping Vector3Mapping()
         {
-            return new PrimitiveStructSerializationMapping<Vector3>()
+            return new PrimitiveReferencingSerializationMapping<Vector3>()
             {
                 OnSave = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z },
                 OnInstantiate = ( data, l ) => new Vector3( (float)data[0], (float)data[1], (float)data[2] )
@@ -208,7 +208,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( Vector3Int ) )]
         public static SerializationMapping Vector3IntMapping()
         {
-            return new PrimitiveStructSerializationMapping<Vector3Int>()
+            return new PrimitiveReferencingSerializationMapping<Vector3Int>()
             {
                 OnSave = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z },
                 OnInstantiate = ( data, l ) => new Vector3Int( (int)data[0], (int)data[1], (int)data[2] )
@@ -218,7 +218,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( Vector3Dbl ) )]
         public static SerializationMapping Vector3DblMapping()
         {
-            return new PrimitiveStructSerializationMapping<Vector3Dbl>()
+            return new PrimitiveReferencingSerializationMapping<Vector3Dbl>()
             {
                 OnSave = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z },
                 OnInstantiate = ( data, l ) => new Vector3Dbl( (double)data[0], (double)data[1], (double)data[2] )
@@ -228,7 +228,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( Vector4 ) )]
         public static SerializationMapping Vector4Mapping()
         {
-            return new PrimitiveStructSerializationMapping<Vector4>()
+            return new PrimitiveReferencingSerializationMapping<Vector4>()
             {
                 OnSave = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z, (SerializedPrimitive)o.w },
                 OnInstantiate = ( data, l ) => new Vector4( (float)data[0], (float)data[1], (float)data[2], (float)data[3] )
@@ -238,7 +238,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( Quaternion ) )]
         public static SerializationMapping QuaternionMapping()
         {
-            return new PrimitiveStructSerializationMapping<Quaternion>()
+            return new PrimitiveReferencingSerializationMapping<Quaternion>()
             {
                 OnSave = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z, (SerializedPrimitive)o.w },
                 OnInstantiate = ( data, l ) => new Quaternion( (float)data[0], (float)data[1], (float)data[2], (float)data[3] )
@@ -248,7 +248,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( QuaternionDbl ) )]
         public static SerializationMapping QuaternionDblMapping()
         {
-            return new PrimitiveStructSerializationMapping<QuaternionDbl>()
+            return new PrimitiveReferencingSerializationMapping<QuaternionDbl>()
             {
                 OnSave = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z, (SerializedPrimitive)o.w },
                 OnInstantiate = ( data, l ) => new QuaternionDbl( (double)data[0], (double)data[1], (double)data[2], (double)data[3] )
@@ -258,7 +258,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( Enum ) )]
         public static SerializationMapping EnumMapping<T>() where T : struct, Enum
         {
-            return new PrimitiveStructSerializationMapping<T>()
+            return new PrimitiveReferencingSerializationMapping<T>()
             {
                 OnSave = ( o, s ) => (SerializedPrimitive)o.ToString( "G" ),
                 OnInstantiate = ( data, l ) => Enum.Parse<T>( (string)data )
@@ -440,7 +440,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( Behaviour ) )]
         public static SerializationMapping BehaviourMapping()
         {
-            return new CompoundSerializationMapping<Behaviour>()
+            return new MemberwiseSerializationMapping<Behaviour>()
             {
                 ("is_enabled", new Member<Behaviour, bool>( o => o.enabled ))
             }
@@ -450,7 +450,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( Component ) )]
         public static SerializationMapping ComponentMapping()
         {
-            return new CompoundSerializationMapping<Component>()
+            return new MemberwiseSerializationMapping<Component>()
                 .WithFactory( ( data, l ) =>
                 {
                     Guid id = data[KeyNames.ID].DeserializeGuid();
@@ -464,7 +464,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( GameObject ) )]
         public static SerializationMapping GameObjectMapping()
         {
-            return new CompoundSerializationMapping<GameObject>()
+            return new MemberwiseSerializationMapping<GameObject>()
             {
                 ("name", new Member<GameObject, string>( o => o.name )),
                 ("layer", new Member<GameObject, int>( o => o.layer )),
@@ -530,7 +530,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( Renderer ) )]
         public static SerializationMapping RendererMapping()
         {
-            return new CompoundSerializationMapping<Renderer>()
+            return new MemberwiseSerializationMapping<Renderer>()
             {
                 ("is_enabled", new Member<Renderer, bool>( o => o.enabled ))
             }
@@ -540,7 +540,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( Transform ) )]
         public static SerializationMapping TransformMapping()
         {
-            return new CompoundSerializationMapping<Transform>()
+            return new MemberwiseSerializationMapping<Transform>()
             {
                 ("local_position", new Member<Transform, Vector3>( o => o.localPosition )),
                 ("local_rotation", new Member<Transform, Quaternion>( o => o.localRotation )),
@@ -552,7 +552,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( MeshFilter ) )]
         public static SerializationMapping MeshFilterMapping()
         {
-            return new CompoundSerializationMapping<MeshFilter>()
+            return new MemberwiseSerializationMapping<MeshFilter>()
             {
                 ("shared_mesh", new MemberAsset<MeshFilter, Mesh>( o => o.sharedMesh ))
             }
@@ -562,7 +562,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( MeshRenderer ) )]
         public static SerializationMapping MeshRendererMapping()
         {
-            return new CompoundSerializationMapping<MeshRenderer>()
+            return new MemberwiseSerializationMapping<MeshRenderer>()
             {
                 ("shared_materials", new MemberAssetArray<MeshRenderer, Material>( o => o.sharedMaterials )),
                 ("shadow_casting_mode", new Member<MeshRenderer, ShadowCastingMode>( o => o.shadowCastingMode )),
@@ -575,7 +575,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( Rigidbody ) )]
         public static SerializationMapping RigidbodyMapping()
         {
-            return new CompoundSerializationMapping<Rigidbody>()
+            return new MemberwiseSerializationMapping<Rigidbody>()
             {
                 ("is_kinematic", new Member<Rigidbody, bool>( o => o.isKinematic ))
             }
@@ -585,7 +585,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( BoxCollider ) )]
         public static SerializationMapping BoxColliderMapping()
         {
-            return new CompoundSerializationMapping<BoxCollider>()
+            return new MemberwiseSerializationMapping<BoxCollider>()
             {
                 ("size", new Member<BoxCollider, Vector3>( o => o.size )),
                 ("center", new Member<BoxCollider, Vector3>( o => o.center )),
@@ -597,7 +597,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( SphereCollider ) )]
         public static SerializationMapping SphereColliderMapping()
         {
-            return new CompoundSerializationMapping<SphereCollider>()
+            return new MemberwiseSerializationMapping<SphereCollider>()
             {
                 ("radius", new Member<SphereCollider, float>( o => o.radius )),
                 ("center", new Member<SphereCollider, Vector3>( o => o.center )),
@@ -609,7 +609,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( CapsuleCollider ) )]
         public static SerializationMapping CapsuleColliderMapping()
         {
-            return new CompoundSerializationMapping<CapsuleCollider>()
+            return new MemberwiseSerializationMapping<CapsuleCollider>()
             {
                 ("radius", new Member<CapsuleCollider, float>( o => o.radius )),
                 ("height", new Member<CapsuleCollider, float>( o => o.height )),
@@ -623,7 +623,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( MeshCollider ) )]
         public static SerializationMapping MeshColliderMapping()
         {
-            return new CompoundSerializationMapping<MeshCollider>()
+            return new MemberwiseSerializationMapping<MeshCollider>()
             {
                 ("shared_mesh", new MemberAsset<MeshCollider, Mesh>( o => o.sharedMesh )),
                 ("is_convex", new Member<MeshCollider, bool>( o => o.convex )),
@@ -635,7 +635,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( LOD ) )]
         public static SerializationMapping LODMapping()
         {
-            return new CompoundSerializationMapping<LOD>()
+            return new MemberwiseSerializationMapping<LOD>()
             {
                 ("fade_width", new Member<LOD, float>( o => o.fadeTransitionWidth )),
                 ("percent", new Member<LOD, float>( o => o.screenRelativeTransitionHeight )),
@@ -647,7 +647,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( LODGroup ) )]
         public static SerializationMapping LODGroupMapping()
         {
-            return new CompoundSerializationMapping<LODGroup>()
+            return new MemberwiseSerializationMapping<LODGroup>()
             {
                 ("size", new Member<LODGroup, float>( o => o.size )),
                 ("lods", new Member<LODGroup, LOD[]>( o => o.GetLODs(), (o, value) => o.SetLODs( value ) ))
@@ -658,7 +658,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( Delegate ) )]
         public static SerializationMapping DelegateMapping()
         {
-            return new PrimitiveObjectSerializationMapping<Delegate>()
+            return new PrimitiveReferencingSerializationMapping<Delegate>()
             {
                 OnSave = ( o, s ) =>
                 {
