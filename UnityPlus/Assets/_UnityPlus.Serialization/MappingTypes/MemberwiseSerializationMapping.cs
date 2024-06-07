@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Reflection;
 using UnityEngine;
 
 namespace UnityPlus.Serialization
 {
     public interface ISerializationMappingWithCustomFactory
     {
-        Func<SerializedData, IForwardReferenceMap, object> OnInstantiate { get; }
+        Func<SerializedData, ILoader, object> OnInstantiate { get; }
     }
 
     /// <summary>
@@ -20,7 +18,7 @@ namespace UnityPlus.Serialization
     {
 #warning TODO - allow members to keep static values instead of saving them (i.e. force isKinematic to true on every deserialization).
         private readonly List<(string, MemberBase<TSource>)> _items = new();
-        public Func<SerializedData, IForwardReferenceMap, object> OnInstantiate { get; private set; } = null;
+        public Func<SerializedData, ILoader, object> OnInstantiate { get; private set; } = null;
 
         public override SerializationStyle SerializationStyle => SerializationStyle.NonPrimitive;
 
@@ -36,7 +34,7 @@ namespace UnityPlus.Serialization
         /// The factory is only needed to create an instance, not to set its internal state. The state should be set using the members.
         /// </remarks>
         /// <param name="customFactory">The method used to create an instance of <typeparamref name="TSource"/> from its serialized representation.</param>
-        public MemberwiseSerializationMapping<TSource> WithFactory( Func<SerializedData, IForwardReferenceMap, object> customFactory )
+        public MemberwiseSerializationMapping<TSource> WithFactory( Func<SerializedData, ILoader, object> customFactory )
         {
             this.OnInstantiate = customFactory;
             return this;
@@ -117,33 +115,25 @@ namespace UnityPlus.Serialization
             return _items.GetEnumerator();
         }
 
-        public override SerializedData Save( object obj, IReverseReferenceMap s )
+        public override SerializedData Save( object obj, ISaver s )
         {
             SerializedObject root = new SerializedObject();
 
             TSource sourceObj = (TSource)obj;
 
-            root[KeyNames.ID] = s.GetID( sourceObj ).SerializeGuid();
+            root[KeyNames.ID] = s.RefMap.GetID( sourceObj ).SerializeGuid();
             root[KeyNames.TYPE] = obj.GetType().SerializeType();
 
             foreach( var item in _items )
             {
-                if( item.Item2 is IMappedMember<TSource> member )
-                {
-                    SerializedData data = member.Save( sourceObj, s );
-                    root[item.Item1] = data;
-                }
-                else if( item.Item2 is IMappedReferenceMember<TSource> memberRef )
-                {
-                    SerializedData data = memberRef.Save( sourceObj, s );
-                    root[item.Item1] = data;
-                }
+                SerializedData data = item.Item2.Save( sourceObj, s );
+                root[item.Item1] = data;
             }
 
             return root;
         }
 
-        public override object Instantiate( SerializedData data, IForwardReferenceMap l )
+        public override object Instantiate( SerializedData data, ILoader l )
         {
             TSource obj;
             if( OnInstantiate == null )
@@ -151,7 +141,7 @@ namespace UnityPlus.Serialization
                 obj = Activator.CreateInstance<TSource>();
                 if( data.TryGetValue( KeyNames.ID, out var id ) )
                 {
-                    l.SetObj( id.DeserializeGuid(), obj );
+                    l.RefMap.SetObj( id.DeserializeGuid(), obj );
                 }
             }
             else
@@ -162,34 +152,28 @@ namespace UnityPlus.Serialization
             return obj;
         }
 
-        public override void Load( ref object obj, SerializedData data, IForwardReferenceMap l )
+        public override void Load( ref object obj, SerializedData data, ILoader l )
         {
             TSource obj2 = (TSource)obj;
             foreach( var item in _items )
             {
-                if( item.Item2 is IMappedMember<TSource> member )
+                if( data.TryGetValue( item.Item1, out var memberData ) )
                 {
-                    if( data.TryGetValue( item.Item1, out var memberData ) )
-                    {
-                        member.Load( ref obj2, memberData, l );
-                    }
+                    item.Item2.Load( ref obj2, memberData, l );
                 }
             }
             obj = obj2;
         }
 
-        public override void LoadReferences( ref object obj, SerializedData data, IForwardReferenceMap l )
+        public override void LoadReferences( ref object obj, SerializedData data, ILoader l )
         {
             var objM = (TSource)obj;
 
             foreach( var item in _items )
             {
-                if( item.Item2 is IMappedReferenceMember<TSource> member )
+                if( data.TryGetValue( item.Item1, out var memberData ) )
                 {
-                    if( data.TryGetValue( item.Item1, out var memberData ) )
-                    {
-                        member.LoadReferences( ref objM, memberData, l );
-                    }
+                    item.Item2.LoadReferences( ref objM, memberData, l );
                 }
             }
 

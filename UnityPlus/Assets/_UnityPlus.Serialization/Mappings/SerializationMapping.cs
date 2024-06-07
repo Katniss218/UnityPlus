@@ -26,20 +26,23 @@ namespace UnityPlus.Serialization
         /// <summary>
         /// Saves the full state of the object <paramref name="obj"/>.
         /// </summary>
-        public abstract SerializedData Save( object obj, IReverseReferenceMap s );
+        public abstract SerializedData Save( object obj, ISaver s );
 
-        public abstract object Instantiate( SerializedData data, IForwardReferenceMap l );
+        /// <summary>
+        /// The factory method.
+        /// </summary>
+        public abstract object Instantiate( SerializedData data, ILoader l );
 
         /// <summary>
         /// Loads (creates) the object from <paramref name="data"/>.
         /// If the serialization style is Compound, this will recursively create all applicable objects.
         /// </summary>
-        public abstract void Load( ref object obj, SerializedData data, IForwardReferenceMap l );
+        public abstract void Load( ref object obj, SerializedData data, ILoader l );
 
         /// <summary>
         /// Populates the members of the object <paramref name="obj"/>, if applicable.
         /// </summary>
-        public abstract void LoadReferences( ref object obj, SerializedData data, IForwardReferenceMap l );
+        public abstract void LoadReferences( ref object obj, SerializedData data, ILoader l );
 
         public static SerializationMapping Empty( Type sourceType )
         {

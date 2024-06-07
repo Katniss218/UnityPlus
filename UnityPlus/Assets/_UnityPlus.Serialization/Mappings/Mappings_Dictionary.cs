@@ -24,7 +24,7 @@ namespace UnityPlus.Serialization.Mappings
                 {
                     return new Dictionary<TKey, TValue>();
                 },
-                OnLoad = ( ref Dictionary<TKey, TValue> o, SerializedData data, IForwardReferenceMap l ) =>
+                OnLoad = ( ref Dictionary<TKey, TValue> o, SerializedData data, ILoader l ) =>
                 {
                     if( data is not SerializedArray dataObj )
                         return;
@@ -77,7 +77,7 @@ namespace UnityPlus.Serialization.Mappings
                         o[(TKey)key] = (TValue)value;
                     }
                 },
-                OnLoadReferences = ( ref Dictionary<TKey, TValue> o, SerializedData data, IForwardReferenceMap l ) =>
+                OnLoadReferences = ( ref Dictionary<TKey, TValue> o, SerializedData data, ILoader l ) =>
                 {
                     if( data is not SerializedArray dataObj )
                         return;
@@ -161,7 +161,7 @@ namespace UnityPlus.Serialization.Mappings
                 {
                     return new KeyValuePair<TKey, TValue>();
                 },
-                OnLoad = ( ref KeyValuePair<TKey, TValue> o, SerializedData data, IForwardReferenceMap l ) =>
+                OnLoad = ( ref KeyValuePair<TKey, TValue> o, SerializedData data, ILoader l ) =>
                 {
                     SerializedData keyData = data["key"];
                     SerializedData valueData = data["value"];
@@ -206,7 +206,7 @@ namespace UnityPlus.Serialization.Mappings
                             break;
                     }
                 },
-                OnLoadReferences = ( ref KeyValuePair<TKey, TValue> o, SerializedData data, IForwardReferenceMap l ) =>
+                OnLoadReferences = ( ref KeyValuePair<TKey, TValue> o, SerializedData data, ILoader l ) =>
                 {
                     SerializedData keyData = data["key"];
                     SerializedData valueData = data["value"];
@@ -262,7 +262,7 @@ namespace UnityPlus.Serialization.Mappings
 
                         var data = mapping.Save( value, s );
 
-                        string keyName = s.GetID( key ).SerializeGuidAsKey();
+                        string keyName = s.RefMap.GetID( key ).SerializeGuidAsKey();
                         obj[keyName] = data;
                     }
 
@@ -273,7 +273,7 @@ namespace UnityPlus.Serialization.Mappings
                     return new Dictionary<TKey, TValue>();
                 },
                 OnLoad = null,
-                OnLoadReferences = ( ref Dictionary<TKey, TValue> o, SerializedData data, IForwardReferenceMap l ) =>
+                OnLoadReferences = ( ref Dictionary<TKey, TValue> o, SerializedData data, ILoader l ) =>
                 {
                     if( data is not SerializedObject dataObj )
                         return;
@@ -297,7 +297,7 @@ namespace UnityPlus.Serialization.Mappings
                         mapping.Load( ref elem, elementData, l );
                         mapping.LoadReferences( ref elem, elementData, l );
 
-                        TKey keyObj = (TKey)l.GetObj( key.DeserializeGuidAsKey() );
+                        TKey keyObj = (TKey)l.RefMap.GetObj( key.DeserializeGuidAsKey() );
 
                         o[keyObj] = (TValue)elem;
                     }

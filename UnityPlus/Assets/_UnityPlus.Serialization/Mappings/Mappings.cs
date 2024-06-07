@@ -16,7 +16,7 @@ namespace UnityPlus.Serialization.Mappings
         {
             return new PrimitiveObjectSerializationMapping<object>()
             {
-                OnSave = ( o, s ) => s.WriteObjectReference( o ),
+                OnSave = ( o, s ) => s.RefMap.WriteObjectReference( o ),
                 OnInstantiate = ( data, l ) => (bool)data
             };
         }
@@ -31,7 +31,7 @@ namespace UnityPlus.Serialization.Mappings
                     SerializedArray serializedArray = new SerializedArray();
                     for( int i = 0; i < o.Length; i++ )
                     {
-                        var data = s.WriteObjectReference( o[i] );
+                        var data = s.RefMap.WriteObjectReference( o[i] );
 
                         serializedArray.Add( data );
                     }
@@ -64,7 +64,7 @@ namespace UnityPlus.Serialization.Mappings
         {
             return new PrimitiveObjectSerializationMapping<T>()
             {
-                OnSave = ( o, s ) => s.WriteAssetReference<T>( o ),
+                OnSave = ( o, s ) => s.RefMap.WriteAssetReference<T>( o ),
                 OnInstantiate = ( data, l ) => l.ReadAssetReference<T>( data )
             };
         }
@@ -79,7 +79,7 @@ namespace UnityPlus.Serialization.Mappings
                     SerializedArray serializedArray = new SerializedArray();
                     for( int i = 0; i < o.Length; i++ )
                     {
-                        var data = s.WriteAssetReference<T>( o[i] );
+                        var data = s.RefMap.WriteAssetReference<T>( o[i] );
 
                         serializedArray.Add( data );
                     }
@@ -388,7 +388,7 @@ namespace UnityPlus.Serialization.Mappings
 
                     return new T[serializedArray.Count];
                 },
-                OnLoad = ( ref T[] o, SerializedData data, IForwardReferenceMap l ) =>
+                OnLoad = ( ref T[] o, SerializedData data, ILoader l ) =>
                 {
                     if( data is not SerializedArray serializedArray )
                         return;
@@ -426,7 +426,7 @@ namespace UnityPlus.Serialization.Mappings
 
                     //return o;
                 },
-                OnLoadReferences = ( ref T[] o, SerializedData data, IForwardReferenceMap l ) =>
+                OnLoadReferences = ( ref T[] o, SerializedData data, ILoader l ) =>
                 {
                     if( data is not SerializedArray serializedArray )
                         return;
@@ -487,7 +487,7 @@ namespace UnityPlus.Serialization.Mappings
                 {
                     Guid id = data[KeyNames.ID].DeserializeGuid();
 
-                    Component c = (Component)l.GetObj( id );
+                    Component c = (Component)l.RefMap.GetObj( id );
 
                     return c;
                 } );
@@ -525,7 +525,7 @@ namespace UnityPlus.Serialization.Mappings
                 var obj = new GameObject();
                 if( data.TryGetValue( KeyNames.ID, out var id ) )
                 {
-                    l.SetObj( id.DeserializeGuid(), obj );
+                    l.RefMap.SetObj( id.DeserializeGuid(), obj );
                 }
                 // Instantiate components along the gameobject.
                 // The component base class factory will then look up the component in the refmap ('$id'), instead of instantiating and setting it.
@@ -546,7 +546,7 @@ namespace UnityPlus.Serialization.Mappings
                                 behaviour.enabled = false;
                             }
 
-                            l.SetObj( id2, component );
+                            l.RefMap.SetObj( id2, component );
                         }
                         catch( Exception ex )
                         {
@@ -693,7 +693,7 @@ namespace UnityPlus.Serialization.Mappings
             {
                 OnSave = ( o, s ) =>
                 {
-                    return Persistent_Delegate.GetData( o, s );
+                    return Persistent_Delegate.GetData( o, s.RefMap );
                 },
                 OnInstantiate = ( SerializedData data, IForwardReferenceMap l ) =>
                 {

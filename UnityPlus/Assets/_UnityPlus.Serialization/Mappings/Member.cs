@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Linq.Expressions;
-using System.Reflection;
-using UnityEngine;
-using UnityPlus.Serialization.Mappings;
 
 namespace UnityPlus.Serialization
 {
@@ -11,7 +8,7 @@ namespace UnityPlus.Serialization
     /// </summary>
     /// <typeparam name="TSource">The type that contains the member.</typeparam>
     /// <typeparam name="TMember">The type of the member (field/property/etc).</typeparam>
-    public class Member<TSource, TMember> : MemberBase<TSource>, IMappedMember<TSource>, IMappedReferenceMember<TSource>
+    public class Member<TSource, TMember> : MemberBase<TSource>//, IMappedMember<TSource>, IMappedReferenceMember<TSource>
     {
         private readonly int _context = default( int );
 
@@ -110,7 +107,7 @@ namespace UnityPlus.Serialization
         //  Logic
         //
 
-        public SerializedData Save( TSource source, IReverseReferenceMap s )
+        public override SerializedData Save( TSource source, ISaver s )
         {
             var member = _getter.Invoke( source );
 
@@ -124,7 +121,7 @@ namespace UnityPlus.Serialization
         // The public-facing methods on the SerializationUnit are like a member,
         //   but the member itself can't be populated, only the end user may choose to do that on the root object(s).
 
-        public void Load( ref TSource source, SerializedData data, IForwardReferenceMap l )
+        public override void Load( ref TSource source, SerializedData data, ILoader l )
         {
             Type memberType = typeof( TMember );
             if( data.TryGetValue( KeyNames.TYPE, out var type ) )
@@ -155,7 +152,7 @@ namespace UnityPlus.Serialization
                 _structSetter.Invoke( ref source, member );
         }
 
-        public void LoadReferences( ref TSource source, SerializedData data, IForwardReferenceMap l )
+        public override void LoadReferences( ref TSource source, SerializedData data, ILoader l )
         {
             var member = _getter.Invoke( source );
 

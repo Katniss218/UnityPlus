@@ -13,7 +13,7 @@ namespace UnityPlus.Serialization.Mappings
         // DoSave is the same everywhere.
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static void DoLoad( SerializationMapping mapping, ref object a, SerializedData data, IForwardReferenceMap l )
+        public static void DoLoad( SerializationMapping mapping, ref object a, SerializedData data, SerializationUnitLoader l )
         {
             switch( mapping.SerializationStyle )
             {
@@ -29,7 +29,7 @@ namespace UnityPlus.Serialization.Mappings
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static void DoLoadReferences( SerializationMapping mapping, ref object a, SerializedData data, IForwardReferenceMap l )
+        public static void DoLoadReferences( SerializationMapping mapping, ref object a, SerializedData data, SerializationUnitLoader l )
         {
             switch( mapping.SerializationStyle )
             {

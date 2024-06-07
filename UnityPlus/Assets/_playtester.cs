@@ -42,7 +42,7 @@ public class _playtester : MonoBehaviour
 
     void Start()
     {
-        var initialValue = new Dictionary<string, int>()
+        /*var initialValue = new Dictionary<string, int>()
             {
                 { "first", 5 },
                 { "second", 42 },
@@ -52,23 +52,11 @@ public class _playtester : MonoBehaviour
         // Act
         var data2 = SerializationUnit.Serialize( initialValue );
         var finalValue = SerializationUnit.Deserialize<Dictionary<string, int>>( data2 );
+        */
 
-        //JsonSerializedDataHandler handler = new JsonSerializedDataHandler();
-
-        // SerializedData data = SerializationUnit.Serialize<GameObject>( this.gameObject );
-
-        // GameObject obj = SerializationUnit.Deserialize<GameObject>( data );
-
-        //SerializationUnit su = SerializationUnit.FromObjects( this.gameObject, this.transform );
-        SerializationUnit su = SerializationUnit.FromObjects( this.gameObject );
+        var su = SerializationUnit.FromObjects( this.gameObject );
         su.Serialize();
         SerializedData data = su.GetDataOfType<GameObject>().First();
-
-        //var mapping = SerializationMappingRegistry.GetMappingOrDefault( this.gameObject );
-
-        //SerializedData data = mapping.Save( this.gameObject, new BidirectionalReferenceStore() );
-
-
 
         StringBuilder sb = new StringBuilder();
         new JsonStringWriter( data, sb ).Write();
