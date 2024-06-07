@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 namespace UnityPlus.Serialization
 {
     /// <summary>
-    /// Maps an object that can contain references to other objects.
+    /// Maps an object that can be referenced by other objects.
     /// </summary>
     /// <typeparam name="TSource">The type of the object being mapped.</typeparam>
-    public class PrimitiveReferencingSerializationMapping<TSource> : SerializationMapping
+    public class PrimitiveStructSerializationMapping<TSource> : SerializationMapping
     {
         /// <summary>
         /// The function invoked to convert the C# object into its serialized representation.
@@ -23,9 +23,9 @@ namespace UnityPlus.Serialization
         /// </summary>
         public Func<SerializedData, IForwardReferenceMap, TSource> OnInstantiate { get; set; }
 
-        public override SerializationStyle SerializationStyle => SerializationStyle.PrimitiveObject;
+        public override SerializationStyle SerializationStyle => SerializationStyle.PrimitiveStruct;
 
-        public PrimitiveReferencingSerializationMapping()
+        public PrimitiveStructSerializationMapping()
         {
 
         }
@@ -44,12 +44,12 @@ namespace UnityPlus.Serialization
 
         public override void Load( ref object obj, SerializedData data, IForwardReferenceMap l )
         {
-            throw new InvalidOperationException( $"Load is not supported on `{nameof( PrimitiveReferencingSerializationMapping<TSource> )}`." );
+            throw new InvalidOperationException( $"Load is not supported on `{nameof( PrimitiveStructSerializationMapping<TSource> )}`." );
         }
 
         public override void LoadReferences( ref object obj, SerializedData data, IForwardReferenceMap l )
         {
-            throw new InvalidOperationException( $"LoadReferences is not supported on `{nameof( PrimitiveReferencingSerializationMapping<TSource> )}`." );
+            throw new InvalidOperationException( $"LoadReferences is not supported on `{nameof( PrimitiveStructSerializationMapping<TSource> )}`." );
         }
     }
 }

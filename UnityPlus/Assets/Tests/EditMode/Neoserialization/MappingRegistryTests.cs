@@ -87,7 +87,7 @@ namespace Neoserialization
             SerializationMapping mapping2 = SerializationMappingRegistry.GetMappingOrDefault<bool>( ObjectContext.Default, true.GetType() );
 
             // Assert
-            Assert.That( mapping1, Is.InstanceOf( typeof( PrimitiveReferencableSerializationMapping<bool> ) ) );
+            Assert.That( mapping1, Is.InstanceOf( typeof( PrimitiveObjectSerializationMapping<bool> ) ) );
             Assert.That( mapping1, Is.EqualTo( mapping2 ) );
         }
 

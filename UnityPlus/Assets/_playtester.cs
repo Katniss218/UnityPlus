@@ -42,13 +42,24 @@ public class _playtester : MonoBehaviour
 
     void Start()
     {
+        var initialValue = new Dictionary<string, int>()
+            {
+                { "first", 5 },
+                { "second", 42 },
+                { "third", 218 }
+            };
+
+        // Act
+        var data2 = SerializationUnit.Serialize( initialValue );
+        var finalValue = SerializationUnit.Deserialize<Dictionary<string, int>>( data2 );
+
         //JsonSerializedDataHandler handler = new JsonSerializedDataHandler();
 
-       // SerializedData data = SerializationUnit.Serialize<GameObject>( this.gameObject );
+        // SerializedData data = SerializationUnit.Serialize<GameObject>( this.gameObject );
 
-       // GameObject obj = SerializationUnit.Deserialize<GameObject>( data );
+        // GameObject obj = SerializationUnit.Deserialize<GameObject>( data );
 
-       //SerializationUnit su = SerializationUnit.FromObjects( this.gameObject, this.transform );
+        //SerializationUnit su = SerializationUnit.FromObjects( this.gameObject, this.transform );
         SerializationUnit su = SerializationUnit.FromObjects( this.gameObject );
         su.Serialize();
         SerializedData data = su.GetDataOfType<GameObject>().First();
