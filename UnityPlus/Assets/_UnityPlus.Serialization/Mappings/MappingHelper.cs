@@ -1,19 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
 
 namespace UnityPlus.Serialization
 {
-    public delegate void LoadAction( ref object obj, SerializedData data, ILoader l );
-    public delegate void LoadReferencesAction( ref object obj, SerializedData data, ILoader l );
-
-    public delegate void LoadAction<TSource>( ref TSource obj, SerializedData data, ILoader l );
-    public delegate void LoadReferencesAction<TSource>( ref TSource obj, SerializedData data, ILoader l );
-
     public static class MappingHelper
     {
         // DoSave is the same everywhere.

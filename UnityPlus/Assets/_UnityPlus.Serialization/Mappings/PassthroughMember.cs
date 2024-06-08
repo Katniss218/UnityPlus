@@ -5,8 +5,7 @@ namespace UnityPlus.Serialization
     /// <summary>
     /// This is used when you need to store a member of the base type inside the memberwise mapping.
     /// </summary>
-    internal class PassthroughMember<TSource, TSourceBase> : MemberBase<TSource>//, IMappedMember<TSource>, IMappedReferenceMember<TSource>
-                                                                                where TSourceBase : class
+    internal class PassthroughMember<TSource, TSourceBase> : MemberBase<TSource> where TSourceBase : class
     {
         MemberBase<TSourceBase> _member;
 

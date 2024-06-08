@@ -249,17 +249,34 @@ namespace UnityPlus.Serialization.Mappings
         public static SerializationMapping DateTimeMapping()
         {
             // DateTime is saved as an ISO-8601 string.
+            // `2024-06-08T11:57:10.1564602Z`
+
             return new PrimitiveObjectSerializationMapping<DateTime>()
             {
-                OnSave = ( o, s ) => (SerializedPrimitive)o.ToString( "s", CultureInfo.InvariantCulture ),
-                OnInstantiate = ( data, l ) => DateTime.ParseExact( (string)data, "s", CultureInfo.InvariantCulture )
+                OnSave = ( o, s ) => (SerializedPrimitive)o.ToString( "o", CultureInfo.InvariantCulture ),
+                OnInstantiate = ( data, l ) => DateTime.Parse( (string)data, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind )
+            };
+        }
+
+        [SerializationMappingProvider( typeof( DateTimeOffset ) )]
+        public static SerializationMapping DateTimeOffsetMapping()
+        {
+            // DateTimeOffset is saved as an ISO-8601 string.
+            // `2024-06-08T11:57:10.1564602+00:00`
+
+            return new PrimitiveObjectSerializationMapping<DateTimeOffset>()
+            {
+                OnSave = ( o, s ) => (SerializedPrimitive)o.ToString( "o", CultureInfo.InvariantCulture ),
+                OnInstantiate = ( data, l ) => DateTimeOffset.Parse( (string)data, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind )
             };
         }
 
         [SerializationMappingProvider( typeof( TimeSpan ) )]
         public static SerializationMapping TimeSpanMapping()
         {
-            // TimeSpan is saved as `[-][d'.']hh':'mm':'ss['.'fffffff]`.
+            // TimeSpan is saved as `[-][dd'.']hh':'mm':'ss['.'fffffff]`.
+            // `-3962086.01:03:44.2452523`
+
             return new PrimitiveObjectSerializationMapping<TimeSpan>()
             {
                 OnSave = ( o, s ) => (SerializedPrimitive)o.ToString( "c", CultureInfo.InvariantCulture ),

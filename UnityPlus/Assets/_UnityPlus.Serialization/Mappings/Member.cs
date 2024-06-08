@@ -8,33 +8,45 @@ namespace UnityPlus.Serialization
     /// </summary>
     /// <typeparam name="TSource">The type that contains the member.</typeparam>
     /// <typeparam name="TMember">The type of the member (field/property/etc).</typeparam>
-    public class Member<TSource, TMember> : MemberBase<TSource>//, IMappedMember<TSource>, IMappedReferenceMember<TSource>
+    public class Member<TSource, TMember> : MemberBase<TSource>
     {
-        private readonly int _context = default( int );
+        private readonly int _context = ObjectContext.Default;
 
         private readonly Getter<TSource, TMember> _getter;
         private readonly Setter<TSource, TMember> _setter;
         private readonly RefSetter<TSource, TMember> _structSetter;
 
-        private bool _isCacheable;
+        private readonly Expression<Func<TSource, TMember>> _memberAccessExpr;
+
+        /// <summary>
+        /// Checks if the member serialization represents a simple member access (object.member = value), as opposed to something more complicated.
+        /// </summary>
+        public bool IsSimpleAccess => _memberAccessExpr != null;
+
+        /// <summary>
+        /// Gets the serialization context that this member should use.
+        /// </summary>
+        public int Context => _context;
+
+        private bool _hasCachedMapping;
         private SerializationMapping _cachedMapping;
 
         private void TryCacheMemberMapping()
         {
             Type type = typeof( TMember );
-            if( type.IsValueType
-             || (!type.IsInterface && type.BaseType == null) )
+            if( type.IsValueType || (!type.IsInterface && type.BaseType == null) )
             {
-                _isCacheable = true;
+                _hasCachedMapping = true;
                 _cachedMapping = SerializationMappingRegistry.GetMappingOrEmpty( _context, typeof( TMember ) );
             }
         }
 
-        // expression-constructors
+        // expression constructors
 
         /// <param name="member">Example: `o => o.position`.</param>
         public Member( Expression<Func<TSource, TMember>> member )
         {
+            _memberAccessExpr = member;
             TryCacheMemberMapping();
             _getter = AccessorUtils.CreateGetter( member );
 
@@ -47,6 +59,7 @@ namespace UnityPlus.Serialization
         /// <param name="member">Example: `o => o.position`.</param>
         public Member( int context, Expression<Func<TSource, TMember>> member )
         {
+            _memberAccessExpr = member;
             _context = context;
             TryCacheMemberMapping();
             _getter = AccessorUtils.CreateGetter( member );
@@ -57,13 +70,14 @@ namespace UnityPlus.Serialization
                 _setter = AccessorUtils.CreateSetter( member );
         }
 
-        // class custom getters/setters
+        // custom getter/setter constructors
 
         public Member( Getter<TSource, TMember> getter, Setter<TSource, TMember> setter )
         {
             if( typeof( TSource ).IsValueType )
-                throw new InvalidOperationException( $"[{typeof( TSource ).FullName}] Use the constructor with the value type setter." );
+                throw new InvalidOperationException( $"Member `{typeof( TSource ).FullName}` This constructor can only be used with a reference type TSource." );
 
+            _memberAccessExpr = null;
             TryCacheMemberMapping();
             _getter = getter;
             _setter = setter;
@@ -72,21 +86,21 @@ namespace UnityPlus.Serialization
         public Member( int context, Getter<TSource, TMember> getter, Setter<TSource, TMember> setter )
         {
             if( typeof( TSource ).IsValueType )
-                throw new InvalidOperationException( $"[{typeof( TSource ).FullName}] Use the constructor with the value type setter." );
+                throw new InvalidOperationException( $"Member `{typeof( TSource ).FullName}` This constructor can only be used with a reference type TSource." );
 
+            _memberAccessExpr = null;
             _context = context;
             TryCacheMemberMapping();
             _getter = getter;
             _setter = setter;
         }
 
-        // struct custom getters/setters
-
         public Member( Getter<TSource, TMember> getter, RefSetter<TSource, TMember> setter )
         {
             if( !typeof( TSource ).IsValueType )
-                throw new InvalidOperationException( $"[{typeof( TSource ).FullName}] Use the constructor with the reference type setter." );
+                throw new InvalidOperationException( $"Member `{typeof( TSource ).FullName}` This constructor can only be used with a value type TSource." );
 
+            _memberAccessExpr = null;
             TryCacheMemberMapping();
             _getter = getter;
             _structSetter = setter;
@@ -95,8 +109,9 @@ namespace UnityPlus.Serialization
         public Member( int context, Getter<TSource, TMember> getter, RefSetter<TSource, TMember> setter )
         {
             if( !typeof( TSource ).IsValueType )
-                throw new InvalidOperationException( $"[{typeof( TSource ).FullName}] Use the constructor with the reference type setter." );
+                throw new InvalidOperationException( $"Member `{typeof( TSource ).FullName}` This constructor can only be used with a value type TSource." );
 
+            _memberAccessExpr = null;
             _context = context;
             TryCacheMemberMapping();
             _getter = getter;
@@ -129,7 +144,7 @@ namespace UnityPlus.Serialization
                 memberType = type.DeserializeType();
             }
 
-            var mapping = _isCacheable ? _cachedMapping : SerializationMappingRegistry.GetMappingOrDefault<TMember>( _context, memberType );
+            var mapping = _hasCachedMapping ? _cachedMapping : SerializationMappingRegistry.GetMappingOrDefault<TMember>( _context, memberType );
 
             TMember member = default;
             MappingHelper.DoLoad( mapping, ref member, data, l );

@@ -65,7 +65,7 @@ public class _playtester : MonoBehaviour
     {
         return new MemberwiseSerializationMapping<_playtester>()
         {
-           // ("action", new Member<_playtester, Action<string>>(o => o.Action))
+            // ("action", new Member<_playtester, Action<string>>(o => o.Action))
         }
         //.IncludeMembers<Behaviour>()
         .UseBaseTypeFactory();
@@ -86,11 +86,16 @@ public class _playtester : MonoBehaviour
     void Start()
     {
         // Arrange
-        var initialValue = new KeyValuePair<BaseClass, BaseClass>( new BaseClass() { baseMember = 2 }, new DerivedClass() { baseMember = 5, derivedMember = "42" } );
+        var initialValue = TimeSpan.FromTicks( 3423242342242452523 );
 
         // Act
         var data = SerializationUnit.Serialize( initialValue );
-        var finalValue = SerializationUnit.Deserialize<KeyValuePair<BaseClass, BaseClass>>( data );
+        var finalValue = SerializationUnit.Deserialize<TimeSpan>( data );
+
+        StringBuilder sb1 = new StringBuilder();
+        new JsonStringWriter( data, sb1 ).Write();
+        string s1 = sb1.ToString();
+
 
         var su = SerializationUnit.FromObjects( this.gameObject );
         su.Serialize();
@@ -107,7 +112,7 @@ public class _playtester : MonoBehaviour
 
         _playtester t = obj.GetComponent<_playtester>();
     }
-    
+
     void Update()
     {
         RunPerfTest();

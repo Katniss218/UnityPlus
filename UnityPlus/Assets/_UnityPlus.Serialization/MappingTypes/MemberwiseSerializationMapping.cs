@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace UnityPlus.Serialization
 {
-    public interface ISerializationMappingWithCustomFactory
+    public interface IInstantiableSerializationMapping
     {
         Func<SerializedData, ILoader, object> OnInstantiate { get; }
     }
@@ -14,9 +14,10 @@ namespace UnityPlus.Serialization
     /// Creates a <see cref="SerializedObject"/> from the child mappings.
     /// </summary>
     /// <typeparam name="TSource">The type of the object being mapped.</typeparam>
-    public class MemberwiseSerializationMapping<TSource> : SerializationMapping, IEnumerable<(string, MemberBase<TSource>)>, ISerializationMappingWithCustomFactory
+    public class MemberwiseSerializationMapping<TSource> : SerializationMapping, IInstantiableSerializationMapping, IEnumerable<(string, MemberBase<TSource>)>
     {
 #warning TODO - allow members to keep static values instead of saving them (i.e. force isKinematic to true on every deserialization).
+
         private readonly List<(string, MemberBase<TSource>)> _items = new();
         public Func<SerializedData, ILoader, object> OnInstantiate { get; private set; } = null;
 
@@ -86,7 +87,7 @@ namespace UnityPlus.Serialization
 
                 SerializationMapping mapping = SerializationMappingRegistry.GetMappingOrEmpty( this.context, baseType );
 
-                if( mapping is ISerializationMappingWithCustomFactory m )
+                if( mapping is IInstantiableSerializationMapping m )
                 {
                     this.OnInstantiate = m.OnInstantiate;
                     return this;
