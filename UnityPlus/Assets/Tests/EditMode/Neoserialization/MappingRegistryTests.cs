@@ -11,30 +11,65 @@ using UnityPlus.Serialization.Json;
 
 namespace Neoserialization
 {
+    public class BaseClass
+    {
+        public float baseMember;
+
+        public override bool Equals( object obj )
+        {
+            if( obj is not BaseClass other )
+                return false;
+
+            return this.baseMember == other.baseMember;
+        }
+    }
+
+    public class DerivedClass : BaseClass
+    {
+        public string derivedMember;
+
+        public override bool Equals( object obj )
+        {
+            if( obj is not DerivedClass other )
+                return false;
+
+            return this.baseMember == other.baseMember
+                && this.derivedMember == other.derivedMember;
+        }
+    }
+
+    public class GenericClass<T>
+    {
+        public T member;
+
+        public override bool Equals( object obj )
+        {
+            if( obj is not GenericClass<T> other )
+                return false;
+
+            return this.member.Equals( other.member );
+        }
+    }
+
+    public class MultiGenericClass<T1, T2, T3>
+    {
+        public T1 member1;
+        public T2 member2;
+        public T3 member3;
+
+        public override bool Equals( object obj )
+        {
+            if( obj is not MultiGenericClass<T1, T2, T3> other )
+                return false;
+
+            return this.member1.Equals( other.member1 )
+                && this.member2.Equals( other.member2 )
+                && this.member3.Equals( other.member3 );
+        }
+    }
+
     public class MappingRegistryTests
     {
-        public class BaseClass
-        {
-            public float baseMember;
-        }
-
-        public class DerivedClass : BaseClass
-        {
-            public string derivedMember;
-        }
-
-        public class GenericClass<T>
-        {
-            public T member;
-        }
-
-        public class MultiGenericClass<T1, T2, T3>
-        {
-            public T1 member1;
-            public T2 member2;
-            public T3 member3;
-        }
-
         [SerializationMappingProvider( typeof( BaseClass ) )]
         public static SerializationMapping BaseClassMapping()
         {
@@ -50,7 +85,8 @@ namespace Neoserialization
             return new MemberwiseSerializationMapping<DerivedClass>()
             {
                 ("derived_member", new Member<DerivedClass, string>( o => o.derivedMember ))
-            };
+            }
+            .IncludeMembers<BaseClass>();
         }
 
         [SerializationMappingProvider( typeof( GenericClass<> ) )]

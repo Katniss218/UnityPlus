@@ -121,19 +121,8 @@ namespace UnityPlus.Serialization
                 _mappingCache[i] = mapping;
 
                 // Parity with Member (mostly).
-                object member;
-                switch( mapping.SerializationStyle )
-                {
-                    default:
-                        continue;
-                    case SerializationStyle.PrimitiveStruct:
-                        member = mapping.Instantiate( data, this );
-                        break;
-                    case SerializationStyle.NonPrimitive:
-                        member = _objects[i]; // Don't instantiate when populating, object should already be created.
-                        mapping.Load( ref member, data, this );
-                        break;
-                }
+                object member = _objects[i];
+                MappingHelper.DoPopulate( mapping, ref member, data, this );
 
                 _objects[i] = member;
             }
@@ -161,21 +150,8 @@ namespace UnityPlus.Serialization
                 var mapping = SerializationMappingRegistry.GetMappingOrEmpty( _context, typeToAssignTo );
                 _mappingCache[i] = mapping;
 
-                // Parity with Member.
-                object member;
-                switch( mapping.SerializationStyle )
-                {
-                    default:
-                        continue;
-                    case SerializationStyle.PrimitiveStruct:
-                        member = mapping.Instantiate( data, this );
-                        break;
-                    case SerializationStyle.NonPrimitive:
-                        member = mapping.Instantiate( data, this );
-                        mapping.Load( ref member, data, this );
-                        break;
-                }
-
+                object member = default;
+                MappingHelper.DoLoad( mapping, ref member, data, this );
                 _objects[i] = member;
             }
         }
@@ -197,17 +173,7 @@ namespace UnityPlus.Serialization
                     continue; // error.
 
                 object member = _objects[i];
-                switch( mapping.SerializationStyle )
-                {
-                    default:
-                        continue;
-                    case SerializationStyle.PrimitiveObject:
-                        member = mapping.Instantiate( data, this );
-                        break;
-                    case SerializationStyle.NonPrimitive:
-                        mapping.LoadReferences( ref member, data, this );
-                        break;
-                }
+                MappingHelper.DoLoadReferences( mapping, ref member, data, this );
                 _objects[i] = member;
             }
         }

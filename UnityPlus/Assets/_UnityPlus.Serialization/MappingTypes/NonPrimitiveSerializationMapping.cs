@@ -2,9 +2,6 @@
 
 namespace UnityPlus.Serialization
 {
-    public delegate void LoadAction<TSource>( ref TSource obj, SerializedData data, ILoader l );
-    public delegate void LoadReferencesAction<TSource>( ref TSource obj, SerializedData data, ILoader l );
-
     /// <summary>
     /// Maps an object that can both be referenced by other objects, and contain references to other objects.
     /// </summary>

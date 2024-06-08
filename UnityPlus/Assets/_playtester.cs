@@ -17,6 +17,49 @@ using UnityPlus.UILib.UIElements;
 
 public class _playtester : MonoBehaviour
 {
+
+    public class BaseClass
+    {
+        public float baseMember;
+    }
+
+    public class DerivedClass : BaseClass
+    {
+        public string derivedMember;
+    }
+
+    public class GenericClass<T>
+    {
+        public T member;
+    }
+
+    public class MultiGenericClass<T1, T2, T3>
+    {
+        public T1 member1;
+        public T2 member2;
+        public T3 member3;
+    }
+
+    [SerializationMappingProvider( typeof( BaseClass ) )]
+    public static SerializationMapping BaseClassMapping()
+    {
+        return new MemberwiseSerializationMapping<BaseClass>()
+            {
+                ("base_member", new Member<BaseClass, float>( o => o.baseMember ))
+            };
+    }
+
+    [SerializationMappingProvider( typeof( DerivedClass ) )]
+    public static SerializationMapping DerivedClassMapping()
+    {
+        return new MemberwiseSerializationMapping<DerivedClass>()
+            {
+                ("derived_member", new Member<DerivedClass, string>( o => o.derivedMember ))
+            }
+        .IncludeMembers<BaseClass>();
+    }
+
+
     [SerializationMappingProvider( typeof( _playtester ) )]
     public static SerializationMapping _playtesterMapping()
     {
@@ -42,24 +85,19 @@ public class _playtester : MonoBehaviour
 
     void Start()
     {
-        /*var initialValue = new Dictionary<string, int>()
-            {
-                { "first", 5 },
-                { "second", 42 },
-                { "third", 218 }
-            };
+        // Arrange
+        var initialValue = new KeyValuePair<BaseClass, BaseClass>( new BaseClass() { baseMember = 2 }, new DerivedClass() { baseMember = 5, derivedMember = "42" } );
 
         // Act
-        var data2 = SerializationUnit.Serialize( initialValue );
-        var finalValue = SerializationUnit.Deserialize<Dictionary<string, int>>( data2 );
-        */
+        var data = SerializationUnit.Serialize( initialValue );
+        var finalValue = SerializationUnit.Deserialize<KeyValuePair<BaseClass, BaseClass>>( data );
 
         var su = SerializationUnit.FromObjects( this.gameObject );
         su.Serialize();
-        SerializedData data = su.GetDataOfType<GameObject>().First();
+        SerializedData data2 = su.GetDataOfType<GameObject>().First();
 
         StringBuilder sb = new StringBuilder();
-        new JsonStringWriter( data, sb ).Write();
+        new JsonStringWriter( data2, sb ).Write();
         string s = sb.ToString();
         //s = s.Replace( "true", "false" );
 

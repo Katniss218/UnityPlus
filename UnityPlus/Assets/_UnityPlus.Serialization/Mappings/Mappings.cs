@@ -403,23 +403,9 @@ namespace UnityPlus.Serialization.Mappings
                             elementType = elementType2.DeserializeType();
                         }
 
+                        T element = default;
                         var mapping = SerializationMappingRegistry.GetMappingOrDefault<T>( ObjectContext.Default, elementType );
-
-                        // Parity with Member.
-                        T element;
-                        switch( mapping.SerializationStyle )
-                        {
-                            default:
-                                continue;
-                            case SerializationStyle.PrimitiveStruct:
-                                element = (T)mapping.Instantiate( elementData, l );
-                                break;
-                            case SerializationStyle.NonPrimitive:
-                                object refmember = (T)mapping.Instantiate( elementData, l );
-                                mapping.Load( ref refmember, elementData, l );
-                                element = (T)refmember;
-                                break;
-                        }
+                        MappingHelper.DoLoad( mapping, ref element, elementData, l );
 
                         o[i] = element;
                     }
@@ -433,8 +419,7 @@ namespace UnityPlus.Serialization.Mappings
 
                     for( int i = 0; i < o.Length; i++ )
                     {
-                        T element = o[i];
-                        SerializedData elementData = serializedArray[i];
+                        SerializedData elementData = serializedArray[i]; // Since objects will be instantiated in OnLoad, this should be safe.
                         /*
                         Type elementType = typeof( T );
                         if( elementData.TryGetValue( KeyNames.TYPE, out var elementType2 ) )
@@ -444,22 +429,10 @@ namespace UnityPlus.Serialization.Mappings
 
                         var mapping = SerializationMappingRegistry.GetMappingOrDefault<T>( elementType );
                         */
-                        var mapping = SerializationMappingRegistry.GetMappingOrDefault<T>( ObjectContext.Default, element );
 
-                        // Parity with Member.
-                        switch( mapping.SerializationStyle )
-                        {
-                            default:
-                                continue;
-                            case SerializationStyle.PrimitiveObject:
-                                element = (T)mapping.Instantiate( elementData, l );
-                                break;
-                            case SerializationStyle.NonPrimitive:
-                                object refmember = element;
-                                mapping.LoadReferences( ref refmember, elementData, l );
-                                element = (T)refmember;
-                                break;
-                        }
+                        T element = o[i];
+                        var mapping = SerializationMappingRegistry.GetMappingOrDefault<T>( ObjectContext.Default, element );
+                        MappingHelper.DoLoadReferences( mapping, ref element, elementData, l );
 
                         o[i] = element;
                     }

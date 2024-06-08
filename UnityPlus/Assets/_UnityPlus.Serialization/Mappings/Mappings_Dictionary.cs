@@ -8,7 +8,7 @@ namespace UnityPlus.Serialization.Mappings
     public static class Mappings_Dictionary
     {
 #warning TODO - transform the 'dict' into an array of key-value pairs.
-
+        /*
         [SerializationMappingProvider( typeof( Dictionary<,> ), Context = KeyValueContext.ValueToValue )]
         public static SerializationMapping Dictionary_ValueToValue_Mapping<TKey, TValue>()
         {
@@ -135,6 +135,7 @@ namespace UnityPlus.Serialization.Mappings
                 }
             };
         }
+        */
 
         [SerializationMappingProvider( typeof( KeyValuePair<,> ), Context = KeyValueContext.ValueToValue )]
         public static SerializationMapping KeyValuePair_ValueToValue_Mapping<TKey, TValue>()
@@ -174,75 +175,31 @@ namespace UnityPlus.Serialization.Mappings
                         ? elementType2.DeserializeType()
                         : typeof( TKey );
 
+                    TKey key = default;
                     var mapping = SerializationMappingRegistry.GetMappingOrDefault<TKey>( ObjectContext.Default, keyType );
+                    MappingHelper.DoLoad( mapping, ref key, keyData, l );
 
-                    object key;
-                    switch( mapping.SerializationStyle )
-                    {
-                        default:
-                            return;
-                        case SerializationStyle.PrimitiveStruct:
-                            key = mapping.Instantiate( keyData, l );
-                            break;
-                        case SerializationStyle.NonPrimitive:
-                            key = mapping.Instantiate( keyData, l );
-                            mapping.Load( ref key, keyData, l );
-                            break;
-                    }
-
+                    TValue value = default;
                     mapping = SerializationMappingRegistry.GetMappingOrDefault<TValue>( ObjectContext.Default, valueType );
+                    MappingHelper.DoLoad( mapping, ref value, valueData, l );
 
-                    object value;
-                    switch( mapping.SerializationStyle )
-                    {
-                        default:
-                            return;
-                        case SerializationStyle.PrimitiveStruct:
-                            value = mapping.Instantiate( valueData, l );
-                            break;
-                        case SerializationStyle.NonPrimitive:
-                            value = mapping.Instantiate( valueData, l );
-                            mapping.Load( ref value, valueData, l );
-                            break;
-                    }
+                    o = new KeyValuePair<TKey, TValue>( key, value );
                 },
                 OnLoadReferences = ( ref KeyValuePair<TKey, TValue> o, SerializedData data, ILoader l ) =>
                 {
                     SerializedData keyData = data["key"];
                     SerializedData valueData = data["value"];
 
-                    var mapping = SerializationMappingRegistry.GetMappingOrDefault<TKey>( ObjectContext.Default, o.Key );
+#warning TODO - if generics are classes, load from refmap?
+                    TKey key = o.Key;
+                    var mapping = SerializationMappingRegistry.GetMappingOrDefault<TKey>( ObjectContext.Default, key );
+                    MappingHelper.DoLoadReferences( mapping, ref key, keyData, l );
 
-#warning TODO - compress this switch into something that will handle it.
-                    object key = o.Key;
-                    switch( mapping.SerializationStyle )
-                    {
-                        default:
-                            return;
-                        case SerializationStyle.PrimitiveObject:
-                            key = mapping.Instantiate( keyData, l );
-                            break;
-                        case SerializationStyle.NonPrimitive:
-                            mapping.LoadReferences( ref key, keyData, l );
-                            break;
-                    }
+                    TValue value = o.Value;
+                    mapping = SerializationMappingRegistry.GetMappingOrDefault<TValue>( ObjectContext.Default, value );
+                    MappingHelper.DoLoadReferences( mapping, ref value, valueData, l );
 
-                    mapping = SerializationMappingRegistry.GetMappingOrDefault<TValue>( ObjectContext.Default, o.Value );
-
-                    object value = o.Value;
-                    switch( mapping.SerializationStyle )
-                    {
-                        default:
-                            return;
-                        case SerializationStyle.PrimitiveObject:
-                            value = mapping.Instantiate( valueData, l );
-                            break;
-                        case SerializationStyle.NonPrimitive:
-                            mapping.LoadReferences( ref value, valueData, l );
-                            break;
-                    }
-
-                    o = new KeyValuePair<TKey, TValue>( (TKey)key, (TValue)value );
+                    o = new KeyValuePair<TKey, TValue>( key, value );
                 }
             };
         }

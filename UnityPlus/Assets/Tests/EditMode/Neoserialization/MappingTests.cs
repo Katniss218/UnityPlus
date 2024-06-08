@@ -7,8 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityPlus.Serialization;
-using UnityPlus.Serialization.Json;
-using static Neoserialization.MappingRegistryTests;
 
 namespace Neoserialization
 {
@@ -85,6 +83,34 @@ namespace Neoserialization
         }
 
         [Test]
+        public void Mapping___DateTime___RoundTrip()
+        {
+            // Arrange
+            var initialValue = DateTime.UtcNow;
+
+            // Act
+            var data = SerializationUnit.Serialize( initialValue );
+            var finalValue = SerializationUnit.Deserialize<DateTime>( data );
+
+            // Assert
+            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+        }
+
+        [Test]
+        public void Mapping___TimeSpan___RoundTrip()
+        {
+            // Arrange
+            var initialValue = TimeSpan.FromTicks( 342534252 );
+
+            // Act
+            var data = SerializationUnit.Serialize( initialValue );
+            var finalValue = SerializationUnit.Deserialize<TimeSpan>( data );
+
+            // Assert
+            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+        }
+
+        [Test]
         public void Mapping___IntArray___RoundTrip()
         {
             // Arrange
@@ -132,6 +158,20 @@ namespace Neoserialization
         }
 
         [Test]
+        public void Mapping___KeyValuePair_OfObjects_ValToVal___RoundTrip()
+        {
+            // Arrange
+            var initialValue = new KeyValuePair<BaseClass, BaseClass>( new BaseClass() { baseMember = 2 }, new DerivedClass() { baseMember = 5, derivedMember = "42" } );
+
+            // Act
+            var data = SerializationUnit.Serialize( initialValue );
+            var finalValue = SerializationUnit.Deserialize<KeyValuePair<BaseClass, BaseClass>>( data );
+
+            // Assert
+            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+        }
+
+        [Test]
         public void Mapping___Dictionary_ValToVal___RoundTrip()
         {
             // Arrange
@@ -164,6 +204,50 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<Dictionary<BaseClass, BaseClass>>( data );
 
             // Assert
+            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+        }
+
+        [Test]
+        public void Mapping___BaseClass___RoundTrip()
+        {
+            // Arrange
+            var initialValue = new BaseClass() { baseMember = 2 };
+
+            // Act
+            var data = SerializationUnit.Serialize( initialValue );
+            var finalValue = SerializationUnit.Deserialize<BaseClass>( data );
+
+            // Assert
+            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+        }
+
+        [Test]
+        public void Mapping___DerivedClass_Polymorphic___RoundTrip()
+        {
+            // Arrange
+            BaseClass initialValue = new DerivedClass() { baseMember = 2, derivedMember = "42" };
+
+            // Act
+            var data = SerializationUnit.Serialize( initialValue );
+            var finalValue = SerializationUnit.Deserialize<BaseClass>( data );
+
+            // Assert
+            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+        }
+
+        [Test]
+        public void Mapping___Populate_Object()
+        {
+            // Arrange
+            var initialValue = new DerivedClass() { baseMember = 2, derivedMember = "42" };
+            var finalValue = new DerivedClass();
+
+            // Act
+            var data = SerializationUnit.Serialize( initialValue );
+            SerializationUnit.Populate<DerivedClass>( finalValue, data );
+
+            // Assert
+            Assert.That( finalValue, Is.SameAs( finalValue ) );
             Assert.That( initialValue, Is.EqualTo( finalValue ) );
         }
     }

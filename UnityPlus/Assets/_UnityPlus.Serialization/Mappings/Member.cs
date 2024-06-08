@@ -131,20 +131,8 @@ namespace UnityPlus.Serialization
 
             var mapping = _isCacheable ? _cachedMapping : SerializationMappingRegistry.GetMappingOrDefault<TMember>( _context, memberType );
 
-            TMember member;
-            switch( mapping.SerializationStyle )
-            {
-                default:
-                    return;
-                case SerializationStyle.PrimitiveStruct:
-                    member = (TMember)mapping.Instantiate( data, l );
-                    break;
-                case SerializationStyle.NonPrimitive:
-                    object refmember = mapping.Instantiate( data, l );
-                    mapping.Load( ref refmember, data, l );
-                    member = (TMember)refmember;
-                    break;
-            }
+            TMember member = default;
+            MappingHelper.DoLoad( mapping, ref member, data, l );
 
             if( _structSetter == null )
                 _setter.Invoke( source, member );
@@ -154,24 +142,12 @@ namespace UnityPlus.Serialization
 
         public override void LoadReferences( ref TSource source, SerializedData data, ILoader l )
         {
-            var member = _getter.Invoke( source );
+            TMember member = _getter.Invoke( source );
 
             // This is needed, to reach the references nested inside objects that themselves don't contain any references.
             var mapping = SerializationMappingRegistry.GetMappingOrDefault<TMember>( _context, member );
 
-            switch( mapping.SerializationStyle )
-            {
-                default:
-                    return;
-                case SerializationStyle.PrimitiveObject:
-                    member = (TMember)mapping.Instantiate( data, l );
-                    break;
-                case SerializationStyle.NonPrimitive:
-                    object refmember = member;
-                    mapping.LoadReferences( ref refmember, data, l );
-                    member = (TMember)refmember;
-                    break;
-            }
+            MappingHelper.DoLoadReferences( mapping, ref member, data, l );
 
             // This is needed, if the setter is custom (not auto-generated from field access (but NOT property access)) (look at LODGroup and its LOD[])
             // Basically, we don't have the guarantee that the class we have referenceequals the private state.
