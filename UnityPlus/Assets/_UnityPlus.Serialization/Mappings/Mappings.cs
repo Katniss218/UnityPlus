@@ -376,6 +376,8 @@ namespace UnityPlus.Serialization.Mappings
             };
         }
 
+#warning TODO - add tuple mappings (analogous to the KeyValuePair<TKey, TValue>).
+
         [SerializationMappingProvider( typeof( Array ) )]
         public static SerializationMapping ArrayMapping<T>()
         {

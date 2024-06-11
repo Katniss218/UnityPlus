@@ -86,11 +86,11 @@ public class _playtester : MonoBehaviour
     void Start()
     {
         // Arrange
-        var initialValue = TimeSpan.FromTicks( 3423242342242452523 );
+        var initialValue = new Vector2( 5f, -342.525242342f );
 
         // Act
         var data = SerializationUnit.Serialize( initialValue );
-        var finalValue = SerializationUnit.Deserialize<TimeSpan>( data );
+        var finalValue = SerializationUnit.Deserialize<Vector2>( data );
 
         StringBuilder sb1 = new StringBuilder();
         new JsonStringWriter( data, sb1 ).Write();
@@ -115,7 +115,7 @@ public class _playtester : MonoBehaviour
 
     void Update()
     {
-        RunPerfTest();
+        //RunPerfTest();
     }
 
     private void RunPerfTest()

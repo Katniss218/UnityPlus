@@ -91,65 +91,101 @@ namespace UnityPlus.Serialization
         /// <summary>
         /// Creates a serialization unit that will serialize (save) the specified object of type <typeparamref name="T"/>.
         /// </summary>
-        public static SerializationUnitSaver FromObjects<T>( T obj )
+        public static SerializationUnitSaver<T> FromObjects<T>( T obj )
         {
-            return new SerializationUnitSaver( new object[] { obj }, typeof( T ), ObjectContext.Default );
+            return new SerializationUnitSaver<T>( new T[] { obj }, ObjectContext.Default );
+        }
+
+        public static SerializationUnitSaver<T> FromObjects<T>( int context, T obj )
+        {
+            return new SerializationUnitSaver<T>( new T[] { obj }, context );
         }
 
         /// <summary>
         /// Creates a serialization unit that will serialize (save) the specified collection of objects.
         /// </summary>
-        public static SerializationUnitSaver FromObjects( IEnumerable<object> objects )
+        public static SerializationUnitSaver<T> FromObjects<T>( IEnumerable<T> objects )
         {
-            return new SerializationUnitSaver( objects.ToArray(), typeof( object ), ObjectContext.Default );
+            return new SerializationUnitSaver<T>( objects.ToArray(), ObjectContext.Default );
+        }
+
+        public static SerializationUnitSaver<T> FromObjects<T>( int context, IEnumerable<T> objects )
+        {
+            return new SerializationUnitSaver<T>( objects.ToArray(), context );
         }
 
         /// <summary>
         /// Creates a serialization unit that will serialize (save) the specified collection of objects.
         /// </summary>
-        public static SerializationUnitSaver FromObjects( params object[] objects )
+        public static SerializationUnitSaver<T> FromObjects<T>( params T[] objects )
         {
-            return new SerializationUnitSaver( objects, typeof( object ), ObjectContext.Default );
+            return new SerializationUnitSaver<T>( objects, ObjectContext.Default );
+        }
+
+        public static SerializationUnitSaver<T> FromObjects<T>( int context, params T[] objects )
+        {
+            return new SerializationUnitSaver<T>( objects, context );
         }
 
         /// <summary>
         /// Creates a serialization unit that will deserialize (instantiate and load) an object of type <typeparamref name="T"/> from the specified serialized representation.
         /// </summary>
-        public static SerializationUnitLoader FromData<T>( SerializedData data )
+        public static SerializationUnitLoader<T> FromData<T>( SerializedData data )
         {
-            return new SerializationUnitLoader( new SerializedData[] { data }, typeof( T ), ObjectContext.Default );
+            return new SerializationUnitLoader<T>( new SerializedData[] { data }, ObjectContext.Default );
+        }
+        public static SerializationUnitLoader<T> FromData<T>( int context, SerializedData data )
+        {
+            return new SerializationUnitLoader<T>( new SerializedData[] { data }, context );
         }
 
         /// <summary>
         /// Creates a serialization unit that will deserialize (instantiate and load) a collection of objects from the specified serialized representations.
         /// </summary>
-        public static SerializationUnitLoader FromData( IEnumerable<SerializedData> data )
+        public static SerializationUnitLoader<T> FromData<T>( IEnumerable<SerializedData> data )
         {
-            return new SerializationUnitLoader( data.ToArray(), typeof(object), ObjectContext.Default );
+            return new SerializationUnitLoader<T>( data.ToArray(), ObjectContext.Default );
+        }
+        public static SerializationUnitLoader<T> FromData<T>( int context, IEnumerable<SerializedData> data )
+        {
+            return new SerializationUnitLoader<T>( data.ToArray(), context );
         }
 
         /// <summary>
         /// Creates a serialization unit that will deserialize (instantiate and load) a collection of objects from the specified serialized representations.
         /// </summary>
-        public static SerializationUnitLoader FromData( params SerializedData[] data )
+        public static SerializationUnitLoader<T> FromData<T>( params SerializedData[] data )
         {
-            return new SerializationUnitLoader( data, typeof( object ), ObjectContext.Default );
+            return new SerializationUnitLoader<T>( data, ObjectContext.Default );
+        }
+        public static SerializationUnitLoader<T> FromData<T>( int context, params SerializedData[] data )
+        {
+            return new SerializationUnitLoader<T>( data, context );
         }
 
         /// <summary>
         /// Creates a serialization unit that will populate (load) the members of the specified object of type <typeparamref name="T"/> with the specified serialized representation of the same object.
         /// </summary>
-        public static SerializationUnitLoader PopulateObject<T>( T obj, SerializedData data )
+        public static SerializationUnitLoader<T> PopulateObject<T>( T obj, SerializedData data )
         {
-            return new SerializationUnitLoader( new object[] { obj }, new SerializedData[] { data }, typeof( T ), ObjectContext.Default );
+            return new SerializationUnitLoader<T>( new T[] { obj }, new SerializedData[] { data }, ObjectContext.Default );
+        }
+
+        public static SerializationUnitLoader<T> PopulateObject<T>( int context, T obj, SerializedData data )
+        {
+            return new SerializationUnitLoader<T>( new T[] { obj }, new SerializedData[] { data }, context );
         }
 
         /// <summary>
         /// Creates a serialization unit that will populate (load) the members of the specified objects with the corresponding specified serialized representations (objects[i] <![CDATA[<]]>==> data[i]).
         /// </summary>
-        public static SerializationUnitLoader PopulateObjects( object[] objects, SerializedData[] data )
+        public static SerializationUnitLoader<T> PopulateObjects<T>( T[] objects, SerializedData[] data )
         {
-            return new SerializationUnitLoader( objects, data, typeof( object ), ObjectContext.Default );
+            return new SerializationUnitLoader<T>( objects, data, ObjectContext.Default );
+        }
+        public static SerializationUnitLoader<T> PopulateObjects<T>( int context, T[] objects, SerializedData[] data )
+        {
+            return new SerializationUnitLoader<T>( objects, data, context );
         }
     }
 }

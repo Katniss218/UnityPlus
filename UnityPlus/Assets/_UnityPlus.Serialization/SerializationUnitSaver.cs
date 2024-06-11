@@ -7,21 +7,19 @@ using UnityPlus.Serialization.ReferenceMaps;
 
 namespace UnityPlus.Serialization
 {
-    public class SerializationUnitSaver : ISaver
+    public class SerializationUnitSaver<T> : ISaver
     {
         private SerializedData[] _data;
-        private object[] _objects;
+        private T[] _objects;
 
-        private Type _memberType; // Specifies the type that all serialized/deserialized objects will derive from. May be `typeof(object)`
         private int _context = default;
 
         public IReverseReferenceMap RefMap { get; set; }
 
-        internal SerializationUnitSaver( object[] objects, Type memberType, int context )
+        internal SerializationUnitSaver( T[] objects, int context )
         {
             this.RefMap = new BidirectionalReferenceStore();
             this._objects = objects;
-            this._memberType = memberType;
             this._context = context;
         }
 
@@ -75,12 +73,12 @@ namespace UnityPlus.Serialization
 
             for( int i = 0; i < _objects.Length; i++ )
             {
-                object obj = _objects[i];
+                T obj = _objects[i];
 
                 if( obj == null )
                     continue;
 
-                var mapping = SerializationMappingRegistry.GetMappingOrDefault( _context, obj );
+                var mapping = SerializationMappingRegistry.GetMappingOrDefault<T>( _context, obj );
 
                 _data[i] = mapping.Save( obj, this );
             }
