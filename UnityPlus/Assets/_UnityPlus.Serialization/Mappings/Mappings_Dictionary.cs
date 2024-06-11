@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using static UnityEditor.Search.SearchValue;
 
 namespace UnityPlus.Serialization.Mappings
 {
