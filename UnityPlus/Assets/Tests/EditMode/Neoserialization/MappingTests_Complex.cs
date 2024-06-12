@@ -23,7 +23,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<int[]>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( initialValue, Is.EquivalentTo( finalValue ) );
         }
 
         [Test]
@@ -56,7 +56,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<KeyValuePair<string, int>[]>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( initialValue, Is.EquivalentTo( finalValue ) );
         }
 
         [Test]
@@ -89,7 +89,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<Dictionary<string, int>>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( initialValue, Is.EquivalentTo( finalValue ) );
         }
 
         [Test]
@@ -106,7 +106,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<Dictionary<BaseClass, BaseClass>>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( initialValue, Is.EquivalentTo( finalValue ) );
         }
 
         [Test]

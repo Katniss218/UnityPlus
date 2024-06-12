@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace UnityPlus.Serialization.Mappings
 {
     public static class Mappings_Dictionary
     {
 #warning TODO - transform the 'dict' into an array of key-value pairs.
-        
+
         [SerializationMappingProvider( typeof( Dictionary<,> ), Context = KeyValueContext.ValueToValue )]
         public static SerializationMapping Dictionary_ValueToValue_Mapping<TKey, TValue>()
         {
-            return new NonPrimitiveSerializationMapping<Dictionary<TKey, TValue>>()
+            return new NonPrimitiveSerializationMapping2<(TKey, TValue)[], Dictionary<TKey, TValue>>()
             {
                 OnSave = ( o, s ) =>
                 {
@@ -39,11 +40,19 @@ namespace UnityPlus.Serialization.Mappings
                 {
                     return new Dictionary<TKey, TValue>();
                 },
-                OnLoad = ( ref Dictionary<TKey, TValue> o, SerializedData data, ILoader l ) =>
+                OnInstantiateTemp = ( data, l ) =>
+                {
+                    if( data is not SerializedArray dataObj )
+                        return null;
+
+                    return new (TKey, TValue)[dataObj.Count];
+                },
+                OnLoad = ( NonPrimitiveSerializationMapping2<(TKey, TValue)[], Dictionary<TKey, TValue>> self, ref Dictionary<TKey, TValue> o, SerializedData data, ILoader l ) =>
                 {
                     if( data is not SerializedArray dataObj )
                         return;
 
+                    int i = 0;
                     foreach( var dataKvp in dataObj )
                     {
                         SerializedData keyData = dataKvp["key"];
@@ -68,19 +77,19 @@ namespace UnityPlus.Serialization.Mappings
                         if( key == null )
                             continue;
 
-                        o[key] = value;
+                        self.temp[i] = (key, value);
+                        i++;
                     }
                 },
-                OnLoadReferences = ( ref Dictionary<TKey, TValue> o, SerializedData data, ILoader l ) =>
+                OnLoadReferences = ( NonPrimitiveSerializationMapping2<(TKey, TValue)[], Dictionary<TKey, TValue>> self, ref Dictionary<TKey, TValue> o, SerializedData data, ILoader l ) =>
                 {
                     if( data is not SerializedArray dataObj )
                         return;
 
-                    int current = 0;
-                    foreach( var (key, value) in o )
-#warning TODO - if key / value is struct - instantiate. otherwise retrieve from the refMap and set internal fields.
+                    int i = 0;
+                    foreach( var (key, value) in self.temp )
                     {
-                        SerializedData dataKvp = dataObj[current];
+                        SerializedData dataKvp = dataObj[i];
 
                         SerializedData keyData = dataKvp["key"];
                         SerializedData valueData = dataKvp["value"];
@@ -99,14 +108,25 @@ namespace UnityPlus.Serialization.Mappings
                         mapping = SerializationMappingRegistry.GetMappingOrDefault<TValue>( ObjectContext.Default, value2 );
                         MappingHelper.DoLoadReferences( mapping, ref value2, valueData, l );
 
-#warning TODO - this is forbidden. This should serialize an array of key-value pairs instead of a dict directly.
-                        o[key2] = value2;
-                        current++;
+                        if( key2 != null )
+                            o[key2] = value2;
+
+                        i++;
                     }
                 }
             };
         }
-        
+
+        [SerializationMappingProvider( typeof( ValueTuple<,> ) )]
+        public static SerializationMapping ValueTupleMapping<T1, T2>()
+        {
+            return new MemberwiseSerializationMapping<(T1, T2)>()
+            {
+                ("1", new Member<(T1, T2), T1>( o => o.Item1 )),
+                ("2", new Member<(T1, T2), T2>( o => o.Item2 ))
+            };
+        }
+
 
         [SerializationMappingProvider( typeof( KeyValuePair<,> ), Context = KeyValueContext.ValueToValue )]
         public static SerializationMapping KeyValuePair_ValueToValue_Mapping<TKey, TValue>()

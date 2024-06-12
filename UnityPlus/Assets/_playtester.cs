@@ -85,18 +85,6 @@ public class _playtester : MonoBehaviour
 
     void Start()
     {
-        // Arrange
-        var initialValue = new Vector2( 5f, -342.525242342f );
-
-        // Act
-        var data = SerializationUnit.Serialize( initialValue );
-        var finalValue = SerializationUnit.Deserialize<Vector2>( data );
-
-        StringBuilder sb1 = new StringBuilder();
-        new JsonStringWriter( data, sb1 ).Write();
-        string s1 = sb1.ToString();
-
-
         var su = SerializationUnit.FromObjects( this.gameObject );
         su.Serialize();
         SerializedData data2 = su.GetDataOfType<GameObject>().First();
@@ -106,7 +94,7 @@ public class _playtester : MonoBehaviour
         string s = sb.ToString();
         //s = s.Replace( "true", "false" );
 
-        data = new JsonStringReader( s ).Read();
+        var data = new JsonStringReader( s ).Read();
 
         GameObject obj = SerializationUnit.Deserialize<GameObject>( data );
 
@@ -115,7 +103,7 @@ public class _playtester : MonoBehaviour
 
     void Update()
     {
-        //RunPerfTest();
+        RunPerfTest();
     }
 
     private void RunPerfTest()

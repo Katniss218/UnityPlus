@@ -73,7 +73,36 @@ namespace UnityPlus.Serialization
 
             return this;
         }
+        /*
+        /// <summary>
+        /// Makes this type include the members of the specified base type in its serialization.
+        /// </summary>
+        private MemberwiseSerializationMapping<TSource> IncludeBaseMembersRecursive()
+        {
+            Type baseType = typeof( TSource ).BaseType;
+            if( baseType == null )
+                return this;
 
+            SerializationMapping mapping = SerializationMappingRegistry.GetMappingOrEmpty( this.context, baseType );
+
+            if( ReferenceEquals( mapping, this ) ) // mapping for `this` is a cached mapping of base type.
+                return this;
+
+            if( mapping is MemberwiseSerializationMapping<TSourceBase> baseMapping )
+            {
+                foreach( var item in baseMapping._items )
+                {
+                    var member = item.Item2;
+
+                    MemberBase<TSource> m = PassthroughMember<TSource, TSourceBase>.Create( member );
+
+                    this._items.Add( (item.Item1, m) );
+                }
+            }
+
+            return this;
+        }
+        */
         /// <summary>
         /// Makes the deserialization use the factory of the nearest base type of <typeparamref name="TSource"/>.
         /// </summary>

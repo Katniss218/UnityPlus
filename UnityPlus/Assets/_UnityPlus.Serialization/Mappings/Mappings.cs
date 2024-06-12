@@ -424,9 +424,10 @@ namespace UnityPlus.Serialization.Mappings
 
                         T element = default;
                         var mapping = SerializationMappingRegistry.GetMappingOrDefault<T>( ObjectContext.Default, elementType );
-                        MappingHelper.DoLoad( mapping, ref element, elementData, l );
-
-                        o[i] = element;
+                        if( MappingHelper.DoLoad( mapping, ref element, elementData, l ) )
+                        {
+                            o[i] = element;
+                        }
                     }
 
                     //return o;
@@ -451,9 +452,10 @@ namespace UnityPlus.Serialization.Mappings
 
                         T element = o[i];
                         var mapping = SerializationMappingRegistry.GetMappingOrDefault<T>( ObjectContext.Default, element );
-                        MappingHelper.DoLoadReferences( mapping, ref element, elementData, l );
-
-                        o[i] = element;
+                        if( MappingHelper.DoLoadReferences( mapping, ref element, elementData, l ) )
+                        {
+                            o[i] = element;
+                        }
                     }
                 }
             };
