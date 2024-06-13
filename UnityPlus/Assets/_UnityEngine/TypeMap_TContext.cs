@@ -80,7 +80,6 @@ namespace UnityEngine
             }
 
             Type currentTypeToCheck = type;
-            bool setLater = false;
 
             while( !_map.TryGetValue( (context, currentTypeToCheck), out value ) )
             {
@@ -98,12 +97,6 @@ namespace UnityEngine
                     _map[(context, type)] = value;
                     return false;
                 }
-
-                setLater = true;
-            }
-            if( setLater )
-            {
-                _map[(context, type)] = value;
             }
 
             return true;
@@ -127,7 +120,6 @@ namespace UnityEngine
 
             Type currentTypeToCheck = type;
             T value;
-            bool setLater = false;
 
             while( !_map.TryGetValue( (context, currentTypeToCheck), out value ) )
             {
@@ -144,13 +136,6 @@ namespace UnityEngine
                 {
                     return default;
                 }
-
-                setLater = true;
-            }
-
-            if( setLater )
-            {
-                _map[(context, type)] = value;
             }
 
             return value;

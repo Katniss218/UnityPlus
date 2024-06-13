@@ -116,11 +116,12 @@ namespace UnityPlus.Serialization
         /// </remarks>
         /// <param name="memberType">The type of the member "variable" that the object is/will be assigned to.</param>
         /// <returns>The correct serialization mapping for the given variable type.</returns>
-        internal static SerializationMapping GetMappingOrEmpty( int context, Type memberType )
+        public static SerializationMapping GetMappingOrEmpty( int context, Type memberType )
         {
             if( !_isInitialized )
                 Initialize();
 
+#warning TODO - when going down the chain, this fails when it can't find the mapping.
             if( _mappings.TryGetClosest( context, memberType, out var entry ) )
             {
                 if( !entry.isReady )
@@ -132,7 +133,17 @@ namespace UnityPlus.Serialization
                 return entry.mapping.GetWorkingInstance();
             }
 
-            return SerializationMapping.Empty( memberType );
+            entry = new Entry()
+            {
+                isReady = true,
+                method = null,
+                mapping = SerializationMapping.Empty( memberType ),
+                targetType = memberType
+            };
+
+            //_mappings.Set( context, memberType, entry );
+
+            return entry.mapping;
         }
 
         /// <summary>
@@ -164,7 +175,17 @@ namespace UnityPlus.Serialization
                 return entry.mapping.GetWorkingInstance();
             }
 
-            return SerializationMapping.Empty<TMember>();
+            entry = new Entry()
+            {
+                isReady = true,
+                method = null,
+                mapping = SerializationMapping.Empty<TMember>(),
+                targetType = objType
+            };
+
+            //_mappings.Set( context, objType, entry );
+
+            return entry.mapping;
         }
 
         /// <summary>
@@ -173,18 +194,18 @@ namespace UnityPlus.Serialization
         /// <remarks>
         /// This is useful when deserializing / creating a new object.
         /// </remarks>
-        public static SerializationMapping GetMappingOrDefault<TMember>( int context, Type memberType )
+        public static SerializationMapping GetMappingOrDefault<TMember>( int context, Type objType )
         {
             if( !_isInitialized )
                 Initialize();
 
-            if( typeof( TMember ).IsAssignableFrom( memberType ) ) // `IsAssignableFrom` doesn't appear to be much of a slow point, surprisingly.
+            if( typeof( TMember ).IsAssignableFrom( objType ) ) // `IsAssignableFrom` doesn't appear to be much of a slow point, surprisingly.
             {
-                if( _mappings.TryGetClosest( context, memberType, out var entry ) )
+                if( _mappings.TryGetClosest( context, objType, out var entry ) )
                 {
                     if( !entry.isReady )
                     {
-                        entry = MakeReady( context, entry, memberType );
+                        entry = MakeReady( context, entry, objType );
                         return entry.mapping.GetWorkingInstance();
                     }
 
@@ -192,7 +213,17 @@ namespace UnityPlus.Serialization
                 }
             }
 
-            return SerializationMapping.Empty<TMember>();
+            var entry2 = new Entry()
+            {
+                isReady = true,
+                method = null,
+                mapping = SerializationMapping.Empty<TMember>(),
+                targetType = objType
+            };
+
+            //_mappings.Set( context, objType, entry2 );
+
+            return entry2.mapping;
         }
     }
 }

@@ -96,6 +96,7 @@ namespace UnityPlus.Serialization
             return _objects.OfType<T>();
         }
 
+#warning TODO - deserialize/serialize/populate might throw exceptions if the mapping is default. Make a trygetmapping method instead.
 
         private void PopulateCallback()
         {

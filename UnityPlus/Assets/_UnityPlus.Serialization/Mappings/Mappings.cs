@@ -237,7 +237,7 @@ namespace UnityPlus.Serialization.Mappings
 
         [SerializationMappingProvider( typeof( string ) )]
         public static SerializationMapping StringMapping()
-        {
+        { 
             return new PrimitiveObjectSerializationMapping<string>()
             {
                 OnSave = ( o, s ) => (SerializedPrimitive)o,
@@ -594,8 +594,7 @@ namespace UnityPlus.Serialization.Mappings
                 ("shadow_casting_mode", new Member<MeshRenderer, ShadowCastingMode>( o => o.shadowCastingMode )),
                 ("receive_shadows", new Member<MeshRenderer, bool>( o => o.receiveShadows ))
             }
-            .UseBaseTypeFactory()
-            .IncludeMembers<Renderer>();
+            .UseBaseTypeFactory();
         }
 
         [SerializationMappingProvider( typeof( Rigidbody ) )]
@@ -608,14 +607,24 @@ namespace UnityPlus.Serialization.Mappings
             .UseBaseTypeFactory();
         }
 
+        [SerializationMappingProvider( typeof( Collider ) )]
+        public static SerializationMapping ColliderMapping()
+        {
+            return new MemberwiseSerializationMapping<Collider>()
+            {
+                ("is_enabled", new Member<Collider, bool>( o => o.enabled )),
+                ("is_trigger", new Member<Collider, bool>( o => o.isTrigger ))
+            }
+            .UseBaseTypeFactory();
+        }
+
         [SerializationMappingProvider( typeof( BoxCollider ) )]
         public static SerializationMapping BoxColliderMapping()
         {
             return new MemberwiseSerializationMapping<BoxCollider>()
             {
                 ("size", new Member<BoxCollider, Vector3>( o => o.size )),
-                ("center", new Member<BoxCollider, Vector3>( o => o.center )),
-                ("is_trigger", new Member<BoxCollider, bool>( o => o.isTrigger ))
+                ("center", new Member<BoxCollider, Vector3>( o => o.center ))
             }
             .UseBaseTypeFactory();
         }
@@ -626,8 +635,7 @@ namespace UnityPlus.Serialization.Mappings
             return new MemberwiseSerializationMapping<SphereCollider>()
             {
                 ("radius", new Member<SphereCollider, float>( o => o.radius )),
-                ("center", new Member<SphereCollider, Vector3>( o => o.center )),
-                ("is_trigger", new Member<SphereCollider, bool>( o => o.isTrigger ))
+                ("center", new Member<SphereCollider, Vector3>( o => o.center ))
             }
             .UseBaseTypeFactory();
         }
@@ -640,8 +648,7 @@ namespace UnityPlus.Serialization.Mappings
                 ("radius", new Member<CapsuleCollider, float>( o => o.radius )),
                 ("height", new Member<CapsuleCollider, float>( o => o.height )),
                 ("direction", new Member<CapsuleCollider, int>( o => o.direction )),
-                ("center", new Member<CapsuleCollider, Vector3>( o => o.center )),
-                ("is_trigger", new Member<CapsuleCollider, bool>( o => o.isTrigger ))
+                ("center", new Member<CapsuleCollider, Vector3>( o => o.center ))
             }
             .UseBaseTypeFactory();
         }
@@ -652,8 +659,7 @@ namespace UnityPlus.Serialization.Mappings
             return new MemberwiseSerializationMapping<MeshCollider>()
             {
                 ("shared_mesh", new Member<MeshCollider, Mesh>( ObjectContext.Asset, o => o.sharedMesh )),
-                ("is_convex", new Member<MeshCollider, bool>( o => o.convex )),
-                ("is_trigger", new Member<MeshCollider, bool>( o => o.isTrigger ))
+                ("is_convex", new Member<MeshCollider, bool>( o => o.convex ))
             }
             .UseBaseTypeFactory();
         }

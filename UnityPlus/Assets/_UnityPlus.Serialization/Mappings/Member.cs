@@ -9,7 +9,7 @@ namespace UnityPlus.Serialization
     /// </summary>
     /// <typeparam name="TSource">The type that contains the member.</typeparam>
     /// <typeparam name="TMember">The type of the member (field/property/etc).</typeparam>
-    public class Member<TSource, TMember> : MemberBase<TSource>
+    public sealed class Member<TSource, TMember> : MemberBase<TSource>
     {
         private readonly int _context = ObjectContext.Default;
 

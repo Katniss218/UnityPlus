@@ -85,8 +85,7 @@ namespace Neoserialization
             return new MemberwiseSerializationMapping<DerivedClass>()
             {
                 ("derived_member", new Member<DerivedClass, string>( o => o.derivedMember ))
-            }
-            .IncludeMembers<BaseClass>();
+            };
         }
 
         [SerializationMappingProvider( typeof( GenericClass<> ) )]

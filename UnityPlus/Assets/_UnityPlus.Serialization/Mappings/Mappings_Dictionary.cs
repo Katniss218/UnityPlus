@@ -6,7 +6,84 @@ namespace UnityPlus.Serialization.Mappings
 {
     public static class Mappings_Dictionary
     {
-#warning TODO - transform the 'dict' into an array of key-value pairs.
+        
+        [SerializationMappingProvider( typeof( ValueTuple<,> ) )]
+        public static SerializationMapping ValueTupleMapping<T1, T2>()
+        {
+            return new MemberwiseSerializationMapping<(T1, T2)>()
+            {
+                ("1", new Member<(T1, T2), T1>( o => o.Item1 )),
+                ("2", new Member<(T1, T2), T2>( o => o.Item2 ))
+            };
+        }
+
+
+        [SerializationMappingProvider( typeof( KeyValuePair<,> ), Context = KeyValueContext.ValueToValue )]
+        public static SerializationMapping KeyValuePair_ValueToValue_Mapping<TKey, TValue>()
+        {
+            return new NonPrimitiveSerializationMapping<KeyValuePair<TKey, TValue>>()
+            {
+                OnSave = ( o, s ) =>
+                {
+                    var mapping = SerializationMappingRegistry.GetMappingOrDefault<TKey>( ObjectContext.Default, o.Key );
+                    var keyData = mapping.Save( o.Key, s );
+
+                    mapping = SerializationMappingRegistry.GetMappingOrDefault<TValue>( ObjectContext.Default, o.Value );
+                    var valueData = mapping.Save( o.Value, s );
+
+                    SerializedObject kvpData = new SerializedObject()
+                    {
+                        { "key", keyData },
+                        { "value", valueData }
+                    };
+
+                    return kvpData;
+                },
+                OnInstantiate = ( data, l ) =>
+                {
+                    return new KeyValuePair<TKey, TValue>();
+                },
+                OnLoad = ( ref KeyValuePair<TKey, TValue> o, SerializedData data, ILoader l ) =>
+                {
+                    SerializedData keyData = data["key"];
+                    SerializedData valueData = data["value"];
+
+                    Type keyType = keyData.TryGetValue( KeyNames.TYPE, out var elementType2 )
+                        ? elementType2.DeserializeType()
+                        : typeof( TKey );
+
+                    Type valueType = valueData.TryGetValue( KeyNames.TYPE, out elementType2 )
+                        ? elementType2.DeserializeType()
+                        : typeof( TKey );
+
+                    TKey key = default;
+                    var mapping = SerializationMappingRegistry.GetMappingOrDefault<TKey>( ObjectContext.Default, keyType );
+                    MappingHelper.DoLoad( mapping, ref key, keyData, l );
+
+                    TValue value = default;
+                    mapping = SerializationMappingRegistry.GetMappingOrDefault<TValue>( ObjectContext.Default, valueType );
+                    MappingHelper.DoLoad( mapping, ref value, valueData, l );
+
+                    o = new KeyValuePair<TKey, TValue>( key, value );
+                },
+                OnLoadReferences = ( ref KeyValuePair<TKey, TValue> o, SerializedData data, ILoader l ) =>
+                {
+                    SerializedData keyData = data["key"];
+                    SerializedData valueData = data["value"];
+
+#warning TODO - if generics are classes, load from refmap?
+                    TKey key = o.Key;
+                    var mapping = SerializationMappingRegistry.GetMappingOrDefault<TKey>( ObjectContext.Default, key );
+                    MappingHelper.DoLoadReferences( mapping, ref key, keyData, l );
+
+                    TValue value = o.Value;
+                    mapping = SerializationMappingRegistry.GetMappingOrDefault<TValue>( ObjectContext.Default, value );
+                    MappingHelper.DoLoadReferences( mapping, ref value, valueData, l );
+
+                    o = new KeyValuePair<TKey, TValue>( key, value );
+                }
+            };
+        }
 
         [SerializationMappingProvider( typeof( Dictionary<,> ), Context = KeyValueContext.ValueToValue )]
         public static SerializationMapping Dictionary_ValueToValue_Mapping<TKey, TValue>()
@@ -15,6 +92,7 @@ namespace UnityPlus.Serialization.Mappings
             {
                 OnSave = ( o, s ) =>
                 {
+#warning TODO - add some way of automatically adding type and id. (also, objects should be objects not arrays)
                     SerializedArray arr = new SerializedArray();
 
                     foreach( var kvp in o )
@@ -113,84 +191,6 @@ namespace UnityPlus.Serialization.Mappings
 
                         i++;
                     }
-                }
-            };
-        }
-
-        [SerializationMappingProvider( typeof( ValueTuple<,> ) )]
-        public static SerializationMapping ValueTupleMapping<T1, T2>()
-        {
-            return new MemberwiseSerializationMapping<(T1, T2)>()
-            {
-                ("1", new Member<(T1, T2), T1>( o => o.Item1 )),
-                ("2", new Member<(T1, T2), T2>( o => o.Item2 ))
-            };
-        }
-
-
-        [SerializationMappingProvider( typeof( KeyValuePair<,> ), Context = KeyValueContext.ValueToValue )]
-        public static SerializationMapping KeyValuePair_ValueToValue_Mapping<TKey, TValue>()
-        {
-            return new NonPrimitiveSerializationMapping<KeyValuePair<TKey, TValue>>()
-            {
-                OnSave = ( o, s ) =>
-                {
-                    var mapping = SerializationMappingRegistry.GetMappingOrDefault<TKey>( ObjectContext.Default, o.Key );
-                    var keyData = mapping.Save( o.Key, s );
-
-                    mapping = SerializationMappingRegistry.GetMappingOrDefault<TValue>( ObjectContext.Default, o.Value );
-                    var valueData = mapping.Save( o.Value, s );
-
-                    SerializedObject kvpData = new SerializedObject()
-                    {
-                        { "key", keyData },
-                        { "value", valueData }
-                    };
-
-                    return kvpData;
-                },
-                OnInstantiate = ( data, l ) =>
-                {
-                    return new KeyValuePair<TKey, TValue>();
-                },
-                OnLoad = ( ref KeyValuePair<TKey, TValue> o, SerializedData data, ILoader l ) =>
-                {
-                    SerializedData keyData = data["key"];
-                    SerializedData valueData = data["value"];
-
-                    Type keyType = keyData.TryGetValue( KeyNames.TYPE, out var elementType2 )
-                        ? elementType2.DeserializeType()
-                        : typeof( TKey );
-
-                    Type valueType = valueData.TryGetValue( KeyNames.TYPE, out elementType2 )
-                        ? elementType2.DeserializeType()
-                        : typeof( TKey );
-
-                    TKey key = default;
-                    var mapping = SerializationMappingRegistry.GetMappingOrDefault<TKey>( ObjectContext.Default, keyType );
-                    MappingHelper.DoLoad( mapping, ref key, keyData, l );
-
-                    TValue value = default;
-                    mapping = SerializationMappingRegistry.GetMappingOrDefault<TValue>( ObjectContext.Default, valueType );
-                    MappingHelper.DoLoad( mapping, ref value, valueData, l );
-
-                    o = new KeyValuePair<TKey, TValue>( key, value );
-                },
-                OnLoadReferences = ( ref KeyValuePair<TKey, TValue> o, SerializedData data, ILoader l ) =>
-                {
-                    SerializedData keyData = data["key"];
-                    SerializedData valueData = data["value"];
-
-#warning TODO - if generics are classes, load from refmap?
-                    TKey key = o.Key;
-                    var mapping = SerializationMappingRegistry.GetMappingOrDefault<TKey>( ObjectContext.Default, key );
-                    MappingHelper.DoLoadReferences( mapping, ref key, keyData, l );
-
-                    TValue value = o.Value;
-                    mapping = SerializationMappingRegistry.GetMappingOrDefault<TValue>( ObjectContext.Default, value );
-                    MappingHelper.DoLoadReferences( mapping, ref value, valueData, l );
-
-                    o = new KeyValuePair<TKey, TValue>( key, value );
                 }
             };
         }
