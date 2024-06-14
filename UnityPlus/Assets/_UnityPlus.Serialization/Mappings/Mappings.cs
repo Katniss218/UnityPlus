@@ -16,8 +16,8 @@ namespace UnityPlus.Serialization.Mappings
         {
             return new PrimitiveObjectSerializationMapping<object>()
             {
-                OnSave = ( o, s ) => s.RefMap.WriteObjectReference( o ),
-                OnInstantiate = ( data, l ) => (bool)data
+                OnSave = ( o, s ) => s.RefMap.WriteObjectReference<object>( o ),
+                OnInstantiate = ( data, l ) => l.ReadObjectReference<object>( data )
             };
         }
 
@@ -31,7 +31,7 @@ namespace UnityPlus.Serialization.Mappings
                     SerializedArray serializedArray = new SerializedArray();
                     for( int i = 0; i < o.Length; i++ )
                     {
-                        var data = s.RefMap.WriteObjectReference( o[i] );
+                        var data = s.RefMap.WriteObjectReference<T>( o[i] );
 
                         serializedArray.Add( data );
                     }

@@ -1,5 +1,4 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -116,7 +115,7 @@ namespace UnityPlus.Serialization
         /// This is useful for mapping manipulation / custom mappings.
         /// </remarks>
         /// <param name="memberType">The type of the member "variable" that the object is/will be assigned to.</param>
-        /// <returns>The correct serialization mapping for the given variable type.</returns>
+        /// <returns>The correct serialization mapping for the given member type.</returns>
         public static SerializationMapping GetMappingOrEmpty( int context, Type memberType )
         {
             if( memberType == null )
@@ -155,11 +154,11 @@ namespace UnityPlus.Serialization
         /// Retrieves a serialization mapping for the given object.
         /// </summary>
         /// <remarks>
-        /// This is useful when serializing.
+        /// This is useful when saving.
         /// </remarks>
         /// <typeparam name="TMember">The type of the member ("variable") that the object is/will be assigned to.</typeparam>
         /// <param name="memberObj">The object.</param>
-        /// <returns>The correct serialization mapping for the given object.</returns>
+        /// <returns>The correct serialization mapping for the given member+object pair.</returns>
         public static SerializationMapping GetMappingOrDefault<TMember>( int context, TMember memberObj )
         {
             if( !_isInitialized )
@@ -197,8 +196,11 @@ namespace UnityPlus.Serialization
         /// Retrieves a serialization mapping for the given object.
         /// </summary>
         /// <remarks>
-        /// This is useful when deserializing / creating a new object.
+        /// This is useful when loading and creating new objects.
         /// </remarks>
+        /// <typeparam name="TMember">The type of the member ("variable") that the object is/will be assigned to.</typeparam>
+        /// <param name="objType">The actual type of the object in question.</param>
+        /// <returns>The correct serialization mapping for the given member+object pair.</returns>
         public static SerializationMapping GetMappingOrDefault<TMember>( int context, Type objType )
         {
             if( !_isInitialized )
@@ -207,7 +209,7 @@ namespace UnityPlus.Serialization
             if( objType == null )
                 objType = typeof( TMember );
 
-            if( typeof( TMember ).IsAssignableFrom( objType ) ) // `IsAssignableFrom` doesn't appear to be much of a slow point, surprisingly.
+            if( typeof( TMember ).IsAssignableFrom( objType ) ) // `IsAssignableFrom` appears to be quite fast, surprisingly.
             {
                 if( _mappings.TryGetClosest( context, objType, out var entry ) )
                 {
@@ -220,7 +222,7 @@ namespace UnityPlus.Serialization
                     return entry.mapping.GetWorkingInstance();
                 }
 
-                var entry3 = new Entry()
+                entry = new Entry()
                 {
                     isReady = true,
                     method = null,
@@ -228,9 +230,9 @@ namespace UnityPlus.Serialization
                     targetType = objType
                 };
 
-                _mappings.Set( context, objType, entry3 );
+                _mappings.Set( context, objType, entry );
 
-                return entry3.mapping;
+                return entry.mapping;
             }
 
             return SerializationMapping.Empty<TMember>();

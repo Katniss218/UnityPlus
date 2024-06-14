@@ -22,10 +22,23 @@ public class _playtester : MonoBehaviour
     {
         return new MemberwiseSerializationMapping<_playtester>()
         {
-            // ("action", new Member<_playtester, Action<string>>(o => o.Action))
+            ("perf_test_go", new Member<_playtester, GameObject>( ObjectContext.Ref, o => o.perfTestGo )),
+            ("action", new Member<_playtester, Action<string>>( o => o.Action ))
         }
         .UseBaseTypeFactory();
     }
+    
+    [SerializationMappingProvider( typeof( FPSCounterDebug ) )]
+    public static SerializationMapping FPSCounterDebugMapping()
+    {
+        return new MemberwiseSerializationMapping<FPSCounterDebug>()
+        {
+            ("fps", new Member<FPSCounterDebug, float>( o => o.fps ))
+        }
+        .UseBaseTypeFactory();
+    }
+
+    [SerializeField] GameObject perfTestGo;
 
     public Action<string> Action { get; set; }
 
@@ -41,6 +54,8 @@ public class _playtester : MonoBehaviour
 
     void Start()
     {
+        var mapping = SerializationMappingRegistry.GetMappingOrDefault<_playtester>( ObjectContext.Default, this );
+
         var data3 = SerializationUnit.Serialize( "teststr" );
 
         var su = SerializationUnit.FromObjects( this.gameObject );
@@ -61,17 +76,19 @@ public class _playtester : MonoBehaviour
 
     void Update()
     {
-         RunPerfTest();
+       // RunPerfTest();
     }
 
     private void RunPerfTest()
     {
-        List<GameObject> list = new List<GameObject>( 100 );
+        const int COUNT = 1000;
 
-        for( int i = 0; i < 1000; i++ )
+        List<GameObject> list = new List<GameObject>( COUNT );
+
+        for( int i = 0; i < COUNT; i++ )
         {
             Profiler.BeginSample( "t1" );
-            SerializedData data = SerializationUnit.Serialize<GameObject>( this.gameObject );
+            SerializedData data = SerializationUnit.Serialize<GameObject>( perfTestGo );
             Profiler.EndSample();
 
             Profiler.BeginSample( "t2" );
