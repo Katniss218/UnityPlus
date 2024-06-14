@@ -104,6 +104,9 @@ public class FPSCounterDebug : MonoBehaviour
     {
         _fpsAvg.AddSample( GetFps() );
 
+        if( Text == null )
+            return;
+
         this.Text.text = $"FPS: {Mathf.CeilToInt( _fpsAvg.GetMean() )}";
     }
 }

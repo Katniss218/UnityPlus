@@ -94,7 +94,6 @@ namespace UnityEngine
                 currentTypeToCheck = currentTypeToCheck.BaseType;
                 if( currentTypeToCheck == null )
                 {
-                    _map[(context, type)] = value;
                     return false;
                 }
             }

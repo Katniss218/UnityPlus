@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -118,10 +119,14 @@ namespace UnityPlus.Serialization
         /// <returns>The correct serialization mapping for the given variable type.</returns>
         public static SerializationMapping GetMappingOrEmpty( int context, Type memberType )
         {
+            if( memberType == null )
+            {
+                throw new ArgumentNullException( nameof( memberType ), $"The type of the member can't be null" );
+            }
+
             if( !_isInitialized )
                 Initialize();
 
-#warning TODO - when going down the chain, this fails when it can't find the mapping.
             if( _mappings.TryGetClosest( context, memberType, out var entry ) )
             {
                 if( !entry.isReady )
@@ -141,7 +146,7 @@ namespace UnityPlus.Serialization
                 targetType = memberType
             };
 
-            //_mappings.Set( context, memberType, entry );
+            _mappings.Set( context, memberType, entry );
 
             return entry.mapping;
         }
@@ -179,11 +184,11 @@ namespace UnityPlus.Serialization
             {
                 isReady = true,
                 method = null,
-                mapping = SerializationMapping.Empty<TMember>(),
+                mapping = SerializationMapping.Empty( objType ),
                 targetType = objType
             };
 
-            //_mappings.Set( context, objType, entry );
+            _mappings.Set( context, objType, entry );
 
             return entry.mapping;
         }
@@ -199,6 +204,9 @@ namespace UnityPlus.Serialization
             if( !_isInitialized )
                 Initialize();
 
+            if( objType == null )
+                objType = typeof( TMember );
+
             if( typeof( TMember ).IsAssignableFrom( objType ) ) // `IsAssignableFrom` doesn't appear to be much of a slow point, surprisingly.
             {
                 if( _mappings.TryGetClosest( context, objType, out var entry ) )
@@ -211,19 +219,21 @@ namespace UnityPlus.Serialization
 
                     return entry.mapping.GetWorkingInstance();
                 }
+
+                var entry3 = new Entry()
+                {
+                    isReady = true,
+                    method = null,
+                    mapping = SerializationMapping.Empty( objType ),
+                    targetType = objType
+                };
+
+                _mappings.Set( context, objType, entry3 );
+
+                return entry3.mapping;
             }
 
-            var entry2 = new Entry()
-            {
-                isReady = true,
-                method = null,
-                mapping = SerializationMapping.Empty<TMember>(),
-                targetType = objType
-            };
-
-            //_mappings.Set( context, objType, entry2 );
-
-            return entry2.mapping;
+            return SerializationMapping.Empty<TMember>();
         }
     }
 }

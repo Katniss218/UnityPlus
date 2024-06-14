@@ -17,49 +17,6 @@ using UnityPlus.UILib.UIElements;
 
 public class _playtester : MonoBehaviour
 {
-
-    public class BaseClass
-    {
-        public float baseMember;
-    }
-
-    public class DerivedClass : BaseClass
-    {
-        public string derivedMember;
-    }
-
-    public class GenericClass<T>
-    {
-        public T member;
-    }
-
-    public class MultiGenericClass<T1, T2, T3>
-    {
-        public T1 member1;
-        public T2 member2;
-        public T3 member3;
-    }
-
-    [SerializationMappingProvider( typeof( BaseClass ) )]
-    public static SerializationMapping BaseClassMapping()
-    {
-        return new MemberwiseSerializationMapping<BaseClass>()
-            {
-                ("base_member", new Member<BaseClass, float>( o => o.baseMember ))
-            };
-    }
-
-    [SerializationMappingProvider( typeof( DerivedClass ) )]
-    public static SerializationMapping DerivedClassMapping()
-    {
-        return new MemberwiseSerializationMapping<DerivedClass>()
-            {
-                ("derived_member", new Member<DerivedClass, string>( o => o.derivedMember ))
-            }
-        .IncludeMembers<BaseClass>();
-    }
-
-
     [SerializationMappingProvider( typeof( _playtester ) )]
     public static SerializationMapping _playtesterMapping()
     {
@@ -67,7 +24,6 @@ public class _playtester : MonoBehaviour
         {
             // ("action", new Member<_playtester, Action<string>>(o => o.Action))
         }
-        //.IncludeMembers<Behaviour>()
         .UseBaseTypeFactory();
     }
 
@@ -85,6 +41,8 @@ public class _playtester : MonoBehaviour
 
     void Start()
     {
+        var data3 = SerializationUnit.Serialize( "teststr" );
+
         var su = SerializationUnit.FromObjects( this.gameObject );
         su.Serialize();
         SerializedData data2 = su.GetDataOfType<GameObject>().First();
@@ -103,7 +61,7 @@ public class _playtester : MonoBehaviour
 
     void Update()
     {
-        RunPerfTest();
+         RunPerfTest();
     }
 
     private void RunPerfTest()

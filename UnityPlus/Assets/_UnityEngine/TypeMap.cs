@@ -79,7 +79,6 @@ namespace UnityEngine
             }
 
             Type currentTypeToCheck = type;
-            bool setLater = false;
 
             while( !_map.TryGetValue( currentTypeToCheck, out value ) )
             {
@@ -94,15 +93,8 @@ namespace UnityEngine
                 currentTypeToCheck = currentTypeToCheck.BaseType;
                 if( currentTypeToCheck == null )
                 {
-                    _map[type] = value;
                     return false;
                 }
-
-                setLater = true;
-            }
-            if( setLater )
-            {
-                _map[type] = value;
             }
 
             return true;
@@ -126,7 +118,6 @@ namespace UnityEngine
 
             Type currentTypeToCheck = type;
             T value;
-            bool setLater = false;
 
             while( !_map.TryGetValue( currentTypeToCheck, out value ) )
             {
@@ -143,13 +134,6 @@ namespace UnityEngine
                 {
                     return default;
                 }
-
-                setLater = true;
-            }
-
-            if( setLater )
-            {
-                _map[type] = value;
             }
 
             return value;

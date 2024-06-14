@@ -6,11 +6,6 @@ using UnityEngine;
 
 namespace UnityPlus.Serialization
 {
-    public interface IInstantiableSerializationMapping
-    {
-        Func<SerializedData, ILoader, object> OnInstantiate { get; }
-    }
-
     /// <summary>
     /// Creates a <see cref="SerializedObject"/> from the child mappings.
     /// </summary>
@@ -133,6 +128,10 @@ namespace UnityPlus.Serialization
         {
             return _items.GetEnumerator();
         }
+
+        //
+        //  Mapping methods:
+        //
 
         public override SerializedData Save( object obj, ISaver s )
         {
