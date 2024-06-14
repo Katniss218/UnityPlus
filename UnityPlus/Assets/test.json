@@ -1,0 +1,169 @@
+﻿{
+    "$id": "d38e469b-e653-4988-bb04-3b039697ab73",
+    "$type": "UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "name": "_playtester2",
+    "layer": 0,
+    "is_active": true,
+    "is_static": false,
+    "tag": "Untagged",
+    "children": [
+        {
+            "$id": "63fe0e67-04b2-405b-8ebf-ba06b3fee28a",
+            "$type": "UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+            "name": "das",
+            "layer": 0,
+            "is_active": true,
+            "is_static": false,
+            "tag": "Untagged",
+            "children": [],
+            "components": [
+                {
+                    "$id": "1f0120a8-1790-4ee3-8e38-ef2ed7298b64",
+                    "$type": "UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "local_position": [
+                        1,
+                        2,
+                        3
+                    ],
+                    "local_rotation": [
+                        0.391903877258301,
+                        0.200562104582787,
+                        0.360423415899277,
+                        0.822363197803497
+                    ],
+                    "local_scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        }
+    ],
+    "components": [
+        {
+            "$id": "52fc4661-3082-49ee-a759-5764c1cdb415",
+            "$type": "UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+            "local_position": [
+                2.42022728919983,
+                0.177467286586761,
+                3.00396728515625
+            ],
+            "local_rotation": [
+                0,
+                0,
+                0,
+                1
+            ],
+            "local_scale": [
+                1,
+                1,
+                1
+            ]
+        },
+        {
+            "$id": "1b1c5fee-95f1-4f1d-9d0c-1f4d91b54bbf",
+            "$type": "_playtester, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+            "is_enabled": true,
+            "perf_test_go": {
+                "$ref": "bc027063-8a51-48d6-95f2-1045ed6ed6d9"
+            },
+            "action": [
+                {
+                    "method": {
+                        "delegate_type": "System.Action`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                        "identifier": "DoSomething",
+                        "parameters": [
+                            "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                        ],
+                        "declaring_type": "_playtester, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+                    },
+                    "target": {
+                        "$ref": "1b1c5fee-95f1-4f1d-9d0c-1f4d91b54bbf"
+                    }
+                }
+            ]
+        },
+        {
+            "$id": "e37fcd9d-7a00-4c38-a2ae-fc8e2c341b75",
+            "$type": "UnityEngine.MeshFilter, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+            "shared_mesh": {
+                "$assetref": "builtin::Cube"
+            }
+        },
+        {
+            "$id": "50de3860-d14c-48fb-8889-428cb770e3f2",
+            "$type": "UnityEngine.MeshRenderer, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+            "is_enabled": true,
+            "shared_materials": [
+                {
+                    "$assetref": "builtin::Resources/New Material"
+                }
+            ],
+            "shadow_casting_mode": "Off",
+            "receive_shadows": true
+        },
+        {
+            "$id": "db75a6e8-3d36-411b-b5f2-1db490941cc7",
+            "$type": "UnityEngine.LODGroup, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+            "size": 1,
+            "lods": [
+                {
+                    "$id": "7ab87bdb-bf5c-48f2-b506-a4172dc84c85",
+                    "$type": "UnityEngine.LOD, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "fade_width": 0,
+                    "percent": 0.75,
+                    "renderers": [
+                        {
+                            "$ref": "50de3860-d14c-48fb-8889-428cb770e3f2"
+                        },
+                        {
+                            "$ref": "50de3860-d14c-48fb-8889-428cb770e3f2"
+                        },
+                        {
+                            "$ref": "50de3860-d14c-48fb-8889-428cb770e3f2"
+                        },
+                        {
+                            "$ref": "50de3860-d14c-48fb-8889-428cb770e3f2"
+                        }
+                    ]
+                },
+                {
+                    "$id": "389ac5f7-1476-4b97-88f4-9df57d15e3e8",
+                    "$type": "UnityEngine.LOD, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "fade_width": 0,
+                    "percent": 0.5,
+                    "renderers": [
+                        {
+                            "$ref": "50de3860-d14c-48fb-8889-428cb770e3f2"
+                        },
+                        {
+                            "$ref": "50de3860-d14c-48fb-8889-428cb770e3f2"
+                        }
+                    ]
+                },
+                {
+                    "$id": "c4464ccc-eae1-4878-8a07-e44ee300c183",
+                    "$type": "UnityEngine.LOD, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "fade_width": 0,
+                    "percent": 0.25,
+                    "renderers": [
+                        {
+                            "$ref": "50de3860-d14c-48fb-8889-428cb770e3f2"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "$id": "8bb413c9-f8bc-43b2-bb00-a50144372008",
+            "$type": "UnityEngine.MeshCollider, UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+            "is_enabled": true,
+            "is_trigger": false,
+            "shared_mesh": {
+                "$assetref": "builtin::Cube"
+            },
+            "is_convex": true
+        }
+    ]
+}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using UnityEngine;
 using UnityPlus.AssetManagement;
 
 namespace UnityPlus.Serialization
@@ -11,7 +12,7 @@ namespace UnityPlus.Serialization
         {
             // A missing '$ref' node means the reference is broken.
 
-            if( value == null )
+            if( value.IsUnityNull() )
             {
                 return null;
             }
@@ -27,7 +28,7 @@ namespace UnityPlus.Serialization
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
         public static SerializedObject WriteAssetReference<T>( this IReverseReferenceMap s, T assetRef ) where T : class
         {
-            if( assetRef == null )
+            if( assetRef.IsUnityNull() )
             {
                 return null;
             }

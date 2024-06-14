@@ -71,7 +71,6 @@ namespace UnityPlus.Serialization.Mappings
                     SerializedData keyData = data["key"];
                     SerializedData valueData = data["value"];
 
-#warning TODO - if generics are classes, load from refmap?
                     TKey key = o.Key;
                     var mapping = SerializationMappingRegistry.GetMappingOrDefault<TKey>( ObjectContext.Default, key );
                     MappingHelper.DoLoadReferences( mapping, ref key, keyData, l );

@@ -963,7 +963,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caa2649d8ab65d64c8feb27f45ff73a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  perfTestGo: {fileID: 0}
+  perfTestGo: {fileID: 2139138319}
 --- !u!4 &1256481795
 Transform:
   m_ObjectHideFlags: 0

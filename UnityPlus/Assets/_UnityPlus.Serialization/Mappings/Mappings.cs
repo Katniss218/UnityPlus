@@ -12,12 +12,12 @@ namespace UnityPlus.Serialization.Mappings
     public static class Mappings
     {
         [SerializationMappingProvider( typeof( object ), Context = ObjectContext.Ref )]
-        public static SerializationMapping ObjectRefMapping()
+        public static SerializationMapping ObjectRefMapping<T>() where T : class
         {
-            return new PrimitiveObjectSerializationMapping<object>()
+            return new PrimitiveObjectSerializationMapping<T>()
             {
-                OnSave = ( o, s ) => s.RefMap.WriteObjectReference<object>( o ),
-                OnInstantiate = ( data, l ) => l.ReadObjectReference<object>( data )
+                OnSave = ( o, s ) => s.RefMap.WriteObjectReference<T>( o ),
+                OnInstantiate = ( data, l ) => l.ReadObjectReference<T>( data )
             };
         }
 
@@ -467,8 +467,7 @@ namespace UnityPlus.Serialization.Mappings
             return new MemberwiseSerializationMapping<Behaviour>()
             {
                 ("is_enabled", new Member<Behaviour, bool>( o => o.enabled ))
-            }
-            .UseBaseTypeFactory();
+            };
         }
 
         [SerializationMappingProvider( typeof( Component ) )]
@@ -557,8 +556,7 @@ namespace UnityPlus.Serialization.Mappings
             return new MemberwiseSerializationMapping<Renderer>()
             {
                 ("is_enabled", new Member<Renderer, bool>( o => o.enabled ))
-            }
-            .UseBaseTypeFactory();
+            };
         }
 
         [SerializationMappingProvider( typeof( Transform ) )]
@@ -569,8 +567,7 @@ namespace UnityPlus.Serialization.Mappings
                 ("local_position", new Member<Transform, Vector3>( o => o.localPosition )),
                 ("local_rotation", new Member<Transform, Quaternion>( o => o.localRotation )),
                 ("local_scale", new Member<Transform, Vector3>( o => o.localScale ))
-            }
-            .UseBaseTypeFactory();
+            };
         }
 
         [SerializationMappingProvider( typeof( MeshFilter ) )]
@@ -579,8 +576,7 @@ namespace UnityPlus.Serialization.Mappings
             return new MemberwiseSerializationMapping<MeshFilter>()
             {
                 ("shared_mesh", new Member<MeshFilter, Mesh>( ObjectContext.Asset, o => o.sharedMesh ))
-            }
-            .UseBaseTypeFactory();
+            };
         }
 
         [SerializationMappingProvider( typeof( MeshRenderer ) )]
@@ -591,8 +587,7 @@ namespace UnityPlus.Serialization.Mappings
                 ("shared_materials", new Member<MeshRenderer, Material[]>( ArrayContext.Assets, o => o.sharedMaterials )),
                 ("shadow_casting_mode", new Member<MeshRenderer, ShadowCastingMode>( o => o.shadowCastingMode )),
                 ("receive_shadows", new Member<MeshRenderer, bool>( o => o.receiveShadows ))
-            }
-            .UseBaseTypeFactory();
+            };
         }
 
         [SerializationMappingProvider( typeof( Rigidbody ) )]
@@ -601,8 +596,7 @@ namespace UnityPlus.Serialization.Mappings
             return new MemberwiseSerializationMapping<Rigidbody>()
             {
                 ("is_kinematic", new Member<Rigidbody, bool>( o => o.isKinematic ))
-            }
-            .UseBaseTypeFactory();
+            };
         }
 
         [SerializationMappingProvider( typeof( Collider ) )]
@@ -612,8 +606,7 @@ namespace UnityPlus.Serialization.Mappings
             {
                 ("is_enabled", new Member<Collider, bool>( o => o.enabled )),
                 ("is_trigger", new Member<Collider, bool>( o => o.isTrigger ))
-            }
-            .UseBaseTypeFactory();
+            };
         }
 
         [SerializationMappingProvider( typeof( BoxCollider ) )]
@@ -623,8 +616,7 @@ namespace UnityPlus.Serialization.Mappings
             {
                 ("size", new Member<BoxCollider, Vector3>( o => o.size )),
                 ("center", new Member<BoxCollider, Vector3>( o => o.center ))
-            }
-            .UseBaseTypeFactory();
+            };
         }
 
         [SerializationMappingProvider( typeof( SphereCollider ) )]
@@ -634,8 +626,7 @@ namespace UnityPlus.Serialization.Mappings
             {
                 ("radius", new Member<SphereCollider, float>( o => o.radius )),
                 ("center", new Member<SphereCollider, Vector3>( o => o.center ))
-            }
-            .UseBaseTypeFactory();
+            };
         }
 
         [SerializationMappingProvider( typeof( CapsuleCollider ) )]
@@ -647,8 +638,7 @@ namespace UnityPlus.Serialization.Mappings
                 ("height", new Member<CapsuleCollider, float>( o => o.height )),
                 ("direction", new Member<CapsuleCollider, int>( o => o.direction )),
                 ("center", new Member<CapsuleCollider, Vector3>( o => o.center ))
-            }
-            .UseBaseTypeFactory();
+            };
         }
 
         [SerializationMappingProvider( typeof( MeshCollider ) )]
@@ -658,8 +648,7 @@ namespace UnityPlus.Serialization.Mappings
             {
                 ("shared_mesh", new Member<MeshCollider, Mesh>( ObjectContext.Asset, o => o.sharedMesh )),
                 ("is_convex", new Member<MeshCollider, bool>( o => o.convex ))
-            }
-            .UseBaseTypeFactory();
+            };
         }
 
         [SerializationMappingProvider( typeof( LOD ) )]
@@ -680,8 +669,7 @@ namespace UnityPlus.Serialization.Mappings
             {
                 ("size", new Member<LODGroup, float>( o => o.size )),
                 ("lods", new Member<LODGroup, LOD[]>( o => o.GetLODs(), (o, value) => o.SetLODs( value ) ))
-            }
-            .UseBaseTypeFactory();
+            };
         }
 
         [SerializationMappingProvider( typeof( Delegate ) )]

@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -39,8 +40,7 @@ public class _playtester : MonoBehaviour
         {
             ("perf_test_go", new Member<_playtester, GameObject>( ObjectContext.Ref, o => o.perfTestGo )),
             ("action", new Member<_playtester, Action<string>>( o => o.Action ))
-        }
-        .UseBaseTypeFactory();
+        };
     }
     
     [SerializationMappingProvider( typeof( FPSCounterDebug ) )]
@@ -49,35 +49,34 @@ public class _playtester : MonoBehaviour
         return new MemberwiseSerializationMapping<FPSCounterDebug>()
         {
             ("fps", new Member<FPSCounterDebug, float>( o => o.fps ))
-        }
-        .UseBaseTypeFactory();
+        };
     }
 
     [SerializationMappingProvider( typeof( BaseClass ) )]
     public static SerializationMapping BaseClassMapping()
     {
         return new MemberwiseSerializationMapping<BaseClass>()
-            {
-                ("base_member", new Member<BaseClass, float>( o => o.baseMember ))
-            };
+        {
+            ("base_member", new Member<BaseClass, float>( o => o.baseMember ))
+        };
     }
 
     [SerializationMappingProvider( typeof( DerivedClass ) )]
     public static SerializationMapping DerivedClassMapping()
     {
         return new MemberwiseSerializationMapping<DerivedClass>()
-            {
-                ("derived_member", new Member<DerivedClass, string>( o => o.derivedMember ))
-            };
+        {
+            ("derived_member", new Member<DerivedClass, string>( o => o.derivedMember ))
+        };
     }
     
     [SerializationMappingProvider( typeof( MoreDerivedClass ) )]
     public static SerializationMapping MoreDerivedClassMapping()
     {
         return new MemberwiseSerializationMapping<MoreDerivedClass>()
-            {
-                ("more_derived_member", new Member<MoreDerivedClass, string>( o => o.moreDerivedMember ))
-            };
+        {
+            ("more_derived_member", new Member<MoreDerivedClass, string>( o => o.moreDerivedMember ))
+        };
     }
 
     [SerializeField] GameObject perfTestGo;
@@ -96,6 +95,14 @@ public class _playtester : MonoBehaviour
 
     void Start()
     {
+        var vec = new Vector3( 42.23425f, -342.2345f, 2356532f );
+        string sJson = JsonConvert.SerializeObject( this, new JsonSerializerSettings
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            Error = ( serializer, err ) => err.ErrorContext.Handled = true
+        } );
+
+
         var b = new MoreDerivedClass();
         var mapping = SerializationMappingRegistry.GetMappingOrDefault<DerivedClass>( ObjectContext.Default, b );
 
