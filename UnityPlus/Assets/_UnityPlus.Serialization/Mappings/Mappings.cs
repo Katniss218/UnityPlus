@@ -416,11 +416,9 @@ namespace UnityPlus.Serialization.Mappings
                     {
                         SerializedData elementData = serializedArray[i];
 
-                        Type elementType = typeof( T );
-                        if( elementData.TryGetValue( KeyNames.TYPE, out var elementType2 ) )
-                        {
-                            elementType = elementType2.DeserializeType();
-                        }
+                        Type elementType = elementData != null && elementData.TryGetValue( KeyNames.TYPE, out var elementType2 )
+                            ? elementType2.DeserializeType()
+                            : typeof( T );
 
                         T element = default;
                         var mapping = SerializationMappingRegistry.GetMappingOrDefault<T>( ObjectContext.Default, elementType );

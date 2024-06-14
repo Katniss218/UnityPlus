@@ -140,7 +140,7 @@ namespace UnityPlus.Serialization
         public override void Load( ref TSource source, SerializedData data, ILoader l )
         {
             Type memberType = typeof( TMember );
-            if( data.TryGetValue( KeyNames.TYPE, out var type ) )
+            if( data != null && data.TryGetValue( KeyNames.TYPE, out var type ) )
             {
                 memberType = type.DeserializeType();
             }

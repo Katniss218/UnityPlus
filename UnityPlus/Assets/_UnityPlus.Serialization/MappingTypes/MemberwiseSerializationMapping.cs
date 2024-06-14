@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
@@ -57,14 +58,20 @@ namespace UnityPlus.Serialization
 
             Type mappingType = mapping.GetType();
 
-            if( mappingType == typeof( MemberwiseSerializationMapping<> ).MakeGenericType( baseType ) )
+            if( mappingType.IsConstructedGenericType
+             && mappingType.GetGenericTypeDefinition() == typeof( MemberwiseSerializationMapping<> ) )
             {
+                Type mappedType = mappingType.GetGenericArguments().First();
+
+                if( !mappedType.IsAssignableFrom( baseType ) )
+                    return this;
+
                 FieldInfo listField = mappingType.GetField( "_items", BindingFlags.Instance | BindingFlags.NonPublic );
 
                 IList mapping__items = listField.GetValue( mapping ) as IList;
 
                 var valueTupleType = typeof( ValueTuple<,> )
-                    .MakeGenericType( typeof( string ), typeof( MemberBase<> ).MakeGenericType( baseType ) );
+                    .MakeGenericType( typeof( string ), typeof( MemberBase<> ).MakeGenericType( mappedType ) );
 
                 FieldInfo item1Field = valueTupleType.GetField( "Item1", BindingFlags.Instance | BindingFlags.Public );
                 FieldInfo item2Field = valueTupleType.GetField( "Item2", BindingFlags.Instance | BindingFlags.Public );
@@ -75,7 +82,7 @@ namespace UnityPlus.Serialization
                     var member = item2Field.GetValue( item );
 
                     MethodInfo method = typeof( PassthroughMember<,> )
-                        .MakeGenericType( typeof( TSource ), baseType )
+                        .MakeGenericType( typeof( TSource ), mappedType )
                         .GetMethod( "Create", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic );
 
                     MemberBase<TSource> m = (MemberBase<TSource>)method.Invoke( null, new object[] { member } );

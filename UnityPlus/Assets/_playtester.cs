@@ -17,6 +17,21 @@ using UnityPlus.UILib.UIElements;
 
 public class _playtester : MonoBehaviour
 {
+    public class BaseClass
+    {
+        public float baseMember;
+    }
+
+    public class DerivedClass : BaseClass
+    {
+        public string derivedMember;
+    }
+    
+    public class MoreDerivedClass : DerivedClass
+    {
+        public string moreDerivedMember;
+    }
+
     [SerializationMappingProvider( typeof( _playtester ) )]
     public static SerializationMapping _playtesterMapping()
     {
@@ -38,6 +53,33 @@ public class _playtester : MonoBehaviour
         .UseBaseTypeFactory();
     }
 
+    [SerializationMappingProvider( typeof( BaseClass ) )]
+    public static SerializationMapping BaseClassMapping()
+    {
+        return new MemberwiseSerializationMapping<BaseClass>()
+            {
+                ("base_member", new Member<BaseClass, float>( o => o.baseMember ))
+            };
+    }
+
+    [SerializationMappingProvider( typeof( DerivedClass ) )]
+    public static SerializationMapping DerivedClassMapping()
+    {
+        return new MemberwiseSerializationMapping<DerivedClass>()
+            {
+                ("derived_member", new Member<DerivedClass, string>( o => o.derivedMember ))
+            };
+    }
+    
+    [SerializationMappingProvider( typeof( MoreDerivedClass ) )]
+    public static SerializationMapping MoreDerivedClassMapping()
+    {
+        return new MemberwiseSerializationMapping<MoreDerivedClass>()
+            {
+                ("more_derived_member", new Member<MoreDerivedClass, string>( o => o.moreDerivedMember ))
+            };
+    }
+
     [SerializeField] GameObject perfTestGo;
 
     public Action<string> Action { get; set; }
@@ -54,7 +96,12 @@ public class _playtester : MonoBehaviour
 
     void Start()
     {
-        var mapping = SerializationMappingRegistry.GetMappingOrDefault<_playtester>( ObjectContext.Default, this );
+        var b = new MoreDerivedClass();
+        var mapping = SerializationMappingRegistry.GetMappingOrDefault<DerivedClass>( ObjectContext.Default, b );
+
+        var mapping2 = SerializationMappingRegistry.GetMappingOrDefault<MonoBehaviour>( ObjectContext.Default, (MonoBehaviour)null );
+
+        mapping2 = SerializationMappingRegistry.GetMappingOrDefault<Component>( ObjectContext.Default, this );
 
         var data3 = SerializationUnit.Serialize( "teststr" );
 

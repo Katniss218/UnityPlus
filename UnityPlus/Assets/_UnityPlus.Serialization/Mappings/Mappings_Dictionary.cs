@@ -48,11 +48,11 @@ namespace UnityPlus.Serialization.Mappings
                     SerializedData keyData = data["key"];
                     SerializedData valueData = data["value"];
 
-                    Type keyType = keyData.TryGetValue( KeyNames.TYPE, out var elementType2 )
+                    Type keyType = keyData != null && keyData.TryGetValue( KeyNames.TYPE, out var elementType2 )
                         ? elementType2.DeserializeType()
                         : typeof( TKey );
 
-                    Type valueType = valueData.TryGetValue( KeyNames.TYPE, out elementType2 )
+                    Type valueType = valueData != null && valueData.TryGetValue( KeyNames.TYPE, out elementType2 )
                         ? elementType2.DeserializeType()
                         : typeof( TKey );
 
@@ -136,11 +136,11 @@ namespace UnityPlus.Serialization.Mappings
                         SerializedData keyData = dataKvp["key"];
                         SerializedData valueData = dataKvp["value"];
 
-                        Type keyType = keyData.TryGetValue( KeyNames.TYPE, out var elementType2 )
+                        Type keyType = keyData != null && keyData.TryGetValue( KeyNames.TYPE, out var elementType2 )
                             ? elementType2.DeserializeType()
                             : typeof( TKey );
 
-                        Type valueType = valueData.TryGetValue( KeyNames.TYPE, out elementType2 )
+                        Type valueType = valueData != null && valueData.TryGetValue( KeyNames.TYPE, out elementType2 )
                             ? elementType2.DeserializeType()
                             : typeof( TKey );
 
@@ -171,12 +171,6 @@ namespace UnityPlus.Serialization.Mappings
 
                         SerializedData keyData = dataKvp["key"];
                         SerializedData valueData = dataKvp["value"];
-
-                        Type elementType = typeof( TValue );
-                        if( dataKvp.TryGetValue( KeyNames.TYPE, out var elementType2 ) )
-                        {
-                            elementType = elementType2.DeserializeType();
-                        }
 
                         TKey key2 = key;
                         var mapping = SerializationMappingRegistry.GetMappingOrDefault<TKey>( ObjectContext.Default, key2 );
@@ -230,11 +224,9 @@ namespace UnityPlus.Serialization.Mappings
                     {
                         SerializedData elementData = value;
 
-                        Type elementType = typeof( TValue );
-                        if( elementData.TryGetValue( KeyNames.TYPE, out var elementType2 ) )
-                        {
-                            elementType = elementType2.DeserializeType();
-                        }
+                        Type elementType = elementData != null && elementData.TryGetValue( KeyNames.TYPE, out var elementType2 )
+                            ? elementType2.DeserializeType()
+                            : typeof( TValue );
 
                         var mapping = SerializationMappingRegistry.GetMappingOrDefault<TValue>( ObjectContext.Default, elementType );
 
