@@ -23,7 +23,8 @@ namespace UnityPlus.Serialization
         private static IEnumerable<Type> GetTypes()
         {
             return AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany( a => a.GetTypes() );
+                .SelectMany( a => a.GetTypes() )
+                .Where( t => !t.IsGenericType );
         }
 
         private static void Initialize()

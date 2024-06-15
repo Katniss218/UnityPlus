@@ -139,6 +139,9 @@ namespace UnityPlus.Serialization
 
         public override SerializedData Save( object obj, ISaver s )
         {
+            if( obj == null )
+                return null;
+
             SerializedObject root = new SerializedObject();
 
             TSource sourceObj = (TSource)obj;
@@ -160,6 +163,9 @@ namespace UnityPlus.Serialization
             TSource obj;
             if( OnInstantiate == null )
             {
+                if( data == null )
+                    return null;
+
                 obj = Activator.CreateInstance<TSource>();
                 if( data.TryGetValue( KeyNames.ID, out var id ) )
                 {
@@ -176,6 +182,9 @@ namespace UnityPlus.Serialization
 
         public override void Load( ref object obj, SerializedData data, ILoader l )
         {
+            if( obj == null )
+                return;
+
             TSource obj2 = (TSource)obj;
             foreach( var item in _items )
             {
@@ -189,6 +198,9 @@ namespace UnityPlus.Serialization
 
         public override void LoadReferences( ref object obj, SerializedData data, ILoader l )
         {
+            if( obj == null )
+                return;
+
             TSource obj2 = (TSource)obj;
 
             foreach( var item in _items )

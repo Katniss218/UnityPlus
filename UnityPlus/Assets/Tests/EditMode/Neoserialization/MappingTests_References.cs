@@ -11,22 +11,8 @@ using UnityPlus.Serialization.ReferenceMaps;
 
 namespace Neoserialization
 {
-    public class ReferencingClass
-    {
-        public BaseClass refMember;
-    }
-
     public class MappingTests_References
     {
-        [SerializationMappingProvider( typeof( ReferencingClass ) )]
-        public static SerializationMapping ReferencingClassMapping()
-        {
-            return new MemberwiseSerializationMapping<ReferencingClass>()
-            {
-                ("ref_member", new Member<ReferencingClass, BaseClass>( ObjectContext.Ref, o => o.refMember ))
-            };
-        }
-
         [Test]
         public void Mapping___NullReference___RoundTrip()
         {
@@ -37,12 +23,8 @@ namespace Neoserialization
             };
 
             // Act
-            var su = SerializationUnit.FromObjects<object>( initialValue );
-            su.Serialize();
-            var su2 = SerializationUnit.FromData<object>( su.GetData() );
-            su2.Deserialize();
-
-            var finalValue = su2.GetObjectsOfType<ReferencingClass>().First();
+            var data = SerializationUnit.Serialize( initialValue );
+            var finalValue = SerializationUnit.Deserialize<ReferencingClass>( data );
 
             // Assert
             Assert.That( finalValue.refMember, Is.SameAs( null ) );

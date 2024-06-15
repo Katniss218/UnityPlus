@@ -125,13 +125,11 @@ namespace UnityPlus.Serialization
 
         public override SerializedData Save( TSource source, ISaver s )
         {
-            var member = _getter.Invoke( source );
+            TMember member = _getter.Invoke( source );
 
             var mapping = SerializationMappingRegistry.GetMappingOrDefault<TMember>( _context, member );
 
-            if( mapping.SerializationStyle != SerializationStyle.None )
-                return mapping.Save( member, s );
-            return (SerializedData)null;
+            return MappingHelper.DoSave<TMember>( mapping, member, s );
         }
 
         // The public-facing methods on the SerializationUnit are like a member,

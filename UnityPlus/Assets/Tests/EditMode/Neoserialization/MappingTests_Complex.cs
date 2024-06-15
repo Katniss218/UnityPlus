@@ -138,6 +138,34 @@ namespace Neoserialization
         }
 
         [Test]
+        public void Mapping___Null___RoundTrip()
+        {
+            // Arrange
+            BaseClass initialValue = null;
+
+            // Act
+            var data = SerializationUnit.Serialize( initialValue );
+            var finalValue = SerializationUnit.Deserialize<BaseClass>( data );
+
+            // Assert
+            Assert.That( finalValue, Is.Null );
+        }
+
+        [Test]
+        public void Mapping___NullMember___RoundTrip()
+        {
+            // Arrange
+            OwningClass initialValue = new OwningClass() { refMember = null };
+
+            // Act
+            var data = SerializationUnit.Serialize( initialValue );
+            var finalValue = SerializationUnit.Deserialize<OwningClass>( data );
+
+            // Assert
+            Assert.That( finalValue.refMember, Is.Null );
+        }
+
+        [Test]
         public void Mapping___Populate_Object()
         {
             // Arrange

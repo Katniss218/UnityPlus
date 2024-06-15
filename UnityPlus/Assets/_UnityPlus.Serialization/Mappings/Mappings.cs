@@ -393,7 +393,7 @@ namespace UnityPlus.Serialization.Mappings
 
                         var mapping = SerializationMappingRegistry.GetMappingOrDefault<T>( ObjectContext.Default, value );
 
-                        var data = mapping.Save( value, s );
+                        var data = MappingHelper.DoSave<T>( mapping, value, s );
 
                         serializedArray.Add( data );
                     }
@@ -405,7 +405,7 @@ namespace UnityPlus.Serialization.Mappings
                     if( data is not SerializedArray serializedArray )
                         return new T[] { };
 
-                    return new T[serializedArray.Count];
+                    return data == null ? default : new T[serializedArray.Count];
                 },
                 OnLoad = ( ref T[] o, SerializedData data, ILoader l ) =>
                 {

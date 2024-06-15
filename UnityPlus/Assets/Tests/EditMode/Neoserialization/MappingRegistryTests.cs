@@ -68,6 +68,32 @@ namespace Neoserialization
         }
     }
 
+    public class ReferencingClass
+    {
+        public BaseClass refMember;
+
+        public override bool Equals( object obj )
+        {
+            if( obj is not ReferencingClass other )
+                return false;
+
+            return this.refMember == other.refMember;
+        }
+    }
+    
+    public class OwningClass
+    {
+        public BaseClass refMember;
+
+        public override bool Equals( object obj )
+        {
+            if( obj is not OwningClass other )
+                return false;
+
+            return this.refMember == other.refMember;
+        }
+    }
+
     public class MappingRegistryTests
     {
         [SerializationMappingProvider( typeof( BaseClass ) )]
@@ -105,6 +131,24 @@ namespace Neoserialization
                 ("member1", new Member<MultiGenericClass<T1, T2, T3>, T1>( o => o.member1 )),
                 ("member2", new Member<MultiGenericClass<T1, T2, T3>, T2>( o => o.member2 )),
                 ("member3", new Member<MultiGenericClass<T1, T2, T3>, T3>( o => o.member3 ))
+            };
+        }
+
+        [SerializationMappingProvider( typeof( OwningClass ) )]
+        public static SerializationMapping OwningMapping()
+        {
+            return new MemberwiseSerializationMapping<OwningClass>()
+            {
+                ("ref_member", new Member<OwningClass, BaseClass>( o => o.refMember ))
+            };
+        }
+
+        [SerializationMappingProvider( typeof( ReferencingClass ) )]
+        public static SerializationMapping ReferencingClassMapping()
+        {
+            return new MemberwiseSerializationMapping<ReferencingClass>()
+            {
+                ("ref_member", new Member<ReferencingClass, BaseClass>( ObjectContext.Ref, o => o.refMember ))
             };
         }
 

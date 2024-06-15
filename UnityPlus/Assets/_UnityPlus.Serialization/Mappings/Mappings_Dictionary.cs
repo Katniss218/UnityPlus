@@ -26,10 +26,10 @@ namespace UnityPlus.Serialization.Mappings
                 OnSave = ( o, s ) =>
                 {
                     var mapping = SerializationMappingRegistry.GetMappingOrDefault<TKey>( ObjectContext.Default, o.Key );
-                    var keyData = mapping.Save( o.Key, s );
+                    var keyData = MappingHelper.DoSave<TKey>( mapping, o.Key, s );
 
                     mapping = SerializationMappingRegistry.GetMappingOrDefault<TValue>( ObjectContext.Default, o.Value );
-                    var valueData = mapping.Save( o.Value, s );
+                    var valueData = MappingHelper.DoSave<TValue>( mapping, o.Value, s );
 
                     SerializedObject kvpData = new SerializedObject()
                     {
@@ -41,7 +41,7 @@ namespace UnityPlus.Serialization.Mappings
                 },
                 OnInstantiate = ( data, l ) =>
                 {
-                    return new KeyValuePair<TKey, TValue>();
+                    return data == null ? default : new KeyValuePair<TKey, TValue>();
                 },
                 OnLoad = ( ref KeyValuePair<TKey, TValue> o, SerializedData data, ILoader l ) =>
                 {
@@ -97,10 +97,10 @@ namespace UnityPlus.Serialization.Mappings
                     foreach( var kvp in o )
                     {
                         var mapping = SerializationMappingRegistry.GetMappingOrDefault<TKey>( ObjectContext.Default, kvp.Key );
-                        var keyData = mapping.Save( kvp.Key, s );
+                        var keyData = MappingHelper.DoSave<TKey>( mapping, kvp.Key, s );
 
                         mapping = SerializationMappingRegistry.GetMappingOrDefault<TValue>( ObjectContext.Default, kvp.Value );
-                        var valueData = mapping.Save( kvp.Value, s );
+                        var valueData = MappingHelper.DoSave<TValue>( mapping, kvp.Value, s );
 
                         SerializedObject kvpData = new SerializedObject()
                         {
@@ -115,14 +115,14 @@ namespace UnityPlus.Serialization.Mappings
                 },
                 OnInstantiate = ( data, l ) =>
                 {
-                    return new Dictionary<TKey, TValue>();
+                    return data == null ? default : new Dictionary<TKey, TValue>();
                 },
                 OnInstantiateTemp = ( data, l ) =>
                 {
                     if( data is not SerializedArray dataObj )
                         return null;
 
-                    return new (TKey, TValue)[dataObj.Count];
+                    return data == null ? null : new (TKey, TValue)[dataObj.Count];
                 },
                 OnLoad = ( NonPrimitiveSerializationMapping2<(TKey, TValue)[], Dictionary<TKey, TValue>> self, ref Dictionary<TKey, TValue> o, SerializedData data, ILoader l ) =>
                 {
@@ -201,7 +201,7 @@ namespace UnityPlus.Serialization.Mappings
                     {
                         var mapping = SerializationMappingRegistry.GetMappingOrDefault<TValue>( ObjectContext.Default, value );
 
-                        var data = mapping.Save( value, s );
+                        var data = MappingHelper.DoSave<TValue>( mapping, value, s );
 
                         string keyName = s.RefMap.GetID( key ).SerializeGuidAsKey();
                         obj[keyName] = data;
@@ -211,7 +211,7 @@ namespace UnityPlus.Serialization.Mappings
                 },
                 OnInstantiate = ( data, l ) =>
                 {
-                    return new Dictionary<TKey, TValue>();
+                    return data == null ? default : new Dictionary<TKey, TValue>();
                 },
                 OnLoad = null,
                 OnLoadReferences = ( ref Dictionary<TKey, TValue> o, SerializedData data, ILoader l ) =>

@@ -5,9 +5,22 @@ namespace UnityPlus.Serialization
 {
     public static class MappingHelper
     {
-        // DoSave is the same everywhere.
+        // TODO - these could be moved into the SerializationMapping
 
-#warning TODO - these can be moved into the SerializationMapping
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public static SerializedData DoSave<T>( SerializationMapping mapping, T obj, ISaver s )
+        {
+            switch( mapping.SerializationStyle )
+            {
+                default:
+                    return null;
+                case SerializationStyle.PrimitiveObject:
+                case SerializationStyle.PrimitiveStruct:
+                case SerializationStyle.NonPrimitive:
+                    return mapping.Save( obj, s );
+            }
+        }
+
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
         public static bool DoPopulate<T>( SerializationMapping mapping, ref T obj, SerializedData data, ILoader l )
         {
@@ -52,7 +65,7 @@ namespace UnityPlus.Serialization
                 default:
                     return false;
                 case SerializationStyle.PrimitiveObject:
-                    obj =  (T)mapping.Instantiate( data, l );
+                    obj = (T)mapping.Instantiate( data, l );
                     return true;
                 case SerializationStyle.NonPrimitive:
                     object obj2 = obj;
