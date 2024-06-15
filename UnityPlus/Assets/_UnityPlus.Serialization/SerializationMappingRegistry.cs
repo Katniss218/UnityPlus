@@ -8,15 +8,16 @@ namespace UnityPlus.Serialization
 {
     public static class SerializationMappingRegistry
     {
-        private struct Entry
+        private struct RegistryEntry
         {
-            public Type targetType;
-            public SerializationMapping mapping;
-            public MethodInfo method;
             public bool isReady;
+
+            public Type mappedType;
+            public MethodInfo method;
+            public SerializationMapping mapping;
         }
 
-        private static readonly TypeMap<int, Entry> _mappings = new();
+        private static readonly TypeMap<int, RegistryEntry> _mappings = new();
 
         private static bool _isInitialized = false;
 
@@ -24,7 +25,8 @@ namespace UnityPlus.Serialization
         {
             return AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany( a => a.GetTypes() )
-                .Where( t => !t.IsGenericType );
+                .Where( t => !t.IsGenericType ); // Menetic types don't work in this context, so we skip them when searching for methods returning mappings.
+                                                 // The method itself can still be generic.
         }
 
         private static void Initialize()
@@ -47,9 +49,9 @@ namespace UnityPlus.Serialization
                     // Find every method that returns a mapping, and cache it.
                     // In case the mapping (and method) is generic, the call is deferred to when the type parameters are known.
 
-                    var entry = new Entry()
+                    var entry = new RegistryEntry()
                     {
-                        targetType = attr.TargetType,
+                        mappedType = attr.MappedType,
                         mapping = null,
                         method = method,
                         isReady = false
@@ -57,7 +59,7 @@ namespace UnityPlus.Serialization
 
                     foreach( var context in attr.Contexts )
                     {
-                        _mappings.Set( context, attr.TargetType, entry );
+                        _mappings.Set( context, attr.MappedType, entry );
                     }
                 }
             }
@@ -65,14 +67,14 @@ namespace UnityPlus.Serialization
             _isInitialized = true;
         }
 
-        private static Entry MakeReady( int context, Entry entry, Type objType )
+        private static RegistryEntry MakeReady( int context, RegistryEntry entry, Type objType )
         {
             MethodInfo method = entry.method;
 
             if( method.ContainsGenericParameters )
             {
                 // Allows mappings for type 'object' to be genericized with the member type.
-                if( entry.targetType == typeof( object ) )
+                if( entry.mappedType == typeof( object ) )
                 {
                     method = method.MakeGenericMethod( objType );
                 }
@@ -90,7 +92,12 @@ namespace UnityPlus.Serialization
                 // Only call it if special-cases don't match the type.
                 else
                 {
-                    // This may throw an exception if the method is decorated improperly.
+                    if( method.GetGenericArguments().Length != objType.GetGenericArguments().Length )
+                    {
+                        throw new InvalidOperationException( $"Couldn't initialize mapping from method `{method}` (mapped type: `{objType}`). Number of generic parameters on the method doesn't match the number of generic parameters on the object type." );
+                    }
+
+                    // This may still throw an exception if the method has additional generic constraints.
                     method = method.MakeGenericMethod( objType.GetGenericArguments() );
                 }
             }
@@ -138,12 +145,12 @@ namespace UnityPlus.Serialization
                 return entry.mapping.GetWorkingInstance();
             }
 
-            entry = new Entry()
+            entry = new RegistryEntry()
             {
                 isReady = true,
                 method = null,
                 mapping = SerializationMapping.Empty( memberType ),
-                targetType = memberType
+                mappedType = memberType
             };
 
             _mappings.Set( context, memberType, entry );
@@ -180,12 +187,12 @@ namespace UnityPlus.Serialization
                 return entry.mapping.GetWorkingInstance();
             }
 
-            entry = new Entry()
+            entry = new RegistryEntry()
             {
                 isReady = true,
                 method = null,
                 mapping = SerializationMapping.Empty( objType ),
-                targetType = objType
+                mappedType = objType
             };
 
             _mappings.Set( context, objType, entry );
@@ -223,12 +230,12 @@ namespace UnityPlus.Serialization
                     return entry.mapping.GetWorkingInstance();
                 }
 
-                entry = new Entry()
+                entry = new RegistryEntry()
                 {
                     isReady = true,
                     method = null,
                     mapping = SerializationMapping.Empty( objType ),
-                    targetType = objType
+                    mappedType = objType
                 };
 
                 _mappings.Set( context, objType, entry );

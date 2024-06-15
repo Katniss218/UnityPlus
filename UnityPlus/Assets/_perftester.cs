@@ -41,10 +41,10 @@ public class _perftester : MonoBehaviour
         public int x;
         public int y;
         public int z;
-        public Vector3 w2;
-        public Vector3 x2;
-        public Vector3 y2;
-        public Vector3 z2;
+        public Vector32 w2;
+        public Vector32 x2;
+        public Vector32 y2;
+        public Vector32 z2;
         public C2 c;
     }
 
@@ -66,10 +66,10 @@ public class _perftester : MonoBehaviour
             ("x", new Member<C1, int>( o => o.x )),
             ("y", new Member<C1, int>( o => o.y )),
             ("z", new Member<C1, int>( o => o.z )),
-            ("w2", new Member<C1, Vector3>( o => o.w2 )),
-            ("x2", new Member<C1, Vector3>( o => o.x2 )),
-            ("y2", new Member<C1, Vector3>( o => o.y2 )),
-            ("z2", new Member<C1, Vector3>( o => o.z2 )),
+            ("w2", new Member<C1, Vector32>( o => o.w2 )),
+            ("x2", new Member<C1, Vector32>( o => o.x2 )),
+            ("y2", new Member<C1, Vector32>( o => o.y2 )),
+            ("z2", new Member<C1, Vector32>( o => o.z2 )),
             ("c", new Member<C1, C2>( o => o.c )),
         };
     }
@@ -88,7 +88,7 @@ public class _perftester : MonoBehaviour
     {
         return new PrimitiveObjectSerializationMapping<Vector32>()
         {
-            OnSave = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z },
+            OnSave = ( o, s ) => new SerializedArray( 3 ) { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z },
             OnInstantiate = ( data, l ) => new Vector32( (double)data[0], (double)data[1], (double)data[2] )
         };
     }
@@ -103,10 +103,10 @@ public class _perftester : MonoBehaviour
         x = 324,
         y = 324,
         z = 324,
-        w2 = new Vector3( 42.23425f, -342.2345f, 2356532f ),
-        x2 = new Vector3( 42.23425f, -342.2345f, 2356532f ),
-        y2 = new Vector3( 42.23425f, -342.2345f, 2356532f ),
-        z2 = new Vector3( 42.23425f, -342.2345f, 2356532f ),
+        w2 = new Vector32( 42.23425f, -342.2345f, 2356532f ),
+        x2 = new Vector32( 42.23425f, -342.2345f, 2356532f ),
+        y2 = new Vector32( 42.23425f, -342.2345f, 2356532f ),
+        z2 = new Vector32( 42.23425f, -342.2345f, 2356532f ),
         c = new C2()
         {
             intArray = new[] { 0, 1, 2, 5, 6, 74, 4353, 34, 2, 3, 4, 6, 3, 3, 6, 8, 6, 3, 2, 3, 45, 7, 9, 7, 23, 43, 65, 8765, 875, 3, 2323, 45746, 765, 765, 435, 234, 65, 98, 876, 453 }
@@ -122,9 +122,9 @@ public class _perftester : MonoBehaviour
     {
         const int COUNT = 100;
 
+        Profiler.BeginSample( "custom" );
         for( int i = 0; i < COUNT; i++ )
         {
-            Profiler.BeginSample( "custom" );
             SerializedData data = SerializationUnit.Serialize<C1>( obj );
 
             StringBuilder sb = new StringBuilder();
@@ -133,25 +133,31 @@ public class _perftester : MonoBehaviour
             data = new JsonStringReader( s ).Read();
 
             C1 go = SerializationUnit.Deserialize<C1>( data );
-            Profiler.EndSample();
+        }
+        Profiler.EndSample();
 
-            //
+        //
 
-            Profiler.BeginSample( "newtonsoft" );
+        Profiler.BeginSample( "newtonsoft" );
+        for( int i = 0; i < COUNT; i++ )
+        {
             JToken sData = JToken.FromObject( obj );
 
             string s2 = sData.ToString();
             sData = JToken.Parse( s2 );
 
             C1 go2 = sData.ToObject<C1>();
-            Profiler.EndSample();
+        }
+        Profiler.EndSample();
 
-            //
+        //
 
-            Profiler.BeginSample( "newtonsoftdirect" );
+        Profiler.BeginSample( "newtonsoftdirect" );
+        for( int i = 0; i < COUNT; i++ )
+        {
             string sJson = JsonConvert.SerializeObject( obj );
             C1 go3 = JsonConvert.DeserializeObject<C1>( sJson );
-            Profiler.EndSample();
         }
+        Profiler.EndSample();
     }
 }

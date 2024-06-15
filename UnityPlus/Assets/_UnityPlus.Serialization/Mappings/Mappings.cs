@@ -291,7 +291,7 @@ namespace UnityPlus.Serialization.Mappings
         {
             return new PrimitiveObjectSerializationMapping<Vector2>()
             {
-                OnSave = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y },
+                OnSave = ( o, s ) => new SerializedArray( 2 ) { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y },
                 OnInstantiate = ( data, l ) => new Vector2( (float)data[0], (float)data[1] )
             };
         }
@@ -301,7 +301,7 @@ namespace UnityPlus.Serialization.Mappings
         {
             return new PrimitiveObjectSerializationMapping<Vector2Int>()
             {
-                OnSave = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y },
+                OnSave = ( o, s ) => new SerializedArray( 2 ) { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y },
                 OnInstantiate = ( data, l ) => new Vector2Int( (int)data[0], (int)data[1] )
             };
         }
@@ -311,7 +311,7 @@ namespace UnityPlus.Serialization.Mappings
         {
             return new PrimitiveObjectSerializationMapping<Vector3>()
             {
-                OnSave = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z },
+                OnSave = ( o, s ) => new SerializedArray( 3 ) { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z },
                 OnInstantiate = ( data, l ) => new Vector3( (float)data[0], (float)data[1], (float)data[2] )
             };
         }
@@ -321,7 +321,7 @@ namespace UnityPlus.Serialization.Mappings
         {
             return new PrimitiveObjectSerializationMapping<Vector3Int>()
             {
-                OnSave = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z },
+                OnSave = ( o, s ) => new SerializedArray( 3 ) { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z },
                 OnInstantiate = ( data, l ) => new Vector3Int( (int)data[0], (int)data[1], (int)data[2] )
             };
         }
@@ -331,7 +331,7 @@ namespace UnityPlus.Serialization.Mappings
         {
             return new PrimitiveObjectSerializationMapping<Vector3Dbl>()
             {
-                OnSave = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z },
+                OnSave = ( o, s ) => new SerializedArray( 3 ) { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z },
                 OnInstantiate = ( data, l ) => new Vector3Dbl( (double)data[0], (double)data[1], (double)data[2] )
             };
         }
@@ -341,7 +341,7 @@ namespace UnityPlus.Serialization.Mappings
         {
             return new PrimitiveObjectSerializationMapping<Vector4>()
             {
-                OnSave = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z, (SerializedPrimitive)o.w },
+                OnSave = ( o, s ) => new SerializedArray( 4 ) { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z, (SerializedPrimitive)o.w },
                 OnInstantiate = ( data, l ) => new Vector4( (float)data[0], (float)data[1], (float)data[2], (float)data[3] )
             };
         }
@@ -351,7 +351,7 @@ namespace UnityPlus.Serialization.Mappings
         {
             return new PrimitiveObjectSerializationMapping<Quaternion>()
             {
-                OnSave = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z, (SerializedPrimitive)o.w },
+                OnSave = ( o, s ) => new SerializedArray( 4 ) { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z, (SerializedPrimitive)o.w },
                 OnInstantiate = ( data, l ) => new Quaternion( (float)data[0], (float)data[1], (float)data[2], (float)data[3] )
             };
         }
@@ -361,7 +361,7 @@ namespace UnityPlus.Serialization.Mappings
         {
             return new PrimitiveObjectSerializationMapping<QuaternionDbl>()
             {
-                OnSave = ( o, s ) => new SerializedArray() { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z, (SerializedPrimitive)o.w },
+                OnSave = ( o, s ) => new SerializedArray( 4 ) { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z, (SerializedPrimitive)o.w },
                 OnInstantiate = ( data, l ) => new QuaternionDbl( (double)data[0], (double)data[1], (double)data[2], (double)data[3] )
             };
         }
@@ -386,7 +386,7 @@ namespace UnityPlus.Serialization.Mappings
             {
                 OnSave = ( o, s ) =>
                 {
-                    SerializedArray serializedArray = new SerializedArray();
+                    SerializedArray serializedArray = new SerializedArray( o.Length );
                     for( int i = 0; i < o.Length; i++ )
                     {
                         T value = o[i];

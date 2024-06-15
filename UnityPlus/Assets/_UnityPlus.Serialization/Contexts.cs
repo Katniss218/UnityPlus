@@ -1,7 +1,7 @@
 ﻿
 namespace UnityPlus.Serialization
 {
-    // TODO - maybe use this in places other than the attribute.
+    // TODO - maybe use this in places other than the attribute?
     //public struct SerializationContext
     //{
     //    readonly int _value;
@@ -10,7 +10,7 @@ namespace UnityPlus.Serialization
     // These must be `int` because attribute parameters can't be custom structs.
 
     /// <summary>
-    /// General contexts applicable to any type.
+    /// General contexts applicable to any object type.
     /// </summary>
     public static class ObjectContext
     {

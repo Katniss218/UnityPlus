@@ -6,18 +6,6 @@ namespace UnityPlus.Serialization.Mappings
 {
     public static class Mappings_Dictionary
     {
-        
-        [SerializationMappingProvider( typeof( ValueTuple<,> ) )]
-        public static SerializationMapping ValueTupleMapping<T1, T2>()
-        {
-            return new MemberwiseSerializationMapping<(T1, T2)>()
-            {
-                ("1", new Member<(T1, T2), T1>( o => o.Item1 )),
-                ("2", new Member<(T1, T2), T2>( o => o.Item2 ))
-            };
-        }
-
-
         [SerializationMappingProvider( typeof( KeyValuePair<,> ), Context = KeyValueContext.ValueToValue )]
         public static SerializationMapping KeyValuePair_ValueToValue_Mapping<TKey, TValue>()
         {
@@ -161,6 +149,9 @@ namespace UnityPlus.Serialization.Mappings
                 OnLoadReferences = ( NonPrimitiveSerializationMapping2<(TKey, TValue)[], Dictionary<TKey, TValue>> self, ref Dictionary<TKey, TValue> o, SerializedData data, ILoader l ) =>
                 {
                     if( data is not SerializedArray dataObj )
+                        return;
+
+                    if( self.temp == null )
                         return;
 
                     int i = 0;

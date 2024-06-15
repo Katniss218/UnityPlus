@@ -123,14 +123,14 @@ public class _playtester : MonoBehaviour
 
         var data = new JsonStringReader( s ).Read();
 
-        GameObject obj = SerializationUnit.Deserialize<GameObject>( data );
+        //GameObject obj = SerializationUnit.Deserialize<GameObject>( data );
 
-        _playtester t = obj.GetComponent<_playtester>();
+        //_playtester t = obj.GetComponent<_playtester>();
     }
 
     void Update()
     {
-       // RunPerfTest();
+        RunPerfTest();
     }
 
     private void RunPerfTest()

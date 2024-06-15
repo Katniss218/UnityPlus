@@ -24,309 +24,8 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 42
---- !u!114 &2
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 1
-  m_Script: {fileID: 12014, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MinSize: {x: 230, y: 250}
-  m_MaxSize: {x: 10000, y: 10000}
-  m_TitleContent:
-    m_Text: Project
-    m_Image: {fileID: -5467254957812901981, guid: 0000000000000000d000000000000000, type: 0}
-    m_Tooltip: 
-  m_Pos:
-    serializedVersion: 2
-    x: 0
-    y: 679
-    width: 1464
-    height: 320
-  m_ViewDataDictionary: {fileID: 0}
-  m_OverlayCanvas:
-    m_LastAppliedPresetName: Default
-    m_SaveData: []
-  m_SearchFilter:
-    m_NameFilter: 
-    m_ClassNames: []
-    m_AssetLabels: []
-    m_AssetBundleNames: []
-    m_VersionControlStates: []
-    m_SoftLockControlStates: []
-    m_ReferencingInstanceIDs: 
-    m_SceneHandles: 
-    m_ShowAllHits: 0
-    m_SkipHidden: 0
-    m_SearchArea: 1
-    m_Folders:
-    - Assets/Resources
-    m_Globs: []
-    m_OriginalText: 
-  m_ViewMode: 1
-  m_StartGridSize: 64
-  m_LastFolders:
-  - Assets/Resources
-  m_LastFoldersGridSize: -1
-  m_LastProjectPath: E:\GIT\UnityPlus\UnityPlus
-  m_LockTracker:
-    m_IsLocked: 0
-  m_FolderTreeState:
-    scrollPos: {x: 0, y: 240}
-    m_SelectedIDs: 244f0000
-    m_LastClickedID: 20260
-    m_ExpandedIDs: 000000001e4f0000204f0000224f0000244f0000264f000000ca9a3b
-    m_RenameOverlay:
-      m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
-      m_EditFieldRect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 0
-        height: 0
-      m_UserData: 0
-      m_IsWaitingForDelay: 0
-      m_IsRenaming: 0
-      m_OriginalEventType: 11
-      m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 11}
-    m_SearchString: 
-    m_CreateAssetUtility:
-      m_EndAction: {fileID: 0}
-      m_InstanceID: 0
-      m_Path: 
-      m_Icon: {fileID: 0}
-      m_ResourceFile: 
-  m_AssetTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 
-    m_LastClickedID: 0
-    m_ExpandedIDs: 000000001e4f0000204f0000224f0000244f0000264f0000
-    m_RenameOverlay:
-      m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
-      m_EditFieldRect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 0
-        height: 0
-      m_UserData: 0
-      m_IsWaitingForDelay: 0
-      m_IsRenaming: 0
-      m_OriginalEventType: 11
-      m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 0}
-    m_SearchString: 
-    m_CreateAssetUtility:
-      m_EndAction: {fileID: 0}
-      m_InstanceID: 0
-      m_Path: 
-      m_Icon: {fileID: 0}
-      m_ResourceFile: 
-  m_ListAreaState:
-    m_SelectedInstanceIDs: 4ec8edff
-    m_LastClickedInstanceID: -1193906
-    m_HadKeyboardFocusLastEvent: 0
-    m_ExpandedInstanceIDs: c623000000000000
-    m_RenameOverlay:
-      m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
-      m_EditFieldRect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 0
-        height: 0
-      m_UserData: 0
-      m_IsWaitingForDelay: 0
-      m_IsRenaming: 0
-      m_OriginalEventType: 11
-      m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 11}
-    m_CreateAssetUtility:
-      m_EndAction: {fileID: 0}
-      m_InstanceID: 0
-      m_Path: 
-      m_Icon: {fileID: 0}
-      m_ResourceFile: 
-    m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 0}
-    m_GridSize: 64
-  m_SkipHiddenPackages: 0
-  m_DirectoriesAreaWidth: 207
---- !u!114 &3
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 1
-  m_Script: {fileID: 12010, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Children:
-  - {fileID: 4}
-  - {fileID: 11}
-  m_Position:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1465
-    height: 947
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 16192, y: 16192}
-  vertical: 1
-  controlID: 43
---- !u!114 &4
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 1
-  m_Script: {fileID: 12010, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Children:
-  - {fileID: 5}
-  - {fileID: 7}
-  m_Position:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1465
-    height: 606
-  m_MinSize: {x: 200, y: 100}
-  m_MaxSize: {x: 16192, y: 8096}
-  vertical: 0
   controlID: 44
---- !u!114 &5
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 1
-  m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Children: []
-  m_Position:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 271
-    height: 606
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 6}
-  m_Panes:
-  - {fileID: 6}
-  m_Selected: 0
-  m_LastSelected: 0
---- !u!114 &6
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 1
-  m_Script: {fileID: 12061, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_TitleContent:
-    m_Text: Hierarchy
-    m_Image: {fileID: 7966133145522015247, guid: 0000000000000000d000000000000000, type: 0}
-    m_Tooltip: 
-  m_Pos:
-    serializedVersion: 2
-    x: 0
-    y: 73
-    width: 270
-    height: 585
-  m_ViewDataDictionary: {fileID: 0}
-  m_OverlayCanvas:
-    m_LastAppliedPresetName: Default
-    m_SaveData: []
-  m_SceneHierarchy:
-    m_TreeViewState:
-      scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 4ec8edff
-      m_LastClickedID: -1193906
-      m_ExpandedIDs: 80ccedffaeccedff327df9ff6ea8ffff8ca9fffff0aaffff66abffffdcadffffa2d7ffff34fbffff8c4e0000a05b0000
-      m_RenameOverlay:
-        m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
-        m_EditFieldRect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        m_UserData: 0
-        m_IsWaitingForDelay: 0
-        m_IsRenaming: 0
-        m_OriginalEventType: 11
-        m_IsRenamingFilename: 0
-        m_ClientGUIView: {fileID: 5}
-      m_SearchString: 
-    m_ExpandedScenes: []
-    m_CurrenRootInstanceID: 0
-    m_LockTracker:
-      m_IsLocked: 0
-    m_CurrentSortingName: TransformSorting
-  m_WindowGUID: 4c969a2b90040154d917609493e03593
---- !u!114 &7
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 1
-  m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: GameView
-  m_EditorClassIdentifier: 
-  m_Children: []
-  m_Position:
-    serializedVersion: 2
-    x: 271
-    y: 0
-    width: 1194
-    height: 606
-  m_MinSize: {x: 202, y: 221}
-  m_MaxSize: {x: 4002, y: 4021}
-  m_ActualView: {fileID: 9}
-  m_Panes:
-  - {fileID: 8}
-  - {fileID: 9}
-  - {fileID: 10}
-  m_Selected: 1
-  m_LastSelected: 0
---- !u!114 &8
+--- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -584,9 +283,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 2.503694, y: 0.8843765, z: 3.20754}
+    m_Target: {x: 562.745, y: 254.96329, z: -6.820801}
     speed: 2
-    m_Value: {x: 2.503694, y: 0.8843765, z: 3.20754}
+    m_Value: {x: 562.745, y: 254.96329, z: -6.820801}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -632,13 +331,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.11543699, y: -0.044090983, z: 0.00512931, w: -0.99232364}
+    m_Target: {x: 0.11366671, y: 0.038737018, z: -0.0044352524, w: 0.99275315}
     speed: 2
-    m_Value: {x: -0.11543687, y: -0.044090934, z: 0.0051293042, w: -0.99232256}
+    m_Value: {x: 0.11366676, y: 0.038737033, z: -0.0044352543, w: 0.99275357}
   m_Size:
-    m_Target: 2.9702075
+    m_Target: 600.00684
     speed: 2
-    m_Value: 2.9702075
+    m_Value: 600.00684
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -663,7 +362,168 @@ MonoBehaviour:
   m_SceneVisActive: 1
   m_LastLockedObject: {fileID: 0}
   m_ViewIsLockedToObject: 0
---- !u!114 &9
+--- !u!114 &3
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 1
+  m_Script: {fileID: 12010, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Children:
+  - {fileID: 4}
+  - {fileID: 10}
+  m_Position:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1465
+    height: 947
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 16192, y: 16192}
+  vertical: 1
+  controlID: 45
+--- !u!114 &4
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 1
+  m_Script: {fileID: 12010, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Children:
+  - {fileID: 5}
+  - {fileID: 7}
+  m_Position:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1465
+    height: 606
+  m_MinSize: {x: 200, y: 100}
+  m_MaxSize: {x: 16192, y: 8096}
+  vertical: 0
+  controlID: 46
+--- !u!114 &5
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 1
+  m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Children: []
+  m_Position:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 271
+    height: 606
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_ActualView: {fileID: 6}
+  m_Panes:
+  - {fileID: 6}
+  m_Selected: 0
+  m_LastSelected: 0
+--- !u!114 &6
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 1
+  m_Script: {fileID: 12061, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_TitleContent:
+    m_Text: Hierarchy
+    m_Image: {fileID: 7966133145522015247, guid: 0000000000000000d000000000000000, type: 0}
+    m_Tooltip: 
+  m_Pos:
+    serializedVersion: 2
+    x: 0
+    y: 73
+    width: 270
+    height: 585
+  m_ViewDataDictionary: {fileID: 0}
+  m_OverlayCanvas:
+    m_LastAppliedPresetName: Default
+    m_SaveData: []
+  m_SceneHierarchy:
+    m_TreeViewState:
+      scrollPos: {x: 0, y: 0}
+      m_SelectedIDs: 12640000
+      m_LastClickedID: 25618
+      m_ExpandedIDs: 969dffffbc9dffff289effff8c9efffff89effff549fffffb89fffff24a0ffffa8a0ffff38a1ffffbca1ffff28a2ffffeca7ffff48a8ffffa4a8ffffcaabffffd4acffff94aeffff68bfffffccbfffff34c6ffffa6c6ffffe2ccffff3ecdffff32cfffffc2cfffff1ed0ffff7ad0ffff18d7ffff74d7ffffb2dbffff0edcffffd6ddffff32deffff42dfffff9edfffffa8f1ffff54f2ffff34fbffff
+      m_RenameOverlay:
+        m_UserAcceptedRename: 0
+        m_Name: 
+        m_OriginalName: 
+        m_EditFieldRect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        m_UserData: 0
+        m_IsWaitingForDelay: 0
+        m_IsRenaming: 0
+        m_OriginalEventType: 11
+        m_IsRenamingFilename: 0
+        m_ClientGUIView: {fileID: 5}
+      m_SearchString: 
+    m_ExpandedScenes: []
+    m_CurrenRootInstanceID: 0
+    m_LockTracker:
+      m_IsLocked: 0
+    m_CurrentSortingName: TransformSorting
+  m_WindowGUID: 4c969a2b90040154d917609493e03593
+--- !u!114 &7
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 1
+  m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: SceneView
+  m_EditorClassIdentifier: 
+  m_Children: []
+  m_Position:
+    serializedVersion: 2
+    x: 271
+    y: 0
+    width: 1194
+    height: 606
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
+  m_ActualView: {fileID: 2}
+  m_Panes:
+  - {fileID: 2}
+  - {fileID: 8}
+  - {fileID: 9}
+  m_Selected: 0
+  m_LastSelected: 1
+--- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -762,7 +622,7 @@ MonoBehaviour:
   m_RenderTexture: {fileID: 0}
   m_showToolbar: 1
   m_showToolbarOnFullscreen: 0
---- !u!114 &10
+--- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1650,7 +1510,7 @@ MonoBehaviour:
       data:
         m_SortAscending: 0
         m_SortedColumn: -1
---- !u!114 &11
+--- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1660,7 +1520,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ProjectBrowser
+  m_Name: ConsoleWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -1669,14 +1529,154 @@ MonoBehaviour:
     y: 606
     width: 1465
     height: 341
-  m_MinSize: {x: 231, y: 271}
-  m_MaxSize: {x: 10001, y: 10021}
-  m_ActualView: {fileID: 2}
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_ActualView: {fileID: 12}
   m_Panes:
-  - {fileID: 2}
+  - {fileID: 11}
   - {fileID: 12}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
+--- !u!114 &11
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 1
+  m_Script: {fileID: 12014, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSize: {x: 230, y: 250}
+  m_MaxSize: {x: 10000, y: 10000}
+  m_TitleContent:
+    m_Text: Project
+    m_Image: {fileID: -5467254957812901981, guid: 0000000000000000d000000000000000, type: 0}
+    m_Tooltip: 
+  m_Pos:
+    serializedVersion: 2
+    x: 0
+    y: 679
+    width: 1464
+    height: 320
+  m_ViewDataDictionary: {fileID: 0}
+  m_OverlayCanvas:
+    m_LastAppliedPresetName: Default
+    m_SaveData: []
+  m_SearchFilter:
+    m_NameFilter: 
+    m_ClassNames: []
+    m_AssetLabels: []
+    m_AssetBundleNames: []
+    m_VersionControlStates: []
+    m_SoftLockControlStates: []
+    m_ReferencingInstanceIDs: 
+    m_SceneHandles: 
+    m_ShowAllHits: 0
+    m_SkipHidden: 0
+    m_SearchArea: 1
+    m_Folders:
+    - Assets/Tests/PlayMode
+    m_Globs: []
+    m_OriginalText: 
+  m_ViewMode: 1
+  m_StartGridSize: 64
+  m_LastFolders:
+  - Assets/Tests/PlayMode
+  m_LastFoldersGridSize: -1
+  m_LastProjectPath: E:\GIT\UnityPlus\UnityPlus
+  m_LockTracker:
+    m_IsLocked: 0
+  m_FolderTreeState:
+    scrollPos: {x: 0, y: 216}
+    m_SelectedIDs: b04f0000
+    m_LastClickedID: 20400
+    m_ExpandedIDs: 00000000784f00007a4f00007c4f00007e4f0000804f000000ca9a3b
+    m_RenameOverlay:
+      m_UserAcceptedRename: 0
+      m_Name: 
+      m_OriginalName: 
+      m_EditFieldRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      m_UserData: 0
+      m_IsWaitingForDelay: 0
+      m_IsRenaming: 0
+      m_OriginalEventType: 11
+      m_IsRenamingFilename: 1
+      m_ClientGUIView: {fileID: 10}
+    m_SearchString: 
+    m_CreateAssetUtility:
+      m_EndAction: {fileID: 0}
+      m_InstanceID: 0
+      m_Path: 
+      m_Icon: {fileID: 0}
+      m_ResourceFile: 
+  m_AssetTreeState:
+    scrollPos: {x: 0, y: 0}
+    m_SelectedIDs: 
+    m_LastClickedID: 0
+    m_ExpandedIDs: 00000000784f00007a4f00007c4f00007e4f0000804f0000
+    m_RenameOverlay:
+      m_UserAcceptedRename: 0
+      m_Name: 
+      m_OriginalName: 
+      m_EditFieldRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      m_UserData: 0
+      m_IsWaitingForDelay: 0
+      m_IsRenaming: 0
+      m_OriginalEventType: 11
+      m_IsRenamingFilename: 1
+      m_ClientGUIView: {fileID: 0}
+    m_SearchString: 
+    m_CreateAssetUtility:
+      m_EndAction: {fileID: 0}
+      m_InstanceID: 0
+      m_Path: 
+      m_Icon: {fileID: 0}
+      m_ResourceFile: 
+  m_ListAreaState:
+    m_SelectedInstanceIDs: 12640000
+    m_LastClickedInstanceID: 25618
+    m_HadKeyboardFocusLastEvent: 1
+    m_ExpandedInstanceIDs: c623000000000000
+    m_RenameOverlay:
+      m_UserAcceptedRename: 0
+      m_Name: 
+      m_OriginalName: 
+      m_EditFieldRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      m_UserData: 0
+      m_IsWaitingForDelay: 0
+      m_IsRenaming: 0
+      m_OriginalEventType: 11
+      m_IsRenamingFilename: 1
+      m_ClientGUIView: {fileID: 10}
+    m_CreateAssetUtility:
+      m_EndAction: {fileID: 0}
+      m_InstanceID: 0
+      m_Path: 
+      m_Icon: {fileID: 0}
+      m_ResourceFile: 
+    m_NewAssetIndexInList: -1
+    m_ScrollPosition: {x: 0, y: 0}
+    m_GridSize: 64
+  m_SkipHiddenPackages: 0
+  m_DirectoriesAreaWidth: 227
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1767,7 +1767,7 @@ MonoBehaviour:
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
   m_LastInspectedObjectInstanceID: -1
-  m_LastVerticalScrollValue: 540
+  m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0
   m_LockTracker:
@@ -1802,7 +1802,7 @@ MonoBehaviour:
     m_LastAppliedPresetName: Default
     m_SaveData: []
   m_Spl:
-    ID: 11120
+    ID: 635
     splitterInitialOffset: 0
     currentActiveSplitter: -1
     realSizes:
@@ -2001,7 +2001,7 @@ MonoBehaviour:
       name: UnityPlus
       fullName: UnityPlus
       resultStatus: 1
-      duration: 0.4272236
+      duration: 0.0171925
       messages: 
       output: 
       stacktrace: 
@@ -2017,7 +2017,7 @@ MonoBehaviour:
       name: EditMode.dll
       fullName: E:/GIT/UnityPlus/UnityPlus/Library/ScriptAssemblies/EditMode.dll
       resultStatus: 1
-      duration: 0.4120242
+      duration: 0.0050363
       messages: 
       output: 
       stacktrace: 
@@ -2033,7 +2033,7 @@ MonoBehaviour:
       name: Neoserialization
       fullName: Neoserialization
       resultStatus: 1
-      duration: 0.4113463
+      duration: 0.0040873
       messages: 
       output: 
       stacktrace: 
@@ -2045,11 +2045,11 @@ MonoBehaviour:
       parentId: 1086
       parentUniqueId: '[EditMode.dll][suite]'
     - id: 1014
-      uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingConstructionTests][suite]
-      name: MappingConstructionTests
-      fullName: Neoserialization.MappingConstructionTests
+      uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
+      name: MappingRegistryTests
+      fullName: Neoserialization.MappingRegistryTests
       resultStatus: 1
-      duration: 0.4074471
+      duration: 0.0089032
       messages: 
       output: 
       stacktrace: 
@@ -2058,14 +2058,14 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1088
+      parentId: 1107
       parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
     - id: 1019
-      uniqueId: EditMode.dll/Neoserialization/MappingConstructionTests/[EditMode][Neoserialization.MappingConstructionTests.GetMappingFor___Array___ReturnsCorrectMapping]
+      uniqueId: EditMode.dll/Neoserialization/MappingRegistryTests/[EditMode][Neoserialization.MappingRegistryTests.GetMappingFor___Array___ReturnsCorrectMapping]
       name: GetMappingFor___Array___ReturnsCorrectMapping
-      fullName: Neoserialization.MappingConstructionTests.GetMappingFor___Array___ReturnsCorrectMapping
+      fullName: Neoserialization.MappingRegistryTests.GetMappingFor___Array___ReturnsCorrectMapping
       resultStatus: 1
-      duration: 0.3702271
+      duration: 0.0004208
       messages: 
       output: 
       stacktrace: 
@@ -2076,30 +2076,30 @@ MonoBehaviour:
       categories:
       - Uncategorized
       parentId: 1014
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingConstructionTests][suite]
-    - id: 1017
-      uniqueId: EditMode.dll/Neoserialization/MappingConstructionTests/[EditMode][Neoserialization.MappingConstructionTests.GetMappingFor___Derived___ReturnsCorrectMapping]
-      name: GetMappingFor___Derived___ReturnsCorrectMapping
-      fullName: Neoserialization.MappingConstructionTests.GetMappingFor___Derived___ReturnsCorrectMapping
-      resultStatus: 1
-      duration: 0.0202178
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1014
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingConstructionTests][suite]
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
     - id: 1016
-      uniqueId: EditMode.dll/Neoserialization/MappingConstructionTests/[EditMode][Neoserialization.MappingConstructionTests.GetMappingFor___Generic___ReturnsCorrectMapping]
+      uniqueId: EditMode.dll/Neoserialization/MappingRegistryTests/[EditMode][Neoserialization.MappingRegistryTests.GetMappingFor___Derived___ReturnsCorrectMapping]
+      name: GetMappingFor___Derived___ReturnsCorrectMapping
+      fullName: Neoserialization.MappingRegistryTests.GetMappingFor___Derived___ReturnsCorrectMapping
+      resultStatus: 1
+      duration: 0.0001561
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1014
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
+    - id: 1017
+      uniqueId: EditMode.dll/Neoserialization/MappingRegistryTests/[EditMode][Neoserialization.MappingRegistryTests.GetMappingFor___Generic___ReturnsCorrectMapping]
       name: GetMappingFor___Generic___ReturnsCorrectMapping
-      fullName: Neoserialization.MappingConstructionTests.GetMappingFor___Generic___ReturnsCorrectMapping
+      fullName: Neoserialization.MappingRegistryTests.GetMappingFor___Generic___ReturnsCorrectMapping
       resultStatus: 1
-      duration: 0.0013382
+      duration: 0.0016133
       messages: 
       output: 
       stacktrace: 
@@ -2110,13 +2110,13 @@ MonoBehaviour:
       categories:
       - Uncategorized
       parentId: 1014
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingConstructionTests][suite]
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
     - id: 1018
-      uniqueId: EditMode.dll/Neoserialization/MappingConstructionTests/[EditMode][Neoserialization.MappingConstructionTests.GetMappingFor___MultipleGeneric___ReturnsCorrectMapping]
+      uniqueId: EditMode.dll/Neoserialization/MappingRegistryTests/[EditMode][Neoserialization.MappingRegistryTests.GetMappingFor___MultipleGeneric___ReturnsCorrectMapping]
       name: GetMappingFor___MultipleGeneric___ReturnsCorrectMapping
-      fullName: Neoserialization.MappingConstructionTests.GetMappingFor___MultipleGeneric___ReturnsCorrectMapping
+      fullName: Neoserialization.MappingRegistryTests.GetMappingFor___MultipleGeneric___ReturnsCorrectMapping
       resultStatus: 1
-      duration: 0.0021371
+      duration: 0.0023844
       messages: 
       output: 
       stacktrace: 
@@ -2127,13 +2127,13 @@ MonoBehaviour:
       categories:
       - Uncategorized
       parentId: 1014
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingConstructionTests][suite]
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
     - id: 1015
-      uniqueId: EditMode.dll/Neoserialization/MappingConstructionTests/[EditMode][Neoserialization.MappingConstructionTests.GetMappingFor___Simple___ReturnsCorrectMapping]
+      uniqueId: EditMode.dll/Neoserialization/MappingRegistryTests/[EditMode][Neoserialization.MappingRegistryTests.GetMappingFor___Simple___ReturnsCorrectMapping]
       name: GetMappingFor___Simple___ReturnsCorrectMapping
-      fullName: Neoserialization.MappingConstructionTests.GetMappingFor___Simple___ReturnsCorrectMapping
+      fullName: Neoserialization.MappingRegistryTests.GetMappingFor___Simple___ReturnsCorrectMapping
       resultStatus: 1
-      duration: 0.0005444
+      duration: 0.0001452
       messages: 
       output: 
       stacktrace: 
@@ -2144,7 +2144,788 @@ MonoBehaviour:
       categories:
       - Uncategorized
       parentId: 1014
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingConstructionTests][suite]
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
+    - id: 1020
+      uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Complex][suite]
+      name: MappingTests_Complex
+      fullName: Neoserialization.MappingTests_Complex
+      resultStatus: 1
+      duration: 0.0419027
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1105
+      parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
+    - id: 1027
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Complex/[EditMode][Neoserialization.MappingTests_Complex.Mapping___BaseClass___RoundTrip]
+      name: Mapping___BaseClass___RoundTrip
+      fullName: Neoserialization.MappingTests_Complex.Mapping___BaseClass___RoundTrip
+      resultStatus: 1
+      duration: 0.0038294
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1020
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Complex][suite]
+    - id: 1028
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Complex/[EditMode][Neoserialization.MappingTests_Complex.Mapping___DerivedClass_Polymorphic___RoundTrip]
+      name: Mapping___DerivedClass_Polymorphic___RoundTrip
+      fullName: Neoserialization.MappingTests_Complex.Mapping___DerivedClass_Polymorphic___RoundTrip
+      resultStatus: 1
+      duration: 0.009573
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1020
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Complex][suite]
+    - id: 1025
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Complex/[EditMode][Neoserialization.MappingTests_Complex.Mapping___Dictionary_ValToVal___RoundTrip]
+      name: Mapping___Dictionary_ValToVal___RoundTrip
+      fullName: Neoserialization.MappingTests_Complex.Mapping___Dictionary_ValToVal___RoundTrip
+      resultStatus: 1
+      duration: 0.002649
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1020
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Complex][suite]
+    - id: 1026
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Complex/[EditMode][Neoserialization.MappingTests_Complex.Mapping___DictionaryOfObjects_ValToVal___RoundTrip]
+      name: Mapping___DictionaryOfObjects_ValToVal___RoundTrip
+      fullName: Neoserialization.MappingTests_Complex.Mapping___DictionaryOfObjects_ValToVal___RoundTrip
+      resultStatus: 1
+      duration: 0.0089024
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1020
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Complex][suite]
+    - id: 1021
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Complex/[EditMode][Neoserialization.MappingTests_Complex.Mapping___IntArray___RoundTrip]
+      name: Mapping___IntArray___RoundTrip
+      fullName: Neoserialization.MappingTests_Complex.Mapping___IntArray___RoundTrip
+      resultStatus: 1
+      duration: 0.0002715
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1020
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Complex][suite]
+    - id: 1024
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Complex/[EditMode][Neoserialization.MappingTests_Complex.Mapping___KeyValuePair_OfObjects_ValToVal___RoundTrip]
+      name: Mapping___KeyValuePair_OfObjects_ValToVal___RoundTrip
+      fullName: Neoserialization.MappingTests_Complex.Mapping___KeyValuePair_OfObjects_ValToVal___RoundTrip
+      resultStatus: 1
+      duration: 0.0063409
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1020
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Complex][suite]
+    - id: 1022
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Complex/[EditMode][Neoserialization.MappingTests_Complex.Mapping___KeyValuePair_ValToVal___RoundTrip]
+      name: Mapping___KeyValuePair_ValToVal___RoundTrip
+      fullName: Neoserialization.MappingTests_Complex.Mapping___KeyValuePair_ValToVal___RoundTrip
+      resultStatus: 1
+      duration: 0.0021689
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1020
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Complex][suite]
+    - id: 1023
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Complex/[EditMode][Neoserialization.MappingTests_Complex.Mapping___KeyValuePairArray_ValToVal___RoundTrip]
+      name: Mapping___KeyValuePairArray_ValToVal___RoundTrip
+      fullName: Neoserialization.MappingTests_Complex.Mapping___KeyValuePairArray_ValToVal___RoundTrip
+      resultStatus: 1
+      duration: 0.0009864
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1020
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Complex][suite]
+    - id: 1029
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Complex/[EditMode][Neoserialization.MappingTests_Complex.Mapping___Null___RoundTrip]
+      name: Mapping___Null___RoundTrip
+      fullName: Neoserialization.MappingTests_Complex.Mapping___Null___RoundTrip
+      resultStatus: 1
+      duration: 0.0002337
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1020
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Complex][suite]
+    - id: 1030
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Complex/[EditMode][Neoserialization.MappingTests_Complex.Mapping___NullMember___RoundTrip]
+      name: Mapping___NullMember___RoundTrip
+      fullName: Neoserialization.MappingTests_Complex.Mapping___NullMember___RoundTrip
+      resultStatus: 1
+      duration: 0.0013562
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1020
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Complex][suite]
+    - id: 1029
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Complex/[EditMode][Neoserialization.MappingTests_Complex.Mapping___Populate_Object]
+      name: Mapping___Populate_Object
+      fullName: Neoserialization.MappingTests_Complex.Mapping___Populate_Object
+      resultStatus: 1
+      duration: 0.0006704
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1020
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Complex][suite]
+    - id: 1030
+      uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
+      name: MappingTests_Primitives
+      fullName: Neoserialization.MappingTests_Primitives
+      resultStatus: 1
+      duration: 0.0311579
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1105
+      parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
+    - id: 1031
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Boolean___RoundTrip]
+      name: Mapping___Boolean___RoundTrip
+      fullName: Neoserialization.MappingTests_Primitives.Mapping___Boolean___RoundTrip
+      resultStatus: 1
+      duration: 0.0020298
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1030
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
+    - id: 1032
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Byte___RoundTrip]
+      name: Mapping___Byte___RoundTrip
+      fullName: Neoserialization.MappingTests_Primitives.Mapping___Byte___RoundTrip
+      resultStatus: 1
+      duration: 0.0018012
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1030
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
+    - id: 1040
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Char___RoundTrip]
+      name: Mapping___Char___RoundTrip
+      fullName: Neoserialization.MappingTests_Primitives.Mapping___Char___RoundTrip
+      resultStatus: 1
+      duration: 0.0011514
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1030
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
+    - id: 1042
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___DateTime___RoundTrip]
+      name: Mapping___DateTime___RoundTrip
+      fullName: Neoserialization.MappingTests_Primitives.Mapping___DateTime___RoundTrip
+      resultStatus: 1
+      duration: 0.002217
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1030
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
+    - id: 1043
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___DateTimeOffset___RoundTrip]
+      name: Mapping___DateTimeOffset___RoundTrip
+      fullName: Neoserialization.MappingTests_Primitives.Mapping___DateTimeOffset___RoundTrip
+      resultStatus: 1
+      duration: 0.0023393
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1030
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
+    - id: 1039
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Decimal___RoundTrip]
+      name: Mapping___Decimal___RoundTrip
+      fullName: Neoserialization.MappingTests_Primitives.Mapping___Decimal___RoundTrip
+      resultStatus: 1
+      duration: 0.0024079
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1030
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
+    - id: 1038
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Double___RoundTrip]
+      name: Mapping___Double___RoundTrip
+      fullName: Neoserialization.MappingTests_Primitives.Mapping___Double___RoundTrip
+      resultStatus: 1
+      duration: 0.0017124
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1030
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
+    - id: 1037
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Float___RoundTrip]
+      name: Mapping___Float___RoundTrip
+      fullName: Neoserialization.MappingTests_Primitives.Mapping___Float___RoundTrip
+      resultStatus: 1
+      duration: 0.000978
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1030
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
+    - id: 1034
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Int16___RoundTrip]
+      name: Mapping___Int16___RoundTrip
+      fullName: Neoserialization.MappingTests_Primitives.Mapping___Int16___RoundTrip
+      resultStatus: 1
+      duration: 0.0016257
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1030
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
+    - id: 1035
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Int32___RoundTrip]
+      name: Mapping___Int32___RoundTrip
+      fullName: Neoserialization.MappingTests_Primitives.Mapping___Int32___RoundTrip
+      resultStatus: 1
+      duration: 0.0008395
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1030
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
+    - id: 1036
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Int64___RoundTrip]
+      name: Mapping___Int64___RoundTrip
+      fullName: Neoserialization.MappingTests_Primitives.Mapping___Int64___RoundTrip
+      resultStatus: 1
+      duration: 0.0016915
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1030
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
+    - id: 1033
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___SByte___RoundTrip]
+      name: Mapping___SByte___RoundTrip
+      fullName: Neoserialization.MappingTests_Primitives.Mapping___SByte___RoundTrip
+      resultStatus: 1
+      duration: 0.0016273
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1030
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
+    - id: 1041
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___String___RoundTrip]
+      name: Mapping___String___RoundTrip
+      fullName: Neoserialization.MappingTests_Primitives.Mapping___String___RoundTrip
+      resultStatus: 1
+      duration: 0.004077
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1030
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
+    - id: 1044
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___TimeSpan___RoundTrip]
+      name: Mapping___TimeSpan___RoundTrip
+      fullName: Neoserialization.MappingTests_Primitives.Mapping___TimeSpan___RoundTrip
+      resultStatus: 1
+      duration: 0.0029174
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1030
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
+    - id: 1045
+      uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
+      name: MappingTests_References
+      fullName: Neoserialization.MappingTests_References
+      resultStatus: 1
+      duration: 0.0035578
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1111
+      parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
+    - id: 1048
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___ExistingReference___RoundTrip]
+      name: Mapping___ExistingReference___RoundTrip
+      fullName: Neoserialization.MappingTests_References.Mapping___ExistingReference___RoundTrip
+      resultStatus: 1
+      duration: 0.0001168
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1045
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
+    - id: 1046
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___NullReference___RoundTrip]
+      name: Mapping___NullReference___RoundTrip
+      fullName: Neoserialization.MappingTests_References.Mapping___NullReference___RoundTrip
+      resultStatus: 1
+      duration: 0.0000827
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1045
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
+    - id: 1047
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___Reference___RoundTrip]
+      name: Mapping___Reference___RoundTrip
+      fullName: Neoserialization.MappingTests_References.Mapping___Reference___RoundTrip
+      resultStatus: 1
+      duration: 0.0000982
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1045
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
+    - id: 1051
+      uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Tuples][suite]
+      name: MappingTests_Tuples
+      fullName: Neoserialization.MappingTests_Tuples
+      resultStatus: 2
+      duration: 0.0050126
+      messages: One or more child tests had errors
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1122
+      parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
+    - id: 1054
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Tuples/[EditMode][Neoserialization.MappingTests_Tuples.Mapping___Tuple_3___RoundTrip]
+      name: Mapping___Tuple_3___RoundTrip
+      fullName: Neoserialization.MappingTests_Tuples.Mapping___Tuple_3___RoundTrip
+      resultStatus: 1
+      duration: 0.0001409
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1051
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Tuples][suite]
+    - id: 1055
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Tuples/[EditMode][Neoserialization.MappingTests_Tuples.Mapping___Tuple_7___RoundTrip]
+      name: Mapping___Tuple_7___RoundTrip
+      fullName: Neoserialization.MappingTests_Tuples.Mapping___Tuple_7___RoundTrip
+      resultStatus: 1
+      duration: 0.000114
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1051
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Tuples][suite]
+    - id: 1052
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Tuples/[EditMode][Neoserialization.MappingTests_Tuples.Mapping___Tuple_IntString___RoundTrip]
+      name: Mapping___Tuple_IntString___RoundTrip
+      fullName: Neoserialization.MappingTests_Tuples.Mapping___Tuple_IntString___RoundTrip
+      resultStatus: 1
+      duration: 0.0000927
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1051
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Tuples][suite]
+    - id: 1053
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Tuples/[EditMode][Neoserialization.MappingTests_Tuples.Mapping___Tuple_ObjectObject___RoundTrip]
+      name: Mapping___Tuple_ObjectObject___RoundTrip
+      fullName: Neoserialization.MappingTests_Tuples.Mapping___Tuple_ObjectObject___RoundTrip
+      resultStatus: 1
+      duration: 0.0001219
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1051
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Tuples][suite]
+    - id: 1056
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Tuples/[EditMode][Neoserialization.MappingTests_Tuples.Mapping___Tuple_SplitIntoTRest___RoundTrip]
+      name: Mapping___Tuple_SplitIntoTRest___RoundTrip
+      fullName: Neoserialization.MappingTests_Tuples.Mapping___Tuple_SplitIntoTRest___RoundTrip
+      resultStatus: 2
+      duration: 0.000207
+      messages: "  Expected: null\r\n  But was:  (-5, 5, 5, 5, 5, 5, 5, 5, 4, 5,
+        3)\r\n"
+      output: 
+      stacktrace: 'at Neoserialization.MappingTests_Tuples.Mapping___Tuple_SplitIntoTRest___RoundTrip
+        () [0x00027] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Neoserialization\MappingTests_Tuples.cs:84
+
+'
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1051
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Tuples][suite]
+    - id: 1045
+      uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
+      name: MappingTests_Vectors
+      fullName: Neoserialization.MappingTests_Vectors
+      resultStatus: 1
+      duration: 0.0211291
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1105
+      parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
+    - id: 1061
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Quaternion___RoundTrip]
+      name: Mapping___Quaternion___RoundTrip
+      fullName: Neoserialization.MappingTests_Vectors.Mapping___Quaternion___RoundTrip
+      resultStatus: 1
+      duration: 0.0022636
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1057
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
+    - id: 1062
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___QuaternionDbl___RoundTrip]
+      name: Mapping___QuaternionDbl___RoundTrip
+      fullName: Neoserialization.MappingTests_Vectors.Mapping___QuaternionDbl___RoundTrip
+      resultStatus: 1
+      duration: 0.0022394
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1057
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
+    - id: 1046
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Vector2___RoundTrip]
+      name: Mapping___Vector2___RoundTrip
+      fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector2___RoundTrip
+      resultStatus: 1
+      duration: 0.0018793
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1045
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
+    - id: 1059
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Vector2Int___RoundTrip]
+      name: Mapping___Vector2Int___RoundTrip
+      fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector2Int___RoundTrip
+      resultStatus: 1
+      duration: 0.001877
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1057
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
+    - id: 1047
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Vector3___RoundTrip]
+      name: Mapping___Vector3___RoundTrip
+      fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector3___RoundTrip
+      resultStatus: 1
+      duration: 0.0019162
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1045
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
+    - id: 1048
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Vector3Dbl___RoundTrip]
+      name: Mapping___Vector3Dbl___RoundTrip
+      fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector3Dbl___RoundTrip
+      resultStatus: 1
+      duration: 0.0020458
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1045
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
+    - id: 1061
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Vector3Int___RoundTrip]
+      name: Mapping___Vector3Int___RoundTrip
+      fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector3Int___RoundTrip
+      resultStatus: 1
+      duration: 0.0021011
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1057
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
+    - id: 1061
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Vector4___RoundTrip]
+      name: Mapping___Vector4___RoundTrip
+      fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector4___RoundTrip
+      resultStatus: 1
+      duration: 0.0019553
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1057
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
     - id: 1075
       uniqueId: EditMode.dll/[Serialization][suite]
       name: Serialization
@@ -3325,13 +4106,13 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: EditMode.dll/UnityEngine/[EditMode][UnityEngine.TypeMapTests][suite]
-    m_ResultText: MappingConstructionTests (0,407s)
+    m_ResultText: Mapping___QuaternionDbl___RoundTrip (0,002s)
     m_ResultStacktrace: 
     m_TestListState:
-      scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: e625256d
-      m_LastClickedID: 1831151078
-      m_ExpandedIDs: 2026c08e436c6193ad608d96cc856f9aedc39d9bda46919ceba168ada7da5dbdf70309c4d6d190dbc6f21cfbf6a2830550b8d623b2b38c2bf580f53a463b4e6458bcc369fb2cbd6ae625256db58db36f3b2591793fea547b4b5ea47cffffff7f
+      scrollPos: {x: 0, y: 420}
+      m_SelectedIDs: 26c624df
+      m_LastClickedID: -551238106
+      m_ExpandedIDs: 2026c08e436c61936ae00595ad608d96cc856f9aedc39d9bda46919c4a4bc2a0eba168ada7da5dbd651ad6bdf70309c40a5fded7d6d190dbc6f21cfbf6a2830550b8d623b2b38c2b0407f42bf580f53a020566444edece62463b4e6458bcc369fb2cbd6ae625256db58db36f3b2591793fea547b4b5ea47c41ea8f7effffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 

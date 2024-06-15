@@ -15,7 +15,7 @@ namespace UnityPlus.Serialization
         /// <summary>
         /// Specifies the type that this mapping will be used to map.
         /// </summary>
-        public Type TargetType { get; set; }
+        public Type MappedType { get; set; }
 
         /// <summary>
         /// Specifies the context that this mapping will be used in.
@@ -31,9 +31,13 @@ namespace UnityPlus.Serialization
         /// </summary>
         public int[] Contexts { get; set; } = new int[] { 0 }; // By default, use the default context (zero).
 
-        public SerializationMappingProviderAttribute( Type targetType )
+        /// <summary>
+        /// Specifies a method that returns a mapping used for mapping the specified target type.
+        /// </summary>
+        /// <param name="mappedType">The type that will be mapped by the returned mapping.</param>
+        public SerializationMappingProviderAttribute( Type mappedType )
         {
-            this.TargetType = targetType;
+            this.MappedType = mappedType;
         }
     }
 }

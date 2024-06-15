@@ -27,6 +27,20 @@ namespace Neoserialization
         }
 
         [Test]
+        public void Mapping___Vector2Int___RoundTrip()
+        {
+            // Arrange
+            var initialValue = new Vector2Int( 5, -342 );
+
+            // Act
+            var data = SerializationUnit.Serialize( initialValue );
+            var finalValue = SerializationUnit.Deserialize<Vector2Int>( data );
+
+            // Assert
+            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+        }
+
+        [Test]
         public void Mapping___Vector3___RoundTrip()
         {
             // Arrange
@@ -35,6 +49,20 @@ namespace Neoserialization
             // Act
             var data = SerializationUnit.Serialize( initialValue );
             var finalValue = SerializationUnit.Deserialize<Vector3>( data );
+
+            // Assert
+            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+        }
+
+        [Test]
+        public void Mapping___Vector3Int___RoundTrip()
+        {
+            // Arrange
+            var initialValue = new Vector3Int( 5, -342, 564 );
+
+            // Act
+            var data = SerializationUnit.Serialize( initialValue );
+            var finalValue = SerializationUnit.Deserialize<Vector3Int>( data );
 
             // Assert
             Assert.That( initialValue, Is.EqualTo( finalValue ) );
@@ -55,33 +83,45 @@ namespace Neoserialization
         }
 
         [Test]
-        public void Mapping___Tuple_IntString___RoundTrip()
+        public void Mapping___Vector4___RoundTrip()
         {
             // Arrange
-            var initialValue = (-5, "hello");
+            var initialValue = new Vector4( float.Epsilon, float.MinValue, 563f, -5.6f );
 
             // Act
             var data = SerializationUnit.Serialize( initialValue );
-            var finalValue = SerializationUnit.Deserialize<ValueTuple<int, string>>( data );
+            var finalValue = SerializationUnit.Deserialize<Vector4>( data );
 
             // Assert
-            Assert.That( initialValue.Item1, Is.EqualTo( finalValue.Item1 ) );
-            Assert.That( initialValue.Item2, Is.EqualTo( finalValue.Item2 ) );
+            Assert.That( initialValue, Is.EqualTo( finalValue ) );
         }
 
         [Test]
-        public void Mapping___Tuple_ObjectObject___RoundTrip()
+        public void Mapping___Quaternion___RoundTrip()
         {
             // Arrange
-            var initialValue = (new int[] { 1, 2, 3, 4, 5 }, new float[] { 1.1f, 2.2f, 3.3f, 4.4f, 5.5f });
+            var initialValue = new Quaternion( 1f, 2f, 3f, 4f );
 
             // Act
             var data = SerializationUnit.Serialize( initialValue );
-            var finalValue = SerializationUnit.Deserialize<ValueTuple<int[], float[]>>( data );
+            var finalValue = SerializationUnit.Deserialize<Quaternion>( data );
 
             // Assert
-            Assert.That( initialValue.Item1, Is.EquivalentTo( finalValue.Item1 ) );
-            Assert.That( initialValue.Item2, Is.EquivalentTo( finalValue.Item2 ) );
+            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+        }
+
+        [Test]
+        public void Mapping___QuaternionDbl___RoundTrip()
+        {
+            // Arrange
+            var initialValue = new QuaternionDbl( 1f, 2f, 3f, 4f );
+
+            // Act
+            var data = SerializationUnit.Serialize( initialValue );
+            var finalValue = SerializationUnit.Deserialize<QuaternionDbl>( data );
+
+            // Assert
+            Assert.That( initialValue, Is.EqualTo( finalValue ) );
         }
     }
 }
