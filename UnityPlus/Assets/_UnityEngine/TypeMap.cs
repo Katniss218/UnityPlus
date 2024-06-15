@@ -31,10 +31,6 @@ namespace UnityEngine
             {
                 throw new ArgumentNullException( nameof( type ) );
             }
-            if( type.IsInterface )
-            {
-                throw new ArgumentException( $"The type to check can't be an interface.", nameof( type ) );
-            }
 
             return _map.TryGetValue( type, out value );
         }
@@ -53,10 +49,6 @@ namespace UnityEngine
             {
                 throw new ArgumentNullException( nameof( type ) );
             }
-            if( type.IsInterface )
-            {
-                throw new ArgumentException( $"The type to check can't be an interface.", nameof( type ) );
-            }
 
             return _map.TryGetValue( type, out var value ) ? value : default;
         }
@@ -66,10 +58,6 @@ namespace UnityEngine
             if( type == null )
             {
                 throw new ArgumentNullException( nameof( type ) );
-            }
-            if( type.IsInterface ) // IsInterface is about half the runtime of the guards, and the guards are about half of the entire runtime of this method.
-            {
-                throw new ArgumentException( $"The type to check can't be an interface.", nameof( type ) );
             }
 
             if( _map.Count == 0 )
@@ -105,10 +93,6 @@ namespace UnityEngine
             if( type == null )
             {
                 throw new ArgumentNullException( nameof( type ) );
-            }
-            if( type.IsInterface )
-            {
-                throw new ArgumentException( $"The type to check can't be an interface.", nameof( type ) );
             }
 
             if( _map.Count == 0 )
