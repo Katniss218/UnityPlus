@@ -184,6 +184,8 @@ namespace UnityPlus.Serialization
         {
             if( obj == null )
                 return;
+            if( data == null )
+                return;
 
             TSource obj2 = (TSource)obj;
             foreach( var item in _items )
@@ -199,6 +201,8 @@ namespace UnityPlus.Serialization
         public override void LoadReferences( ref object obj, SerializedData data, ILoader l )
         {
             if( obj == null )
+                return;
+            if( data == null )
                 return;
 
             TSource obj2 = (TSource)obj;

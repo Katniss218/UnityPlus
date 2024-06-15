@@ -59,6 +59,9 @@ namespace UnityPlus.Serialization
 
                     foreach( var context in attr.Contexts )
                     {
+                        if( _mappings.TryGet( context, attr.MappedType, out _ ) )
+                            Debug.LogWarning( $"Multiple mappings found for type `{attr.MappedType.AssemblyQualifiedName}`." );
+
                         _mappings.Set( context, attr.MappedType, entry );
                     }
                 }
