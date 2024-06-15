@@ -11,6 +11,11 @@ using UnityPlus.Serialization.Json;
 
 namespace Neoserialization
 {
+    public interface IUnmappedInterface
+    {
+
+    }
+
     public class BaseClass
     {
         public float baseMember;
@@ -224,6 +229,20 @@ namespace Neoserialization
             // Assert
             Assert.That( mapping1, Is.InstanceOf( typeof( NonPrimitiveSerializationMapping<int[]> ) ) );
             Assert.That( mapping1, Is.EqualTo( mapping2 ) );
+        }
+
+        [Test]
+        public void GetMappingFor___UnmappedRefInterface___ReturnsObjectRefMapping()
+        {
+            // Arrange
+
+            // Act
+            SerializationMapping mapping1 = SerializationMappingRegistry.GetMappingOrDefault<IUnmappedInterface>( ObjectContext.Ref, (IUnmappedInterface)null );
+
+            SerializationMapping mapping1m = SerializationMappingRegistry.GetMappingOrDefault<object>( ObjectContext.Ref, (object)null );
+
+            // Assert
+            Assert.That( mapping1, Is.SameAs( mapping1m ) );
         }
     }
 }
