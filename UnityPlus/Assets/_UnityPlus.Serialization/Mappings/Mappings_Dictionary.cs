@@ -152,6 +152,10 @@ namespace UnityPlus.Serialization.Mappings
                         return;
 
 #warning TODO - this 'temp' thing will not work, because the mapping is retrieved again for the reference pass.
+                    // This needs to be owned by something persistent. Or the mappings need to be persistent, somehow.
+                    // I mean, the mappings *could* be cached in the loader itself (keyed by the object id, if mapping is missing - create new).
+                    // - The same way they are cached for root level already.
+
                     if( self.temp == null )
                         return;
 
