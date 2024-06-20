@@ -105,6 +105,36 @@ namespace UnityPlus.Serialization.Mappings
             };
         }
 
+        [SerializationMappingProvider( typeof( SerializedPrimitive ) )]
+        public static SerializationMapping SerializedPrimitiveMapping()
+        {
+            return new PrimitiveObjectSerializationMapping<SerializedPrimitive>()
+            {
+                OnSave = ( o, s ) => o,
+                OnInstantiate = ( data, l ) => data as SerializedPrimitive
+            };
+        }
+
+        [SerializationMappingProvider( typeof( SerializedObject ) )]
+        public static SerializationMapping SerializedObjectMapping()
+        {
+            return new PrimitiveObjectSerializationMapping<SerializedObject>()
+            {
+                OnSave = ( o, s ) => o,
+                OnInstantiate = ( data, l ) => data as SerializedObject
+            };
+        }
+
+        [SerializationMappingProvider( typeof( SerializedArray ) )]
+        public static SerializationMapping SerializedArrayMapping()
+        {
+            return new PrimitiveObjectSerializationMapping<SerializedArray>()
+            {
+                OnSave = ( o, s ) => o,
+                OnInstantiate = ( data, l ) => data as SerializedArray
+            };
+        }
+        
         [SerializationMappingProvider( typeof( bool ) )]
         public static SerializationMapping BooleanMapping()
         {
