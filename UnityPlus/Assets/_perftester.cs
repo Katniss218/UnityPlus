@@ -159,5 +159,24 @@ public class _perftester : MonoBehaviour
             C1 go3 = JsonConvert.DeserializeObject<C1>( sJson );
         }
         Profiler.EndSample();
+
+
+        Profiler.BeginSample( "custom-nostring" );
+        for( int i = 0; i < COUNT; i++ )
+        {
+            SerializedData data = SerializationUnit.Serialize<C1>( obj );
+
+            C1 go = SerializationUnit.Deserialize<C1>( data );
+        }
+        Profiler.EndSample();
+
+        Profiler.BeginSample( "newtonsoft-nostring" );
+        for( int i = 0; i < COUNT; i++ )
+        {
+            JToken sData = JToken.FromObject( obj );
+
+            C1 go2 = sData.ToObject<C1>();
+        }
+        Profiler.EndSample();
     }
 }

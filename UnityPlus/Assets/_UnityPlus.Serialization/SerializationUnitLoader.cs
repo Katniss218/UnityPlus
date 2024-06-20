@@ -119,7 +119,7 @@ namespace UnityPlus.Serialization
                     ? elementType2.DeserializeType()
                     : typeof( T );
 
-                var mapping = SerializationMappingRegistry.GetMappingOrDefault<T>( _context, typeToAssignTo );
+                var mapping = SerializationMappingRegistry.GetMapping<T>( _context, typeToAssignTo );
                 _mappingCache[i] = mapping;
 
                 // Parity with Member (mostly).
@@ -149,7 +149,7 @@ namespace UnityPlus.Serialization
                     ? elementType2.DeserializeType()
                     : typeof( T );
 
-                var mapping = SerializationMappingRegistry.GetMappingOrDefault<T>( _context, typeToAssignTo );
+                var mapping = SerializationMappingRegistry.GetMapping<T>( _context, typeToAssignTo );
                 _mappingCache[i] = mapping;
 
                 object member = default;

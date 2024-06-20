@@ -104,11 +104,11 @@ public class _playtester : MonoBehaviour
 
 
         var b = new MoreDerivedClass();
-        var mapping = SerializationMappingRegistry.GetMappingOrDefault<DerivedClass>( ObjectContext.Default, b );
+        var mapping = SerializationMappingRegistry.GetMapping<DerivedClass>( ObjectContext.Default, b );
 
-        var mapping2 = SerializationMappingRegistry.GetMappingOrDefault<MonoBehaviour>( ObjectContext.Default, (MonoBehaviour)null );
+        var mapping2 = SerializationMappingRegistry.GetMapping<MonoBehaviour>( ObjectContext.Default, (MonoBehaviour)null );
 
-        mapping2 = SerializationMappingRegistry.GetMappingOrDefault<Component>( ObjectContext.Default, this );
+        mapping2 = SerializationMappingRegistry.GetMapping<Component>( ObjectContext.Default, this );
 
         var data3 = SerializationUnit.Serialize( "teststr" );
 
