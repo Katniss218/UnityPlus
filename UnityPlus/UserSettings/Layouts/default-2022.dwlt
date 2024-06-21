@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
-  m_Title: Inspector
+  m_Title: Test Runner
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 44
+  controlID: 90
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 45
+  controlID: 54
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -169,7 +169,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 46
+  controlID: 22
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -189,8 +189,8 @@ MonoBehaviour:
     y: 0
     width: 271
     height: 606
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 201, y: 221}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}
@@ -206,7 +206,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: SceneView
+  m_Name: ProfilerWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -215,15 +215,15 @@ MonoBehaviour:
     y: 0
     width: 1194
     height: 606
-  m_MinSize: {x: 202, y: 221}
+  m_MinSize: {x: 902, y: 237}
   m_MaxSize: {x: 4002, y: 4021}
-  m_ActualView: {fileID: 14}
+  m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 14}
   - {fileID: 15}
   - {fileID: 16}
-  m_Selected: 0
-  m_LastSelected: 2
+  m_Selected: 2
+  m_LastSelected: 1
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -261,7 +261,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: InspectorWindow
+  m_Name: TestRunnerWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -270,14 +270,14 @@ MonoBehaviour:
     y: 0
     width: 455
     height: 947
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 18}
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 18}
   - {fileID: 19}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -332,9 +332,9 @@ MonoBehaviour:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 116}
-    m_SelectedIDs: 7c4f0000
-    m_LastClickedID: 20348
-    m_ExpandedIDs: 000000007a4f00007c4f00007e4f0000804f0000824f0000
+    m_SelectedIDs: a44f0000
+    m_LastClickedID: 20388
+    m_ExpandedIDs: 000000007c4f00007e4f0000804f0000824f0000844f000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -362,7 +362,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000007a4f00007c4f00007e4f0000804f0000824f0000
+    m_ExpandedIDs: 000000007c4f00007e4f0000804f0000824f0000844f0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -449,9 +449,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: b45b0000
-      m_LastClickedID: 23476
-      m_ExpandedIDs: c8aeffff06afffff72afffffd6afffff52e6ffff80e6ffffe4e6ffff74e7fffff0e7ffff5ce8ffff20f7ffff4ef7ffffb2f7ffff42f8ffffbef8ffff2af9ffff86f9ffffe2f9ffff40faffff32fbffff
+      m_SelectedIDs: 
+      m_LastClickedID: 0
+      m_ExpandedIDs: a683f8ff349ff8ff789ff8ff8ea0f8ffcea8f8ff1ea9f8ff34aaf8ffa2fcfcfff2fcfcff08fefcff84d0ffff5ad1ffff86dffffff2dfffff56e0ffffe6e0ffff6ae1ffffdce1ffff34fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -733,9 +733,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 550.4225, y: 232.13333, z: -11.686157}
+    m_Target: {x: 562.745, y: 254.96329, z: -6.820801}
     speed: 2
-    m_Value: {x: 550.4225, y: 232.13333, z: -11.686157}
+    m_Value: {x: 562.745, y: 254.96329, z: -6.820801}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -781,9 +781,9 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.14489329, y: 0.035611916, z: -0.0052184137, w: 0.9887925}
+    m_Target: {x: 0.11366671, y: 0.038737018, z: -0.0044352524, w: 0.99275315}
     speed: 2
-    m_Value: {x: 0.14489329, y: 0.035611916, z: -0.0052184137, w: 0.9887925}
+    m_Value: {x: 0.11366676, y: 0.038737033, z: -0.0044352543, w: 0.99275357}
   m_Size:
     m_Target: 600.00684
     speed: 2
@@ -878,7 +878,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 0
+    m_EnableMouseInput: 1
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -971,7 +971,7 @@ MonoBehaviour:
         m_PaneScroll: {x: 0, y: 0}
         m_ViewType: 1
         updateViewLive: 0
-        m_CurrentFrameIndex: 122343
+        m_CurrentFrameIndex: -1
         m_HierarchyOverruledThreadFromSelection: 0
         m_ProfilerViewFilteringOptions: 1
         m_FrameDataHierarchyView:
@@ -1897,7 +1897,7 @@ MonoBehaviour:
     m_LastAppliedPresetName: Default
     m_SaveData: []
   m_Spl:
-    ID: 118
+    ID: 1166
     splitterInitialOffset: 0
     currentActiveSplitter: -1
     realSizes:
@@ -2095,9 +2095,9 @@ MonoBehaviour:
       uniqueId: '[UnityPlus][suite]'
       name: UnityPlus
       fullName: UnityPlus
-      resultStatus: 1
-      duration: 0.0415047
-      messages: 
+      resultStatus: 2
+      duration: 0.5711371
+      messages: One or more child tests had errors
       output: 
       stacktrace: 
       notRunnable: 0
@@ -2111,9 +2111,9 @@ MonoBehaviour:
       uniqueId: '[EditMode.dll][suite]'
       name: EditMode.dll
       fullName: E:/GIT/UnityPlus/UnityPlus/Library/ScriptAssemblies/EditMode.dll
-      resultStatus: 1
-      duration: 0.02919
-      messages: 
+      resultStatus: 2
+      duration: 0.5256007
+      messages: One or more child tests had errors
       output: 
       stacktrace: 
       notRunnable: 0
@@ -2127,9 +2127,9 @@ MonoBehaviour:
       uniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
       name: Neoserialization
       fullName: Neoserialization
-      resultStatus: 1
-      duration: 0.0238758
-      messages: 
+      resultStatus: 2
+      duration: 0.5242805
+      messages: One or more child tests had errors
       output: 
       stacktrace: 
       notRunnable: 0
@@ -2143,9 +2143,9 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
       name: MappingRegistryTests
       fullName: Neoserialization.MappingRegistryTests
-      resultStatus: 1
-      duration: 0.4326387
-      messages: 
+      resultStatus: 2
+      duration: 0.4151895
+      messages: One or more child tests had errors
       output: 
       stacktrace: 
       notRunnable: 0
@@ -2160,7 +2160,7 @@ MonoBehaviour:
       name: GetMappingFor___Array___ReturnsCorrectMapping
       fullName: Neoserialization.MappingRegistryTests.GetMappingFor___Array___ReturnsCorrectMapping
       resultStatus: 1
-      duration: 0.4000825
+      duration: 0.3763323
       messages: 
       output: 
       stacktrace: 
@@ -2177,7 +2177,7 @@ MonoBehaviour:
       name: GetMappingFor___Derived___ReturnsCorrectMapping
       fullName: Neoserialization.MappingRegistryTests.GetMappingFor___Derived___ReturnsCorrectMapping
       resultStatus: 1
-      duration: 0.0190131
+      duration: 0.0192028
       messages: 
       output: 
       stacktrace: 
@@ -2194,7 +2194,7 @@ MonoBehaviour:
       name: GetMappingFor___Generic___ReturnsCorrectMapping
       fullName: Neoserialization.MappingRegistryTests.GetMappingFor___Generic___ReturnsCorrectMapping
       resultStatus: 1
-      duration: 0.0013822
+      duration: 0.001546
       messages: 
       output: 
       stacktrace: 
@@ -2211,7 +2211,7 @@ MonoBehaviour:
       name: GetMappingFor___MultipleGeneric___ReturnsCorrectMapping
       fullName: Neoserialization.MappingRegistryTests.GetMappingFor___MultipleGeneric___ReturnsCorrectMapping
       resultStatus: 1
-      duration: 0.0023412
+      duration: 0.0026777
       messages: 
       output: 
       stacktrace: 
@@ -2228,7 +2228,7 @@ MonoBehaviour:
       name: GetMappingFor___Simple___ReturnsCorrectMapping
       fullName: Neoserialization.MappingRegistryTests.GetMappingFor___Simple___ReturnsCorrectMapping
       resultStatus: 1
-      duration: 0.0004794
+      duration: 0.0005109
       messages: 
       output: 
       stacktrace: 
@@ -2241,12 +2241,33 @@ MonoBehaviour:
       parentId: 1014
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
     - id: 1020
+      uniqueId: EditMode.dll/Neoserialization/MappingRegistryTests/[EditMode][Neoserialization.MappingRegistryTests.GetMappingFor___UnmappedRefInterface___ReturnsObjectRefMapping]
+      name: GetMappingFor___UnmappedRefInterface___ReturnsObjectRefMapping
+      fullName: Neoserialization.MappingRegistryTests.GetMappingFor___UnmappedRefInterface___ReturnsObjectRefMapping
+      resultStatus: 2
+      duration: 0.0028072
+      messages: "  Expected: same as <UnityPlus.Serialization.PrimitiveObjectSerializationMapping`1[System.Object]>\r\n 
+        But was:  null\r\n"
+      output: 
+      stacktrace: 'at Neoserialization.MappingRegistryTests.GetMappingFor___UnmappedRefInterface___ReturnsObjectRefMapping
+        () [0x00011] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Neoserialization\MappingRegistryTests.cs:244
+
+'
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1014
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
+    - id: 1020
       uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Complex][suite]
       name: MappingTests_Complex
       fullName: Neoserialization.MappingTests_Complex
-      resultStatus: 1
-      duration: 0.0198069
-      messages: 
+      resultStatus: 2
+      duration: 0.0281751
+      messages: One or more child tests had errors
       output: 
       stacktrace: 
       notRunnable: 0
@@ -2261,7 +2282,7 @@ MonoBehaviour:
       name: Mapping___BaseClass___RoundTrip
       fullName: Neoserialization.MappingTests_Complex.Mapping___BaseClass___RoundTrip
       resultStatus: 1
-      duration: 0.0006791
+      duration: 0.005896
       messages: 
       output: 
       stacktrace: 
@@ -2277,11 +2298,37 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Complex/[EditMode][Neoserialization.MappingTests_Complex.Mapping___DerivedClass_Polymorphic___RoundTrip]
       name: Mapping___DerivedClass_Polymorphic___RoundTrip
       fullName: Neoserialization.MappingTests_Complex.Mapping___DerivedClass_Polymorphic___RoundTrip
-      resultStatus: 1
-      duration: 0.0020512
-      messages: 
+      resultStatus: 2
+      duration: 0.00208
+      messages: 'System.ArgumentNullException : Value cannot be null.
+
+        Parameter
+        name: key'
       output: 
-      stacktrace: 
+      stacktrace: "  at System.Collections.Generic.Dictionary`2[TKey,TValue].FindEntry
+        (TKey key) [0x00008] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 \r\n  at System.Collections.Generic.Dictionary`2[TKey,TValue].TryGetValue
+        (TKey key, TValue& value) [0x00000] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0
+        \r\n  at UnityPlus.Serialization.Member`2[TSource,TMember].LoadReferences
+        (TSource& source, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x00067] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\Member.cs:182
+        \r\n  at UnityPlus.Serialization.MemberwiseSerializationMapping`1[TSource].LoadReferences
+        (System.Object& obj, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x0004d] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\MappingTypes\\MemberwiseSerializationMapping.cs:214
+        \r\n  at UnityPlus.Serialization.MappingHelper.DoLoadReferences[T] (UnityPlus.Serialization.SerializationMapping
+        mapping, T& obj, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x0004b] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\MappingHelper.cs:84
+        \r\n  at UnityPlus.Serialization.SerializationUnitLoader`1[T].LoadReferencesCallback
+        () [0x00046] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnitLoader.cs:178
+        \r\n  at UnityPlus.Serialization.SerializationUnitLoader`1[T].Deserialize
+        () [0x00008] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnitLoader.cs:49
+        \r\n  at UnityPlus.Serialization.SerializationUnit.Deserialize[T] (UnityPlus.Serialization.SerializedData
+        data) [0x00008] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnit.cs:55
+        \r\n  at Neoserialization.MappingTests_Complex.Mapping___DerivedClass_Polymorphic___RoundTrip
+        () [0x00024] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\Neoserialization\\MappingTests_Complex.cs:134
+        \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
+        at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
+        invokeAttr, System.Reflection.Binder binder, System.Object[] parameters,
+        System.Globalization.CultureInfo culture) [0x0006a] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 "
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -2295,7 +2342,7 @@ MonoBehaviour:
       name: Mapping___Dictionary_ValToVal___RoundTrip
       fullName: Neoserialization.MappingTests_Complex.Mapping___Dictionary_ValToVal___RoundTrip
       resultStatus: 1
-      duration: 0.0022714
+      duration: 0.0038761
       messages: 
       output: 
       stacktrace: 
@@ -2312,7 +2359,7 @@ MonoBehaviour:
       name: Mapping___DictionaryOfObjects_ValToVal___RoundTrip
       fullName: Neoserialization.MappingTests_Complex.Mapping___DictionaryOfObjects_ValToVal___RoundTrip
       resultStatus: 1
-      duration: 0.0020433
+      duration: 0.0019456
       messages: 
       output: 
       stacktrace: 
@@ -2329,7 +2376,7 @@ MonoBehaviour:
       name: Mapping___IntArray___RoundTrip
       fullName: Neoserialization.MappingTests_Complex.Mapping___IntArray___RoundTrip
       resultStatus: 1
-      duration: 0.000279
+      duration: 0.0008374
       messages: 
       output: 
       stacktrace: 
@@ -2345,11 +2392,46 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Complex/[EditMode][Neoserialization.MappingTests_Complex.Mapping___KeyValuePair_OfObjects_ValToVal___RoundTrip]
       name: Mapping___KeyValuePair_OfObjects_ValToVal___RoundTrip
       fullName: Neoserialization.MappingTests_Complex.Mapping___KeyValuePair_OfObjects_ValToVal___RoundTrip
-      resultStatus: 1
-      duration: 0.00297
-      messages: 
+      resultStatus: 2
+      duration: 0.0027579
+      messages: 'System.ArgumentNullException : Value cannot be null.
+
+        Parameter
+        name: key'
       output: 
-      stacktrace: 
+      stacktrace: "  at System.Collections.Generic.Dictionary`2[TKey,TValue].FindEntry
+        (TKey key) [0x00008] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 \r\n  at System.Collections.Generic.Dictionary`2[TKey,TValue].TryGetValue
+        (TKey key, TValue& value) [0x00000] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0
+        \r\n  at UnityPlus.Serialization.Member`2[TSource,TMember].LoadReferences
+        (TSource& source, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x00067] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\Member.cs:182
+        \r\n  at UnityPlus.Serialization.MemberwiseSerializationMapping`1[TSource].LoadReferences
+        (System.Object& obj, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x0004d] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\MappingTypes\\MemberwiseSerializationMapping.cs:214
+        \r\n  at UnityPlus.Serialization.MappingHelper.DoLoadReferences[T] (UnityPlus.Serialization.SerializationMapping
+        mapping, T& obj, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x0004b] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\MappingHelper.cs:84
+        \r\n  at UnityPlus.Serialization.Mappings.Mappings_Dictionary+<>c__0`2[TKey,TValue].<KeyValuePair_ValueToValue_Mapping>b__0_3
+        (System.Collections.Generic.KeyValuePair`2[TKey,TValue]& o, UnityPlus.Serialization.SerializedData
+        data, UnityPlus.Serialization.ILoader l) [0x00044] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\Mappings\\Mappings_Dictionary.cs:68
+        \r\n  at UnityPlus.Serialization.NonPrimitiveSerializationMapping`1[TSource].LoadReferences
+        (System.Object& obj, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x00017] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\MappingTypes\\NonPrimitiveSerializationMapping.cs:67
+        \r\n  at UnityPlus.Serialization.MappingHelper.DoLoadReferences[T] (UnityPlus.Serialization.SerializationMapping
+        mapping, T& obj, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x0004b] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\MappingHelper.cs:84
+        \r\n  at UnityPlus.Serialization.SerializationUnitLoader`1[T].LoadReferencesCallback
+        () [0x00046] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnitLoader.cs:178
+        \r\n  at UnityPlus.Serialization.SerializationUnitLoader`1[T].Deserialize
+        () [0x00008] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnitLoader.cs:49
+        \r\n  at UnityPlus.Serialization.SerializationUnit.Deserialize[T] (UnityPlus.Serialization.SerializedData
+        data) [0x00008] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnit.cs:55
+        \r\n  at Neoserialization.MappingTests_Complex.Mapping___KeyValuePair_OfObjects_ValToVal___RoundTrip
+        () [0x0003a] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\Neoserialization\\MappingTests_Complex.cs:70
+        \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
+        at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
+        invokeAttr, System.Reflection.Binder binder, System.Object[] parameters,
+        System.Globalization.CultureInfo culture) [0x0006a] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 "
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -2363,7 +2445,7 @@ MonoBehaviour:
       name: Mapping___KeyValuePair_ValToVal___RoundTrip
       fullName: Neoserialization.MappingTests_Complex.Mapping___KeyValuePair_ValToVal___RoundTrip
       resultStatus: 1
-      duration: 0.0022509
+      duration: 0.0022118
       messages: 
       output: 
       stacktrace: 
@@ -2380,24 +2462,7 @@ MonoBehaviour:
       name: Mapping___KeyValuePairArray_ValToVal___RoundTrip
       fullName: Neoserialization.MappingTests_Complex.Mapping___KeyValuePairArray_ValToVal___RoundTrip
       resultStatus: 1
-      duration: 0.0009133
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1020
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Complex][suite]
-    - id: 1029
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_Complex/[EditMode][Neoserialization.MappingTests_Complex.Mapping___Populate_Object]
-      name: Mapping___Populate_Object
-      fullName: Neoserialization.MappingTests_Complex.Mapping___Populate_Object
-      resultStatus: 1
-      duration: 0.0005623
+      duration: 0.0010202
       messages: 
       output: 
       stacktrace: 
@@ -2410,12 +2475,116 @@ MonoBehaviour:
       parentId: 1020
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Complex][suite]
     - id: 1030
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Complex/[EditMode][Neoserialization.MappingTests_Complex.Mapping___Null___RoundTrip]
+      name: Mapping___Null___RoundTrip
+      fullName: Neoserialization.MappingTests_Complex.Mapping___Null___RoundTrip
+      resultStatus: 1
+      duration: 0.0002064
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1021
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Complex][suite]
+    - id: 1031
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Complex/[EditMode][Neoserialization.MappingTests_Complex.Mapping___NullMember___RoundTrip]
+      name: Mapping___NullMember___RoundTrip
+      fullName: Neoserialization.MappingTests_Complex.Mapping___NullMember___RoundTrip
+      resultStatus: 2
+      duration: 0.0014083
+      messages: 'System.ArgumentNullException : Value cannot be null.
+
+        Parameter
+        name: key'
+      output: 
+      stacktrace: "  at System.Collections.Generic.Dictionary`2[TKey,TValue].TryInsert
+        (TKey key, TValue value, System.Collections.Generic.InsertionBehavior behavior)
+        [0x00008] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 \r\n  at System.Collections.Generic.Dictionary`2[TKey,TValue].Add
+        (TKey key, TValue value) [0x00000] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0
+        \r\n  at UnityPlus.Serialization.Member`2[TSource,TMember].Load (TSource&
+        source, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x00064] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\Member.cs:152
+        \r\n  at UnityPlus.Serialization.MemberwiseSerializationMapping`1[TSource].Load
+        (System.Object& obj, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x0004d] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\MappingTypes\\MemberwiseSerializationMapping.cs:195
+        \r\n  at UnityPlus.Serialization.MappingHelper.DoLoad[T] (UnityPlus.Serialization.SerializationMapping
+        mapping, T& obj, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x00047] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\MappingHelper.cs:63
+        \r\n  at UnityPlus.Serialization.SerializationUnitLoader`1[T].LoadCallback
+        () [0x00064] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnitLoader.cs:154
+        \r\n  at UnityPlus.Serialization.SerializationUnitLoader`1[T].Deserialize
+        () [0x00001] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnitLoader.cs:48
+        \r\n  at UnityPlus.Serialization.SerializationUnit.Deserialize[T] (UnityPlus.Serialization.SerializedData
+        data) [0x00008] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnit.cs:55
+        \r\n  at Neoserialization.MappingTests_Complex.Mapping___NullMember___RoundTrip
+        () [0x00015] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\Neoserialization\\MappingTests_Complex.cs:162
+        \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
+        at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
+        invokeAttr, System.Reflection.Binder binder, System.Object[] parameters,
+        System.Globalization.CultureInfo culture) [0x0006a] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 "
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1021
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Complex][suite]
+    - id: 1029
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Complex/[EditMode][Neoserialization.MappingTests_Complex.Mapping___Populate_Object]
+      name: Mapping___Populate_Object
+      fullName: Neoserialization.MappingTests_Complex.Mapping___Populate_Object
+      resultStatus: 2
+      duration: 0.0007086
+      messages: 'System.ArgumentNullException : Value cannot be null.
+
+        Parameter
+        name: key'
+      output: 
+      stacktrace: "  at System.Collections.Generic.Dictionary`2[TKey,TValue].FindEntry
+        (TKey key) [0x00008] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 \r\n  at System.Collections.Generic.Dictionary`2[TKey,TValue].TryGetValue
+        (TKey key, TValue& value) [0x00000] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0
+        \r\n  at UnityPlus.Serialization.Member`2[TSource,TMember].LoadReferences
+        (TSource& source, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x00067] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\Member.cs:182
+        \r\n  at UnityPlus.Serialization.MemberwiseSerializationMapping`1[TSource].LoadReferences
+        (System.Object& obj, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x0004d] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\MappingTypes\\MemberwiseSerializationMapping.cs:214
+        \r\n  at UnityPlus.Serialization.MappingHelper.DoLoadReferences[T] (UnityPlus.Serialization.SerializationMapping
+        mapping, T& obj, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x0004b] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\MappingHelper.cs:84
+        \r\n  at UnityPlus.Serialization.SerializationUnitLoader`1[T].LoadReferencesCallback
+        () [0x00046] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnitLoader.cs:178
+        \r\n  at UnityPlus.Serialization.SerializationUnitLoader`1[T].Populate ()
+        [0x00008] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnitLoader.cs:71
+        \r\n  at UnityPlus.Serialization.SerializationUnit.Populate[T] (T obj, UnityPlus.Serialization.SerializedData
+        data) [0x00009] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnit.cs:95
+        \r\n  at Neoserialization.MappingTests_Complex.Mapping___Populate_Object
+        () [0x0002a] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\Neoserialization\\MappingTests_Complex.cs:177
+        \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
+        at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
+        invokeAttr, System.Reflection.Binder binder, System.Object[] parameters,
+        System.Globalization.CultureInfo culture) [0x0006a] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 "
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1020
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Complex][suite]
+    - id: 1030
       uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
       name: MappingTests_Primitives
       fullName: Neoserialization.MappingTests_Primitives
-      resultStatus: 1
-      duration: 0.0333115
-      messages: 
+      resultStatus: 2
+      duration: 0.0291786
+      messages: One or more child tests had errors
       output: 
       stacktrace: 
       notRunnable: 0
@@ -2429,11 +2598,14 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Boolean___RoundTrip]
       name: Mapping___Boolean___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Boolean___RoundTrip
-      resultStatus: 1
-      duration: 0.0021962
-      messages: 
+      resultStatus: 2
+      duration: 0.0021672
+      messages: "  Expected: False\r\n  But was:  True\r\n"
       output: 
-      stacktrace: 
+      stacktrace: 'at Neoserialization.MappingTests_Primitives.Mapping___Boolean___RoundTrip
+        () [0x00011] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Neoserialization\MappingTests_Primitives.cs:26
+
+'
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -2446,11 +2618,14 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Byte___RoundTrip]
       name: Mapping___Byte___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Byte___RoundTrip
-      resultStatus: 1
-      duration: 0.0018572
-      messages: 
+      resultStatus: 2
+      duration: 0.0015489
+      messages: "  Expected: 0\r\n  But was:  255\r\n"
       output: 
-      stacktrace: 
+      stacktrace: 'at Neoserialization.MappingTests_Primitives.Mapping___Byte___RoundTrip
+        () [0x00015] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Neoserialization\MappingTests_Primitives.cs:40
+
+'
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -2463,11 +2638,14 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Char___RoundTrip]
       name: Mapping___Char___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Char___RoundTrip
-      resultStatus: 1
-      duration: 0.0017709
-      messages: 
+      resultStatus: 2
+      duration: 0.0014614
+      messages: '  Expected: '''
       output: 
-      stacktrace: 
+      stacktrace: 'at Neoserialization.MappingTests_Primitives.Mapping___Char___RoundTrip
+        () [0x00015] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Neoserialization\MappingTests_Primitives.cs:152
+
+'
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -2480,11 +2658,14 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___DateTime___RoundTrip]
       name: Mapping___DateTime___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___DateTime___RoundTrip
-      resultStatus: 1
-      duration: 0.002322
-      messages: 
+      resultStatus: 2
+      duration: 0.0030069
+      messages: "  Expected: 0001-01-01 00:00:00.000\r\n  But was:  2024-06-20 19:50:32.337\r\n"
       output: 
-      stacktrace: 
+      stacktrace: 'at Neoserialization.MappingTests_Primitives.Mapping___DateTime___RoundTrip
+        () [0x00015] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Neoserialization\MappingTests_Primitives.cs:180
+
+'
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -2497,11 +2678,15 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___DateTimeOffset___RoundTrip]
       name: Mapping___DateTimeOffset___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___DateTimeOffset___RoundTrip
-      resultStatus: 1
-      duration: 0.0024633
-      messages: 
+      resultStatus: 2
+      duration: 0.0021289
+      messages: "  Expected: 0001-01-01 00:00:00.000+00:00\r\n  But was:  2024-06-20
+        19:50:32.340+00:00\r\n"
       output: 
-      stacktrace: 
+      stacktrace: 'at Neoserialization.MappingTests_Primitives.Mapping___DateTimeOffset___RoundTrip
+        () [0x00015] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Neoserialization\MappingTests_Primitives.cs:194
+
+'
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -2514,11 +2699,14 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Decimal___RoundTrip]
       name: Mapping___Decimal___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Decimal___RoundTrip
-      resultStatus: 1
-      duration: 0.0026498
-      messages: 
+      resultStatus: 2
+      duration: 0.0023184
+      messages: "  Expected: 0m\r\n  But was:  -79228162514264337593543950335m\r\n"
       output: 
-      stacktrace: 
+      stacktrace: 'at Neoserialization.MappingTests_Primitives.Mapping___Decimal___RoundTrip
+        () [0x0001b] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Neoserialization\MappingTests_Primitives.cs:138
+
+'
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -2531,11 +2719,14 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Double___RoundTrip]
       name: Mapping___Double___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Double___RoundTrip
-      resultStatus: 1
-      duration: 0.0019246
-      messages: 
+      resultStatus: 2
+      duration: 0.0021027
+      messages: "  Expected: 0.0d\r\n  But was:  4.9406564584124654E-324d\r\n"
       output: 
-      stacktrace: 
+      stacktrace: 'at Neoserialization.MappingTests_Primitives.Mapping___Double___RoundTrip
+        () [0x00019] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Neoserialization\MappingTests_Primitives.cs:124
+
+'
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -2548,11 +2739,14 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Float___RoundTrip]
       name: Mapping___Float___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Float___RoundTrip
-      resultStatus: 1
-      duration: 0.0014332
-      messages: 
+      resultStatus: 2
+      duration: 0.0014123
+      messages: "  Expected: 0.0f\r\n  But was:  1.40129846E-45f\r\n"
       output: 
-      stacktrace: 
+      stacktrace: 'at Neoserialization.MappingTests_Primitives.Mapping___Float___RoundTrip
+        () [0x00015] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Neoserialization\MappingTests_Primitives.cs:110
+
+'
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -2565,11 +2759,14 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Int16___RoundTrip]
       name: Mapping___Int16___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Int16___RoundTrip
-      resultStatus: 1
-      duration: 0.001736
-      messages: 
+      resultStatus: 2
+      duration: 0.0016242
+      messages: "  Expected: 0\r\n  But was:  -32768\r\n"
       output: 
-      stacktrace: 
+      stacktrace: 'at Neoserialization.MappingTests_Primitives.Mapping___Int16___RoundTrip
+        () [0x00015] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Neoserialization\MappingTests_Primitives.cs:68
+
+'
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -2582,11 +2779,14 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Int32___RoundTrip]
       name: Mapping___Int32___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Int32___RoundTrip
-      resultStatus: 1
-      duration: 0.0011168
-      messages: 
+      resultStatus: 2
+      duration: 0.0009861
+      messages: "  Expected: 0\r\n  But was:  -2147483648\r\n"
       output: 
-      stacktrace: 
+      stacktrace: 'at Neoserialization.MappingTests_Primitives.Mapping___Int32___RoundTrip
+        () [0x00015] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Neoserialization\MappingTests_Primitives.cs:82
+
+'
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -2599,11 +2799,14 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Int64___RoundTrip]
       name: Mapping___Int64___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Int64___RoundTrip
-      resultStatus: 1
-      duration: 0.0021045
-      messages: 
+      resultStatus: 2
+      duration: 0.0019611
+      messages: "  Expected: 0\r\n  But was:  -9223372036854775808\r\n"
       output: 
-      stacktrace: 
+      stacktrace: 'at Neoserialization.MappingTests_Primitives.Mapping___Int64___RoundTrip
+        () [0x00019] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Neoserialization\MappingTests_Primitives.cs:96
+
+'
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -2616,11 +2819,14 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___SByte___RoundTrip]
       name: Mapping___SByte___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___SByte___RoundTrip
-      resultStatus: 1
-      duration: 0.0017405
-      messages: 
+      resultStatus: 2
+      duration: 0.0016497
+      messages: "  Expected: 0\r\n  But was:  -128\r\n"
       output: 
-      stacktrace: 
+      stacktrace: 'at Neoserialization.MappingTests_Primitives.Mapping___SByte___RoundTrip
+        () [0x00012] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Neoserialization\MappingTests_Primitives.cs:54
+
+'
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -2633,11 +2839,28 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___String___RoundTrip]
       name: Mapping___String___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___String___RoundTrip
-      resultStatus: 1
-      duration: 0.0002129
-      messages: 
+      resultStatus: 2
+      duration: 0.0002536
+      messages: 'System.ArgumentNullException : Value cannot be null.
+
+        Parameter
+        name: key'
       output: 
-      stacktrace: 
+      stacktrace: "  at System.Collections.Generic.Dictionary`2[TKey,TValue].FindEntry
+        (TKey key) [0x00008] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 \r\n  at System.Collections.Generic.Dictionary`2[TKey,TValue].TryGetValue
+        (TKey key, TValue& value) [0x00000] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0
+        \r\n  at UnityPlus.Serialization.SerializationUnitLoader`1[T].LoadReferencesCallback
+        () [0x0002d] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnitLoader.cs:175
+        \r\n  at UnityPlus.Serialization.SerializationUnitLoader`1[T].Deserialize
+        () [0x00008] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnitLoader.cs:49
+        \r\n  at UnityPlus.Serialization.SerializationUnit.Deserialize[T] (UnityPlus.Serialization.SerializedData
+        data) [0x00008] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnit.cs:55
+        \r\n  at Neoserialization.MappingTests_Primitives.Mapping___String___RoundTrip
+        () [0x0000e] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\Neoserialization\\MappingTests_Primitives.cs:163
+        \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
+        at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
+        invokeAttr, System.Reflection.Binder binder, System.Object[] parameters,
+        System.Globalization.CultureInfo culture) [0x0006a] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 "
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -2650,11 +2873,14 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___TimeSpan___RoundTrip]
       name: Mapping___TimeSpan___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___TimeSpan___RoundTrip
-      resultStatus: 1
-      duration: 0.0029733
-      messages: 
+      resultStatus: 2
+      duration: 0.002351
+      messages: "  Expected: 00:00:00\r\n  But was:  00:00:34.2534252\r\n"
       output: 
-      stacktrace: 
+      stacktrace: 'at Neoserialization.MappingTests_Primitives.Mapping___TimeSpan___RoundTrip
+        () [0x0001b] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Neoserialization\MappingTests_Primitives.cs:208
+
+'
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -2667,9 +2893,9 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
       name: MappingTests_References
       fullName: Neoserialization.MappingTests_References
-      resultStatus: 1
-      duration: 0.4099006
-      messages: 
+      resultStatus: 2
+      duration: 0.0049089
+      messages: One or more child tests had errors
       output: 
       stacktrace: 
       notRunnable: 0
@@ -2683,11 +2909,35 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___ExistingReference___RoundTrip]
       name: Mapping___ExistingReference___RoundTrip
       fullName: Neoserialization.MappingTests_References.Mapping___ExistingReference___RoundTrip
-      resultStatus: 1
-      duration: 0.3980454
-      messages: 
+      resultStatus: 2
+      duration: 0.0020962
+      messages: 'System.ArgumentNullException : Value cannot be null.
+
+        Parameter
+        name: key'
       output: 
-      stacktrace: 
+      stacktrace: "  at System.Collections.Generic.Dictionary`2[TKey,TValue].FindEntry
+        (TKey key) [0x00008] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 \r\n  at System.Collections.Generic.Dictionary`2[TKey,TValue].TryGetValue
+        (TKey key, TValue& value) [0x00000] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0
+        \r\n  at UnityPlus.Serialization.Member`2[TSource,TMember].LoadReferences
+        (TSource& source, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x00067] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\Member.cs:182
+        \r\n  at UnityPlus.Serialization.MemberwiseSerializationMapping`1[TSource].LoadReferences
+        (System.Object& obj, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x0004d] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\MappingTypes\\MemberwiseSerializationMapping.cs:214
+        \r\n  at UnityPlus.Serialization.MappingHelper.DoLoadReferences[T] (UnityPlus.Serialization.SerializationMapping
+        mapping, T& obj, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x0004b] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\MappingHelper.cs:84
+        \r\n  at UnityPlus.Serialization.SerializationUnitLoader`1[T].LoadReferencesCallback
+        () [0x00046] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnitLoader.cs:178
+        \r\n  at UnityPlus.Serialization.SerializationUnitLoader`1[T].Deserialize
+        (UnityPlus.Serialization.IForwardReferenceMap l) [0x00028] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnitLoader.cs:62
+        \r\n  at Neoserialization.MappingTests_References.Mapping___ExistingReference___RoundTrip
+        () [0x00036] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\Neoserialization\\MappingTests_References.cs:73
+        \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
+        at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
+        invokeAttr, System.Reflection.Binder binder, System.Object[] parameters,
+        System.Globalization.CultureInfo culture) [0x0006a] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 "
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -2700,11 +2950,37 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___NullReference___RoundTrip]
       name: Mapping___NullReference___RoundTrip
       fullName: Neoserialization.MappingTests_References.Mapping___NullReference___RoundTrip
-      resultStatus: 1
-      duration: 0.0002638
-      messages: 
+      resultStatus: 2
+      duration: 0.0003589
+      messages: 'System.ArgumentNullException : Value cannot be null.
+
+        Parameter
+        name: key'
       output: 
-      stacktrace: 
+      stacktrace: "  at System.Collections.Generic.Dictionary`2[TKey,TValue].FindEntry
+        (TKey key) [0x00008] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 \r\n  at System.Collections.Generic.Dictionary`2[TKey,TValue].TryGetValue
+        (TKey key, TValue& value) [0x00000] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0
+        \r\n  at UnityPlus.Serialization.Member`2[TSource,TMember].LoadReferences
+        (TSource& source, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x00067] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\Member.cs:182
+        \r\n  at UnityPlus.Serialization.MemberwiseSerializationMapping`1[TSource].LoadReferences
+        (System.Object& obj, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x0004d] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\MappingTypes\\MemberwiseSerializationMapping.cs:214
+        \r\n  at UnityPlus.Serialization.MappingHelper.DoLoadReferences[T] (UnityPlus.Serialization.SerializationMapping
+        mapping, T& obj, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x0004b] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\MappingHelper.cs:84
+        \r\n  at UnityPlus.Serialization.SerializationUnitLoader`1[T].LoadReferencesCallback
+        () [0x00046] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnitLoader.cs:178
+        \r\n  at UnityPlus.Serialization.SerializationUnitLoader`1[T].Deserialize
+        () [0x00008] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnitLoader.cs:49
+        \r\n  at UnityPlus.Serialization.SerializationUnit.Deserialize[T] (UnityPlus.Serialization.SerializedData
+        data) [0x00008] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnit.cs:55
+        \r\n  at Neoserialization.MappingTests_References.Mapping___NullReference___RoundTrip
+        () [0x00015] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\Neoserialization\\MappingTests_References.cs:27
+        \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
+        at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
+        invokeAttr, System.Reflection.Binder binder, System.Object[] parameters,
+        System.Globalization.CultureInfo culture) [0x0006a] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 "
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -2717,8 +2993,108 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___Reference___RoundTrip]
       name: Mapping___Reference___RoundTrip
       fullName: Neoserialization.MappingTests_References.Mapping___Reference___RoundTrip
+      resultStatus: 2
+      duration: 0.000375
+      messages: 'System.ArgumentNullException : Value cannot be null.
+
+        Parameter
+        name: key'
+      output: 
+      stacktrace: "  at System.Collections.Generic.Dictionary`2[TKey,TValue].FindEntry
+        (TKey key) [0x00008] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 \r\n  at System.Collections.Generic.Dictionary`2[TKey,TValue].TryGetValue
+        (TKey key, TValue& value) [0x00000] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0
+        \r\n  at UnityPlus.Serialization.Member`2[TSource,TMember].LoadReferences
+        (TSource& source, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x00067] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\Member.cs:182
+        \r\n  at UnityPlus.Serialization.MemberwiseSerializationMapping`1[TSource].LoadReferences
+        (System.Object& obj, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x0004d] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\MappingTypes\\MemberwiseSerializationMapping.cs:214
+        \r\n  at UnityPlus.Serialization.MappingHelper.DoLoadReferences[T] (UnityPlus.Serialization.SerializationMapping
+        mapping, T& obj, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x0004b] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\MappingHelper.cs:84
+        \r\n  at UnityPlus.Serialization.SerializationUnitLoader`1[T].LoadReferencesCallback
+        () [0x00046] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnitLoader.cs:178
+        \r\n  at UnityPlus.Serialization.SerializationUnitLoader`1[T].Deserialize
+        () [0x00008] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnitLoader.cs:49
+        \r\n  at Neoserialization.MappingTests_References.Mapping___Reference___RoundTrip
+        () [0x0003b] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\Neoserialization\\MappingTests_References.cs:48
+        \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
+        at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
+        invokeAttr, System.Reflection.Binder binder, System.Object[] parameters,
+        System.Globalization.CultureInfo culture) [0x0006a] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 "
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1045
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
+    - id: 1052
+      uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Tuples][suite]
+      name: MappingTests_Tuples
+      fullName: Neoserialization.MappingTests_Tuples
+      resultStatus: 2
+      duration: 0.0256473
+      messages: One or more child tests had errors
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1123
+      parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
+    - id: 1055
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Tuples/[EditMode][Neoserialization.MappingTests_Tuples.Mapping___Tuple_3___RoundTrip]
+      name: Mapping___Tuple_3___RoundTrip
+      fullName: Neoserialization.MappingTests_Tuples.Mapping___Tuple_3___RoundTrip
+      resultStatus: 2
+      duration: 0.0058868
+      messages: 'System.ArgumentNullException : Value cannot be null.
+
+        Parameter
+        name: key'
+      output: 
+      stacktrace: "  at System.Collections.Generic.Dictionary`2[TKey,TValue].FindEntry
+        (TKey key) [0x00008] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 \r\n  at System.Collections.Generic.Dictionary`2[TKey,TValue].TryGetValue
+        (TKey key, TValue& value) [0x00000] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0
+        \r\n  at UnityPlus.Serialization.Member`2[TSource,TMember].LoadReferences
+        (TSource& source, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x00067] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\Member.cs:182
+        \r\n  at UnityPlus.Serialization.MemberwiseSerializationMapping`1[TSource].LoadReferences
+        (System.Object& obj, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x0004d] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\MappingTypes\\MemberwiseSerializationMapping.cs:214
+        \r\n  at UnityPlus.Serialization.MappingHelper.DoLoadReferences[T] (UnityPlus.Serialization.SerializationMapping
+        mapping, T& obj, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x0004b] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\MappingHelper.cs:84
+        \r\n  at UnityPlus.Serialization.SerializationUnitLoader`1[T].LoadReferencesCallback
+        () [0x00046] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnitLoader.cs:178
+        \r\n  at UnityPlus.Serialization.SerializationUnitLoader`1[T].Deserialize
+        () [0x00008] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnitLoader.cs:49
+        \r\n  at UnityPlus.Serialization.SerializationUnit.Deserialize[T] (UnityPlus.Serialization.SerializedData
+        data) [0x00008] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnit.cs:55
+        \r\n  at Neoserialization.MappingTests_Tuples.Mapping___Tuple_3___RoundTrip
+        () [0x0001b] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\Neoserialization\\MappingTests_Tuples.cs:53
+        \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
+        at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
+        invokeAttr, System.Reflection.Binder binder, System.Object[] parameters,
+        System.Globalization.CultureInfo culture) [0x0006a] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 "
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1052
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Tuples][suite]
+    - id: 1056
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Tuples/[EditMode][Neoserialization.MappingTests_Tuples.Mapping___Tuple_7___RoundTrip]
+      name: Mapping___Tuple_7___RoundTrip
+      fullName: Neoserialization.MappingTests_Tuples.Mapping___Tuple_7___RoundTrip
       resultStatus: 1
-      duration: 0.0026473
+      duration: 0.0054042
       messages: 
       output: 
       stacktrace: 
@@ -2728,15 +3104,96 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1045
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
+      parentId: 1052
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Tuples][suite]
+    - id: 1053
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Tuples/[EditMode][Neoserialization.MappingTests_Tuples.Mapping___Tuple_IntString___RoundTrip]
+      name: Mapping___Tuple_IntString___RoundTrip
+      fullName: Neoserialization.MappingTests_Tuples.Mapping___Tuple_IntString___RoundTrip
+      resultStatus: 2
+      duration: 0.0049718
+      messages: 'System.ArgumentNullException : Value cannot be null.
+
+        Parameter
+        name: key'
+      output: 
+      stacktrace: "  at System.Collections.Generic.Dictionary`2[TKey,TValue].FindEntry
+        (TKey key) [0x00008] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 \r\n  at System.Collections.Generic.Dictionary`2[TKey,TValue].TryGetValue
+        (TKey key, TValue& value) [0x00000] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0
+        \r\n  at UnityPlus.Serialization.Member`2[TSource,TMember].LoadReferences
+        (TSource& source, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x00067] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\Member.cs:182
+        \r\n  at UnityPlus.Serialization.MemberwiseSerializationMapping`1[TSource].LoadReferences
+        (System.Object& obj, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x0004d] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\MappingTypes\\MemberwiseSerializationMapping.cs:214
+        \r\n  at UnityPlus.Serialization.MappingHelper.DoLoadReferences[T] (UnityPlus.Serialization.SerializationMapping
+        mapping, T& obj, UnityPlus.Serialization.SerializedData data, UnityPlus.Serialization.ILoader
+        l) [0x0004b] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\MappingHelper.cs:84
+        \r\n  at UnityPlus.Serialization.SerializationUnitLoader`1[T].LoadReferencesCallback
+        () [0x00046] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnitLoader.cs:178
+        \r\n  at UnityPlus.Serialization.SerializationUnitLoader`1[T].Deserialize
+        () [0x00008] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnitLoader.cs:49
+        \r\n  at UnityPlus.Serialization.SerializationUnit.Deserialize[T] (UnityPlus.Serialization.SerializedData
+        data) [0x00008] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnit.cs:55
+        \r\n  at Neoserialization.MappingTests_Tuples.Mapping___Tuple_IntString___RoundTrip
+        () [0x00016] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\Neoserialization\\MappingTests_Tuples.cs:23
+        \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
+        at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
+        invokeAttr, System.Reflection.Binder binder, System.Object[] parameters,
+        System.Globalization.CultureInfo culture) [0x0006a] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 "
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1052
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Tuples][suite]
+    - id: 1054
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Tuples/[EditMode][Neoserialization.MappingTests_Tuples.Mapping___Tuple_ObjectObject___RoundTrip]
+      name: Mapping___Tuple_ObjectObject___RoundTrip
+      fullName: Neoserialization.MappingTests_Tuples.Mapping___Tuple_ObjectObject___RoundTrip
+      resultStatus: 1
+      duration: 0.00577
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1052
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Tuples][suite]
+    - id: 1057
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Tuples/[EditMode][Neoserialization.MappingTests_Tuples.Mapping___Tuple_SplitIntoTRest___RoundTrip]
+      name: Mapping___Tuple_SplitIntoTRest___RoundTrip
+      fullName: Neoserialization.MappingTests_Tuples.Mapping___Tuple_SplitIntoTRest___RoundTrip
+      resultStatus: 2
+      duration: 0.0012419
+      messages: "  Expected: null\r\n  But was:  (-5, 5, 5, 5, 5, 5, 5, 5, 4, 5,
+        3)\r\n"
+      output: 
+      stacktrace: 'at Neoserialization.MappingTests_Tuples.Mapping___Tuple_SplitIntoTRest___RoundTrip
+        () [0x00027] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Neoserialization\MappingTests_Tuples.cs:84
+
+'
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1052
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Tuples][suite]
     - id: 1045
       uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
       name: MappingTests_Vectors
       fullName: Neoserialization.MappingTests_Vectors
-      resultStatus: 1
-      duration: 0.0312678
-      messages: 
+      resultStatus: 2
+      duration: 0.0189861
+      messages: One or more child tests had errors
       output: 
       stacktrace: 
       notRunnable: 0
@@ -2746,49 +3203,59 @@ MonoBehaviour:
       categories: []
       parentId: 1105
       parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
-    - id: 1049
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Tuple_IntString___RoundTrip]
-      name: Mapping___Tuple_IntString___RoundTrip
-      fullName: Neoserialization.MappingTests_Vectors.Mapping___Tuple_IntString___RoundTrip
-      resultStatus: 1
-      duration: 0.0092183
-      messages: 
+    - id: 1065
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Quaternion___RoundTrip]
+      name: Mapping___Quaternion___RoundTrip
+      fullName: Neoserialization.MappingTests_Vectors.Mapping___Quaternion___RoundTrip
+      resultStatus: 2
+      duration: 0.0021752
+      messages: "  Expected: (0.00000, 0.00000, 0.00000, 0.00000)\r\n  But was: 
+        (1.00000, 2.00000, 3.00000, 4.00000)\r\n"
       output: 
-      stacktrace: 
+      stacktrace: 'at Neoserialization.MappingTests_Vectors.Mapping___Quaternion___RoundTrip
+        () [0x0002a] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Neoserialization\MappingTests_Vectors.cs:110
+
+'
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1045
+      parentId: 1058
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
-    - id: 1050
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Tuple_ObjectObject___RoundTrip]
-      name: Mapping___Tuple_ObjectObject___RoundTrip
-      fullName: Neoserialization.MappingTests_Vectors.Mapping___Tuple_ObjectObject___RoundTrip
-      resultStatus: 1
-      duration: 0.0077381
-      messages: 
+    - id: 1066
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___QuaternionDbl___RoundTrip]
+      name: Mapping___QuaternionDbl___RoundTrip
+      fullName: Neoserialization.MappingTests_Vectors.Mapping___QuaternionDbl___RoundTrip
+      resultStatus: 2
+      duration: 0.0018487
+      messages: "  Expected: UnityEngine.QuaternionDbl\r\n  But was:  UnityEngine.QuaternionDbl\r\n"
       output: 
-      stacktrace: 
+      stacktrace: 'at Neoserialization.MappingTests_Vectors.Mapping___QuaternionDbl___RoundTrip
+        () [0x0003a] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Neoserialization\MappingTests_Vectors.cs:124
+
+'
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1045
+      parentId: 1058
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
     - id: 1046
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Vector2___RoundTrip]
       name: Mapping___Vector2___RoundTrip
       fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector2___RoundTrip
-      resultStatus: 1
-      duration: 0.0026187
-      messages: 
+      resultStatus: 2
+      duration: 0.001825
+      messages: "  Expected: (0.00, 0.00)\r\n  But was:  (5.00, -342.53)\r\n"
       output: 
-      stacktrace: 
+      stacktrace: 'at Neoserialization.MappingTests_Vectors.Mapping___Vector2___RoundTrip
+        () [0x00020] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Neoserialization\MappingTests_Vectors.cs:26
+
+'
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -2797,15 +3264,39 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1045
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
+    - id: 1060
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Vector2Int___RoundTrip]
+      name: Mapping___Vector2Int___RoundTrip
+      fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector2Int___RoundTrip
+      resultStatus: 2
+      duration: 0.0018083
+      messages: "  Expected: (0, 0)\r\n  But was:  (5, -342)\r\n"
+      output: 
+      stacktrace: 'at Neoserialization.MappingTests_Vectors.Mapping___Vector2Int___RoundTrip
+        () [0x0001c] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Neoserialization\MappingTests_Vectors.cs:40
+
+'
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1058
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
     - id: 1047
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Vector3___RoundTrip]
       name: Mapping___Vector3___RoundTrip
       fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector3___RoundTrip
-      resultStatus: 1
-      duration: 0.0019827
-      messages: 
+      resultStatus: 2
+      duration: 0.0024418
+      messages: "  Expected: (0.00, 0.00, 0.00)\r\n  But was:  (0.00, -340282300000000000000000000000000000000.00,
+        563.00)\r\n"
       output: 
-      stacktrace: 
+      stacktrace: 'at Neoserialization.MappingTests_Vectors.Mapping___Vector3___RoundTrip
+        () [0x00025] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Neoserialization\MappingTests_Vectors.cs:54
+
+'
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -2818,11 +3309,14 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Vector3Dbl___RoundTrip]
       name: Mapping___Vector3Dbl___RoundTrip
       fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector3Dbl___RoundTrip
-      resultStatus: 1
-      duration: 0.0022226
-      messages: 
+      resultStatus: 2
+      duration: 0.002026
+      messages: "  Expected: UnityEngine.Vector3Dbl\r\n  But was:  UnityEngine.Vector3Dbl\r\n"
       output: 
-      stacktrace: 
+      stacktrace: 'at Neoserialization.MappingTests_Vectors.Mapping___Vector3Dbl___RoundTrip
+        () [0x00031] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Neoserialization\MappingTests_Vectors.cs:82
+
+'
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -2830,6 +3324,47 @@ MonoBehaviour:
       categories:
       - Uncategorized
       parentId: 1045
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
+    - id: 1062
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Vector3Int___RoundTrip]
+      name: Mapping___Vector3Int___RoundTrip
+      fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector3Int___RoundTrip
+      resultStatus: 2
+      duration: 0.0020244
+      messages: "  Expected: (0, 0, 0)\r\n  But was:  (5, -342, 564)\r\n"
+      output: 
+      stacktrace: 'at Neoserialization.MappingTests_Vectors.Mapping___Vector3Int___RoundTrip
+        () [0x00021] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Neoserialization\MappingTests_Vectors.cs:68
+
+'
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1058
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
+    - id: 1064
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Vector4___RoundTrip]
+      name: Mapping___Vector4___RoundTrip
+      fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector4___RoundTrip
+      resultStatus: 2
+      duration: 0.0018856
+      messages: "  Expected: (0.00, 0.00, 0.00, 0.00)\r\n  But was:  (0.00, -340282300000000000000000000000000000000.00,
+        563.00, -5.60)\r\n"
+      output: 
+      stacktrace: 'at Neoserialization.MappingTests_Vectors.Mapping___Vector4___RoundTrip
+        () [0x0002a] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Neoserialization\MappingTests_Vectors.cs:96
+
+'
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1058
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
     - id: 1075
       uniqueId: EditMode.dll/[Serialization][suite]
@@ -4011,13 +4546,18 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: EditMode.dll/UnityEngine/[EditMode][UnityEngine.TypeMapTests][suite]
-    m_ResultText: MappingTests_Complex (0,020s)
-    m_ResultStacktrace: 
+    m_ResultText: "Mapping___Float___RoundTrip (0,001s)\n---\nExpected: 0.0f\r\n 
+      But was:  1.40129846E-45f\n---\nat Neoserialization.MappingTests_Primitives.Mapping___Float___RoundTrip
+      () [0x00015] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\Neoserialization\\MappingTests_Primitives.cs:110"
+    m_ResultStacktrace: 'at Neoserialization.MappingTests_Primitives.Mapping___Float___RoundTrip
+      () [0x00015] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Neoserialization\MappingTests_Primitives.cs:110
+
+'
     m_TestListState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 6ae00595
-      m_LastClickedID: -1794776982
-      m_ExpandedIDs: 2026c08e436c61936ae00595ad608d96cc856f9aedc39d9bda46919c4a4bc2a0eba168ada7da5dbdf70309c40a5fded7d6d190dbc6f21cfbf6a2830550b8d623b2b38c2b0407f42bf580f53a020566444edece62463b4e6458bcc369fb2cbd6ae625256db58db36f3b2591793fea547b4b5ea47c41ea8f7effffff7f
+      m_SelectedIDs: 24b32aab
+      m_LastClickedID: -1423264988
+      m_ExpandedIDs: 2026c08e436c61936ae00595ad608d96cc856f9aedc39d9bda46919c4a4bc2a0eba168ada7da5dbd651ad6bdf70309c40a5fded7d6d190dbc6f21cfbf6a2830550b8d623b2b38c2b0407f42bf580f53a020566444edece62463b4e6458bcc369fb2cbd6ae625256db58db36f3b2591793fea547b4b5ea47c41ea8f7effffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 

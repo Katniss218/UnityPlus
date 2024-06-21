@@ -145,6 +145,10 @@ namespace UnityPlus.Serialization
             }
 
             var mapping = _hasCachedMapping ? _cachedMapping : SerializationMappingRegistry.GetMapping<TMember>( _context, memberType );
+            if( data != null )
+            {
+                l.MappingCache[data] = mapping;
+            }
 
             TMember member = default;
             if( MappingHelper.DoLoad( mapping, ref member, data, l ) )
@@ -162,7 +166,18 @@ namespace UnityPlus.Serialization
         {
             TMember member = _getter.Invoke( source );
 
-            var mapping = _hasCachedMapping ? _cachedMapping : SerializationMappingRegistry.GetMapping<TMember>( _context, member );
+            SerializationMapping mapping = null;
+            if( _hasCachedMapping )
+                mapping = _cachedMapping;
+            else
+            {
+                if( data == null )
+                    SerializationMappingRegistry.GetMapping<TMember>( _context, member );
+                else if( !l.MappingCache.TryGetValue( data, out mapping ) )
+                {
+                    SerializationMappingRegistry.GetMapping<TMember>( _context, member );
+                }
+            }
 
             if( MappingHelper.DoLoadReferences( mapping, ref member, data, l ) )
             {
