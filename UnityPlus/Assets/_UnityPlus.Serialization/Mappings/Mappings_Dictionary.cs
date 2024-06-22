@@ -166,55 +166,97 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( Dictionary<,> ), Context = KeyValueContext.RefToValue )]
         public static SerializationMapping Dictionary_TKey_TValue_Mapping<TKey, TValue>()
         {
-            return new NonPrimitiveSerializationMapping<Dictionary<TKey, TValue>>()
+            return new NonPrimitiveSerializationMapping2<(TKey, TValue)[], Dictionary<TKey, TValue>>()
             {
                 OnSave = ( o, s ) =>
                 {
                     if( o == null )
                         return null;
 
-                    SerializedObject obj = new SerializedObject();
+#warning TODO - add some way of automatically adding type and id. (also, objects should be objects not arrays)
+                    SerializedArray arr = new SerializedArray();
 
-                    foreach( var (key, value) in o )
+                    foreach( var kvp in o )
                     {
-                        var mapping = SerializationMappingRegistry.GetMapping<TValue>( ObjectContext.Default, value );
+                        var mapping = SerializationMappingRegistry.GetMapping<TKey>( ObjectContext.Ref, kvp.Key );
+                        var keyData = MappingHelper.DoSave<TKey>( mapping, kvp.Key, s );
 
-                        var data = MappingHelper.DoSave<TValue>( mapping, value, s );
+                        mapping = SerializationMappingRegistry.GetMapping<TValue>( ObjectContext.Default, kvp.Value );
+                        var valueData = MappingHelper.DoSave<TValue>( mapping, kvp.Value, s );
 
-                        string keyName = s.RefMap.GetID( key ).SerializeGuidAsKey();
-                        obj[keyName] = data;
+                        SerializedObject kvpData = new SerializedObject()
+                        {
+                            { "key", keyData },
+                            { "value", valueData }
+                        };
+
+                        arr.Add( kvpData );
                     }
 
-                    return obj;
+                    return arr;
                 },
                 OnInstantiate = ( data, l ) =>
                 {
                     return data == null ? default : new Dictionary<TKey, TValue>();
                 },
-                OnLoad = null,
-                OnLoadReferences = ( ref Dictionary<TKey, TValue> o, SerializedData data, ILoader l ) =>
+                OnInstantiateTemp = ( data, l ) =>
                 {
-                    if( data is not SerializedObject dataObj )
+                    if( data is not SerializedArray dataObj )
+                        return null;
+
+                    return data == null ? null : new (TKey, TValue)[dataObj.Count];
+                },
+                OnLoad = ( NonPrimitiveSerializationMapping2<(TKey, TValue)[], Dictionary<TKey, TValue>> self, ref Dictionary<TKey, TValue> o, SerializedData data, ILoader l ) =>
+                {
+                    if( data is not SerializedArray dataObj )
                         return;
 
-                    foreach( var (key, value) in dataObj )
+                    int i = 0;
+                    foreach( var dataKvp in dataObj )
                     {
-                        SerializedData valueData = value;
+                        SerializedData keyData = dataKvp["key"];
+                        SerializedData valueData = dataKvp["value"];
 
-                        Type elementType = valueData != null && valueData.TryGetValue( KeyNames.TYPE, out var elementType2 )
-                            ? elementType2.DeserializeType()
-                            : typeof( TValue );
+                        TKey key = default;
+                        var mapping = MappingHelper.GetMapping_Load<TKey>( ObjectContext.Ref, MappingHelper.GetTypeOf<TKey>( keyData ), keyData, l );
+                        MappingHelper.DoLoad( mapping, ref key, keyData, l );
 
-                        var mapping = SerializationMappingRegistry.GetMapping<TValue>( ObjectContext.Default, MappingHelper.GetTypeOf<TValue>( valueData ) );
+                        TValue value = default;
+                        mapping = MappingHelper.GetMapping_Load<TValue>( ObjectContext.Default, MappingHelper.GetTypeOf<TValue>( valueData ), valueData, l );
+                        MappingHelper.DoLoad( mapping, ref value, valueData, l );
 
-                        TKey keyObj = (TKey)l.RefMap.GetObj( key.DeserializeGuidAsKey() );
+                        self.temp[i] = (key, value);
+                        i++;
+                    }
+                },
+                OnLoadReferences = ( NonPrimitiveSerializationMapping2<(TKey, TValue)[], Dictionary<TKey, TValue>> self, ref Dictionary<TKey, TValue> o, SerializedData data, ILoader l ) =>
+                {
+                    if( data is not SerializedArray dataObj )
+                        return;
 
-#warning TODO - fix this mess.
-                        TValue valueObj = default;
-                        MappingHelper.DoLoad( mapping, ref valueObj, valueData, l );
-                        MappingHelper.DoLoadReferences( mapping, ref valueObj, valueData, l );
+                    if( self.temp == null )
+                        return;
 
-                        o[keyObj] = valueObj;
+                    int i = 0;
+                    foreach( var (key, value) in self.temp )
+                    {
+                        SerializedData dataKvp = dataObj[i];
+
+                        SerializedData keyData = dataKvp["key"];
+                        SerializedData valueData = dataKvp["value"];
+
+                        TKey key2 = key;
+                        var mapping = MappingHelper.GetMapping_LoadReferences<TKey>( ObjectContext.Ref, key2, keyData, l );
+                        MappingHelper.DoLoadReferences( mapping, ref key2, keyData, l );
+
+                        TValue value2 = value;
+                        mapping = MappingHelper.GetMapping_LoadReferences<TValue>( ObjectContext.Default, value2, valueData, l );
+                        MappingHelper.DoLoadReferences( mapping, ref value2, valueData, l );
+
+                        if( key2 != null )
+                            o[key2] = value2;
+
+                        i++;
                     }
                 }
             };
