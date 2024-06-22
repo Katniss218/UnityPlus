@@ -36,20 +36,12 @@ namespace UnityPlus.Serialization.Mappings
                     SerializedData keyData = data["key"];
                     SerializedData valueData = data["value"];
 
-                    Type keyType = keyData != null && keyData.TryGetValue( KeyNames.TYPE, out var elementType2 )
-                        ? elementType2.DeserializeType()
-                        : typeof( TKey );
-
-                    Type valueType = valueData != null && valueData.TryGetValue( KeyNames.TYPE, out elementType2 )
-                        ? elementType2.DeserializeType()
-                        : typeof( TKey );
-
                     TKey key = default;
-                    var mapping = SerializationMappingRegistry.GetMapping<TKey>( ObjectContext.Default, keyType );
+                    var mapping = MappingHelper.GetMapping_Load<TKey>( ObjectContext.Default, MappingHelper.GetTypeOf<TKey>( keyData ), keyData, l );
                     MappingHelper.DoLoad( mapping, ref key, keyData, l );
 
                     TValue value = default;
-                    mapping = SerializationMappingRegistry.GetMapping<TValue>( ObjectContext.Default, valueType );
+                    mapping = MappingHelper.GetMapping_Load<TValue>( ObjectContext.Default, MappingHelper.GetTypeOf<TValue>( valueData ), valueData, l );
                     MappingHelper.DoLoad( mapping, ref value, valueData, l );
 
                     o = new KeyValuePair<TKey, TValue>( key, value );
@@ -60,11 +52,11 @@ namespace UnityPlus.Serialization.Mappings
                     SerializedData valueData = data["value"];
 
                     TKey key = o.Key;
-                    var mapping = SerializationMappingRegistry.GetMapping<TKey>( ObjectContext.Default, key );
+                    var mapping = MappingHelper.GetMapping_LoadReferences<TKey>( ObjectContext.Default, key, keyData, l );
                     MappingHelper.DoLoadReferences( mapping, ref key, keyData, l );
 
                     TValue value = o.Value;
-                    mapping = SerializationMappingRegistry.GetMapping<TValue>( ObjectContext.Default, value );
+                    mapping = MappingHelper.GetMapping_LoadReferences<TValue>( ObjectContext.Default, value, valueData, l );
                     MappingHelper.DoLoadReferences( mapping, ref value, valueData, l );
 
                     o = new KeyValuePair<TKey, TValue>( key, value );
@@ -126,20 +118,12 @@ namespace UnityPlus.Serialization.Mappings
                         SerializedData keyData = dataKvp["key"];
                         SerializedData valueData = dataKvp["value"];
 
-                        Type keyType = keyData != null && keyData.TryGetValue( KeyNames.TYPE, out var elementType2 )
-                            ? elementType2.DeserializeType()
-                            : typeof( TKey );
-
-                        Type valueType = valueData != null && valueData.TryGetValue( KeyNames.TYPE, out elementType2 )
-                            ? elementType2.DeserializeType()
-                            : typeof( TKey );
-
                         TKey key = default;
-                        var mapping = SerializationMappingRegistry.GetMapping<TKey>( ObjectContext.Default, keyType );
+                        var mapping = MappingHelper.GetMapping_Load<TKey>( ObjectContext.Default, MappingHelper.GetTypeOf<TKey>( keyData ), keyData, l );
                         MappingHelper.DoLoad( mapping, ref key, keyData, l );
 
                         TValue value = default;
-                        mapping = SerializationMappingRegistry.GetMapping<TValue>( ObjectContext.Default, valueType );
+                        mapping = MappingHelper.GetMapping_Load<TValue>( ObjectContext.Default, MappingHelper.GetTypeOf<TValue>( valueData ), valueData, l );
                         MappingHelper.DoLoad( mapping, ref value, valueData, l );
 
                         self.temp[i] = (key, value);
@@ -150,11 +134,6 @@ namespace UnityPlus.Serialization.Mappings
                 {
                     if( data is not SerializedArray dataObj )
                         return;
-
-#warning TODO - this 'temp' thing will not work, because the mapping is retrieved again for the reference pass.
-                    // This needs to be owned by something persistent. Or the mappings need to be persistent, somehow.
-                    // I mean, the mappings *could* be cached in the loader itself (keyed by the object id, if mapping is missing - create new).
-                    // - The same way they are cached for root level already.
 
                     if( self.temp == null )
                         return;
@@ -168,11 +147,11 @@ namespace UnityPlus.Serialization.Mappings
                         SerializedData valueData = dataKvp["value"];
 
                         TKey key2 = key;
-                        var mapping = SerializationMappingRegistry.GetMapping<TKey>( ObjectContext.Default, key2 );
+                        var mapping = MappingHelper.GetMapping_LoadReferences<TKey>( ObjectContext.Default, key2, keyData, l );
                         MappingHelper.DoLoadReferences( mapping, ref key2, keyData, l );
 
                         TValue value2 = value;
-                        mapping = SerializationMappingRegistry.GetMapping<TValue>( ObjectContext.Default, value2 );
+                        mapping = MappingHelper.GetMapping_LoadReferences<TValue>( ObjectContext.Default, value2, valueData, l );
                         MappingHelper.DoLoadReferences( mapping, ref value2, valueData, l );
 
                         if( key2 != null )
@@ -220,20 +199,20 @@ namespace UnityPlus.Serialization.Mappings
 
                     foreach( var (key, value) in dataObj )
                     {
-                        SerializedData elementData = value;
+                        SerializedData valueData = value;
 
-                        Type elementType = elementData != null && elementData.TryGetValue( KeyNames.TYPE, out var elementType2 )
+                        Type elementType = valueData != null && valueData.TryGetValue( KeyNames.TYPE, out var elementType2 )
                             ? elementType2.DeserializeType()
                             : typeof( TValue );
 
-                        var mapping = SerializationMappingRegistry.GetMapping<TValue>( ObjectContext.Default, elementType );
+                        var mapping = SerializationMappingRegistry.GetMapping<TValue>( ObjectContext.Default, MappingHelper.GetTypeOf<TValue>( valueData ) );
 
                         TKey keyObj = (TKey)l.RefMap.GetObj( key.DeserializeGuidAsKey() );
 
 #warning TODO - fix this mess.
                         TValue valueObj = default;
-                        MappingHelper.DoLoad(mapping, ref valueObj, elementData, l );
-                        MappingHelper.DoLoadReferences(mapping, ref valueObj, elementData, l );
+                        MappingHelper.DoLoad( mapping, ref valueObj, valueData, l );
+                        MappingHelper.DoLoadReferences( mapping, ref valueObj, valueData, l );
 
                         o[keyObj] = valueObj;
                     }

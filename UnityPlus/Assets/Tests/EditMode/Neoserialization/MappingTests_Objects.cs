@@ -1,0 +1,101 @@
+﻿using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UnityEngine;
+using UnityPlus.Serialization;
+
+namespace Neoserialization
+{
+    public class MappingTests_Objects
+    {
+        [Test]
+        public void Mapping___BaseClass___RoundTrip()
+        {
+            // Arrange
+            var initialValue = new BaseClass() { baseMember = 2 };
+
+            // Act
+            var data = SerializationUnit.Serialize( initialValue );
+            var finalValue = SerializationUnit.Deserialize<BaseClass>( data );
+
+            // Assert
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
+        }
+
+        [Test]
+        public void Mapping___DerivedClass_Polymorphic___RoundTrip()
+        {
+            // Arrange
+            BaseClass initialValue = new DerivedClass() { baseMember = 2, derivedMember = "42" };
+
+            // Act
+            var data = SerializationUnit.Serialize( initialValue );
+            var finalValue = SerializationUnit.Deserialize<BaseClass>( data );
+
+            // Assert
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
+        }
+
+        [Test]
+        public void Mapping___Null___RoundTrip()
+        {
+            // Arrange
+            BaseClass initialValue = null;
+
+            // Act
+            var data = SerializationUnit.Serialize( initialValue );
+            var finalValue = SerializationUnit.Deserialize<BaseClass>( data );
+
+            // Assert
+            Assert.That( finalValue, Is.Null );
+        }
+
+        [Test]
+        public void Mapping___NullMember___RoundTrip()
+        {
+            // Arrange
+            OwningClass initialValue = new OwningClass() { refMember = null };
+
+            // Act
+            var data = SerializationUnit.Serialize( initialValue );
+            var finalValue = SerializationUnit.Deserialize<OwningClass>( data );
+
+            // Assert
+            Assert.That( finalValue.refMember, Is.Null );
+        }
+
+        [Test]
+        public void Mapping___Populate_Object()
+        {
+            // Arrange
+            var initialValue = new DerivedClass() { baseMember = 2, derivedMember = "42" };
+            var finalValue = new DerivedClass();
+
+            // Act
+            var data = SerializationUnit.Serialize( initialValue );
+            SerializationUnit.Populate<DerivedClass>( finalValue, data );
+
+            // Assert
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
+        }
+
+        [Test]
+        public void Mapping___Populate_Struct()
+        {
+            // Arrange
+            var initialValue = new Vector3();
+            var finalValue = new Vector3();
+
+            // Act
+            var data = SerializationUnit.Serialize( initialValue );
+            SerializationUnit.Populate<Vector3>( ref finalValue, data );
+
+            // Assert
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
+        }
+    }
+}

@@ -23,7 +23,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<bool>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
 
         [Test]
@@ -37,7 +37,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<byte>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<sbyte>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
 
         [Test]
@@ -65,7 +65,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<short>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<int>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<long>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
 
         [Test]
@@ -107,7 +107,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<float>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
 
         [Test]
@@ -121,7 +121,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<double>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
         
         [Test]
@@ -135,7 +135,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<decimal>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
 
         [Test]
@@ -149,7 +149,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<char>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
 
         [Test]
@@ -163,7 +163,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<string>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
 
         [Test]
@@ -177,7 +177,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<DateTime>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
 
         [Test]
@@ -191,7 +191,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<DateTimeOffset>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
 
         [Test]
@@ -205,7 +205,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<TimeSpan>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
     }
 }

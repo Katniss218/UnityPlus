@@ -82,7 +82,7 @@ namespace UnityPlus.Serialization
             }
         }
 
-        public override SerializationMapping GetWorkingInstance()
+        public override SerializationMapping GetInstance()
         {
             return new NonPrimitiveSerializationMapping2<TTemp, TSource>()
             {

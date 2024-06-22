@@ -95,37 +95,12 @@ public class _playtester : MonoBehaviour
 
     void Start()
     {
-        var vec = new Vector3( 42.23425f, -342.2345f, 2356532f );
-        string sJson = JsonConvert.SerializeObject( this, new JsonSerializerSettings
-        {
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-            Error = ( serializer, err ) => err.ErrorContext.Handled = true
-        } );
+        // Arrange
+        var initialValue = (SerializedPrimitive)5.4112f;
 
-
-        var b = new MoreDerivedClass();
-        var mapping = SerializationMappingRegistry.GetMapping<DerivedClass>( ObjectContext.Default, b );
-
-        var mapping2 = SerializationMappingRegistry.GetMapping<MonoBehaviour>( ObjectContext.Default, (MonoBehaviour)null );
-
-        mapping2 = SerializationMappingRegistry.GetMapping<Component>( ObjectContext.Default, this );
-
-        var data3 = SerializationUnit.Serialize( "teststr" );
-
-        var su = SerializationUnit.FromObjects( this.gameObject );
-        su.Serialize();
-        SerializedData data2 = su.GetDataOfType<GameObject>().First();
-
-        StringBuilder sb = new StringBuilder();
-        new JsonStringWriter( data2, sb ).Write();
-        string s = sb.ToString();
-        //s = s.Replace( "true", "false" );
-
-        var data = new JsonStringReader( s ).Read();
-
-        //GameObject obj = SerializationUnit.Deserialize<GameObject>( data );
-
-        //_playtester t = obj.GetComponent<_playtester>();
+        // Act
+        var data = SerializationUnit.Serialize( initialValue );
+        var finalValue = SerializationUnit.Deserialize<SerializedData>( data );
     }
 
     void Update()

@@ -23,7 +23,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<Vector2>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
 
         [Test]
@@ -37,7 +37,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<Vector2Int>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<Vector3>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
 
         [Test]
@@ -65,7 +65,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<Vector3Int>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<Vector3Dbl>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<Vector4>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
 
         [Test]
@@ -107,7 +107,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<Quaternion>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
 
         [Test]
@@ -121,7 +121,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<QuaternionDbl>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
     }
 }

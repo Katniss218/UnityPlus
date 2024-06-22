@@ -23,8 +23,8 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<ValueTuple<int, string>>( data );
 
             // Assert
-            Assert.That( initialValue.Item1, Is.EqualTo( finalValue.Item1 ) );
-            Assert.That( initialValue.Item2, Is.EqualTo( finalValue.Item2 ) );
+            Assert.That( finalValue.Item1, Is.EqualTo( initialValue.Item1 ) );
+            Assert.That( finalValue.Item2, Is.EqualTo( initialValue.Item2 ) );
         }
 
         [Test]
@@ -38,8 +38,8 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<ValueTuple<int[], float[]>>( data );
             
             // Assert
-            Assert.That( initialValue.Item1, Is.EquivalentTo( finalValue.Item1 ) );
-            Assert.That( initialValue.Item2, Is.EquivalentTo( finalValue.Item2 ) );
+            Assert.That( finalValue.Item1, Is.EquivalentTo( initialValue.Item1 ) );
+            Assert.That( finalValue.Item2, Is.EquivalentTo( initialValue.Item2 ) );
         }
 
         [Test]
@@ -53,7 +53,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<object>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<object>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
 
         [Test]
@@ -81,7 +81,7 @@ namespace Neoserialization
             var finalValue = SerializationUnit.Deserialize<object>( data );
 
             // Assert
-            Assert.That( initialValue, Is.EqualTo( finalValue ) );
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
     }
 }

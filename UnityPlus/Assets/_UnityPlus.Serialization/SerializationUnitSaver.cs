@@ -78,9 +78,6 @@ namespace UnityPlus.Serialization
             {
                 T obj = _objects[i];
 
-                if( obj == null )
-                    continue;
-
                 var mapping = SerializationMappingRegistry.GetMapping<T>( _context, obj );
 
                 _data[i] = MappingHelper.DoSave<T>( mapping, obj, this );

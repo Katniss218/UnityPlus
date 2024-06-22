@@ -16,6 +16,19 @@ namespace Neoserialization
 
     }
 
+    public class InterfaceClass : IUnmappedInterface
+    {
+        public float baseMember;
+
+        public override bool Equals( object obj )
+        {
+            if( obj is not InterfaceClass other )
+                return false;
+
+            return this.baseMember == other.baseMember;
+        }
+    }
+    
     public class BaseClass
     {
         public float baseMember;
@@ -85,7 +98,7 @@ namespace Neoserialization
             return this.refMember == other.refMember;
         }
     }
-    
+
     public class OwningClass
     {
         public BaseClass refMember;
@@ -96,6 +109,33 @@ namespace Neoserialization
                 return false;
 
             return this.refMember == other.refMember;
+        }
+    }
+
+    public class UnmappedBaseClass
+    {
+        public float baseMember;
+
+        public override bool Equals( object obj )
+        {
+            if( obj is not UnmappedBaseClass other )
+                return false;
+
+            return this.baseMember == other.baseMember;
+        }
+    }
+
+    public class MappedDerivedClass : UnmappedBaseClass
+    {
+        public string derivedMember;
+
+        public override bool Equals( object obj )
+        {
+            if( obj is not MappedDerivedClass other )
+                return false;
+
+            return this.baseMember == other.baseMember
+                && this.derivedMember == other.derivedMember;
         }
     }
 
@@ -157,6 +197,15 @@ namespace Neoserialization
             };
         }
 
+        [SerializationMappingProvider( typeof( MappedDerivedClass ) )]
+        public static SerializationMapping MappedDerivedClassMapping()
+        {
+            return new MemberwiseSerializationMapping<MappedDerivedClass>()
+            {
+                ("derived_member", new Member<MappedDerivedClass, string>( o => o.derivedMember ))
+            };
+        }
+
         //
         //  These tests test both the mapping registry search algorithm, and the construction of the mappings that's inside it.
         //
@@ -171,7 +220,7 @@ namespace Neoserialization
             SerializationMapping mapping2 = SerializationMappingRegistry.GetMapping<bool>( ObjectContext.Default, true.GetType() );
 
             // Assert
-            Assert.That( mapping1, Is.InstanceOf( typeof( PrimitiveObjectSerializationMapping<bool> ) ) );
+            Assert.That( mapping2, Is.InstanceOf( typeof( PrimitiveObjectSerializationMapping<bool> ) ) );
             Assert.That( mapping1, Is.EqualTo( mapping2 ) );
         }
 
@@ -185,7 +234,7 @@ namespace Neoserialization
             SerializationMapping mapping2 = SerializationMappingRegistry.GetMapping<BaseClass>( ObjectContext.Default, new DerivedClass().GetType() );
 
             // Assert
-            Assert.That( mapping1, Is.InstanceOf( typeof( MemberwiseSerializationMapping<DerivedClass> ) ) );
+            Assert.That( mapping2, Is.InstanceOf( typeof( MemberwiseSerializationMapping<DerivedClass> ) ) );
             Assert.That( mapping1, Is.EqualTo( mapping2 ) );
         }
 
@@ -199,7 +248,7 @@ namespace Neoserialization
             SerializationMapping mapping2 = SerializationMappingRegistry.GetMapping<GenericClass<float>>( ObjectContext.Default, new GenericClass<float>().GetType() );
 
             // Assert
-            Assert.That( mapping1, Is.InstanceOf( typeof( MemberwiseSerializationMapping<GenericClass<float>> ) ) );
+            Assert.That( mapping2, Is.InstanceOf( typeof( MemberwiseSerializationMapping<GenericClass<float>> ) ) );
             Assert.That( mapping1, Is.EqualTo( mapping2 ) );
         }
 
@@ -213,7 +262,7 @@ namespace Neoserialization
             SerializationMapping mapping2 = SerializationMappingRegistry.GetMapping<MultiGenericClass<float, int, float>>( ObjectContext.Default, new MultiGenericClass<float, int, float>().GetType() );
 
             // Assert
-            Assert.That( mapping1, Is.InstanceOf( typeof( MemberwiseSerializationMapping<MultiGenericClass<float, int, float>> ) ) );
+            Assert.That( mapping2, Is.InstanceOf( typeof( MemberwiseSerializationMapping<MultiGenericClass<float, int, float>> ) ) );
             Assert.That( mapping1, Is.EqualTo( mapping2 ) );
         }
 
@@ -227,7 +276,7 @@ namespace Neoserialization
             SerializationMapping mapping2 = SerializationMappingRegistry.GetMapping<int[]>( ObjectContext.Default, new int[] { 1 }.GetType() );
 
             // Assert
-            Assert.That( mapping1, Is.InstanceOf( typeof( NonPrimitiveSerializationMapping<int[]> ) ) );
+            Assert.That( mapping2, Is.InstanceOf( typeof( NonPrimitiveSerializationMapping<int[]> ) ) );
             Assert.That( mapping1, Is.EqualTo( mapping2 ) );
         }
 
@@ -238,9 +287,26 @@ namespace Neoserialization
 
             // Act
             SerializationMapping mapping1 = SerializationMappingRegistry.GetMapping<IUnmappedInterface>( ObjectContext.Ref, (IUnmappedInterface)null );
-            SerializationMapping mapping1m = SerializationMappingRegistry.GetMapping<object>( ObjectContext.Ref, (object)null );
+            SerializationMapping mapping1m = SerializationMappingRegistry.GetMapping<object>( ObjectContext.Ref, new InterfaceClass() );
 
             // Assert
+            Assert.That( mapping1, Is.Not.Null );
+            Assert.That( mapping1m, Is.Not.Null );
+            Assert.That( mapping1, Is.SameAs( mapping1m ) );
+        }
+
+        [Test]
+        public void GetMappingFor___UnmappedBaseClassPolymorphic___ReturnsDerivedMapping()
+        {
+            // Arrange
+
+            // Act
+            SerializationMapping mapping1 = SerializationMappingRegistry.GetMapping<UnmappedBaseClass>( ObjectContext.Default, typeof( MappedDerivedClass ) );
+            SerializationMapping mapping1m = SerializationMappingRegistry.GetMapping<UnmappedBaseClass>( ObjectContext.Default, new MappedDerivedClass() );
+
+            // Assert
+            Assert.That( mapping1, Is.Not.Null );
+            Assert.That( mapping1m, Is.Not.Null );
             Assert.That( mapping1, Is.SameAs( mapping1m ) );
         }
     }

@@ -108,6 +108,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( SerializedPrimitive ) )]
         public static SerializationMapping SerializedPrimitiveMapping()
         {
+#warning TODO - this should be wrapped in a serializedobject with id, type, and value (and same as any other primitive in typed context).
             return new PrimitiveObjectSerializationMapping<SerializedPrimitive>()
             {
                 OnSave = ( o, s ) => o,

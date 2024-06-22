@@ -10,6 +10,7 @@ using UnityPlus.Serialization.ReferenceMaps;
 
 namespace UnityPlus.Serialization
 {
+    [Obsolete( "Not finished yet" )]
     public class SerializationUnitAsyncSaver<T> : ISaver
     {
         private struct Entry
@@ -98,10 +99,7 @@ namespace UnityPlus.Serialization
             {
                 T obj = _objects[i];
 
-                if( obj == null )
-                    continue;
-
-                var mapping = SerializationMappingRegistry.GetMapping( _context, obj );
+                var mapping = SerializationMappingRegistry.GetMapping<T>( _context, obj );
 
                 _data[i] = MappingHelper.DoSave<T>( mapping, obj, this );
             }
