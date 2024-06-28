@@ -8,6 +8,8 @@ namespace UnityPlus.Serialization
     /// <typeparam name="TSource">The type of the object being mapped.</typeparam>
     public sealed class NonPrimitiveSerializationMapping<TSource> : SerializationMapping, IInstantiableSerializationMapping
     {
+        public override SerializationStyle SerializationStyle => SerializationStyle.NonPrimitive;
+
         /// <summary>
         /// The function invoked to convert the C# object into its serialized representation.
         /// </summary>
@@ -27,8 +29,6 @@ namespace UnityPlus.Serialization
         /// Loads the references.
         /// </summary>
         public LoadReferencesAction<TSource> OnLoadReferences { get; set; }
-
-        public override SerializationStyle SerializationStyle => SerializationStyle.NonPrimitive;
 
         public NonPrimitiveSerializationMapping()
         {

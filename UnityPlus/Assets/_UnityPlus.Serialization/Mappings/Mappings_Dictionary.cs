@@ -67,7 +67,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( Dictionary<,> ), Context = KeyValueContext.ValueToValue )]
         public static SerializationMapping Dictionary_ValueToValue_Mapping<TKey, TValue>()
         {
-            return new NonPrimitiveSerializationMapping2<(TKey, TValue)[], Dictionary<TKey, TValue>>()
+            return new NonPrimitiveSerializationMappingWithTemp<(TKey, TValue)[], Dictionary<TKey, TValue>>()
             {
                 OnSave = ( o, s ) =>
                 {
@@ -107,7 +107,7 @@ namespace UnityPlus.Serialization.Mappings
 
                     return data == null ? null : new (TKey, TValue)[dataObj.Count];
                 },
-                OnLoad = ( NonPrimitiveSerializationMapping2<(TKey, TValue)[], Dictionary<TKey, TValue>> self, ref Dictionary<TKey, TValue> o, SerializedData data, ILoader l ) =>
+                OnLoad = ( NonPrimitiveSerializationMappingWithTemp<(TKey, TValue)[], Dictionary<TKey, TValue>> self, ref Dictionary<TKey, TValue> o, SerializedData data, ILoader l ) =>
                 {
                     if( data is not SerializedArray dataObj )
                         return;
@@ -130,7 +130,7 @@ namespace UnityPlus.Serialization.Mappings
                         i++;
                     }
                 },
-                OnLoadReferences = ( NonPrimitiveSerializationMapping2<(TKey, TValue)[], Dictionary<TKey, TValue>> self, ref Dictionary<TKey, TValue> o, SerializedData data, ILoader l ) =>
+                OnLoadReferences = ( NonPrimitiveSerializationMappingWithTemp<(TKey, TValue)[], Dictionary<TKey, TValue>> self, ref Dictionary<TKey, TValue> o, SerializedData data, ILoader l ) =>
                 {
                     if( data is not SerializedArray dataObj )
                         return;
@@ -166,7 +166,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( Dictionary<,> ), Context = KeyValueContext.RefToValue )]
         public static SerializationMapping Dictionary_TKey_TValue_Mapping<TKey, TValue>()
         {
-            return new NonPrimitiveSerializationMapping2<(TKey, TValue)[], Dictionary<TKey, TValue>>()
+            return new NonPrimitiveSerializationMappingWithTemp<(TKey, TValue)[], Dictionary<TKey, TValue>>()
             {
                 OnSave = ( o, s ) =>
                 {
@@ -206,7 +206,7 @@ namespace UnityPlus.Serialization.Mappings
 
                     return data == null ? null : new (TKey, TValue)[dataObj.Count];
                 },
-                OnLoad = ( NonPrimitiveSerializationMapping2<(TKey, TValue)[], Dictionary<TKey, TValue>> self, ref Dictionary<TKey, TValue> o, SerializedData data, ILoader l ) =>
+                OnLoad = ( NonPrimitiveSerializationMappingWithTemp<(TKey, TValue)[], Dictionary<TKey, TValue>> self, ref Dictionary<TKey, TValue> o, SerializedData data, ILoader l ) =>
                 {
                     if( data is not SerializedArray dataObj )
                         return;
@@ -229,7 +229,7 @@ namespace UnityPlus.Serialization.Mappings
                         i++;
                     }
                 },
-                OnLoadReferences = ( NonPrimitiveSerializationMapping2<(TKey, TValue)[], Dictionary<TKey, TValue>> self, ref Dictionary<TKey, TValue> o, SerializedData data, ILoader l ) =>
+                OnLoadReferences = ( NonPrimitiveSerializationMappingWithTemp<(TKey, TValue)[], Dictionary<TKey, TValue>> self, ref Dictionary<TKey, TValue> o, SerializedData data, ILoader l ) =>
                 {
                     if( data is not SerializedArray dataObj )
                         return;

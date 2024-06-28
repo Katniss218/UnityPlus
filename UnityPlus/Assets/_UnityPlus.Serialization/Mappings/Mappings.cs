@@ -407,8 +407,6 @@ namespace UnityPlus.Serialization.Mappings
             };
         }
 
-#warning TODO - add tuple mappings (analogous to the KeyValuePair<TKey, TValue>).
-
         [SerializationMappingProvider( typeof( Array ) )]
         public static SerializationMapping ArrayMapping<T>()
         {
@@ -417,6 +415,9 @@ namespace UnityPlus.Serialization.Mappings
             {
                 OnSave = ( o, s ) =>
                 {
+                    if( o == null )
+                        return null;
+
                     SerializedArray serializedArray = new SerializedArray( o.Length );
                     for( int i = 0; i < o.Length; i++ )
                     {
@@ -434,7 +435,7 @@ namespace UnityPlus.Serialization.Mappings
                 OnInstantiate = ( data, l ) =>
                 {
                     if( data is not SerializedArray serializedArray )
-                        return new T[] { };
+                        return null;
 
                     return data == null ? default : new T[serializedArray.Count];
                 },

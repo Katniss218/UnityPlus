@@ -8,6 +8,8 @@ namespace UnityPlus.Serialization
     /// <typeparam name="TSource">The type of the object being mapped.</typeparam>
     public sealed class PrimitiveStructSerializationMapping<TSource> : SerializationMapping
     {
+        public override SerializationStyle SerializationStyle => SerializationStyle.PrimitiveStruct;
+
         /// <summary>
         /// The function invoked to convert the C# object into its serialized representation.
         /// </summary>
@@ -17,8 +19,6 @@ namespace UnityPlus.Serialization
         /// The function invoked to convert the serialized representation back into its corresponding C# object.
         /// </summary>
         public Func<SerializedData, IForwardReferenceMap, TSource> OnInstantiate { get; set; }
-
-        public override SerializationStyle SerializationStyle => SerializationStyle.PrimitiveStruct;
 
         public PrimitiveStructSerializationMapping()
         {

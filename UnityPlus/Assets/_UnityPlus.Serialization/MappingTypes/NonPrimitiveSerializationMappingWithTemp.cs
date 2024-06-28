@@ -2,15 +2,17 @@
 
 namespace UnityPlus.Serialization
 {
-    public delegate void LoadAction2<TTemp, TSource>( NonPrimitiveSerializationMapping2<TTemp, TSource> mapping, ref TSource obj, SerializedData data, ILoader l ) where TTemp : class;
-    public delegate void LoadReferencesAction2<TTemp, TSource>( NonPrimitiveSerializationMapping2<TTemp, TSource> mapping, ref TSource obj, SerializedData data, ILoader l ) where TTemp : class;
+    public delegate void LoadAction2<TTemp, TSource>( NonPrimitiveSerializationMappingWithTemp<TTemp, TSource> mapping, ref TSource obj, SerializedData data, ILoader l ) where TTemp : class;
+    public delegate void LoadReferencesAction2<TTemp, TSource>( NonPrimitiveSerializationMappingWithTemp<TTemp, TSource> mapping, ref TSource obj, SerializedData data, ILoader l ) where TTemp : class;
 
     /// <summary>
     /// Maps an object that can both be referenced by other objects, and contain references to other objects.
     /// </summary>
     /// <typeparam name="TSource">The type of the object being mapped.</typeparam>
-    public sealed class NonPrimitiveSerializationMapping2<TTemp, TSource> : SerializationMapping, IInstantiableSerializationMapping where TTemp : class
+    public sealed class NonPrimitiveSerializationMappingWithTemp<TTemp, TSource> : SerializationMapping, IInstantiableSerializationMapping where TTemp : class
     {
+        public override SerializationStyle SerializationStyle => SerializationStyle.NonPrimitive;
+
         public TTemp temp;
 
         /// <summary>
@@ -38,9 +40,7 @@ namespace UnityPlus.Serialization
         /// </summary>
         public LoadReferencesAction2<TTemp, TSource> OnLoadReferences { get; set; }
 
-        public override SerializationStyle SerializationStyle => SerializationStyle.NonPrimitive;
-
-        public NonPrimitiveSerializationMapping2()
+        public NonPrimitiveSerializationMappingWithTemp()
         {
 
         }
@@ -84,7 +84,7 @@ namespace UnityPlus.Serialization
 
         public override SerializationMapping GetInstance()
         {
-            return new NonPrimitiveSerializationMapping2<TTemp, TSource>()
+            return new NonPrimitiveSerializationMappingWithTemp<TTemp, TSource>()
             {
                 OnSave = OnSave,
                 OnInstantiate = OnInstantiate,
