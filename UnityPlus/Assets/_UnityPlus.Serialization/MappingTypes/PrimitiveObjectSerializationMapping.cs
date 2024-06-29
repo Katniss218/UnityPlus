@@ -8,8 +8,6 @@ namespace UnityPlus.Serialization
     /// <typeparam name="TSource">The type of the object being mapped.</typeparam>
     public sealed class PrimitiveObjectSerializationMapping<TSource> : SerializationMapping
     {
-        public override SerializationStyle SerializationStyle => SerializationStyle.PrimitiveObject;
-
         /// <summary>
         /// The function invoked to convert the C# object into its serialized representation.
         /// </summary>
@@ -25,26 +23,32 @@ namespace UnityPlus.Serialization
 
         }
 
-        public override SerializedData Save( object obj, ISaver s )
+
+        protected override SerializedData Save<T>( T obj, ISaver s )
         {
-            return OnSave.Invoke( (TSource)obj, s );
+            return OnSave.Invoke( (TSource)(object)obj, s );
         }
 
-        public override object Instantiate( SerializedData data, ILoader l )
+        protected override bool TryPopulate<T>( ref T obj, SerializedData data, ILoader l )
         {
-            if( OnInstantiate != null )
-                return OnInstantiate.Invoke( data, l.RefMap );
-            return default( TSource );
+            return false;
         }
 
-        public override void Load( ref object obj, SerializedData data, ILoader l )
+        protected override bool TryLoad<T>( ref T obj, SerializedData data, ILoader l )
         {
-            throw new InvalidOperationException( $"Load is not supported on `{nameof( PrimitiveObjectSerializationMapping<TSource> )}`." );
+            return false;
         }
 
-        public override void LoadReferences( ref object obj, SerializedData data, ILoader l )
+        protected override bool TryLoadReferences<T>( ref T obj, SerializedData data, ILoader l )
         {
-            throw new InvalidOperationException( $"LoadReferences is not supported on `{nameof( PrimitiveObjectSerializationMapping<TSource> )}`." );
+            if( OnInstantiate == null )
+                return false;
+
+            // Instantiating in LoadReferences means that every object that can be referenced should have already been added to the ILoader's RefMap.
+            TSource obj2 = OnInstantiate.Invoke( data, l.RefMap );
+            obj = (T)(object)obj2;
+
+            return true;
         }
     }
 }

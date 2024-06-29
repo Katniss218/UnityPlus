@@ -117,11 +117,11 @@ namespace UnityPlus.Serialization
             {
                 SerializedData data = _data[i];
 
-                var mapping = MappingHelper.GetMapping_Load<T>( _context, MappingHelper.GetTypeOf<T>( data ), data, this );
+                var mapping = MappingHelper.GetMapping_Load<T>( _context, MappingHelper.GetSerializedType<T>( data ), data, this );
 
                 // Parity with Member (mostly).
                 T member = _objects[i];
-                if( MappingHelper.DoPopulate( mapping, ref member, data, this ) )
+                if( mapping.SafePopulate( ref member, data, this ) )
                 {
                     _objects[i] = member;
                 }
@@ -138,10 +138,10 @@ namespace UnityPlus.Serialization
             {
                 SerializedData data = _data[i];
 
-                var mapping = MappingHelper.GetMapping_Load<T>( _context, MappingHelper.GetTypeOf<T>( data ), data, this );
+                var mapping = MappingHelper.GetMapping_Load<T>( _context, MappingHelper.GetSerializedType<T>( data ), data, this );
 
                 T member = default;
-                if( MappingHelper.DoLoad( mapping, ref member, data, this ) )
+                if( mapping.SafeLoad( ref member, data, this ) )
                 {
                     _objects[i] = member;
                 }
@@ -160,7 +160,7 @@ namespace UnityPlus.Serialization
 
                 var mapping = MappingHelper.GetMapping_LoadReferences<T>( _context, member, data, this );
 
-                if( MappingHelper.DoLoadReferences( mapping, ref member, data, this ) )
+                if( mapping.SafeLoadReferences( ref member, data, this ) )
                 {
                     _objects[i] = member;
                 }

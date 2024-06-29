@@ -96,11 +96,11 @@ public class _playtester : MonoBehaviour
     void Start()
     {
         // Arrange
-        var initialValue = (SerializedPrimitive)5.4112f;
+        var initialValue = new BaseClass() { baseMember = 2 };
 
         // Act
         var data = SerializationUnit.Serialize( initialValue );
-        var finalValue = SerializationUnit.Deserialize<SerializedData>( data );
+        var finalValue = SerializationUnit.Deserialize<BaseClass>( data );
     }
 
     void Update()
@@ -110,7 +110,7 @@ public class _playtester : MonoBehaviour
 
     private void RunPerfTest()
     {
-        const int COUNT = 1000;
+        const int COUNT = 10;
 
         List<GameObject> list = new List<GameObject>( COUNT );
 

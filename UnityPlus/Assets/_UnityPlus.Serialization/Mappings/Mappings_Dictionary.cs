@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace UnityPlus.Serialization.Mappings
 {
@@ -14,10 +13,10 @@ namespace UnityPlus.Serialization.Mappings
                 OnSave = ( o, s ) =>
                 {
                     var mapping = SerializationMappingRegistry.GetMapping<TKey>( ObjectContext.Default, o.Key );
-                    var keyData = MappingHelper.DoSave<TKey>( mapping, o.Key, s );
+                    var keyData = mapping.SafeSave<TKey>( o.Key, s );
 
                     mapping = SerializationMappingRegistry.GetMapping<TValue>( ObjectContext.Default, o.Value );
-                    var valueData = MappingHelper.DoSave<TValue>( mapping, o.Value, s );
+                    var valueData = mapping.SafeSave<TValue>( o.Value, s );
 
                     SerializedObject kvpData = new SerializedObject()
                     {
@@ -37,12 +36,12 @@ namespace UnityPlus.Serialization.Mappings
                     SerializedData valueData = data["value"];
 
                     TKey key = default;
-                    var mapping = MappingHelper.GetMapping_Load<TKey>( ObjectContext.Default, MappingHelper.GetTypeOf<TKey>( keyData ), keyData, l );
-                    MappingHelper.DoLoad( mapping, ref key, keyData, l );
+                    var mapping = MappingHelper.GetMapping_Load<TKey>( ObjectContext.Default, MappingHelper.GetSerializedType<TKey>( keyData ), keyData, l );
+                    mapping.SafeLoad( ref key, keyData, l );
 
                     TValue value = default;
-                    mapping = MappingHelper.GetMapping_Load<TValue>( ObjectContext.Default, MappingHelper.GetTypeOf<TValue>( valueData ), valueData, l );
-                    MappingHelper.DoLoad( mapping, ref value, valueData, l );
+                    mapping = MappingHelper.GetMapping_Load<TValue>( ObjectContext.Default, MappingHelper.GetSerializedType<TValue>( valueData ), valueData, l );
+                    mapping.SafeLoad( ref value, valueData, l );
 
                     o = new KeyValuePair<TKey, TValue>( key, value );
                 },
@@ -53,11 +52,11 @@ namespace UnityPlus.Serialization.Mappings
 
                     TKey key = o.Key;
                     var mapping = MappingHelper.GetMapping_LoadReferences<TKey>( ObjectContext.Default, key, keyData, l );
-                    MappingHelper.DoLoadReferences( mapping, ref key, keyData, l );
+                    mapping.SafeLoadReferences( ref key, keyData, l );
 
                     TValue value = o.Value;
                     mapping = MappingHelper.GetMapping_LoadReferences<TValue>( ObjectContext.Default, value, valueData, l );
-                    MappingHelper.DoLoadReferences( mapping, ref value, valueData, l );
+                    mapping.SafeLoadReferences( ref value, valueData, l );
 
                     o = new KeyValuePair<TKey, TValue>( key, value );
                 }
@@ -80,10 +79,10 @@ namespace UnityPlus.Serialization.Mappings
                     foreach( var kvp in o )
                     {
                         var mapping = SerializationMappingRegistry.GetMapping<TKey>( ObjectContext.Default, kvp.Key );
-                        var keyData = MappingHelper.DoSave<TKey>( mapping, kvp.Key, s );
+                        var keyData = mapping.SafeSave<TKey>( kvp.Key, s );
 
                         mapping = SerializationMappingRegistry.GetMapping<TValue>( ObjectContext.Default, kvp.Value );
-                        var valueData = MappingHelper.DoSave<TValue>( mapping, kvp.Value, s );
+                        var valueData = mapping.SafeSave<TValue>( kvp.Value, s );
 
                         SerializedObject kvpData = new SerializedObject()
                         {
@@ -119,12 +118,12 @@ namespace UnityPlus.Serialization.Mappings
                         SerializedData valueData = dataKvp["value"];
 
                         TKey key = default;
-                        var mapping = MappingHelper.GetMapping_Load<TKey>( ObjectContext.Default, MappingHelper.GetTypeOf<TKey>( keyData ), keyData, l );
-                        MappingHelper.DoLoad( mapping, ref key, keyData, l );
+                        var mapping = MappingHelper.GetMapping_Load<TKey>( ObjectContext.Default, MappingHelper.GetSerializedType<TKey>( keyData ), keyData, l );
+                        mapping.SafeLoad( ref key, keyData, l );
 
                         TValue value = default;
-                        mapping = MappingHelper.GetMapping_Load<TValue>( ObjectContext.Default, MappingHelper.GetTypeOf<TValue>( valueData ), valueData, l );
-                        MappingHelper.DoLoad( mapping, ref value, valueData, l );
+                        mapping = MappingHelper.GetMapping_Load<TValue>( ObjectContext.Default, MappingHelper.GetSerializedType<TValue>( valueData ), valueData, l );
+                        mapping.SafeLoad( ref value, valueData, l );
 
                         self.temp[i] = (key, value);
                         i++;
@@ -148,11 +147,11 @@ namespace UnityPlus.Serialization.Mappings
 
                         TKey key2 = key;
                         var mapping = MappingHelper.GetMapping_LoadReferences<TKey>( ObjectContext.Default, key2, keyData, l );
-                        MappingHelper.DoLoadReferences( mapping, ref key2, keyData, l );
+                        mapping.SafeLoadReferences( ref key2, keyData, l );
 
                         TValue value2 = value;
                         mapping = MappingHelper.GetMapping_LoadReferences<TValue>( ObjectContext.Default, value2, valueData, l );
-                        MappingHelper.DoLoadReferences( mapping, ref value2, valueData, l );
+                        mapping.SafeLoadReferences( ref value2, valueData, l );
 
                         if( key2 != null )
                             o[key2] = value2;
@@ -179,10 +178,10 @@ namespace UnityPlus.Serialization.Mappings
                     foreach( var kvp in o )
                     {
                         var mapping = SerializationMappingRegistry.GetMapping<TKey>( ObjectContext.Ref, kvp.Key );
-                        var keyData = MappingHelper.DoSave<TKey>( mapping, kvp.Key, s );
+                        var keyData = mapping.SafeSave<TKey>( kvp.Key, s );
 
                         mapping = SerializationMappingRegistry.GetMapping<TValue>( ObjectContext.Default, kvp.Value );
-                        var valueData = MappingHelper.DoSave<TValue>( mapping, kvp.Value, s );
+                        var valueData = mapping.SafeSave<TValue>( kvp.Value, s );
 
                         SerializedObject kvpData = new SerializedObject()
                         {
@@ -218,12 +217,12 @@ namespace UnityPlus.Serialization.Mappings
                         SerializedData valueData = dataKvp["value"];
 
                         TKey key = default;
-                        var mapping = MappingHelper.GetMapping_Load<TKey>( ObjectContext.Ref, MappingHelper.GetTypeOf<TKey>( keyData ), keyData, l );
-                        MappingHelper.DoLoad( mapping, ref key, keyData, l );
+                        var mapping = MappingHelper.GetMapping_Load<TKey>( ObjectContext.Ref, MappingHelper.GetSerializedType<TKey>( keyData ), keyData, l );
+                        mapping.SafeLoad( ref key, keyData, l );
 
                         TValue value = default;
-                        mapping = MappingHelper.GetMapping_Load<TValue>( ObjectContext.Default, MappingHelper.GetTypeOf<TValue>( valueData ), valueData, l );
-                        MappingHelper.DoLoad( mapping, ref value, valueData, l );
+                        mapping = MappingHelper.GetMapping_Load<TValue>( ObjectContext.Default, MappingHelper.GetSerializedType<TValue>( valueData ), valueData, l );
+                        mapping.SafeLoad( ref value, valueData, l );
 
                         self.temp[i] = (key, value);
                         i++;
@@ -247,11 +246,11 @@ namespace UnityPlus.Serialization.Mappings
 
                         TKey key2 = key;
                         var mapping = MappingHelper.GetMapping_LoadReferences<TKey>( ObjectContext.Ref, key2, keyData, l );
-                        MappingHelper.DoLoadReferences( mapping, ref key2, keyData, l );
+                        mapping.SafeLoadReferences( ref key2, keyData, l );
 
                         TValue value2 = value;
                         mapping = MappingHelper.GetMapping_LoadReferences<TValue>( ObjectContext.Default, value2, valueData, l );
-                        MappingHelper.DoLoadReferences( mapping, ref value2, valueData, l );
+                        mapping.SafeLoadReferences( ref value2, valueData, l );
 
                         if( key2 != null )
                             o[key2] = value2;

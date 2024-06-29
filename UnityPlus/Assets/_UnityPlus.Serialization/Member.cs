@@ -131,7 +131,7 @@ namespace UnityPlus.Serialization
 
             var mapping = SerializationMappingRegistry.GetMapping<TMember>( _context, member );
 
-            return MappingHelper.DoSave<TMember>( mapping, member, s );
+            return mapping.SafeSave<TMember>( member, s );
         }
 
         public override void Load( ref TSource source, SerializedData data, ILoader l )
@@ -157,7 +157,7 @@ namespace UnityPlus.Serialization
             }
 
             TMember member = default;
-            if( MappingHelper.DoLoad( mapping, ref member, data, l ) )
+            if( mapping.SafeLoad( ref member, data, l ) )
             {
                 if( _structSetter == null )
                     _setter.Invoke( source, member );
@@ -174,7 +174,7 @@ namespace UnityPlus.Serialization
                 ? _cachedMapping
                 : MappingHelper.GetMapping_LoadReferences<TMember>( _context, member, data, l );
 
-            if( MappingHelper.DoLoadReferences( mapping, ref member, data, l ) )
+            if( mapping.SafeLoadReferences( ref member, data, l ) )
             {
                 // This is needed, if the setter is custom (not auto-generated from field access (but NOT property access)) (look at LODGroup and its LOD[])
                 // Basically, we don't have the guarantee that the class we have referenceequals the private state.

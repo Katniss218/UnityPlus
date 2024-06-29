@@ -101,7 +101,7 @@ namespace UnityPlus.Serialization
 
                 var mapping = SerializationMappingRegistry.GetMapping<T>( _context, obj );
 
-                _data[i] = MappingHelper.DoSave<T>( mapping, obj, this );
+                _data[i] = mapping.SafeSave<T>( obj, this );
             }
         }
 

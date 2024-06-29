@@ -11,8 +11,6 @@ namespace UnityPlus.Serialization
     /// <typeparam name="TSource">The type of the object being mapped.</typeparam>
     public sealed class NonPrimitiveSerializationMappingWithTemp<TTemp, TSource> : SerializationMapping, IInstantiableSerializationMapping where TTemp : class
     {
-        public override SerializationStyle SerializationStyle => SerializationStyle.NonPrimitive;
-
         public TTemp temp;
 
         /// <summary>
@@ -45,41 +43,56 @@ namespace UnityPlus.Serialization
 
         }
 
-        public override SerializedData Save( object obj, ISaver s )
+        protected override SerializedData Save<T>( T obj, ISaver s )
         {
-            return OnSave.Invoke( (TSource)obj, s );
+            return OnSave.Invoke( (TSource)(object)obj, s );
         }
 
-        public override object Instantiate( SerializedData data, ILoader l )
+        protected override bool TryPopulate<T>( ref T obj, SerializedData data, ILoader l )
         {
+            if( OnLoad == null )
+                return false;
+
             if( OnInstantiateTemp != null )
-                temp = OnInstantiateTemp( data, l );
+                temp = OnInstantiateTemp.Invoke( data, l );
 
-            if( OnInstantiate != null )
-                return OnInstantiate.Invoke( data, l );
-            return default( TSource );
+            // obj can be null here, this is normal.
+            TSource obj2 = (TSource)(object)obj;
+            OnLoad.Invoke( this, ref obj2, data, l );
+            obj = (T)(object)obj2;
+
+            return true;
         }
 
-        public override void Load( ref object obj, SerializedData data, ILoader l )
+        protected override bool TryLoad<T>( ref T obj, SerializedData data, ILoader l )
         {
-            if( OnLoad != null )
-            {
-                // obj can be null here, this is normal.
-                var obj2 = (TSource)obj;
-                OnLoad.Invoke( this, ref obj2, data, l );
-                obj = obj2;
-            }
+            if( OnInstantiate == null )
+                return false;
+            if( OnLoad == null )
+                return false;
+
+            if( OnInstantiateTemp != null )
+                temp = OnInstantiateTemp.Invoke( data, l );
+
+            // obj can be null here, this is normal.
+            TSource obj2 = (TSource)OnInstantiate.Invoke( data, l );
+            OnLoad.Invoke( this, ref obj2, data, l );
+            obj = (T)(object)obj2;
+
+            return true;
         }
 
-        public override void LoadReferences( ref object obj, SerializedData data, ILoader l )
+        protected override bool TryLoadReferences<T>( ref T obj, SerializedData data, ILoader l )
         {
-            if( OnLoadReferences != null )
-            {
-                // obj can be null here, this is normal.
-                var obj2 = (TSource)obj;
-                OnLoadReferences.Invoke( this, ref obj2, data, l );
-                obj = obj2;
-            }
+            if( OnLoadReferences == null )
+                return false;
+
+            // obj can be null here, this is normal.
+            var obj2 = (TSource)(object)obj;
+            OnLoadReferences.Invoke( this, ref obj2, data, l );
+            obj = (T)(object)obj2;
+
+            return true;
         }
 
         public override SerializationMapping GetInstance()

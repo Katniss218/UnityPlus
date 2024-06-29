@@ -1,33 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace UnityPlus.Serialization
 {
-    /// <summary>
-    /// Defines how the mapping should be used.
-    /// </summary>
-    /// <remarks>
-    /// See <see cref="MappingHelper"/>'s DoSave/Load/LoadReferences methods for usage.
-    /// </remarks>
-    public enum SerializationStyle
-    {
-        /// <summary>
-        /// save --- instantiate (called inside load)
-        /// </summary>
-        PrimitiveStruct,
-
-        /// <summary>
-        /// save --- instantiate (called inside loadreferences)
-        /// </summary>
-        PrimitiveObject,
-
-        /// <summary>
-        /// save --- instantiate, load, loadreferences
-        /// </summary>
-        NonPrimitive
-    }
-
     /// <summary>
     /// Represents an arbitrary serialization mapping.
     /// </summary>
@@ -46,42 +22,48 @@ namespace UnityPlus.Serialization
         /// </summary>
         public int Context => this.context;
 
-        /// <summary>
-        /// Gets the serializatino style of this mapping type.
-        /// </summary>
-        public abstract SerializationStyle SerializationStyle { get; }
+        // Mappings use generic `T` instead of being themselves generic - because `SerializationMapping<Transform>` can't be cast to `SerializationMapping<Component>`.
+        // - This CAN NOT be solved using variant interfaces - variance is not supported on `ref` parameters.
 
+        /// <summary>
+        /// Saves the full state of the object.
+        /// </summary>
+        protected abstract SerializedData Save<T>( T obj, ISaver s );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected abstract bool TryPopulate<T>( ref T obj, SerializedData data, ILoader l );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected abstract bool TryLoad<T>( ref T obj, SerializedData data, ILoader l );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected abstract bool TryLoadReferences<T>( ref T obj, SerializedData data, ILoader l );
+
+        /// <summary>
+        /// Override this if your mapping contains any additional data (and return copy of the mapping in the overloaded method, but with those additional data fields cleared).
+        /// </summary>
         /// <returns>Either itself, or a clone (depending on if the mapping needs to persist data between Load and LoadReferences).</returns>
         public virtual SerializationMapping GetInstance()
         {
             return this;
         }
 
-        // Mappings use `object` instead of being generic - the reason for this is that `SerializationMapping<Transform>` can't be cast to `SerializationMapping<Component>`.
-        // This could be PARTIALLY resolved using variant interfaces - variance is not supported on `ref` parameters.
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        internal SerializedData ___passthroughSave<T>( T obj, ISaver s ) => Save<T>( obj, s );
 
-        /// <summary>
-        /// Saves the full state of the object.
-        /// </summary>
-        /// <param name="obj">The object being saved.</param>
-        public abstract SerializedData Save( object obj, ISaver s );
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        internal bool ___passthroughPopulate<T>( ref T obj, SerializedData data, ILoader l ) => TryPopulate<T>( ref obj, data, l );
 
-        /// <summary>
-        /// Creates an "empty" instance of the type being loaded.
-        /// </summary>
-        /// <returns>The object being loaded.</returns>
-        public abstract object Instantiate( SerializedData data, ILoader l );
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        internal bool ___passthroughLoad<T>( ref T obj, SerializedData data, ILoader l ) => TryLoad<T>( ref obj, data, l );
 
-        /// <summary>
-        /// Loads members that use a mapping with <see cref="SerializationStyle.PrimitiveStruct"/> serialization style. 
-        /// </summary>
-        /// <param name="obj">The object being loaded.</param>
-        public abstract void Load( ref object obj, SerializedData data, ILoader l );
-
-        /// <summary>
-        /// Loads members that use a mapping with <see cref="SerializationStyle.PrimitiveObject"/> serialization style. 
-        /// </summary>
-        /// <param name="obj">The object being loaded.</param>
-        public abstract void LoadReferences( ref object obj, SerializedData data, ILoader l );
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        internal bool ___passthroughLoadReferences<T>( ref T obj, SerializedData data, ILoader l ) => TryLoadReferences<T>( ref obj, data, l );
     }
 }
