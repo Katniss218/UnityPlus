@@ -13,7 +13,7 @@ namespace UnityPlus.Serialization.Mappings
         public static SerializationMapping SerializedPrimitiveMapping()
         {
 #warning TODO - this should be wrapped in a serializedobject with id, type, and value (and same as any other primitive in typed context).
-            return new PrimitiveObjectSerializationMapping<SerializedPrimitive>()
+            return new PrimitiveStructSerializationMapping<SerializedPrimitive>()
             {
                 OnSave = ( o, s ) => o,
                 OnInstantiate = ( data, l ) => data as SerializedPrimitive
@@ -23,7 +23,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( SerializedObject ) )]
         public static SerializationMapping SerializedObjectMapping()
         {
-            return new PrimitiveObjectSerializationMapping<SerializedObject>()
+            return new PrimitiveStructSerializationMapping<SerializedObject>()
             {
                 OnSave = ( o, s ) => o,
                 OnInstantiate = ( data, l ) => data as SerializedObject
@@ -33,7 +33,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( SerializedArray ) )]
         public static SerializationMapping SerializedArrayMapping()
         {
-            return new PrimitiveObjectSerializationMapping<SerializedArray>()
+            return new PrimitiveStructSerializationMapping<SerializedArray>()
             {
                 OnSave = ( o, s ) => o,
                 OnInstantiate = ( data, l ) => data as SerializedArray

@@ -13,7 +13,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( Vector3Dbl ) )]
         public static SerializationMapping Vector3DblMapping()
         {
-            return new PrimitiveObjectSerializationMapping<Vector3Dbl>()
+            return new PrimitiveStructSerializationMapping<Vector3Dbl>()
             {
                 OnSave = ( o, s ) => new SerializedArray( 3 ) { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z },
                 OnInstantiate = ( data, l ) => new Vector3Dbl( (double)data[0], (double)data[1], (double)data[2] )
@@ -23,7 +23,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( QuaternionDbl ) )]
         public static SerializationMapping QuaternionDblMapping()
         {
-            return new PrimitiveObjectSerializationMapping<QuaternionDbl>()
+            return new PrimitiveStructSerializationMapping<QuaternionDbl>()
             {
                 OnSave = ( o, s ) => new SerializedArray( 4 ) { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z, (SerializedPrimitive)o.w },
                 OnInstantiate = ( data, l ) => new QuaternionDbl( (double)data[0], (double)data[1], (double)data[2], (double)data[3] )

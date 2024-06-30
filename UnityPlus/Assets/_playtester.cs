@@ -96,16 +96,16 @@ public class _playtester : MonoBehaviour
     void Start()
     {
         // Arrange
-        var initialValue = new BaseClass() { baseMember = 2 };
+        var initialValue = (-5.1f, "hi", 'g');
 
         // Act
         var data = SerializationUnit.Serialize( initialValue );
-        var finalValue = SerializationUnit.Deserialize<BaseClass>( data );
+        var finalValue = SerializationUnit.Deserialize<object>( data );
     }
 
     void Update()
     {
-        RunPerfTest();
+       // RunPerfTest();
     }
 
     private void RunPerfTest()

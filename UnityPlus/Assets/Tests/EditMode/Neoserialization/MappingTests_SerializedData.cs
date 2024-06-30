@@ -15,7 +15,6 @@ namespace Neoserialization
         [Test]
         public void Mapping___SerializedPrimitive___RoundTrip()
         {
-#warning SerializedData and derived classes should contain the $id, and $type keys, as any other class (they *can* be referenced)
             // Arrange
             var initialValue = (SerializedPrimitive)5.4112f;
 
@@ -51,7 +50,7 @@ namespace Neoserialization
             var initialValue = new SerializedObject()
             {
                 { "member1", (SerializedPrimitive)5.4112f },
-                { "member1", (SerializedPrimitive)"hello world" }
+                { "member2", (SerializedPrimitive)"hello world" }
             };
 
             // Act

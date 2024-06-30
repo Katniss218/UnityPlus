@@ -33,9 +33,18 @@ namespace UnityPlus.Serialization
 
         }
 
-        protected override SerializedData Save<T>( T obj, ISaver s )
+        protected override bool Save<T>( T obj, ref SerializedData data, ISaver s )
         {
-            return OnSave.Invoke( (TSource)(object)obj, s );
+            /*var value = OnSave.Invoke( (TSource)(object)obj, s );
+
+            if( data is SerializedObject dataObj )
+                dataObj["value"] = value;
+            else
+                data = value;
+            return true;*/
+
+            data = OnSave.Invoke( (TSource)(object)obj, s );
+            return true;
         }
 
         protected override bool TryPopulate<T>( ref T obj, SerializedData data, ILoader l )

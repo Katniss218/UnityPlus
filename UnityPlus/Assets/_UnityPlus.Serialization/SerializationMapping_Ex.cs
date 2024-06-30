@@ -17,12 +17,21 @@ namespace UnityPlus.Serialization
         /// Doesn't require doing a null check on the mapping.
         /// </remarks>
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static SerializedData SafeSave<T>( this SerializationMapping mapping, T obj, ISaver s )
+        public static SerializedData SafeSave<TMember>( this SerializationMapping mapping, TMember obj, ISaver s )
         {
             if( mapping == null )
                 return null;
 
-            return mapping.___passthroughSave<T>( obj, s );
+            SerializedData data = null;
+            if( obj != null && !typeof( TMember ).IsValueType && !typeof( TMember ).IsConstructedGenericType )
+            {
+                data = new SerializedObject();
+                data[KeyNames.ID] = s.RefMap.GetID( obj ).SerializeGuid();
+                data[KeyNames.TYPE] = obj.GetType().SerializeType();
+            }
+
+            mapping.___passthroughSave<TMember>( obj, ref data, s );
+            return data;
         }
 
         /// <summary>
@@ -32,12 +41,12 @@ namespace UnityPlus.Serialization
         /// Doesn't require doing a null check on the mapping.
         /// </remarks>
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static bool SafePopulate<T>( this SerializationMapping mapping, ref T obj, SerializedData data, ILoader l )
+        public static bool SafePopulate<TMember>( this SerializationMapping mapping, ref TMember obj, SerializedData data, ILoader l )
         {
             if( mapping == null )
                 return false;
 
-            return mapping.___passthroughPopulate<T>( ref obj, data, l );
+            return mapping.___passthroughPopulate<TMember>( ref obj, data, l );
         }
 
         /// <summary>
@@ -47,12 +56,12 @@ namespace UnityPlus.Serialization
         /// Doesn't require doing a null check on the mapping.
         /// </remarks>
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static bool SafeLoad<T>( this SerializationMapping mapping, ref T obj, SerializedData data, ILoader l )
+        public static bool SafeLoad<TMember>( this SerializationMapping mapping, ref TMember obj, SerializedData data, ILoader l )
         {
             if( mapping == null )
                 return false;
 
-            return mapping.___passthroughLoad<T>( ref obj, data, l );
+            return mapping.___passthroughLoad<TMember>( ref obj, data, l );
         }
 
         /// <summary>
@@ -62,12 +71,12 @@ namespace UnityPlus.Serialization
         /// Doesn't require doing a null check on the mapping.
         /// </remarks>
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static bool SafeLoadReferences<T>( this SerializationMapping mapping, ref T obj, SerializedData data, ILoader l )
+        public static bool SafeLoadReferences<TMember>( this SerializationMapping mapping, ref TMember obj, SerializedData data, ILoader l )
         {
             if( mapping == null )
                 return false;
 
-            return mapping.___passthroughLoadReferences<T>( ref obj, data, l );
+            return mapping.___passthroughLoadReferences<TMember>( ref obj, data, l );
         }
     }
 }

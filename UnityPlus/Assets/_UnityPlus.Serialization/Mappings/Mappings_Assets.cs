@@ -12,7 +12,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( object ), Context = ObjectContext.Asset )]
         public static SerializationMapping ObjectAssetMapping<T>() where T : class
         {
-            return new PrimitiveObjectSerializationMapping<T>()
+            return new PrimitiveStructSerializationMapping<T>()
             {
                 OnSave = ( o, s ) => s.RefMap.WriteAssetReference<T>( o ),
                 OnInstantiate = ( data, l ) => l.ReadAssetReference<T>( data )
@@ -22,7 +22,7 @@ namespace UnityPlus.Serialization.Mappings
         [SerializationMappingProvider( typeof( Array ), Context = ObjectContext.Asset )]
         public static SerializationMapping ArrayAssetMapping<T>() where T : class
         {
-            return new PrimitiveObjectSerializationMapping<T[]>()
+            return new PrimitiveStructSerializationMapping<T[]>()
             {
                 OnSave = ( o, s ) =>
                 {

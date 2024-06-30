@@ -136,25 +136,29 @@ namespace UnityPlus.Serialization
         //  Mapping methods:
         //
 
-        protected override SerializedData Save<T>( T obj, ISaver s )
+        protected override bool Save<T>( T obj, ref SerializedData data, ISaver s )
         {
             if( obj == null )
-                return null;
-
-            SerializedObject root = new SerializedObject();
+                return false;
 
             TSource sourceObj = (TSource)(object)obj;
 
+            /*
+            SerializedObject root = new SerializedObject();
             root[KeyNames.ID] = s.RefMap.GetID( sourceObj ).SerializeGuid();
             root[KeyNames.TYPE] = obj.GetType().SerializeType();
+            */
+
+            if( data == null )
+                data = new SerializedObject();
 
             foreach( var item in _items )
             {
-                SerializedData data = item.Item2.Save( sourceObj, s );
-                root[item.Item1] = data;
+                SerializedData memberData = item.Item2.Save( sourceObj, s );
+                data[item.Item1] = memberData;
             }
 
-            return root;
+            return true;
         }
 
 
@@ -164,7 +168,7 @@ namespace UnityPlus.Serialization
             TSource obj2 = (TSource)(object)obj;
             Load( ref obj2, data, l );
             obj = (T)(object)obj2;
-             
+
             return true;
         }
 

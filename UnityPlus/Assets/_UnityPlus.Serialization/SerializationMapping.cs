@@ -28,7 +28,7 @@ namespace UnityPlus.Serialization
         /// <summary>
         /// Saves the full state of the object.
         /// </summary>
-        protected abstract SerializedData Save<T>( T obj, ISaver s );
+        protected abstract bool Save<T>( T obj, ref SerializedData data, ISaver s );
 
         /// <summary>
         /// 
@@ -55,7 +55,7 @@ namespace UnityPlus.Serialization
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        internal SerializedData ___passthroughSave<T>( T obj, ISaver s ) => Save<T>( obj, s );
+        internal bool ___passthroughSave<T>( T obj, ref SerializedData data, ISaver s ) => Save<T>( obj, ref data, s );
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
         internal bool ___passthroughPopulate<T>( ref T obj, SerializedData data, ILoader l ) => TryPopulate<T>( ref obj, data, l );
