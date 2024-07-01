@@ -23,12 +23,17 @@ namespace UnityPlus.Serialization
                 return null;
 
             SerializedData data = null;
-            if( obj != null && !typeof( TMember ).IsValueType && !typeof( TMember ).IsConstructedGenericType )
+
+            // Omit the header only for member types that are non-generic structs/sealed classes (non-generic and non-inheritable).
+            if( obj != null && !((typeof( TMember ).IsValueType || typeof( TMember ).IsSealed) && !typeof( TMember ).IsGenericType) )
             {
                 data = new SerializedObject();
                 data[KeyNames.ID] = s.RefMap.GetID( obj ).SerializeGuid();
                 data[KeyNames.TYPE] = obj.GetType().SerializeType();
             }
+
+#warning TODO - depending on the existence of the header, the mapping itself should handle that.
+            // Also, the header should be added by the mapping, because assets/refs don't need it.
 
             mapping.___passthroughSave<TMember>( obj, ref data, s );
             return data;
