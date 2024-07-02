@@ -97,5 +97,25 @@ namespace Neoserialization
             // Assert
             Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
+
+        [Test]
+        public void Mapping___Sealed_Then_Unsealed___DoesntRoundTrip()
+        {
+            // Arrange
+            var initialValue = new SerializedArray()
+            {
+                (SerializedPrimitive)5.4112f,
+                (SerializedPrimitive)"hello world"
+            };
+
+            // Act
+            var data = SerializationUnit.Serialize<SerializedArray>( initialValue ); // Note different <TMember> between those 2 lines.
+            var finalValue = SerializationUnit.Deserialize<SerializedData>( data );
+
+            // By the specifics of how serialization should be performed, we can assume that the TMember type is consistent across serialization and deserialization.
+
+            // Assert
+            Assert.That( finalValue, Is.Null );
+        }
     }
 }
