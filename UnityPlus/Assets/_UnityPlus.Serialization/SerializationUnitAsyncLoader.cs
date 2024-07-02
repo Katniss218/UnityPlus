@@ -104,9 +104,9 @@ namespace UnityPlus.Serialization
         /// <summary>
         /// Returns the objects that were deserialized or populated, but only those that are of the specified type.
         /// </summary>
-        public IEnumerable<T> GetObjectsOfType<T>()
+        public IEnumerable<TDerived> GetObjectsOfType<TDerived>()
         {
-            return _objects.OfType<T>();
+            return _objects.OfType<TDerived>();
         }
 
         private void PopulateCallback()

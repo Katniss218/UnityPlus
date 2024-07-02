@@ -20,7 +20,7 @@ namespace Neoserialization
             var initialValue = new KeyValuePair<string, int>( "first", 5 );
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<KeyValuePair<string, int>>( initialValue );
             var finalValue = SerializationUnit.Deserialize<KeyValuePair<string, int>>( data );
 
             // Assert
@@ -39,7 +39,7 @@ namespace Neoserialization
             };
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<KeyValuePair<string, int>[]>( initialValue );
             var finalValue = SerializationUnit.Deserialize<KeyValuePair<string, int>[]>( data );
 
             // Assert
@@ -53,7 +53,7 @@ namespace Neoserialization
             var initialValue = new KeyValuePair<BaseClass, BaseClass>( new BaseClass() { baseMember = 2 }, new DerivedClass() { baseMember = 5, derivedMember = "42" } );
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<KeyValuePair<BaseClass, BaseClass>>( initialValue );
             var finalValue = SerializationUnit.Deserialize<KeyValuePair<BaseClass, BaseClass>>( data );
 
             // Assert
@@ -72,7 +72,7 @@ namespace Neoserialization
             };
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<Dictionary<string, int>>( initialValue );
             var finalValue = SerializationUnit.Deserialize<Dictionary<string, int>>( data );
 
             // Assert
@@ -89,7 +89,7 @@ namespace Neoserialization
             };
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<Dictionary<BaseClass, BaseClass>>( initialValue );
             var finalValue = SerializationUnit.Deserialize<Dictionary<BaseClass, BaseClass>>( data );
 
             // Assert
@@ -108,7 +108,7 @@ namespace Neoserialization
             BidirectionalReferenceStore refStore = new BidirectionalReferenceStore();
 
             // Act
-            var data = SerializationUnit.Serialize( KeyValueContext.RefToValue, initialValue, refStore );
+            var data = SerializationUnit.Serialize<Dictionary<BaseClass, BaseClass>>( KeyValueContext.RefToValue, initialValue, refStore );
             var finalValue = SerializationUnit.Deserialize<Dictionary<BaseClass, BaseClass>>( KeyValueContext.RefToValue, data, refStore );
 
             // Assert

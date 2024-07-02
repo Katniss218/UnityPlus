@@ -21,7 +21,6 @@ namespace UnityPlus.Serialization.Mappings
                         T value = o[i];
 
                         var mapping = SerializationMappingRegistry.GetMapping<T>( ObjectContext.Default, value );
-
                         var data = mapping.SafeSave<T>( value, s );
 
                         serializedArray.Add( data );
@@ -50,14 +49,12 @@ namespace UnityPlus.Serialization.Mappings
                             : typeof( T );
 
                         T element = default;
-                        var mapping = SerializationMappingRegistry.GetMapping<T>( ObjectContext.Default, elementType );
+                        var mapping = MappingHelper.GetMapping_Load<T>( ObjectContext.Default, elementType, elementData, l );
                         if( mapping.SafeLoad( ref element, elementData, l ) )
                         {
                             o[i] = element;
                         }
                     }
-
-                    //return o;
                 },
                 OnLoadReferences = ( ref T[] o, SerializedData data, ILoader l ) =>
                 {
@@ -66,19 +63,10 @@ namespace UnityPlus.Serialization.Mappings
 
                     for( int i = 0; i < o.Length; i++ )
                     {
-                        SerializedData elementData = serializedArray[i]; // Since objects will be instantiated in OnLoad, this should be safe.
-                        /*
-                        Type elementType = typeof( T );
-                        if( elementData.TryGetValue( KeyNames.TYPE, out var elementType2 ) )
-                        {
-                            elementType = elementType2.DeserializeType();
-                        }
-
-                        var mapping = SerializationMappingRegistry.GetMapping<T>( elementType );
-                        */
+                        SerializedData elementData = serializedArray[i];
 
                         T element = o[i];
-                        var mapping = SerializationMappingRegistry.GetMapping<T>( ObjectContext.Default, element );
+                        var mapping = MappingHelper.GetMapping_LoadReferences<T>( ObjectContext.Default, element, elementData, l );
                         if( mapping.SafeLoadReferences( ref element, elementData, l ) )
                         {
                             o[i] = element;

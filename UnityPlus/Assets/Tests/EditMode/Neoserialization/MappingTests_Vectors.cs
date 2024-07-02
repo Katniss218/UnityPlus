@@ -19,7 +19,7 @@ namespace Neoserialization
             var initialValue = new Vector2( 5f, -342.525242342f );
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<Vector2>( initialValue );
             var finalValue = SerializationUnit.Deserialize<Vector2>( data );
 
             // Assert
@@ -33,7 +33,7 @@ namespace Neoserialization
             var initialValue = new Vector2Int( 5, -342 );
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<Vector2Int>( initialValue );
             var finalValue = SerializationUnit.Deserialize<Vector2Int>( data );
 
             // Assert
@@ -47,7 +47,7 @@ namespace Neoserialization
             var initialValue = new Vector3( float.Epsilon, float.MinValue, 563f );
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<Vector3>( initialValue );
             var finalValue = SerializationUnit.Deserialize<Vector3>( data );
 
             // Assert
@@ -61,7 +61,7 @@ namespace Neoserialization
             var initialValue = new Vector3Int( 5, -342, 564 );
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<Vector3Int>( initialValue );
             var finalValue = SerializationUnit.Deserialize<Vector3Int>( data );
 
             // Assert
@@ -75,7 +75,7 @@ namespace Neoserialization
             var initialValue = new Vector3Dbl( double.MinValue, double.Epsilon, 563 );
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<Vector3Dbl>( initialValue );
             var finalValue = SerializationUnit.Deserialize<Vector3Dbl>( data );
 
             // Assert
@@ -89,7 +89,7 @@ namespace Neoserialization
             var initialValue = new Vector4( float.Epsilon, float.MinValue, 563f, -5.6f );
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<Vector4>( initialValue );
             var finalValue = SerializationUnit.Deserialize<Vector4>( data );
 
             // Assert
@@ -103,7 +103,7 @@ namespace Neoserialization
             var initialValue = new Quaternion( 1f, 2f, 3f, 4f );
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<Quaternion>( initialValue );
             var finalValue = SerializationUnit.Deserialize<Quaternion>( data );
 
             // Assert
@@ -117,7 +117,7 @@ namespace Neoserialization
             var initialValue = new QuaternionDbl( 1f, 2f, 3f, 4f );
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<QuaternionDbl>( initialValue );
             var finalValue = SerializationUnit.Deserialize<QuaternionDbl>( data );
 
             // Assert

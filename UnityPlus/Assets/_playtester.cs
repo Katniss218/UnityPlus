@@ -33,6 +33,11 @@ public class _playtester : MonoBehaviour
         public string moreDerivedMember;
     }
 
+    public class ReferencingClass
+    {
+        public BaseClass refMember;
+    }
+
     [SerializationMappingProvider( typeof( _playtester ) )]
     public static SerializationMapping _playtesterMapping()
     {
@@ -79,6 +84,15 @@ public class _playtester : MonoBehaviour
         };
     }
 
+    [SerializationMappingProvider( typeof( ReferencingClass ) )]
+    public static SerializationMapping ReferencingClassMapping()
+    {
+        return new MemberwiseSerializationMapping<ReferencingClass>()
+            {
+                ("ref_member", new Member<ReferencingClass, BaseClass>( ObjectContext.Ref, o => o.refMember ))
+            };
+    }
+
     [SerializeField] GameObject perfTestGo;
 
     public Action<string> Action { get; set; }
@@ -96,21 +110,26 @@ public class _playtester : MonoBehaviour
     void Start()
     {
         // Arrange
-        var initialValue = (-5.1f, "hi", 'g');
+        var initialValue = new SerializedArray()
+            {
+                (SerializedPrimitive)5.4112f,
+                (SerializedPrimitive)"hello world"
+            };
 
         // Act
-        var data = SerializationUnit.Serialize( initialValue );
-        var finalValue = SerializationUnit.Deserialize<object>( data );
+        var data = SerializationUnit.Serialize<SerializedData>( initialValue );
+        var finalValue = SerializationUnit.Deserialize<SerializedData>( data );
+
     }
 
     void Update()
     {
-       // RunPerfTest();
+        //RunPerfTest();
     }
 
     private void RunPerfTest()
     {
-        const int COUNT = 10;
+        const int COUNT = 1000;
 
         List<GameObject> list = new List<GameObject>( COUNT );
 

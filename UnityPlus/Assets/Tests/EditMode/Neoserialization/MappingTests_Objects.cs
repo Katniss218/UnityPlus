@@ -19,7 +19,7 @@ namespace Neoserialization
             var initialValue = new BaseClass() { baseMember = 2 };
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<BaseClass>( initialValue );
             var finalValue = SerializationUnit.Deserialize<BaseClass>( data );
 
             // Assert
@@ -33,7 +33,7 @@ namespace Neoserialization
             BaseClass initialValue = new DerivedClass() { baseMember = 2, derivedMember = "42" };
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<BaseClass>( initialValue );
             var finalValue = SerializationUnit.Deserialize<BaseClass>( data );
 
             // Assert
@@ -47,7 +47,7 @@ namespace Neoserialization
             BaseClass initialValue = null;
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<BaseClass>( initialValue );
             var finalValue = SerializationUnit.Deserialize<BaseClass>( data );
 
             // Assert
@@ -61,7 +61,7 @@ namespace Neoserialization
             OwningClass initialValue = new OwningClass() { refMember = null };
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<OwningClass>( initialValue );
             var finalValue = SerializationUnit.Deserialize<OwningClass>( data );
 
             // Assert
@@ -76,7 +76,7 @@ namespace Neoserialization
             var finalValue = new DerivedClass();
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<DerivedClass>( initialValue );
             SerializationUnit.Populate<DerivedClass>( finalValue, data );
 
             // Assert
@@ -91,7 +91,7 @@ namespace Neoserialization
             var finalValue = new Vector3();
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<Vector3>( initialValue );
             SerializationUnit.Populate<Vector3>( ref finalValue, data );
 
             // Assert

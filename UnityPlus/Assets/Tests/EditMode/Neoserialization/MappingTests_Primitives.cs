@@ -19,7 +19,7 @@ namespace Neoserialization
             var initialValue = true;
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<bool>( initialValue );
             var finalValue = SerializationUnit.Deserialize<bool>( data );
 
             // Assert
@@ -33,7 +33,7 @@ namespace Neoserialization
             byte initialValue = byte.MaxValue;
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<byte>( initialValue );
             var finalValue = SerializationUnit.Deserialize<byte>( data );
 
             // Assert
@@ -47,7 +47,7 @@ namespace Neoserialization
             sbyte initialValue = sbyte.MinValue;
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<sbyte>( initialValue );
             var finalValue = SerializationUnit.Deserialize<sbyte>( data );
 
             // Assert
@@ -61,7 +61,7 @@ namespace Neoserialization
             short initialValue = short.MinValue;
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<short>( initialValue );
             var finalValue = SerializationUnit.Deserialize<short>( data );
 
             // Assert
@@ -75,7 +75,7 @@ namespace Neoserialization
             int initialValue = int.MinValue;
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<int>( initialValue );
             var finalValue = SerializationUnit.Deserialize<int>( data );
 
             // Assert
@@ -89,7 +89,7 @@ namespace Neoserialization
             long initialValue = long.MinValue;
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<long>( initialValue );
             var finalValue = SerializationUnit.Deserialize<long>( data );
 
             // Assert
@@ -103,7 +103,7 @@ namespace Neoserialization
             float initialValue = float.Epsilon;
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<float>( initialValue );
             var finalValue = SerializationUnit.Deserialize<float>( data );
 
             // Assert
@@ -117,7 +117,7 @@ namespace Neoserialization
             double initialValue = double.Epsilon;
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<double>( initialValue );
             var finalValue = SerializationUnit.Deserialize<double>( data );
 
             // Assert
@@ -131,7 +131,7 @@ namespace Neoserialization
             decimal initialValue = decimal.MinValue;
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<decimal>( initialValue );
             var finalValue = SerializationUnit.Deserialize<decimal>( data );
 
             // Assert
@@ -145,7 +145,7 @@ namespace Neoserialization
             var initialValue = 'ę';
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<char>( initialValue );
             var finalValue = SerializationUnit.Deserialize<char>( data );
 
             // Assert
@@ -159,7 +159,7 @@ namespace Neoserialization
             var initialValue = "test \new \random ayhdsad231";
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<string>( initialValue );
             var finalValue = SerializationUnit.Deserialize<string>( data );
 
             // Assert
@@ -173,7 +173,7 @@ namespace Neoserialization
             var initialValue = DateTime.UtcNow;
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<DateTime>( initialValue );
             var finalValue = SerializationUnit.Deserialize<DateTime>( data );
 
             // Assert
@@ -187,7 +187,7 @@ namespace Neoserialization
             var initialValue = DateTimeOffset.UtcNow;
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<DateTimeOffset>( initialValue );
             var finalValue = SerializationUnit.Deserialize<DateTimeOffset>( data );
 
             // Assert
@@ -201,7 +201,7 @@ namespace Neoserialization
             var initialValue = TimeSpan.FromTicks( 342534252 );
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<TimeSpan>( initialValue );
             var finalValue = SerializationUnit.Deserialize<TimeSpan>( data );
 
             // Assert

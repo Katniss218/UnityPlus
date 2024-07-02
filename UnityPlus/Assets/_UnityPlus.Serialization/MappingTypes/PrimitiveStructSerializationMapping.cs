@@ -3,7 +3,7 @@
 namespace UnityPlus.Serialization
 {
     /// <summary>
-    /// Maps an object that can contain references to other objects.
+    /// Maps an object that can't be referenced, but can contain references to other objects.
     /// </summary>
     /// <typeparam name="TSource">The type of the object being mapped.</typeparam>
     public sealed class PrimitiveStructSerializationMapping<TSource> : SerializationMapping
@@ -23,32 +23,55 @@ namespace UnityPlus.Serialization
 
         }
 
+        // TMember is the type of the variable that holds the mapped object. TSource is the type of the mapping (mapped object can be any type derived from that).
 
-        protected override bool Save<T>( T obj, ref SerializedData data, ISaver s )
+        protected override bool Save<TMember>( TMember obj, ref SerializedData data, ISaver s )
         {
-            data = OnSave.Invoke( (TSource)(object)obj, s );
+            // Omit the header only for member types that are non-generic structs/sealed classes (non-generic and non-inheritable).
+            if( obj != null && !((typeof( TMember ).IsValueType || typeof( TMember ).IsSealed) && !typeof( TMember ).IsGenericType) ) // This doesn't appear to slow the system down much at all when benchbarked.
+            {
+                data = new SerializedObject();
+                data[KeyNames.ID] = s.RefMap.GetID( obj ).SerializeGuid(); // doesn't make sense for structs.
+                data[KeyNames.TYPE] = obj.GetType().SerializeType();
+
+                data["value"] = OnSave.Invoke( (TSource)(object)obj, s );
+            }
+            else
+            {
+                data = OnSave.Invoke( (TSource)(object)obj, s );
+            }
+
+            // true && true
+
             return true;
         }
 
-        protected override bool TryPopulate<T>( ref T obj, SerializedData data, ILoader l )
+        protected override bool TryPopulate<TMember>( ref TMember obj, SerializedData data, ILoader l )
         {
             return false;
         }
 
-        protected override bool TryLoad<T>( ref T obj, SerializedData data, ILoader l )
+        protected override bool TryLoad<TMember>( ref TMember obj, SerializedData data, ILoader l )
         {
             return false;
         }
 
-        protected override bool TryLoadReferences<T>( ref T obj, SerializedData data, ILoader l )
+        protected override bool TryLoadReferences<TMember>( ref TMember obj, SerializedData data, ILoader l )
         {
             if( OnInstantiate == null )
                 return false;
 
             // Instantiating in LoadReferences means that every object that can be referenced should have already been added to the ILoader's RefMap.
-            TSource obj2 = OnInstantiate.Invoke( data, l.RefMap );
-            obj = (T)(object)obj2;
-
+            if( data != null && !((typeof( TMember ).IsValueType || typeof( TMember ).IsSealed) && !typeof( TMember ).IsGenericType) ) // This doesn't appear to slow the system down much at all when benchbarked.
+            {
+                TSource obj2 = OnInstantiate.Invoke( data["value"], l.RefMap );
+                obj = (TMember)(object)obj2;
+            }
+            else
+            {
+                TSource obj2 = OnInstantiate.Invoke( data, l.RefMap );
+                obj = (TMember)(object)obj2;
+            }
             return true;
         }
     }

@@ -143,14 +143,11 @@ namespace UnityPlus.Serialization
 
             TSource sourceObj = (TSource)(object)obj;
 
-            /*
-            SerializedObject root = new SerializedObject();
-            root[KeyNames.ID] = s.RefMap.GetID( sourceObj ).SerializeGuid();
-            root[KeyNames.TYPE] = obj.GetType().SerializeType();
-            */
-
             if( data == null )
                 data = new SerializedObject();
+
+            data[KeyNames.ID] = s.RefMap.GetID( sourceObj ).SerializeGuid();
+            data[KeyNames.TYPE] = obj.GetType().SerializeType();
 
             foreach( var item in _items )
             {

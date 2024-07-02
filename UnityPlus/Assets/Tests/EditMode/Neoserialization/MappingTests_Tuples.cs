@@ -19,12 +19,11 @@ namespace Neoserialization
             var initialValue = (-5, "hello");
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
-            var finalValue = SerializationUnit.Deserialize<ValueTuple<int, string>>( data );
+            var data = SerializationUnit.Serialize<object>( initialValue );
+            var finalValue = SerializationUnit.Deserialize<object>( data );
 
             // Assert
-            Assert.That( finalValue.Item1, Is.EqualTo( initialValue.Item1 ) );
-            Assert.That( finalValue.Item2, Is.EqualTo( initialValue.Item2 ) );
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
 
         [Test]
@@ -34,7 +33,7 @@ namespace Neoserialization
             var initialValue = (new int[] { 1, 2, 3, 4, 5 }, new float[] { 1.1f, 2.2f, 3.3f, 4.4f, 5.5f });
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<ValueTuple<int[], float[]>>( initialValue );
             var finalValue = SerializationUnit.Deserialize<ValueTuple<int[], float[]>>( data );
             
             // Assert
@@ -49,7 +48,7 @@ namespace Neoserialization
             var initialValue = (-5.1f, "hi", 'g');
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<object>( initialValue );
             var finalValue = SerializationUnit.Deserialize<object>( data );
 
             // Assert
@@ -63,7 +62,7 @@ namespace Neoserialization
             var initialValue = (-5, 5, 5, 5, 5, 5, 5);
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<object>( initialValue );
             var finalValue = SerializationUnit.Deserialize<object>( data );
 
             // Assert
@@ -77,7 +76,7 @@ namespace Neoserialization
             var initialValue = (-5, 5, 5, 5, 5, 5, 5, 5, 4, 5, 3);
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<object>( initialValue );
             var finalValue = SerializationUnit.Deserialize<object>( data );
 
             // Assert

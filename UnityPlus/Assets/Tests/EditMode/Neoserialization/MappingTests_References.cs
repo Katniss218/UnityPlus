@@ -23,7 +23,7 @@ namespace Neoserialization
             };
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<ReferencingClass>( initialValue );
             var finalValue = SerializationUnit.Deserialize<ReferencingClass>( data );
 
             // Assert

@@ -19,7 +19,7 @@ namespace Neoserialization
             var initialValue = (SerializedPrimitive)5.4112f;
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<SerializedData>( initialValue );
             var finalValue = SerializationUnit.Deserialize<SerializedData>( data );
 
             // Assert
@@ -37,7 +37,7 @@ namespace Neoserialization
             };
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<SerializedData>( initialValue );
             var finalValue = SerializationUnit.Deserialize<SerializedData>( data );
 
             // Assert
@@ -54,7 +54,7 @@ namespace Neoserialization
             };
 
             // Act
-            var data = SerializationUnit.Serialize( initialValue );
+            var data = SerializationUnit.Serialize<SerializedData>( initialValue );
             var finalValue = SerializationUnit.Deserialize<SerializedData>( data );
 
             // Assert

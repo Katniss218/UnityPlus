@@ -83,11 +83,11 @@ namespace UnityPlus.Serialization
         /// <summary>
         /// Returns the data that was serialized, but only of objects that are of the specified type.
         /// </summary>
-        public IEnumerable<SerializedData> GetDataOfType<T>()
+        public IEnumerable<SerializedData> GetDataOfType<TDerived>()
         {
             return _data.Where( d =>
             {
-                return d.TryGetValue( KeyNames.TYPE, out var type ) && typeof( T ).IsAssignableFrom( type.DeserializeType() );
+                return d.TryGetValue( KeyNames.TYPE, out var type ) && typeof( TDerived ).IsAssignableFrom( type.DeserializeType() );
             } );
         }
 
