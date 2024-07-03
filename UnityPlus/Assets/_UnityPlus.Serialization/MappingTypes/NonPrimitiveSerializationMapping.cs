@@ -34,21 +34,25 @@ namespace UnityPlus.Serialization
 
         }
 
-        protected override bool Save<T>( T obj, ref SerializedData data, ISaver s )
+        protected override bool Save<TMember>( TMember obj, ref SerializedData data, ISaver s )
         {
-            /*var value = OnSave.Invoke( (TSource)(object)obj, s );
+            if( obj != null && !((typeof( TMember ).IsValueType || typeof( TMember ).IsSealed) && !typeof( TMember ).IsGenericType) )
+            {
+                data = new SerializedObject();
+                data[KeyNames.ID] = s.RefMap.GetID( obj ).SerializeGuid(); // doesn't make sense for structs.
+                data[KeyNames.TYPE] = obj.GetType().SerializeType();
 
-            if( data is SerializedObject dataObj )
-                dataObj["value"] = value;
+                data["value"] = OnSave.Invoke( (TSource)(object)obj, s );
+            }
             else
-                data = value;
-            return true;*/
+            {
+                data = OnSave.Invoke( (TSource)(object)obj, s );
+            }
 
-            data = OnSave.Invoke( (TSource)(object)obj, s );
             return true;
         }
 
-        protected override bool TryPopulate<T>( ref T obj, SerializedData data, ILoader l )
+        protected override bool TryPopulate<TMember>( ref TMember obj, SerializedData data, ILoader l )
         {
             if( OnLoad == null )
                 return false;
@@ -56,35 +60,45 @@ namespace UnityPlus.Serialization
             // obj can be null here, this is normal.
             TSource obj2 = (TSource)(object)obj;
             OnLoad.Invoke( ref obj2, data, l );
-            obj = (T)(object)obj2;
+            obj = (TMember)(object)obj2;
 
             return true;
         }
 
-        protected override bool TryLoad<T>( ref T obj, SerializedData data, ILoader l )
+        protected override bool TryLoad<TMember>( ref TMember obj, SerializedData data, ILoader l )
         {
             if( OnInstantiate == null )
                 return false;
             if( OnLoad == null )
                 return false;
 
+            if( data != null && !((typeof( TMember ).IsValueType || typeof( TMember ).IsSealed) && !typeof( TMember ).IsGenericType) )
+            {
+                data = data["value"];
+            }
+
             // obj can be null here, this is normal.
             TSource obj2 = (TSource)OnInstantiate.Invoke( data, l );
             OnLoad.Invoke( ref obj2, data, l );
-            obj = (T)(object)obj2;
+            obj = (TMember)(object)obj2;
 
             return true;
         }
 
-        protected override bool TryLoadReferences<T>( ref T obj, SerializedData data, ILoader l )
+        protected override bool TryLoadReferences<TMember>( ref TMember obj, SerializedData data, ILoader l )
         {
             if( OnLoadReferences == null )
                 return false;
 
+            if( data != null && !((typeof( TMember ).IsValueType || typeof( TMember ).IsSealed) && !typeof( TMember ).IsGenericType) )
+            {
+                data = data["value"];
+            }
+
             // obj can be null here, this is normal.
             var obj2 = (TSource)(object)obj;
             OnLoadReferences.Invoke( ref obj2, data, l );
-            obj = (T)(object)obj2;
+            obj = (TMember)(object)obj2;
 
             return true;
         }
