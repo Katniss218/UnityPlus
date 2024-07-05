@@ -38,5 +38,31 @@ namespace Serialization
             Assert.That( i3, Is.EqualTo( i3o ) );
             Assert.That( i5, Is.EqualTo( i5o ) );
         }
+
+        [Test]
+        public void EqualityBetweenIdentical___IsEqual()
+        {
+            // Arrange
+            SerializedObject obj1 = new SerializedObject()
+            {
+                { "1st", (SerializedPrimitive)"hello" },
+                { "2nd", (SerializedPrimitive)5.4f },
+                { "3rd", (SerializedPrimitive)true },
+                { "4th", (SerializedPrimitive)5 },
+            };
+            SerializedObject obj2 = new SerializedObject()
+            {
+                { "1st", (SerializedPrimitive)"hello" },
+                { "2nd", (SerializedPrimitive)5.4f },
+                { "3rd", (SerializedPrimitive)true },
+                { "4th", (SerializedPrimitive)5 },
+            };
+
+            // Act
+            bool areEqual = obj1.Equals( obj2 );
+
+            // Assert
+            Assert.That( areEqual, Is.True );
+        }
     }
 }

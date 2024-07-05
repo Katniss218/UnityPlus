@@ -152,7 +152,11 @@ namespace UnityPlus.Serialization
 
         public bool Equals( SerializedObject other )
         {
-            return _children.Equals( other._children );
+            return this._children.Count == other._children.Count
+                && this._children.All(
+                ( thisKvp ) => other._children.TryGetValue( thisKvp.Key, out var otherVal )
+                && (thisKvp.Value == otherVal || thisKvp.Value?.Equals( otherVal ) == true)
+            );
         }
     }
 }
