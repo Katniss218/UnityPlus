@@ -56,9 +56,11 @@ namespace Serialization
 
             // Act
             bool areEqual = obj1.Equals( obj2 );
+            bool areEqual2 = ((object)obj1).Equals( (object)obj2 );
 
             // Assert
             Assert.That( areEqual, Is.True );
+            Assert.That( areEqual2, Is.True );
         }
     }
 }

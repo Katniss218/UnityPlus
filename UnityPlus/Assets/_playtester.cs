@@ -110,16 +110,23 @@ public class _playtester : MonoBehaviour
     void Start()
     {
         // Arrange
-        var initialValue = new SerializedArray()
-            {
-                (SerializedPrimitive)5.4112f,
-                (SerializedPrimitive)"hello world"
-            };
+        var initialValue = new Vector3( 5.5f, -5f, 0f );
+        var refMap = new BidirectionalReferenceStore();
 
         // Act
-        var data = SerializationUnit.Serialize<SerializedData>( initialValue );
-        var finalValue = SerializationUnit.Deserialize<SerializedData>( data );
+        var data = SerializationUnit.Serialize<object>( ObjectContext.Value, initialValue, refMap );
 
+        var data2 = new SerializedObject()
+                {
+                    { "$type", initialValue.GetType().SerializeType() },
+                    { "$id", refMap.GetID( initialValue ).SerializeGuid() },
+                    { "value", new SerializedArray()
+                        {
+                            (SerializedPrimitive)5.5f,
+                            (SerializedPrimitive)(-5f),
+                            (SerializedPrimitive)0f,
+                        } }
+                };
     }
 
     void Update()

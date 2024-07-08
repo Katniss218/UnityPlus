@@ -286,7 +286,7 @@ namespace Neoserialization
             // Arrange
 
             // Act
-            SerializationMapping mapping1 = SerializationMappingRegistry.GetMapping<IUnmappedInterface>( ObjectContext.Ref, (IUnmappedInterface)null );
+            SerializationMapping mapping1 = SerializationMappingRegistry.GetMapping<IUnmappedInterface>( ObjectContext.Ref, (IUnmappedInterface)null ); // Null here makes retrieving mappings for instance type inadequate.
             SerializationMapping mapping1m = SerializationMappingRegistry.GetMapping<object>( ObjectContext.Ref, new InterfaceClass() );
 
             // Assert

@@ -106,7 +106,7 @@ namespace UnityPlus.Serialization
         {
             return _children.TryGetValue( key, out value );
         }
-        
+
         /// <returns>True if the value was found, and matches the specified type.</returns>
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
         public override bool TryGetValue<T>( string key, out T value )
@@ -153,9 +153,19 @@ namespace UnityPlus.Serialization
         public bool Equals( SerializedObject other )
         {
             return this._children.Count == other._children.Count
-                && this._children.All(
-                ( thisKvp ) => other._children.TryGetValue( thisKvp.Key, out var otherVal )
-                && (thisKvp.Value == otherVal || thisKvp.Value?.Equals( otherVal ) == true)
+                && this._children.All( ( thisKvp ) =>
+                {
+                    if( !other._children.TryGetValue( thisKvp.Key, out var otherVal ) )
+                        return false;
+
+                    if( ReferenceEquals( thisKvp.Value, otherVal ) )
+                        return true;
+
+                    if( thisKvp.Value != null && thisKvp.Value.Equals( otherVal ) )
+                        return true;
+
+                    return false;
+                }
             );
         }
     }

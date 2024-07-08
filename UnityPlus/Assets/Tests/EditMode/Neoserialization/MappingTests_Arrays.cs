@@ -55,6 +55,25 @@ namespace Neoserialization
         }
 
         [Test]
+        public void Mapping___IntJaggedArray___RoundTrip()
+        {
+            // Arrange
+            var initialValue = new int[][]
+            {
+                new int[] { 1, 2 }, 
+                new int[] { 3, 4 },
+                new int[] { 5, 6 }
+            };
+
+            // Act
+            var data = SerializationUnit.Serialize<int[][]>( initialValue );
+            var finalValue = SerializationUnit.Deserialize<int[][]>( data );
+
+            // Assert
+            Assert.That( finalValue, Is.EquivalentTo( initialValue ) );
+        }
+
+        [Test]
         public void Mapping___ArrayWithNulls___RoundTrip()
         {
             // Arrange

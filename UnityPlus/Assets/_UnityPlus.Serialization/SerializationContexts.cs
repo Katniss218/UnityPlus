@@ -26,6 +26,7 @@ namespace UnityPlus.Serialization
     /// </summary>
     public static class ArrayContext
     {
+#warning TODO - anything other than default should probably have a globally unique integer value
         public const int Values = 0; // Default
         public const int Refs = 1;
         public const int Assets = 2;

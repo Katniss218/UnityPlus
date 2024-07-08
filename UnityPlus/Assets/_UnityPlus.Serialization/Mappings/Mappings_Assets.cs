@@ -19,7 +19,7 @@ namespace UnityPlus.Serialization.Mappings
             };
         }
 
-        [SerializationMappingProvider( typeof( Array ), Context = ObjectContext.Asset )]
+        [SerializationMappingProvider( typeof( Array ), Context = ArrayContext.Assets )]
         public static SerializationMapping ArrayAssetMapping<T>() where T : class
         {
             return new PrimitiveStructSerializationMapping<T[]>()
