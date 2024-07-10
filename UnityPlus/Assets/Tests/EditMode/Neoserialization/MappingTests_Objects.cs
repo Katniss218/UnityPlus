@@ -41,7 +41,21 @@ namespace Neoserialization
         }
 
         [Test]
-        public void Mapping___Null___RoundTrip()
+        public void Mapping___Interface___RoundTrip()
+        {
+            // Arrange
+            IAnInterface initialValue = new InterfaceClass() { interfaceMember = 2.4f };
+
+            // Act
+            var data = SerializationUnit.Serialize<IAnInterface>( initialValue );
+            var finalValue = SerializationUnit.Deserialize<IAnInterface>( data );
+
+            // Assert
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
+        }
+        
+        [Test]
+        public void Mapping___Null_Class___RoundTrip()
         {
             // Arrange
             BaseClass initialValue = null;
@@ -52,6 +66,20 @@ namespace Neoserialization
 
             // Assert
             Assert.That( finalValue, Is.Null );
+        }
+
+        [Test]
+        public void Mapping___Null_Interface___RoundTrip()
+        {
+            // Arrange
+            IAnInterface initialValue = null;
+
+            // Act
+            var data = SerializationUnit.Serialize<IAnInterface>( initialValue );
+            var finalValue = SerializationUnit.Deserialize<IAnInterface>( data );
+
+            // Assert
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
 
         [Test]

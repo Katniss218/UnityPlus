@@ -40,7 +40,7 @@ namespace UnityPlus.Serialization
             {
                 _hasCachedMapping = true;
                 _cachedMapping = SerializationMappingRegistry.GetMappingOrNull( _context, typeof( TMember ) );
-#warning TODO - mapping itself might not be cacheable.
+#warning TODO - The mapping itself might not be cacheable (when the result of GetInstance doesn't referenceequal this).
             }
         }
 

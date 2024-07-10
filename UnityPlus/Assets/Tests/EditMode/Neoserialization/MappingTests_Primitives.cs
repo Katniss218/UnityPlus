@@ -207,5 +207,19 @@ namespace Neoserialization
             // Assert
             Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
+
+        [Test]
+        public void Mapping___Enum___RoundTrip()
+        {
+            // Arrange
+            var initialValue = AnEnum.Second;
+
+            // Act
+            var data = SerializationUnit.Serialize<AnEnum>( initialValue );
+            var finalValue = SerializationUnit.Deserialize<AnEnum>( data );
+
+            // Assert
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
+        }
     }
 }

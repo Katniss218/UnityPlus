@@ -53,7 +53,7 @@ public class _perftester : MonoBehaviour
         public int[] intArray;
     }
 
-    [SerializationMappingProvider( typeof( C1 ) )]
+    [MapsInheritingFrom( typeof( C1 ) )]
     public static SerializationMapping C1Mapping()
     {
         return new MemberwiseSerializationMapping<C1>()
@@ -74,7 +74,7 @@ public class _perftester : MonoBehaviour
         };
     }
 
-    [SerializationMappingProvider( typeof( C2 ) )]
+    [MapsInheritingFrom( typeof( C2 ) )]
     public static SerializationMapping C2Mapping()
     {
         return new MemberwiseSerializationMapping<C2>()
@@ -83,7 +83,7 @@ public class _perftester : MonoBehaviour
         };
     }
 
-    [SerializationMappingProvider( typeof( Vector32 ) )]
+    [MapsInheritingFrom( typeof( Vector32 ) )]
     public static SerializationMapping Vector32Mapping()
     {
         return new PrimitiveStructSerializationMapping<Vector32>()

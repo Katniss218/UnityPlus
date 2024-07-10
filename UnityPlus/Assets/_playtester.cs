@@ -18,6 +18,16 @@ using UnityPlus.UILib.UIElements;
 
 public class _playtester : MonoBehaviour
 {
+    public interface IAnInterface
+    {
+        float interfaceMember { get; set; }
+    }
+
+    public class InterfaceClass : IAnInterface
+    {
+        public float interfaceMember { get; set; }
+    }
+
     public class BaseClass
     {
         public float baseMember;
@@ -36,9 +46,10 @@ public class _playtester : MonoBehaviour
     public class ReferencingClass
     {
         public BaseClass refMember;
+        public IAnInterface interfaceRefMember;
     }
 
-    [SerializationMappingProvider( typeof( _playtester ) )]
+    [MapsInheritingFrom( typeof( _playtester ) )]
     public static SerializationMapping _playtesterMapping()
     {
         return new MemberwiseSerializationMapping<_playtester>()
@@ -48,7 +59,7 @@ public class _playtester : MonoBehaviour
         };
     }
     
-    [SerializationMappingProvider( typeof( FPSCounterDebug ) )]
+    [MapsInheritingFrom( typeof( FPSCounterDebug ) )]
     public static SerializationMapping FPSCounterDebugMapping()
     {
         return new MemberwiseSerializationMapping<FPSCounterDebug>()
@@ -57,7 +68,7 @@ public class _playtester : MonoBehaviour
         };
     }
 
-    [SerializationMappingProvider( typeof( BaseClass ) )]
+    [MapsInheritingFrom( typeof( BaseClass ) )]
     public static SerializationMapping BaseClassMapping()
     {
         return new MemberwiseSerializationMapping<BaseClass>()
@@ -66,7 +77,7 @@ public class _playtester : MonoBehaviour
         };
     }
 
-    [SerializationMappingProvider( typeof( DerivedClass ) )]
+    [MapsInheritingFrom( typeof( DerivedClass ) )]
     public static SerializationMapping DerivedClassMapping()
     {
         return new MemberwiseSerializationMapping<DerivedClass>()
@@ -75,7 +86,7 @@ public class _playtester : MonoBehaviour
         };
     }
     
-    [SerializationMappingProvider( typeof( MoreDerivedClass ) )]
+    [MapsInheritingFrom( typeof( MoreDerivedClass ) )]
     public static SerializationMapping MoreDerivedClassMapping()
     {
         return new MemberwiseSerializationMapping<MoreDerivedClass>()
@@ -84,13 +95,22 @@ public class _playtester : MonoBehaviour
         };
     }
 
-    [SerializationMappingProvider( typeof( ReferencingClass ) )]
+    [MapsImplementing( typeof( IAnInterface ) )]
+    public static SerializationMapping IAnInterfaceMapping()
+    {
+        return new MemberwiseSerializationMapping<IAnInterface>()
+        {
+            ("interface_member", new Member<IAnInterface, float>( o => o.interfaceMember ))
+        };
+    }
+
+    [MapsInheritingFrom( typeof( ReferencingClass ) )]
     public static SerializationMapping ReferencingClassMapping()
     {
         return new MemberwiseSerializationMapping<ReferencingClass>()
-            {
-                ("ref_member", new Member<ReferencingClass, BaseClass>( ObjectContext.Ref, o => o.refMember ))
-            };
+        {
+            ("ref_member", new Member<ReferencingClass, BaseClass>( ObjectContext.Ref, o => o.refMember ))
+        };
     }
 
     [SerializeField] GameObject perfTestGo;
@@ -109,29 +129,12 @@ public class _playtester : MonoBehaviour
 
     void Start()
     {
-        // Arrange
-        var initialValue = new Vector3( 5.5f, -5f, 0f );
-        var refMap = new BidirectionalReferenceStore();
-
-        // Act
-        var data = SerializationUnit.Serialize<object>( ObjectContext.Value, initialValue, refMap );
-
-        var data2 = new SerializedObject()
-                {
-                    { "$type", initialValue.GetType().SerializeType() },
-                    { "$id", refMap.GetID( initialValue ).SerializeGuid() },
-                    { "value", new SerializedArray()
-                        {
-                            (SerializedPrimitive)5.5f,
-                            (SerializedPrimitive)(-5f),
-                            (SerializedPrimitive)0f,
-                        } }
-                };
+        SerializationMapping mapping1 = SerializationMappingRegistry.GetMapping<IAnInterface>( ObjectContext.Default, (IAnInterface)null );
     }
 
     void Update()
     {
-        //RunPerfTest();
+        RunPerfTest();
     }
 
     private void RunPerfTest()

@@ -11,24 +11,31 @@ using UnityPlus.Serialization.Json;
 
 namespace Neoserialization
 {
-    public interface IUnmappedInterface
+    public enum AnEnum : int
     {
-
+        First = 0,
+        Second = -5,
+        Third = 5
     }
 
-    public class InterfaceClass : IUnmappedInterface
+    public interface IAnInterface
     {
-        public float baseMember;
+        float interfaceMember { get; set; }
+    }
+
+    public class InterfaceClass : IAnInterface
+    {
+        public float interfaceMember { get; set; }
 
         public override bool Equals( object obj )
         {
             if( obj is not InterfaceClass other )
                 return false;
 
-            return this.baseMember == other.baseMember;
+            return this.interfaceMember == other.interfaceMember;
         }
     }
-    
+
     public class BaseClass
     {
         public float baseMember;
@@ -89,6 +96,7 @@ namespace Neoserialization
     public class ReferencingClass
     {
         public BaseClass refMember;
+        public IAnInterface interfaceRefMember;
 
         public override bool Equals( object obj )
         {
@@ -141,7 +149,7 @@ namespace Neoserialization
 
     public class MappingRegistryTests
     {
-        [SerializationMappingProvider( typeof( BaseClass ) )]
+        [MapsInheritingFrom( typeof( BaseClass ) )]
         public static SerializationMapping BaseClassMapping()
         {
             return new MemberwiseSerializationMapping<BaseClass>()
@@ -150,7 +158,7 @@ namespace Neoserialization
             };
         }
 
-        [SerializationMappingProvider( typeof( DerivedClass ) )]
+        [MapsInheritingFrom( typeof( DerivedClass ) )]
         public static SerializationMapping DerivedClassMapping()
         {
             return new MemberwiseSerializationMapping<DerivedClass>()
@@ -159,7 +167,7 @@ namespace Neoserialization
             };
         }
 
-        [SerializationMappingProvider( typeof( GenericClass<> ) )]
+        [MapsInheritingFrom( typeof( GenericClass<> ) )]
         public static SerializationMapping TestclassMapping<T>()
         {
             return new MemberwiseSerializationMapping<GenericClass<T>>()
@@ -168,7 +176,7 @@ namespace Neoserialization
             };
         }
 
-        [SerializationMappingProvider( typeof( MultiGenericClass<,,> ) )]
+        [MapsInheritingFrom( typeof( MultiGenericClass<,,> ) )]
         public static SerializationMapping TestclassMapping<T1, T2, T3>()
         {
             return new MemberwiseSerializationMapping<MultiGenericClass<T1, T2, T3>>()
@@ -179,7 +187,7 @@ namespace Neoserialization
             };
         }
 
-        [SerializationMappingProvider( typeof( OwningClass ) )]
+        [MapsInheritingFrom( typeof( OwningClass ) )]
         public static SerializationMapping OwningMapping()
         {
             return new MemberwiseSerializationMapping<OwningClass>()
@@ -188,16 +196,35 @@ namespace Neoserialization
             };
         }
 
-        [SerializationMappingProvider( typeof( ReferencingClass ) )]
+        [MapsInheritingFrom( typeof( InterfaceClass ) )]
+        public static SerializationMapping InterfaceClassMapping()
+        {
+            return new MemberwiseSerializationMapping<InterfaceClass>()
+            {
+                ("interface_member", new Member<InterfaceClass, float>( o => o.interfaceMember ))
+            };
+        }
+
+        [MapsImplementing( typeof( IAnInterface ) )]
+        public static SerializationMapping IAnInterfaceMapping()
+        {
+            return new MemberwiseSerializationMapping<IAnInterface>()
+            {
+                ("interface_member", new Member<IAnInterface, float>( o => o.interfaceMember ))
+            };
+        }
+        
+        [MapsInheritingFrom( typeof( ReferencingClass ) )]
         public static SerializationMapping ReferencingClassMapping()
         {
             return new MemberwiseSerializationMapping<ReferencingClass>()
             {
-                ("ref_member", new Member<ReferencingClass, BaseClass>( ObjectContext.Ref, o => o.refMember ))
+                ("ref_member", new Member<ReferencingClass, BaseClass>( ObjectContext.Ref, o => o.refMember )),
+                ("interface_ref_member", new Member<ReferencingClass, IAnInterface>( ObjectContext.Ref, o => o.interfaceRefMember ))
             };
         }
 
-        [SerializationMappingProvider( typeof( MappedDerivedClass ) )]
+        [MapsInheritingFrom( typeof( MappedDerivedClass ) )]
         public static SerializationMapping MappedDerivedClassMapping()
         {
             return new MemberwiseSerializationMapping<MappedDerivedClass>()
@@ -281,18 +308,17 @@ namespace Neoserialization
         }
 
         [Test]
-        public void GetMappingFor___UnmappedRefInterface___ReturnsObjectRefMapping()
+        public void GetMappingFor___ImplementedInterface___ReturnsCorrectMapping()
         {
             // Arrange
 
             // Act
-            SerializationMapping mapping1 = SerializationMappingRegistry.GetMapping<IUnmappedInterface>( ObjectContext.Ref, (IUnmappedInterface)null ); // Null here makes retrieving mappings for instance type inadequate.
-            SerializationMapping mapping1m = SerializationMappingRegistry.GetMapping<object>( ObjectContext.Ref, new InterfaceClass() );
+            SerializationMapping mapping1 = SerializationMappingRegistry.GetMapping<IAnInterface>( ObjectContext.Default, (IAnInterface)null );
+            SerializationMapping mapping2 = SerializationMappingRegistry.GetMapping<IAnInterface>( ObjectContext.Default, typeof( IAnInterface ) );
 
             // Assert
-            Assert.That( mapping1, Is.Not.Null );
-            Assert.That( mapping1m, Is.Not.Null );
-            Assert.That( mapping1, Is.SameAs( mapping1m ) );
+            Assert.That( mapping1, Is.InstanceOf( typeof( MemberwiseSerializationMapping<IAnInterface> ) ) );
+            Assert.That( mapping1, Is.EqualTo( mapping2 ) );
         }
 
         [Test]

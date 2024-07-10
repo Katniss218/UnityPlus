@@ -17,8 +17,8 @@ namespace UnityPlus.Serialization
         public const int Default = 0;
 
         public const int Value = 0; // Default
-        public const int Ref = 1;
-        public const int Asset = 2;
+        public const int Ref = 536806356;
+        public const int Asset = 271721118;
     }
 
     /// <summary>
@@ -26,10 +26,9 @@ namespace UnityPlus.Serialization
     /// </summary>
     public static class ArrayContext
     {
-#warning TODO - anything other than default should probably have a globally unique integer value
         public const int Values = 0; // Default
-        public const int Refs = 1;
-        public const int Assets = 2;
+        public const int Refs = 429303064;
+        public const int Assets = -261997342;
     }
 
     /// <summary>
@@ -37,13 +36,13 @@ namespace UnityPlus.Serialization
     /// </summary>
     public static class KeyValueContext
     {
-        public const int ValueToValue = 0b00; // default
-        public const int ValueToRef = 0b10;
+        public const int ValueToValue = 0; // default
+        public const int ValueToRef = 846497468;
 
-        public const int RefToValue = 0b01;
-        public const int RefToRef = 0b11;
+        public const int RefToValue = 132031121;
+        public const int RefToRef = 240733231;
 
-        public const int ValueToAsset = 0b1100;
-        public const int RefToAsset = 0b1101;
+        public const int ValueToAsset = 172983851;
+        public const int RefToAsset = -526574830;
     }
 }
