@@ -26,6 +26,20 @@ namespace Neoserialization
             // Assert
             Assert.That( finalValue, Is.Null );
         }
+        
+        [Test]
+        public void Mapping___InterfaceNullReference___RoundTrip()
+        {
+            // Arrange
+            var initialValue = (IAnInterface)null;
+
+            // Act
+            var data = SerializationUnit.Serialize<IAnInterface>( ObjectContext.Ref, initialValue );
+            var finalValue = SerializationUnit.Deserialize<IAnInterface>( data );
+
+            // Assert
+            Assert.That( finalValue, Is.Null );
+        }
 
         [Test]
         public void Mapping___ClassReference___RoundTrip()

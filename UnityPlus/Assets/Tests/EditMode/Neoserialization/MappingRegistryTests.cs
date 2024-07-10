@@ -213,7 +213,7 @@ namespace Neoserialization
                 ("interface_member", new Member<IAnInterface, float>( o => o.interfaceMember ))
             };
         }
-        
+
         [MapsInheritingFrom( typeof( ReferencingClass ) )]
         public static SerializationMapping ReferencingClassMapping()
         {
@@ -334,6 +334,50 @@ namespace Neoserialization
             Assert.That( mapping1, Is.Not.Null );
             Assert.That( mapping1m, Is.Not.Null );
             Assert.That( mapping1, Is.SameAs( mapping1m ) );
+        }
+
+        [Test]
+        public void GetMappingFor___MappingWithState___ReturnsDifferentInstance()
+        {
+            // Arrange
+
+            // Act
+            SerializationMapping mapping1 = SerializationMappingRegistry.GetMapping( ObjectContext.Default, (Dictionary<int, int>)null );
+            SerializationMapping mapping2 = SerializationMappingRegistry.GetMapping( ObjectContext.Default, (Dictionary<int, int>)null );
+
+            // Assert
+            Assert.That( mapping1, Is.Not.Null );
+            Assert.That( mapping2, Is.Not.Null );
+            Assert.That( mapping1, Is.Not.SameAs( mapping2 ) );
+        }
+
+        [Test]
+        public void GetMappingFor___MappingWithoutState___ReturnsSameInstance()
+        {
+            // Arrange
+
+            // Act
+            SerializationMapping mapping1 = SerializationMappingRegistry.GetMapping( ObjectContext.Default, (int)1 );
+            SerializationMapping mapping2 = SerializationMappingRegistry.GetMapping( ObjectContext.Default, (int)1 );
+
+            // Assert
+            Assert.That( mapping1, Is.Not.Null );
+            Assert.That( mapping2, Is.Not.Null );
+            Assert.That( mapping1, Is.SameAs( mapping2 ) );
+        }
+
+        [Test]
+        public void GetMappingFor___Nonexistant___ReturnsNull()
+        {
+            // Arrange
+
+            // Act
+            SerializationMapping mapping1 = SerializationMappingRegistry.GetMapping<BaseClass>( 537865853, (BaseClass)null );
+            SerializationMapping mapping2 = SerializationMappingRegistry.GetMapping<BaseClass>( 537865853, typeof( BaseClass ) );
+
+            // Assert
+            Assert.That( mapping1, Is.Null );
+            Assert.That( mapping2, Is.Null );
         }
     }
 }

@@ -221,5 +221,21 @@ namespace Neoserialization
             // Assert
             Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
+
+        public static void TestMethod() { }
+
+        [Test]
+        public void Mapping___Delegate_Parameterless___RoundTrip()
+        {
+            // Arrange
+            Action initialValue = TestMethod;
+
+            // Act
+            var data = SerializationUnit.Serialize<Action>( initialValue );
+            var finalValue = SerializationUnit.Deserialize<Action>( data );
+
+            // Assert
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
+        }
     }
 }

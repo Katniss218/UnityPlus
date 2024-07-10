@@ -211,7 +211,10 @@ namespace UnityPlus.Serialization
         {
             if( _directCache.TryGetValue( (context, type), out var mapping ) )
             {
-                return mapping;
+                if( mapping == null )
+                    return null;
+
+                return mapping.GetInstance();
             }
 
             if( _inheritedMappings.TryGet( context, type, out var entry )
