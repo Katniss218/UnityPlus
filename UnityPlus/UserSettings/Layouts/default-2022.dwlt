@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
-  m_Title: Console
+  m_Title: Game
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 100
+  controlID: 88
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -234,7 +234,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ConsoleWindow
+  m_Name: ProjectBrowser
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -243,14 +243,14 @@ MonoBehaviour:
     y: 606
     width: 1465
     height: 341
-  m_MinSize: {x: 101, y: 121}
-  m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 17}
+  m_MinSize: {x: 231, y: 271}
+  m_MaxSize: {x: 10001, y: 10021}
+  m_ActualView: {fileID: 12}
   m_Panes:
   - {fileID: 12}
   - {fileID: 17}
-  m_Selected: 1
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -270,8 +270,8 @@ MonoBehaviour:
     y: 0
     width: 455
     height: 947
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 101, y: 121}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 18}
@@ -332,9 +332,9 @@ MonoBehaviour:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 248}
-    m_SelectedIDs: be4f0000
-    m_LastClickedID: 20414
-    m_ExpandedIDs: 00000000984f00009a4f00009c4f00009e4f0000a04f000000ca9a3b
+    m_SelectedIDs: c64f0000
+    m_LastClickedID: 20422
+    m_ExpandedIDs: 000000009c4f00009e4f0000a04f0000a24f0000a44f000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -362,7 +362,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000984f00009a4f00009c4f00009e4f0000a04f0000
+    m_ExpandedIDs: 000000009c4f00009e4f0000a04f0000a24f0000a44f0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -387,8 +387,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: a4130000
-    m_LastClickedInstanceID: 5028
+    m_SelectedInstanceIDs: 
+    m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c623000000000000
     m_RenameOverlay:
@@ -449,9 +449,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: a4130000
+      m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 34fbffff
+      m_ExpandedIDs: 940deaff1021f0fff625f0ff2e28f0ffa228f0ff062bf0ffa22ef0ff4435f0ff5c3af0ff8840f0ffcc43f0fff844f0ff7266f1ff7268f1ff1e74f1ffaa75f1ffce76f1ff9050f4ff7a55f4ff58f5f8ffa2f5f8ffb8f6f8ff12f9f8ff18faf8ff84faf8ffe0faf8ff54fcf8fff4fef8ffae08f9ffe209f9ff3e0af9ffe628fafff629faff362ffaffaa32faffc033faff1c34faff7434faffb035faffbc36faff1837faff7437faff783cfaff1847faff7447faffe049faffa04cfaff144dfaff1852faff8c52faffd45afaff7273faffce73faff9c76faffb47ffaff0480faff1a81faff1ad4ffff50d4fffff2d5ffff2cedffff76edffff90eeffff84efffffcef0ffffc8f4ffffacf8ffff34fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1861,7 +1861,7 @@ MonoBehaviour:
     m_CachedPref: 160
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: 5028
+  m_LastInspectedObjectInstanceID: -1
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0
@@ -1897,7 +1897,7 @@ MonoBehaviour:
     m_LastAppliedPresetName: Default
     m_SaveData: []
   m_Spl:
-    ID: 130
+    ID: 118
     splitterInitialOffset: 0
     currentActiveSplitter: -1
     realSizes:
@@ -1940,121 +1940,6 @@ MonoBehaviour:
       categories: []
       parentId: 
       parentUniqueId: 
-    - id: 1004
-      uniqueId: '[PlayMode][E:/GIT/UnityPlus/UnityPlus/Library/ScriptAssemblies/PlayMode.dll][suite]'
-      name: PlayMode.dll
-      fullName: E:/GIT/UnityPlus/UnityPlus/Library/ScriptAssemblies/PlayMode.dll
-      resultStatus: 1
-      duration: 0.5401958
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1000
-      parentUniqueId: '[UnityPlus][suite]'
-    - id: 1001
-      uniqueId: PlayMode.dll/[PlayMode][ComponentFinderTests][suite]
-      name: ComponentFinderTests
-      fullName: ComponentFinderTests
-      resultStatus: 1
-      duration: 0.0145081
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1004
-      parentUniqueId: '[PlayMode][E:/GIT/UnityPlus/UnityPlus/Library/ScriptAssemblies/PlayMode.dll][suite]'
-    - id: 1003
-      uniqueId: PlayMode.dll/ComponentFinderTests/[PlayMode][ComponentFinderTests.GetByIndex___CorrectValue___ValidData]
-      name: GetByIndex___CorrectValue___ValidData
-      fullName: ComponentFinderTests.GetByIndex___CorrectValue___ValidData
-      resultStatus: 1
-      duration: 0.0064518
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1001
-      parentUniqueId: PlayMode.dll/[PlayMode][ComponentFinderTests][suite]
-    - id: 1002
-      uniqueId: PlayMode.dll/ComponentFinderTests/[PlayMode][ComponentFinderTests.GetComponents_Component____CorrectOrder]
-      name: GetComponents_Component____CorrectOrder
-      fullName: ComponentFinderTests.GetComponents_Component____CorrectOrder
-      resultStatus: 1
-      duration: 0.0003297
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1001
-      parentUniqueId: PlayMode.dll/[PlayMode][ComponentFinderTests][suite]
-    - id: 1250
-      uniqueId: PlayMode.dll/[PlayMode][Serialization][suite]
-      name: Serialization
-      fullName: Serialization
-      resultStatus: 1
-      duration: 0.521954
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1249
-      parentUniqueId: '[PlayMode][E:/GIT/UnityPlus/UnityPlus/Library/ScriptAssemblies/PlayMode.dll][suite]'
-    - id: 1247
-      uniqueId: PlayMode.dll/Serialization/[PlayMode][Serialization.PersistentComponentTests][suite]
-      name: PersistentComponentTests
-      fullName: Serialization.PersistentComponentTests
-      resultStatus: 1
-      duration: 0.5205775
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1250
-      parentUniqueId: PlayMode.dll/[PlayMode][Serialization][suite]
-    - id: 1248
-      uniqueId: PlayMode.dll/Serialization/PersistentComponentTests/[PlayMode][Serialization.PersistentComponentTests.Transform___RoundTrip]
-      name: Transform___RoundTrip
-      fullName: Serialization.PersistentComponentTests.Transform___RoundTrip
-      resultStatus: 1
-      duration: 0.5189638
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1247
-      parentUniqueId: PlayMode.dll/Serialization/[PlayMode][Serialization.PersistentComponentTests][suite]
     m_ResultText: Transform___RoundTrip (0,519s)
     m_ResultStacktrace: 
     m_TestListState:
@@ -2096,7 +1981,7 @@ MonoBehaviour:
       name: UnityPlus
       fullName: UnityPlus
       resultStatus: 2
-      duration: 0.027809
+      duration: 1.5200591
       messages: One or more child tests had errors
       output: 
       stacktrace: 
@@ -2112,7 +1997,7 @@ MonoBehaviour:
       name: EditMode.dll
       fullName: E:/GIT/UnityPlus/UnityPlus/Library/ScriptAssemblies/EditMode.dll
       resultStatus: 2
-      duration: 0.01657
+      duration: 1.500848
       messages: One or more child tests had errors
       output: 
       stacktrace: 
@@ -2128,7 +2013,7 @@ MonoBehaviour:
       name: Neoserialization
       fullName: Neoserialization
       resultStatus: 2
-      duration: 0.014932
+      duration: 1.4995817
       messages: One or more child tests had errors
       output: 
       stacktrace: 
@@ -2143,9 +2028,9 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
       name: MappingRegistryTests
       fullName: Neoserialization.MappingRegistryTests
-      resultStatus: 2
-      duration: 0.0115739
-      messages: One or more child tests had errors
+      resultStatus: 1
+      duration: 0.7030744
+      messages: 
       output: 
       stacktrace: 
       notRunnable: 0
@@ -2160,7 +2045,7 @@ MonoBehaviour:
       name: GetMappingFor___Array___ReturnsCorrectMapping
       fullName: Neoserialization.MappingRegistryTests.GetMappingFor___Array___ReturnsCorrectMapping
       resultStatus: 1
-      duration: 0.0004377
+      duration: 0.5018536
       messages: 
       output: 
       stacktrace: 
@@ -2177,7 +2062,7 @@ MonoBehaviour:
       name: GetMappingFor___Derived___ReturnsCorrectMapping
       fullName: Neoserialization.MappingRegistryTests.GetMappingFor___Derived___ReturnsCorrectMapping
       resultStatus: 1
-      duration: 0.0001638
+      duration: 0.1408712
       messages: 
       output: 
       stacktrace: 
@@ -2194,7 +2079,58 @@ MonoBehaviour:
       name: GetMappingFor___Generic___ReturnsCorrectMapping
       fullName: Neoserialization.MappingRegistryTests.GetMappingFor___Generic___ReturnsCorrectMapping
       resultStatus: 1
-      duration: 0.0015941
+      duration: 0.0013708
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1014
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
+    - id: 1020
+      uniqueId: EditMode.dll/Neoserialization/MappingRegistryTests/[EditMode][Neoserialization.MappingRegistryTests.GetMappingFor___ImplementedInterface___ReturnsCorrectMapping]
+      name: GetMappingFor___ImplementedInterface___ReturnsCorrectMapping
+      fullName: Neoserialization.MappingRegistryTests.GetMappingFor___ImplementedInterface___ReturnsCorrectMapping
+      resultStatus: 1
+      duration: 0.0020948
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1014
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
+    - id: 1023
+      uniqueId: EditMode.dll/Neoserialization/MappingRegistryTests/[EditMode][Neoserialization.MappingRegistryTests.GetMappingFor___MappingWithoutState___ReturnsSameInstance]
+      name: GetMappingFor___MappingWithoutState___ReturnsSameInstance
+      fullName: Neoserialization.MappingRegistryTests.GetMappingFor___MappingWithoutState___ReturnsSameInstance
+      resultStatus: 1
+      duration: 0.0013375
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1014
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
+    - id: 1022
+      uniqueId: EditMode.dll/Neoserialization/MappingRegistryTests/[EditMode][Neoserialization.MappingRegistryTests.GetMappingFor___MappingWithState___ReturnsDifferentInstance]
+      name: GetMappingFor___MappingWithState___ReturnsDifferentInstance
+      fullName: Neoserialization.MappingRegistryTests.GetMappingFor___MappingWithState___ReturnsDifferentInstance
+      resultStatus: 1
+      duration: 0.0008024
       messages: 
       output: 
       stacktrace: 
@@ -2211,7 +2147,24 @@ MonoBehaviour:
       name: GetMappingFor___MultipleGeneric___ReturnsCorrectMapping
       fullName: Neoserialization.MappingRegistryTests.GetMappingFor___MultipleGeneric___ReturnsCorrectMapping
       resultStatus: 1
-      duration: 0.0023966
+      duration: 0.0022997
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1014
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
+    - id: 1024
+      uniqueId: EditMode.dll/Neoserialization/MappingRegistryTests/[EditMode][Neoserialization.MappingRegistryTests.GetMappingFor___Nonexistant___ReturnsNull]
+      name: GetMappingFor___Nonexistant___ReturnsNull
+      fullName: Neoserialization.MappingRegistryTests.GetMappingFor___Nonexistant___ReturnsNull
+      resultStatus: 1
+      duration: 0.000162
       messages: 
       output: 
       stacktrace: 
@@ -2228,7 +2181,7 @@ MonoBehaviour:
       name: GetMappingFor___Simple___ReturnsCorrectMapping
       fullName: Neoserialization.MappingRegistryTests.GetMappingFor___Simple___ReturnsCorrectMapping
       resultStatus: 1
-      duration: 0.00015
+      duration: 0.0003656
       messages: 
       output: 
       stacktrace: 
@@ -2245,30 +2198,10 @@ MonoBehaviour:
       name: GetMappingFor___UnmappedBaseClassPolymorphic___ReturnsDerivedMapping
       fullName: Neoserialization.MappingRegistryTests.GetMappingFor___UnmappedBaseClassPolymorphic___ReturnsDerivedMapping
       resultStatus: 1
-      duration: 0.0020673
+      duration: 0.0008792
       messages: 
       output: 
       stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1014
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
-    - id: 1020
-      uniqueId: EditMode.dll/Neoserialization/MappingRegistryTests/[EditMode][Neoserialization.MappingRegistryTests.GetMappingFor___UnmappedRefInterface___ReturnsObjectRefMapping]
-      name: GetMappingFor___UnmappedRefInterface___ReturnsObjectRefMapping
-      fullName: Neoserialization.MappingRegistryTests.GetMappingFor___UnmappedRefInterface___ReturnsObjectRefMapping
-      resultStatus: 2
-      duration: 0.0005284
-      messages: "  Expected: not null\r\n  But was:  null\r\n"
-      output: 
-      stacktrace: 'at Neoserialization.MappingRegistryTests.GetMappingFor___UnmappedRefInterface___ReturnsObjectRefMapping
-        () [0x00015] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Neoserialization\MappingRegistryTests.cs:293
-
-'
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -2282,7 +2215,7 @@ MonoBehaviour:
       name: MappingTests_Arrays
       fullName: Neoserialization.MappingTests_Arrays
       resultStatus: 1
-      duration: 0.0067749
+      duration: 0.3015313
       messages: 
       output: 
       stacktrace: 
@@ -2298,7 +2231,7 @@ MonoBehaviour:
       name: Mapping___ArrayWithNulls___RoundTrip
       fullName: Neoserialization.MappingTests_Arrays.Mapping___ArrayWithNulls___RoundTrip
       resultStatus: 1
-      duration: 0.0015483
+      duration: 0.2908286
       messages: 
       output: 
       stacktrace: 
@@ -2315,7 +2248,7 @@ MonoBehaviour:
       name: Mapping___EmptyArray___RoundTrip
       fullName: Neoserialization.MappingTests_Arrays.Mapping___EmptyArray___RoundTrip
       resultStatus: 1
-      duration: 0.0002553
+      duration: 0.0006189
       messages: 
       output: 
       stacktrace: 
@@ -2332,7 +2265,7 @@ MonoBehaviour:
       name: Mapping___IntArray___RoundTrip
       fullName: Neoserialization.MappingTests_Arrays.Mapping___IntArray___RoundTrip
       resultStatus: 1
-      duration: 0.0003041
+      duration: 0.0012685
       messages: 
       output: 
       stacktrace: 
@@ -2349,7 +2282,7 @@ MonoBehaviour:
       name: Mapping___IntJaggedArray___RoundTrip
       fullName: Neoserialization.MappingTests_Arrays.Mapping___IntJaggedArray___RoundTrip
       resultStatus: 1
-      duration: 0.0007056
+      duration: 0.000724
       messages: 
       output: 
       stacktrace: 
@@ -2366,7 +2299,7 @@ MonoBehaviour:
       name: Mapping___MixedObjectArray___RoundTrip
       fullName: Neoserialization.MappingTests_Arrays.Mapping___MixedObjectArray___RoundTrip
       resultStatus: 1
-      duration: 0.0013158
+      duration: 0.0019165
       messages: 
       output: 
       stacktrace: 
@@ -2383,7 +2316,7 @@ MonoBehaviour:
       name: Mapping___NullArray___RoundTrip
       fullName: Neoserialization.MappingTests_Arrays.Mapping___NullArray___RoundTrip
       resultStatus: 1
-      duration: 0.0001436
+      duration: 0.0001306
       messages: 
       output: 
       stacktrace: 
@@ -2400,7 +2333,7 @@ MonoBehaviour:
       name: MappingTests_KeyValue
       fullName: Neoserialization.MappingTests_KeyValue
       resultStatus: 1
-      duration: 0.0171087
+      duration: 0.3231125
       messages: 
       output: 
       stacktrace: 
@@ -2416,7 +2349,7 @@ MonoBehaviour:
       name: Mapping___Dictionary_ValToVal___RoundTrip
       fullName: Neoserialization.MappingTests_KeyValue.Mapping___Dictionary_ValToVal___RoundTrip
       resultStatus: 1
-      duration: 0.0031636
+      duration: 0.0029652
       messages: 
       output: 
       stacktrace: 
@@ -2433,7 +2366,7 @@ MonoBehaviour:
       name: Mapping___DictionaryOfObjects_RefToVal___RoundTrip
       fullName: Neoserialization.MappingTests_KeyValue.Mapping___DictionaryOfObjects_RefToVal___RoundTrip
       resultStatus: 1
-      duration: 0.0024508
+      duration: 0.2152734
       messages: 
       output: 
       stacktrace: 
@@ -2450,7 +2383,7 @@ MonoBehaviour:
       name: Mapping___DictionaryOfObjects_ValToVal___RoundTrip
       fullName: Neoserialization.MappingTests_KeyValue.Mapping___DictionaryOfObjects_ValToVal___RoundTrip
       resultStatus: 1
-      duration: 0.0015616
+      duration: 0.0483102
       messages: 
       output: 
       stacktrace: 
@@ -2467,7 +2400,7 @@ MonoBehaviour:
       name: Mapping___KeyValuePair_OfObjects_ValToVal___RoundTrip
       fullName: Neoserialization.MappingTests_KeyValue.Mapping___KeyValuePair_OfObjects_ValToVal___RoundTrip
       resultStatus: 1
-      duration: 0.003361
+      duration: 0.0473844
       messages: 
       output: 
       stacktrace: 
@@ -2484,7 +2417,7 @@ MonoBehaviour:
       name: Mapping___KeyValuePair_ValToVal___RoundTrip
       fullName: Neoserialization.MappingTests_KeyValue.Mapping___KeyValuePair_ValToVal___RoundTrip
       resultStatus: 1
-      duration: 0.0025678
+      duration: 0.0024785
       messages: 
       output: 
       stacktrace: 
@@ -2501,7 +2434,7 @@ MonoBehaviour:
       name: Mapping___KeyValuePairArray_ValToVal___RoundTrip
       fullName: Neoserialization.MappingTests_KeyValue.Mapping___KeyValuePairArray_ValToVal___RoundTrip
       resultStatus: 1
-      duration: 0.0009844
+      duration: 0.0011797
       messages: 
       output: 
       stacktrace: 
@@ -2518,7 +2451,7 @@ MonoBehaviour:
       name: MappingTests_Objects
       fullName: Neoserialization.MappingTests_Objects
       resultStatus: 1
-      duration: 0.007236
+      duration: 0.0110176
       messages: 
       output: 
       stacktrace: 
@@ -2534,7 +2467,7 @@ MonoBehaviour:
       name: Mapping___BaseClass___RoundTrip
       fullName: Neoserialization.MappingTests_Objects.Mapping___BaseClass___RoundTrip
       resultStatus: 1
-      duration: 0.0001878
+      duration: 0.0005244
       messages: 
       output: 
       stacktrace: 
@@ -2551,24 +2484,7 @@ MonoBehaviour:
       name: Mapping___DerivedClass_Polymorphic___RoundTrip
       fullName: Neoserialization.MappingTests_Objects.Mapping___DerivedClass_Polymorphic___RoundTrip
       resultStatus: 1
-      duration: 0.0022672
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1035
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Objects][suite]
-    - id: 1038
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_Objects/[EditMode][Neoserialization.MappingTests_Objects.Mapping___Null___RoundTrip]
-      name: Mapping___Null___RoundTrip
-      fullName: Neoserialization.MappingTests_Objects.Mapping___Null___RoundTrip
-      resultStatus: 1
-      duration: 0.0002442
+      duration: 0.0001927
       messages: 
       output: 
       stacktrace: 
@@ -2581,45 +2497,62 @@ MonoBehaviour:
       parentId: 1035
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Objects][suite]
     - id: 1039
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Objects/[EditMode][Neoserialization.MappingTests_Objects.Mapping___Interface___RoundTrip]
+      name: Mapping___Interface___RoundTrip
+      fullName: Neoserialization.MappingTests_Objects.Mapping___Interface___RoundTrip
+      resultStatus: 1
+      duration: 0.0021776
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1036
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Objects][suite]
+    - id: 1040
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Objects/[EditMode][Neoserialization.MappingTests_Objects.Mapping___Null_Class___RoundTrip]
+      name: Mapping___Null_Class___RoundTrip
+      fullName: Neoserialization.MappingTests_Objects.Mapping___Null_Class___RoundTrip
+      resultStatus: 1
+      duration: 0.0001363
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1036
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Objects][suite]
+    - id: 1041
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Objects/[EditMode][Neoserialization.MappingTests_Objects.Mapping___Null_Interface___RoundTrip]
+      name: Mapping___Null_Interface___RoundTrip
+      fullName: Neoserialization.MappingTests_Objects.Mapping___Null_Interface___RoundTrip
+      resultStatus: 1
+      duration: 0.0001578
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1036
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Objects][suite]
+    - id: 1039
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Objects/[EditMode][Neoserialization.MappingTests_Objects.Mapping___NullMember___RoundTrip]
       name: Mapping___NullMember___RoundTrip
       fullName: Neoserialization.MappingTests_Objects.Mapping___NullMember___RoundTrip
       resultStatus: 1
-      duration: 0.0014452
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1035
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Objects][suite]
-    - id: 1040
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_Objects/[EditMode][Neoserialization.MappingTests_Objects.Mapping___Populate_Object]
-      name: Mapping___Populate_Object
-      fullName: Neoserialization.MappingTests_Objects.Mapping___Populate_Object
-      resultStatus: 1
-      duration: 0.0006843
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1035
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Objects][suite]
-    - id: 1041
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_Objects/[EditMode][Neoserialization.MappingTests_Objects.Mapping___Populate_Struct]
-      name: Mapping___Populate_Struct
-      fullName: Neoserialization.MappingTests_Objects.Mapping___Populate_Struct
-      resultStatus: 1
-      duration: 0.0004826
+      duration: 0.0014836
       messages: 
       output: 
       stacktrace: 
@@ -2636,7 +2569,7 @@ MonoBehaviour:
       name: Mapping___Sealed_Then_Unsealed___DoesntRoundTrip
       fullName: Neoserialization.MappingTests_Objects.Mapping___Sealed_Then_Unsealed___DoesntRoundTrip
       resultStatus: 1
-      duration: 0.000269
+      duration: 0.0004731
       messages: 
       output: 
       stacktrace: 
@@ -2648,12 +2581,62 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1035
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Objects][suite]
+    - id: 1049
+      uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Populate][suite]
+      name: MappingTests_Populate
+      fullName: Neoserialization.MappingTests_Populate
+      resultStatus: 1
+      duration: 0.0066931
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1160
+      parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
+    - id: 1050
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Populate/[EditMode][Neoserialization.MappingTests_Populate.Mapping___Populate_Object]
+      name: Mapping___Populate_Object
+      fullName: Neoserialization.MappingTests_Populate.Mapping___Populate_Object
+      resultStatus: 1
+      duration: 0.0006424
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1049
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Populate][suite]
+    - id: 1051
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Populate/[EditMode][Neoserialization.MappingTests_Populate.Mapping___Populate_Struct]
+      name: Mapping___Populate_Struct
+      fullName: Neoserialization.MappingTests_Populate.Mapping___Populate_Struct
+      resultStatus: 1
+      duration: 0.0026006
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1049
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Populate][suite]
     - id: 1042
       uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
       name: MappingTests_Primitives
       fullName: Neoserialization.MappingTests_Primitives
       resultStatus: 1
-      duration: 0.034272
+      duration: 0.0404959
       messages: 
       output: 
       stacktrace: 
@@ -2669,7 +2652,7 @@ MonoBehaviour:
       name: Mapping___Boolean___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Boolean___RoundTrip
       resultStatus: 1
-      duration: 0.0022986
+      duration: 0.0017305
       messages: 
       output: 
       stacktrace: 
@@ -2686,7 +2669,7 @@ MonoBehaviour:
       name: Mapping___Byte___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Byte___RoundTrip
       resultStatus: 1
-      duration: 0.0019572
+      duration: 0.0018069
       messages: 
       output: 
       stacktrace: 
@@ -2703,7 +2686,7 @@ MonoBehaviour:
       name: Mapping___Char___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Char___RoundTrip
       resultStatus: 1
-      duration: 0.0011996
+      duration: 0.0016223
       messages: 
       output: 
       stacktrace: 
@@ -2720,7 +2703,7 @@ MonoBehaviour:
       name: Mapping___DateTime___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___DateTime___RoundTrip
       resultStatus: 1
-      duration: 0.0025149
+      duration: 0.0083984
       messages: 
       output: 
       stacktrace: 
@@ -2737,7 +2720,7 @@ MonoBehaviour:
       name: Mapping___DateTimeOffset___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___DateTimeOffset___RoundTrip
       resultStatus: 1
-      duration: 0.0026796
+      duration: 0.0026772
       messages: 
       output: 
       stacktrace: 
@@ -2754,7 +2737,7 @@ MonoBehaviour:
       name: Mapping___Decimal___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Decimal___RoundTrip
       resultStatus: 1
-      duration: 0.0027336
+      duration: 0.0025343
       messages: 
       output: 
       stacktrace: 
@@ -2765,13 +2748,30 @@ MonoBehaviour:
       categories:
       - Uncategorized
       parentId: 1042
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
+    - id: 1062
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Delegate_Parameterless___RoundTrip]
+      name: Mapping___Delegate_Parameterless___RoundTrip
+      fullName: Neoserialization.MappingTests_Primitives.Mapping___Delegate_Parameterless___RoundTrip
+      resultStatus: 1
+      duration: 0.0014462
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1046
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
     - id: 1050
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Double___RoundTrip]
       name: Mapping___Double___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Double___RoundTrip
       resultStatus: 1
-      duration: 0.0020168
+      duration: 0.0020784
       messages: 
       output: 
       stacktrace: 
@@ -2783,12 +2783,29 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1042
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
+    - id: 1059
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Enum___RoundTrip]
+      name: Mapping___Enum___RoundTrip
+      fullName: Neoserialization.MappingTests_Primitives.Mapping___Enum___RoundTrip
+      resultStatus: 1
+      duration: 0.0018947
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1044
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
     - id: 1049
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Float___RoundTrip]
       name: Mapping___Float___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Float___RoundTrip
       resultStatus: 1
-      duration: 0.0010504
+      duration: 0.0011004
       messages: 
       output: 
       stacktrace: 
@@ -2805,7 +2822,7 @@ MonoBehaviour:
       name: Mapping___Int16___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Int16___RoundTrip
       resultStatus: 1
-      duration: 0.0019911
+      duration: 0.0017405
       messages: 
       output: 
       stacktrace: 
@@ -2822,7 +2839,7 @@ MonoBehaviour:
       name: Mapping___Int32___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Int32___RoundTrip
       resultStatus: 1
-      duration: 0.0007512
+      duration: 0.0009256
       messages: 
       output: 
       stacktrace: 
@@ -2839,7 +2856,7 @@ MonoBehaviour:
       name: Mapping___Int64___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Int64___RoundTrip
       resultStatus: 1
-      duration: 0.0024752
+      duration: 0.0018132
       messages: 
       output: 
       stacktrace: 
@@ -2856,7 +2873,7 @@ MonoBehaviour:
       name: Mapping___SByte___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___SByte___RoundTrip
       resultStatus: 1
-      duration: 0.0020309
+      duration: 0.001742
       messages: 
       output: 
       stacktrace: 
@@ -2873,7 +2890,7 @@ MonoBehaviour:
       name: Mapping___String___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___String___RoundTrip
       resultStatus: 1
-      duration: 0.0002838
+      duration: 0.0002507
       messages: 
       output: 
       stacktrace: 
@@ -2890,7 +2907,7 @@ MonoBehaviour:
       name: Mapping___TimeSpan___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___TimeSpan___RoundTrip
       resultStatus: 1
-      duration: 0.003351
+      duration: 0.0029515
       messages: 
       output: 
       stacktrace: 
@@ -2907,7 +2924,7 @@ MonoBehaviour:
       name: MappingTests_References
       fullName: Neoserialization.MappingTests_References
       resultStatus: 1
-      duration: 0.0115826
+      duration: 0.0077812
       messages: 
       output: 
       stacktrace: 
@@ -2918,12 +2935,12 @@ MonoBehaviour:
       categories: []
       parentId: 1136
       parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
-    - id: 1060
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___ExistingReference___RoundTrip]
-      name: Mapping___ExistingReference___RoundTrip
-      fullName: Neoserialization.MappingTests_References.Mapping___ExistingReference___RoundTrip
+    - id: 1062
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___ClassReference___RoundTrip]
+      name: Mapping___ClassReference___RoundTrip
+      fullName: Neoserialization.MappingTests_References.Mapping___ClassReference___RoundTrip
       resultStatus: 1
-      duration: 0.0058256
+      duration: 0.0001707
       messages: 
       output: 
       stacktrace: 
@@ -2933,31 +2950,99 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1057
+      parentId: 1060
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
+    - id: 1064
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___InterfaceNullReference___RoundTrip]
+      name: Mapping___InterfaceNullReference___RoundTrip
+      fullName: Neoserialization.MappingTests_References.Mapping___InterfaceNullReference___RoundTrip
+      resultStatus: 1
+      duration: 0.0001949
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1062
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
+    - id: 1063
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___InterfaceReference___RoundTrip]
+      name: Mapping___InterfaceReference___RoundTrip
+      fullName: Neoserialization.MappingTests_References.Mapping___InterfaceReference___RoundTrip
+      resultStatus: 1
+      duration: 0.0002496
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1060
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
+    - id: 1066
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___Member_ExistingReference___RoundTrip]
+      name: Mapping___Member_ExistingReference___RoundTrip
+      fullName: Neoserialization.MappingTests_References.Mapping___Member_ExistingReference___RoundTrip
+      resultStatus: 1
+      duration: 0.0021186
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1060
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
+    - id: 1064
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___Member_NullReference___RoundTrip]
+      name: Mapping___Member_NullReference___RoundTrip
+      fullName: Neoserialization.MappingTests_References.Mapping___Member_NullReference___RoundTrip
+      resultStatus: 1
+      duration: 0.0003019
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1060
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
+    - id: 1065
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___Member_Reference___RoundTrip]
+      name: Mapping___Member_Reference___RoundTrip
+      fullName: Neoserialization.MappingTests_References.Mapping___Member_Reference___RoundTrip
+      resultStatus: 1
+      duration: 0.0004623
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1060
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
     - id: 1058
       uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___NullReference___RoundTrip]
       name: Mapping___NullReference___RoundTrip
       fullName: Neoserialization.MappingTests_References.Mapping___NullReference___RoundTrip
       resultStatus: 1
-      duration: 0.0003239
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1057
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
-    - id: 1059
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___Reference___RoundTrip]
-      name: Mapping___Reference___RoundTrip
-      fullName: Neoserialization.MappingTests_References.Mapping___Reference___RoundTrip
-      resultStatus: 1
-      duration: 0.0019189
+      duration: 0.0001268
       messages: 
       output: 
       stacktrace: 
@@ -2974,7 +3059,7 @@ MonoBehaviour:
       name: MappingTests_SerializedData
       fullName: Neoserialization.MappingTests_SerializedData
       resultStatus: 1
-      duration: 0.0022762
+      duration: 0.0044602
       messages: 
       output: 
       stacktrace: 
@@ -2990,7 +3075,7 @@ MonoBehaviour:
       name: Mapping___SerializedArray___RoundTrip
       fullName: Neoserialization.MappingTests_SerializedData.Mapping___SerializedArray___RoundTrip
       resultStatus: 1
-      duration: 0.0006176
+      duration: 0.000326
       messages: 
       output: 
       stacktrace: 
@@ -3007,7 +3092,7 @@ MonoBehaviour:
       name: Mapping___SerializedObject___RoundTrip
       fullName: Neoserialization.MappingTests_SerializedData.Mapping___SerializedObject___RoundTrip
       resultStatus: 1
-      duration: 0.0003504
+      duration: 0.0003492
       messages: 
       output: 
       stacktrace: 
@@ -3024,7 +3109,7 @@ MonoBehaviour:
       name: Mapping___SerializedPrimitive___RoundTrip
       fullName: Neoserialization.MappingTests_SerializedData.Mapping___SerializedPrimitive___RoundTrip
       resultStatus: 1
-      duration: 0.0003057
+      duration: 0.0003218
       messages: 
       output: 
       stacktrace: 
@@ -3041,7 +3126,7 @@ MonoBehaviour:
       name: MappingTests_Tuples
       fullName: Neoserialization.MappingTests_Tuples
       resultStatus: 2
-      duration: 0.4618886
+      duration: 0.0688646
       messages: One or more child tests had errors
       output: 
       stacktrace: 
@@ -3057,7 +3142,7 @@ MonoBehaviour:
       name: Mapping___Tuple_3___RoundTrip
       fullName: Neoserialization.MappingTests_Tuples.Mapping___Tuple_3___RoundTrip
       resultStatus: 1
-      duration: 0.438164
+      duration: 0.0058636
       messages: 
       output: 
       stacktrace: 
@@ -3074,7 +3159,7 @@ MonoBehaviour:
       name: Mapping___Tuple_7___RoundTrip
       fullName: Neoserialization.MappingTests_Tuples.Mapping___Tuple_7___RoundTrip
       resultStatus: 1
-      duration: 0.0055099
+      duration: 0.0047858
       messages: 
       output: 
       stacktrace: 
@@ -3091,7 +3176,7 @@ MonoBehaviour:
       name: Mapping___Tuple_IntString___RoundTrip
       fullName: Neoserialization.MappingTests_Tuples.Mapping___Tuple_IntString___RoundTrip
       resultStatus: 1
-      duration: 0.003914
+      duration: 0.0039828
       messages: 
       output: 
       stacktrace: 
@@ -3108,7 +3193,7 @@ MonoBehaviour:
       name: Mapping___Tuple_ObjectObject___RoundTrip
       fullName: Neoserialization.MappingTests_Tuples.Mapping___Tuple_ObjectObject___RoundTrip
       resultStatus: 1
-      duration: 0.0085592
+      duration: 0.0472464
       messages: 
       output: 
       stacktrace: 
@@ -3125,7 +3210,7 @@ MonoBehaviour:
       name: Mapping___Tuple_SplitIntoTRest___RoundTrip
       fullName: Neoserialization.MappingTests_Tuples.Mapping___Tuple_SplitIntoTRest___RoundTrip
       resultStatus: 2
-      duration: 0.0041526
+      duration: 0.0032031
       messages: "  Expected: (-5, 5, 5, 5, 5, 5, 5, 5, 4, 5, 3)\r\n  But was:  null\r\n"
       output: 
       stacktrace: 'at Neoserialization.MappingTests_Tuples.Mapping___Tuple_SplitIntoTRest___RoundTrip
@@ -3145,7 +3230,7 @@ MonoBehaviour:
       name: MappingTests_Vectors
       fullName: Neoserialization.MappingTests_Vectors
       resultStatus: 1
-      duration: 0.0232256
+      duration: 0.0202086
       messages: 
       output: 
       stacktrace: 
@@ -3161,7 +3246,7 @@ MonoBehaviour:
       name: Mapping___Quaternion___RoundTrip
       fullName: Neoserialization.MappingTests_Vectors.Mapping___Quaternion___RoundTrip
       resultStatus: 1
-      duration: 0.0029097
+      duration: 0.002338
       messages: 
       output: 
       stacktrace: 
@@ -3178,7 +3263,7 @@ MonoBehaviour:
       name: Mapping___QuaternionDbl___RoundTrip
       fullName: Neoserialization.MappingTests_Vectors.Mapping___QuaternionDbl___RoundTrip
       resultStatus: 1
-      duration: 0.0025927
+      duration: 0.0022798
       messages: 
       output: 
       stacktrace: 
@@ -3195,7 +3280,7 @@ MonoBehaviour:
       name: Mapping___Vector2___RoundTrip
       fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector2___RoundTrip
       resultStatus: 1
-      duration: 0.002189
+      duration: 0.0020668
       messages: 
       output: 
       stacktrace: 
@@ -3212,7 +3297,7 @@ MonoBehaviour:
       name: Mapping___Vector2Int___RoundTrip
       fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector2Int___RoundTrip
       resultStatus: 1
-      duration: 0.0024573
+      duration: 0.002018
       messages: 
       output: 
       stacktrace: 
@@ -3229,7 +3314,7 @@ MonoBehaviour:
       name: Mapping___Vector3___RoundTrip
       fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector3___RoundTrip
       resultStatus: 1
-      duration: 0.0020262
+      duration: 0.000428
       messages: 
       output: 
       stacktrace: 
@@ -3246,7 +3331,7 @@ MonoBehaviour:
       name: Mapping___Vector3Dbl___RoundTrip
       fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector3Dbl___RoundTrip
       resultStatus: 1
-      duration: 0.0023657
+      duration: 0.0022016
       messages: 
       output: 
       stacktrace: 
@@ -3263,7 +3348,7 @@ MonoBehaviour:
       name: Mapping___Vector3Int___RoundTrip
       fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector3Int___RoundTrip
       resultStatus: 1
-      duration: 0.0023149
+      duration: 0.0021719
       messages: 
       output: 
       stacktrace: 
@@ -3280,7 +3365,7 @@ MonoBehaviour:
       name: Mapping___Vector4___RoundTrip
       fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector4___RoundTrip
       resultStatus: 1
-      duration: 0.0022514
+      duration: 0.0021591
       messages: 
       output: 
       stacktrace: 
@@ -3297,7 +3382,7 @@ MonoBehaviour:
       name: MappingTests_Write_Primitives
       fullName: Neoserialization.MappingTests_Write_Primitives
       resultStatus: 1
-      duration: 0.386468
+      duration: 0.0047544
       messages: 
       output: 
       stacktrace: 
@@ -3313,7 +3398,7 @@ MonoBehaviour:
       name: Writing___Bool___CorrectLayout
       fullName: Neoserialization.MappingTests_Write_Primitives.Writing___Bool___CorrectLayout
       resultStatus: 1
-      duration: 0.3513093
+      duration: 0.0004345
       messages: 
       output: 
       stacktrace: 
@@ -3330,7 +3415,7 @@ MonoBehaviour:
       name: Writing___Bool_Boxed___CorrectLayout
       fullName: Neoserialization.MappingTests_Write_Primitives.Writing___Bool_Boxed___CorrectLayout
       resultStatus: 1
-      duration: 0.3783173
+      duration: 0.0007555
       messages: 
       output: 
       stacktrace: 
@@ -3347,7 +3432,7 @@ MonoBehaviour:
       name: MappingTests_Write_Vectors
       fullName: Neoserialization.MappingTests_Write_Vectors
       resultStatus: 1
-      duration: 0.3866598
+      duration: 0.0041217
       messages: 
       output: 
       stacktrace: 
@@ -3363,7 +3448,7 @@ MonoBehaviour:
       name: Writing___Vector3___CorrectLayout
       fullName: Neoserialization.MappingTests_Write_Vectors.Writing___Vector3___CorrectLayout
       resultStatus: 1
-      duration: 0.3739182
+      duration: 0.0006084
       messages: 
       output: 
       stacktrace: 
@@ -3380,7 +3465,7 @@ MonoBehaviour:
       name: Writing___Vector3_Boxed___CorrectLayout
       fullName: Neoserialization.MappingTests_Write_Vectors.Writing___Vector3_Boxed___CorrectLayout
       resultStatus: 1
-      duration: 0.3784449
+      duration: 0.0004732
       messages: 
       output: 
       stacktrace: 
@@ -3397,7 +3482,7 @@ MonoBehaviour:
       name: Serialization
       fullName: Serialization
       resultStatus: 1
-      duration: 0.0145145
+      duration: 0.0445336
       messages: 
       output: 
       stacktrace: 
@@ -3413,7 +3498,7 @@ MonoBehaviour:
       name: Json
       fullName: Serialization.Json
       resultStatus: 1
-      duration: 0.0241859
+      duration: 0.0234355
       messages: 
       output: 
       stacktrace: 
@@ -3429,7 +3514,7 @@ MonoBehaviour:
       name: JsonStreamWriterTests
       fullName: Serialization.Json.JsonStreamWriterTests
       resultStatus: 1
-      duration: 0.0054637
+      duration: 0.0067706
       messages: 
       output: 
       stacktrace: 
@@ -3445,7 +3530,7 @@ MonoBehaviour:
       name: Write_Bool
       fullName: Serialization.Json.JsonStreamWriterTests.Write_Bool
       resultStatus: 1
-      duration: 0.0008307
+      duration: 0.0006305
       messages: 
       output: 
       stacktrace: 
@@ -3462,7 +3547,7 @@ MonoBehaviour:
       name: Write_Multiple_Array
       fullName: Serialization.Json.JsonStreamWriterTests.Write_Multiple_Array
       resultStatus: 1
-      duration: 0.0004928
+      duration: 0.0004344
       messages: 
       output: 
       stacktrace: 
@@ -3479,7 +3564,7 @@ MonoBehaviour:
       name: Write_Number
       fullName: Serialization.Json.JsonStreamWriterTests.Write_Number
       resultStatus: 1
-      duration: 0.0005967
+      duration: 0.0005582
       messages: 
       output: 
       stacktrace: 
@@ -3496,7 +3581,7 @@ MonoBehaviour:
       name: Write_String_Object
       fullName: Serialization.Json.JsonStreamWriterTests.Write_String_Object
       resultStatus: 1
-      duration: 0.0004054
+      duration: 0.0003388
       messages: 
       output: 
       stacktrace: 
@@ -3513,7 +3598,7 @@ MonoBehaviour:
       name: Write_String_Object_Escaped
       fullName: Serialization.Json.JsonStreamWriterTests.Write_String_Object_Escaped
       resultStatus: 1
-      duration: 0.0001803
+      duration: 0.0001765
       messages: 
       output: 
       stacktrace: 
@@ -3530,7 +3615,7 @@ MonoBehaviour:
       name: JsonStringReaderTests
       fullName: Serialization.Json.JsonStringReaderTests
       resultStatus: 1
-      duration: 0.0125292
+      duration: 0.010929
       messages: 
       output: 
       stacktrace: 
@@ -3546,7 +3631,7 @@ MonoBehaviour:
       name: EatArray___Empty___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatArray___Empty___ParsesCorrectly
       resultStatus: 1
-      duration: 0.0007944
+      duration: 0.0006806
       messages: 
       output: 
       stacktrace: 
@@ -3563,7 +3648,7 @@ MonoBehaviour:
       name: EatArray___Numbers_Correct___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatArray___Numbers_Correct___ParsesCorrectly
       resultStatus: 1
-      duration: 0.0012882
+      duration: 0.0012136
       messages: 
       output: 
       stacktrace: 
@@ -3580,7 +3665,7 @@ MonoBehaviour:
       name: EatArray___Numbers_Missing_Comma___ThrowsError
       fullName: Serialization.Json.JsonStringReaderTests.EatArray___Numbers_Missing_Comma___ThrowsError
       resultStatus: 1
-      duration: 0.0008881
+      duration: 0.0007511
       messages: 
       output: 
       stacktrace: 
@@ -3597,7 +3682,7 @@ MonoBehaviour:
       name: EatArray___Strings_Missing_Comma___ThrowsError
       fullName: Serialization.Json.JsonStringReaderTests.EatArray___Strings_Missing_Comma___ThrowsError
       resultStatus: 1
-      duration: 0.0005476
+      duration: 0.0005095
       messages: 
       output: 
       stacktrace: 
@@ -3614,7 +3699,7 @@ MonoBehaviour:
       name: EatNumber___Easy___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatNumber___Easy___ParsesCorrectly
       resultStatus: 1
-      duration: 0.0002841
+      duration: 0.0001808
       messages: 
       output: 
       stacktrace: 
@@ -3648,7 +3733,7 @@ MonoBehaviour:
       name: EatObject___Correct___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatObject___Correct___ParsesCorrectly
       resultStatus: 1
-      duration: 0.000642
+      duration: 0.0005624
       messages: 
       output: 
       stacktrace: 
@@ -3665,7 +3750,7 @@ MonoBehaviour:
       name: Eatobject___Empty___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.Eatobject___Empty___ParsesCorrectly
       resultStatus: 1
-      duration: 0.0001711
+      duration: 0.0001313
       messages: 
       output: 
       stacktrace: 
@@ -3682,7 +3767,7 @@ MonoBehaviour:
       name: EatString___Easy___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatString___Easy___ParsesCorrectly
       resultStatus: 1
-      duration: 0.0001746
+      duration: 0.0001676
       messages: 
       output: 
       stacktrace: 
@@ -3699,7 +3784,7 @@ MonoBehaviour:
       name: EatString___Escaped___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatString___Escaped___ParsesCorrectly
       resultStatus: 1
-      duration: 0.0004326
+      duration: 0.0003911
       messages: 
       output: 
       stacktrace: 
@@ -3716,7 +3801,7 @@ MonoBehaviour:
       name: EatValue___False___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatValue___False___ParsesCorrectly
       resultStatus: 1
-      duration: 0.0001844
+      duration: 0.000176
       messages: 
       output: 
       stacktrace: 
@@ -3733,7 +3818,7 @@ MonoBehaviour:
       name: EatValue___Null___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatValue___Null___ParsesCorrectly
       resultStatus: 1
-      duration: 0.000136
+      duration: 0.0001296
       messages: 
       output: 
       stacktrace: 
@@ -3750,7 +3835,7 @@ MonoBehaviour:
       name: EatValue___True___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.EatValue___True___ParsesCorrectly
       resultStatus: 1
-      duration: 0.0001545
+      duration: 0.0001531
       messages: 
       output: 
       stacktrace: 
@@ -3767,7 +3852,7 @@ MonoBehaviour:
       name: Parse___Complicated___ParsesCorrectly
       fullName: Serialization.Json.JsonStringReaderTests.Parse___Complicated___ParsesCorrectly
       resultStatus: 1
-      duration: 0.0003988
+      duration: 0.0003731
       messages: 
       output: 
       stacktrace: 
@@ -3784,7 +3869,7 @@ MonoBehaviour:
       name: JsonStringWriterTests
       fullName: Serialization.Json.JsonStringWriterTests
       resultStatus: 1
-      duration: 0.0053274
+      duration: 0.0049066
       messages: 
       output: 
       stacktrace: 
@@ -3800,7 +3885,7 @@ MonoBehaviour:
       name: Write_Bool
       fullName: Serialization.Json.JsonStringWriterTests.Write_Bool
       resultStatus: 1
-      duration: 0.0003795
+      duration: 0.0003476
       messages: 
       output: 
       stacktrace: 
@@ -3817,7 +3902,7 @@ MonoBehaviour:
       name: Write_Multiple_Array
       fullName: Serialization.Json.JsonStringWriterTests.Write_Multiple_Array
       resultStatus: 1
-      duration: 0.0003785
+      duration: 0.0003712
       messages: 
       output: 
       stacktrace: 
@@ -3834,7 +3919,7 @@ MonoBehaviour:
       name: Write_Multiple_Object
       fullName: Serialization.Json.JsonStringWriterTests.Write_Multiple_Object
       resultStatus: 1
-      duration: 0.0002668
+      duration: 0.0002581
       messages: 
       output: 
       stacktrace: 
@@ -3851,7 +3936,7 @@ MonoBehaviour:
       name: Write_Number
       fullName: Serialization.Json.JsonStringWriterTests.Write_Number
       resultStatus: 1
-      duration: 0.0001466
+      duration: 0.0001432
       messages: 
       output: 
       stacktrace: 
@@ -3868,7 +3953,7 @@ MonoBehaviour:
       name: Write_String_Object_Escaped
       fullName: Serialization.Json.JsonStringWriterTests.Write_String_Object_Escaped
       resultStatus: 1
-      duration: 0.0001496
+      duration: 0.0001519
       messages: 
       output: 
       stacktrace: 
@@ -3885,7 +3970,7 @@ MonoBehaviour:
       name: SerializedArrayTests
       fullName: Serialization.SerializedArrayTests
       resultStatus: 1
-      duration: 0.0136959
+      duration: 0.0034046
       messages: 
       output: 
       stacktrace: 
@@ -3901,7 +3986,7 @@ MonoBehaviour:
       name: AddedContentsRoundTrippedCorrectly
       fullName: Serialization.SerializedArrayTests.AddedContentsRoundTrippedCorrectly
       resultStatus: 1
-      duration: 0.0079173
+      duration: 0.0002193
       messages: 
       output: 
       stacktrace: 
@@ -3918,7 +4003,7 @@ MonoBehaviour:
       name: EqualityBetweenIdentical___IsEqual
       fullName: Serialization.SerializedArrayTests.EqualityBetweenIdentical___IsEqual
       resultStatus: 1
-      duration: 0.0062044
+      duration: 0.000262
       messages: 
       output: 
       stacktrace: 
@@ -3935,7 +4020,7 @@ MonoBehaviour:
       name: SerializedObjectTests
       fullName: Serialization.SerializedObjectTests
       resultStatus: 1
-      duration: 0.0059712
+      duration: 0.003396
       messages: 
       output: 
       stacktrace: 
@@ -3951,7 +4036,7 @@ MonoBehaviour:
       name: AddedContentsRetrievedCorrectly
       fullName: Serialization.SerializedObjectTests.AddedContentsRetrievedCorrectly
       resultStatus: 1
-      duration: 0.001588
+      duration: 0.0002143
       messages: 
       output: 
       stacktrace: 
@@ -3968,7 +4053,7 @@ MonoBehaviour:
       name: EqualityBetweenIdentical___IsEqual
       fullName: Serialization.SerializedObjectTests.EqualityBetweenIdentical___IsEqual
       resultStatus: 1
-      duration: 0.0005979
+      duration: 0.0002211
       messages: 
       output: 
       stacktrace: 
@@ -3985,7 +4070,7 @@ MonoBehaviour:
       name: SerializedPrimitiveTests
       fullName: Serialization.SerializedPrimitiveTests
       resultStatus: 1
-      duration: 0.0114697
+      duration: 0.0106879
       messages: 
       output: 
       stacktrace: 
@@ -4001,7 +4086,7 @@ MonoBehaviour:
       name: Conversion___Int16_To_Int64
       fullName: Serialization.SerializedPrimitiveTests.Conversion___Int16_To_Int64
       resultStatus: 1
-      duration: 0.0001855
+      duration: 0.0001924
       messages: 
       output: 
       stacktrace: 
@@ -4018,7 +4103,7 @@ MonoBehaviour:
       name: Conversion___Int32_To_Double
       fullName: Serialization.SerializedPrimitiveTests.Conversion___Int32_To_Double
       resultStatus: 1
-      duration: 0.0001306
+      duration: 0.0001342
       messages: 
       output: 
       stacktrace: 
@@ -4035,7 +4120,7 @@ MonoBehaviour:
       name: Conversion___Int32_To_Int64
       fullName: Serialization.SerializedPrimitiveTests.Conversion___Int32_To_Int64
       resultStatus: 1
-      duration: 0.0001349
+      duration: 0.0001244
       messages: 
       output: 
       stacktrace: 
@@ -4052,7 +4137,7 @@ MonoBehaviour:
       name: Conversion___Int32_To_Single
       fullName: Serialization.SerializedPrimitiveTests.Conversion___Int32_To_Single
       resultStatus: 1
-      duration: 0.0001295
+      duration: 0.0001288
       messages: 
       output: 
       stacktrace: 
@@ -4069,7 +4154,7 @@ MonoBehaviour:
       name: Conversion___Int8_To_Int64
       fullName: Serialization.SerializedPrimitiveTests.Conversion___Int8_To_Int64
       resultStatus: 1
-      duration: 0.0001673
+      duration: 0.0001619
       messages: 
       output: 
       stacktrace: 
@@ -4086,7 +4171,7 @@ MonoBehaviour:
       name: Conversion___Single_To_Double
       fullName: Serialization.SerializedPrimitiveTests.Conversion___Single_To_Double
       resultStatus: 1
-      duration: 0.0002483
+      duration: 0.0002043
       messages: 
       output: 
       stacktrace: 
@@ -4103,7 +4188,7 @@ MonoBehaviour:
       name: Conversion___UInt32_To_Int64
       fullName: Serialization.SerializedPrimitiveTests.Conversion___UInt32_To_Int64
       resultStatus: 1
-      duration: 0.0001578
+      duration: 0.0001558
       messages: 
       output: 
       stacktrace: 
@@ -4120,7 +4205,7 @@ MonoBehaviour:
       name: Equality___String_Content___ByValue
       fullName: Serialization.SerializedPrimitiveTests.Equality___String_Content___ByValue
       resultStatus: 1
-      duration: 0.000218
+      duration: 0.0002146
       messages: 
       output: 
       stacktrace: 
@@ -4137,7 +4222,7 @@ MonoBehaviour:
       name: Equality___ValueType_Content___ByValue
       fullName: Serialization.SerializedPrimitiveTests.Equality___ValueType_Content___ByValue
       resultStatus: 1
-      duration: 0.0001846
+      duration: 0.0001866
       messages: 
       output: 
       stacktrace: 
@@ -4154,7 +4239,7 @@ MonoBehaviour:
       name: RoundTrip___Boolean
       fullName: Serialization.SerializedPrimitiveTests.RoundTrip___Boolean
       resultStatus: 1
-      duration: 0.0001335
+      duration: 0.0001364
       messages: 
       output: 
       stacktrace: 
@@ -4171,7 +4256,7 @@ MonoBehaviour:
       name: RoundTrip___Decimal
       fullName: Serialization.SerializedPrimitiveTests.RoundTrip___Decimal
       resultStatus: 1
-      duration: 0.0001484
+      duration: 0.0001476
       messages: 
       output: 
       stacktrace: 
@@ -4188,7 +4273,7 @@ MonoBehaviour:
       name: RoundTrip___Double
       fullName: Serialization.SerializedPrimitiveTests.RoundTrip___Double
       resultStatus: 1
-      duration: 0.0001421
+      duration: 0.0001272
       messages: 
       output: 
       stacktrace: 
@@ -4205,7 +4290,7 @@ MonoBehaviour:
       name: RoundTrip___Int16
       fullName: Serialization.SerializedPrimitiveTests.RoundTrip___Int16
       resultStatus: 1
-      duration: 0.0001245
+      duration: 0.0001214
       messages: 
       output: 
       stacktrace: 
@@ -4222,7 +4307,7 @@ MonoBehaviour:
       name: RoundTrip___Int32
       fullName: Serialization.SerializedPrimitiveTests.RoundTrip___Int32
       resultStatus: 1
-      duration: 0.0001199
+      duration: 0.0001208
       messages: 
       output: 
       stacktrace: 
@@ -4239,7 +4324,7 @@ MonoBehaviour:
       name: RoundTrip___Int64
       fullName: Serialization.SerializedPrimitiveTests.RoundTrip___Int64
       resultStatus: 1
-      duration: 0.0001188
+      duration: 0.0001192
       messages: 
       output: 
       stacktrace: 
@@ -4256,7 +4341,7 @@ MonoBehaviour:
       name: RoundTrip___Int8
       fullName: Serialization.SerializedPrimitiveTests.RoundTrip___Int8
       resultStatus: 1
-      duration: 0.0001202
+      duration: 0.0001183
       messages: 
       output: 
       stacktrace: 
@@ -4273,7 +4358,7 @@ MonoBehaviour:
       name: RoundTrip___Single
       fullName: Serialization.SerializedPrimitiveTests.RoundTrip___Single
       resultStatus: 1
-      duration: 0.0001221
+      duration: 0.0001244
       messages: 
       output: 
       stacktrace: 
@@ -4290,7 +4375,7 @@ MonoBehaviour:
       name: RoundTrip___String
       fullName: Serialization.SerializedPrimitiveTests.RoundTrip___String
       resultStatus: 1
-      duration: 0.0001182
+      duration: 0.0001217
       messages: 
       output: 
       stacktrace: 
@@ -4307,7 +4392,7 @@ MonoBehaviour:
       name: RoundTrip___UInt16
       fullName: Serialization.SerializedPrimitiveTests.RoundTrip___UInt16
       resultStatus: 1
-      duration: 0.0004078
+      duration: 0.0003254
       messages: 
       output: 
       stacktrace: 
@@ -4324,7 +4409,7 @@ MonoBehaviour:
       name: RoundTrip___UInt32
       fullName: Serialization.SerializedPrimitiveTests.RoundTrip___UInt32
       resultStatus: 1
-      duration: 0.0004963
+      duration: 0.000427
       messages: 
       output: 
       stacktrace: 
@@ -4341,7 +4426,7 @@ MonoBehaviour:
       name: RoundTrip___UInt64
       fullName: Serialization.SerializedPrimitiveTests.RoundTrip___UInt64
       resultStatus: 1
-      duration: 0.0004579
+      duration: 0.0004985
       messages: 
       output: 
       stacktrace: 
@@ -4358,7 +4443,7 @@ MonoBehaviour:
       name: RoundTrip___UInt8
       fullName: Serialization.SerializedPrimitiveTests.RoundTrip___UInt8
       resultStatus: 1
-      duration: 0.0001312
+      duration: 0.0001283
       messages: 
       output: 
       stacktrace: 
@@ -4375,7 +4460,7 @@ MonoBehaviour:
       name: UnityEngine
       fullName: UnityEngine
       resultStatus: 1
-      duration: 0.0122634
+      duration: 0.0438434
       messages: 
       output: 
       stacktrace: 
@@ -4391,7 +4476,7 @@ MonoBehaviour:
       name: TypeMapTests
       fullName: UnityEngine.TypeMapTests
       resultStatus: 1
-      duration: 0.0089457
+      duration: 0.0411345
       messages: 
       output: 
       stacktrace: 
@@ -4407,7 +4492,7 @@ MonoBehaviour:
       name: Delegates
       fullName: UnityEngine.TypeMapTests.Delegates
       resultStatus: 1
-      duration: 0.0017982
+      duration: 0.035931
       messages: 
       output: 
       stacktrace: 
@@ -4424,7 +4509,7 @@ MonoBehaviour:
       name: GetClosestOrDefault___Derived___ReturnsBaseType
       fullName: UnityEngine.TypeMapTests.GetClosestOrDefault___Derived___ReturnsBaseType
       resultStatus: 1
-      duration: 0.0012979
+      duration: 0.0009284
       messages: 
       output: 
       stacktrace: 
@@ -4441,7 +4526,7 @@ MonoBehaviour:
       name: GetClosestOrDefault___GenericDerived___PrioritizesUnconstructedTypeOverBaseType
       fullName: UnityEngine.TypeMapTests.GetClosestOrDefault___GenericDerived___PrioritizesUnconstructedTypeOverBaseType
       resultStatus: 1
-      duration: 0.0001929
+      duration: 0.0001962
       messages: 
       output: 
       stacktrace: 
@@ -4458,7 +4543,7 @@ MonoBehaviour:
       name: GetClosestOrDefault___GenericDerived___ReturnsBaseType
       fullName: UnityEngine.TypeMapTests.GetClosestOrDefault___GenericDerived___ReturnsBaseType
       resultStatus: 1
-      duration: 0.0001417
+      duration: 0.0001325
       messages: 
       output: 
       stacktrace: 
@@ -4475,7 +4560,7 @@ MonoBehaviour:
       name: GetClosestOrDefault___Match___ReturnsMatching
       fullName: UnityEngine.TypeMapTests.GetClosestOrDefault___Match___ReturnsMatching
       resultStatus: 1
-      duration: 0.000138
+      duration: 0.0001329
       messages: 
       output: 
       stacktrace: 
@@ -4492,7 +4577,7 @@ MonoBehaviour:
       name: GetClosestOrDefault___NoMatch___ReturnsDefault
       fullName: UnityEngine.TypeMapTests.GetClosestOrDefault___NoMatch___ReturnsDefault
       resultStatus: 1
-      duration: 0.0001363
+      duration: 0.0001287
       messages: 
       output: 
       stacktrace: 
@@ -4509,7 +4594,7 @@ MonoBehaviour:
       name: GetOrDefault___Match___ReturnsMatching
       fullName: UnityEngine.TypeMapTests.GetOrDefault___Match___ReturnsMatching
       resultStatus: 1
-      duration: 0.000193
+      duration: 0.0001826
       messages: 
       output: 
       stacktrace: 
@@ -4526,7 +4611,7 @@ MonoBehaviour:
       name: GetOrDefault___NoMatch___ReturnsDefault
       fullName: UnityEngine.TypeMapTests.GetOrDefault___NoMatch___ReturnsDefault
       resultStatus: 1
-      duration: 0.0001811
+      duration: 0.000127
       messages: 
       output: 
       stacktrace: 
@@ -4543,7 +4628,7 @@ MonoBehaviour:
       name: TryGet___Match___ReturnsMatching
       fullName: UnityEngine.TypeMapTests.TryGet___Match___ReturnsMatching
       resultStatus: 1
-      duration: 0.0004144
+      duration: 0.0001836
       messages: 
       output: 
       stacktrace: 
@@ -4560,7 +4645,7 @@ MonoBehaviour:
       name: TryGet___NoMatch___ReturnsFalse
       fullName: UnityEngine.TypeMapTests.TryGet___NoMatch___ReturnsFalse
       resultStatus: 1
-      duration: 0.0002987
+      duration: 0.0002092
       messages: 
       output: 
       stacktrace: 
@@ -4577,7 +4662,7 @@ MonoBehaviour:
       name: TryGetClosest___GenericDerived___PrioritizesUnconstructedTypeOverBaseType
       fullName: UnityEngine.TypeMapTests.TryGetClosest___GenericDerived___PrioritizesUnconstructedTypeOverBaseType
       resultStatus: 1
-      duration: 0.0003754
+      duration: 0.0002438
       messages: 
       output: 
       stacktrace: 
@@ -4594,7 +4679,7 @@ MonoBehaviour:
       name: TryGetClosest___NoMatch___ReturnsFalse
       fullName: UnityEngine.TypeMapTests.TryGetClosest___NoMatch___ReturnsFalse
       resultStatus: 1
-      duration: 0.0001826
+      duration: 0.0001257
       messages: 
       output: 
       stacktrace: 
@@ -4606,7 +4691,7 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: EditMode.dll/UnityEngine/[EditMode][UnityEngine.TypeMapTests][suite]
-    m_ResultText: 'MappingRegistryTests (0,012s)
+    m_ResultText: 'Neoserialization (1,500s)
 
       ---
 
@@ -4614,10 +4699,10 @@ MonoBehaviour:
       tests had errors'
     m_ResultStacktrace: 
     m_TestListState:
-      scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 0407f42b
-      m_LastClickedID: 737412868
-      m_ExpandedIDs: 2026c08e436c61936ae00595ad608d96cc856f9aedc39d9bda46919c4a4bc2a0eba168addcfc56b4a7da5dbd651ad6bdf70309c40ec433c4baa0dacb0a5fded7d6d190dba2b77edcfa56d200f6a283050e41801750b8d623b2b38c2b0407f42bf580f53a020566444edece62463b4e6458bcc369fb2cbd6ae625256db58db36f3b2591793fea547b4b5ea47c41ea8f7effffff7f
+      scrollPos: {x: 0, y: 900}
+      m_SelectedIDs: f70309c4
+      m_LastClickedID: -1006042121
+      m_ExpandedIDs: ee885b802026c08e436c61936ae00595ad608d96cc856f9aedc39d9bda46919c4a4bc2a0eba168addcfc56b4a7da5dbd651ad6bdf70309c40ec433c4baa0dacb0a5fded7d6d190dba2b77edcfa56d200f6a283050e41801750b8d623b2b38c2b0407f42bf580f53a020566444edece62463b4e6458bcc369fb2cbd6ae625256db58db36f3b2591793fea547b4b5ea47c41ea8f7effffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 

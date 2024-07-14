@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Profiling;
 using UnityPlus.AssetManagement;
 using UnityPlus.CSharp;
+using UnityPlus.OverridableEvents;
 using UnityPlus.Serialization;
 using UnityPlus.Serialization.DataHandlers;
 using UnityPlus.Serialization.Json;
@@ -120,7 +121,7 @@ public class _playtester : MonoBehaviour
     private void Awake()
     {
         this.Action = DoSomething;
-    }
+    } 
 
     private void DoSomething( string s )
     {
@@ -129,7 +130,20 @@ public class _playtester : MonoBehaviour
 
     void Start()
     {
-        SerializationMapping mapping1 = SerializationMappingRegistry.GetMapping<IAnInterface>( ObjectContext.Default, (IAnInterface)null );
+        // Arrange
+        IEnumerable<OverridableEventListener<string>> events = new List<OverridableEventListener<string>>()
+            {
+                new OverridableEventListener<string>( "A", null, new[] { "B" }, null, null ),
+                new OverridableEventListener<string>( "B", null, new[] { "A" }, null, null ),
+                new OverridableEventListener<string>( "C", null, null, new[] { "B" }, null ),
+                new OverridableEventListener<string>( "D", null, null, new[] { "C" }, null ),
+            };
+        bool wasCircular = false;
+
+        // Act
+        var sortedEvents = events
+            .SortDependencies( out wasCircular )
+            .Select( l => l.ID );
     }
 
     void Update()
