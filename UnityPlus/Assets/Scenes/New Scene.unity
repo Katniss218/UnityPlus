@@ -1129,7 +1129,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1538083249}
   - component: {fileID: 1538083248}
-  - component: {fileID: 1538083247}
+  - component: {fileID: 1538083252}
+  - component: {fileID: 1538083251}
+  - component: {fileID: 1538083250}
   m_Layer: 0
   m_Name: AssetManager
   m_TagString: Untagged
@@ -1137,22 +1139,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1538083247
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1538083246}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfbad14e977fcbc4c8edf15ea507789d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _registerer: {fileID: 1538083248}
-  _autoUpdate: 0
-  _constrainPath: Assets/
-  _assetPrefix: 'builtin::'
 --- !u!114 &1538083248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1234,8 +1220,6 @@ MonoBehaviour:
     asset: {fileID: 10414, guid: 0000000000000000e000000000000000, type: 0}
   - assetID: builtin::UnitySplash-cube
     asset: {fileID: 10403, guid: 0000000000000000e000000000000000, type: 0}
-  - assetID: builtin::UnitySplash-cube
-    asset: {fileID: 10404, guid: 0000000000000000e000000000000000, type: 0}
   - assetID: builtin::FrameDebuggerRenderTargetDisplay
     asset: {fileID: 10756, guid: 0000000000000000e000000000000000, type: 0}
   - assetID: builtin::GameSkin
@@ -1414,8 +1398,6 @@ MonoBehaviour:
     asset: {fileID: 10758, guid: 0000000000000000f000000000000000, type: 0}
   - assetID: builtin::Default-Particle
     asset: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Default-Particle
-    asset: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
   - assetID: builtin::Default-Diffuse
     asset: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
   - assetID: builtin::Default-Material
@@ -1428,38 +1410,22 @@ MonoBehaviour:
     asset: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   - assetID: builtin::Default-ParticleSystem
     asset: {fileID: 10307, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Default-ParticleSystem
-    asset: {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
   - assetID: builtin::Default-Checker-Gray
     asset: {fileID: 10309, guid: 0000000000000000f000000000000000, type: 0}
   - assetID: builtin::Checkmark
     asset: {fileID: 10900, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Checkmark
-    asset: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   - assetID: builtin::UISprite
     asset: {fileID: 10904, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::UISprite
-    asset: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   - assetID: builtin::Background
     asset: {fileID: 10906, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Background
-    asset: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   - assetID: builtin::InputFieldBackground
     asset: {fileID: 10910, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::InputFieldBackground
-    asset: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
   - assetID: builtin::Knob
     asset: {fileID: 10912, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::Knob
-    asset: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   - assetID: builtin::DropdownArrow
     asset: {fileID: 10914, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::DropdownArrow
-    asset: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
   - assetID: builtin::UIMask
     asset: {fileID: 10916, guid: 0000000000000000f000000000000000, type: 0}
-  - assetID: builtin::UIMask
-    asset: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
   - assetID: builtin::Default-HighResolution
     asset: {fileID: 15200, guid: 0000000000000000f000000000000000, type: 0}
   - assetID: builtin::Default-LowResolution
@@ -1501,6 +1467,8 @@ MonoBehaviour:
     asset: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
   - assetID: builtin::TextMesh Pro/Shaders/TMP_SDF-Surface
     asset: {fileID: 4800000, guid: f7ada0af4f174f0694ca6a487b8f543d, type: 3}
+  - assetID: builtin::test
+    asset: {fileID: 4900000, guid: 188c2c149303a6b4a88ef6a1277ea2e1, type: 3}
   - assetID: builtin::TextMesh Pro/Sprites/EmojiOne Attribution
     asset: {fileID: 4900000, guid: 381dcb09d5029d14897e55f98031fca5, type: 3}
   - assetID: builtin::TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas
@@ -1549,8 +1517,1551 @@ MonoBehaviour:
     asset: {fileID: 102900000, guid: 9fc0d4010bbf28b4594072e72b8655ab, type: 3}
   - assetID: builtin::TextMesh Pro/Shaders/TMP_Sprite
     asset: {fileID: 4800000, guid: cf81c85f95fe47e1a27f6ae460cf182c, type: 3}
-  - assetID: builtin::TextMesh Pro/Sprites/EmojiOne
-    asset: {fileID: 2800000, guid: dffef66376be4fa480fb02b19edbe903, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/workspaceserver.zh-Hans
+    asset: {fileID: 4900000, guid: 0040780a9bf62ef4f8b2d7c01530084d, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/cm-help.en
+    asset: {fileID: 4900000, guid: 00b43252883d50449ba8d7456e46f6f9, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/step2@2x
+    asset: {fileID: 21300000, guid: 0029170d14ce6c04c9f45c22cdae5559, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconlockedremoteoverlay
+    asset: {fileID: 21300000, guid: 1046ed65e6aaffb4391378f6d08d6c14, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconoutofsyncoverlay
+    asset: {fileID: 21300000, guid: 1079db1f4b377fb45aa245fd791993f6, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Styles/ChangesTabPageView
+    asset: {fileID: 7433441132597879392, guid: 105b0e05b7ff8d147ad5c7aeed41e3b7, type: 3}
+  - assetID: builtin::com.unity.settings-manager/package
+    asset: {fileID: 8385607101436470782, guid: 3001f7491ac66e34a9694543d9f8b1ee, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconplastic
+    asset: {fileID: 21300000, guid: 3042b019b052942a1baf7aa49d7ca6bb, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Styles/DownloadPlasticExeWindow
+    asset: {fileID: 7433441132597879392, guid: 3073089003718474ab284d743790fbb2, type: 3}
+  - assetID: builtin::com.unity.modules.subsystems/package
+    asset: {fileID: 8385607101436470782, guid: 30b312a167534621b316172253b08723, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_buttonssosigninemail
+    asset: {fileID: 21300000, guid: 3086d66a563317b40a20a20da2c64ac0, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconconflictresolvedoverlay@2x
+    asset: {fileID: 21300000, guid: 309b1d5a294fd6c43ae9cf77656c1852, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TimelineCollapseMarkerButtonDisabled
+    asset: {fileID: 2800000, guid: 40947ddc2dd4f0d499a92d0f3675c4e8, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconprivateoverlay@2x
+    asset: {fileID: 21300000, guid: 40685941c1361aa4a957b61174bce3f6, type: 3}
+  - assetID: builtin::com.unity.modules.jsonserialize/package
+    asset: {fileID: 8385607101436470782, guid: 40bf3cec17fa0b49fe04443c8332d638, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/DarkSkin/TimelineStartPlayback
+    asset: {fileID: 2800000, guid: 5060c9f9eb2f7ee4695b638a21d8fe01, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-progress-dark
+    asset: {fileID: 2800000, guid: 60706f973daf4764e81c846ce1a8e183, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackRecordButtonDisabled@2x
+    asset: {fileID: 2800000, guid: 6091f9516d23100479c03bca26138bc8, type: 3}
+  - assetID: builtin::com.unity.ide.visualstudio/CHANGELOG
+    asset: {fileID: 4900000, guid: 6022bdd5b2896a54f94123b812705321, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Styles/ProgressView
+    asset: {fileID: 7433441132597879392, guid: 6057b0c434179144c9316241a7bc8f2f, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Styles/HistoryEntryComponent
+    asset: {fileID: 7433441132597879392, guid: 60eaebd1e96ce8641b789b30cdcda09b, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_refresh@2x
+    asset: {fileID: 21300000, guid: 602b72d4617c3694aa94419fc1b68e04, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_cloudbuhochristmas
+    asset: {fileID: 21300000, guid: 70632ddfe8e71b04b8f90ef7e29a9e98, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/LightSkin/TimelinePlayRange
+    asset: {fileID: 2800000, guid: 70e3f118652b9094885689730ad3a47b, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/icondeletedremote@2x
+    asset: {fileID: 21300000, guid: 70e3ce8ad01f39248a3ea97a35bcf238, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-done-dark
+    asset: {fileID: 2800000, guid: 80c31f397a3ab184bae2f0d4b3dc5c1d, type: 3}
+  - assetID: builtin::com.unity.modules.screencapture/package
+    asset: {fileID: 8385607101436470782, guid: 80beef77cb19e713c7c2d481b65ed485, type: 3}
+  - assetID: builtin::com.unity.services.core/Editor/Core/UiHelpers/UXML/ExceptionVisual
+    asset: {fileID: 1068529831357515114, guid: 9021ecdbba26e420baa115f09cb56091, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Styles/WaitingSignInPanel
+    asset: {fileID: 7433441132597879392, guid: 90945345530e7174eb4f0575a0bec0bf, type: 3}
+  - assetID: builtin::com.unity.modules.cloth/package
+    asset: {fileID: 8385607101436470782, guid: 906c12bc9cd95d3963c6d58f62522c78, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Styles/StartPageView
+    asset: {fileID: 7433441132597879392, guid: a06574b6de1fa064e95a5635a03b712d, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/status-error-dark@2x
+    asset: {fileID: 2800000, guid: a0fdac62174ca014b94a537688fc684d, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_colorbuhoshe
+    asset: {fileID: 21300000, guid: a04ecc9d5e12d5d449077414eb86635e, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Shared/TimelineConnector
+    asset: {fileID: 2800000, guid: a04f1625bf500f64e97445265dfbcc93, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/LightSkin/TimelineHold
+    asset: {fileID: 2800000, guid: a09fd8b5d9396c24a96a6de50cddc3b9, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/commontypes.es
+    asset: {fileID: 4900000, guid: b0535529cd8d8884a9a3bf0d9cf34b37, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-error-light
+    asset: {fileID: 2800000, guid: b08f8cbc53d0bfb45bd2fd1f676d3554, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/loading-dark@2x
+    asset: {fileID: 2800000, guid: d021820613d286f48915c2de657245d5, type: 3}
+  - assetID: builtin::com.unity.modules.unitywebrequesttexture/package
+    asset: {fileID: 8385607101436470782, guid: d0e3ad91972c66f5238f5b9b7d5ae58a, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Layouts/TabView
+    asset: {fileID: 1068529831357515114, guid: d0a8e201e79e1f441bdf295aef957220, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/cm.ko
+    asset: {fileID: 4900000, guid: d069d7f97ff7373409d2856fb7a8a5ae, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/moved-file-dark@2x
+    asset: {fileID: 2800000, guid: d0c9bfe4ae0d68a4f945b3a8d983af01, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Textures/btn_AlignRight_Light
+    asset: {fileID: 2800000, guid: e05ace3bd15740cda0bad60d89092a5b, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Styles/ProgressControlsForDialogs
+    asset: {fileID: 7433441132597879392, guid: e05b9be8556f5ae41aa78140b83146d5, type: 3}
+  - assetID: builtin::com.unity.ugui/README
+    asset: {fileID: 4900000, guid: e0ae6629cc70b514889df37fccb76832, type: 3}
+  - assetID: builtin::com.unity.modules.ai/package
+    asset: {fileID: 8385607101436470782, guid: f0f13f2ab3d6d13cfc6e4656824bfca8, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_stevejobsbuhoshechristmas
+    asset: {fileID: 21300000, guid: f008857e434b98b4eaabda1fd6af3059, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackCurvesButtonDisabled
+    asset: {fileID: 2800000, guid: f0f8ff8921b22a74a8c79d955ace248d, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/buttonssosigningoogle
+    asset: {fileID: 21300000, guid: f09eae8c0ea04254b90c5386a034a225, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/xdiff.ko
+    asset: {fileID: 4900000, guid: 0144f4b5198329a4580bf6099e148b0a, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-error-dark@2x
+    asset: {fileID: 2800000, guid: 0159d5999f4dc4545848ed42cd775ec4, type: 3}
+  - assetID: builtin::com.unity.performance.profile-analyzer/LICENSE
+    asset: {fileID: 4900000, guid: 1122c571e35634d4aba967c658ce3720, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-progress-dark@2x
+    asset: {fileID: 2800000, guid: 116a8defb66aa304d97c1fd15f044486, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/clientcommon.zh-Hant
+    asset: {fileID: 4900000, guid: 21223c1ce2d914a4ba691132bb004abd, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/binmergetool.es
+    asset: {fileID: 4900000, guid: 210c4b9d40ce9054a9fc4d993c17b2c5, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Styles/FloatingMenuItem
+    asset: {fileID: 7433441132597879392, guid: 217de72323dece74caf1db54dfacfac5, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Layouts/HistoryEntryComponent
+    asset: {fileID: 1068529831357515114, guid: 210e50e15b80af044a15718d78f5388a, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Layouts/TurnOffPlasticWindow
+    asset: {fileID: 1068529831357515114, guid: 31a577f9e6c336e40901eb20082e06a0, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconplasticview@2x
+    asset: {fileID: 21300000, guid: 3168140d6f409d0448447f18568d9482, type: 3}
+  - assetID: builtin::com.unity.ugui/package
+    asset: {fileID: 8385607101436470782, guid: 319b8889f363f5947acf209c17a94149, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/LightSkin/TimelineIconClipIn
+    asset: {fileID: 2800000, guid: 4171b549947246b4f9579419d5698a7e, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Tests/README
+    asset: {fileID: 4900000, guid: 41f2e51869a690f4bbd61bdf615f3e05, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/differences.zh-Hant
+    asset: {fileID: 4900000, guid: 4179c9825aff4b54a95f064435cf7b35, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Textures/btn_AlignMiddle
+    asset: {fileID: 2800000, guid: 41b96614b2e6494ba995ddcd252d11ae, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TimelineEditModeRippleOFF
+    asset: {fileID: 2800000, guid: 411e6f19c19fa0546af83aeb59c2ed4b, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/DarkSkin/TimelineDisabledBackground
+    asset: {fileID: 2800000, guid: 412f73153f3a3c549b67b2a847741145, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconplasticnotifyconflict
+    asset: {fileID: 21300000, guid: 51582ae5ea51fa14996791a550f89473, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackMuteButtonEnabled@2x
+    asset: {fileID: 2800000, guid: 512aaee9b220348408a2e518f98d6e14, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconplasticview
+    asset: {fileID: 21300000, guid: 519d97e745e55f041b609f3666cbc037, type: 3}
+  - assetID: builtin::com.unity.nuget.newtonsoft-json/README
+    asset: {fileID: 4900000, guid: 51bd45ca4f0f28342a12f4b0c80e9f4f, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackAvatarButtonEnabled@2x
+    asset: {fileID: 2800000, guid: 51bf5f55a8a01e546bf6092b54fdae20, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackMarkerButtonEnabled@2x
+    asset: {fileID: 2800000, guid: 6192986415256ca47a97a97507406f5e, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/configurehelper.es
+    asset: {fileID: 4900000, guid: 61920cca6c87da84b8c18062a061392c, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/LightSkin/TimelineContinue
+    asset: {fileID: 2800000, guid: 61c21f74972ba8246b3ea400a9231841, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconbranch
+    asset: {fileID: 21300000, guid: 612c5e166a121e3449dad067fbdc37a4, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconlockedlocaloverlay
+    asset: {fileID: 21300000, guid: 71c45f80bffdb9145ad2c456254c862e, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/clear-light
+    asset: {fileID: 2800000, guid: 713aeedbd53e6b848a68d0755e7a2c74, type: 3}
+  - assetID: builtin::com.unity.ext.nunit/package
+    asset: {fileID: 8385607101436470782, guid: 8143d3a8390f2c64685e3bc272bd9e90, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackMuteButtonEnabled
+    asset: {fileID: 2800000, guid: 81e8b4a4bcbf7a14898e2658fd827642, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Textures/btn_AlignCenter
+    asset: {fileID: 2800000, guid: 81ed8c76d2bc4a4c95d092c98af4e58f, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackAvatarButtonDisabled
+    asset: {fileID: 2800000, guid: 91746a504b59769439bb2749c314d231, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconemptygravatar
+    asset: {fileID: 21300000, guid: 91976e8b9ce0f0341838727acd55621c, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Layouts/WaitingSignInPanel
+    asset: {fileID: 1068529831357515114, guid: 913c727eecab25c489fa2adbad9c9ab8, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TimelineEditModeReplaceOFF
+    asset: {fileID: 2800000, guid: 912fd71cbf4cbe140b4f240bedbc1f3e, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Layouts/ErrorPageView
+    asset: {fileID: 1068529831357515114, guid: a1f27722ebc4a8f498fd31a30078e2ca, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Layouts/ChangesTabPageView
+    asset: {fileID: 1068529831357515114, guid: a1c552fb05993cf4eac00d572aa408f8, type: 3}
+  - assetID: builtin::com.unity.services.core/Editor/Core/Configuration/productionUrls
+    asset: {fileID: 4900000, guid: a1b72e317de21944db60cab0b6122b91, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TimelineDigIn
+    asset: {fileID: 2800000, guid: b1d064d6d80829f4eb370f679384ea1f, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/DarkSkin/TimelineMarkerItem
+    asset: {fileID: 2800000, guid: c133595e3c100774496e03e66fa69259, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/README
+    asset: {fileID: 4900000, guid: c10740cd62ccaf54c8880da0a3f4d10f, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/EditorGameService/SettingsProviderVisuals/UXML/CollabProjectSettingsEnabled
+    asset: {fileID: 1068529831357515114, guid: c1d9e7d786a3841e7858003b3515bbac, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackMarkerButtonEnabled
+    asset: {fileID: 2800000, guid: d18286874382ef042bbbdab5f71329c1, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconconflicted
+    asset: {fileID: 21300000, guid: d1c88f142eee55b4eb2b2cfd7b3624ce, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackMarkerButtonEnabled
+    asset: {fileID: 2800000, guid: d1eccbb425fdacc4ba53ce4223f4ea30, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/DarkSkin/TimelineAutokey_active
+    asset: {fileID: 2800000, guid: e17ee60887efdd04389991a15ee0c578, type: 3}
+  - assetID: builtin::com.unity.modules.assetbundle/package
+    asset: {fileID: 8385607101436470782, guid: e1ef8466c8fd01a549f10baa4d51fa17, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/binmergetool.en
+    asset: {fileID: 4900000, guid: f1329232751d5074f9d101370f6bd3e1, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/merge-conflicts-dark
+    asset: {fileID: 2800000, guid: f15453c5e25703942b480f17a40794f5, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/deleted-file-light@2x
+    asset: {fileID: 2800000, guid: f1c735dde115d4f4c9ff5c633f07fbb8, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/DarkSkin/TimelineMarkerItemCollapsed
+    asset: {fileID: 2800000, guid: f179d9a3cccffb04ba2e27f681e9b147, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconaddedlocal@2x
+    asset: {fileID: 21300000, guid: 02800fb9cff14da47a04572790384d8b, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Layouts/SignInWithEmailPanel
+    asset: {fileID: 1068529831357515114, guid: 0229db2477529f049aa3683cfba9d23b, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-warning-light@2x
+    asset: {fileID: 2800000, guid: 02fa233a818899d48a2d3e68a68b23b6, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Textures/btn_AlignLeft_Light
+    asset: {fileID: 2800000, guid: 12736c98af174f91827a26b66d2b01b9, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconmergelink
+    asset: {fileID: 21300000, guid: 120bf54dff785a0429b068b814e9c12a, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TimelineDigIn
+    asset: {fileID: 2800000, guid: 22c3c381bd3cd4a40a8541103023e1ef, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/CHANGELOG
+    asset: {fileID: 4900000, guid: 22464cf7ab0243a6bf9c79851183b002, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/package
+    asset: {fileID: 8385607101436470782, guid: 220e9325710f4235a43492dd1ee4980d, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/res/Timeline_LightSkin
+    asset: {fileID: 4900000, guid: 3235ecefad2a6a645aa0222aca200aeb, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/DarkSkin/TimelineIconClipOut
+    asset: {fileID: 2800000, guid: 32f7e3598d6414c489127629e29af3f6, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/ok
+    asset: {fileID: 21300000, guid: 3238dca1e9ea9fb4aa64b28298ba6dbd, type: 3}
+  - assetID: builtin::com.unity.modules.imgui/package
+    asset: {fileID: 8385607101436470782, guid: 42fe78c8fe682715a2cb531422e6ccb3, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/LICENSE
+    asset: {fileID: 4900000, guid: 52a2c019761d4f74ea3dbdaa0d889673, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackMuteButtonDisabled
+    asset: {fileID: 2800000, guid: 5216b1b48296ef345ad2d2ec43105bf0, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/merge-light@2x
+    asset: {fileID: 2800000, guid: 52c8930beb5f2774ebec26a86c7e9713, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackLockButtonDisabled
+    asset: {fileID: 2800000, guid: 52ee3ba2abc3da14a95cdf64d32ae0ae, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/more-vert-light
+    asset: {fileID: 2800000, guid: 6232fff3dd732c24b810a139724ea7cf, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_icondeletedremote@2x
+    asset: {fileID: 21300000, guid: 626b9cddb29049e4cac50cd87b419945, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/ValidationExceptions
+    asset: {fileID: 4900000, guid: 8233a1f88c2d1a849b629ec21c2a2dd1, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Shared/TimelineOutline
+    asset: {fileID: 2800000, guid: 829511f8e35bf3a40be037a1050f801c, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Styles/ListNotice
+    asset: {fileID: 7433441132597879392, guid: 82f99126211a3fe44a96c111768733a3, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/LightSkin/TimelineStartPlayback
+    asset: {fileID: 2800000, guid: 824c4beb0ca6c934bbc7a26919302236, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Textures/btn_AlignJustified
+    asset: {fileID: 2800000, guid: 92027f7f8cfc4feaa477da0dc38d3d46, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_icondeletedlocaloverlay@2x
+    asset: {fileID: 21300000, guid: 92b204cca46037444ab18ba6701f86f7, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/plastic-gui.es
+    asset: {fileID: 4900000, guid: 920353df495158e48b32b1372269c7ed, type: 3}
+  - assetID: builtin::com.unity.modules.tilemap/package
+    asset: {fileID: 8385607101436470782, guid: 92a378669877c05c6071d0fed687bb95, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/DarkSkin/TimelineAutokey
+    asset: {fileID: 2800000, guid: 92b5e4310629b264dad0fb2cc196d818, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Textures/btn_AlignLeft
+    asset: {fileID: 2800000, guid: 9288066c33474b94b6ee5465f4df1cc0, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_refresh
+    asset: {fileID: 21300000, guid: 92b8c447daf4d4b41a0ec148d1091261, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Styles/PlasticWindow/PlasticWindow.light
+    asset: {fileID: 7433441132597879392, guid: a2f1c1d1d67a2ff4e9db53ae0475bab1, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/choose-remote-dark@2x
+    asset: {fileID: 2800000, guid: a26232d4d188e4440897131ed223d505, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/notondisk
+    asset: {fileID: 21300000, guid: b205f4b28f59dda49af458b35d8a3ff3, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Layouts/StartPageView
+    asset: {fileID: 1068529831357515114, guid: b25da32608546214ca8e4abbc2025f77, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/added-file-dark@2x
+    asset: {fileID: 2800000, guid: c223e0c507e2c6549a2cb97441b62cbe, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/DarkSkin/TimelineEndPlayback
+    asset: {fileID: 2800000, guid: c285802d9d414814fad592b90b223f15, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackAvatarButtonEnabled
+    asset: {fileID: 2800000, guid: c207dcd389fb689489f5266468cd4609, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Textures/btn_AlignMidLine
+    asset: {fileID: 2800000, guid: c2f7f6a88b4c4f20a53deb72f3d9144c, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/status-warning-dark
+    asset: {fileID: 2800000, guid: c2d8bb87691276f4d93f1b74330d1d90, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-available-changes-light
+    asset: {fileID: 2800000, guid: c27f4e1f2b76b2f45b48df65c02ba338, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconconflictedoverlay
+    asset: {fileID: 21300000, guid: d25a8ffe41f199d4c8f355d2de2d19e0, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/buttonssosigninemail
+    asset: {fileID: 21300000, guid: d24e7e0b75e1a244bb9687d6fd4315ef, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/icondeletedlocaloverlay
+    asset: {fileID: 21300000, guid: e251dfd24b5610d4d8ea65a237cc9d97, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Styles/SignInSignUp
+    asset: {fileID: 7433441132597879392, guid: e29c9d2208f5c2a48a15e02f3fc55a4a, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_genericbuhoshe1
+    asset: {fileID: 21300000, guid: f2901efd8bb16bc408ad37f017fbf9bc, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/LightSkin/TimelineDisabledBackground
+    asset: {fileID: 2800000, guid: 0304baf8d224f3e47b22d872c8dcd412, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/guihelp.es
+    asset: {fileID: 4900000, guid: 0344699e23d35ad4f9223bc708871e0d, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/conflicted-file-light@2x
+    asset: {fileID: 2800000, guid: 0365b40fda51ad5499dfe50b036adb1b, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TimelineCollapseMarkerButtonEnabled
+    asset: {fileID: 2800000, guid: 0367ce1ebbbb18940b79eed63a0315d5, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Shared/TimelineDisplay
+    asset: {fileID: 2800000, guid: 03ae22b9de3989144a9bebf8972b4fad, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/secondarytabclose
+    asset: {fileID: 21300000, guid: 03cefa94d5aa9d74993fb2138af9d607, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconclosebutton
+    asset: {fileID: 21300000, guid: 13527793884104b46b7446fd7464c3ed, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Layouts/AlertBox
+    asset: {fileID: 1068529831357515114, guid: 13d7e179675caff4293e8d5c7fb1dda8, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_expertbuho
+    asset: {fileID: 21300000, guid: 13e7e6fe43a8aa049bcd610bbc1f5ff8, type: 3}
+  - assetID: builtin::com.unity.timeline/package
+    asset: {fileID: 8385607101436470782, guid: 13a9c1b4df2e489e8eb9cacca7429596, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/revert-asset-dark
+    asset: {fileID: 2800000, guid: 23933ab6b291bc54ba1b99b5fcb9ec80, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconplasticnotifyconflict@2x
+    asset: {fileID: 21300000, guid: 23743f0c0ed1e6546808a5d645c2a6a5, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_icondeletedremote
+    asset: {fileID: 21300000, guid: 23e66f7264c74424889342127f229577, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TimelineClipFG
+    asset: {fileID: 2800000, guid: 33b1871a2d09cfa459a93f4e8feb5c41, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/edited-file-light
+    asset: {fileID: 2800000, guid: 33c1613cec3e57243baaa6b3dba6fec5, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackMarkerButtonDisabled
+    asset: {fileID: 2800000, guid: 33a52b41b4de5874ca7da1da32067e39, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Styles/SSOSignUpPanel
+    asset: {fileID: 7433441132597879392, guid: 3337338cbeb79a24cba584de64190044, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/EditorGameService/SettingsProviderVisuals/USS/ServicesProjectSettingsCommon
+    asset: {fileID: 7433441132597879392, guid: 4324e2e7d76c7448096a033e3c2c6b0f, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/clear-dark
+    asset: {fileID: 2800000, guid: 432426364f0e2474b9817a7e5b9dd1c2, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_genericbuho1
+    asset: {fileID: 21300000, guid: 43ad51e043491b94d8f6c62d55ac5ede, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackCurvesButtonEnabled@2x
+    asset: {fileID: 2800000, guid: 43ed4593c5ddda0439fcc1bdaf8309fe, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/DarkSkin/TimelinePlayRange
+    asset: {fileID: 2800000, guid: 43eeff8a446b32242a4fb1a5c1bd7b8e, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Extensions/dark
+    asset: {fileID: 7433441132597879392, guid: 5393cdb70614ab24f94f78bfcf5d1455, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/differences.ja
+    asset: {fileID: 4900000, guid: 5367c91536a574d4c9563911632523e9, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/plastic-gui.ko
+    asset: {fileID: 4900000, guid: 53c7e69f88b5cf042989a4869f21b71b, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Models/README
+    asset: {fileID: 4900000, guid: 53cdcf379b41d8f439db624b6ef90749, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconoutofsync
+    asset: {fileID: 21300000, guid: 636d03a8834e3ed4cac3a1cb4b82deaf, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconaddedoverlay
+    asset: {fileID: 21300000, guid: 73d124bf77e463c45942d14136745d9f, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TimelineSelector
+    asset: {fileID: 2800000, guid: 73f5ebb64da7b2a40ab6bffac80f1a61, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_expertbuhoshe
+    asset: {fileID: 21300000, guid: 8325d4ef0a6eb3d43952aff8a06d9f45, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/cm-help.ko
+    asset: {fileID: 4900000, guid: 83ead945c33c1944eb3b8def9e153db7, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-light@2x
+    asset: {fileID: 2800000, guid: 837c493ae228aaf4d977e9138707008d, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/cm.zh-Hant
+    asset: {fileID: 4900000, guid: 9333add9b5a372b4e96b02bdfa7f9ba6, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackCurvesButtonDisabled@2x
+    asset: {fileID: 2800000, guid: a383d8b1327c9254896ad76d6efaf357, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/icondeletedlocaloverlay@2x
+    asset: {fileID: 21300000, guid: a3e491f99ea3ad74f8731ca93e84c497, type: 3}
+  - assetID: builtin::com.unity.ide.visualstudio/ValidationConfig
+    asset: {fileID: 4900000, guid: a3f71b076c36a204a864f8c44142b3a9, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconconflictedoverlay@2x
+    asset: {fileID: 21300000, guid: a3ced8f7044b9de4787602a9e9b20ea7, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackMarkerButtonDisabled
+    asset: {fileID: 2800000, guid: b3644a971cca0bd4eb357cb9aca4dde1, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Styles/SignInWithEmailPanel
+    asset: {fileID: 7433441132597879392, guid: b37675bc656348c429a6c56b2eda1345, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackMarkerButtonEnabled@2x
+    asset: {fileID: 2800000, guid: c35a22ede3f5feb488bf69587ddc36ed, type: 3}
+  - assetID: builtin::com.unity.services.core/Editor/Core/ProjectBindRedirect/UXML/ProjectBindRedirectContent
+    asset: {fileID: 1068529831357515114, guid: c3ea97ea17d794d399434834be23ac62, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/DarkSkin/TimelinePingPong
+    asset: {fileID: 2800000, guid: d3b5c4f7d6b94f64085b3713bffa680e, type: 3}
+  - assetID: builtin::com.unity.modules.terrainphysics/package
+    asset: {fileID: 8385607101436470782, guid: d3cbe921f7b3d9a3257e7c61a5761796, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Textures/SectionHeader_Light
+    asset: {fileID: 2800000, guid: e3b0f810fdea84e40ab4ba20f256f7e8, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/moved-file-dark
+    asset: {fileID: 2800000, guid: e3ea510ab0d9de74d825181746b18285, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_genericbuhochristmas1
+    asset: {fileID: 21300000, guid: e36d1a38d7aa309409e80bf66a089330, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconplasticnotifyincoming
+    asset: {fileID: 21300000, guid: f31d2c855644aad4cb2030bce12859f6, type: 3}
+  - assetID: builtin::com.unity.services.core/Editor/Core/UiHelpers/Images/ToggleOff
+    asset: {fileID: 2800000, guid: 04ca3057bc8a3462899551a1d4c90184, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Styles/FloatingMenu
+    asset: {fileID: 7433441132597879392, guid: 04ac82a2c43d10f4790e0c720502e3bf, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_buttonssosigninemail@2x
+    asset: {fileID: 21300000, guid: 144aa74618b85974a9a50f612c2fa8fd, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TimelineCollapseMarkerButtonEnabled
+    asset: {fileID: 2800000, guid: 2446ee609b613cd4e9142ccc55cb7c43, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/LightSkin/TimelineMarkerItem
+    asset: {fileID: 2800000, guid: 24b97c67b63a23b48bea4036d28a5818, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/binmergetool.ko
+    asset: {fileID: 4900000, guid: 243c6eb3669ed1943b1fc9af70360876, type: 3}
+  - assetID: builtin::com.unity.nuget.newtonsoft-json/LICENSE
+    asset: {fileID: 4900000, guid: 24efe08f95549ab4699df4c1b55703e5, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/status-info-light
+    asset: {fileID: 2800000, guid: 34b3e61f975861a4cba8efcb5f6f05ea, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_stepok@2x
+    asset: {fileID: 21300000, guid: 3494dc956dfd7174abc07060940a2848, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Textures/btn_AlignRight
+    asset: {fileID: 2800000, guid: 342a0f8aca7f4f0691338912faec0494, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-light
+    asset: {fileID: 2800000, guid: 4466539767d9ee241abcc43eebb52ce3, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/commontypes.ja
+    asset: {fileID: 4900000, guid: 448e8988e90c2844c8ef05e10b1e1849, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/res/Timeline_DarkSkin
+    asset: {fileID: 4900000, guid: 54905d77593e9eb44a7c25d704bb4163, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackAvatarButtonDisabled
+    asset: {fileID: 2800000, guid: 54623075676bd504d93243fb18745161, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/i3.zh-Hant
+    asset: {fileID: 4900000, guid: 5417ffe549209e449a01dfb0c159570d, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Layouts/CreateOrganizationPanel
+    asset: {fileID: 1068529831357515114, guid: 544ec465751093542a3bb5d42b6b5689, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Styles/OrganizationPanel
+    asset: {fileID: 7433441132597879392, guid: 642639f75f2dfbd4ab01e6708b58f304, type: 3}
+  - assetID: builtin::com.unity.editorcoroutines/package
+    asset: {fileID: 8385607101436470782, guid: 6428ca6f30e71ee4dbea7e1d0787cb07, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Textures/btn_AlignFlush_Light
+    asset: {fileID: 2800000, guid: 64b9fad609434c489c32b1cdf2004a1c, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconplasticviewnotify@2x
+    asset: {fileID: 21300000, guid: 64eb0648ca0d11944a9517d8662508fd, type: 3}
+  - assetID: builtin::com.unity.timeline/ValidationExceptions
+    asset: {fileID: 4900000, guid: 7481ef521526b8a41ad9f2d4815ce087, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/package
+    asset: {fileID: 8385607101436470782, guid: 743fda8c4b219c8429fb5a77ede1c879, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconaddedoverlay@2x
+    asset: {fileID: 21300000, guid: 74ef721fef79c44489d4e3edb0ab0c01, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-available-changes-light@2x
+    asset: {fileID: 2800000, guid: 8478a99d8fb61c94ba938c3034d449c6, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/show-dark
+    asset: {fileID: 2800000, guid: 849b7119dad13a24397add67a7f78510, type: 3}
+  - assetID: builtin::com.unity.nuget.newtonsoft-json/Third Party Notices
+    asset: {fileID: 4900000, guid: 9422d9b1fde3cf644b4a0dddd10a7348, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconpressedclosebutton
+    asset: {fileID: 21300000, guid: 94fe868620119564f9474f40cd6145aa, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/Timeline-Marker-Warning-Overlay
+    asset: {fileID: 2800000, guid: 945f4ecec6df62244b9ebcc363833642, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/images.zh-Hans
+    asset: {fileID: 4900000, guid: b46663dfa22f5734cbfb4e79e47f7367, type: 3}
+  - assetID: builtin::com.unity.services.core/Editor/Core/UiHelpers/USS/PlatformSupportVisualDark
+    asset: {fileID: 7433441132597879392, guid: d4f6a83cd2a8c40ce97bda4199084fbc, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/stepok
+    asset: {fileID: 21300000, guid: d4780dc1205c7c7478c970d8c61d24e8, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/workspaceserver.ja
+    asset: {fileID: 4900000, guid: d41be0f8823aeea418513f16e52bc9a9, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-error-light@2x
+    asset: {fileID: 2800000, guid: d41e3a51c74c48847a8eb97a319afda8, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TimelineClipBG
+    asset: {fileID: 2800000, guid: d44fc8b11425e0043aa7c20a301ce707, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconbranch@2x
+    asset: {fileID: 21300000, guid: e45389a8a97044d4caf408f252370632, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/diff-light
+    asset: {fileID: 2800000, guid: f4d24f788ff8ef0448d273529dc5d9a0, type: 3}
+  - assetID: builtin::com.unity.editorcoroutines/CHANGELOG
+    asset: {fileID: 4900000, guid: f4e822a0337b6cf4aade8abffaf819a8, type: 3}
+  - assetID: builtin::com.unity.ext.nunit/CHANGELOG
+    asset: {fileID: 4900000, guid: f49bbe06ffa5ae24abe32abdab430c24, type: 3}
+  - assetID: builtin::com.unity.services.core/Third Party Notices
+    asset: {fileID: 4900000, guid: f4dc4164cea64bb4ba1d181081ca2caf, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconclosebutton@2x
+    asset: {fileID: 21300000, guid: 0525793900d728a42936791a8a6de63b, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/PackageConversionData
+    asset: {fileID: 4900000, guid: 05f5bfd584002f948982a1498890f9a9, type: 3}
+  - assetID: builtin::com.unity.modules.unitywebrequestassetbundle/package
+    asset: {fileID: 8385607101436470782, guid: 05f7f519769978b79b31d063a7fc6fa1, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Presenters/README
+    asset: {fileID: 4900000, guid: 056dc4c86686c2241a12fdd054d0decb, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconconflictresolvedoverlay
+    asset: {fileID: 21300000, guid: 056ee72c467a4e24d87541d42839ca72, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconprivateoverlay
+    asset: {fileID: 21300000, guid: 059fb5367594a3343814dc25ace454b3, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TimelineSignal
+    asset: {fileID: 2800000, guid: 15845fb26c2846947b4dedb9fb348cc1, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Styles/BetterTextField
+    asset: {fileID: 7433441132597879392, guid: 1526405b75c937f4b9f26bef99e5e692, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/conflicted-file-light
+    asset: {fileID: 2800000, guid: 159b6ffcecc70b54a991cab02c8be883, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-dark@2x
+    asset: {fileID: 2800000, guid: 158d9c687149a0e499002e08c9420c70, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/basecommands.es
+    asset: {fileID: 4900000, guid: 155e92d467b932941aeae3d165dea7a0, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/DarkSkin/TimelineActivation
+    asset: {fileID: 2800000, guid: 359cf58d5969d1a4aad29b095c7fc338, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Textures/btn_AlignCenterGeo_Light
+    asset: {fileID: 2800000, guid: 35ff0937876540d3bd4b6a941df62a92, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-warning-dark@2x
+    asset: {fileID: 2800000, guid: 45308e2aea842dd4e87bb30395d6e303, type: 3}
+  - assetID: builtin::com.unity.ide.rider/LICENSE
+    asset: {fileID: 4900000, guid: 5598b14661b5f4c43bed757f34b6d172, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/xlink
+    asset: {fileID: 21300000, guid: 556a2f3b046024d4c9621c1b4be5f0c1, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Styles/CreateOrganizationPanel
+    asset: {fileID: 7433441132597879392, guid: 55ebb8b19849d1447909e8355a13a5f9, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconconflicted@2x
+    asset: {fileID: 21300000, guid: 65f0e363b74cf5845ab8c3fbc14f39ac, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/differences.zh-Hans
+    asset: {fileID: 4900000, guid: 6599de0a02dbaa24989d0d039f3ea5ac, type: 3}
+  - assetID: builtin::com.unity.ide.visualstudio/package
+    asset: {fileID: 8385607101436470782, guid: 656f74f6edaa396458412b9e3903d8cd, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-incoming-light@2x
+    asset: {fileID: 2800000, guid: 75d22b424580dde41824299bb20d1de1, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Shared/Timeline-Marker-Multi-Overlay
+    asset: {fileID: 2800000, guid: 75f26f1c549568c4e9950a368bd08cb8, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Styles/AlertBox
+    asset: {fileID: 7433441132597879392, guid: 85516056fd2579c45b10c08bc3c52a08, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-dark
+    asset: {fileID: 2800000, guid: 8558913fe46542045b38c8f97ef8546a, type: 3}
+  - assetID: builtin::com.unity.services.core/Editor/Core/ProjectBindRedirect/USS/ProjectBindRedirectProjectSettings
+    asset: {fileID: 7433441132597879392, guid: 859a95323373144b7a6b438edfc6ee56, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Styles/TabView
+    asset: {fileID: 7433441132597879392, guid: 85edc31085b5b4446a25358f42c67726, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/differences.ko
+    asset: {fileID: 4900000, guid: 958639dc6643d244c8e6b4c894ec1dfb, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackCurvesButtonEnabled
+    asset: {fileID: 2800000, guid: 9589d5d9eb09dec43b2ad51af4e78b1e, type: 3}
+  - assetID: builtin::com.unity.modules.imageconversion/package
+    asset: {fileID: 8385607101436470782, guid: 953fab16d15d5885b3600fcd6388b2ad, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/DarkSkin/TimelineSignalSelected
+    asset: {fileID: 2800000, guid: a5e21f4e466690645980dd0cf0b664bc, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/commontypes.zh-Hant
+    asset: {fileID: 4900000, guid: a57d75e6fa97a764f9b0a4ebfdcc3e7a, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconlockedlocaloverlay@2x
+    asset: {fileID: 21300000, guid: b528c1b33a65cf94ea74f830b54c9acb, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TimelineEditModeRippleON
+    asset: {fileID: 2800000, guid: c5c1f094d9a9b3f4c9cc6c3a87af871c, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/edited-file-light@2x
+    asset: {fileID: 2800000, guid: c5b20b1351db04e44b3baeba4679c8d7, type: 3}
+  - assetID: builtin::com.unity.services.core/Editor/Core/UiHelpers/USS/PlatformSupportVisualLight
+    asset: {fileID: 7433441132597879392, guid: c56cb2f61c79e4427b47e2dedd499d46, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconplasticnotifyincoming@2x
+    asset: {fileID: 21300000, guid: c5fc116b3271b5947808130b2212cd60, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/ValidationExceptions
+    asset: {fileID: 4900000, guid: c5aeade3b36c0b246936762b3673d9bf, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/icondeletedremoteoverlay@2x
+    asset: {fileID: 21300000, guid: d5c3277b1dbad9448b46c2ec87a2cef8, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Styles/TopBar
+    asset: {fileID: 7433441132597879392, guid: d5e79efd9cf63ef468d0d843ce3bd96f, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackCurvesButtonDisabled
+    asset: {fileID: 2800000, guid: d55a54a15106e3f418a43134888f2211, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_loading
+    asset: {fileID: 21300000, guid: d58e94bfb1bac774dbb8ca9c2597ef2e, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Shared/TimelineSwatch
+    asset: {fileID: 2800000, guid: e50018fd67fc156459e4014bdad3f5f6, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_cloudbuho
+    asset: {fileID: 21300000, guid: e5600378dd761e64d9423790c482bf36, type: 3}
+  - assetID: builtin::com.unity.feature.development/package
+    asset: {fileID: 8385607101436470782, guid: e5e1f94b4e224941bec175143967961f, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/configurehelper.zh-Hant
+    asset: {fileID: 4900000, guid: e50698b9b87256543a3d0e1586b716d0, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackMuteButtonEnabled@2x
+    asset: {fileID: 2800000, guid: e54e20c7a9730fe4c822d63228527ae4, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/back-light@2x
+    asset: {fileID: 2800000, guid: f5c57327df0fa294c8209aa216435167, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/commontypes.en
+    asset: {fileID: 4900000, guid: f58d296c808d1cf4a804c82f21521fc9, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Textures/btn_AlignMiddle_Light
+    asset: {fileID: 2800000, guid: 066619c9c9c84f89acb1b48c11a7efe2, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/diff-dark
+    asset: {fileID: 2800000, guid: 06bb2a7fb040987409dae109d185de22, type: 3}
+  - assetID: builtin::com.unity.services.core/CHANGELOG
+    asset: {fileID: 4900000, guid: 06af021de11772b48ab2c729e6da3dc6, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TimelineSelector
+    asset: {fileID: 2800000, guid: 06bf6150656339941aa98e175a995445, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/conflicted-file-dark
+    asset: {fileID: 2800000, guid: 16b10562fce5a0f4794872a75d897cc9, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/configurehelper.ja
+    asset: {fileID: 4900000, guid: 16624d74048f3e8448001e49fea3a296, type: 3}
+  - assetID: builtin::com.unity.nuget.newtonsoft-json/CHANGELOG
+    asset: {fileID: 4900000, guid: 16f24f695cc06684991baf4b1bc6ad22, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Layouts/TeamEditionConfigurationWindow
+    asset: {fileID: 1068529831357515114, guid: 26d3a583da6079145a52a8bef4beb6c5, type: 3}
+  - assetID: builtin::com.unity.modules.unityanalytics/package
+    asset: {fileID: 8385607101436470782, guid: 26a4f29db434fd79025c91f6126382cc, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/mergetool.zh-Hant
+    asset: {fileID: 4900000, guid: 3650a0b03f0fee942a6551cc6a0cfc1a, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/step3@2x
+    asset: {fileID: 21300000, guid: 36e6970b84831434a9eac79abd03700b, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/more-vert-dark@2x
+    asset: {fileID: 2800000, guid: 366c5b350c052f34aa6909c6563fb9e9, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/DarkSkin/TimelineLoop
+    asset: {fileID: 2800000, guid: 360dded8761e81d4d98c10f469d55492, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_step3
+    asset: {fileID: 21300000, guid: 46930b20180b59e46b73494adf53abbb, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/basecommands.zh-Hans
+    asset: {fileID: 4900000, guid: 4634e9780efe4004283ca0491584b5f1, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/moved-file-light
+    asset: {fileID: 2800000, guid: 4616bb1fdd540b8418c6840020e72248, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/plastic-gui.zh-Hant
+    asset: {fileID: 4900000, guid: 46aad3b46ce269645ae3c93b5cb5e166, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_stevejobsbuhoshe
+    asset: {fileID: 21300000, guid: 56e456ab0f7f79a4dbabcc9079c49a94, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/diff-light@2x
+    asset: {fileID: 2800000, guid: 56f45ee382e8dc847bd536ba8de7300b, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconconflictedoverlay@2x
+    asset: {fileID: 21300000, guid: 5679a74364f6b4440ab7e7aed55cd95e, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/merge-conflicts-light@2x
+    asset: {fileID: 2800000, guid: 56adf392a7d080448ab9b85e27356d2e, type: 3}
+  - assetID: builtin::com.unity.settings-manager/README
+    asset: {fileID: 4900000, guid: 561e43493ab773746acefbe0f624795e, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/UserInterface/README
+    asset: {fileID: 4900000, guid: 663354cc746bed14db99b8593b1f6ab5, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/workspaceserver.zh-Hant
+    asset: {fileID: 4900000, guid: 666505b511d18ba4a81d0a8a840a6d04, type: 3}
+  - assetID: builtin::com.unity.ide.rider/package
+    asset: {fileID: 8385607101436470782, guid: 66c95bb3c74257f41bae2622511dc02d, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/ignoredoverlay
+    asset: {fileID: 21300000, guid: 767ce9b1aa9de8747a4c2ffc8b3dd7ad, type: 3}
+  - assetID: builtin::com.unity.ide.rider/CHANGELOG
+    asset: {fileID: 4900000, guid: 8645aa9c3c74fb34ba9499e14fb332b5, type: 3}
+  - assetID: builtin::com.unity.modules.video/package
+    asset: {fileID: 8385607101436470782, guid: 96d14b71b907bb52333b2886e665aba6, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconbranch
+    asset: {fileID: 21300000, guid: a6219d44b6fc910449f7c3fee45db5c5, type: 3}
+  - assetID: builtin::com.unity.testtools.codecoverage/CHANGELOG
+    asset: {fileID: 4900000, guid: a6351153cf5e1af468cae5dbc72d1a04, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/mergetool.en
+    asset: {fileID: 4900000, guid: a60759643f1abc44d9b55350ffed0c42, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/semantic.ja
+    asset: {fileID: 4900000, guid: a649005caec994f44b9a8a57ca148462, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconaddedlocal@2x
+    asset: {fileID: 21300000, guid: a67b58d6cddcd4345b1e001340de5a76, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconaddedoverlay@2x
+    asset: {fileID: 21300000, guid: a6fbd5a181bc51e42a61a73fe8d727c8, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Layouts/OrganizationPanel
+    asset: {fileID: 1068529831357515114, guid: b6420407edc75d04f89d57eb2fcc314b, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Styles/FloatingDialogue
+    asset: {fileID: 7433441132597879392, guid: b6078429dfca1ea4ea1b81a864670a1c, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/LightSkin/TimelineMarkerItemSelected
+    asset: {fileID: 2800000, guid: b6e9dc9aad5843748a0124b8925c3743, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackRecordButtonEnabled
+    asset: {fileID: 2800000, guid: c6a0c6226c05f954fa6cd03aebb4d255, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/loading
+    asset: {fileID: 21300000, guid: c6b1bcaa3f4767141acd747384dbb276, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Styles/SignInPanel
+    asset: {fileID: 7433441132597879392, guid: c673e4e20ea67ab40a4661592f51aa99, type: 3}
+  - assetID: builtin::com.unity.test-framework/CHANGELOG
+    asset: {fileID: 4900000, guid: d691174143fd3774ba63d7c493633b99, type: 3}
+  - assetID: builtin::com.unity.test-framework/package
+    asset: {fileID: 8385607101436470782, guid: d6a2e6e4803de7b43baacdc355fc144d, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Styles/CreatedOrganizationPanel
+    asset: {fileID: 7433441132597879392, guid: d69f9cc1b626cc64c802f5b33ce10dcf, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/revert-asset-light@2x
+    asset: {fileID: 2800000, guid: e6e5a841174ef8f44a853b724cc52b4f, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/back-light
+    asset: {fileID: 2800000, guid: e676ab7aa99535447a763c9f88bf9260, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/LightSkin/TimelineAutokey_active@2x
+    asset: {fileID: 2800000, guid: f6717d61970edba4686c297677881a77, type: 3}
+  - assetID: builtin::com.unity.timeline/README
+    asset: {fileID: 4900000, guid: f66454863bc106549a6b53849ee63b41, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-available-changes-dark
+    asset: {fileID: 2800000, guid: 07ab2758fd6b77141ae34a703972f385, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Shared/TimelineWarning
+    asset: {fileID: 2800000, guid: 1732e542f535d374bbfa7565fc78414e, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_genericbuhoshe2
+    asset: {fileID: 21300000, guid: 17035c204825f6340a252046ab6476fd, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/i3.zh-Hans
+    asset: {fileID: 4900000, guid: 170c2a735ced10f4fade7b6742e867a3, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/cm.zh-Hans
+    asset: {fileID: 4900000, guid: 27f41683fe3ea0c4f81d1397c851b2cc, type: 3}
+  - assetID: builtin::com.unity.settings-manager/LICENSE
+    asset: {fileID: 4900000, guid: 27264456a8bbc094d9479c5d5f9b0aa5, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/status-warning-light@2x
+    asset: {fileID: 2800000, guid: 274868c191eceec47af7c288217e75cd, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconoutofsyncoverlay@2x
+    asset: {fileID: 21300000, guid: 3728580c149181a44b359e89f6edacae, type: 3}
+  - assetID: builtin::com.unity.performance.profile-analyzer/CHANGELOG
+    asset: {fileID: 4900000, guid: 379ad77c12d5940bb8254d679e69d4ce, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_expertbuhoshechristmas
+    asset: {fileID: 21300000, guid: 372e7b39fc8f34549ac25d8757965a2c, type: 3}
+  - assetID: builtin::com.unity.settings-manager/CHANGELOG
+    asset: {fileID: 4900000, guid: 4774b2f29b63d2844915d86afff02b47, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/CHANGELOG
+    asset: {fileID: 4900000, guid: 47777d81697d65f45befb6ccd55b2324, type: 3}
+  - assetID: builtin::com.unity.performance.profile-analyzer/package
+    asset: {fileID: 8385607101436470782, guid: 478e38cbe30254f8c868840b4e2f32e1, type: 3}
+  - assetID: builtin::com.unity.test-framework/CONTRIBUTING
+    asset: {fileID: 4900000, guid: 57d2ac5c7d5786e499d4794973fe0d4e, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TimelineEditModeRippleON
+    asset: {fileID: 2800000, guid: 67a774c4384aa6c488128e2851b18ced, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/loading-light
+    asset: {fileID: 2800000, guid: 77502b03a9bd59440840caed1248d860, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/icondeleted
+    asset: {fileID: 21300000, guid: 77a39e873655d3c4b93d0b7696397b83, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackMarkerButtonDisabled@2x
+    asset: {fileID: 2800000, guid: 77d926c9a4ddcc940b8c000b45cbfb35, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Layouts/PlasticWindow/StatusBar
+    asset: {fileID: 1068529831357515114, guid: 872252c6da7ba3c4ba34ad38b39b4f4c, type: 3}
+  - assetID: builtin::com.unity.modules.particlesystem/package
+    asset: {fileID: 8385607101436470782, guid: 87d720faa37005c08600090e04d8c739, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconbranch@2x
+    asset: {fileID: 21300000, guid: 874d8401331ede14087e8d8d486ddda6, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconplasticview@2x
+    asset: {fileID: 21300000, guid: 97a4e2b6ae08b1140a5ba9e22953e029, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/LightSkin/TimelineIconClipOut
+    asset: {fileID: 2800000, guid: a7a968b204ed77c4ba90be3ef3ee8551, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/deleted-file-dark@2x
+    asset: {fileID: 2800000, guid: a7d900a247e707e45a257328c3ee381e, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Gizmos/TMP - Dropdown
+      Icon
+    asset: {fileID: 2800000, guid: a7ec9e7ad8b847b7ae4510af83c5d868, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/merge-dark
+    asset: {fileID: 2800000, guid: a7dda6e49f4dd1c4bb0fac36bf812173, type: 3}
+  - assetID: builtin::com.unity.services.core/Editor/Core/UiHelpers/UXML/PleaseWait
+    asset: {fileID: 1068529831357515114, guid: b7ecf3a3ec1c94010a20351870519493, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Textures/btn_AlignCenterGeo
+    asset: {fileID: 2800000, guid: c76700ea0062413d9f69409b4e9e151b, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/README
+    asset: {fileID: 4900000, guid: c777142d3b929c74aa5f9c4480372453, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Styles/styles
+    asset: {fileID: 7433441132597879392, guid: c7accf430e3622a47899ea1ca1cb7d63, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/LightSkin/TimelineLoop
+    asset: {fileID: 2800000, guid: c7df1e797b21c774f9b859d17f674737, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconoutofsync@2x
+    asset: {fileID: 21300000, guid: d7094718bdac022428dd29244922d06b, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/status-info-light@2x
+    asset: {fileID: 2800000, guid: e7a0d3e65a5b4ab4db5ba97e4fc06f99, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Layouts/TopBar
+    asset: {fileID: 1068529831357515114, guid: e7c7831864804ac44b0605bdd2e8e79c, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Layouts/Paginator
+    asset: {fileID: 1068529831357515114, guid: e72dabe7b3837a04b8e930aab7f381df, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconlockedremoteoverlay
+    asset: {fileID: 21300000, guid: e78d7bb19d72cdd478600b30412eecc9, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/revert-asset-dark@2x
+    asset: {fileID: 2800000, guid: f79532ed53993a24fb2d007f647d3f97, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/DarkSkin/TimelineContinue
+    asset: {fileID: 2800000, guid: f747f9cdf03f2ff418fe728a77e8cbef, type: 3}
+  - assetID: builtin::com.unity.modules.physics2d/package
+    asset: {fileID: 8385607101436470782, guid: f7a8357347c80dc69c08d0b1a05e2122, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconlockedremoteoverlay@2x
+    asset: {fileID: 21300000, guid: f73a7d8758d7be04588b15637d94b5a8, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_stevejobsbuhochristmas
+    asset: {fileID: 21300000, guid: 08c91a7677e66844281a99aaf6ea36f1, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Layouts/SignInPanel
+    asset: {fileID: 1068529831357515114, guid: 18b097dd2d10fb442a321314f4541401, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Layouts/ProgressView
+    asset: {fileID: 1068529831357515114, guid: 1843aad8dcbe848439d6a090c4ebe8e2, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/mergetool.ko
+    asset: {fileID: 4900000, guid: 1864009dd65aaf54abef36e037e317f0, type: 3}
+  - assetID: builtin::com.unity.modules.vr/package
+    asset: {fileID: 8385607101436470782, guid: 18a4fadfef534684d5af39ca8dc48fe9, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/diff-dark@2x
+    asset: {fileID: 2800000, guid: 1875b6a8fb148514ab1d9494eae2dd9e, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Textures/btn_AlignBaseLine_Light
+    asset: {fileID: 2800000, guid: 18775b51e3bd42299fd30bd036ea982f, type: 3}
+  - assetID: builtin::com.unity.services.core/package
+    asset: {fileID: 8385607101436470782, guid: 182c5bcc97fc21747a9ca5e01da1ed3f, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/cm-help.zh-Hant
+    asset: {fileID: 4900000, guid: 187df850d97383d4c957442b9dca3204, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/DarkSkin/TimelineAutokey_active@2x
+    asset: {fileID: 2800000, guid: 183f7b7549219ab47becb461a16df882, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/choose-remote-dark
+    asset: {fileID: 2800000, guid: 289215d22fcafb941b9e25f8609e25b9, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/LightSkin/TimelineActivation
+    asset: {fileID: 2800000, guid: 2887294cc7f1fe840bff6e349409648d, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Settings/README
+    asset: {fileID: 4900000, guid: 28aca8a26620964449b2d65d819c5414, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_step1
+    asset: {fileID: 21300000, guid: 38236a82ff44aaa4b972248479d5f970, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Textures/btn_AlignTop
+    asset: {fileID: 2800000, guid: 48d034c499ee4697af9dd6e327110249, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/undo-light
+    asset: {fileID: 2800000, guid: 48a8d899ebcc4e84db1a2ffd2bb4e9e8, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Textures/btn_AlignBottom_Light
+    asset: {fileID: 2800000, guid: 585b70cb75dd43efbfead809c30a1731, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/plastic-gui.ja
+    asset: {fileID: 4900000, guid: 587d0117c6a1c364e91b0b35933f3a3e, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-done-light
+    asset: {fileID: 2800000, guid: 68d404d4616084f449a3bc644c023f2c, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/conflicted-file-dark@2x
+    asset: {fileID: 2800000, guid: 68295f1d2b4db9040ac84ac00d5554a6, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_ignoredoverlay@2x
+    asset: {fileID: 21300000, guid: 68fafd0a2acc3774988418f657bf7b68, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/choose-remote-light
+    asset: {fileID: 2800000, guid: 78f56e873f56d7943aef2a039430732e, type: 3}
+  - assetID: builtin::com.unity.ide.visualstudio/ThirdPartyNotices
+    asset: {fileID: 4900000, guid: 7809f42f64c877f4b90ac233e5ec2372, type: 3}
+  - assetID: builtin::com.unity.ide.visualstudio/ValidationExceptions
+    asset: {fileID: 4900000, guid: 788fbcfc0abc6c54b9504cfee3176c22, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/LightSkin/TimelinePingPong
+    asset: {fileID: 2800000, guid: 88d697f38121de443ba144702e5122d9, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconconflicted
+    asset: {fileID: 21300000, guid: 881798b77426a8f47b533dcc4767e9e5, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Styles/TabView
+    asset: {fileID: 7433441132597879392, guid: 88da5407899aaaf448a40c85888108ae, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/semantic.ko
+    asset: {fileID: 4900000, guid: 883f8cfc0d1c252458384690c34c0c6d, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/status-warning-dark@2x
+    asset: {fileID: 2800000, guid: 98d032c68be4a784ab77b461c5341fc8, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconundo
+    asset: {fileID: 21300000, guid: 98773313eabe35543bfdbf542ccea271, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/revert-asset-light
+    asset: {fileID: 2800000, guid: 987c88fe221d4484db97f6d0e56d8e3c, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-progress-light
+    asset: {fileID: 2800000, guid: 98eea3a123f8b4c468b7e43d0ff3c232, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconconflictedoverlay
+    asset: {fileID: 21300000, guid: a892bcc7ae1871447926b3c44d158763, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TimelineEditModeMixON
+    asset: {fileID: 2800000, guid: a82846d41464fcf4b962ebdc815963f5, type: 3}
+  - assetID: builtin::com.unity.nuget.newtonsoft-json/link
+    asset: {fileID: 4900000, guid: a8a90c35b04530c4f971aaef6fdf3612, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/LightSkin/TimelineSignalCollapsed
+    asset: {fileID: 2800000, guid: a88fa20ed164bbe4da6bf533f94a3113, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackLockButtonEnabled@2x
+    asset: {fileID: 2800000, guid: b8c531b4e51e4994a81837c4e9b0d649, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/icondeletedremote
+    asset: {fileID: 21300000, guid: b85a4b2ec6433d04895612d791edc260, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/commontypes.ko
+    asset: {fileID: 4900000, guid: b83b49dbaecd6a04d93413201e2372bf, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TimelineCollapseMarkerButtonDisabled
+    asset: {fileID: 2800000, guid: b80d5b6acdfbc114b9efab6295fd96c1, type: 3}
+  - assetID: builtin::com.unity.modules.wind/package
+    asset: {fileID: 8385607101436470782, guid: b83f06ac0c0696e9563230865ca72b81, type: 3}
+  - assetID: builtin::com.unity.ugui/CHANGELOG
+    asset: {fileID: 4900000, guid: c851bee4305bddf438cc6ffc515991ce, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/clear-light@2x
+    asset: {fileID: 2800000, guid: c84258b6921bcce45a57f68a07b2143f, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_step1@2x
+    asset: {fileID: 21300000, guid: c8a69ecdf54ac8e4b873466605de27ff, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_expertbuhochristmas
+    asset: {fileID: 21300000, guid: c887ed2a931c29040bc544cd8c546e9f, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/merge-conflicts-light
+    asset: {fileID: 2800000, guid: d876c6d477e3c3b4891cdee8f10ecaf1, type: 3}
+  - assetID: builtin::com.unity.modules.umbra/package
+    asset: {fileID: 8385607101436470782, guid: d85e5eeaf8f135aeaaebdc8aa3cff6c3, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/show-light@2x
+    asset: {fileID: 2800000, guid: d84f7eb154b674f46b833c51f844277e, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackLockButtonEnabled
+    asset: {fileID: 2800000, guid: e8aa120f1b4731e43a2dd31eb70bbbe2, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/configurehelper.zh-Hans
+    asset: {fileID: 4900000, guid: e8eb1f89b8319814195c431af1486994, type: 3}
+  - assetID: builtin::com.unity.nuget.newtonsoft-json/package
+    asset: {fileID: 8385607101436470782, guid: f8d4e5c2f2df25449ae8c391afbe5114, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_genericbuhoshechristmas3
+    asset: {fileID: 21300000, guid: f8c9467a892580344bb697526dac0d13, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconoutofsync@2x
+    asset: {fileID: 21300000, guid: f82dfc5fc3c5a8f4080a3550427019c8, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-incoming-light
+    asset: {fileID: 2800000, guid: 0919e5a835eb86343b8b1722ea1d32a8, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/search-dark@2x
+    asset: {fileID: 2800000, guid: 09996e28fa830fb4283b19f26584c9f2, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Styles/SearchBar
+    asset: {fileID: 7433441132597879392, guid: 099a86cc24e116c41815daf0c97e89ff, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TimelineEditModeReplaceOFF
+    asset: {fileID: 2800000, guid: 09ae14686a02d484ab41e76fd1efba14, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Layouts/ChangesGroupHeader
+    asset: {fileID: 1068529831357515114, guid: 19d5aba5e2682314190477298a0313fc, type: 3}
+  - assetID: builtin::com.unity.services.core/Editor/Core/ProjectBindRedirect/UXML/ProjectBindRedirectProjectSettings
+    asset: {fileID: 1068529831357515114, guid: 1979fd426439544d792c9d2cb653aaa3, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackMarkerButtonDisabled@2x
+    asset: {fileID: 2800000, guid: 193dae938a3136440b693b45a2494737, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconcheckedoutlocaloverlay@2x
+    asset: {fileID: 21300000, guid: 3999034958d54364da380a8839a11050, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/choose-mine-dark@2x
+    asset: {fileID: 2800000, guid: 39c95c5cb14167543b9aa5908c94bb71, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TimelineEditModeMixOFF
+    asset: {fileID: 2800000, guid: 39d9575ed0465354cb02b69ea18526de, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/added-file-light
+    asset: {fileID: 2800000, guid: 397fff6c3885f8343bb65714f0064b5d, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/clientcommon.en
+    asset: {fileID: 4900000, guid: 49f6393219a57824d8702f75b550ac46, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Textures/btn_AlignCapLine_Light
+    asset: {fileID: 2800000, guid: 49679f302ac6408697f6b9314a38985c, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackRecordButtonDisabled
+    asset: {fileID: 2800000, guid: 495998c718a094540bbe57ae5ab07647, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/undo-light@2x
+    asset: {fileID: 2800000, guid: 497a860dcf38eca4485e2b936e03bef3, type: 3}
+  - assetID: builtin::com.unity.performance.profile-analyzer/Editor/ProfileAnalyzerShader
+    asset: {fileID: 4800000, guid: 493b79ea9c9be44ed8b702014d3ac49c, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_genericbuhochristmas2
+    asset: {fileID: 21300000, guid: 5955491dc8dcecb4a993d9a008cf65a7, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/refresh@2x
+    asset: {fileID: 21300000, guid: 59571f82a0dc1a14da606dc0df6f8ea7, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconaddedoverlay
+    asset: {fileID: 21300000, guid: 5978a510e241e1a41b7ea0db0b64f333, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/ignored
+    asset: {fileID: 21300000, guid: 595bc97bc8e1e0b46bd4c2148ba3723a, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/cm-help.zh-Hans
+    asset: {fileID: 4900000, guid: 593e04d4463cab44e94feec1edd0a370, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-offline-dark
+    asset: {fileID: 2800000, guid: 594fa102c56c0274db9edabc563d7dcb, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/LightSkin/TimelineEndPlayback
+    asset: {fileID: 2800000, guid: 6952cd3b0f88917449a8fa4d19fc5009, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Textures/btn_AlignFlush
+    asset: {fileID: 2800000, guid: 691475c57a824010be0c6f474caeb7e1, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_secondarytabclose
+    asset: {fileID: 21300000, guid: 6975ee4c1f40caf4da8dd733ee2cfeaf, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/clientcommon.es
+    asset: {fileID: 4900000, guid: 69e858cc26d64c2409b2607fa6e0d3e8, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/step3
+    asset: {fileID: 21300000, guid: 69899ed144c8eea4baea48b858b37746, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconundo
+    asset: {fileID: 21300000, guid: 691dc543ff5b9ca44bf846657ba04161, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/LightSkin/TimelineInfiniteTrackNoShadow
+    asset: {fileID: 2800000, guid: 69ff79f863a32ad44a9497d4896d9d1c, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/configurehelper.en
+    asset: {fileID: 4900000, guid: 890b891907cc5b64eba7dfd592b86f6b, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_step2
+    asset: {fileID: 21300000, guid: 897c3a3f5c4038345a7143573bbb4a40, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/FileSystemWatcherLicense
+    asset: {fileID: 4900000, guid: 992242bf8b23e574bbc95a128844c481, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/ignoredoverlay@2x
+    asset: {fileID: 21300000, guid: 999d04c0ea94ccc41b3d80788160695b, type: 3}
+  - assetID: builtin::com.unity.services.core/Editor/Core/ProjectBindRedirect/USS/ProjectBindRedirectPopupCommon
+    asset: {fileID: 7433441132597879392, guid: 990ecbe74fdfe264c984fd5827e08cfe, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/choose-mine-dark
+    asset: {fileID: 2800000, guid: a972d8b163b45d54b89085acf50327e8, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconplasticnotifyconflict
+    asset: {fileID: 21300000, guid: a916ed6819efd014588f58e3cfc48196, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-incoming-dark@2x
+    asset: {fileID: 2800000, guid: a9fa02cdd2d760c43a0e69ba0fa49dab, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/status-error-light@2x
+    asset: {fileID: 2800000, guid: b99e43bf99b3c954f91bde2ad0c1eac2, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/i3.es
+    asset: {fileID: 4900000, guid: b99f3faf39e4d0541a0c447d0859922f, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/res/HumanoidDefault
+    asset: {fileID: 7400000, guid: c91389c39d842cc4190ea8be0836798a, type: 2}
+  - assetID: builtin::com.unity.ide.vscode/LICENSE
+    asset: {fileID: 4900000, guid: c9aabac5924106d4790d7b3a924ca34d, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-offline-dark@2x
+    asset: {fileID: 2800000, guid: c9fb8470579cf8440975e58c5df98216, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_step3@2x
+    asset: {fileID: 21300000, guid: c9ed6d6ea2f9657409bfa068d4846139, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/clear-dark@2x
+    asset: {fileID: 2800000, guid: c98f350e47082844fa2954de4d2d5ff9, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/DarkSkin/TimelineSignalCollapsed
+    asset: {fileID: 2800000, guid: d91793cd853a258448e4d5545bb38e45, type: 3}
+  - assetID: builtin::com.unity.services.core/Editor/Core/UiHelpers/UXML/ProjectSettingsCommonHeader
+    asset: {fileID: 1068529831357515114, guid: d93845e99ca3b42d0aecd4ab938a1342, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_genericbuhoshechristmas1
+    asset: {fileID: 21300000, guid: d98fbe17966d8ef449b25b99024bf36f, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Extensions/light
+    asset: {fileID: 7433441132597879392, guid: e98085123be873947970c4f10099a39a, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_stevejobsbuho
+    asset: {fileID: 21300000, guid: e92527f6d0fe45342ab542b47346d45f, type: 3}
+  - assetID: builtin::com.unity.services.core/Editor/Core/UiHelpers/Images/ToggleOn
+    asset: {fileID: 2800000, guid: e97f44a089f144758b462da41bc96973, type: 3}
+  - assetID: builtin::com.unity.modules.audio/package
+    asset: {fileID: 8385607101436470782, guid: e9df95f53f1c1d0c9199e235d6c42b50, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/more-vert-light@2x
+    asset: {fileID: 2800000, guid: f9053b8d7b8c0d446a1f1fd28fec65c1, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/buttonssosigninunity
+    asset: {fileID: 21300000, guid: f9161c6c9e06dc445ada3ee16d991f90, type: 3}
+  - assetID: builtin::com.unity.ext.nunit/LICENSE
+    asset: {fileID: 4900000, guid: f91a00d2dca52b843b2d50ccf750737d, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/LightSkin/TimelineKeyframe
+    asset: {fileID: 2800000, guid: f9fd2f335364cda41937eab39bf20049, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconconflicted@2x
+    asset: {fileID: 21300000, guid: f95f697d66d238446b1ab717def09945, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Layouts/CreatedOrganizationPanel
+    asset: {fileID: 1068529831357515114, guid: 0a73ab5bab69746419e8e0ff89c8e816, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconemptygravatar@2x
+    asset: {fileID: 21300000, guid: 0ac55f9f886d827408c102bdf33c5ff7, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconconflictresolvedoverlay
+    asset: {fileID: 21300000, guid: 0a78c2b019ae1e5448f50d83adcfd965, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/xdiff.zh-Hans
+    asset: {fileID: 4900000, guid: 0aba7b8aefb4ab744b257e0563e74366, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconplasticviewnotify@2x
+    asset: {fileID: 21300000, guid: 0a4da12ff51bd83498216f698c7f20fa, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/LightSkin/TimelineAutokey_active
+    asset: {fileID: 2800000, guid: 0a5e3e063c4e1ab45999cf6e40c13c07, type: 3}
+  - assetID: builtin::com.unity.services.core/Editor/Core/UiHelpers/USS/SliderToggleCommon
+    asset: {fileID: 7433441132597879392, guid: 1a303738ae14b4b0c8a513889c711eea, type: 3}
+  - assetID: builtin::com.unity.modules.physics/package
+    asset: {fileID: 8385607101436470782, guid: 1a4266815e998967becf686f9c71f0a6, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/LightSkin/TimelineSignalSelected
+    asset: {fileID: 2800000, guid: 1a7852b1b33b816498b6af1e739f5995, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-available-changes-dark@2x
+    asset: {fileID: 2800000, guid: 1a2cea5a396ff5d4a8f740bd5d8726b0, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/added-file-dark
+    asset: {fileID: 2800000, guid: 1a4f52b613391cd449af3ad2e44affeb, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/publish-light@2x
+    asset: {fileID: 2800000, guid: 2a4c44b710a153245a151f26acb70271, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/moved-file-light@2x
+    asset: {fileID: 2800000, guid: 3a008b3f63356f241a197da231865421, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_colorbuho
+    asset: {fileID: 21300000, guid: 3a0c527d7f890d64a9b56b086e6e766a, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconconflictresolvedoverlay@2x
+    asset: {fileID: 21300000, guid: 4a231ba0e81e63849a8f985c228e8acd, type: 3}
+  - assetID: builtin::com.unity.timeline/CHANGELOG
+    asset: {fileID: 4900000, guid: 4a0757ee0236f39489520769ae710288, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/semantic.en
+    asset: {fileID: 4900000, guid: 5af181b66f08e354780dafdd3b765f38, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Styles/TurnOffPlasticWindow
+    asset: {fileID: 7433441132597879392, guid: 5a44d2bd4766a8e48a7f6db1bc29a298, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackMuteButtonDisabled
+    asset: {fileID: 2800000, guid: 6ab002208ec290544b44bc263dc58a95, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/workspaceserver.ko
+    asset: {fileID: 4900000, guid: 6a47140b43009be4d85916798b7c0b76, type: 3}
+  - assetID: builtin::com.unity.modules.vehicles/package
+    asset: {fileID: 8385607101436470782, guid: 6afb166a156df2d20433d981f4bb2832, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_secondarytabclosehover
+    asset: {fileID: 21300000, guid: 6a9d211bea1bc4a429d86cbb2d0b0a3e, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Textures/btn_AlignCenter_Light
+    asset: {fileID: 2800000, guid: 6ace62d30f494c948b71d5594afce11d, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Styles/MainPageView
+    asset: {fileID: 7433441132597879392, guid: 7af1720245a987d4b87094fc00ed8a94, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconmoved
+    asset: {fileID: 21300000, guid: 8a6cca56e2b63344eb4769cd92d93ffb, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/undo-dark@2x
+    asset: {fileID: 2800000, guid: 9af18154bd2effd4f813d58651798b5d, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_secondarytabclosehover@2x
+    asset: {fileID: 21300000, guid: 9aa4348290784b2468144a97eb15d8d7, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconaddedlocal
+    asset: {fileID: 21300000, guid: 9a1ab8af8c446204e989a90f18305caf, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconemptygravatar
+    asset: {fileID: 21300000, guid: 9aebd705574f9e642aef1e5f59b3e4d8, type: 3}
+  - assetID: builtin::com.unity.services.core/README
+    asset: {fileID: 4900000, guid: 9a0c99ca7bb84684fbf1df9c8f77e89f, type: 3}
+  - assetID: builtin::com.unity.services.core/Editor/Core/UiHelpers/USS/PlatformSupportVisualCommon
+    asset: {fileID: 7433441132597879392, guid: 9adf428799cec421caeecd93d938c500, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/configurehelper.ko
+    asset: {fileID: 4900000, guid: aad279171ffd0e046b05809e1cd84bca, type: 3}
+  - assetID: builtin::com.unity.testtools.codecoverage/package
+    asset: {fileID: 8385607101436470782, guid: ba7d60725b0ec604698819352642be89, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Textures/btn_AlignBottom
+    asset: {fileID: 2800000, guid: ca51b19024094d1b87f3e07edb0a75fb, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-offline-light@2x
+    asset: {fileID: 2800000, guid: cabe2c11824b4164984e262821760727, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/cm.es
+    asset: {fileID: 4900000, guid: da6091950c9c6d641a5f54bb4f1e6875, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_cloudbuhoshe
+    asset: {fileID: 21300000, guid: dae33700bd23f76409a80bf78fdb8a42, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconemptygravatar@2x
+    asset: {fileID: 21300000, guid: da545229eea36164d8b8cba2f75a1143, type: 3}
+  - assetID: builtin::com.unity.modules.uielementsnative/package
+    asset: {fileID: 8385607101436470782, guid: da7579d20d3b64d1eb70eb84ca9a401f, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/guihelp.ja
+    asset: {fileID: 4900000, guid: ea16312915986d743bf8f9a4d0a56e3f, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/DarkSkin/TimelineInfiniteTrackNoShadow
+    asset: {fileID: 2800000, guid: eae63adb172f1164db61a7f4bdfc3637, type: 3}
+  - assetID: builtin::com.unity.modules.unitywebrequestwww/package
+    asset: {fileID: 8385607101436470782, guid: fa27413e9edb06a6058d6c894eca0338, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/mergetool.zh-Hans
+    asset: {fileID: 4900000, guid: fa78d45ec8274db4b887e985c20d5e0c, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/search-light@2x
+    asset: {fileID: 2800000, guid: fa5b15174efac1a499b91afa33c625fb, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Textures/btn_AlignJustified_Light
+    asset: {fileID: 2800000, guid: fa6bd40a216346b783a4cce741d277a5, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/status-info-dark
+    asset: {fileID: 2800000, guid: fa1ff86f20525894b9bd92f1b1909ccf, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/choose-mine-light@2x
+    asset: {fileID: 2800000, guid: 1bceea0c53eecc244a50615c7958486d, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/xdiff.zh-Hant
+    asset: {fileID: 4900000, guid: 2b71162da12b0db4482be8dc6d2177e5, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconlockedremoteoverlay@2x
+    asset: {fileID: 21300000, guid: 2bb4e96f5d0b02c468932d665a015c54, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/images.zh-Hant
+    asset: {fileID: 4900000, guid: 2b27d7299ca8bef4b94b1c9dab03e128, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/search-dark
+    asset: {fileID: 2800000, guid: 3b44c1da064d3bf46be68efbc875596e, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/guihelp.en
+    asset: {fileID: 4900000, guid: 3b85578d4e1f25d4981bd8dc61cc0965, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/DarkSkin/TimelineTimeCursor
+    asset: {fileID: 2800000, guid: 3b9e9b3d9ade166499e7a17109ca73bf, type: 3}
+  - assetID: builtin::com.unity.modules.unitywebrequestaudio/package
+    asset: {fileID: 8385607101436470782, guid: 4b518b37798c97b0f860962cbf615533, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/clientcommon.zh-Hans
+    asset: {fileID: 4900000, guid: 4b44e3b0cf7e92840afd33f5a6f0400f, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconcheckedoutlocaloverlay
+    asset: {fileID: 21300000, guid: 4bd47f86a00dd2b4b8ab20a11de165f6, type: 3}
+  - assetID: builtin::com.unity.services.core/Editor/Core/ProjectBindRedirect/USS/ProjectBindRedirectPopupDark
+    asset: {fileID: 7433441132597879392, guid: 4b167fb836933974a9ab0b380bec5b98, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/publish-dark@2x
+    asset: {fileID: 2800000, guid: 4bc6c7e602886fd42918d903a7393536, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackAvatarButtonEnabled
+    asset: {fileID: 2800000, guid: 4bf6507f1346b2746a35384f6a5fd5f9, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Styles/Paginator
+    asset: {fileID: 7433441132597879392, guid: 5b40af3dccff15f47b68101c84087977, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/publish-light
+    asset: {fileID: 2800000, guid: 5b22e8d996934d3498b6e8b2cc8744d6, type: 3}
+  - assetID: builtin::com.unity.services.core/Editor/Core/EditorGameService/USS/ServicesProjectSettingsCommon
+    asset: {fileID: 7433441132597879392, guid: 5b82a86adaaeb4c0786b09f4f5b9065a, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-offline-light
+    asset: {fileID: 2800000, guid: 5baffe5f7a6366344b7819fa35e7e030, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/merge-dark@2x
+    asset: {fileID: 2800000, guid: 6b972fca7700d6748b66eb72f2072e74, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/images.es
+    asset: {fileID: 4900000, guid: 6bbaadf4a04aa944186dba8364b2fcbb, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TimelineEditModeReplaceON
+    asset: {fileID: 2800000, guid: 7b4b3cedf598c954cb2f38d6e2e34c0d, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Textures/btn_AlignBaseLine
+    asset: {fileID: 2800000, guid: 8bc445bb79654bf496c92d0407840a92, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Styles/IconTextButton
+    asset: {fileID: 7433441132597879392, guid: 8bc914db5850edc46bde70b885ad2aa8, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_genericbuhoshe3
+    asset: {fileID: 21300000, guid: 9bb60d9b0987c3747b57516cc172d0c7, type: 3}
+  - assetID: builtin::com.unity.services.core/Editor/Core/UiHelpers/UXML/AccessTokenError
+    asset: {fileID: 1068529831357515114, guid: 9bbe9fb6e9537684cac89a4e82cf3d63, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Third Party Notices
+    asset: {fileID: 4900000, guid: 9bff32140d1498a4a9f6f18b09e8959c, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Styles/ToggleableChangeListElement
+    asset: {fileID: 7433441132597879392, guid: ab00137e5c7e8d04eb464b23bd11c36d, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Shaders/TMP_SDF_SSD
+    asset: {fileID: 10900000, guid: abe6991365a27d341a10580f3b7c0f44, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Components/README
+    asset: {fileID: 4900000, guid: abc8f1905434498ba511a0b3848192ad, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/DarkSkin/TimelineIconClipIn
+    asset: {fileID: 2800000, guid: ab1e2f0dfb0df5e40bb95359b3d8ed3a, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Textures/btn_AlignMidline_Light
+    asset: {fileID: 2800000, guid: bb42b2d967d6427983c901a4ffc8ecd9, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/deleted-file-light
+    asset: {fileID: 2800000, guid: bb678af880b2dd74cbd76186590c66da, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconcheckedoutlocaloverlay
+    asset: {fileID: 21300000, guid: bb1928aff4fd4cf44af1f629dc14ef9b, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/ValidationConfig
+    asset: {fileID: 4900000, guid: cb3c9f5ba9ced5e4b99de1b3dbd68d09, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackMuteButtonDisabled@2x
+    asset: {fileID: 2800000, guid: db31466324572e740a431e4e0e03a016, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/i3.ko
+    asset: {fileID: 4900000, guid: db2343687a83fcd498530c70a39fede3, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackRecordButtonDisabled@2x
+    asset: {fileID: 2800000, guid: db15c78579dee4a4db85f392634c8ecc, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Shared/TimelineBottomShadow
+    asset: {fileID: 2800000, guid: db66ea47c76423f4a881937d34495801, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/status-info-dark@2x
+    asset: {fileID: 2800000, guid: eba49403f5934c74b8114ead5f397592, type: 3}
+  - assetID: builtin::com.unity.services.core/Editor/Core/EditorGameService/USS/ServicesProjectSettingsLight
+    asset: {fileID: 7433441132597879392, guid: ebe4630c4fee24fa99c02c62897bfcb9, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/differences.en
+    asset: {fileID: 4900000, guid: eb68d1f70d355ed46b4035d2f347e0e8, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-done-dark@2x
+    asset: {fileID: 2800000, guid: fba4512e3548e0548b2cf4f11913e257, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Textures/SectionHeader_Dark
+    asset: {fileID: 2800000, guid: fb5730e24283d0c489e5c7d0bee023d9, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/basecommands.en
+    asset: {fileID: 4900000, guid: fb570ed91da09b14e9682b1a9e8b48fb, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackCurvesButtonEnabled
+    asset: {fileID: 2800000, guid: fbcdeb07ee516a64daa01ce462874280, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/binmergetool.zh-Hant
+    asset: {fileID: 4900000, guid: fbcfc12270f24314f96c2ed07b10160d, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconaddedlocal
+    asset: {fileID: 21300000, guid: 0c6a2a64ca9f9c946a7dbbd1674cf5bd, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/guihelp.zh-Hans
+    asset: {fileID: 4900000, guid: 0ccfb7e4efb2a0344b9b759d49a911c7, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Styles/TeamEditionConfigurationWindow
+    asset: {fileID: 7433441132597879392, guid: 1cd69f37df825af4385cd9efe745fc30, type: 3}
+  - assetID: builtin::com.unity.modules.xr/package
+    asset: {fileID: 8385607101436470782, guid: 2c814623cb42764d304be0c5ddd03ceb, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/Localization/ja
+    asset: {fileID: 9010515335742159986, guid: 2cb1ca12d228148318e1a7d8cc441147, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackLockButtonEnabled@2x
+    asset: {fileID: 2800000, guid: 2c85066ea99cfbe4f90294bf295ce543, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/cm-help.ja
+    asset: {fileID: 4900000, guid: 2ca606625bd3e48478c4cab287685aa1, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/choose-remote-light@2x
+    asset: {fileID: 2800000, guid: 2c8a8b796d0907747a9518f9458b2259, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/choose-mine-light
+    asset: {fileID: 2800000, guid: 2c0bdcbf152ceb64ba9b01cc370a9092, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_icondeletedremoteoverlay@2x
+    asset: {fileID: 21300000, guid: 2cfbf6619eb047545a425e8a31732c83, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/basecommands.ja
+    asset: {fileID: 4900000, guid: 3c00c0ebe0a13f74cb0f0448abd8b666, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/semantic.zh-Hans
+    asset: {fileID: 4900000, guid: 3cd0763238b935d4b8ed20a417ac48e6, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/more-vert-dark
+    asset: {fileID: 2800000, guid: 3cf437657a48d3f4790401155e66704c, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/xdiff.ja
+    asset: {fileID: 4900000, guid: 3c4bb919006b9004fb650f0964fc9539, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Shaders/TMP_Properties
+    asset: {fileID: 10900000, guid: 3c6c403084eacec478a1129ce20061ea, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/README
+    asset: {fileID: 4900000, guid: 4ce1b1d001d62fa488ed2337ff62058c, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/search-light
+    asset: {fileID: 2800000, guid: 5ce43a8ae9d640f4cb77136d601fc0d8, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Shared/TimelineGroupBackground
+    asset: {fileID: 2800000, guid: 6ca5daa3415451940921fa7e2c3db9e8, type: 3}
+  - assetID: builtin::com.unity.services.core/Editor/Core/ProjectBindRedirect/USS/ProjectBindRedirectPopupLight
+    asset: {fileID: 7433441132597879392, guid: 7c83fba134eed5642bd60711033a2758, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackAvatarButtonDisabled@2x
+    asset: {fileID: 2800000, guid: 7c05578092876a0458b8b480269aef86, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TimelineEditModeMixON
+    asset: {fileID: 2800000, guid: 7c681ffb5a436684fa3e98a9b66775c0, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/basecommands.zh-Hant
+    asset: {fileID: 4900000, guid: 8cda8466534448347b43a2bb001cbffe, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackMuteButtonDisabled@2x
+    asset: {fileID: 2800000, guid: 9c706019afb28944eb19b500ea0da38c, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/back-dark@2x
+    asset: {fileID: 2800000, guid: 9c6313a5316f8a34b852bf94ff96e3ab, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Shaders/TMP_SDF Internal
+      Editor
+    asset: {fileID: 4800000, guid: 9c442dc870b456e48b615cd8add0e9ef, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Styles/IconButton
+    asset: {fileID: 7433441132597879392, guid: 9ca8b1bbe392af949a4fc3018e3c886e, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/step1
+    asset: {fileID: 21300000, guid: 9ce84ff0fdeb13d4a83f077d075dd9a5, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_cloudbuhoshechristmas
+    asset: {fileID: 21300000, guid: 9c0d6ec706e01ce448aea81584af092b, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackRecordButtonDisabled
+    asset: {fileID: 2800000, guid: 9c6daec86666cbb4b9e558b839a103db, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconclosebutton
+    asset: {fileID: 21300000, guid: 9cadde7a0d5f9024ab3f2cd5f6a740d6, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/show-light
+    asset: {fileID: 2800000, guid: 9c0e0aeb2cb19c640a4d430e258e7336, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackMuteButtonEnabled
+    asset: {fileID: 2800000, guid: ac5017dfbeee42347b3b45ecc572674e, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/edited-file-dark
+    asset: {fileID: 2800000, guid: bcc2167ce63c6264b9c1295e97bec6bc, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/icondeletedremoteoverlay
+    asset: {fileID: 21300000, guid: cc3a9f4e86314f746aa1a97505d6323b, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconplasticview
+    asset: {fileID: 21300000, guid: dcb2ee37925b97e438ae244996d81a55, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconoutofsyncoverlay
+    asset: {fileID: 21300000, guid: dc633de6e6e7415448c7568418239a9d, type: 3}
+  - assetID: builtin::com.unity.services.core/Editor/Core/UiHelpers/Images/ExternalLinkIcon
+    asset: {fileID: 2800000, guid: dcfa8e537229b4e8db4c6bc39a906c89, type: 3}
+  - assetID: builtin::com.unity.modules.director/package
+    asset: {fileID: 8385607101436470782, guid: ec02776fe29df900b897106d61977735, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_colorbuhoshechristmas
+    asset: {fileID: 21300000, guid: ec03f79379868c642b48ae5ddc821b6d, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Gizmos/TMP - Sprite
+      Asset Icon
+    asset: {fileID: 2800000, guid: ec7c645d93308c04d8840982af12101e, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/added-file-light@2x
+    asset: {fileID: 2800000, guid: ec2e3aa6d0ab8ce4eac29b56d65d61d5, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/binmergetool.ja
+    asset: {fileID: 4900000, guid: fc63d9a700310e14e8cfcb097b472a73, type: 3}
+  - assetID: builtin::com.unity.ide.vscode/ValidationExceptions
+    asset: {fileID: 4900000, guid: fc368c32d6432ff4bb374d520000749c, type: 3}
+  - assetID: builtin::com.unity.ide.vscode/CONTRIBUTING
+    asset: {fileID: 4900000, guid: fcb9be00baf924c4183fc0313e6185c5, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconplasticviewnotify
+    asset: {fileID: 21300000, guid: fcbb76d583fe7ee4e80e7e47c0593c4a, type: 3}
+  - assetID: builtin::com.unity.services.core/LICENSE
+    asset: {fileID: 4900000, guid: 0d41728ad423e904cb4aa8ee699c4e42, type: 3}
+  - assetID: builtin::com.unity.performance.profile-analyzer/README
+    asset: {fileID: 4900000, guid: 0d920e84785e4472aab610f3f203b389, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Textures/btn_AlignCapLine
+    asset: {fileID: 2800000, guid: 0d9a36012a224080966c7b55896aa0f9, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconundo@2x
+    asset: {fileID: 21300000, guid: 0dfbb2b6ddcdd254da80e3418498b3a6, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/LICENSE
+    asset: {fileID: 4900000, guid: 0d2d0f36e67d4518a07df76235e91f9a, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/differences.es
+    asset: {fileID: 4900000, guid: 1de91500a7d5cda45b07e75c02c015c0, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Styles/TextButton
+    asset: {fileID: 7433441132597879392, guid: 2d4eaba42964d3d42b83dcaaf21d31ad, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Layouts/DownloadPlasticExeWindow
+    asset: {fileID: 1068529831357515114, guid: 3da0c7cf51d8e4b40a5af55a4ca63e4e, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/DarkSkin/TimelineMarkerItemSelected
+    asset: {fileID: 2800000, guid: 3dd65256ca8837544b3e738c0d3ee0e2, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_icondeletedremoteoverlay
+    asset: {fileID: 21300000, guid: 3de8a0634e55df8499c88204001cb0dd, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/loading-light@2x
+    asset: {fileID: 2800000, guid: 4d614e4edbf542c418d50ec49eed858d, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_icondeletedlocaloverlay
+    asset: {fileID: 21300000, guid: 4da274d970a82a943ae3979e7833f3dd, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Styles/PlasticWindow/PlasticWindow.dark
+    asset: {fileID: 7433441132597879392, guid: 4d86c0522b1621f429b550217af2797d, type: 3}
+  - assetID: builtin::com.unity.ide.vscode/CHANGELOG
+    asset: {fileID: 4900000, guid: 4ddcdc3816429494a8bea67e973875f7, type: 3}
+  - assetID: builtin::com.unity.ugui/LICENSE
+    asset: {fileID: 4900000, guid: 4d3d51749e989f747b2674e0b4d9b3d7, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconoutofsyncoverlay@2x
+    asset: {fileID: 21300000, guid: 4d7e6e570e9d65a4c9a994783a0652e2, type: 3}
+  - assetID: builtin::com.unity.ext.nunit/README
+    asset: {fileID: 4900000, guid: 5da62a0c1c5218c4aa16b74546a7822d, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/loading@2x
+    asset: {fileID: 21300000, guid: 5dbc069eb79bd4d43840847264d6d956, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Shared/TimelineSeqEnd
+    asset: {fileID: 2800000, guid: 5dfe66e61e0d270468ae75349ff3a3eb, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconundo@2x
+    asset: {fileID: 21300000, guid: 6d6088174bb906b49ad8428526ee337b, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TimelineEditModeReplaceON
+    asset: {fileID: 2800000, guid: 6d41c3e8796a4fd4e80840354039e4ac, type: 3}
+  - assetID: builtin::com.unity.services.core/Editor/Core/ProjectBindRedirect/UXML/ProjectBindRedirectPopup
+    asset: {fileID: 1068529831357515114, guid: 6d24c9b8f12524834ab8c048bcc93f12, type: 3}
+  - assetID: builtin::com.unity.modules.terrain/package
+    asset: {fileID: 8385607101436470782, guid: 6d56244f8c39a851975d3c0bd432c66f, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Layouts/SSOSignUpPanel
+    asset: {fileID: 1068529831357515114, guid: 6dac85d7b8e76424ab582326c2cb5531, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/LightSkin/TimelineMarkerItemCollapsed
+    asset: {fileID: 2800000, guid: 7d4691eba7565c34ab785c00fbc27ff8, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/xdiff.en
+    asset: {fileID: 4900000, guid: 7d983dd47e3d7da4cb48b754b397cebe, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/merge-conflicts-dark@2x
+    asset: {fileID: 2800000, guid: 7dc96f2ba3659a64eb632128d0705ddc, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Utilities/README
+    asset: {fileID: 4900000, guid: 7d5cb2eb08aa12d48adcc34cd4e115c2, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/plastic-gui.zh-Hans
+    asset: {fileID: 4900000, guid: 7d7e41f2dbd9fae42a08af84d42adf27, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconcheckedoutlocaloverlay@2x
+    asset: {fileID: 21300000, guid: 8d98ab6168c3e91439339f1908b8fe97, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Styles/PlasticWindow/PlasticWindow
+    asset: {fileID: 7433441132597879392, guid: 8d1a06afc3c8d984da03d49bb949ef54, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/status-error-light
+    asset: {fileID: 2800000, guid: 8d3ab9b7cb3a1794a891374315d8305a, type: 3}
+  - assetID: builtin::com.unity.services.core/Editor/Core/EditorGameService/USS/ServicesProjectSettingsDark
+    asset: {fileID: 7433441132597879392, guid: 8d3c945b112744efda5b766100f90895, type: 3}
+  - assetID: builtin::com.unity.testtools.codecoverage/Third Party Notices
+    asset: {fileID: 4900000, guid: 9d40ee9d855163e44bc925c1480d8731, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconprivateoverlay
+    asset: {fileID: 21300000, guid: 9d6e2d7ce65565b4a93d524fe7a05d0b, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/README
+    asset: {fileID: 4900000, guid: 9dcf33ec706ed414881f8379d25b024e, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/xdiff.es
+    asset: {fileID: 4900000, guid: ade3ce4c3f37ebf4d8ca6d9a6a2f5a7a, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Extensions/common
+    asset: {fileID: 7433441132597879392, guid: ada555936059fa149bb48537842ee230, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TimelineSignal
+    asset: {fileID: 2800000, guid: ad2e3e92b00839c4e991ca602ef19822, type: 3}
+  - assetID: builtin::com.unity.modules.androidjni/package
+    asset: {fileID: 8385607101436470782, guid: bd1af0a6633ee94ae21c7d1d702cdc12, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TimelineEditModeRippleOFF
+    asset: {fileID: 2800000, guid: bd7b7cac6eb0c3f469781d9a729a1c94, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/merge-light
+    asset: {fileID: 2800000, guid: cd20fda32910f2942bd0231aa038b0bf, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/edited-file-dark@2x
+    asset: {fileID: 2800000, guid: cdf2b54d520524c418aed1dc00eec185, type: 3}
+  - assetID: builtin::com.unity.ide.visualstudio/CONTRIBUTING
+    asset: {fileID: 4900000, guid: cd78ce5b75b8be84d8b94cd99903161f, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_step2@2x
+    asset: {fileID: 21300000, guid: cdb88fdb0cf46b244a667edaff21c7df, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/step2
+    asset: {fileID: 21300000, guid: cd0b17b71a5c498428ee91dee8a78a88, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/buttonssosigninemail@2x
+    asset: {fileID: 21300000, guid: ddf2e76e8a1f88f46ae1e42277850b48, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/loading-dark
+    asset: {fileID: 2800000, guid: ddc4c89f94d2d994c8d7275e3929ff60, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/DarkSkin/TimelineHold
+    asset: {fileID: 2800000, guid: ddbd45249a133a846b2f20e39b537565, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Textures/btn_AlignTop_Light
+    asset: {fileID: 2800000, guid: ed041e68439749a69d0efa0e3d896c2e, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconrepository
+    asset: {fileID: 21300000, guid: ed64f3a17f2ede646be21ed6edc9161a, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/LightSkin/TimelineTimeCursor
+    asset: {fileID: 2800000, guid: ed665472b4fee2043a5c1cc802beaa8e, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackAvatarButtonEnabled@2x
+    asset: {fileID: 2800000, guid: fd12dbe3b63ae464f824b4a74c0e1766, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_colorbuhochristmas
+    asset: {fileID: 21300000, guid: fd098fb4cf57bad419701c802e442b7e, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackAvatarButtonDisabled@2x
+    asset: {fileID: 2800000, guid: fd194f75fe3d7ca4488fa775ae832fd8, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/publish-dark
+    asset: {fileID: 2800000, guid: fdbd7df1b46f4714fbb0174e505f5a31, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Layouts/HistoryTabPageView
+    asset: {fileID: 1068529831357515114, guid: fdeda3b2ca86b6542a303cbe4f00c3c4, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/i3.en
+    asset: {fileID: 4900000, guid: fd6f48f2efdc637438382db2b19bd44d, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconoutofsync
+    asset: {fileID: 21300000, guid: 0e80bd0b4a8196f46acf73711b9505ec, type: 3}
+  - assetID: builtin::com.unity.services.core/Editor/Core/UiHelpers/UXML/LoggedOut
+    asset: {fileID: 1068529831357515114, guid: 0e9515598d3bf405bb8311f6d4528e00, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/PackageConversionData_Assets
+    asset: {fileID: 4900000, guid: 0e0afa652c0031c48896a97b424d027b, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/cm.ja
+    asset: {fileID: 4900000, guid: 0e7adfb489ba2414b956ec6173590ba2, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackRecordButtonEnabled
+    asset: {fileID: 2800000, guid: 0e5ba0f04df278944a8f5a62f64f5aa6, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-warning-dark
+    asset: {fileID: 2800000, guid: 0e3edcdf6743ba643999fb3882f1cc15, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-warning-light
+    asset: {fileID: 2800000, guid: 1e80543db0ef9494a9c1777f01e1a4a0, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Styles/BaseChangeListElement
+    asset: {fileID: 7433441132597879392, guid: 1e9148bf9d78e0943aeac7855e43585e, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconplasticnotifyincoming
+    asset: {fileID: 21300000, guid: 1e6c9635b80f973488d8335a081c905f, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/clientcommon.ko
+    asset: {fileID: 4900000, guid: 2eee38b41f154a64cac76cdc6b1db313, type: 3}
+  - assetID: builtin::com.unity.services.core/Editor/Core/UiHelpers/UXML/PlatformSupportVisual
+    asset: {fileID: 1068529831357515114, guid: 3ec1058b5f6b14ce3ad4b976c291d834, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconlockedlocaloverlay
+    asset: {fileID: 21300000, guid: 3eb463f682a32ab48b98a68d3361e524, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Gizmos/TMP - Input Field
+      Icon
+    asset: {fileID: 2800000, guid: 3ee40aa79cd242a5b53b0b0ca4f13f0f, type: 3}
+  - assetID: builtin::com.unity.test-framework/LICENSE
+    asset: {fileID: 4900000, guid: 3ec7596410385054a9e0bc90377fbe63, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-error-dark
+    asset: {fileID: 2800000, guid: 3eeca90c1ad2c46499941d0901eef4c6, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/EditorGameService/SettingsProviderVisuals/UXML/CollabProjectSettingsDisabled
+    asset: {fileID: 1068529831357515114, guid: 4e24487a7d7704dd89983851b8b09a7f, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/cm-help.es
+    asset: {fileID: 4900000, guid: 4ec5c604d1cc7ff4bb1950959eabfd1b, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/basecommands.ko
+    asset: {fileID: 4900000, guid: 4efc23d93a6de3d4fb127b199c7c9c6c, type: 3}
+  - assetID: builtin::com.unity.ide.rider/CONTRIBUTING
+    asset: {fileID: 4900000, guid: 5e83f8baac96eaa47bdd9ca781cd2002, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/mergetool.ja
+    asset: {fileID: 4900000, guid: 6e03e9653f4674c43885abfc4d997af1, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconplasticnotifyconflict@2x
+    asset: {fileID: 21300000, guid: 6e0a54826ffc3ee46b0aa3e1c1575a69, type: 3}
+  - assetID: builtin::com.unity.timeline/LICENSE
+    asset: {fileID: 4900000, guid: 6ecb9e17e44feb84cb80451fa27b09fe, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_loading@2x
+    asset: {fileID: 21300000, guid: 7ee48c5fba4919649a8a6094cbead669, type: 3}
+  - assetID: builtin::com.unity.modules.animation/package
+    asset: {fileID: 8385607101436470782, guid: 7ef8348b8ea834d7e1bc214b07f7fb87, type: 3}
+  - assetID: builtin::com.unity.testtools.codecoverage/README
+    asset: {fileID: 4900000, guid: 7e9cc6a8fbcda654f9b318a716a79b57, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/workspaceserver.es
+    asset: {fileID: 4900000, guid: 8ef192f8a9b464841973a1e9471b5472, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/DarkSkin/TimelineKeyframe
+    asset: {fileID: 2800000, guid: 8eba099eb091faf419fecdcd5cdabfd7, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/back-dark
+    asset: {fileID: 2800000, guid: 8e3ec2dfd58b79842aa78376678a9a05, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackCurvesButtonEnabled@2x
+    asset: {fileID: 2800000, guid: 9e541b6dcfb77d34481f69b3d62d0343, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_genericbuho3
+    asset: {fileID: 21300000, guid: 9e9474494461bd048803b48e391ef0f6, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/images.en
+    asset: {fileID: 4900000, guid: 9e9505205cf07a741b85a88b35446dbd, type: 3}
+  - assetID: builtin::com.unity.settings-manager/Content/Options
+    asset: {fileID: 2800000, guid: 9eff477e4332346818c96745043dae9e, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/workspaceserver.en
+    asset: {fileID: 4900000, guid: aed2c786a2df9f84ab3f0c6609241ec5, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconlockedlocaloverlay@2x
+    asset: {fileID: 21300000, guid: ae53a7884da90e94eb5dfeab594b746c, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/iconplasticnotifyincoming@2x
+    asset: {fileID: 21300000, guid: ae869fe6797f4454cbbf417d87ff637c, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-progress-light@2x
+    asset: {fileID: 2800000, guid: ae9e7828f0813b04fbe3f839422b2289, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_stepok
+    asset: {fileID: 21300000, guid: be423a54b981d38428de82ad12534629, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Layouts/BaseChangeListElement
+    asset: {fileID: 1068529831357515114, guid: bef3e204cca87f74199fb125d726b453, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/stepok@2x
+    asset: {fileID: 21300000, guid: be340a165cb9c8d4cb50f1deeb51d4ea, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/mergetool.es
+    asset: {fileID: 4900000, guid: ce999cb9266f6894aa706f05c36e2e3f, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Layouts/ListNotice
+    asset: {fileID: 1068529831357515114, guid: ce3b1c47301f979449f9bd6f0dcdd469, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/deleted-file-dark
+    asset: {fileID: 2800000, guid: ce3ca6a541b5fbc4c80edb5195d78731, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/show-dark@2x
+    asset: {fileID: 2800000, guid: de4c62a7de5c61a41b5b0029b339f373, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Gizmos/TMP - Font Asset
+      Icon
+    asset: {fileID: 2800000, guid: ee148e281f3c41c5b4ff5f8a5afe5a6c, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/guihelp.ko
+    asset: {fileID: 4900000, guid: eed5a8234f917ae498c46e81ab2a6c96, type: 3}
+  - assetID: builtin::com.unity.editorcoroutines/README
+    asset: {fileID: 4900000, guid: ee9ad019452796e46945e4870e3717e4, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackLockButtonDisabled
+    asset: {fileID: 2800000, guid: fef7487d8b06bba408f70354e2463ce4, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/semantic.zh-Hant
+    asset: {fileID: 4900000, guid: fe19bc5668af3dd4d8998ee3d7cac55a, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Layouts/ProgressControlsForDialogs
+    asset: {fileID: 1068529831357515114, guid: feccc3dff22272744a267246ae760a73, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Layouts/main-window
+    asset: {fileID: 1068529831357515114, guid: 0fc258eba97959a4bbc9d04f35188e88, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/guihelp.zh-Hant
+    asset: {fileID: 4900000, guid: 0fe2f3801d667da41a863df162058815, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_ignoredoverlay
+    asset: {fileID: 21300000, guid: 0f5597de928ba6547895c4cdb9fa4185, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_genericbuho2
+    asset: {fileID: 21300000, guid: 0f061b4bd0275bc4eb60f2af31e7375a, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackRecordButtonEnabled@2x
+    asset: {fileID: 2800000, guid: 0f1c9a12872a30f45bab34f536332bb3, type: 3}
+  - assetID: builtin::com.unity.ide.visualstudio/LICENSE
+    asset: {fileID: 4900000, guid: 1fe9e6e1ae93cf64bbdfbd29300752e1, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackCurvesButtonDisabled@2x
+    asset: {fileID: 2800000, guid: 1f3ea4caa6e0ec74388e4d7d16690e68, type: 3}
+  - assetID: builtin::com.unity.textmeshpro/Editor Resources/Gizmos/TMP - Text Component
+      Icon
+    asset: {fileID: 2800000, guid: 2fd6421f253b4ef1a19526541f9ffc0c, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Views/README
+    asset: {fileID: 4900000, guid: 3f95ba73fe5e596409dd5591b959c1ce, type: 3}
+  - assetID: builtin::com.unity.modules.unitywebrequest/package
+    asset: {fileID: 8385607101436470782, guid: 3fdd83b151eb8d25c5e2f82fc39dcb04, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Common/README
+    asset: {fileID: 4900000, guid: 4f5692fbca7d9f6459e5506fc3037de0, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TimelineHeaderMarkerIcon
+    asset: {fileID: 2800000, guid: 4f8d98ef7dbbe3d469e14c04722cbeed, type: 3}
+  - assetID: builtin::com.unity.modules.uielements/package
+    asset: {fileID: 8385607101436470782, guid: 4f0f9b9f3ed97ad2b9ba8f1a8e4666c2, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-incoming-dark
+    asset: {fileID: 2800000, guid: 4f1f02bee0a5ae24aac00a40a212299a, type: 3}
+  - assetID: builtin::com.unity.services.core/Editor/Core/UiHelpers/UXML/Offline
+    asset: {fileID: 1068529831357515114, guid: 5f53bfe242dd84ea1975e05f5a30c390, type: 3}
+  - assetID: builtin::com.unity.feature.development/CHANGELOG
+    asset: {fileID: 4900000, guid: 5f2f5f9622f1e424c8e6cda71ab1c9e8, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackLockButtonDisabled@2x
+    asset: {fileID: 2800000, guid: 6fb5cabb85ba3794682b16eba19440cb, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/plastic-gui.en
+    asset: {fileID: 4900000, guid: 6f6686652369c3044877b9c9ffa5ed2d, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/refresh
+    asset: {fileID: 21300000, guid: 6f6a4c6bd7cdc654d9d91f7de72afcb6, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackLockButtonDisabled@2x
+    asset: {fileID: 2800000, guid: 6f0b77e050cdb12478ed9514b3a0e40e, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_genericbuhochristmas3
+    asset: {fileID: 21300000, guid: 6fac4e39926fd9c4ca2ba4416160a857, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/i3.ja
+    asset: {fileID: 4900000, guid: 7f61c048f87b6c6419624595ac258c91, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Styles/ChangesGroupHeader
+    asset: {fileID: 7433441132597879392, guid: 7f8119d919033424caea4da5a9f91a88, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_genericbuhoshechristmas2
+    asset: {fileID: 21300000, guid: 7fd3cda14282bb7429b8eeb6c121e5bb, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconprivateoverlay@2x
+    asset: {fileID: 21300000, guid: 7f854f490da24e54f9e8383e446b5d81, type: 3}
+  - assetID: builtin::com.unity.editorcoroutines/LICENSE
+    asset: {fileID: 4900000, guid: 7fd8423f910d2394b8580e2705aa247a, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/status-warning-light
+    asset: {fileID: 2800000, guid: 7f5bfdeb677f0f9439f594f1cf98266a, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/status-error-dark
+    asset: {fileID: 2800000, guid: 8f169193df3d51042a705fa81fc46e72, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/binmergetool.zh-Hans
+    asset: {fileID: 4900000, guid: 8f17a986667e26a4e91ca1185f1aa004, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TimelineEditModeMixOFF
+    asset: {fileID: 2800000, guid: 8fca5ed160cdc5440a4c7561db4082b2, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackRecordButtonEnabled@2x
+    asset: {fileID: 2800000, guid: 8fdae4ac756ed6047b01021ff0cc3ebb, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/secondarytabclosehover
+    asset: {fileID: 21300000, guid: 8fac55fff4ce5fa40a7b2efefc0e617a, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/commontypes.zh-Hans
+    asset: {fileID: 4900000, guid: 8f6e4af918bec4746a4ee53ecb9b8536, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/images.ko
+    asset: {fileID: 4900000, guid: 9f33f98c0cc077443a2bcb2104e34dac, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/undo-dark
+    asset: {fileID: 2800000, guid: 9f379314652051f4aa49201b44eae54d, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/DarkSkin/TimelineAutokey@2x
+    asset: {fileID: 2800000, guid: af24c542434a025448222d576f61a956, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/LightSkin/TimelineAutokey
+    asset: {fileID: 2800000, guid: af3aec622aef40c45813b39e405966a3, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/images.ja
+    asset: {fileID: 4900000, guid: af3d324334ddce44aaa9ef5222a87dc2, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/step1@2x
+    asset: {fileID: 21300000, guid: affeade9874cf2347abb155e8d0db4d8, type: 3}
+  - assetID: builtin::com.unity.modules.ui/package
+    asset: {fileID: 8385607101436470782, guid: bfd567a3d1631a761bca9e99fa53d86d, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TimelineHeaderMarkerIcon
+    asset: {fileID: 2800000, guid: bf1debab21103154b99778ba6e074175, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/cm.en
+    asset: {fileID: 4900000, guid: cfa59bb5da46bba41897a4f8bc66151e, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackLockButtonEnabled
+    asset: {fileID: 2800000, guid: cf575301f1e76c4478de0e77db15eba0, type: 3}
+  - assetID: builtin::com.unity.timeline/Editor/StyleSheets/Images/LightSkin/TimelineAutokey@2x
+    asset: {fileID: 2800000, guid: cf3fbf98d5c3f1941bd9c0256918a4c8, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Lib/Editor/PlasticSCM/localization/clientcommon.ja
+    asset: {fileID: 4900000, guid: dfa6ae58823fdfd438a142b4db651f54, type: 3}
+  - assetID: builtin::com.unity.testtools.codecoverage/LICENSE
+    asset: {fileID: 4900000, guid: df3aedd5e490bca44b693f5da1e4d2d5, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_iconplasticviewnotify
+    asset: {fileID: 21300000, guid: df7dbac99fae5444f92b497c52f0ecfb, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/collaborate-done-light@2x
+    asset: {fileID: 2800000, guid: efbf52d7ee1264d478d63a17b943941a, type: 3}
+  - assetID: builtin::com.unity.ide.vscode/package
+    asset: {fileID: 8385607101436470782, guid: ffc6271f08270b64ca0aae9c49235d81, type: 3}
+  - assetID: builtin::com.unity.collab-proxy/Editor/Collaborate/Assets/Layouts/MainPageView
+    asset: {fileID: 1068529831357515114, guid: ff1bfb51c3ec34c4aaaeb29a0343f1c4, type: 3}
+  assetSources:
+  - {fileID: 1538083252}
+  - {fileID: 1538083251}
+  - {fileID: 1538083250}
+  <AutoUpdate>k__BackingField: 0
 --- !u!4 &1538083249
 Transform:
   m_ObjectHideFlags: 0
@@ -1566,6 +3077,47 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1538083250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538083246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cec510eb5c825340a5928c831628bc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ConstrainPath>k__BackingField: Packages/
+  <AssetPrefix>k__BackingField: 'builtin::'
+--- !u!114 &1538083251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538083246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cec510eb5c825340a5928c831628bc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ConstrainPath>k__BackingField: Assets/
+  <AssetPrefix>k__BackingField: 'builtin::'
+--- !u!114 &1538083252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538083246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ec2c2bbae2114f4cadb60e52184284e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <AssetPrefix>k__BackingField: 'builtin::'
 --- !u!1 &1568459033
 GameObject:
   m_ObjectHideFlags: 0
