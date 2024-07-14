@@ -33,28 +33,31 @@ namespace UnityPlus.OverridableEvents
         /// </summary>
         public Action<T> OnInvoke { get; set; }
 
-        public OverridableEventListener( string id, string[] blacklist, string[] before, string[] after, Action<T> OnInvoke )
+        public OverridableEventListener( string id, string[] blacklist, string[] before, string[] after, Action<T> onInvoke )
         {
             this.ID = id;
             this.Blacklist = blacklist ?? new string[] { };
             this.Before = before ?? new string[] { };
             this.After = after ?? new string[] { };
+            this.OnInvoke = onInvoke;
         }
 
-        public OverridableEventListener( string id, string[] blacklist, Action<T> OnInvoke )
+        public OverridableEventListener( string id, string[] blacklist, Action<T> onInvoke )
         {
             this.ID = id;
             this.Blacklist = blacklist ?? new string[] { };
             this.Before = new string[] { };
             this.After = new string[] { };
+            this.OnInvoke = onInvoke;
         }
 
-        public OverridableEventListener( string id, Action<T> OnInvoke )
+        public OverridableEventListener( string id, Action<T> onInvoke )
         {
             this.ID = id;
             this.Blacklist = new string[] { };
             this.Before = new string[] { };
             this.After = new string[] { };
+            this.OnInvoke = onInvoke;
         }
     }
 }
