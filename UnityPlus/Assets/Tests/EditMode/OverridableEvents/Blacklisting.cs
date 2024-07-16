@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityPlus;
 using UnityPlus.OverridableEvents;
 using UnityPlus.Serialization;
 
@@ -26,7 +27,7 @@ namespace OverridableEvents
             };
 
             // Act
-            var sortedEvents = events.GetNonBlacklistedListeners().Select( l => l.ID );
+            var sortedEvents = events.GetNonBlacklisted().Select( l => l.ID );
 
             // Assert
             Assert.That( sortedEvents, Is.EqualTo( new string[] { "A", "B", "C", "D" } ) );
@@ -45,7 +46,7 @@ namespace OverridableEvents
             };
 
             // Act
-            var sortedEvents = events.GetNonBlacklistedListeners().Select( l => l.ID );
+            var sortedEvents = events.GetNonBlacklisted().Select( l => l.ID );
 
             // Assert
             Assert.That( sortedEvents, Is.EqualTo( new string[] { "A", "C" } ) );
@@ -64,7 +65,7 @@ namespace OverridableEvents
             };
 
             // Act
-            var sortedEvents = events.GetNonBlacklistedListeners().Select( l => l.ID );
+            var sortedEvents = events.GetNonBlacklisted().Select( l => l.ID );
 
             // Assert
             Assert.That( sortedEvents, Is.EqualTo( new string[] { "C", "D" } ) );
@@ -83,7 +84,7 @@ namespace OverridableEvents
             };
 
             // Act
-            var sortedEvents = events.GetNonBlacklistedListeners().Select( l => l.ID );
+            var sortedEvents = events.GetNonBlacklisted().Select( l => l.ID );
 
             // Assert
             Assert.That( sortedEvents, Is.EqualTo( new string[] { "D" } ) );
@@ -102,7 +103,7 @@ namespace OverridableEvents
             };
 
             // Act
-            var sortedEvents = events.GetNonBlacklistedListeners().Select( l => l.ID );
+            var sortedEvents = events.GetNonBlacklisted().Select( l => l.ID );
 
             // Assert
             Assert.That( sortedEvents, Is.Empty );

@@ -1,40 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityPlus.OverridableEvents;
 
-namespace UnityPlus.OverridableEvents
+namespace UnityPlus
 {
     public static class OverridableEvent_Ex
     {
-        public static IEnumerable<OverridableEventListener<T>> GetNonBlacklistedListeners<T>( this IEnumerable<OverridableEventListener<T>> listeners )
+        public static IEnumerable<IOverridable<T>> GetNonBlacklisted<T>( this IEnumerable<IOverridable<T>> values )
         {
-            var blacklistedListeners = listeners
+            var fullBlacklist = values
                 .Where( l => l.Blacklist != null )
                 .SelectMany( l => l.Blacklist )
                 .ToHashSet();
 
-            return listeners
-                .Where( l => !blacklistedListeners.Contains( l.ID ) );
+            return values
+                .Where( l => !fullBlacklist.Contains( l.ID ) );
         }
 
-        public static List<OverridableEventListener<T>> SortDependencies<T>( this IEnumerable<OverridableEventListener<T>> listeners )
+        public static List<ITopologicallySortable<T>> SortDependencies<T>( this IEnumerable<ITopologicallySortable<T>> values )
         {
-            return SortDependencies<T>( listeners, out _ );
+            return SortDependencies<T>( values, out _ );
         }
 
-        public static List<OverridableEventListener<T>> SortDependencies<T>( this IEnumerable<OverridableEventListener<T>> listeners, out bool hasCircularDependency )
+        public static List<ITopologicallySortable<T>> SortDependencies<T>( this IEnumerable<ITopologicallySortable<T>> values, out bool hasCircularDependency )
         {
-            Dictionary<string, List<string>> graph = new();
-            Dictionary<string, int> indegree = new();
+            Dictionary<T, List<T>> graph = new();
+            Dictionary<T, int> indegree = new();
 
             // Initialize the graph and in-degrees.
-            foreach( var listener in listeners )
+            foreach( var listener in values )
             {
                 if( !graph.ContainsKey( listener.ID ) )
-                    graph[listener.ID] = new List<string>();
+                    graph[listener.ID] = new List<T>();
 
                 if( !indegree.ContainsKey( listener.ID ) )
                     indegree[listener.ID] = 0;
@@ -44,7 +41,7 @@ namespace UnityPlus.OverridableEvents
                 foreach( var beforeId in listener.After )
                 {
                     if( !graph.ContainsKey( beforeId ) )
-                        graph[beforeId] = new List<string>();
+                        graph[beforeId] = new List<T>();
                     graph[beforeId].Add( listener.ID );
 
                     indegree[listener.ID]++;
@@ -62,15 +59,15 @@ namespace UnityPlus.OverridableEvents
                 }
             }
 
-            var listenerDict = listeners.ToDictionary( listener => listener.ID );
+            var listenerDict = values.ToDictionary( listener => listener.ID );
 
             // Kahn's algorithm.
-            Queue<string> zeroIndegreeQueue = new Queue<string>( indegree.Where( kvp => kvp.Value == 0 ).Select( kvp => kvp.Key ) );
-            List<OverridableEventListener<T>> sortedListeners = new();
+            Queue<T> zeroIndegreeQueue = new Queue<T>( indegree.Where( kvp => kvp.Value == 0 ).Select( kvp => kvp.Key ) );
+            List<ITopologicallySortable<T>> sortedListeners = new();
 
             while( zeroIndegreeQueue.Count > 0 )
             {
-                string id = zeroIndegreeQueue.Dequeue();
+                T id = zeroIndegreeQueue.Dequeue();
                 sortedListeners.Add( listenerDict[id] );
 
                 foreach( var neighbor in graph[id] )

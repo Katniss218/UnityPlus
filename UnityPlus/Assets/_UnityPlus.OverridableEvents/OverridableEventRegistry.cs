@@ -8,7 +8,7 @@ namespace UnityPlus.OverridableEvents
     /// <summary>
     /// Manages overridable game events.
     /// </summary>
-    public class OverridableEventManager<T>
+    public class OverridableEventRegistry<T>
     {
         Dictionary<string, OverridableEvent<T>> _events = new Dictionary<string, OverridableEvent<T>>();
 

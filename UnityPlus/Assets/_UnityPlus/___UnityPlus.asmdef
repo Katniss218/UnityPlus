@@ -1,7 +1,8 @@
 {
-    "name": "_UnityPlus.Animation",
+    "name": "_UnityPlus",
     "rootNamespace": "",
     "references": [
+        "GUID:9ad8c4744ceb81b468efab84b331da30",
         "GUID:27d62e6e15e3fa24eabddedaa74a2424"
     ],
     "includePlatforms": [],

@@ -4,11 +4,14 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
+        "_System",
         "_UnityEngine",
+        "_UnityPlus",
+        "_UnityPlus.Animation",
         "_UnityPlus.AssetManagement",
-        "_UnityPlus.Serialization",
-        "UnityPlus.Animation",
-        "_UnityPlus.OverridableEvents"
+        "_UnityPlus.OverridableEvents",
+        "_UnityPlus.OverridableValueProviders",
+        "_UnityPlus.Serialization"
     ],
     "includePlatforms": [
         "Editor"

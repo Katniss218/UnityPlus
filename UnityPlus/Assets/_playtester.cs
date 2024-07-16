@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Profiling;
+using UnityPlus;
 using UnityPlus.AssetManagement;
 using UnityPlus.CSharp;
 using UnityPlus.OverridableEvents;
