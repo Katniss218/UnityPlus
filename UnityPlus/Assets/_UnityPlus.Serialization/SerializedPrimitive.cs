@@ -96,6 +96,8 @@ namespace UnityPlus.Serialization
             set => throw new NotSupportedException( $"Tried to invoke string indexer, which is not supported on {nameof( SerializedPrimitive )}." );
         }
 
+        public override int Count => 0;
+
         public override bool TryGetValue( string name, out SerializedData value )
         {
             value = default;
@@ -103,6 +105,18 @@ namespace UnityPlus.Serialization
         }
         
         public override bool TryGetValue<T>( string name, out T value )
+        {
+            value = default;
+            return false;
+        }
+        
+        public override bool TryGetValue( int index, out SerializedData value )
+        {
+            value = default;
+            return false;
+        }
+        
+        public override bool TryGetValue<T>( int index, out T value )
         {
             value = default;
             return false;

@@ -15,7 +15,7 @@ namespace UnityPlus.Serialization
     {
         readonly List<SerializedData> _children;
 
-        public int Count => _children.Count;
+        public override int Count => _children.Count;
         public bool IsReadOnly => ((ICollection<SerializedData>)_children).IsReadOnly;
 
         public SerializedArray()
@@ -55,6 +55,31 @@ namespace UnityPlus.Serialization
         {
             value = default;
             return false;
+        }
+
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public override bool TryGetValue( int index, out SerializedData value )
+        {
+            if( index < 0 || index >= _children.Count )
+            {
+                value = default;
+                return false;
+            }
+            value = _children[index];
+            return true;
+        }
+
+        /// <returns>True if the value was found, and matches the specified type.</returns>
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public override bool TryGetValue<T>( int index, out T value )
+        {
+            if( index < 0 || index >= _children.Count )
+            {
+                value = default;
+                return false;
+            }
+            value = _children[index] as T;
+            return value != null;
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]

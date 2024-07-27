@@ -17,7 +17,7 @@ namespace UnityPlus.Serialization
 
         public ICollection<string> Keys => _children.Keys;
         public ICollection<SerializedData> Values => _children.Values;
-        public int Count => _children.Count;
+        public override int Count => _children.Count;
         public bool IsReadOnly => ((ICollection<KeyValuePair<string, SerializedData>>)_children).IsReadOnly;
 
         public override SerializedData this[int index]
@@ -102,20 +102,32 @@ namespace UnityPlus.Serialization
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public override bool TryGetValue( string key, out SerializedData value )
+        public override bool TryGetValue( string name, out SerializedData value )
         {
-            return _children.TryGetValue( key, out value );
+            return _children.TryGetValue( name, out value );
         }
 
         /// <returns>True if the value was found, and matches the specified type.</returns>
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public override bool TryGetValue<T>( string key, out T value )
+        public override bool TryGetValue<T>( string name, out T value )
         {
-            if( _children.TryGetValue( key, out var tempValue ) && tempValue is T tempValueOfType )
+            if( _children.TryGetValue( name, out var tempValue ) && tempValue is T tempValueOfType )
             {
                 value = tempValueOfType;
                 return true;
             }
+            value = default;
+            return false;
+        }
+
+        public override bool TryGetValue( int index, out SerializedData value )
+        {
+            value = default;
+            return false;
+        }
+
+        public override bool TryGetValue<T>( int index, out T value )
+        {
             value = default;
             return false;
         }

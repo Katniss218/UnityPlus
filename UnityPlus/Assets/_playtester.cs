@@ -14,6 +14,8 @@ using UnityPlus.OverridableEvents;
 using UnityPlus.Serialization;
 using UnityPlus.Serialization.DataHandlers;
 using UnityPlus.Serialization.Json;
+using UnityPlus.Serialization.Patching.DSL;
+using UnityPlus.Serialization.Patching.DSL.SyntaxTree;
 using UnityPlus.Serialization.ReferenceMaps;
 using UnityPlus.UILib;
 using UnityPlus.UILib.UIElements;
@@ -39,7 +41,7 @@ public class _playtester : MonoBehaviour
     {
         public string derivedMember;
     }
-    
+
     public class MoreDerivedClass : DerivedClass
     {
         public string moreDerivedMember;
@@ -60,7 +62,7 @@ public class _playtester : MonoBehaviour
             ("action", new Member<_playtester, Action<string>>( o => o.Action ))
         };
     }
-    
+
     [MapsInheritingFrom( typeof( FPSCounterDebug ) )]
     public static SerializationMapping FPSCounterDebugMapping()
     {
@@ -87,7 +89,7 @@ public class _playtester : MonoBehaviour
             ("derived_member", new Member<DerivedClass, string>( o => o.derivedMember ))
         };
     }
-    
+
     [MapsInheritingFrom( typeof( MoreDerivedClass ) )]
     public static SerializationMapping MoreDerivedClassMapping()
     {
@@ -122,7 +124,7 @@ public class _playtester : MonoBehaviour
     private void Awake()
     {
         this.Action = DoSomething;
-    } 
+    }
 
     private void DoSomething( string s )
     {
@@ -131,20 +133,74 @@ public class _playtester : MonoBehaviour
 
     void Start()
     {
-        // Arrange
-        IEnumerable<OverridableEventListener<string>> events = new List<OverridableEventListener<string>>()
+        var mm = new DataFixerScript()
+        {
+            Transformations = new Transformation[]
             {
-                new OverridableEventListener<string>( "A", null, new[] { "B" }, null, null ),
-                new OverridableEventListener<string>( "B", null, new[] { "A" }, null, null ),
-                new OverridableEventListener<string>( "C", null, null, new[] { "B" }, null ),
-                new OverridableEventListener<string>( "D", null, null, new[] { "C" }, null ),
-            };
-        bool wasCircular = false;
+                new Transformation()
+                {
+                    Headers = new TransformationHeader[]
+                    {
+                        new FromTransformationHeader()
+                        {
+                            Target = new SerializedDataPath()
+                            {
+                                Segments = new SerializedDataPathSegment[]
+                                {
+                                    new AnySerializationDataPathSegment()
+                                }
+                            }
+                        }, 
+                        new WhereTransformationHeader()
+                        {
+                            Filter = new BooleanExpression()
+                            {
+                                Left = new IdentifierAccess()
+                                {
+                                    Path = new SerializedDataPath()
+                                    {
+                                        Segments = new SerializedDataPathSegment[]
+                                        {
+                                            new NamedSerializedDataPathSegment( "$type" )
+                                        }
+                                    }
+                                },
+                                RightLiteral = (SerializedData)"somevalue",
+                                Op = new EqualOp()
+                            }
+                        }
+                    },
+                    Body = new TransformationBody()
+                    {
+                        Statements = new Statement[]
+                        {
+                            new AssignmentStatement()
+                            {
+                                Left = new IdentifierAccess()
+                                {
+                                    Path = new SerializedDataPath()
+                                },
+                                RightLiteral = (SerializedData)null
+                            }
+                        }
+                    }
+                }
+            }
+        };
 
-        // Act
-        var sortedEvents = events
-            .SortDependencies( out wasCircular )
-            .Select( l => l.ID );
+        var data = new SerializedArray()
+        {
+            new SerializedObject()
+            {
+                { "$type", "somevalue" },
+            },
+            new SerializedObject()
+            {
+                { "$type", "othervalue" },
+            },
+        };
+
+        mm.InvokeOn( data );
     }
 
     void Update()
