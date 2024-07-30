@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
 {
-    public interface ISerializedDataOperation
+    public interface IBinaryOperation
     {
         SerializedData Evaluate( SerializedData left, SerializedData right );
     }

@@ -14,6 +14,7 @@ namespace UnityPlus.Serialization.Patching.DSL
 
     public class AnySerializationDataPathSegment : SerializedDataPathSegment
     {
+#warning TODO - this should flatten *everything*
         public override IEnumerable<TrackedSerializedData> Evaluate( TrackedSerializedData pivotItem )
         {
             for( int i = 0; i < pivotItem.value.Count; i++ )

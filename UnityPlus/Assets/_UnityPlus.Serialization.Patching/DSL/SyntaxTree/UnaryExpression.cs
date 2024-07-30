@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
 {
-    public interface IBooleanOperation
+    public class UnaryExpression
     {
-        bool Evaluate( SerializedData left, SerializedData right );
+
     }
 }

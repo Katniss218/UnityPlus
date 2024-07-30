@@ -16,7 +16,7 @@ namespace UnityPlus.Serialization
         /// Stores the actual value of the primitive.
         /// </summary>
         [StructLayout( LayoutKind.Explicit )]
-        internal struct Value
+        public struct Value
         {
             // Used to compare different primitives...
             [FieldOffset( 0 )] public Guid equalityValue;
@@ -35,7 +35,7 @@ namespace UnityPlus.Serialization
         /// <summary>
         /// Determines how to access the data inside the <see cref="Value"/>.
         /// </summary>
-        internal enum DataType : byte
+        public enum DataType : byte
         {
             // 16-byte value types below (grouped for equality checking).
 
@@ -78,7 +78,10 @@ namespace UnityPlus.Serialization
         internal readonly Value _value;
         internal readonly DataType _type;
 
-        SerializedPrimitive( Value value, DataType type )
+        public DataType GetValueType() => _type;
+        public Value GetValue() => _value;
+
+        public SerializedPrimitive( Value value, DataType type )
         {
             this._value = value;
             this._type = type;

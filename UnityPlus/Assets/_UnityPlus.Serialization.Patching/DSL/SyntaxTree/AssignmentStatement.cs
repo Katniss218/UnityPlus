@@ -10,7 +10,7 @@ namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
     {
         public IdentifierAccess Left { get; set; }
 
-        public SerializedDataExpression Right { get; set; }
+        public BinaryExpression Right { get; set; }
         public SerializedData RightLiteral { get; set; }
 
         public override void Invoke( IEnumerable<TrackedSerializedData> pivot )

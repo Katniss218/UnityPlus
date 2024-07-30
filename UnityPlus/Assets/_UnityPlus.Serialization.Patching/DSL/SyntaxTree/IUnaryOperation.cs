@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
 {
-    public interface IExpression
+    public interface IUnaryOperation
     {
-        SerializedData Evaluate( TrackedSerializedData pivotItem );
+        SerializedData Evaluate( SerializedData value );
     }
 }

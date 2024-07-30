@@ -153,7 +153,7 @@ public class _playtester : MonoBehaviour
                         }, 
                         new WhereTransformationHeader()
                         {
-                            Filter = new BooleanExpression()
+                            Filter = new BinaryExpression()
                             {
                                 Left = new IdentifierAccess()
                                 {
