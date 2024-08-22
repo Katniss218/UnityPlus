@@ -7,7 +7,7 @@ namespace UnityEngine
     /// <summary>
     /// A double-precision <see cref="Quaternion"/>.
     /// </summary>
-    public struct QuaternionDbl : IEquatable<Quaternion>, IEquatable<QuaternionDbl>
+    public struct QuaternionDbl : IEquatable<Quaternion>, IEquatable<QuaternionDbl>, IFormattable
     {
         const double radToDeg = 180.0 / Math.PI;
         const double degToRad = Math.PI / 180.0;

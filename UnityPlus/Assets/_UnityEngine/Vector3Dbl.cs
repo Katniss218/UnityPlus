@@ -8,8 +8,8 @@ namespace UnityEngine
     /// A double-precision <see cref="Vector3"/>.
     /// </summary>
     [Serializable]
-	public struct Vector3Dbl : IEquatable<Vector3>, IEquatable<Vector3Dbl>
-	{
+	public struct Vector3Dbl : IEquatable<Vector3>, IEquatable<Vector3Dbl>, IFormattable
+    {
 		[SerializeField]
 		public double x;
 		[SerializeField]
