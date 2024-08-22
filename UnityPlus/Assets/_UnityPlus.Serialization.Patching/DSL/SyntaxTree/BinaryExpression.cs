@@ -19,8 +19,8 @@ namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
         public SerializedData RightLiteral { get; set; }
         */
 
-        public IBinaryTerm Left { get; set; }
-        public IBinaryTerm Right { get; set; }
+        public IExpression Left { get; set; }
+        public IExpression Right { get; set; }
 
         public IBinaryOperation Op { get; set; }
 
