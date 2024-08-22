@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Globalization;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UnityEngine
 {
-	/// <summary>
-	/// A double-precision <see cref="Vector3"/>.
-	/// </summary>
-	[Serializable]
+    /// <summary>
+    /// A double-precision <see cref="Vector3"/>.
+    /// </summary>
+    [Serializable]
 	public struct Vector3Dbl : IEquatable<Vector3>, IEquatable<Vector3Dbl>
 	{
 		[SerializeField]
@@ -382,6 +379,27 @@ namespace UnityEngine
 			return Math.Abs( lhs.x - rhs.x ) >= 1e-12
 				|| Math.Abs( lhs.y - rhs.y ) >= 1e-12
 				|| Math.Abs( lhs.z - rhs.z ) >= 1e-12;
-		}
-	}
+        }
+
+        public override string ToString()
+        {
+            return ToString( null, null );
+        }
+
+        public string ToString( string format )
+        {
+            return ToString( format, null );
+        }
+
+        public string ToString( string format, IFormatProvider formatProvider )
+        {
+            if( string.IsNullOrEmpty( format ) )
+                format = "F2";
+
+            if( formatProvider == null )
+                formatProvider = CultureInfo.InvariantCulture.NumberFormat;
+
+            return String.Format( "({0}, {1}, {2})", x.ToString( format, formatProvider ), y.ToString( format, formatProvider ), z.ToString( format, formatProvider ) );
+        }
+    }
 }
