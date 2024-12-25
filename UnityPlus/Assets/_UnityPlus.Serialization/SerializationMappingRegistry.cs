@@ -199,7 +199,7 @@ namespace UnityPlus.Serialization
 
             // Get the mapping using the previously found method.
             var mapping = (SerializationMapping)method.Invoke( null, null );
-            mapping.context = context;
+            mapping.Context = context;
 
             _directCache[(context, objType)] = mapping;
 

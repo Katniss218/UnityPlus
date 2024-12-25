@@ -7,6 +7,18 @@ namespace UnityPlus.Serialization.Mappings
         [MapsInheritingFrom( typeof( Array ), Context = ArrayContext.Values )]
         public static SerializationMapping ArrayMapping<T>()
         {
+            return new IndexedSerializationMapping<T[], T>( o => o.Length,
+                ( o, i ) => // writes to data
+                {
+                    return o[i];
+                },
+                ( o, i, oElem ) => // loads from data
+                {
+                    o[i] = oElem;
+                } )
+                .WithFactory( length => new T[length] );
+            /*
+
 #warning TODO - multidimensional arrays?
             return new NonPrimitiveSerializationMapping<T[]>()
             {
@@ -55,7 +67,7 @@ namespace UnityPlus.Serialization.Mappings
                             o[i] = element;
                         }
                     }
-                },
+                }/*,
                 OnLoadReferences = ( ref T[] o, SerializedData data, ILoader l ) =>
                 {
                     if( data is not SerializedArray serializedArray )
@@ -73,7 +85,7 @@ namespace UnityPlus.Serialization.Mappings
                         }
                     }
                 }
-            };
+            };*/
         }
     }
 }

@@ -49,6 +49,11 @@ namespace UnityPlus.Serialization
             this._context = context;
         }
 
+        public bool ShouldPause()
+        {
+            return false;
+        }
+
         //
         //  Acting methods.
         //
@@ -56,10 +61,14 @@ namespace UnityPlus.Serialization
         /// <summary>
         /// Performs deserialization of the previously specified objects.
         /// </summary>
-        public void Deserialize()
+        public void Deserialize( int maxIters = 10 )
         {
-            this.LoadCallback();
-            this.LoadReferencesCallback();
+            for( int i = 0; i < maxIters; i++ )
+            {
+                if( this.LoadCallback() )
+                    return;
+                // Debug.Log( i );
+            }
         }
 
         /// <summary>
@@ -72,7 +81,6 @@ namespace UnityPlus.Serialization
 
             this.RefMap = l;
             this.LoadCallback();
-            this.LoadReferencesCallback();
         }
 
         /// <summary>
@@ -80,8 +88,7 @@ namespace UnityPlus.Serialization
         /// </summary>
         public void Populate()
         {
-            this.PopulateCallback();
-            this.LoadReferencesCallback();
+            this.LoadCallback();
         }
 
         /// <summary>
@@ -93,8 +100,7 @@ namespace UnityPlus.Serialization
                 throw new ArgumentNullException( nameof( l ), $"The reference map to use can't be null." );
 
             this.RefMap = l;
-            this.PopulateCallback();
-            this.LoadReferencesCallback();
+            this.LoadCallback();
         }
 
         //
@@ -117,62 +123,29 @@ namespace UnityPlus.Serialization
             return _objects.OfType<TDerived>();
         }
 
-        private void PopulateCallback()
-        {
-            // Called by the loader.
-
-            for( int i = 0; i < _data.Length; i++ )
-            {
-                SerializedData data = _data[i];
-
-                var mapping = MappingHelper.GetMapping_Load<T>( _context, MappingHelper.GetSerializedType<T>( data ), data, this );
-
-                // Parity with Member (mostly).
-                T member = _objects[i];
-                if( mapping.SafePopulate( ref member, data, this ) )
-                {
-                    _objects[i] = member;
-                }
-            }
-        }
-
-        private void LoadCallback()
+        private bool LoadCallback()
         {
             // Called by the loader.
 
             _objects = new T[_data.Length];
 
+            bool allSucceeded = true;
             for( int i = 0; i < _data.Length; i++ )
             {
                 SerializedData data = _data[i];
 
                 var mapping = MappingHelper.GetMapping_Load<T>( _context, MappingHelper.GetSerializedType<T>( data ), data, this );
 
-                T member = default;
-                if( mapping.SafeLoad( ref member, data, this ) )
-                {
-                    _objects[i] = member;
-                }
-            }
-        }
-
-        private void LoadReferencesCallback()
-        {
-            // Called by the loader.
-
-            for( int i = 0; i < _data.Length; i++ )
-            {
-                SerializedData data = _data[i];
-
                 T member = _objects[i];
-
-                var mapping = MappingHelper.GetMapping_LoadReferences<T>( _context, member, data, this );
-
-                if( mapping.SafeLoadReferences( ref member, data, this ) )
+                var ret2 = mapping.SafeLoad( ref member, data, this );
+                if( !ret2 )
+                    allSucceeded = false;
+                if( ret2 )
                 {
                     _objects[i] = member;
                 }
             }
+            return allSucceeded;
         }
     }
 }

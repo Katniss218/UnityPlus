@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using UnityPlus.Serialization;
+﻿using System.Runtime.CompilerServices;
 
 namespace UnityPlus.Serialization
 {
@@ -17,30 +11,14 @@ namespace UnityPlus.Serialization
         /// Doesn't require doing a null check on the mapping.
         /// </remarks>
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static SerializedData SafeSave<TMember>( this SerializationMapping mapping, TMember obj, ISaver s )
-        {
-            if( mapping == null )
-                return null;
-
-            SerializedData data = null; // delete this and move back to just returning serializeddata?
-
-            mapping.___passthroughSave<TMember>( obj, ref data, s );
-            return data;
-        }
-
-        /// <summary>
-        /// Use this method to invoke a mapping.
-        /// </summary>
-        /// <remarks>
-        /// Doesn't require doing a null check on the mapping.
-        /// </remarks>
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static bool SafePopulate<TMember>( this SerializationMapping mapping, ref TMember obj, SerializedData data, ILoader l )
+        public static bool SafeSave<TMember>( this SerializationMapping mapping, TMember obj, ref SerializedData data, ISaver s )
         {
             if( mapping == null )
                 return false;
 
-            return mapping.___passthroughPopulate<TMember>( ref obj, data, l );
+            //SerializedData data = null; // delete this and move back to just returning serializeddata?
+
+            return mapping.Save( obj, ref data, s );
         }
 
         /// <summary>
@@ -55,22 +33,7 @@ namespace UnityPlus.Serialization
             if( mapping == null )
                 return false;
 
-            return mapping.___passthroughLoad<TMember>( ref obj, data, l );
-        }
-
-        /// <summary>
-        /// Use this method to invoke a mapping.
-        /// </summary>
-        /// <remarks>
-        /// Doesn't require doing a null check on the mapping.
-        /// </remarks>
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static bool SafeLoadReferences<TMember>( this SerializationMapping mapping, ref TMember obj, SerializedData data, ILoader l )
-        {
-            if( mapping == null )
-                return false;
-
-            return mapping.___passthroughLoadReferences<TMember>( ref obj, data, l );
+            return mapping.Load( ref obj, data, l );
         }
     }
 }

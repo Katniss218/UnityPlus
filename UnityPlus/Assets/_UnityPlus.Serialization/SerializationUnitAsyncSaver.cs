@@ -40,6 +40,11 @@ namespace UnityPlus.Serialization
             this._dynamicStack = new Stack<Entry>();
         }
 
+        public bool ShouldPause()
+        {
+            throw new NotImplementedException(); // use stopwatch to tell how long the current save is taking so far.
+        }
+
         //
         //  Acting methods.
         //
@@ -101,7 +106,9 @@ namespace UnityPlus.Serialization
 
                 var mapping = SerializationMappingRegistry.GetMapping<T>( _context, obj );
 
-                _data[i] = mapping.SafeSave<T>( obj, this );
+                var data = _data[i];
+                bool ret = mapping.SafeSave<T>( obj, ref data, this );
+                _data[i] = data;
             }
         }
 

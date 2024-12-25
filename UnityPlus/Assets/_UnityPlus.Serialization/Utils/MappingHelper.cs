@@ -55,17 +55,5 @@ namespace UnityPlus.Serialization
 
             return mapping;
         }
-
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static SerializationMapping GetMapping_LoadReferences<T>( int context, T member, SerializedData data, ILoader l )
-        {
-            if( data == null )
-                return SerializationMappingRegistry.GetMapping<T>( context, member );
-
-            if( l.MappingCache.TryGetValue( data, out var mapping ) )
-                return mapping;
-
-            return SerializationMappingRegistry.GetMapping<T>( context, member );
-        }
     }
 }

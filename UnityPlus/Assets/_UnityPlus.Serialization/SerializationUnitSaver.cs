@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityPlus.Serialization.ReferenceMaps;
 
 namespace UnityPlus.Serialization
@@ -23,6 +24,11 @@ namespace UnityPlus.Serialization
             this._context = context;
         }
 
+        public bool ShouldPause()
+        {
+            return false;
+        }
+
         //
         //  Acting methods.
         //
@@ -30,9 +36,14 @@ namespace UnityPlus.Serialization
         /// <summary>
         /// Performs serialization of the previously specified objects.
         /// </summary>
-        public void Serialize()
+        public void Serialize( int maxIters = 10 )
         {
-            this.SaveCallback();
+            for( int i = 0; i < maxIters; i++ )
+            {
+                if( this.SaveCallback() )
+                    return;
+               // Debug.Log( i );
+            }
         }
 
         /// <summary>
@@ -70,18 +81,24 @@ namespace UnityPlus.Serialization
             } );
         }
 
-        private void SaveCallback()
+        private bool SaveCallback()
         {
             _data = new SerializedData[_objects.Length];
 
+            bool allSucceeded = true;
             for( int i = 0; i < _objects.Length; i++ )
             {
                 T obj = _objects[i];
 
                 var mapping = SerializationMappingRegistry.GetMapping<T>( _context, obj );
 
-                _data[i] = mapping.SafeSave<T>( obj, this );
+                var data = _data[i];
+                bool ret2 = mapping.SafeSave<T>( obj, ref data, this );
+                if( !ret2 )
+                    allSucceeded = false;
+                _data[i] = data;
             }
+            return allSucceeded;
         }
     }
 }

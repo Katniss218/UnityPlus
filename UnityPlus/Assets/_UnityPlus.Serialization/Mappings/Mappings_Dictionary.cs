@@ -8,7 +8,13 @@ namespace UnityPlus.Serialization.Mappings
         [MapsInheritingFrom( typeof( KeyValuePair<,> ), Context = KeyValueContext.ValueToValue )]
         public static SerializationMapping KeyValuePair_ValueToValue_Mapping<TKey, TValue>()
         {
-            return new NonPrimitiveSerializationMapping<KeyValuePair<TKey, TValue>>()
+            return new MemberwiseSerializationMapping<KeyValuePair<TKey, TValue>>()
+                .WithMember( "key", o => o.Key )
+                .WithMember( "value", o => o.Value )
+                .WithFactory<TKey, TValue>( ( key, value ) => new KeyValuePair<TKey, TValue>( key, value ) );
+
+            // KeyValueContext.RefToValue,
+            /*return new NonPrimitiveSerializationMapping<KeyValuePair<TKey, TValue>>()
             {
                 OnSave = ( o, s ) =>
                 {
@@ -44,7 +50,7 @@ namespace UnityPlus.Serialization.Mappings
                     mapping.SafeLoad( ref value, valueData, l );
 
                     o = new KeyValuePair<TKey, TValue>( key, value );
-                },
+                }/*,
                 OnLoadReferences = ( ref KeyValuePair<TKey, TValue> o, SerializedData data, ILoader l ) =>
                 {
                     SerializedData keyData = data["key"];
@@ -60,13 +66,20 @@ namespace UnityPlus.Serialization.Mappings
 
                     o = new KeyValuePair<TKey, TValue>( key, value );
                 }
-            };
+            };*/
         }
 
         [MapsInheritingFrom( typeof( Dictionary<,> ), Context = KeyValueContext.ValueToValue )]
         public static SerializationMapping Dictionary_ValueToValue_Mapping<TKey, TValue>()
         {
-            return new NonPrimitiveSerializationMappingWithTemp<(TKey, TValue)[], Dictionary<TKey, TValue>>()
+            return new EnumeratedSerializationMapping<Dictionary<TKey, TValue>, KeyValuePair<TKey, TValue>>( // reads each member of an enumerable
+                KeyValueContext.ValueToValue,
+                ( o, i, oElem ) => // loads from data
+                {
+                    o[oElem.Key] = oElem.Value;
+                } );
+
+            /*return new NonPrimitiveSerializationMappingWithTemp<(TKey, TValue)[], Dictionary<TKey, TValue>>()
             {
                 OnSave = ( o, s ) =>
                 {
@@ -158,13 +171,20 @@ namespace UnityPlus.Serialization.Mappings
                         i++;
                     }
                 }
-            };
+            };*/
         }
 
         [MapsInheritingFrom( typeof( Dictionary<,> ), Context = KeyValueContext.RefToValue )]
         public static SerializationMapping Dictionary_TKey_TValue_Mapping<TKey, TValue>()
         {
-            return new NonPrimitiveSerializationMappingWithTemp<(TKey, TValue)[], Dictionary<TKey, TValue>>()
+            return new EnumeratedSerializationMapping<Dictionary<TKey, TValue>, KeyValuePair<TKey, TValue>>( // reads each member of an enumerable
+                KeyValueContext.RefToValue,
+                ( o, i, oElem ) => // loads from data
+                {
+                    o[oElem.Key] = oElem.Value;
+                } );
+
+            /*return new NonPrimitiveSerializationMappingWithTemp<(TKey, TValue)[], Dictionary<TKey, TValue>>()
             {
                 OnSave = ( o, s ) =>
                 {
@@ -256,7 +276,7 @@ namespace UnityPlus.Serialization.Mappings
                         i++;
                     }
                 }
-            };
+            };*/
         }
     }
 }

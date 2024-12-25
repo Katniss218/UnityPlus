@@ -19,12 +19,115 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
-  m_Title: Project
-  m_RootView: {fileID: 2}
-  m_MinSize: {x: 875, y: 300}
+  m_Title: Console
+  m_RootView: {fileID: 6}
+  m_MinSize: {x: 875, y: 371}
   m_MaxSize: {x: 10000, y: 10000}
   m_Maximized: 1
 --- !u!114 &2
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: ConsoleWindow
+  m_EditorClassIdentifier: 
+  m_Children: []
+  m_Position:
+    serializedVersion: 2
+    x: 0
+    y: 632
+    width: 1194
+    height: 315
+  m_MinSize: {x: 102, y: 121}
+  m_MaxSize: {x: 4002, y: 4021}
+  m_ActualView: {fileID: 20}
+  m_Panes:
+  - {fileID: 14}
+  - {fileID: 20}
+  m_Selected: 1
+  m_LastSelected: 0
+--- !u!114 &3
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 12010, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Children:
+  - {fileID: 12}
+  - {fileID: 2}
+  m_Position:
+    serializedVersion: 2
+    x: 270
+    y: 0
+    width: 1194
+    height: 947
+  m_MinSize: {x: 100, y: 200}
+  m_MaxSize: {x: 8096, y: 16192}
+  vertical: 1
+  controlID: 81
+--- !u!114 &4
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: ProjectBrowser
+  m_EditorClassIdentifier: 
+  m_Children: []
+  m_Position:
+    serializedVersion: 2
+    x: 0
+    y: 486
+    width: 270
+    height: 461
+  m_MinSize: {x: 231, y: 271}
+  m_MaxSize: {x: 10001, y: 10021}
+  m_ActualView: {fileID: 15}
+  m_Panes:
+  - {fileID: 15}
+  m_Selected: 0
+  m_LastSelected: 0
+--- !u!114 &5
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 12010, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Children:
+  - {fileID: 11}
+  - {fileID: 4}
+  m_Position:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 270
+    height: 947
+  m_MinSize: {x: 100, y: 200}
+  m_MaxSize: {x: 8096, y: 16192}
+  vertical: 1
+  controlID: 46
+--- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -37,9 +140,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Children:
-  - {fileID: 3}
-  - {fileID: 5}
-  - {fileID: 4}
+  - {fileID: 7}
+  - {fileID: 9}
+  - {fileID: 8}
   m_Position:
     serializedVersion: 2
     x: 0
@@ -52,7 +155,7 @@ MonoBehaviour:
   m_TopViewHeight: 30
   m_UseBottomView: 1
   m_BottomViewHeight: 20
---- !u!114 &3
+--- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -74,7 +177,7 @@ MonoBehaviour:
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
   m_LastLoadedLayoutName: 
---- !u!114 &4
+--- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -95,7 +198,7 @@ MonoBehaviour:
     height: 20
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
---- !u!114 &5
+--- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,8 +211,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Children:
-  - {fileID: 6}
-  - {fileID: 11}
+  - {fileID: 10}
+  - {fileID: 13}
   m_Position:
     serializedVersion: 2
     x: 0
@@ -119,8 +222,8 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 44
---- !u!114 &6
+  controlID: 79
+--- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,44 +236,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Children:
-  - {fileID: 7}
-  - {fileID: 10}
+  - {fileID: 5}
+  - {fileID: 3}
   m_Position:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1465
+    width: 1464
     height: 947
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
-  vertical: 1
-  controlID: 45
---- !u!114 &7
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 1
-  m_Script: {fileID: 12010, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Children:
-  - {fileID: 8}
-  - {fileID: 9}
-  m_Position:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1465
-    height: 607
-  m_MinSize: {x: 200, y: 100}
-  m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 46
---- !u!114 &8
+  controlID: 80
+--- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -187,16 +265,16 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 271
-    height: 607
+    width: 270
+    height: 486
   m_MinSize: {x: 201, y: 221}
   m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 13}
+  m_ActualView: {fileID: 16}
   m_Panes:
-  - {fileID: 13}
+  - {fileID: 16}
   m_Selected: 0
   m_LastSelected: 0
---- !u!114 &9
+--- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -211,74 +289,187 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 271
+    x: 0
     y: 0
     width: 1194
-    height: 607
+    height: 632
   m_MinSize: {x: 202, y: 221}
   m_MaxSize: {x: 4002, y: 4021}
-  m_ActualView: {fileID: 14}
+  m_ActualView: {fileID: 17}
   m_Panes:
-  - {fileID: 14}
-  - {fileID: 15}
-  - {fileID: 16}
-  m_Selected: 0
-  m_LastSelected: 1
---- !u!114 &10
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 1
-  m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ProjectBrowser
-  m_EditorClassIdentifier: 
-  m_Children: []
-  m_Position:
-    serializedVersion: 2
-    x: 0
-    y: 607
-    width: 1465
-    height: 340
-  m_MinSize: {x: 231, y: 271}
-  m_MaxSize: {x: 10001, y: 10021}
-  m_ActualView: {fileID: 12}
-  m_Panes:
-  - {fileID: 12}
   - {fileID: 17}
-  m_Selected: 0
-  m_LastSelected: 1
---- !u!114 &11
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 1
-  m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: InspectorWindow
-  m_EditorClassIdentifier: 
-  m_Children: []
-  m_Position:
-    serializedVersion: 2
-    x: 1465
-    y: 0
-    width: 455
-    height: 947
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 18}
-  m_Panes:
   - {fileID: 18}
   - {fileID: 19}
   m_Selected: 0
   m_LastSelected: 1
---- !u!114 &12
+--- !u!114 &13
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 1
+  m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: TestRunnerWindow
+  m_EditorClassIdentifier: 
+  m_Children: []
+  m_Position:
+    serializedVersion: 2
+    x: 1464
+    y: 0
+    width: 456
+    height: 947
+  m_MinSize: {x: 101, y: 121}
+  m_MaxSize: {x: 4001, y: 4021}
+  m_ActualView: {fileID: 22}
+  m_Panes:
+  - {fileID: 21}
+  - {fileID: 22}
+  m_Selected: 1
+  m_LastSelected: 0
+--- !u!114 &14
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 12014, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSize: {x: 230, y: 250}
+  m_MaxSize: {x: 10000, y: 10000}
+  m_TitleContent:
+    m_Text: Project
+    m_Image: {fileID: -5467254957812901981, guid: 0000000000000000d000000000000000, type: 0}
+    m_Tooltip: 
+  m_Pos:
+    serializedVersion: 2
+    x: 270
+    y: 705
+    width: 1192
+    height: 294
+  m_ViewDataDictionary: {fileID: 0}
+  m_OverlayCanvas:
+    m_LastAppliedPresetName: Default
+    m_SaveData: []
+  m_SearchFilter:
+    m_NameFilter: 
+    m_ClassNames: []
+    m_AssetLabels: []
+    m_AssetBundleNames: []
+    m_VersionControlStates: []
+    m_SoftLockControlStates: []
+    m_ReferencingInstanceIDs: 
+    m_SceneHandles: 
+    m_ShowAllHits: 0
+    m_SkipHidden: 0
+    m_SearchArea: 1
+    m_Folders:
+    - Assets
+    m_Globs: []
+    m_OriginalText: 
+  m_ViewMode: 1
+  m_StartGridSize: 74
+  m_LastFolders:
+  - Assets
+  m_LastFoldersGridSize: 74
+  m_LastProjectPath: E:\GIT\UnityPlus\UnityPlus
+  m_LockTracker:
+    m_IsLocked: 0
+  m_FolderTreeState:
+    scrollPos: {x: 0, y: 0}
+    m_SelectedIDs: 08570000
+    m_LastClickedID: 22280
+    m_ExpandedIDs: 00000000085700000a5700000c5700000e5700001057000012570000
+    m_RenameOverlay:
+      m_UserAcceptedRename: 0
+      m_Name: 
+      m_OriginalName: 
+      m_EditFieldRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      m_UserData: 0
+      m_IsWaitingForDelay: 0
+      m_IsRenaming: 0
+      m_OriginalEventType: 11
+      m_IsRenamingFilename: 1
+      m_ClientGUIView: {fileID: 0}
+    m_SearchString: 
+    m_CreateAssetUtility:
+      m_EndAction: {fileID: 0}
+      m_InstanceID: 0
+      m_Path: 
+      m_Icon: {fileID: 0}
+      m_ResourceFile: 
+  m_AssetTreeState:
+    scrollPos: {x: 0, y: 0}
+    m_SelectedIDs: 
+    m_LastClickedID: 0
+    m_ExpandedIDs: 00000000085700000a5700000c5700000e5700001057000012570000
+    m_RenameOverlay:
+      m_UserAcceptedRename: 0
+      m_Name: 
+      m_OriginalName: 
+      m_EditFieldRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      m_UserData: 0
+      m_IsWaitingForDelay: 0
+      m_IsRenaming: 0
+      m_OriginalEventType: 11
+      m_IsRenamingFilename: 1
+      m_ClientGUIView: {fileID: 0}
+    m_SearchString: 
+    m_CreateAssetUtility:
+      m_EndAction: {fileID: 0}
+      m_InstanceID: 0
+      m_Path: 
+      m_Icon: {fileID: 0}
+      m_ResourceFile: 
+  m_ListAreaState:
+    m_SelectedInstanceIDs: 740a0000
+    m_LastClickedInstanceID: 2676
+    m_HadKeyboardFocusLastEvent: 0
+    m_ExpandedInstanceIDs: 
+    m_RenameOverlay:
+      m_UserAcceptedRename: 0
+      m_Name: 
+      m_OriginalName: 
+      m_EditFieldRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      m_UserData: 0
+      m_IsWaitingForDelay: 0
+      m_IsRenaming: 0
+      m_OriginalEventType: 11
+      m_IsRenamingFilename: 1
+      m_ClientGUIView: {fileID: 0}
+    m_CreateAssetUtility:
+      m_EndAction: {fileID: 0}
+      m_InstanceID: 0
+      m_Path: 
+      m_Icon: {fileID: 0}
+      m_ResourceFile: 
+    m_NewAssetIndexInList: -1
+    m_ScrollPosition: {x: 0, y: 0}
+    m_GridSize: 74
+  m_SkipHiddenPackages: 0
+  m_DirectoriesAreaWidth: 50
+--- !u!114 &15
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -299,9 +490,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 680
-    width: 1464
-    height: 319
+    y: 559
+    width: 269
+    height: 440
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -318,23 +509,22 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SkipHidden: 0
     m_SearchArea: 1
-    m_Folders:
-    - Assets/_UnityPlus
+    m_Folders: []
     m_Globs: []
     m_OriginalText: 
-  m_ViewMode: 1
+  m_ViewMode: 0
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/_UnityPlus
+  - Assets/_UnityEngine
   m_LastFoldersGridSize: -1
   m_LastProjectPath: E:\GIT\UnityPlus\UnityPlus
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 24}
-    m_SelectedIDs: 16570000
-    m_LastClickedID: 22294
-    m_ExpandedIDs: 000000000457000006570000085700000a5700000c57000000ca9a3b
+    m_SelectedIDs: 0e570000
+    m_LastClickedID: 22286
+    m_ExpandedIDs: 00000000085700000a5700000c5700000e5700001057000012570000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -350,7 +540,7 @@ MonoBehaviour:
       m_IsRenaming: 0
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 10}
+      m_ClientGUIView: {fileID: 0}
     m_SearchString: 
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
@@ -359,10 +549,10 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_AssetTreeState:
-    scrollPos: {x: 0, y: 0}
+    scrollPos: {x: 0, y: 934}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000000457000006570000085700000a5700000c570000
+    m_ExpandedIDs: ffffffff00000000085700000a5700000c5700000e5700001057000012570000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -389,7 +579,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c623000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -406,7 +596,7 @@ MonoBehaviour:
       m_IsRenaming: 0
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 10}
+      m_ClientGUIView: {fileID: 0}
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
       m_InstanceID: 0
@@ -417,8 +607,8 @@ MonoBehaviour:
     m_ScrollPosition: {x: 0, y: 0}
     m_GridSize: 64
   m_SkipHiddenPackages: 0
-  m_DirectoriesAreaWidth: 227
---- !u!114 &13
+  m_DirectoriesAreaWidth: 219
+--- !u!114 &16
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -440,8 +630,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 73
-    width: 270
-    height: 586
+    width: 269
+    height: 465
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -449,7 +639,7 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 44570000
+      m_SelectedIDs: 
       m_LastClickedID: 0
       m_ExpandedIDs: 34fbffff
       m_RenameOverlay:
@@ -467,7 +657,7 @@ MonoBehaviour:
         m_IsRenaming: 0
         m_OriginalEventType: 11
         m_IsRenamingFilename: 0
-        m_ClientGUIView: {fileID: 8}
+        m_ClientGUIView: {fileID: 11}
       m_SearchString: 
     m_ExpandedScenes: []
     m_CurrenRootInstanceID: 0
@@ -475,7 +665,7 @@ MonoBehaviour:
       m_IsLocked: 0
     m_CurrentSortingName: TransformSorting
   m_WindowGUID: 4c969a2b90040154d917609493e03593
---- !u!114 &14
+--- !u!114 &17
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -495,10 +685,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 271
+    x: 270
     y: 73
     width: 1192
-    height: 586
+    height: 611
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -812,7 +1002,7 @@ MonoBehaviour:
   m_SceneVisActive: 1
   m_LastLockedObject: {fileID: 0}
   m_ViewIsLockedToObject: 0
---- !u!114 &15
+--- !u!114 &18
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -832,10 +1022,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 271
+    x: 270
     y: 73
     width: 1192
-    height: 586
+    height: 611
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -846,7 +1036,7 @@ MonoBehaviour:
   m_ShowGizmos: 0
   m_TargetDisplay: 0
   m_ClearColor: {r: 0, g: 0, b: 0, a: 0}
-  m_TargetSize: {x: 1192, y: 565}
+  m_TargetSize: {x: 1192, y: 590}
   m_TextureFilterMode: 0
   m_TextureHideFlags: 61
   m_RenderIMGUI: 1
@@ -868,8 +1058,8 @@ MonoBehaviour:
     vZoomLockedByDefault: 0
     m_HBaseRangeMin: -596
     m_HBaseRangeMax: 596
-    m_VBaseRangeMin: -282.5
-    m_VBaseRangeMax: 282.5
+    m_VBaseRangeMin: -295
+    m_VBaseRangeMax: 295
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -888,9 +1078,9 @@ MonoBehaviour:
       x: 0
       y: 21
       width: 1192
-      height: 565
+      height: 590
     m_Scale: {x: 1, y: 1}
-    m_Translation: {x: 596, y: 282.5}
+    m_Translation: {x: 596, y: 295}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
@@ -898,12 +1088,12 @@ MonoBehaviour:
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
       x: -596
-      y: -282.5
+      y: -295
       width: 1192
-      height: 565
+      height: 590
     m_MinimalGUI: 1
   m_defaultScale: 1
-  m_LastWindowPixelSize: {x: 1192, y: 586}
+  m_LastWindowPixelSize: {x: 1192, y: 611}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
@@ -911,7 +1101,7 @@ MonoBehaviour:
   m_RenderTexture: {fileID: 0}
   m_showToolbar: 1
   m_showToolbarOnFullscreen: 0
---- !u!114 &16
+--- !u!114 &19
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1799,7 +1989,7 @@ MonoBehaviour:
       data:
         m_SortAscending: 0
         m_SortedColumn: -1
---- !u!114 &17
+--- !u!114 &20
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1819,15 +2009,15 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 0
-    y: 680
-    width: 1464
-    height: 319
+    x: 270
+    y: 705
+    width: 1192
+    height: 294
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
     m_SaveData: []
---- !u!114 &18
+--- !u!114 &21
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1868,7 +2058,7 @@ MonoBehaviour:
   m_LockTracker:
     m_IsLocked: 0
   m_PreviewWindow: {fileID: 0}
---- !u!114 &19
+--- !u!114 &22
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1888,24 +2078,24 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1465
+    x: 1464
     y: 73
-    width: 454
+    width: 455
     height: 926
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
     m_SaveData: []
   m_Spl:
-    ID: 128
-    splitterInitialOffset: 0
+    ID: 154
+    splitterInitialOffset: 710
     currentActiveSplitter: -1
     realSizes:
-    - 642
-    - 214
+    - 643
+    - 213
     relativeSizes:
-    - 0.75
-    - 0.25
+    - 0.75116825
+    - 0.24883175
     minSizes:
     - 32
     - 32
@@ -1922,7 +2112,7 @@ MonoBehaviour:
     oldSplitSize: 0
   m_TestTypeToolbarIndex: 1
   m_PlayModeTestListGUI:
-    m_Window: {fileID: 19}
+    m_Window: {fileID: 22}
     m_NewResultList:
     - id: 1005
       uniqueId: '[UnityPlus][suite]'
@@ -1974,14 +2164,14 @@ MonoBehaviour:
       - Uncategorized
     m_SelectedOption: 0
   m_EditModeTestListGUI:
-    m_Window: {fileID: 19}
+    m_Window: {fileID: 22}
     m_NewResultList:
     - id: 1000
       uniqueId: '[UnityPlus][suite]'
       name: UnityPlus
       fullName: UnityPlus
       resultStatus: 1
-      duration: 0.0476266
+      duration: 0.0228599
       messages: 
       output: 
       stacktrace: 
@@ -1992,12 +2182,12 @@ MonoBehaviour:
       categories: []
       parentId: 
       parentUniqueId: 
-    - id: 1134
+    - id: 1176
       uniqueId: '[EditMode.dll][suite]'
       name: EditMode.dll
       fullName: E:/GIT/UnityPlus/UnityPlus/Library/ScriptAssemblies/EditMode.dll
-      resultStatus: 1
-      duration: 0.0302307
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2008,13 +2198,13 @@ MonoBehaviour:
       categories: []
       parentId: 1000
       parentUniqueId: '[UnityPlus][suite]'
-    - id: 1136
+    - id: 1180
       uniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
       name: Neoserialization
       fullName: Neoserialization
-      resultStatus: 2
-      duration: 1.4995817
-      messages: One or more child tests had errors
+      resultStatus: 0
+      duration: 0
+      messages: 
       output: 
       stacktrace: 
       notRunnable: 0
@@ -2022,14 +2212,14 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1134
+      parentId: 1176
       parentUniqueId: '[EditMode.dll][suite]'
-    - id: 1014
+    - id: 1034
       uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
       name: MappingRegistryTests
       fullName: Neoserialization.MappingRegistryTests
-      resultStatus: 1
-      duration: 0.7030744
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2038,14 +2228,14 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1136
+      parentId: 1180
       parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
-    - id: 1019
+    - id: 1039
       uniqueId: EditMode.dll/Neoserialization/MappingRegistryTests/[EditMode][Neoserialization.MappingRegistryTests.GetMappingFor___Array___ReturnsCorrectMapping]
       name: GetMappingFor___Array___ReturnsCorrectMapping
       fullName: Neoserialization.MappingRegistryTests.GetMappingFor___Array___ReturnsCorrectMapping
-      resultStatus: 1
-      duration: 0.5018536
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2055,14 +2245,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1014
+      parentId: 1034
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
-    - id: 1016
+    - id: 1036
       uniqueId: EditMode.dll/Neoserialization/MappingRegistryTests/[EditMode][Neoserialization.MappingRegistryTests.GetMappingFor___Derived___ReturnsCorrectMapping]
       name: GetMappingFor___Derived___ReturnsCorrectMapping
       fullName: Neoserialization.MappingRegistryTests.GetMappingFor___Derived___ReturnsCorrectMapping
-      resultStatus: 1
-      duration: 0.1408712
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2072,14 +2262,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1014
+      parentId: 1034
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
-    - id: 1017
+    - id: 1037
       uniqueId: EditMode.dll/Neoserialization/MappingRegistryTests/[EditMode][Neoserialization.MappingRegistryTests.GetMappingFor___Generic___ReturnsCorrectMapping]
       name: GetMappingFor___Generic___ReturnsCorrectMapping
       fullName: Neoserialization.MappingRegistryTests.GetMappingFor___Generic___ReturnsCorrectMapping
-      resultStatus: 1
-      duration: 0.0013708
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2089,14 +2279,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1014
+      parentId: 1034
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
-    - id: 1020
+    - id: 1040
       uniqueId: EditMode.dll/Neoserialization/MappingRegistryTests/[EditMode][Neoserialization.MappingRegistryTests.GetMappingFor___ImplementedInterface___ReturnsCorrectMapping]
       name: GetMappingFor___ImplementedInterface___ReturnsCorrectMapping
       fullName: Neoserialization.MappingRegistryTests.GetMappingFor___ImplementedInterface___ReturnsCorrectMapping
-      resultStatus: 1
-      duration: 0.0020948
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2106,14 +2296,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1014
+      parentId: 1034
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
-    - id: 1023
+    - id: 1043
       uniqueId: EditMode.dll/Neoserialization/MappingRegistryTests/[EditMode][Neoserialization.MappingRegistryTests.GetMappingFor___MappingWithoutState___ReturnsSameInstance]
       name: GetMappingFor___MappingWithoutState___ReturnsSameInstance
       fullName: Neoserialization.MappingRegistryTests.GetMappingFor___MappingWithoutState___ReturnsSameInstance
-      resultStatus: 1
-      duration: 0.0013375
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2123,14 +2313,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1014
+      parentId: 1034
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
-    - id: 1022
+    - id: 1042
       uniqueId: EditMode.dll/Neoserialization/MappingRegistryTests/[EditMode][Neoserialization.MappingRegistryTests.GetMappingFor___MappingWithState___ReturnsDifferentInstance]
       name: GetMappingFor___MappingWithState___ReturnsDifferentInstance
       fullName: Neoserialization.MappingRegistryTests.GetMappingFor___MappingWithState___ReturnsDifferentInstance
-      resultStatus: 1
-      duration: 0.0008024
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2140,14 +2330,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1014
+      parentId: 1034
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
-    - id: 1018
+    - id: 1038
       uniqueId: EditMode.dll/Neoserialization/MappingRegistryTests/[EditMode][Neoserialization.MappingRegistryTests.GetMappingFor___MultipleGeneric___ReturnsCorrectMapping]
       name: GetMappingFor___MultipleGeneric___ReturnsCorrectMapping
       fullName: Neoserialization.MappingRegistryTests.GetMappingFor___MultipleGeneric___ReturnsCorrectMapping
-      resultStatus: 1
-      duration: 0.0022997
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2157,14 +2347,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1014
+      parentId: 1034
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
-    - id: 1024
+    - id: 1044
       uniqueId: EditMode.dll/Neoserialization/MappingRegistryTests/[EditMode][Neoserialization.MappingRegistryTests.GetMappingFor___Nonexistant___ReturnsNull]
       name: GetMappingFor___Nonexistant___ReturnsNull
       fullName: Neoserialization.MappingRegistryTests.GetMappingFor___Nonexistant___ReturnsNull
-      resultStatus: 1
-      duration: 0.000162
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2174,14 +2364,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1014
+      parentId: 1034
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
-    - id: 1015
+    - id: 1035
       uniqueId: EditMode.dll/Neoserialization/MappingRegistryTests/[EditMode][Neoserialization.MappingRegistryTests.GetMappingFor___Simple___ReturnsCorrectMapping]
       name: GetMappingFor___Simple___ReturnsCorrectMapping
       fullName: Neoserialization.MappingRegistryTests.GetMappingFor___Simple___ReturnsCorrectMapping
-      resultStatus: 1
-      duration: 0.0003656
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2191,14 +2381,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1014
+      parentId: 1034
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
-    - id: 1021
+    - id: 1041
       uniqueId: EditMode.dll/Neoserialization/MappingRegistryTests/[EditMode][Neoserialization.MappingRegistryTests.GetMappingFor___UnmappedBaseClassPolymorphic___ReturnsDerivedMapping]
       name: GetMappingFor___UnmappedBaseClassPolymorphic___ReturnsDerivedMapping
       fullName: Neoserialization.MappingRegistryTests.GetMappingFor___UnmappedBaseClassPolymorphic___ReturnsDerivedMapping
-      resultStatus: 1
-      duration: 0.0008792
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2208,14 +2398,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1014
+      parentId: 1034
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
-    - id: 1022
+    - id: 1045
       uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Arrays][suite]
       name: MappingTests_Arrays
       fullName: Neoserialization.MappingTests_Arrays
-      resultStatus: 1
-      duration: 0.3015313
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2224,14 +2414,14 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1136
+      parentId: 1180
       parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
-    - id: 1026
+    - id: 1050
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Arrays/[EditMode][Neoserialization.MappingTests_Arrays.Mapping___ArrayWithNulls___RoundTrip]
       name: Mapping___ArrayWithNulls___RoundTrip
       fullName: Neoserialization.MappingTests_Arrays.Mapping___ArrayWithNulls___RoundTrip
-      resultStatus: 1
-      duration: 0.2908286
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2241,14 +2431,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1022
+      parentId: 1045
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Arrays][suite]
-    - id: 1024
+    - id: 1047
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Arrays/[EditMode][Neoserialization.MappingTests_Arrays.Mapping___EmptyArray___RoundTrip]
       name: Mapping___EmptyArray___RoundTrip
       fullName: Neoserialization.MappingTests_Arrays.Mapping___EmptyArray___RoundTrip
-      resultStatus: 1
-      duration: 0.0006189
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2258,14 +2448,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1022
+      parentId: 1045
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Arrays][suite]
-    - id: 1025
+    - id: 1048
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Arrays/[EditMode][Neoserialization.MappingTests_Arrays.Mapping___IntArray___RoundTrip]
       name: Mapping___IntArray___RoundTrip
       fullName: Neoserialization.MappingTests_Arrays.Mapping___IntArray___RoundTrip
-      resultStatus: 1
-      duration: 0.0012685
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2275,14 +2465,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1022
+      parentId: 1045
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Arrays][suite]
-    - id: 1026
+    - id: 1049
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Arrays/[EditMode][Neoserialization.MappingTests_Arrays.Mapping___IntJaggedArray___RoundTrip]
       name: Mapping___IntJaggedArray___RoundTrip
       fullName: Neoserialization.MappingTests_Arrays.Mapping___IntJaggedArray___RoundTrip
-      resultStatus: 1
-      duration: 0.000724
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2292,14 +2482,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1022
+      parentId: 1045
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Arrays][suite]
-    - id: 1027
+    - id: 1051
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Arrays/[EditMode][Neoserialization.MappingTests_Arrays.Mapping___MixedObjectArray___RoundTrip]
       name: Mapping___MixedObjectArray___RoundTrip
       fullName: Neoserialization.MappingTests_Arrays.Mapping___MixedObjectArray___RoundTrip
-      resultStatus: 1
-      duration: 0.0019165
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2309,14 +2499,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1022
+      parentId: 1045
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Arrays][suite]
-    - id: 1023
+    - id: 1046
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Arrays/[EditMode][Neoserialization.MappingTests_Arrays.Mapping___NullArray___RoundTrip]
       name: Mapping___NullArray___RoundTrip
       fullName: Neoserialization.MappingTests_Arrays.Mapping___NullArray___RoundTrip
-      resultStatus: 1
-      duration: 0.0001306
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2326,14 +2516,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1022
+      parentId: 1045
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Arrays][suite]
-    - id: 1028
+    - id: 1052
       uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_KeyValue][suite]
       name: MappingTests_KeyValue
       fullName: Neoserialization.MappingTests_KeyValue
-      resultStatus: 1
-      duration: 0.3231125
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2342,14 +2532,14 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1136
+      parentId: 1180
       parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
-    - id: 1032
+    - id: 1056
       uniqueId: EditMode.dll/Neoserialization/MappingTests_KeyValue/[EditMode][Neoserialization.MappingTests_KeyValue.Mapping___Dictionary_ValToVal___RoundTrip]
       name: Mapping___Dictionary_ValToVal___RoundTrip
       fullName: Neoserialization.MappingTests_KeyValue.Mapping___Dictionary_ValToVal___RoundTrip
-      resultStatus: 1
-      duration: 0.0029652
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2359,14 +2549,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1028
+      parentId: 1052
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_KeyValue][suite]
-    - id: 1034
+    - id: 1058
       uniqueId: EditMode.dll/Neoserialization/MappingTests_KeyValue/[EditMode][Neoserialization.MappingTests_KeyValue.Mapping___DictionaryOfObjects_RefToVal___RoundTrip]
       name: Mapping___DictionaryOfObjects_RefToVal___RoundTrip
       fullName: Neoserialization.MappingTests_KeyValue.Mapping___DictionaryOfObjects_RefToVal___RoundTrip
-      resultStatus: 1
-      duration: 0.2152734
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2376,14 +2566,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1028
+      parentId: 1052
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_KeyValue][suite]
-    - id: 1033
+    - id: 1057
       uniqueId: EditMode.dll/Neoserialization/MappingTests_KeyValue/[EditMode][Neoserialization.MappingTests_KeyValue.Mapping___DictionaryOfObjects_ValToVal___RoundTrip]
       name: Mapping___DictionaryOfObjects_ValToVal___RoundTrip
       fullName: Neoserialization.MappingTests_KeyValue.Mapping___DictionaryOfObjects_ValToVal___RoundTrip
-      resultStatus: 1
-      duration: 0.0483102
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2393,14 +2583,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1028
+      parentId: 1052
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_KeyValue][suite]
-    - id: 1031
+    - id: 1055
       uniqueId: EditMode.dll/Neoserialization/MappingTests_KeyValue/[EditMode][Neoserialization.MappingTests_KeyValue.Mapping___KeyValuePair_OfObjects_ValToVal___RoundTrip]
       name: Mapping___KeyValuePair_OfObjects_ValToVal___RoundTrip
       fullName: Neoserialization.MappingTests_KeyValue.Mapping___KeyValuePair_OfObjects_ValToVal___RoundTrip
-      resultStatus: 1
-      duration: 0.0473844
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2410,14 +2600,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1028
+      parentId: 1052
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_KeyValue][suite]
-    - id: 1029
+    - id: 1053
       uniqueId: EditMode.dll/Neoserialization/MappingTests_KeyValue/[EditMode][Neoserialization.MappingTests_KeyValue.Mapping___KeyValuePair_ValToVal___RoundTrip]
       name: Mapping___KeyValuePair_ValToVal___RoundTrip
       fullName: Neoserialization.MappingTests_KeyValue.Mapping___KeyValuePair_ValToVal___RoundTrip
-      resultStatus: 1
-      duration: 0.0024785
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2427,14 +2617,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1028
+      parentId: 1052
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_KeyValue][suite]
-    - id: 1030
+    - id: 1054
       uniqueId: EditMode.dll/Neoserialization/MappingTests_KeyValue/[EditMode][Neoserialization.MappingTests_KeyValue.Mapping___KeyValuePairArray_ValToVal___RoundTrip]
       name: Mapping___KeyValuePairArray_ValToVal___RoundTrip
       fullName: Neoserialization.MappingTests_KeyValue.Mapping___KeyValuePairArray_ValToVal___RoundTrip
-      resultStatus: 1
-      duration: 0.0011797
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2444,14 +2634,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1028
+      parentId: 1052
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_KeyValue][suite]
-    - id: 1035
+    - id: 1059
       uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Objects][suite]
       name: MappingTests_Objects
       fullName: Neoserialization.MappingTests_Objects
-      resultStatus: 1
-      duration: 0.0110176
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2460,14 +2650,14 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1136
+      parentId: 1180
       parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
-    - id: 1036
+    - id: 1060
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Objects/[EditMode][Neoserialization.MappingTests_Objects.Mapping___BaseClass___RoundTrip]
       name: Mapping___BaseClass___RoundTrip
       fullName: Neoserialization.MappingTests_Objects.Mapping___BaseClass___RoundTrip
-      resultStatus: 1
-      duration: 0.0005244
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2477,14 +2667,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1035
+      parentId: 1059
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Objects][suite]
-    - id: 1037
+    - id: 1061
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Objects/[EditMode][Neoserialization.MappingTests_Objects.Mapping___DerivedClass_Polymorphic___RoundTrip]
       name: Mapping___DerivedClass_Polymorphic___RoundTrip
       fullName: Neoserialization.MappingTests_Objects.Mapping___DerivedClass_Polymorphic___RoundTrip
-      resultStatus: 1
-      duration: 0.0001927
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2494,14 +2684,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1035
+      parentId: 1059
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Objects][suite]
-    - id: 1039
+    - id: 1062
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Objects/[EditMode][Neoserialization.MappingTests_Objects.Mapping___Interface___RoundTrip]
       name: Mapping___Interface___RoundTrip
       fullName: Neoserialization.MappingTests_Objects.Mapping___Interface___RoundTrip
-      resultStatus: 1
-      duration: 0.0021776
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2511,14 +2701,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1036
+      parentId: 1059
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Objects][suite]
-    - id: 1040
+    - id: 1063
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Objects/[EditMode][Neoserialization.MappingTests_Objects.Mapping___Null_Class___RoundTrip]
       name: Mapping___Null_Class___RoundTrip
       fullName: Neoserialization.MappingTests_Objects.Mapping___Null_Class___RoundTrip
-      resultStatus: 1
-      duration: 0.0001363
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2528,14 +2718,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1036
+      parentId: 1059
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Objects][suite]
-    - id: 1041
+    - id: 1064
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Objects/[EditMode][Neoserialization.MappingTests_Objects.Mapping___Null_Interface___RoundTrip]
       name: Mapping___Null_Interface___RoundTrip
       fullName: Neoserialization.MappingTests_Objects.Mapping___Null_Interface___RoundTrip
-      resultStatus: 1
-      duration: 0.0001578
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2545,14 +2735,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1036
+      parentId: 1059
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Objects][suite]
-    - id: 1039
+    - id: 1065
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Objects/[EditMode][Neoserialization.MappingTests_Objects.Mapping___NullMember___RoundTrip]
       name: Mapping___NullMember___RoundTrip
       fullName: Neoserialization.MappingTests_Objects.Mapping___NullMember___RoundTrip
-      resultStatus: 1
-      duration: 0.0014836
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2562,14 +2752,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1035
+      parentId: 1059
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Objects][suite]
-    - id: 1042
+    - id: 1066
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Objects/[EditMode][Neoserialization.MappingTests_Objects.Mapping___Sealed_Then_Unsealed___DoesntRoundTrip]
       name: Mapping___Sealed_Then_Unsealed___DoesntRoundTrip
       fullName: Neoserialization.MappingTests_Objects.Mapping___Sealed_Then_Unsealed___DoesntRoundTrip
-      resultStatus: 1
-      duration: 0.0004731
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2579,14 +2769,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1035
+      parentId: 1059
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Objects][suite]
-    - id: 1049
+    - id: 1067
       uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Populate][suite]
       name: MappingTests_Populate
       fullName: Neoserialization.MappingTests_Populate
-      resultStatus: 1
-      duration: 0.0066931
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2595,14 +2785,14 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1160
+      parentId: 1180
       parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
-    - id: 1050
+    - id: 1068
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Populate/[EditMode][Neoserialization.MappingTests_Populate.Mapping___Populate_Object]
       name: Mapping___Populate_Object
       fullName: Neoserialization.MappingTests_Populate.Mapping___Populate_Object
-      resultStatus: 1
-      duration: 0.0006424
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2612,14 +2802,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1049
+      parentId: 1067
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Populate][suite]
-    - id: 1051
+    - id: 1069
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Populate/[EditMode][Neoserialization.MappingTests_Populate.Mapping___Populate_Struct]
       name: Mapping___Populate_Struct
       fullName: Neoserialization.MappingTests_Populate.Mapping___Populate_Struct
-      resultStatus: 1
-      duration: 0.0026006
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2629,14 +2819,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1049
+      parentId: 1067
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Populate][suite]
-    - id: 1042
+    - id: 1070
       uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
       name: MappingTests_Primitives
       fullName: Neoserialization.MappingTests_Primitives
-      resultStatus: 1
-      duration: 0.0404959
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2645,14 +2835,14 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1136
+      parentId: 1180
       parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
-    - id: 1043
+    - id: 1071
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Boolean___RoundTrip]
       name: Mapping___Boolean___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Boolean___RoundTrip
-      resultStatus: 1
-      duration: 0.0017305
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2662,14 +2852,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1042
+      parentId: 1070
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
-    - id: 1044
+    - id: 1072
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Byte___RoundTrip]
       name: Mapping___Byte___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Byte___RoundTrip
-      resultStatus: 1
-      duration: 0.0018069
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2679,14 +2869,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1042
+      parentId: 1070
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
-    - id: 1052
+    - id: 1080
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Char___RoundTrip]
       name: Mapping___Char___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Char___RoundTrip
-      resultStatus: 1
-      duration: 0.0016223
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2696,14 +2886,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1042
+      parentId: 1070
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
-    - id: 1054
+    - id: 1082
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___DateTime___RoundTrip]
       name: Mapping___DateTime___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___DateTime___RoundTrip
-      resultStatus: 1
-      duration: 0.0083984
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2713,14 +2903,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1042
+      parentId: 1070
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
-    - id: 1055
+    - id: 1083
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___DateTimeOffset___RoundTrip]
       name: Mapping___DateTimeOffset___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___DateTimeOffset___RoundTrip
-      resultStatus: 1
-      duration: 0.0026772
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2730,14 +2920,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1042
+      parentId: 1070
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
-    - id: 1051
+    - id: 1079
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Decimal___RoundTrip]
       name: Mapping___Decimal___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Decimal___RoundTrip
-      resultStatus: 1
-      duration: 0.0025343
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2747,14 +2937,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1042
+      parentId: 1070
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
-    - id: 1062
+    - id: 1086
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Delegate_Parameterless___RoundTrip]
       name: Mapping___Delegate_Parameterless___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Delegate_Parameterless___RoundTrip
-      resultStatus: 1
-      duration: 0.0014462
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2764,14 +2954,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1046
+      parentId: 1070
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
-    - id: 1050
+    - id: 1078
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Double___RoundTrip]
       name: Mapping___Double___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Double___RoundTrip
-      resultStatus: 1
-      duration: 0.0020784
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2781,14 +2971,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1042
+      parentId: 1070
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
-    - id: 1059
+    - id: 1085
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Enum___RoundTrip]
       name: Mapping___Enum___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Enum___RoundTrip
-      resultStatus: 1
-      duration: 0.0018947
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2798,14 +2988,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1044
+      parentId: 1070
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
-    - id: 1049
+    - id: 1077
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Float___RoundTrip]
       name: Mapping___Float___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Float___RoundTrip
-      resultStatus: 1
-      duration: 0.0011004
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2815,14 +3005,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1042
+      parentId: 1070
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
-    - id: 1046
+    - id: 1074
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Int16___RoundTrip]
       name: Mapping___Int16___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Int16___RoundTrip
-      resultStatus: 1
-      duration: 0.0017405
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2832,14 +3022,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1042
+      parentId: 1070
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
-    - id: 1047
+    - id: 1075
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Int32___RoundTrip]
       name: Mapping___Int32___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Int32___RoundTrip
-      resultStatus: 1
-      duration: 0.0009256
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2849,14 +3039,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1042
+      parentId: 1070
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
-    - id: 1048
+    - id: 1076
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___Int64___RoundTrip]
       name: Mapping___Int64___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___Int64___RoundTrip
-      resultStatus: 1
-      duration: 0.0018132
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2866,14 +3056,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1042
+      parentId: 1070
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
-    - id: 1045
+    - id: 1073
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___SByte___RoundTrip]
       name: Mapping___SByte___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___SByte___RoundTrip
-      resultStatus: 1
-      duration: 0.001742
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2883,14 +3073,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1042
+      parentId: 1070
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
-    - id: 1053
+    - id: 1081
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___String___RoundTrip]
       name: Mapping___String___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___String___RoundTrip
-      resultStatus: 1
-      duration: 0.0002507
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2900,14 +3090,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1042
+      parentId: 1070
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
-    - id: 1056
+    - id: 1084
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Primitives/[EditMode][Neoserialization.MappingTests_Primitives.Mapping___TimeSpan___RoundTrip]
       name: Mapping___TimeSpan___RoundTrip
       fullName: Neoserialization.MappingTests_Primitives.Mapping___TimeSpan___RoundTrip
-      resultStatus: 1
-      duration: 0.0029515
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2917,14 +3107,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1042
+      parentId: 1070
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Primitives][suite]
-    - id: 1057
+    - id: 1087
       uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
       name: MappingTests_References
       fullName: Neoserialization.MappingTests_References
-      resultStatus: 1
-      duration: 0.0077812
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -2933,1379 +3123,14 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1136
+      parentId: 1180
       parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
-    - id: 1062
+    - id: 1090
       uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___ClassReference___RoundTrip]
       name: Mapping___ClassReference___RoundTrip
       fullName: Neoserialization.MappingTests_References.Mapping___ClassReference___RoundTrip
-      resultStatus: 1
-      duration: 0.0001707
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1060
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
-    - id: 1064
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___InterfaceNullReference___RoundTrip]
-      name: Mapping___InterfaceNullReference___RoundTrip
-      fullName: Neoserialization.MappingTests_References.Mapping___InterfaceNullReference___RoundTrip
-      resultStatus: 1
-      duration: 0.0001949
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1062
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
-    - id: 1063
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___InterfaceReference___RoundTrip]
-      name: Mapping___InterfaceReference___RoundTrip
-      fullName: Neoserialization.MappingTests_References.Mapping___InterfaceReference___RoundTrip
-      resultStatus: 1
-      duration: 0.0002496
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1060
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
-    - id: 1066
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___Member_ExistingReference___RoundTrip]
-      name: Mapping___Member_ExistingReference___RoundTrip
-      fullName: Neoserialization.MappingTests_References.Mapping___Member_ExistingReference___RoundTrip
-      resultStatus: 1
-      duration: 0.0021186
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1060
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
-    - id: 1064
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___Member_NullReference___RoundTrip]
-      name: Mapping___Member_NullReference___RoundTrip
-      fullName: Neoserialization.MappingTests_References.Mapping___Member_NullReference___RoundTrip
-      resultStatus: 1
-      duration: 0.0003019
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1060
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
-    - id: 1065
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___Member_Reference___RoundTrip]
-      name: Mapping___Member_Reference___RoundTrip
-      fullName: Neoserialization.MappingTests_References.Mapping___Member_Reference___RoundTrip
-      resultStatus: 1
-      duration: 0.0004623
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1060
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
-    - id: 1058
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___NullReference___RoundTrip]
-      name: Mapping___NullReference___RoundTrip
-      fullName: Neoserialization.MappingTests_References.Mapping___NullReference___RoundTrip
-      resultStatus: 1
-      duration: 0.0001268
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1057
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
-    - id: 1061
-      uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_SerializedData][suite]
-      name: MappingTests_SerializedData
-      fullName: Neoserialization.MappingTests_SerializedData
-      resultStatus: 1
-      duration: 0.0044602
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1136
-      parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
-    - id: 1063
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_SerializedData/[EditMode][Neoserialization.MappingTests_SerializedData.Mapping___SerializedArray___RoundTrip]
-      name: Mapping___SerializedArray___RoundTrip
-      fullName: Neoserialization.MappingTests_SerializedData.Mapping___SerializedArray___RoundTrip
-      resultStatus: 1
-      duration: 0.000326
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1061
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_SerializedData][suite]
-    - id: 1064
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_SerializedData/[EditMode][Neoserialization.MappingTests_SerializedData.Mapping___SerializedObject___RoundTrip]
-      name: Mapping___SerializedObject___RoundTrip
-      fullName: Neoserialization.MappingTests_SerializedData.Mapping___SerializedObject___RoundTrip
-      resultStatus: 1
-      duration: 0.0003492
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1061
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_SerializedData][suite]
-    - id: 1062
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_SerializedData/[EditMode][Neoserialization.MappingTests_SerializedData.Mapping___SerializedPrimitive___RoundTrip]
-      name: Mapping___SerializedPrimitive___RoundTrip
-      fullName: Neoserialization.MappingTests_SerializedData.Mapping___SerializedPrimitive___RoundTrip
-      resultStatus: 1
-      duration: 0.0003218
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1061
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_SerializedData][suite]
-    - id: 1065
-      uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Tuples][suite]
-      name: MappingTests_Tuples
-      fullName: Neoserialization.MappingTests_Tuples
-      resultStatus: 2
-      duration: 0.0688646
-      messages: One or more child tests had errors
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1136
-      parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
-    - id: 1068
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_Tuples/[EditMode][Neoserialization.MappingTests_Tuples.Mapping___Tuple_3___RoundTrip]
-      name: Mapping___Tuple_3___RoundTrip
-      fullName: Neoserialization.MappingTests_Tuples.Mapping___Tuple_3___RoundTrip
-      resultStatus: 1
-      duration: 0.0058636
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1065
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Tuples][suite]
-    - id: 1069
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_Tuples/[EditMode][Neoserialization.MappingTests_Tuples.Mapping___Tuple_7___RoundTrip]
-      name: Mapping___Tuple_7___RoundTrip
-      fullName: Neoserialization.MappingTests_Tuples.Mapping___Tuple_7___RoundTrip
-      resultStatus: 1
-      duration: 0.0047858
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1065
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Tuples][suite]
-    - id: 1066
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_Tuples/[EditMode][Neoserialization.MappingTests_Tuples.Mapping___Tuple_IntString___RoundTrip]
-      name: Mapping___Tuple_IntString___RoundTrip
-      fullName: Neoserialization.MappingTests_Tuples.Mapping___Tuple_IntString___RoundTrip
-      resultStatus: 1
-      duration: 0.0039828
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1065
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Tuples][suite]
-    - id: 1067
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_Tuples/[EditMode][Neoserialization.MappingTests_Tuples.Mapping___Tuple_ObjectObject___RoundTrip]
-      name: Mapping___Tuple_ObjectObject___RoundTrip
-      fullName: Neoserialization.MappingTests_Tuples.Mapping___Tuple_ObjectObject___RoundTrip
-      resultStatus: 1
-      duration: 0.0472464
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1065
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Tuples][suite]
-    - id: 1070
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_Tuples/[EditMode][Neoserialization.MappingTests_Tuples.Mapping___Tuple_SplitIntoTRest___RoundTrip]
-      name: Mapping___Tuple_SplitIntoTRest___RoundTrip
-      fullName: Neoserialization.MappingTests_Tuples.Mapping___Tuple_SplitIntoTRest___RoundTrip
-      resultStatus: 2
-      duration: 0.0032031
-      messages: "  Expected: (-5, 5, 5, 5, 5, 5, 5, 5, 4, 5, 3)\r\n  But was:  null\r\n"
-      output: 
-      stacktrace: 'at Neoserialization.MappingTests_Tuples.Mapping___Tuple_SplitIntoTRest___RoundTrip
-        () [0x0002c] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Neoserialization\MappingTests_Tuples.cs:83
-
-'
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1065
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Tuples][suite]
-    - id: 1071
-      uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
-      name: MappingTests_Vectors
-      fullName: Neoserialization.MappingTests_Vectors
-      resultStatus: 1
-      duration: 0.0202086
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1136
-      parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
-    - id: 1078
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Quaternion___RoundTrip]
-      name: Mapping___Quaternion___RoundTrip
-      fullName: Neoserialization.MappingTests_Vectors.Mapping___Quaternion___RoundTrip
-      resultStatus: 1
-      duration: 0.002338
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1071
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
-    - id: 1079
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___QuaternionDbl___RoundTrip]
-      name: Mapping___QuaternionDbl___RoundTrip
-      fullName: Neoserialization.MappingTests_Vectors.Mapping___QuaternionDbl___RoundTrip
-      resultStatus: 1
-      duration: 0.0022798
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1071
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
-    - id: 1072
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Vector2___RoundTrip]
-      name: Mapping___Vector2___RoundTrip
-      fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector2___RoundTrip
-      resultStatus: 1
-      duration: 0.0020668
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1071
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
-    - id: 1073
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Vector2Int___RoundTrip]
-      name: Mapping___Vector2Int___RoundTrip
-      fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector2Int___RoundTrip
-      resultStatus: 1
-      duration: 0.002018
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1071
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
-    - id: 1074
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Vector3___RoundTrip]
-      name: Mapping___Vector3___RoundTrip
-      fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector3___RoundTrip
-      resultStatus: 1
-      duration: 0.000428
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1071
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
-    - id: 1076
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Vector3Dbl___RoundTrip]
-      name: Mapping___Vector3Dbl___RoundTrip
-      fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector3Dbl___RoundTrip
-      resultStatus: 1
-      duration: 0.0022016
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1071
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
-    - id: 1075
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Vector3Int___RoundTrip]
-      name: Mapping___Vector3Int___RoundTrip
-      fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector3Int___RoundTrip
-      resultStatus: 1
-      duration: 0.0021719
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1071
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
-    - id: 1077
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Vector4___RoundTrip]
-      name: Mapping___Vector4___RoundTrip
-      fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector4___RoundTrip
-      resultStatus: 1
-      duration: 0.0021591
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1071
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
-    - id: 1081
-      uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Write_Primitives][suite]
-      name: MappingTests_Write_Primitives
-      fullName: Neoserialization.MappingTests_Write_Primitives
-      resultStatus: 1
-      duration: 0.0047544
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1140
-      parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
-    - id: 1082
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_Write_Primitives/[EditMode][Neoserialization.MappingTests_Write_Primitives.Writing___Bool___CorrectLayout]
-      name: Writing___Bool___CorrectLayout
-      fullName: Neoserialization.MappingTests_Write_Primitives.Writing___Bool___CorrectLayout
-      resultStatus: 1
-      duration: 0.0004345
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1081
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Write_Primitives][suite]
-    - id: 1083
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_Write_Primitives/[EditMode][Neoserialization.MappingTests_Write_Primitives.Writing___Bool_Boxed___CorrectLayout]
-      name: Writing___Bool_Boxed___CorrectLayout
-      fullName: Neoserialization.MappingTests_Write_Primitives.Writing___Bool_Boxed___CorrectLayout
-      resultStatus: 1
-      duration: 0.0007555
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1081
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Write_Primitives][suite]
-    - id: 1085
-      uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Write_Vectors][suite]
-      name: MappingTests_Write_Vectors
-      fullName: Neoserialization.MappingTests_Write_Vectors
-      resultStatus: 1
-      duration: 0.0041217
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1146
-      parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
-    - id: 1086
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_Write_Vectors/[EditMode][Neoserialization.MappingTests_Write_Vectors.Writing___Vector3___CorrectLayout]
-      name: Writing___Vector3___CorrectLayout
-      fullName: Neoserialization.MappingTests_Write_Vectors.Writing___Vector3___CorrectLayout
-      resultStatus: 1
-      duration: 0.0006084
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1085
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Write_Vectors][suite]
-    - id: 1087
-      uniqueId: EditMode.dll/Neoserialization/MappingTests_Write_Vectors/[EditMode][Neoserialization.MappingTests_Write_Vectors.Writing___Vector3_Boxed___CorrectLayout]
-      name: Writing___Vector3_Boxed___CorrectLayout
-      fullName: Neoserialization.MappingTests_Write_Vectors.Writing___Vector3_Boxed___CorrectLayout
-      resultStatus: 1
-      duration: 0.0004732
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1085
-      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Write_Vectors][suite]
-    - id: 1160
-      uniqueId: EditMode.dll/[EditMode][OverridableEvents][suite]
-      name: OverridableEvents
-      fullName: OverridableEvents
-      resultStatus: 1
-      duration: 0.0293466
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1158
-      parentUniqueId: '[EditMode.dll][suite]'
-    - id: 1014
-      uniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.Blacklisting][suite]
-      name: Blacklisting
-      fullName: OverridableEvents.Blacklisting
-      resultStatus: 1
-      duration: 0.0284788
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1174
-      parentUniqueId: EditMode.dll/[EditMode][OverridableEvents][suite]
-    - id: 1017
-      uniqueId: EditMode.dll/OverridableEvents/Blacklisting/[EditMode][OverridableEvents.Blacklisting.Blacklisting___CircularBlacklist___BothAreBlocked]
-      name: Blacklisting___CircularBlacklist___BothAreBlocked
-      fullName: OverridableEvents.Blacklisting.Blacklisting___CircularBlacklist___BothAreBlocked
-      resultStatus: 1
-      duration: 0.0172333
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1014
-      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.Blacklisting][suite]
-    - id: 1019
-      uniqueId: EditMode.dll/OverridableEvents/Blacklisting/[EditMode][OverridableEvents.Blacklisting.Blacklisting___FullBlacklist]
-      name: Blacklisting___FullBlacklist
-      fullName: OverridableEvents.Blacklisting.Blacklisting___FullBlacklist
-      resultStatus: 1
-      duration: 0.0006019
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1014
-      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.Blacklisting][suite]
-    - id: 1018
-      uniqueId: EditMode.dll/OverridableEvents/Blacklisting/[EditMode][OverridableEvents.Blacklisting.Blacklisting___MultipleBlacklist]
-      name: Blacklisting___MultipleBlacklist
-      fullName: OverridableEvents.Blacklisting.Blacklisting___MultipleBlacklist
-      resultStatus: 1
-      duration: 0.0002881
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1014
-      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.Blacklisting][suite]
-    - id: 1015
-      uniqueId: EditMode.dll/OverridableEvents/Blacklisting/[EditMode][OverridableEvents.Blacklisting.Blacklisting___NoBlacklist]
-      name: Blacklisting___NoBlacklist
-      fullName: OverridableEvents.Blacklisting.Blacklisting___NoBlacklist
-      resultStatus: 1
-      duration: 0.0002334
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1014
-      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.Blacklisting][suite]
-    - id: 1016
-      uniqueId: EditMode.dll/OverridableEvents/Blacklisting/[EditMode][OverridableEvents.Blacklisting.Blacklisting___PartialBlacklist]
-      name: Blacklisting___PartialBlacklist
-      fullName: OverridableEvents.Blacklisting.Blacklisting___PartialBlacklist
-      resultStatus: 1
-      duration: 0.0002308
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1014
-      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.Blacklisting][suite]
-    - id: 1014
-      uniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.SortOrder][suite]
-      name: SortOrder
-      fullName: OverridableEvents.SortOrder
-      resultStatus: 1
-      duration: 0.0272396
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1160
-      parentUniqueId: EditMode.dll/[EditMode][OverridableEvents][suite]
-    - id: 1016
-      uniqueId: EditMode.dll/OverridableEvents/SortOrder/[EditMode][OverridableEvents.SortOrder.TopologicalSort___BeforeAndAfter_NoCircles]
-      name: TopologicalSort___BeforeAndAfter_NoCircles
-      fullName: OverridableEvents.SortOrder.TopologicalSort___BeforeAndAfter_NoCircles
-      resultStatus: 1
-      duration: 0.0153902
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1014
-      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.SortOrder][suite]
-    - id: 1019
-      uniqueId: EditMode.dll/OverridableEvents/SortOrder/[EditMode][OverridableEvents.SortOrder.TopologicalSort___MultipleDependency_NoCircles]
-      name: TopologicalSort___MultipleDependency_NoCircles
-      fullName: OverridableEvents.SortOrder.TopologicalSort___MultipleDependency_NoCircles
-      resultStatus: 1
-      duration: 0.0004813
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1014
-      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.SortOrder][suite]
-    - id: 1015
-      uniqueId: EditMode.dll/OverridableEvents/SortOrder/[EditMode][OverridableEvents.SortOrder.TopologicalSort___OnlyAfter_AlreadySorted]
-      name: TopologicalSort___OnlyAfter_AlreadySorted
-      fullName: OverridableEvents.SortOrder.TopologicalSort___OnlyAfter_AlreadySorted
-      resultStatus: 1
-      duration: 0.000292
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1014
-      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.SortOrder][suite]
-    - id: 1015
-      uniqueId: EditMode.dll/OverridableEvents/SortOrder/[EditMode][OverridableEvents.SortOrder.TopologicalSort___OnlyAfter_NoCircles]
-      name: TopologicalSort___OnlyAfter_NoCircles
-      fullName: OverridableEvents.SortOrder.TopologicalSort___OnlyAfter_NoCircles
-      resultStatus: 1
-      duration: 0.0002669
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1014
-      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.SortOrder][suite]
-    - id: 1016
-      uniqueId: EditMode.dll/OverridableEvents/SortOrder/[EditMode][OverridableEvents.SortOrder.TopologicalSort___OnlyBefore_NoCircles]
-      name: TopologicalSort___OnlyBefore_NoCircles
-      fullName: OverridableEvents.SortOrder.TopologicalSort___OnlyBefore_NoCircles
-      resultStatus: 1
-      duration: 0.000266
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1014
-      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.SortOrder][suite]
-    - id: 1019
-      uniqueId: EditMode.dll/OverridableEvents/SortOrder/[EditMode][OverridableEvents.SortOrder.TopologicalSort___WithConnectedCircle]
-      name: TopologicalSort___WithConnectedCircle
-      fullName: OverridableEvents.SortOrder.TopologicalSort___WithConnectedCircle
-      resultStatus: 1
-      duration: 0.0006021
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1014
-      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.SortOrder][suite]
-    - id: 1018
-      uniqueId: EditMode.dll/OverridableEvents/SortOrder/[EditMode][OverridableEvents.SortOrder.TopologicalSort___WithDisconnectedCircle]
-      name: TopologicalSort___WithDisconnectedCircle
-      fullName: OverridableEvents.SortOrder.TopologicalSort___WithDisconnectedCircle
-      resultStatus: 1
-      duration: 0.0002714
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1014
-      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.SortOrder][suite]
-    - id: 1137
-      uniqueId: EditMode.dll/[Serialization][suite]
-      name: Serialization
-      fullName: Serialization
-      resultStatus: 1
-      duration: 0.0445336
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1134
-      parentUniqueId: '[EditMode.dll][suite]'
-    - id: 1138
-      uniqueId: EditMode.dll/Serialization/[EditMode][Serialization.Json][suite]
-      name: Json
-      fullName: Serialization.Json
-      resultStatus: 1
-      duration: 0.0234355
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1137
-      parentUniqueId: EditMode.dll/[Serialization][suite]
-    - id: 1107
-      uniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStreamWriterTests][suite]
-      name: JsonStreamWriterTests
-      fullName: Serialization.Json.JsonStreamWriterTests
-      resultStatus: 1
-      duration: 0.0067706
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1138
-      parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.Json][suite]
-    - id: 1111
-      uniqueId: EditMode.dll/Serialization/Json/JsonStreamWriterTests/[EditMode][Serialization.Json.JsonStreamWriterTests.Write_Bool]
-      name: Write_Bool
-      fullName: Serialization.Json.JsonStreamWriterTests.Write_Bool
-      resultStatus: 1
-      duration: 0.0006305
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1107
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStreamWriterTests][suite]
-    - id: 1110
-      uniqueId: EditMode.dll/Serialization/Json/JsonStreamWriterTests/[EditMode][Serialization.Json.JsonStreamWriterTests.Write_Multiple_Array]
-      name: Write_Multiple_Array
-      fullName: Serialization.Json.JsonStreamWriterTests.Write_Multiple_Array
-      resultStatus: 1
-      duration: 0.0004344
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1107
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStreamWriterTests][suite]
-    - id: 1112
-      uniqueId: EditMode.dll/Serialization/Json/JsonStreamWriterTests/[EditMode][Serialization.Json.JsonStreamWriterTests.Write_Number]
-      name: Write_Number
-      fullName: Serialization.Json.JsonStreamWriterTests.Write_Number
-      resultStatus: 1
-      duration: 0.0005582
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1107
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStreamWriterTests][suite]
-    - id: 1108
-      uniqueId: EditMode.dll/Serialization/Json/JsonStreamWriterTests/[EditMode][Serialization.Json.JsonStreamWriterTests.Write_String_Object]
-      name: Write_String_Object
-      fullName: Serialization.Json.JsonStreamWriterTests.Write_String_Object
-      resultStatus: 1
-      duration: 0.0003388
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1107
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStreamWriterTests][suite]
-    - id: 1109
-      uniqueId: EditMode.dll/Serialization/Json/JsonStreamWriterTests/[EditMode][Serialization.Json.JsonStreamWriterTests.Write_String_Object_Escaped]
-      name: Write_String_Object_Escaped
-      fullName: Serialization.Json.JsonStreamWriterTests.Write_String_Object_Escaped
-      resultStatus: 1
-      duration: 0.0001765
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1107
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStreamWriterTests][suite]
-    - id: 1113
-      uniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
-      name: JsonStringReaderTests
-      fullName: Serialization.Json.JsonStringReaderTests
-      resultStatus: 1
-      duration: 0.010929
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1138
-      parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.Json][suite]
-    - id: 1123
-      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatArray___Empty___ParsesCorrectly]
-      name: EatArray___Empty___ParsesCorrectly
-      fullName: Serialization.Json.JsonStringReaderTests.EatArray___Empty___ParsesCorrectly
-      resultStatus: 1
-      duration: 0.0006806
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1113
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
-    - id: 1122
-      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatArray___Numbers_Correct___ParsesCorrectly]
-      name: EatArray___Numbers_Correct___ParsesCorrectly
-      fullName: Serialization.Json.JsonStringReaderTests.EatArray___Numbers_Correct___ParsesCorrectly
-      resultStatus: 1
-      duration: 0.0012136
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1113
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
-    - id: 1125
-      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatArray___Numbers_Missing_Comma___ThrowsError]
-      name: EatArray___Numbers_Missing_Comma___ThrowsError
-      fullName: Serialization.Json.JsonStringReaderTests.EatArray___Numbers_Missing_Comma___ThrowsError
-      resultStatus: 1
-      duration: 0.0007511
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1113
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
-    - id: 1126
-      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatArray___Strings_Missing_Comma___ThrowsError]
-      name: EatArray___Strings_Missing_Comma___ThrowsError
-      fullName: Serialization.Json.JsonStringReaderTests.EatArray___Strings_Missing_Comma___ThrowsError
-      resultStatus: 1
-      duration: 0.0005095
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1113
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
-    - id: 1120
-      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatNumber___Easy___ParsesCorrectly]
-      name: EatNumber___Easy___ParsesCorrectly
-      fullName: Serialization.Json.JsonStringReaderTests.EatNumber___Easy___ParsesCorrectly
-      resultStatus: 1
-      duration: 0.0001808
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1113
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
-    - id: 1121
-      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatNumber___Hard___ParsesCorrectly]
-      name: EatNumber___Hard___ParsesCorrectly
-      fullName: Serialization.Json.JsonStringReaderTests.EatNumber___Hard___ParsesCorrectly
-      resultStatus: 1
-      duration: 0.0001452
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1113
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
-    - id: 1127
-      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatObject___Correct___ParsesCorrectly]
-      name: EatObject___Correct___ParsesCorrectly
-      fullName: Serialization.Json.JsonStringReaderTests.EatObject___Correct___ParsesCorrectly
-      resultStatus: 1
-      duration: 0.0005624
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1113
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
-    - id: 1124
-      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.Eatobject___Empty___ParsesCorrectly]
-      name: Eatobject___Empty___ParsesCorrectly
-      fullName: Serialization.Json.JsonStringReaderTests.Eatobject___Empty___ParsesCorrectly
-      resultStatus: 1
-      duration: 0.0001313
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1113
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
-    - id: 1117
-      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatString___Easy___ParsesCorrectly]
-      name: EatString___Easy___ParsesCorrectly
-      fullName: Serialization.Json.JsonStringReaderTests.EatString___Easy___ParsesCorrectly
-      resultStatus: 1
-      duration: 0.0001676
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1113
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
-    - id: 1118
-      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatString___Escaped___ParsesCorrectly]
-      name: EatString___Escaped___ParsesCorrectly
-      fullName: Serialization.Json.JsonStringReaderTests.EatString___Escaped___ParsesCorrectly
-      resultStatus: 1
-      duration: 0.0003911
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1113
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
-    - id: 1115
-      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatValue___False___ParsesCorrectly]
-      name: EatValue___False___ParsesCorrectly
-      fullName: Serialization.Json.JsonStringReaderTests.EatValue___False___ParsesCorrectly
-      resultStatus: 1
-      duration: 0.000176
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1113
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
-    - id: 1116
-      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatValue___Null___ParsesCorrectly]
-      name: EatValue___Null___ParsesCorrectly
-      fullName: Serialization.Json.JsonStringReaderTests.EatValue___Null___ParsesCorrectly
-      resultStatus: 1
-      duration: 0.0001296
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1113
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
-    - id: 1114
-      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatValue___True___ParsesCorrectly]
-      name: EatValue___True___ParsesCorrectly
-      fullName: Serialization.Json.JsonStringReaderTests.EatValue___True___ParsesCorrectly
-      resultStatus: 1
-      duration: 0.0001531
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1113
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
-    - id: 1119
-      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.Parse___Complicated___ParsesCorrectly]
-      name: Parse___Complicated___ParsesCorrectly
-      fullName: Serialization.Json.JsonStringReaderTests.Parse___Complicated___ParsesCorrectly
-      resultStatus: 1
-      duration: 0.0003731
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1113
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
-    - id: 1128
-      uniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringWriterTests][suite]
-      name: JsonStringWriterTests
-      fullName: Serialization.Json.JsonStringWriterTests
-      resultStatus: 1
-      duration: 0.0049066
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1138
-      parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.Json][suite]
-    - id: 1132
-      uniqueId: EditMode.dll/Serialization/Json/JsonStringWriterTests/[EditMode][Serialization.Json.JsonStringWriterTests.Write_Bool]
-      name: Write_Bool
-      fullName: Serialization.Json.JsonStringWriterTests.Write_Bool
-      resultStatus: 1
-      duration: 0.0003476
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1128
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringWriterTests][suite]
-    - id: 1131
-      uniqueId: EditMode.dll/Serialization/Json/JsonStringWriterTests/[EditMode][Serialization.Json.JsonStringWriterTests.Write_Multiple_Array]
-      name: Write_Multiple_Array
-      fullName: Serialization.Json.JsonStringWriterTests.Write_Multiple_Array
-      resultStatus: 1
-      duration: 0.0003712
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1128
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringWriterTests][suite]
-    - id: 1129
-      uniqueId: EditMode.dll/Serialization/Json/JsonStringWriterTests/[EditMode][Serialization.Json.JsonStringWriterTests.Write_Multiple_Object]
-      name: Write_Multiple_Object
-      fullName: Serialization.Json.JsonStringWriterTests.Write_Multiple_Object
-      resultStatus: 1
-      duration: 0.0002581
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1128
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringWriterTests][suite]
-    - id: 1133
-      uniqueId: EditMode.dll/Serialization/Json/JsonStringWriterTests/[EditMode][Serialization.Json.JsonStringWriterTests.Write_Number]
-      name: Write_Number
-      fullName: Serialization.Json.JsonStringWriterTests.Write_Number
-      resultStatus: 1
-      duration: 0.0001432
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1128
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringWriterTests][suite]
-    - id: 1130
-      uniqueId: EditMode.dll/Serialization/Json/JsonStringWriterTests/[EditMode][Serialization.Json.JsonStringWriterTests.Write_String_Object_Escaped]
-      name: Write_String_Object_Escaped
-      fullName: Serialization.Json.JsonStringWriterTests.Write_String_Object_Escaped
-      resultStatus: 1
-      duration: 0.0001519
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1128
-      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringWriterTests][suite]
-    - id: 1080
-      uniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedArrayTests][suite]
-      name: SerializedArrayTests
-      fullName: Serialization.SerializedArrayTests
-      resultStatus: 1
-      duration: 0.0034046
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1137
-      parentUniqueId: EditMode.dll/[Serialization][suite]
-    - id: 1081
-      uniqueId: EditMode.dll/Serialization/SerializedArrayTests/[EditMode][Serialization.SerializedArrayTests.AddedContentsRoundTrippedCorrectly]
-      name: AddedContentsRoundTrippedCorrectly
-      fullName: Serialization.SerializedArrayTests.AddedContentsRoundTrippedCorrectly
-      resultStatus: 1
-      duration: 0.0002193
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1080
-      parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedArrayTests][suite]
-    - id: 1086
-      uniqueId: EditMode.dll/Serialization/SerializedArrayTests/[EditMode][Serialization.SerializedArrayTests.EqualityBetweenIdentical___IsEqual]
-      name: EqualityBetweenIdentical___IsEqual
-      fullName: Serialization.SerializedArrayTests.EqualityBetweenIdentical___IsEqual
-      resultStatus: 1
-      duration: 0.000262
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1084
-      parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedArrayTests][suite]
-    - id: 1082
-      uniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedObjectTests][suite]
-      name: SerializedObjectTests
-      fullName: Serialization.SerializedObjectTests
-      resultStatus: 1
-      duration: 0.003396
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1137
-      parentUniqueId: EditMode.dll/[Serialization][suite]
-    - id: 1083
-      uniqueId: EditMode.dll/Serialization/SerializedObjectTests/[EditMode][Serialization.SerializedObjectTests.AddedContentsRetrievedCorrectly]
-      name: AddedContentsRetrievedCorrectly
-      fullName: Serialization.SerializedObjectTests.AddedContentsRetrievedCorrectly
-      resultStatus: 1
-      duration: 0.0002143
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1082
-      parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedObjectTests][suite]
-    - id: 1089
-      uniqueId: EditMode.dll/Serialization/SerializedObjectTests/[EditMode][Serialization.SerializedObjectTests.EqualityBetweenIdentical___IsEqual]
-      name: EqualityBetweenIdentical___IsEqual
-      fullName: Serialization.SerializedObjectTests.EqualityBetweenIdentical___IsEqual
-      resultStatus: 1
-      duration: 0.0002211
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4316,13 +3141,1375 @@ MonoBehaviour:
       categories:
       - Uncategorized
       parentId: 1087
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
+    - id: 1089
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___InterfaceNullReference___RoundTrip]
+      name: Mapping___InterfaceNullReference___RoundTrip
+      fullName: Neoserialization.MappingTests_References.Mapping___InterfaceNullReference___RoundTrip
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1087
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
+    - id: 1091
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___InterfaceReference___RoundTrip]
+      name: Mapping___InterfaceReference___RoundTrip
+      fullName: Neoserialization.MappingTests_References.Mapping___InterfaceReference___RoundTrip
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1087
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
+    - id: 1094
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___Member_ExistingReference___RoundTrip]
+      name: Mapping___Member_ExistingReference___RoundTrip
+      fullName: Neoserialization.MappingTests_References.Mapping___Member_ExistingReference___RoundTrip
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1087
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
+    - id: 1092
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___Member_NullReference___RoundTrip]
+      name: Mapping___Member_NullReference___RoundTrip
+      fullName: Neoserialization.MappingTests_References.Mapping___Member_NullReference___RoundTrip
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1087
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
+    - id: 1093
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___Member_Reference___RoundTrip]
+      name: Mapping___Member_Reference___RoundTrip
+      fullName: Neoserialization.MappingTests_References.Mapping___Member_Reference___RoundTrip
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1087
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
+    - id: 1088
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_References/[EditMode][Neoserialization.MappingTests_References.Mapping___NullReference___RoundTrip]
+      name: Mapping___NullReference___RoundTrip
+      fullName: Neoserialization.MappingTests_References.Mapping___NullReference___RoundTrip
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1087
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_References][suite]
+    - id: 1095
+      uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_SerializedData][suite]
+      name: MappingTests_SerializedData
+      fullName: Neoserialization.MappingTests_SerializedData
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1180
+      parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
+    - id: 1097
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_SerializedData/[EditMode][Neoserialization.MappingTests_SerializedData.Mapping___SerializedArray___RoundTrip]
+      name: Mapping___SerializedArray___RoundTrip
+      fullName: Neoserialization.MappingTests_SerializedData.Mapping___SerializedArray___RoundTrip
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1095
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_SerializedData][suite]
+    - id: 1098
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_SerializedData/[EditMode][Neoserialization.MappingTests_SerializedData.Mapping___SerializedObject___RoundTrip]
+      name: Mapping___SerializedObject___RoundTrip
+      fullName: Neoserialization.MappingTests_SerializedData.Mapping___SerializedObject___RoundTrip
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1095
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_SerializedData][suite]
+    - id: 1096
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_SerializedData/[EditMode][Neoserialization.MappingTests_SerializedData.Mapping___SerializedPrimitive___RoundTrip]
+      name: Mapping___SerializedPrimitive___RoundTrip
+      fullName: Neoserialization.MappingTests_SerializedData.Mapping___SerializedPrimitive___RoundTrip
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1095
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_SerializedData][suite]
+    - id: 1099
+      uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Tuples][suite]
+      name: MappingTests_Tuples
+      fullName: Neoserialization.MappingTests_Tuples
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1180
+      parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
+    - id: 1102
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Tuples/[EditMode][Neoserialization.MappingTests_Tuples.Mapping___Tuple_3___RoundTrip]
+      name: Mapping___Tuple_3___RoundTrip
+      fullName: Neoserialization.MappingTests_Tuples.Mapping___Tuple_3___RoundTrip
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1099
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Tuples][suite]
+    - id: 1103
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Tuples/[EditMode][Neoserialization.MappingTests_Tuples.Mapping___Tuple_7___RoundTrip]
+      name: Mapping___Tuple_7___RoundTrip
+      fullName: Neoserialization.MappingTests_Tuples.Mapping___Tuple_7___RoundTrip
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1099
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Tuples][suite]
+    - id: 1100
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Tuples/[EditMode][Neoserialization.MappingTests_Tuples.Mapping___Tuple_IntString___RoundTrip]
+      name: Mapping___Tuple_IntString___RoundTrip
+      fullName: Neoserialization.MappingTests_Tuples.Mapping___Tuple_IntString___RoundTrip
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1099
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Tuples][suite]
+    - id: 1101
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Tuples/[EditMode][Neoserialization.MappingTests_Tuples.Mapping___Tuple_ObjectObject___RoundTrip]
+      name: Mapping___Tuple_ObjectObject___RoundTrip
+      fullName: Neoserialization.MappingTests_Tuples.Mapping___Tuple_ObjectObject___RoundTrip
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1099
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Tuples][suite]
+    - id: 1104
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Tuples/[EditMode][Neoserialization.MappingTests_Tuples.Mapping___Tuple_SplitIntoTRest___RoundTrip]
+      name: Mapping___Tuple_SplitIntoTRest___RoundTrip
+      fullName: Neoserialization.MappingTests_Tuples.Mapping___Tuple_SplitIntoTRest___RoundTrip
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1099
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Tuples][suite]
+    - id: 1105
+      uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
+      name: MappingTests_Vectors
+      fullName: Neoserialization.MappingTests_Vectors
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1180
+      parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
+    - id: 1112
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Quaternion___RoundTrip]
+      name: Mapping___Quaternion___RoundTrip
+      fullName: Neoserialization.MappingTests_Vectors.Mapping___Quaternion___RoundTrip
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1105
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
+    - id: 1113
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___QuaternionDbl___RoundTrip]
+      name: Mapping___QuaternionDbl___RoundTrip
+      fullName: Neoserialization.MappingTests_Vectors.Mapping___QuaternionDbl___RoundTrip
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1105
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
+    - id: 1106
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Vector2___RoundTrip]
+      name: Mapping___Vector2___RoundTrip
+      fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector2___RoundTrip
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1105
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
+    - id: 1107
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Vector2Int___RoundTrip]
+      name: Mapping___Vector2Int___RoundTrip
+      fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector2Int___RoundTrip
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1105
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
+    - id: 1108
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Vector3___RoundTrip]
+      name: Mapping___Vector3___RoundTrip
+      fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector3___RoundTrip
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1105
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
+    - id: 1110
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Vector3Dbl___RoundTrip]
+      name: Mapping___Vector3Dbl___RoundTrip
+      fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector3Dbl___RoundTrip
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1105
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
+    - id: 1109
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Vector3Int___RoundTrip]
+      name: Mapping___Vector3Int___RoundTrip
+      fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector3Int___RoundTrip
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1105
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
+    - id: 1111
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Vectors/[EditMode][Neoserialization.MappingTests_Vectors.Mapping___Vector4___RoundTrip]
+      name: Mapping___Vector4___RoundTrip
+      fullName: Neoserialization.MappingTests_Vectors.Mapping___Vector4___RoundTrip
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1105
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Vectors][suite]
+    - id: 1114
+      uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Write_Primitives][suite]
+      name: MappingTests_Write_Primitives
+      fullName: Neoserialization.MappingTests_Write_Primitives
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1180
+      parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
+    - id: 1115
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Write_Primitives/[EditMode][Neoserialization.MappingTests_Write_Primitives.Writing___Bool___CorrectLayout]
+      name: Writing___Bool___CorrectLayout
+      fullName: Neoserialization.MappingTests_Write_Primitives.Writing___Bool___CorrectLayout
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1114
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Write_Primitives][suite]
+    - id: 1116
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Write_Primitives/[EditMode][Neoserialization.MappingTests_Write_Primitives.Writing___Bool_Boxed___CorrectLayout]
+      name: Writing___Bool_Boxed___CorrectLayout
+      fullName: Neoserialization.MappingTests_Write_Primitives.Writing___Bool_Boxed___CorrectLayout
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1114
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Write_Primitives][suite]
+    - id: 1117
+      uniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Write_Vectors][suite]
+      name: MappingTests_Write_Vectors
+      fullName: Neoserialization.MappingTests_Write_Vectors
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1180
+      parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
+    - id: 1118
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Write_Vectors/[EditMode][Neoserialization.MappingTests_Write_Vectors.Writing___Vector3___CorrectLayout]
+      name: Writing___Vector3___CorrectLayout
+      fullName: Neoserialization.MappingTests_Write_Vectors.Writing___Vector3___CorrectLayout
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1117
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Write_Vectors][suite]
+    - id: 1119
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Write_Vectors/[EditMode][Neoserialization.MappingTests_Write_Vectors.Writing___Vector3_Boxed___CorrectLayout]
+      name: Writing___Vector3_Boxed___CorrectLayout
+      fullName: Neoserialization.MappingTests_Write_Vectors.Writing___Vector3_Boxed___CorrectLayout
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1117
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Write_Vectors][suite]
+    - id: 1179
+      uniqueId: EditMode.dll/[EditMode][OverridableEvents][suite]
+      name: OverridableEvents
+      fullName: OverridableEvents
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1176
+      parentUniqueId: '[EditMode.dll][suite]'
+    - id: 1020
+      uniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.Blacklisting][suite]
+      name: Blacklisting
+      fullName: OverridableEvents.Blacklisting
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1179
+      parentUniqueId: EditMode.dll/[EditMode][OverridableEvents][suite]
+    - id: 1023
+      uniqueId: EditMode.dll/OverridableEvents/Blacklisting/[EditMode][OverridableEvents.Blacklisting.Blacklisting___CircularBlacklist___BothAreBlocked]
+      name: Blacklisting___CircularBlacklist___BothAreBlocked
+      fullName: OverridableEvents.Blacklisting.Blacklisting___CircularBlacklist___BothAreBlocked
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1020
+      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.Blacklisting][suite]
+    - id: 1025
+      uniqueId: EditMode.dll/OverridableEvents/Blacklisting/[EditMode][OverridableEvents.Blacklisting.Blacklisting___FullBlacklist]
+      name: Blacklisting___FullBlacklist
+      fullName: OverridableEvents.Blacklisting.Blacklisting___FullBlacklist
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1020
+      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.Blacklisting][suite]
+    - id: 1024
+      uniqueId: EditMode.dll/OverridableEvents/Blacklisting/[EditMode][OverridableEvents.Blacklisting.Blacklisting___MultipleBlacklist]
+      name: Blacklisting___MultipleBlacklist
+      fullName: OverridableEvents.Blacklisting.Blacklisting___MultipleBlacklist
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1020
+      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.Blacklisting][suite]
+    - id: 1021
+      uniqueId: EditMode.dll/OverridableEvents/Blacklisting/[EditMode][OverridableEvents.Blacklisting.Blacklisting___NoBlacklist]
+      name: Blacklisting___NoBlacklist
+      fullName: OverridableEvents.Blacklisting.Blacklisting___NoBlacklist
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1020
+      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.Blacklisting][suite]
+    - id: 1022
+      uniqueId: EditMode.dll/OverridableEvents/Blacklisting/[EditMode][OverridableEvents.Blacklisting.Blacklisting___PartialBlacklist]
+      name: Blacklisting___PartialBlacklist
+      fullName: OverridableEvents.Blacklisting.Blacklisting___PartialBlacklist
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1020
+      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.Blacklisting][suite]
+    - id: 1026
+      uniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.SortOrder][suite]
+      name: SortOrder
+      fullName: OverridableEvents.SortOrder
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1179
+      parentUniqueId: EditMode.dll/[EditMode][OverridableEvents][suite]
+    - id: 1029
+      uniqueId: EditMode.dll/OverridableEvents/SortOrder/[EditMode][OverridableEvents.SortOrder.TopologicalSort___BeforeAndAfter_NoCircles]
+      name: TopologicalSort___BeforeAndAfter_NoCircles
+      fullName: OverridableEvents.SortOrder.TopologicalSort___BeforeAndAfter_NoCircles
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1026
+      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.SortOrder][suite]
+    - id: 1032
+      uniqueId: EditMode.dll/OverridableEvents/SortOrder/[EditMode][OverridableEvents.SortOrder.TopologicalSort___MultipleDependency_NoCircles]
+      name: TopologicalSort___MultipleDependency_NoCircles
+      fullName: OverridableEvents.SortOrder.TopologicalSort___MultipleDependency_NoCircles
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1026
+      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.SortOrder][suite]
+    - id: 1033
+      uniqueId: EditMode.dll/OverridableEvents/SortOrder/[EditMode][OverridableEvents.SortOrder.TopologicalSort___OnlyAfter_AlreadySorted]
+      name: TopologicalSort___OnlyAfter_AlreadySorted
+      fullName: OverridableEvents.SortOrder.TopologicalSort___OnlyAfter_AlreadySorted
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1026
+      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.SortOrder][suite]
+    - id: 1027
+      uniqueId: EditMode.dll/OverridableEvents/SortOrder/[EditMode][OverridableEvents.SortOrder.TopologicalSort___OnlyAfter_NoCircles]
+      name: TopologicalSort___OnlyAfter_NoCircles
+      fullName: OverridableEvents.SortOrder.TopologicalSort___OnlyAfter_NoCircles
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1026
+      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.SortOrder][suite]
+    - id: 1028
+      uniqueId: EditMode.dll/OverridableEvents/SortOrder/[EditMode][OverridableEvents.SortOrder.TopologicalSort___OnlyBefore_NoCircles]
+      name: TopologicalSort___OnlyBefore_NoCircles
+      fullName: OverridableEvents.SortOrder.TopologicalSort___OnlyBefore_NoCircles
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1026
+      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.SortOrder][suite]
+    - id: 1031
+      uniqueId: EditMode.dll/OverridableEvents/SortOrder/[EditMode][OverridableEvents.SortOrder.TopologicalSort___WithConnectedCircle]
+      name: TopologicalSort___WithConnectedCircle
+      fullName: OverridableEvents.SortOrder.TopologicalSort___WithConnectedCircle
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1026
+      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.SortOrder][suite]
+    - id: 1030
+      uniqueId: EditMode.dll/OverridableEvents/SortOrder/[EditMode][OverridableEvents.SortOrder.TopologicalSort___WithDisconnectedCircle]
+      name: TopologicalSort___WithDisconnectedCircle
+      fullName: OverridableEvents.SortOrder.TopologicalSort___WithDisconnectedCircle
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1026
+      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.SortOrder][suite]
+    - id: 1181
+      uniqueId: EditMode.dll/[Serialization][suite]
+      name: Serialization
+      fullName: Serialization
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1176
+      parentUniqueId: '[EditMode.dll][suite]'
+    - id: 1182
+      uniqueId: EditMode.dll/Serialization/[EditMode][Serialization.Json][suite]
+      name: Json
+      fullName: Serialization.Json
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1181
+      parentUniqueId: EditMode.dll/[Serialization][suite]
+    - id: 1149
+      uniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStreamWriterTests][suite]
+      name: JsonStreamWriterTests
+      fullName: Serialization.Json.JsonStreamWriterTests
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1182
+      parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.Json][suite]
+    - id: 1153
+      uniqueId: EditMode.dll/Serialization/Json/JsonStreamWriterTests/[EditMode][Serialization.Json.JsonStreamWriterTests.Write_Bool]
+      name: Write_Bool
+      fullName: Serialization.Json.JsonStreamWriterTests.Write_Bool
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1149
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStreamWriterTests][suite]
+    - id: 1152
+      uniqueId: EditMode.dll/Serialization/Json/JsonStreamWriterTests/[EditMode][Serialization.Json.JsonStreamWriterTests.Write_Multiple_Array]
+      name: Write_Multiple_Array
+      fullName: Serialization.Json.JsonStreamWriterTests.Write_Multiple_Array
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1149
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStreamWriterTests][suite]
+    - id: 1154
+      uniqueId: EditMode.dll/Serialization/Json/JsonStreamWriterTests/[EditMode][Serialization.Json.JsonStreamWriterTests.Write_Number]
+      name: Write_Number
+      fullName: Serialization.Json.JsonStreamWriterTests.Write_Number
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1149
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStreamWriterTests][suite]
+    - id: 1150
+      uniqueId: EditMode.dll/Serialization/Json/JsonStreamWriterTests/[EditMode][Serialization.Json.JsonStreamWriterTests.Write_String_Object]
+      name: Write_String_Object
+      fullName: Serialization.Json.JsonStreamWriterTests.Write_String_Object
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1149
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStreamWriterTests][suite]
+    - id: 1151
+      uniqueId: EditMode.dll/Serialization/Json/JsonStreamWriterTests/[EditMode][Serialization.Json.JsonStreamWriterTests.Write_String_Object_Escaped]
+      name: Write_String_Object_Escaped
+      fullName: Serialization.Json.JsonStreamWriterTests.Write_String_Object_Escaped
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1149
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStreamWriterTests][suite]
+    - id: 1155
+      uniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+      name: JsonStringReaderTests
+      fullName: Serialization.Json.JsonStringReaderTests
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1182
+      parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.Json][suite]
+    - id: 1165
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatArray___Empty___ParsesCorrectly]
+      name: EatArray___Empty___ParsesCorrectly
+      fullName: Serialization.Json.JsonStringReaderTests.EatArray___Empty___ParsesCorrectly
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1155
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1164
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatArray___Numbers_Correct___ParsesCorrectly]
+      name: EatArray___Numbers_Correct___ParsesCorrectly
+      fullName: Serialization.Json.JsonStringReaderTests.EatArray___Numbers_Correct___ParsesCorrectly
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1155
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1167
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatArray___Numbers_Missing_Comma___ThrowsError]
+      name: EatArray___Numbers_Missing_Comma___ThrowsError
+      fullName: Serialization.Json.JsonStringReaderTests.EatArray___Numbers_Missing_Comma___ThrowsError
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1155
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1168
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatArray___Strings_Missing_Comma___ThrowsError]
+      name: EatArray___Strings_Missing_Comma___ThrowsError
+      fullName: Serialization.Json.JsonStringReaderTests.EatArray___Strings_Missing_Comma___ThrowsError
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1155
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1162
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatNumber___Easy___ParsesCorrectly]
+      name: EatNumber___Easy___ParsesCorrectly
+      fullName: Serialization.Json.JsonStringReaderTests.EatNumber___Easy___ParsesCorrectly
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1155
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1163
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatNumber___Hard___ParsesCorrectly]
+      name: EatNumber___Hard___ParsesCorrectly
+      fullName: Serialization.Json.JsonStringReaderTests.EatNumber___Hard___ParsesCorrectly
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1155
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1169
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatObject___Correct___ParsesCorrectly]
+      name: EatObject___Correct___ParsesCorrectly
+      fullName: Serialization.Json.JsonStringReaderTests.EatObject___Correct___ParsesCorrectly
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1155
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1166
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.Eatobject___Empty___ParsesCorrectly]
+      name: Eatobject___Empty___ParsesCorrectly
+      fullName: Serialization.Json.JsonStringReaderTests.Eatobject___Empty___ParsesCorrectly
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1155
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1159
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatString___Easy___ParsesCorrectly]
+      name: EatString___Easy___ParsesCorrectly
+      fullName: Serialization.Json.JsonStringReaderTests.EatString___Easy___ParsesCorrectly
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1155
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1160
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatString___Escaped___ParsesCorrectly]
+      name: EatString___Escaped___ParsesCorrectly
+      fullName: Serialization.Json.JsonStringReaderTests.EatString___Escaped___ParsesCorrectly
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1155
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1157
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatValue___False___ParsesCorrectly]
+      name: EatValue___False___ParsesCorrectly
+      fullName: Serialization.Json.JsonStringReaderTests.EatValue___False___ParsesCorrectly
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1155
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1158
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatValue___Null___ParsesCorrectly]
+      name: EatValue___Null___ParsesCorrectly
+      fullName: Serialization.Json.JsonStringReaderTests.EatValue___Null___ParsesCorrectly
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1155
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1156
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.EatValue___True___ParsesCorrectly]
+      name: EatValue___True___ParsesCorrectly
+      fullName: Serialization.Json.JsonStringReaderTests.EatValue___True___ParsesCorrectly
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1155
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1161
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringReaderTests/[EditMode][Serialization.Json.JsonStringReaderTests.Parse___Complicated___ParsesCorrectly]
+      name: Parse___Complicated___ParsesCorrectly
+      fullName: Serialization.Json.JsonStringReaderTests.Parse___Complicated___ParsesCorrectly
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1155
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringReaderTests][suite]
+    - id: 1170
+      uniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringWriterTests][suite]
+      name: JsonStringWriterTests
+      fullName: Serialization.Json.JsonStringWriterTests
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1182
+      parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.Json][suite]
+    - id: 1174
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringWriterTests/[EditMode][Serialization.Json.JsonStringWriterTests.Write_Bool]
+      name: Write_Bool
+      fullName: Serialization.Json.JsonStringWriterTests.Write_Bool
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1170
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringWriterTests][suite]
+    - id: 1173
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringWriterTests/[EditMode][Serialization.Json.JsonStringWriterTests.Write_Multiple_Array]
+      name: Write_Multiple_Array
+      fullName: Serialization.Json.JsonStringWriterTests.Write_Multiple_Array
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1170
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringWriterTests][suite]
+    - id: 1171
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringWriterTests/[EditMode][Serialization.Json.JsonStringWriterTests.Write_Multiple_Object]
+      name: Write_Multiple_Object
+      fullName: Serialization.Json.JsonStringWriterTests.Write_Multiple_Object
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1170
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringWriterTests][suite]
+    - id: 1175
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringWriterTests/[EditMode][Serialization.Json.JsonStringWriterTests.Write_Number]
+      name: Write_Number
+      fullName: Serialization.Json.JsonStringWriterTests.Write_Number
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1170
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringWriterTests][suite]
+    - id: 1172
+      uniqueId: EditMode.dll/Serialization/Json/JsonStringWriterTests/[EditMode][Serialization.Json.JsonStringWriterTests.Write_String_Object_Escaped]
+      name: Write_String_Object_Escaped
+      fullName: Serialization.Json.JsonStringWriterTests.Write_String_Object_Escaped
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1170
+      parentUniqueId: EditMode.dll/Serialization/Json/[EditMode][Serialization.Json.JsonStringWriterTests][suite]
+    - id: 1120
+      uniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedArrayTests][suite]
+      name: SerializedArrayTests
+      fullName: Serialization.SerializedArrayTests
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1181
+      parentUniqueId: EditMode.dll/[Serialization][suite]
+    - id: 1121
+      uniqueId: EditMode.dll/Serialization/SerializedArrayTests/[EditMode][Serialization.SerializedArrayTests.AddedContentsRoundTrippedCorrectly]
+      name: AddedContentsRoundTrippedCorrectly
+      fullName: Serialization.SerializedArrayTests.AddedContentsRoundTrippedCorrectly
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1120
+      parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedArrayTests][suite]
+    - id: 1122
+      uniqueId: EditMode.dll/Serialization/SerializedArrayTests/[EditMode][Serialization.SerializedArrayTests.EqualityBetweenIdentical___IsEqual]
+      name: EqualityBetweenIdentical___IsEqual
+      fullName: Serialization.SerializedArrayTests.EqualityBetweenIdentical___IsEqual
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1120
+      parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedArrayTests][suite]
+    - id: 1123
+      uniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedObjectTests][suite]
+      name: SerializedObjectTests
+      fullName: Serialization.SerializedObjectTests
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1181
+      parentUniqueId: EditMode.dll/[Serialization][suite]
+    - id: 1124
+      uniqueId: EditMode.dll/Serialization/SerializedObjectTests/[EditMode][Serialization.SerializedObjectTests.AddedContentsRetrievedCorrectly]
+      name: AddedContentsRetrievedCorrectly
+      fullName: Serialization.SerializedObjectTests.AddedContentsRetrievedCorrectly
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1123
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedObjectTests][suite]
-    - id: 1084
+    - id: 1125
+      uniqueId: EditMode.dll/Serialization/SerializedObjectTests/[EditMode][Serialization.SerializedObjectTests.EqualityBetweenIdentical___IsEqual]
+      name: EqualityBetweenIdentical___IsEqual
+      fullName: Serialization.SerializedObjectTests.EqualityBetweenIdentical___IsEqual
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1123
+      parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedObjectTests][suite]
+    - id: 1126
       uniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedPrimitiveTests][suite]
       name: SerializedPrimitiveTests
       fullName: Serialization.SerializedPrimitiveTests
-      resultStatus: 1
-      duration: 0.0106879
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4331,14 +4518,14 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1137
+      parentId: 1181
       parentUniqueId: EditMode.dll/[Serialization][suite]
-    - id: 1101
+    - id: 1143
       uniqueId: EditMode.dll/Serialization/SerializedPrimitiveTests/[EditMode][Serialization.SerializedPrimitiveTests.Conversion___Int16_To_Int64]
       name: Conversion___Int16_To_Int64
       fullName: Serialization.SerializedPrimitiveTests.Conversion___Int16_To_Int64
-      resultStatus: 1
-      duration: 0.0001924
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4348,14 +4535,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1084
+      parentId: 1126
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedPrimitiveTests][suite]
-    - id: 1106
+    - id: 1148
       uniqueId: EditMode.dll/Serialization/SerializedPrimitiveTests/[EditMode][Serialization.SerializedPrimitiveTests.Conversion___Int32_To_Double]
       name: Conversion___Int32_To_Double
       fullName: Serialization.SerializedPrimitiveTests.Conversion___Int32_To_Double
-      resultStatus: 1
-      duration: 0.0001342
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4365,14 +4552,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1084
+      parentId: 1126
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedPrimitiveTests][suite]
-    - id: 1102
+    - id: 1144
       uniqueId: EditMode.dll/Serialization/SerializedPrimitiveTests/[EditMode][Serialization.SerializedPrimitiveTests.Conversion___Int32_To_Int64]
       name: Conversion___Int32_To_Int64
       fullName: Serialization.SerializedPrimitiveTests.Conversion___Int32_To_Int64
-      resultStatus: 1
-      duration: 0.0001244
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4382,14 +4569,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1084
+      parentId: 1126
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedPrimitiveTests][suite]
-    - id: 1105
+    - id: 1147
       uniqueId: EditMode.dll/Serialization/SerializedPrimitiveTests/[EditMode][Serialization.SerializedPrimitiveTests.Conversion___Int32_To_Single]
       name: Conversion___Int32_To_Single
       fullName: Serialization.SerializedPrimitiveTests.Conversion___Int32_To_Single
-      resultStatus: 1
-      duration: 0.0001288
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4399,14 +4586,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1084
+      parentId: 1126
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedPrimitiveTests][suite]
-    - id: 1100
+    - id: 1142
       uniqueId: EditMode.dll/Serialization/SerializedPrimitiveTests/[EditMode][Serialization.SerializedPrimitiveTests.Conversion___Int8_To_Int64]
       name: Conversion___Int8_To_Int64
       fullName: Serialization.SerializedPrimitiveTests.Conversion___Int8_To_Int64
-      resultStatus: 1
-      duration: 0.0001619
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4416,14 +4603,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1084
+      parentId: 1126
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedPrimitiveTests][suite]
-    - id: 1104
+    - id: 1146
       uniqueId: EditMode.dll/Serialization/SerializedPrimitiveTests/[EditMode][Serialization.SerializedPrimitiveTests.Conversion___Single_To_Double]
       name: Conversion___Single_To_Double
       fullName: Serialization.SerializedPrimitiveTests.Conversion___Single_To_Double
-      resultStatus: 1
-      duration: 0.0002043
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4433,14 +4620,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1084
+      parentId: 1126
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedPrimitiveTests][suite]
-    - id: 1103
+    - id: 1145
       uniqueId: EditMode.dll/Serialization/SerializedPrimitiveTests/[EditMode][Serialization.SerializedPrimitiveTests.Conversion___UInt32_To_Int64]
       name: Conversion___UInt32_To_Int64
       fullName: Serialization.SerializedPrimitiveTests.Conversion___UInt32_To_Int64
-      resultStatus: 1
-      duration: 0.0001558
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4450,14 +4637,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1084
+      parentId: 1126
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedPrimitiveTests][suite]
-    - id: 1086
+    - id: 1128
       uniqueId: EditMode.dll/Serialization/SerializedPrimitiveTests/[EditMode][Serialization.SerializedPrimitiveTests.Equality___String_Content___ByValue]
       name: Equality___String_Content___ByValue
       fullName: Serialization.SerializedPrimitiveTests.Equality___String_Content___ByValue
-      resultStatus: 1
-      duration: 0.0002146
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4467,14 +4654,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1084
+      parentId: 1126
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedPrimitiveTests][suite]
-    - id: 1085
+    - id: 1127
       uniqueId: EditMode.dll/Serialization/SerializedPrimitiveTests/[EditMode][Serialization.SerializedPrimitiveTests.Equality___ValueType_Content___ByValue]
       name: Equality___ValueType_Content___ByValue
       fullName: Serialization.SerializedPrimitiveTests.Equality___ValueType_Content___ByValue
-      resultStatus: 1
-      duration: 0.0001866
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4484,14 +4671,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1084
+      parentId: 1126
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedPrimitiveTests][suite]
-    - id: 1087
+    - id: 1129
       uniqueId: EditMode.dll/Serialization/SerializedPrimitiveTests/[EditMode][Serialization.SerializedPrimitiveTests.RoundTrip___Boolean]
       name: RoundTrip___Boolean
       fullName: Serialization.SerializedPrimitiveTests.RoundTrip___Boolean
-      resultStatus: 1
-      duration: 0.0001364
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4501,14 +4688,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1084
+      parentId: 1126
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedPrimitiveTests][suite]
-    - id: 1098
+    - id: 1140
       uniqueId: EditMode.dll/Serialization/SerializedPrimitiveTests/[EditMode][Serialization.SerializedPrimitiveTests.RoundTrip___Decimal]
       name: RoundTrip___Decimal
       fullName: Serialization.SerializedPrimitiveTests.RoundTrip___Decimal
-      resultStatus: 1
-      duration: 0.0001476
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4518,14 +4705,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1084
+      parentId: 1126
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedPrimitiveTests][suite]
-    - id: 1097
+    - id: 1139
       uniqueId: EditMode.dll/Serialization/SerializedPrimitiveTests/[EditMode][Serialization.SerializedPrimitiveTests.RoundTrip___Double]
       name: RoundTrip___Double
       fullName: Serialization.SerializedPrimitiveTests.RoundTrip___Double
-      resultStatus: 1
-      duration: 0.0001272
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4535,14 +4722,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1084
+      parentId: 1126
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedPrimitiveTests][suite]
-    - id: 1090
+    - id: 1132
       uniqueId: EditMode.dll/Serialization/SerializedPrimitiveTests/[EditMode][Serialization.SerializedPrimitiveTests.RoundTrip___Int16]
       name: RoundTrip___Int16
       fullName: Serialization.SerializedPrimitiveTests.RoundTrip___Int16
-      resultStatus: 1
-      duration: 0.0001214
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4552,14 +4739,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1084
+      parentId: 1126
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedPrimitiveTests][suite]
-    - id: 1092
+    - id: 1134
       uniqueId: EditMode.dll/Serialization/SerializedPrimitiveTests/[EditMode][Serialization.SerializedPrimitiveTests.RoundTrip___Int32]
       name: RoundTrip___Int32
       fullName: Serialization.SerializedPrimitiveTests.RoundTrip___Int32
-      resultStatus: 1
-      duration: 0.0001208
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4569,14 +4756,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1084
+      parentId: 1126
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedPrimitiveTests][suite]
-    - id: 1094
+    - id: 1136
       uniqueId: EditMode.dll/Serialization/SerializedPrimitiveTests/[EditMode][Serialization.SerializedPrimitiveTests.RoundTrip___Int64]
       name: RoundTrip___Int64
       fullName: Serialization.SerializedPrimitiveTests.RoundTrip___Int64
-      resultStatus: 1
-      duration: 0.0001192
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4586,14 +4773,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1084
+      parentId: 1126
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedPrimitiveTests][suite]
-    - id: 1088
+    - id: 1130
       uniqueId: EditMode.dll/Serialization/SerializedPrimitiveTests/[EditMode][Serialization.SerializedPrimitiveTests.RoundTrip___Int8]
       name: RoundTrip___Int8
       fullName: Serialization.SerializedPrimitiveTests.RoundTrip___Int8
-      resultStatus: 1
-      duration: 0.0001183
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4603,14 +4790,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1084
+      parentId: 1126
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedPrimitiveTests][suite]
-    - id: 1096
+    - id: 1138
       uniqueId: EditMode.dll/Serialization/SerializedPrimitiveTests/[EditMode][Serialization.SerializedPrimitiveTests.RoundTrip___Single]
       name: RoundTrip___Single
       fullName: Serialization.SerializedPrimitiveTests.RoundTrip___Single
-      resultStatus: 1
-      duration: 0.0001244
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4620,14 +4807,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1084
+      parentId: 1126
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedPrimitiveTests][suite]
-    - id: 1099
+    - id: 1141
       uniqueId: EditMode.dll/Serialization/SerializedPrimitiveTests/[EditMode][Serialization.SerializedPrimitiveTests.RoundTrip___String]
       name: RoundTrip___String
       fullName: Serialization.SerializedPrimitiveTests.RoundTrip___String
-      resultStatus: 1
-      duration: 0.0001217
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4637,14 +4824,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1084
+      parentId: 1126
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedPrimitiveTests][suite]
-    - id: 1091
+    - id: 1133
       uniqueId: EditMode.dll/Serialization/SerializedPrimitiveTests/[EditMode][Serialization.SerializedPrimitiveTests.RoundTrip___UInt16]
       name: RoundTrip___UInt16
       fullName: Serialization.SerializedPrimitiveTests.RoundTrip___UInt16
-      resultStatus: 1
-      duration: 0.0003254
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4654,14 +4841,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1084
+      parentId: 1126
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedPrimitiveTests][suite]
-    - id: 1093
+    - id: 1135
       uniqueId: EditMode.dll/Serialization/SerializedPrimitiveTests/[EditMode][Serialization.SerializedPrimitiveTests.RoundTrip___UInt32]
       name: RoundTrip___UInt32
       fullName: Serialization.SerializedPrimitiveTests.RoundTrip___UInt32
-      resultStatus: 1
-      duration: 0.000427
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4671,14 +4858,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1084
+      parentId: 1126
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedPrimitiveTests][suite]
-    - id: 1095
+    - id: 1137
       uniqueId: EditMode.dll/Serialization/SerializedPrimitiveTests/[EditMode][Serialization.SerializedPrimitiveTests.RoundTrip___UInt64]
       name: RoundTrip___UInt64
       fullName: Serialization.SerializedPrimitiveTests.RoundTrip___UInt64
-      resultStatus: 1
-      duration: 0.0004985
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4688,14 +4875,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1084
+      parentId: 1126
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedPrimitiveTests][suite]
-    - id: 1089
+    - id: 1131
       uniqueId: EditMode.dll/Serialization/SerializedPrimitiveTests/[EditMode][Serialization.SerializedPrimitiveTests.RoundTrip___UInt8]
       name: RoundTrip___UInt8
       fullName: Serialization.SerializedPrimitiveTests.RoundTrip___UInt8
-      resultStatus: 1
-      duration: 0.0001283
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4705,14 +4892,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1084
+      parentId: 1126
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedPrimitiveTests][suite]
-    - id: 1135
+    - id: 1178
       uniqueId: EditMode.dll/[EditMode][UnityEngine][suite]
       name: UnityEngine
       fullName: UnityEngine
-      resultStatus: 1
-      duration: 0.0438434
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4721,14 +4908,14 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1134
+      parentId: 1176
       parentUniqueId: '[EditMode.dll][suite]'
-    - id: 1001
+    - id: 1007
       uniqueId: EditMode.dll/UnityEngine/[EditMode][UnityEngine.TypeMapTests][suite]
       name: TypeMapTests
       fullName: UnityEngine.TypeMapTests
-      resultStatus: 1
-      duration: 0.0411345
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4737,14 +4924,14 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1135
+      parentId: 1178
       parentUniqueId: EditMode.dll/[EditMode][UnityEngine][suite]
-    - id: 1013
+    - id: 1019
       uniqueId: EditMode.dll/UnityEngine/TypeMapTests/[EditMode][UnityEngine.TypeMapTests.Delegates]
       name: Delegates
       fullName: UnityEngine.TypeMapTests.Delegates
-      resultStatus: 1
-      duration: 0.035931
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4754,14 +4941,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1007
       parentUniqueId: EditMode.dll/UnityEngine/[EditMode][UnityEngine.TypeMapTests][suite]
-    - id: 1008
+    - id: 1014
       uniqueId: EditMode.dll/UnityEngine/TypeMapTests/[EditMode][UnityEngine.TypeMapTests.GetClosestOrDefault___Derived___ReturnsBaseType]
       name: GetClosestOrDefault___Derived___ReturnsBaseType
       fullName: UnityEngine.TypeMapTests.GetClosestOrDefault___Derived___ReturnsBaseType
-      resultStatus: 1
-      duration: 0.0009284
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4771,14 +4958,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1007
       parentUniqueId: EditMode.dll/UnityEngine/[EditMode][UnityEngine.TypeMapTests][suite]
-    - id: 1010
+    - id: 1016
       uniqueId: EditMode.dll/UnityEngine/TypeMapTests/[EditMode][UnityEngine.TypeMapTests.GetClosestOrDefault___GenericDerived___PrioritizesUnconstructedTypeOverBaseType]
       name: GetClosestOrDefault___GenericDerived___PrioritizesUnconstructedTypeOverBaseType
       fullName: UnityEngine.TypeMapTests.GetClosestOrDefault___GenericDerived___PrioritizesUnconstructedTypeOverBaseType
-      resultStatus: 1
-      duration: 0.0001962
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4788,14 +4975,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1007
       parentUniqueId: EditMode.dll/UnityEngine/[EditMode][UnityEngine.TypeMapTests][suite]
-    - id: 1009
+    - id: 1015
       uniqueId: EditMode.dll/UnityEngine/TypeMapTests/[EditMode][UnityEngine.TypeMapTests.GetClosestOrDefault___GenericDerived___ReturnsBaseType]
       name: GetClosestOrDefault___GenericDerived___ReturnsBaseType
       fullName: UnityEngine.TypeMapTests.GetClosestOrDefault___GenericDerived___ReturnsBaseType
-      resultStatus: 1
-      duration: 0.0001325
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4805,14 +4992,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1007
       parentUniqueId: EditMode.dll/UnityEngine/[EditMode][UnityEngine.TypeMapTests][suite]
-    - id: 1007
+    - id: 1013
       uniqueId: EditMode.dll/UnityEngine/TypeMapTests/[EditMode][UnityEngine.TypeMapTests.GetClosestOrDefault___Match___ReturnsMatching]
       name: GetClosestOrDefault___Match___ReturnsMatching
       fullName: UnityEngine.TypeMapTests.GetClosestOrDefault___Match___ReturnsMatching
-      resultStatus: 1
-      duration: 0.0001329
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4822,14 +5009,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1007
       parentUniqueId: EditMode.dll/UnityEngine/[EditMode][UnityEngine.TypeMapTests][suite]
-    - id: 1006
+    - id: 1012
       uniqueId: EditMode.dll/UnityEngine/TypeMapTests/[EditMode][UnityEngine.TypeMapTests.GetClosestOrDefault___NoMatch___ReturnsDefault]
       name: GetClosestOrDefault___NoMatch___ReturnsDefault
       fullName: UnityEngine.TypeMapTests.GetClosestOrDefault___NoMatch___ReturnsDefault
-      resultStatus: 1
-      duration: 0.0001287
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4839,14 +5026,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1007
       parentUniqueId: EditMode.dll/UnityEngine/[EditMode][UnityEngine.TypeMapTests][suite]
-    - id: 1003
+    - id: 1009
       uniqueId: EditMode.dll/UnityEngine/TypeMapTests/[EditMode][UnityEngine.TypeMapTests.GetOrDefault___Match___ReturnsMatching]
       name: GetOrDefault___Match___ReturnsMatching
       fullName: UnityEngine.TypeMapTests.GetOrDefault___Match___ReturnsMatching
-      resultStatus: 1
-      duration: 0.0001826
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4856,14 +5043,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1007
       parentUniqueId: EditMode.dll/UnityEngine/[EditMode][UnityEngine.TypeMapTests][suite]
-    - id: 1002
+    - id: 1008
       uniqueId: EditMode.dll/UnityEngine/TypeMapTests/[EditMode][UnityEngine.TypeMapTests.GetOrDefault___NoMatch___ReturnsDefault]
       name: GetOrDefault___NoMatch___ReturnsDefault
       fullName: UnityEngine.TypeMapTests.GetOrDefault___NoMatch___ReturnsDefault
-      resultStatus: 1
-      duration: 0.000127
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4873,14 +5060,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1007
       parentUniqueId: EditMode.dll/UnityEngine/[EditMode][UnityEngine.TypeMapTests][suite]
-    - id: 1005
+    - id: 1011
       uniqueId: EditMode.dll/UnityEngine/TypeMapTests/[EditMode][UnityEngine.TypeMapTests.TryGet___Match___ReturnsMatching]
       name: TryGet___Match___ReturnsMatching
       fullName: UnityEngine.TypeMapTests.TryGet___Match___ReturnsMatching
-      resultStatus: 1
-      duration: 0.0001836
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4890,14 +5077,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1007
       parentUniqueId: EditMode.dll/UnityEngine/[EditMode][UnityEngine.TypeMapTests][suite]
-    - id: 1004
+    - id: 1010
       uniqueId: EditMode.dll/UnityEngine/TypeMapTests/[EditMode][UnityEngine.TypeMapTests.TryGet___NoMatch___ReturnsFalse]
       name: TryGet___NoMatch___ReturnsFalse
       fullName: UnityEngine.TypeMapTests.TryGet___NoMatch___ReturnsFalse
-      resultStatus: 1
-      duration: 0.0002092
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4907,14 +5094,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1007
       parentUniqueId: EditMode.dll/UnityEngine/[EditMode][UnityEngine.TypeMapTests][suite]
-    - id: 1012
+    - id: 1018
       uniqueId: EditMode.dll/UnityEngine/TypeMapTests/[EditMode][UnityEngine.TypeMapTests.TryGetClosest___GenericDerived___PrioritizesUnconstructedTypeOverBaseType]
       name: TryGetClosest___GenericDerived___PrioritizesUnconstructedTypeOverBaseType
       fullName: UnityEngine.TypeMapTests.TryGetClosest___GenericDerived___PrioritizesUnconstructedTypeOverBaseType
-      resultStatus: 1
-      duration: 0.0002438
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4924,14 +5111,63 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1007
       parentUniqueId: EditMode.dll/UnityEngine/[EditMode][UnityEngine.TypeMapTests][suite]
-    - id: 1011
+    - id: 1017
       uniqueId: EditMode.dll/UnityEngine/TypeMapTests/[EditMode][UnityEngine.TypeMapTests.TryGetClosest___NoMatch___ReturnsFalse]
       name: TryGetClosest___NoMatch___ReturnsFalse
       fullName: UnityEngine.TypeMapTests.TryGetClosest___NoMatch___ReturnsFalse
-      resultStatus: 1
-      duration: 0.0001257
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1007
+      parentUniqueId: EditMode.dll/UnityEngine/[EditMode][UnityEngine.TypeMapTests][suite]
+    - id: 1177
+      uniqueId: EditMode.dll/[EditMode][UnityEngineTests][suite]
+      name: UnityEngineTests
+      fullName: UnityEngineTests
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1176
+      parentUniqueId: '[EditMode.dll][suite]'
+    - id: 1001
+      uniqueId: EditMode.dll/UnityEngineTests/[EditMode][UnityEngineTests.QuaternionDblTests][suite]
+      name: QuaternionDblTests
+      fullName: UnityEngineTests.QuaternionDblTests
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1177
+      parentUniqueId: EditMode.dll/[EditMode][UnityEngineTests][suite]
+    - id: 1002
+      uniqueId: EditMode.dll/UnityEngineTests/QuaternionDblTests/[EditMode][UnityEngineTests.QuaternionDblTests.QuaternionDbl_AngleAxis___SameAsUnityQuaternion]
+      name: QuaternionDbl_AngleAxis___SameAsUnityQuaternion
+      fullName: UnityEngineTests.QuaternionDblTests.QuaternionDbl_AngleAxis___SameAsUnityQuaternion
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -4942,14 +5178,82 @@ MonoBehaviour:
       categories:
       - Uncategorized
       parentId: 1001
-      parentUniqueId: EditMode.dll/UnityEngine/[EditMode][UnityEngine.TypeMapTests][suite]
-    m_ResultText: Blacklisting (0,028s)
+      parentUniqueId: EditMode.dll/UnityEngineTests/[EditMode][UnityEngineTests.QuaternionDblTests][suite]
+    - id: 1004
+      uniqueId: EditMode.dll/UnityEngineTests/QuaternionDblTests/[EditMode][UnityEngineTests.QuaternionDblTests.QuaternionDbl_Euler___SameAsUnityQuaternion]
+      name: QuaternionDbl_Euler___SameAsUnityQuaternion
+      fullName: UnityEngineTests.QuaternionDblTests.QuaternionDbl_Euler___SameAsUnityQuaternion
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: EditMode.dll/UnityEngineTests/[EditMode][UnityEngineTests.QuaternionDblTests][suite]
+    - id: 1006
+      uniqueId: EditMode.dll/UnityEngineTests/QuaternionDblTests/[EditMode][UnityEngineTests.QuaternionDblTests.QuaternionDbl_FromToRotation___SameAsUnityQuaternion]
+      name: QuaternionDbl_FromToRotation___SameAsUnityQuaternion
+      fullName: UnityEngineTests.QuaternionDblTests.QuaternionDbl_FromToRotation___SameAsUnityQuaternion
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: EditMode.dll/UnityEngineTests/[EditMode][UnityEngineTests.QuaternionDblTests][suite]
+    - id: 1005
+      uniqueId: EditMode.dll/UnityEngineTests/QuaternionDblTests/[EditMode][UnityEngineTests.QuaternionDblTests.QuaternionDbl_LookRotation___SameAsUnityQuaternion]
+      name: QuaternionDbl_LookRotation___SameAsUnityQuaternion
+      fullName: UnityEngineTests.QuaternionDblTests.QuaternionDbl_LookRotation___SameAsUnityQuaternion
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: EditMode.dll/UnityEngineTests/[EditMode][UnityEngineTests.QuaternionDblTests][suite]
+    - id: 1003
+      uniqueId: EditMode.dll/UnityEngineTests/QuaternionDblTests/[EditMode][UnityEngineTests.QuaternionDblTests.QuaternionDbl_ToAngleAxis___SameAsUnityQuaternion]
+      name: QuaternionDbl_ToAngleAxis___SameAsUnityQuaternion
+      fullName: UnityEngineTests.QuaternionDblTests.QuaternionDbl_ToAngleAxis___SameAsUnityQuaternion
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: EditMode.dll/UnityEngineTests/[EditMode][UnityEngineTests.QuaternionDblTests][suite]
+    m_ResultText: 
     m_ResultStacktrace: 
     m_TestListState:
-      scrollPos: {x: 0, y: 1230}
-      m_SelectedIDs: 3daec8ab
-      m_LastClickedID: -1412911555
-      m_ExpandedIDs: ee885b802026c08ecebbdc90436c61936ae00595ad608d96cc856f9aedc39d9bda46919c4a4bc2a03daec8abeba168addcfc56b4a7da5dbd651ad6bdf70309c40ec433c4baa0dacb0a5fded7d6d190dba2b77edce9a53ae2fa56d200f6a283050e41801750b8d623b2b38c2b0407f42bf580f53a020566444edece62463b4e6458bcc369fb2cbd6ae625256db58db36f3b2591793fea547b4b5ea47c41ea8f7effffff7f
+      scrollPos: {x: 0, y: 1385}
+      m_SelectedIDs: 89de525c
+      m_LastClickedID: 1548934793
+      m_ExpandedIDs: ee885b802026c08ecebbdc90436c61936ae00595ad608d96cc856f9aedc39d9bda46919c4a4bc2a03daec8abeba168ad6f3e92b2dcfc56b4a7da5dbd651ad6bdf70309c40ec433c4baa0dacb0a5fded7d6d190dba2b77edce9a53ae2fa56d200f6a283050e41801750b8d623b2b38c2b0407f42bf580f53a0205664489de525c4edece62463b4e6458bcc369fb2cbd6ae625256db58db36f3b2591793fea547b4b5ea47c41ea8f7effffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 

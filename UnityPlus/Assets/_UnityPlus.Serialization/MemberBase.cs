@@ -8,15 +8,26 @@ namespace UnityPlus.Serialization
     public abstract class MemberBase<TSource>
     {
         /// <summary>
-        /// Saves the member, and returns the <see cref="SerializedData"/> representing it.
+        /// Serializes the member as a child of <paramref name="sourceData"/>
         /// </summary>
-        public abstract SerializedData Save( TSource source, ISaver s );
+        /// <returns>
+        /// True if the member has been fully serialized, false if the method needs to be called again to serialize more.
+        /// </returns>
+        public abstract bool Save( TSource source, SerializedData sourceData, ISaver s );
 
         /// <summary>
-        /// Instantiates the member from <see cref="SerializedData"/> using the most appropriate mapping for the member type and serialized object's '$type', and assigns it to the member.
+        /// Instantiates the member from a child of <paramref name="sourceData"/>.
         /// </summary>
-        public abstract void Load( ref TSource source, SerializedData data, ILoader l );
+        /// <remarks>
+        /// Does NOT assign the member to the <paramref name="source"/> instance. Use <see cref="Assign"/> for that.
+        /// </remarks>
+        /// <returns>
+        /// True if the member has been fully deserialized, false if the method needs to be called again to deserialize more.
+        /// </returns>
+        public abstract bool Load( ref object member, SerializedData sourceData, ILoader l );
 
-        public abstract void LoadReferences( ref TSource source, SerializedData data, ILoader l );
+        public abstract void Assign( ref TSource source, object member );
+
+        public abstract MemberBase<TSource> Copy();
     }
 }

@@ -57,36 +57,32 @@ public class _perftester : MonoBehaviour
     public static SerializationMapping C1Mapping()
     {
         return new MemberwiseSerializationMapping<C1>()
-        {
-            ("name", new Member<C1, string>( o => o.name )),
-            ("description", new Member<C1, string>( o => o.description )),
-            ("v", new Member<C1, int>( o => o.v )),
-            ("h", new Member<C1, int>( o => o.h )),
-            ("w", new Member<C1, int>( o => o.w )),
-            ("x", new Member<C1, int>( o => o.x )),
-            ("y", new Member<C1, int>( o => o.y )),
-            ("z", new Member<C1, int>( o => o.z )),
-            ("w2", new Member<C1, Vector32>( o => o.w2 )),
-            ("x2", new Member<C1, Vector32>( o => o.x2 )),
-            ("y2", new Member<C1, Vector32>( o => o.y2 )),
-            ("z2", new Member<C1, Vector32>( o => o.z2 )),
-            ("c", new Member<C1, C2>( o => o.c )),
-        };
+            .WithMember( "name", o => o.name )
+            .WithMember( "description", o => o.description )
+            .WithMember( "v", o => o.v )
+            .WithMember( "h", o => o.h )
+            .WithMember( "w", o => o.w )
+            .WithMember( "x", o => o.x )
+            .WithMember( "y", o => o.y )
+            .WithMember( "z", o => o.z )
+            .WithMember( "w2", o => o.w2 )
+            .WithMember( "x2", o => o.x2 )
+            .WithMember( "y2", o => o.y2 )
+            .WithMember( "z2", o => o.z2 )
+            .WithMember( "c", o => o.c );
     }
 
     [MapsInheritingFrom( typeof( C2 ) )]
     public static SerializationMapping C2Mapping()
     {
         return new MemberwiseSerializationMapping<C2>()
-        {
-            ("int_array", new Member<C2, int[]>( o => o.intArray )),
-        };
+            .WithMember( "int_array", o => o.intArray );
     }
 
     [MapsInheritingFrom( typeof( Vector32 ) )]
     public static SerializationMapping Vector32Mapping()
     {
-        return new PrimitiveStructSerializationMapping<Vector32>()
+        return new PrimitiveSerializationMapping<Vector32>()
         {
             OnSave = ( o, s ) => new SerializedArray( 3 ) { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z },
             OnInstantiate = ( data, l ) => new Vector32( (double)data[0], (double)data[1], (double)data[2] )

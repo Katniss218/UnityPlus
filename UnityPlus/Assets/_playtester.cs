@@ -39,7 +39,7 @@ public class _playtester : MonoBehaviour
     {
         public string derivedMember;
     }
-    
+
     public class MoreDerivedClass : DerivedClass
     {
         public string moreDerivedMember;
@@ -55,64 +55,50 @@ public class _playtester : MonoBehaviour
     public static SerializationMapping _playtesterMapping()
     {
         return new MemberwiseSerializationMapping<_playtester>()
-        {
-            ("perf_test_go", new Member<_playtester, GameObject>( ObjectContext.Ref, o => o.perfTestGo )),
-            ("action", new Member<_playtester, Action<string>>( o => o.Action ))
-        };
+            .WithMember( "perf_test_go", ObjectContext.Ref, o => o.perfTestGo )
+            .WithMember( "action", o => o.Action );
     }
-    
+
     [MapsInheritingFrom( typeof( FPSCounterDebug ) )]
     public static SerializationMapping FPSCounterDebugMapping()
     {
         return new MemberwiseSerializationMapping<FPSCounterDebug>()
-        {
-            ("fps", new Member<FPSCounterDebug, float>( o => o.fps ))
-        };
+            .WithMember( "fps", o => o.fps );
     }
 
     [MapsInheritingFrom( typeof( BaseClass ) )]
     public static SerializationMapping BaseClassMapping()
     {
         return new MemberwiseSerializationMapping<BaseClass>()
-        {
-            ("base_member", new Member<BaseClass, float>( o => o.baseMember ))
-        };
+            .WithMember( "base_member", o => o.baseMember );
     }
 
     [MapsInheritingFrom( typeof( DerivedClass ) )]
     public static SerializationMapping DerivedClassMapping()
     {
         return new MemberwiseSerializationMapping<DerivedClass>()
-        {
-            ("derived_member", new Member<DerivedClass, string>( o => o.derivedMember ))
-        };
+            .WithMember( "derived_member", o => o.derivedMember );
     }
-    
+
     [MapsInheritingFrom( typeof( MoreDerivedClass ) )]
     public static SerializationMapping MoreDerivedClassMapping()
     {
         return new MemberwiseSerializationMapping<MoreDerivedClass>()
-        {
-            ("more_derived_member", new Member<MoreDerivedClass, string>( o => o.moreDerivedMember ))
-        };
+            .WithMember( "more_derived_member", o => o.moreDerivedMember );
     }
 
     [MapsImplementing( typeof( IAnInterface ) )]
     public static SerializationMapping IAnInterfaceMapping()
     {
         return new MemberwiseSerializationMapping<IAnInterface>()
-        {
-            ("interface_member", new Member<IAnInterface, float>( o => o.interfaceMember ))
-        };
+            .WithMember( "interface_member", o => o.interfaceMember );
     }
 
     [MapsInheritingFrom( typeof( ReferencingClass ) )]
     public static SerializationMapping ReferencingClassMapping()
     {
         return new MemberwiseSerializationMapping<ReferencingClass>()
-        {
-            ("ref_member", new Member<ReferencingClass, BaseClass>( ObjectContext.Ref, o => o.refMember ))
-        };
+            .WithMember( "ref_member", ObjectContext.Ref, o => o.refMember );
     }
 
     [SerializeField] GameObject perfTestGo;
@@ -122,7 +108,7 @@ public class _playtester : MonoBehaviour
     private void Awake()
     {
         this.Action = DoSomething;
-    } 
+    }
 
     private void DoSomething( string s )
     {
@@ -131,25 +117,31 @@ public class _playtester : MonoBehaviour
 
     void Start()
     {
-        // Arrange
-        IEnumerable<OverridableEventListener<string>> events = new List<OverridableEventListener<string>>()
-            {
-                new OverridableEventListener<string>( "A", null, new[] { "B" }, null, null ),
-                new OverridableEventListener<string>( "B", null, new[] { "A" }, null, null ),
-                new OverridableEventListener<string>( "C", null, null, new[] { "B" }, null ),
-                new OverridableEventListener<string>( "D", null, null, new[] { "C" }, null ),
-            };
-        bool wasCircular = false;
+        //SerializedData data = SerializationUnit.Serialize<(int, string)>( (218, "stringval") );
+        SerializedData data = SerializationUnit.Serialize<GameObject>( perfTestGo );
+        //SerializedData data = SerializationUnit.Serialize<int[]>( new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 } );
 
-        // Act
-        var sortedEvents = events
-            .SortDependencies( out wasCircular )
-            .Select( l => l.ID );
+        var sb = new StringBuilder();
+        new JsonStringWriter( data, sb ).Write();
+        Debug.Log( sb.ToString() );
+
+        //(int, string) var = SerializationUnit.Deserialize<(int, string)>( data );
+        GameObject var = SerializationUnit.Deserialize<GameObject>( data );
+        //int[] var = SerializationUnit.Deserialize<int[]>( data );
+
+        //data = SerializationUnit.Serialize<(int, string)>( var );
+        data = SerializationUnit.Serialize<GameObject>( var );
+        //data = SerializationUnit.Serialize<int[]>( var );
+
+        sb = new StringBuilder();
+        new JsonStringWriter( data, sb ).Write();
+        Debug.Log( sb.ToString() );
+
     }
 
     void Update()
     {
-        RunPerfTest();
+        // RunPerfTest();
     }
 
     private void RunPerfTest()

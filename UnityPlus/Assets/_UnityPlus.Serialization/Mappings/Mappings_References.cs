@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace UnityPlus.Serialization.Mappings
 {
@@ -9,7 +8,7 @@ namespace UnityPlus.Serialization.Mappings
         [MapsAnyClass( Context = ObjectContext.Ref )]
         public static SerializationMapping ObjectRefMapping<T>() where T : class
         {
-            return new PrimitiveStructSerializationMapping<T>()
+            return new PrimitiveSerializationMapping<T>()
             {
                 OnSave = ( o, s ) => s.RefMap.WriteObjectReference<T>( o ),
                 OnInstantiate = ( data, l ) => l.ReadObjectReference<T>( data )
@@ -19,7 +18,19 @@ namespace UnityPlus.Serialization.Mappings
         [MapsInheritingFrom( typeof( Array ), Context = ArrayContext.Refs )]
         public static SerializationMapping ArrayReferenceMapping<T>() where T : class
         {
-            return new PrimitiveStructSerializationMapping<T[]>()
+            return new IndexedSerializationMapping<T[], T>( o => o.Length,
+                ObjectContext.Ref,
+                ( o, i ) => // writes to data
+                {
+                    return o[i];
+                },
+                ( o, i, oElem ) => // loads from data
+                {
+                    o[i] = oElem;
+                } )
+                .WithFactory( length => new T[length] );
+
+            return new PrimitiveSerializationMapping<T[]>()
             {
                 OnSave = ( o, s ) =>
                 {

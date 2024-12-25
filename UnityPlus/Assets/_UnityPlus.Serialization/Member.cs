@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
-using System.Reflection;
-using UnityEngine;
+using UnityEngine.Networking.Types;
 
 namespace UnityPlus.Serialization
 {
@@ -19,6 +18,8 @@ namespace UnityPlus.Serialization
         private readonly RefSetter<TSource, TMember> _structSetter;
 
         private readonly Expression<Func<TSource, TMember>> _memberAccessExpr;
+
+        public string Name { get; }
 
         /// <summary>
         /// Checks if the member serialization represents a simple member access (object.member = value), as opposed to something more complicated.
@@ -48,11 +49,17 @@ namespace UnityPlus.Serialization
             }
         }
 
+        public override MemberBase<TSource> Copy()
+        {
+            return (MemberBase<TSource>)this.MemberwiseClone();
+        }
+
         // expression constructors
 
         /// <param name="member">Example: `o => o.position`.</param>
-        public Member( Expression<Func<TSource, TMember>> member )
+        public Member( string name, Expression<Func<TSource, TMember>> member )
         {
+            this.Name = name;
             _memberAccessExpr = member;
             TryCacheMemberMapping();
             _getter = AccessorUtils.CreateGetter( member );
@@ -64,8 +71,9 @@ namespace UnityPlus.Serialization
         }
 
         /// <param name="member">Example: `o => o.position`.</param>
-        public Member( int context, Expression<Func<TSource, TMember>> member )
+        public Member( string name, int context, Expression<Func<TSource, TMember>> member )
         {
+            this.Name = name;
             _memberAccessExpr = member;
             _context = context;
             TryCacheMemberMapping();
@@ -79,22 +87,24 @@ namespace UnityPlus.Serialization
 
         // custom getter/setter constructors
 
-        public Member( Getter<TSource, TMember> getter, Setter<TSource, TMember> setter )
+        public Member( string name, Getter<TSource, TMember> getter, Setter<TSource, TMember> setter )
         {
             if( typeof( TSource ).IsValueType )
                 throw new InvalidOperationException( $"Member `{typeof( TSource ).FullName}` This constructor can only be used with a reference type TSource." );
 
+            this.Name = name;
             _memberAccessExpr = null;
             TryCacheMemberMapping();
             _getter = getter;
             _setter = setter;
         }
 
-        public Member( int context, Getter<TSource, TMember> getter, Setter<TSource, TMember> setter )
+        public Member( string name, int context, Getter<TSource, TMember> getter, Setter<TSource, TMember> setter )
         {
             if( typeof( TSource ).IsValueType )
                 throw new InvalidOperationException( $"Member `{typeof( TSource ).FullName}` This constructor can only be used with a reference type TSource." );
 
+            this.Name = name;
             _memberAccessExpr = null;
             _context = context;
             TryCacheMemberMapping();
@@ -102,22 +112,24 @@ namespace UnityPlus.Serialization
             _setter = setter;
         }
 
-        public Member( Getter<TSource, TMember> getter, RefSetter<TSource, TMember> setter )
+        public Member( string name, Getter<TSource, TMember> getter, RefSetter<TSource, TMember> setter )
         {
             if( !typeof( TSource ).IsValueType )
                 throw new InvalidOperationException( $"Member `{typeof( TSource ).FullName}` This constructor can only be used with a value type TSource." );
 
+            this.Name = name;
             _memberAccessExpr = null;
             TryCacheMemberMapping();
             _getter = getter;
             _structSetter = setter;
         }
 
-        public Member( int context, Getter<TSource, TMember> getter, RefSetter<TSource, TMember> setter )
+        public Member( string name, int context, Getter<TSource, TMember> getter, RefSetter<TSource, TMember> setter )
         {
             if( !typeof( TSource ).IsValueType )
                 throw new InvalidOperationException( $"Member `{typeof( TSource ).FullName}` This constructor can only be used with a value type TSource." );
 
+            this.Name = name;
             _memberAccessExpr = null;
             _context = context;
             TryCacheMemberMapping();
@@ -129,17 +141,27 @@ namespace UnityPlus.Serialization
         //  Logic
         //
 
-        public override SerializedData Save( TSource source, ISaver s )
+        //TMember _member;
+        bool isDone;
+
+        public override bool Save( TSource source, SerializedData sourceData, ISaver s )
         {
             TMember member = _getter.Invoke( source );
 
             var mapping = SerializationMappingRegistry.GetMapping<TMember>( _context, member );
 
-            return mapping.SafeSave<TMember>( member, s );
+            if( !sourceData.TryGetValue( Name, out var data ) )
+                data = null;
+            var ret = mapping.SafeSave( member, ref data, s );
+            sourceData[Name] = data;
+
+            return ret;
         }
 
-        public override void Load( ref TSource source, SerializedData data, ILoader l )
+        public override bool Load( ref object member, SerializedData sourceData, ILoader l )
         {
+            sourceData.TryGetValue( Name, out SerializedData data ); // data can be null, that's okay.
+
             Type memberType = typeof( TMember );
             if( data != null && data.TryGetValue( KeyNames.TYPE, out var type ) )
             {
@@ -160,33 +182,18 @@ namespace UnityPlus.Serialization
                 mapping = MappingHelper.GetMapping_Load<TMember>( _context, memberType, data, l );
             }
 
-            TMember member = default;
-            if( mapping.SafeLoad( ref member, data, l ) )
-            {
-                if( _structSetter == null )
-                    _setter.Invoke( source, member );
-                else
-                    _structSetter.Invoke( ref source, member );
-            }
+            TMember member2 = default;
+            var isFullyLoaded = mapping.SafeLoad<TMember>( ref member2, data, l );
+            member = member2;
+            return isFullyLoaded;
         }
 
-        public override void LoadReferences( ref TSource source, SerializedData data, ILoader l )
+        public override void Assign( ref TSource source, object member )
         {
-            TMember member = _getter.Invoke( source );
-
-            SerializationMapping mapping = _hasCachedMapping
-                ? _cachedMapping
-                : MappingHelper.GetMapping_LoadReferences<TMember>( _context, member, data, l );
-
-            if( mapping.SafeLoadReferences( ref member, data, l ) )
-            {
-                // This is needed, if the setter is custom (not auto-generated from field access (but NOT property access)) (look at LODGroup and its LOD[])
-                // Basically, we don't have the guarantee that the class we have referenceequals the private state.
-                if( _structSetter == null )
-                    _setter.Invoke( source, member );
-                else
-                    _structSetter.Invoke( ref source, member );
-            }
+            if( _structSetter == null )
+                _setter.Invoke( source, (TMember)member );
+            else
+                _structSetter.Invoke( ref source, (TMember)member );
         }
     }
 }
