@@ -9,8 +9,8 @@ namespace UnityPlus.Serialization.Mappings
         public static SerializationMapping KeyValuePair_ValueToValue_Mapping<TKey, TValue>()
         {
             return new MemberwiseSerializationMapping<KeyValuePair<TKey, TValue>>()
-                .WithMember( "key", o => o.Key )
-                .WithMember( "value", o => o.Value )
+                .WithMember( "key", o => o.Key, ( ref KeyValuePair<TKey, TValue> o, TKey value ) => { } )
+                .WithMember( "value", o => o.Value, ( ref KeyValuePair<TKey, TValue> o, TValue value ) => { } )
                 .WithFactory<TKey, TValue>( ( key, value ) => new KeyValuePair<TKey, TValue>( key, value ) );
 
             // KeyValueContext.RefToValue,

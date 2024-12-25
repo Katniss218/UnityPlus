@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using UnityEngine;
 
 namespace UnityPlus.Serialization
 {
@@ -42,19 +43,6 @@ namespace UnityPlus.Serialization
         }
 
         /// <summary>
-        /// Makes the deserialization use a custom factory method instead of <see cref="Activator.CreateInstance{T}()"/>.
-        /// </summary>
-        /// <remarks>
-        /// The factory is only needed to create an instance, not to set its internal state. The state should be set using the members.
-        /// </remarks>
-        /// <param name="customFactory">The method used to create an instance of <typeparamref name="TSource"/> from its serialized representation.</param>
-        public MemberwiseSerializationMapping<TSource> WithFactory( Func<SerializedData, ILoader, object> customFactory )
-        {
-            this.OnInstantiate = customFactory;
-            return this;
-        }
-
-        /// <summary>
         /// Makes this type include the members of the specified base type in its serialization.
         /// </summary>
         private MemberwiseSerializationMapping<TSource> IncludeBaseMembersRecursive()
@@ -84,8 +72,6 @@ namespace UnityPlus.Serialization
                 FieldInfo listField = mappingType.GetField( nameof( _remainingMembers ), BindingFlags.Instance | BindingFlags.NonPublic );
 
                 IList mapping__members = listField.GetValue( mapping ) as IList;
-
-                Type memberType = typeof( MemberBase<> ).MakeGenericType( mappedType );
 
                 foreach( var member in mapping__members )
                 {
@@ -174,9 +160,15 @@ namespace UnityPlus.Serialization
 
         public override bool Load<T>( ref T obj, SerializedData data, ILoader l )
         {
-            TSource obj2 = (TSource)(object)obj;
+            TSource obj2 = (obj == null) ? default : (TSource)(object)obj;
 
             // obj can be null here, this is normal.
+
+            if( data == null )
+            {
+                obj = (T)(object)obj2;
+                return true;
+            }
 
             if( _memberStorageLocations == null )
             {
@@ -187,36 +179,34 @@ namespace UnityPlus.Serialization
                 }
             }
 
-            if( data != null )
+
+            for( int i = this._remainingMembers.Count - 1; i >= 0; i-- )
             {
-                for( int i = this._remainingMembers.Count - 1; i >= 0; i-- )
+                // Instantiate the object that contains the members ('parent'), if available.
+                if( obj2 == null && FactoryMembersReadyForInstantiation() ) // ready for instantiation means all members that'll be passed into the factory are fully deserialized.
                 {
-                    // Instantiate the object that contains the members ('parent'), if available.
-                    if( obj2 == null && FactoryMembersReadyForInstantiation() ) // ready for instantiation means all members that'll be passed into the factory are fully deserialized.
-                    {
-                        obj2 = Instantiate( data, l );
-                    }
+                    obj2 = Instantiate( data, l );
+                }
 
 #warning TODO - We can store directly to source object if the member is primitive.
-                    var member = this._remainingMembers[i];
+                var member = this._remainingMembers[i];
 
-                    object memberLoc = this._remainingMembers[i];
+                object memberLoc = this._remainingMembers[i];
 
-                    if( member.Load( ref memberLoc, data, l ) )
-                    {
-                        member.Assign( ref obj2, memberLoc );
-                        this._remainingMembers.RemoveAt( i );
-                        this._memberStorageLocations.RemoveAt( i );
-                    }
-                    else
-                    {
-                        _memberStorageLocations[i] = member; // update it back
-                    }
+                if( member.Load( ref memberLoc, data, l ) )
+                {
+                    member.Assign( ref obj2, memberLoc );
+                    this._remainingMembers.RemoveAt( i );
+                    this._memberStorageLocations.RemoveAt( i );
+                }
+                else
+                {
+                    _memberStorageLocations[i] = member; // update it back
+                }
 
-                    if( l.ShouldPause() )
-                    {
-                        break;
-                    }
+                if( l.ShouldPause() )
+                {
+                    break;
                 }
             }
 
@@ -258,7 +248,7 @@ namespace UnityPlus.Serialization
 
         public MemberwiseSerializationMapping<TSource> WithMember<TMember>( string serializedName, int context, Expression<Func<TSource, TMember>> member )
         {
-            this._remainingMembers.Add( new Member<TSource, TMember>( serializedName, member ) );
+            this._remainingMembers.Add( new Member<TSource, TMember>( serializedName, context, member ) );
             return this;
         }
 
@@ -288,6 +278,19 @@ namespace UnityPlus.Serialization
 
         //
 
+        /// <summary>
+        /// Makes the deserialization use a custom factory method instead of <see cref="Activator.CreateInstance{T}()"/>.
+        /// </summary>
+        /// <remarks>
+        /// The factory is only needed to create an instance, not to set its internal state. The state should be set using the members.
+        /// </remarks>
+        /// <param name="customFactory">The method used to create an instance of <typeparamref name="TSource"/> from its serialized representation.</param>
+        public MemberwiseSerializationMapping<TSource> WithRawFactory( Func<SerializedData, ILoader, object> customFactory )
+        {
+            this.OnInstantiate = customFactory;
+            return this;
+        }
+
         public MemberwiseSerializationMapping<TSource> WithFactory( Func<object> factory )
         {
             // factory invoked immediately, the type is fully mutable,
@@ -301,8 +304,8 @@ namespace UnityPlus.Serialization
         {
             // factory is invoked with all members.
             _factoryMembers = this._remainingMembers.ToArray();
-            throw new NotImplementedException();
             //OnInstantiate = factory;
+            throw new NotImplementedException();
             return this;
         }
 
@@ -310,12 +313,16 @@ namespace UnityPlus.Serialization
         {
             // factory is invoked once all the specified members are created.
             // members are created in the order they're added by default.
+            _factoryMembers = this._remainingMembers.ToArray();
+            //OnInstantiate = factory;
             throw new NotImplementedException();
             return this;
         }
 
         public MemberwiseSerializationMapping<TSource> WithFactory<TMember1, TMember2>( Func<TMember1, TMember2, object> factory )
         {
+            _factoryMembers = this._remainingMembers.ToArray();
+            //OnInstantiate = factory;
             throw new NotImplementedException();
             return this;
         }

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityPlus.Serialization;
+using UnityPlus.Serialization.Json;
 using UnityPlus.Serialization.ReferenceMaps;
 
 namespace Neoserialization

@@ -36,6 +36,14 @@ namespace UnityPlus.Serialization
 
         public override bool Load<T>( ref T obj, SerializedData data, ILoader l )
         {
+            TSource obj2 = (obj == null) ? default : (TSource)(object)obj;
+
+            if( data == null )
+            {
+                obj = (T)(object)obj2;
+                return true;
+            }
+
             // only add members that are fully formed. needs to hold the data otherwise.
             throw new NotImplementedException();
         }
@@ -144,7 +152,13 @@ namespace UnityPlus.Serialization
 
         public override bool Load<T>( ref T obj, SerializedData data, ILoader l )
         {
-            TSource obj2 = (TSource)(object)obj;
+            TSource obj2 = (obj == null) ? default : (TSource)(object)obj;
+
+            if( data == null )
+            {
+                obj = (T)(object)obj2;
+                return true;
+            }
 
             SerializedArray array = (SerializedArray)data["value"];
             int length = array.Count;

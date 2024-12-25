@@ -20,7 +20,7 @@ namespace UnityPlus.Serialization.Mappings
         public static SerializationMapping ComponentMapping()
         {
             return new MemberwiseSerializationMapping<Component>()
-                .WithFactory( ( data, l ) =>
+                .WithRawFactory( ( data, l ) =>
                 {
                     Guid id = data[KeyNames.ID].DeserializeGuid();
 
@@ -57,7 +57,7 @@ namespace UnityPlus.Serialization.Mappings
                         // Do nothing, since the instantiated components are already part of the gameobject.
                         // This is very much a hack, but it's how Unity works :shrug:.
                     } )
-            .WithFactory( ( data, l ) =>
+            .WithRawFactory( ( data, l ) =>
             {
                 GameObject obj = new GameObject();
                 if( data.TryGetValue( KeyNames.ID, out var id ) )
