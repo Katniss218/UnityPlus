@@ -141,7 +141,7 @@ public class _playtester : MonoBehaviour
 
     void Update()
     {
-        // RunPerfTest();
+        RunPerfTest();
     }
 
     private void RunPerfTest()

@@ -142,9 +142,6 @@ namespace UnityPlus.Serialization
         //  Logic
         //
 
-        //TMember _member;
-        bool isDone;
-
         public override bool Save( TSource source, SerializedData sourceData, ISaver s )
         {
             TMember member = _getter.Invoke( source );

@@ -117,6 +117,34 @@ namespace Neoserialization
             Assert.That( finalValue.refMember, Is.SameAs( finalRefValue ) );
             Assert.That( finalValue.interfaceRefMember, Is.SameAs( finalInterfaceRefValue ) );
         }
+        
+        [Test]
+        public void Mapping___Member_Reference_ReverseOrder___RoundTrip()
+        {
+            // Arrange
+            var refValue = new BaseClass();
+            var interfaceRefValue = new InterfaceClass();
+            var initialValue = new ReferencingClass()
+            {
+                refMember = refValue,
+                interfaceRefMember = interfaceRefValue
+            };
+
+            // Act
+            // Round-trip the referenced instance and the class that references it.
+            var su = SerializationUnit.FromObjects<object>( initialValue, interfaceRefValue, refValue );
+            su.Serialize();
+            var su2 = SerializationUnit.FromData<object>( su.GetData() );
+            su2.Deserialize();
+
+            var finalValue = su2.GetObjectsOfType<ReferencingClass>().First();
+            var finalRefValue = su2.GetObjectsOfType<BaseClass>().First();
+            var finalInterfaceRefValue = su2.GetObjectsOfType<InterfaceClass>().First();
+
+            // Assert
+            Assert.That( finalValue.refMember, Is.SameAs( finalRefValue ) );
+            Assert.That( finalValue.interfaceRefMember, Is.SameAs( finalInterfaceRefValue ) );
+        }
 
         [Test]
         public void Mapping___Member_ExistingReference___RoundTrip()

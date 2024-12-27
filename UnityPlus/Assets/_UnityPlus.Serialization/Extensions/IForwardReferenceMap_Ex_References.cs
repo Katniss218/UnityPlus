@@ -18,6 +18,7 @@ namespace UnityPlus.Serialization
 
                 return l.GetObj( guid );
             }
+#warning TODO - needs a tri-state (null vs absent)
             return null;
         }
 

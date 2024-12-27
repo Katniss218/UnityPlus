@@ -9,37 +9,45 @@ using UnityEngine;
 
 namespace UnityPlus.Serialization
 {
+    public interface IMemberwiseTemp
+    {
+        Func<SerializedData, ILoader, object> _rawFactory { get; }
+    }
+
     /// <summary>
     /// Creates a <see cref="SerializedObject"/> from the child mappings.
     /// </summary>
     /// <typeparam name="TSource">The type of the object being mapped.</typeparam>
-    public sealed class MemberwiseSerializationMapping<TSource> : SerializationMapping, IInstantiableSerializationMapping
+    public sealed class MemberwiseSerializationMapping<TSource> : SerializationMapping, IMemberwiseTemp
     {
-        private MemberBase<TSource>[] _factoryMembers;
         private List<MemberBase<TSource>> _remainingMembers = new();
-        public Func<SerializedData, ILoader, object> OnInstantiate { get; private set; } = null;
 
         List<object> _memberStorageLocations;
         int totalMembers;
 
+        public Func<SerializedData, ILoader, object> _rawFactory { get; set; } = null;
+        private MemberBase<TSource>[] _factoryMembers = null;
+        Delegate _untypedFactory = null;
+
         public MemberwiseSerializationMapping()
         {
-            //
             UseBaseTypeFactoryRecursive();
             IncludeBaseMembersRecursive();
         }
 
+        private MemberwiseSerializationMapping( MemberwiseSerializationMapping<TSource> copy )
+        {
+            this.Context = copy.Context;
+            this._remainingMembers = copy._remainingMembers.ToList(); // copy the list, but without copying the members.
+            this.totalMembers = copy._remainingMembers.Count;
+            this._rawFactory = copy._rawFactory;
+            this._factoryMembers = copy._factoryMembers;
+            this._untypedFactory = copy._untypedFactory;
+        }
+
         public override SerializationMapping GetInstance()
         {
-            var x = new MemberwiseSerializationMapping<TSource>()
-            {
-                Context = this.Context,
-                _remainingMembers = this._remainingMembers.ToList(), // copy the list, but without copying the members.
-                totalMembers = this._remainingMembers.Count,
-                OnInstantiate = this.OnInstantiate,
-            };
-            x._remainingMembers.Reverse();
-            return x;
+            return new MemberwiseSerializationMapping<TSource>( this );
         }
 
         /// <summary>
@@ -100,9 +108,10 @@ namespace UnityPlus.Serialization
 
             SerializationMapping mapping = SerializationMappingRegistry.GetMappingOrNull( this.Context, baseType );
 
-            if( mapping is IInstantiableSerializationMapping m )
+#warning TODO - we need reflection for that.
+            if( mapping is IMemberwiseTemp m )
             {
-                this.OnInstantiate = m.OnInstantiate;
+                this._rawFactory = m._rawFactory;
                 return this;
             }
 
@@ -116,7 +125,9 @@ namespace UnityPlus.Serialization
         public override bool Save<T>( T obj, ref SerializedData data, ISaver s )
         {
             if( obj == null )
-                return false;
+            {
+                return true;
+            }
 
             TSource sourceObj = (TSource)(object)obj;
 
@@ -128,12 +139,13 @@ namespace UnityPlus.Serialization
                 data[KeyNames.TYPE] = obj.GetType().SerializeType();
             }
 
-            for( int i = this._remainingMembers.Count - 1; i >= 0; i-- )
+            for( int i = 0; i < this._remainingMembers.Count; i++ )
             {
                 var member = this._remainingMembers[i];
                 if( member.Save( sourceObj, data, s ) )
                 {
                     this._remainingMembers.RemoveAt( i );
+                    i--;
                 }
 
                 if( s.ShouldPause() )
@@ -160,15 +172,14 @@ namespace UnityPlus.Serialization
 
         public override bool Load<T>( ref T obj, SerializedData data, ILoader l )
         {
+            if( data == null || _remainingMembers.Count == 0 )
+            {
+                return true;
+            }
+
             TSource obj2 = (obj == null) ? default : (TSource)(object)obj;
 
             // obj can be null here, this is normal.
-
-            if( data == null )
-            {
-                obj = (T)(object)obj2;
-                return true;
-            }
 
             if( _memberStorageLocations == null )
             {
@@ -179,8 +190,7 @@ namespace UnityPlus.Serialization
                 }
             }
 
-
-            for( int i = this._remainingMembers.Count - 1; i >= 0; i-- )
+            for( int i = 0; i < this._remainingMembers.Count; i++ )
             {
                 // Instantiate the object that contains the members ('parent'), if available.
                 if( obj2 == null && FactoryMembersReadyForInstantiation() ) // ready for instantiation means all members that'll be passed into the factory are fully deserialized.
@@ -188,20 +198,23 @@ namespace UnityPlus.Serialization
                     obj2 = Instantiate( data, l );
                 }
 
-#warning TODO - We can store directly to source object if the member is primitive.
+#warning TODO - We can store directly to source object if the object exists.
                 var member = this._remainingMembers[i];
 
                 object memberLoc = this._remainingMembers[i];
+                int storageIndex = totalMembers - (_remainingMembers.Count - i);
 
+#warning TODO - keep the members until the object is created.
                 if( member.Load( ref memberLoc, data, l ) )
                 {
                     member.Assign( ref obj2, memberLoc );
                     this._remainingMembers.RemoveAt( i );
-                    this._memberStorageLocations.RemoveAt( i );
+                    //this._memberStorageLocations.RemoveAt( storageIndex ); no need to remove this actually.
+                    i--;
                 }
                 else
                 {
-                    _memberStorageLocations[i] = member; // update it back
+                    _memberStorageLocations[storageIndex] = member; // update it back
                 }
 
                 if( l.ShouldPause() )
@@ -219,7 +232,15 @@ namespace UnityPlus.Serialization
         TSource Instantiate( SerializedData data, ILoader l )
         {
             TSource obj;
-            if( OnInstantiate == null )
+            if( _untypedFactory != null )
+            {
+                obj = (TSource)_untypedFactory.DynamicInvoke( _memberStorageLocations.ToArray() );
+            }
+            else if( _rawFactory != null )
+            {
+                obj = (TSource)_rawFactory.Invoke( data, l );
+            }
+            else
             {
                 if( data == null )
                     return default;
@@ -229,10 +250,6 @@ namespace UnityPlus.Serialization
                 {
                     l.RefMap.SetObj( id.DeserializeGuid(), obj );
                 }
-            }
-            else
-            {
-                obj = (TSource)OnInstantiate.Invoke( data, l );
             }
 
             return obj;
@@ -287,7 +304,7 @@ namespace UnityPlus.Serialization
         /// <param name="customFactory">The method used to create an instance of <typeparamref name="TSource"/> from its serialized representation.</param>
         public MemberwiseSerializationMapping<TSource> WithRawFactory( Func<SerializedData, ILoader, object> customFactory )
         {
-            this.OnInstantiate = customFactory;
+            this._rawFactory = customFactory;
             return this;
         }
 
@@ -295,8 +312,21 @@ namespace UnityPlus.Serialization
         {
             // factory invoked immediately, the type is fully mutable,
             // just instantiated with a function instead of a parameterless constructor.
+            _untypedFactory = factory;
+            return this;
+        }
 
-            throw new NotImplementedException();
+        public MemberwiseSerializationMapping<TSource> WithFactory<TMember1>( Func<TMember1, object> factory )
+        {
+            _factoryMembers = this._remainingMembers.ToArray();
+            _untypedFactory = factory;
+            return this;
+        }
+
+        public MemberwiseSerializationMapping<TSource> WithFactory<TMember1, TMember2>( Func<TMember1, TMember2, object> factory )
+        {
+            _factoryMembers = this._remainingMembers.ToArray();
+            _untypedFactory = factory;
             return this;
         }
 
@@ -304,12 +334,19 @@ namespace UnityPlus.Serialization
         {
             // factory is invoked with all members.
             _factoryMembers = this._remainingMembers.ToArray();
-            //OnInstantiate = factory;
-            throw new NotImplementedException();
+            _untypedFactory = factory;
             return this;
         }
 
-        public MemberwiseSerializationMapping<TSource> WithFactory<TMember>( string memberName, Func<TMember, object> factory )
+        public MemberwiseSerializationMapping<TSource> WithFactory<TMember1, TMember2, TMember3, TMember4>( Func<TMember1, TMember2, TMember3, TMember4, object> factory )
+        {
+            // factory is invoked with all members.
+            _factoryMembers = this._remainingMembers.ToArray();
+            _untypedFactory = factory;
+            return this;
+        }
+
+        public MemberwiseSerializationMapping<TSource> WithFactory<TMember1>( string member1Name, Func<TMember1, object> factory )
         {
             // factory is invoked once all the specified members are created.
             // members are created in the order they're added by default.
@@ -319,7 +356,23 @@ namespace UnityPlus.Serialization
             return this;
         }
 
-        public MemberwiseSerializationMapping<TSource> WithFactory<TMember1, TMember2>( Func<TMember1, TMember2, object> factory )
+        public MemberwiseSerializationMapping<TSource> WithFactory<TMember1, TMember2>( string member1Name, string member2Name, Func<TMember1, TMember2, object> factory )
+        {
+            _factoryMembers = this._remainingMembers.ToArray();
+            //OnInstantiate = factory;
+            throw new NotImplementedException();
+            return this;
+        }
+
+        public MemberwiseSerializationMapping<TSource> WithFactory<TMember1, TMember2, TMember3>( string member1Name, string member2Name, string member3Name, Func<TMember1, TMember2, TMember3, object> factory )
+        {
+            _factoryMembers = this._remainingMembers.ToArray();
+            //OnInstantiate = factory;
+            throw new NotImplementedException();
+            return this;
+        }
+
+        public MemberwiseSerializationMapping<TSource> WithFactory<TMember1, TMember2, TMember3, TMember4>( string member1Name, string member2Name, string member3Name, string member4Name, Func<TMember1, TMember2, TMember3, TMember4, object> factory )
         {
             _factoryMembers = this._remainingMembers.ToArray();
             //OnInstantiate = factory;

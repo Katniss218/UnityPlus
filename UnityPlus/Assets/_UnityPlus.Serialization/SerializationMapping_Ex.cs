@@ -19,7 +19,7 @@ namespace UnityPlus.Serialization
 
             //SerializedData data = null; // delete this and move back to just returning serializeddata?
 
-            return mapping.Save( obj, ref data, s );
+            return mapping.Save<TMember>( obj, ref data, s );
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace UnityPlus.Serialization
             if( mapping == null )
                 return false;
 
-            return mapping.Load( ref obj, data, l );
+            return mapping.Load<TMember>( ref obj, data, l );
         }
     }
 }
