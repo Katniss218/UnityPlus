@@ -58,20 +58,6 @@ namespace UnityPlus.Serialization
         // expression constructors
 
         /// <param name="member">Example: `o => o.position`.</param>
-        public Member( string name, Expression<Func<TSource, TMember>> member )
-        {
-            this.Name = name;
-            _memberAccessExpr = member;
-            TryCacheMemberMapping();
-            _getter = AccessorUtils.CreateGetter( member );
-
-            if( typeof( TSource ).IsValueType )
-                _structSetter = AccessorUtils.CreateStructSetter( member );
-            else
-                _setter = AccessorUtils.CreateSetter( member );
-        }
-
-        /// <param name="member">Example: `o => o.position`.</param>
         public Member( string name, int context, Expression<Func<TSource, TMember>> member )
         {
             this.Name = name;
@@ -88,18 +74,6 @@ namespace UnityPlus.Serialization
 
         // custom getter/setter constructors
 
-        public Member( string name, Getter<TSource, TMember> getter, Setter<TSource, TMember> setter )
-        {
-            if( typeof( TSource ).IsValueType )
-                throw new InvalidOperationException( $"Member `{typeof( TSource ).FullName}` This constructor can only be used with a reference type TSource." );
-
-            this.Name = name;
-            _memberAccessExpr = null;
-            TryCacheMemberMapping();
-            _getter = getter;
-            _setter = setter;
-        }
-
         public Member( string name, int context, Getter<TSource, TMember> getter, Setter<TSource, TMember> setter )
         {
             if( typeof( TSource ).IsValueType )
@@ -111,18 +85,6 @@ namespace UnityPlus.Serialization
             TryCacheMemberMapping();
             _getter = getter;
             _setter = setter;
-        }
-
-        public Member( string name, Getter<TSource, TMember> getter, RefSetter<TSource, TMember> setter )
-        {
-            if( !typeof( TSource ).IsValueType )
-                throw new InvalidOperationException( $"Member `{typeof( TSource ).FullName}` This constructor can only be used with a value type TSource." );
-
-            this.Name = name;
-            _memberAccessExpr = null;
-            TryCacheMemberMapping();
-            _getter = getter;
-            _structSetter = setter;
         }
 
         public Member( string name, int context, Getter<TSource, TMember> getter, RefSetter<TSource, TMember> setter )
@@ -142,7 +104,7 @@ namespace UnityPlus.Serialization
         //  Logic
         //
 
-        public override bool Save( TSource source, SerializedData sourceData, ISaver s )
+        public override MappingResult Save( TSource source, SerializedData sourceData, ISaver s )
         {
             TMember member = _getter.Invoke( source );
 
@@ -156,9 +118,9 @@ namespace UnityPlus.Serialization
             return ret;
         }
 
-        public override bool Load( ref object member, SerializedData sourceData, ILoader l )
+        public override MappingResult Load( ref object member, SerializedData sourceData, ILoader l )
         {
-            sourceData.TryGetValue( Name, out SerializedData data ); // data can be null, that's okay.
+            sourceData.TryGetValue( Name, out SerializedData data ); // data (but not sourceData) can be null, that's okay.
 
             Type memberType = typeof( TMember );
             if( data != null && data.TryGetValue( KeyNames.TYPE, out var type ) )
@@ -167,7 +129,7 @@ namespace UnityPlus.Serialization
             }
 
             SerializationMapping mapping;
-            if( _hasCachedMapping )
+            if( _hasCachedMapping )             // This caching appears to not do much performance-wise.
             {
                 mapping = _cachedMapping;
                 if( data != null )
@@ -188,10 +150,10 @@ namespace UnityPlus.Serialization
 
         public override void Assign( ref TSource source, object member )
         {
-            if( _structSetter == null )
-                _setter.Invoke( source, (TMember)member );
-            else
+            if( _structSetter != null )
                 _structSetter.Invoke( ref source, (TMember)member );
+            else if( _setter != null )
+                _setter.Invoke( source, (TMember)member );
         }
     }
 }

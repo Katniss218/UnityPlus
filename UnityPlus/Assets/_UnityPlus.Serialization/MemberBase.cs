@@ -13,7 +13,7 @@ namespace UnityPlus.Serialization
         /// <returns>
         /// True if the member has been fully serialized, false if the method needs to be called again to serialize more.
         /// </returns>
-        public abstract bool Save( TSource source, SerializedData sourceData, ISaver s );
+        public abstract MappingResult Save( TSource source, SerializedData sourceData, ISaver s );
 
         /// <summary>
         /// Instantiates the member from a child of <paramref name="sourceData"/>.
@@ -24,7 +24,7 @@ namespace UnityPlus.Serialization
         /// <returns>
         /// True if the member has been fully deserialized, false if the method needs to be called again to deserialize more.
         /// </returns>
-        public abstract bool Load( ref object member, SerializedData sourceData, ILoader l );
+        public abstract MappingResult Load( ref object member, SerializedData sourceData, ILoader l );
 
         public abstract void Assign( ref TSource source, object member );
 

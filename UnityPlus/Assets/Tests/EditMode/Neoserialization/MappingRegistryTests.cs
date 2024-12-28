@@ -153,6 +153,26 @@ namespace Neoserialization
         }
     }
 
+    public class FactoryClass
+    {
+        public readonly int fac1;
+        public string nonFac2;
+
+        public FactoryClass( int fac1 )
+        {
+            this.fac1 = fac1;
+        }
+
+        public override bool Equals( object obj )
+        {
+            if( obj is not FactoryClass other )
+                return false;
+
+            return this.fac1 == other.fac1
+                && this.nonFac2 == other.nonFac2;
+        }
+    }
+
     public class MappingRegistryTests
     {
         [MapsInheritingFrom( typeof( BaseClass ) )]
@@ -219,6 +239,15 @@ namespace Neoserialization
         {
             return new MemberwiseSerializationMapping<MappedDerivedClass>()
                 .WithMember( "derived_member", o => o.derivedMember );
+        }
+
+        [MapsInheritingFrom( typeof( FactoryClass ) )]
+        public static SerializationMapping FactoryClassMapping()
+        {
+            return new MemberwiseSerializationMapping<FactoryClass>()
+                .WithMember( "fac1", o => o.fac1, ( o, value ) => { } )
+                .WithFactory<int>( fac1 => new FactoryClass( fac1 ) )
+                .WithMember( "non_fac2", o => o.nonFac2 );
         }
 
         //

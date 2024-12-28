@@ -1,5 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
-using UnityEngine;
 
 namespace UnityPlus.Serialization
 {
@@ -12,12 +11,10 @@ namespace UnityPlus.Serialization
         /// Doesn't require doing a null check on the mapping.
         /// </remarks>
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static bool SafeSave<TMember>( this SerializationMapping mapping, TMember obj, ref SerializedData data, ISaver s )
+        public static MappingResult SafeSave<TMember>( this SerializationMapping mapping, TMember obj, ref SerializedData data, ISaver s )
         {
             if( mapping == null )
-                return false;
-
-            //SerializedData data = null; // delete this and move back to just returning serializeddata?
+                return MappingResult.Finished;
 
             return mapping.Save<TMember>( obj, ref data, s );
         }
@@ -29,10 +26,10 @@ namespace UnityPlus.Serialization
         /// Doesn't require doing a null check on the mapping.
         /// </remarks>
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static bool SafeLoad<TMember>( this SerializationMapping mapping, ref TMember obj, SerializedData data, ILoader l )
+        public static MappingResult SafeLoad<TMember>( this SerializationMapping mapping, ref TMember obj, SerializedData data, ILoader l )
         {
             if( mapping == null )
-                return false;
+                return MappingResult.Finished;
 
             return mapping.Load<TMember>( ref obj, data, l );
         }

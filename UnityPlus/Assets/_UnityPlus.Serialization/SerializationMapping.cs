@@ -26,7 +26,7 @@ namespace UnityPlus.Serialization
         /// <returns>
         /// True if the member has been fully serialized, false if the method needs to be called again to serialize more.
         /// </returns>
-        public abstract bool Save<T>( T obj, ref SerializedData data, ISaver s );
+        public abstract MappingResult Save<T>( T obj, ref SerializedData data, ISaver s );
 
         /// <summary>
         /// 
@@ -34,6 +34,6 @@ namespace UnityPlus.Serialization
         /// <returns>
         /// True if the member has been fully deserialized, false if the method needs to be called again to deserialize more.
         /// </returns>
-        public abstract bool Load<T>( ref T obj, SerializedData data, ILoader l );
+        public abstract MappingResult Load<T>( ref T obj, SerializedData data, ILoader l );
     }
 }

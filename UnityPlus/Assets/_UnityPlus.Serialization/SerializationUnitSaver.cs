@@ -10,6 +10,7 @@ namespace UnityPlus.Serialization
 {
     public class SerializationUnitSaver<T> : ISaver
     {
+        private bool[] _finishedMembers;
         private SerializedData[] _data;
         private T[] _objects;
 
@@ -38,24 +39,37 @@ namespace UnityPlus.Serialization
         /// </summary>
         public void Serialize( int maxIters = 10 )
         {
+            this._finishedMembers = new bool[_objects.Length];
+            this._data = new SerializedData[_objects.Length];
+
             for( int i = 0; i < maxIters; i++ )
             {
-                if( this.SaveCallback() )
+                MappingResult result = this.SaveCallback();
+                if( result == MappingResult.Finished || result == MappingResult.NoChange )
                     return;
-               // Debug.Log( i );
+                // Debug.Log( i );
             }
         }
 
         /// <summary>
         /// Performs serialization of the previously specified objects.
         /// </summary>
-        public void Serialize( IReverseReferenceMap s )
+        public void Serialize( IReverseReferenceMap s, int maxIters = 10 )
         {
             if( s == null )
                 throw new ArgumentNullException( nameof( s ), $"The reference map to use can't be null." );
 
+            this._finishedMembers = new bool[_objects.Length];
+            this._data = new SerializedData[_objects.Length];
             this.RefMap = s;
-            this.SaveCallback();
+
+            for( int i = 0; i < maxIters; i++ )
+            {
+                MappingResult result = this.SaveCallback();
+                if( result == MappingResult.Finished || result == MappingResult.NoChange )
+                    return;
+                // Debug.Log( i );
+            }
         }
 
         //
@@ -67,6 +81,9 @@ namespace UnityPlus.Serialization
         /// </summary>
         public IEnumerable<SerializedData> GetData()
         {
+            if( _data == null )
+                throw new InvalidOperationException( $"Can't get the saved data before any has been saved." );
+
             return _data;
         }
 
@@ -75,30 +92,50 @@ namespace UnityPlus.Serialization
         /// </summary>
         public IEnumerable<SerializedData> GetDataOfType<TDerived>()
         {
+            if( _data == null )
+                throw new InvalidOperationException( $"Can't get the saved data before any has been saved." );
+
             return _data.Where( d =>
             {
                 return d.TryGetValue( KeyNames.TYPE, out var type ) && typeof( TDerived ).IsAssignableFrom( type.DeserializeType() );
             } );
         }
 
-        private bool SaveCallback()
+        private MappingResult SaveCallback()
         {
-            _data = new SerializedData[_objects.Length];
+            bool anyFailed = false;
+            bool anyFinished = false;
+            bool anyProgressed = false;
 
-            bool allSucceeded = true;
             for( int i = 0; i < _objects.Length; i++ )
             {
+                if( _finishedMembers[i] )
+                    continue;
+
                 T obj = _objects[i];
 
                 var mapping = SerializationMappingRegistry.GetMapping<T>( _context, obj );
 
                 var data = _data[i];
-                bool ret2 = mapping.SafeSave<T>( obj, ref data, this );
-                if( !ret2 )
-                    allSucceeded = false;
+                MappingResult memberResult = mapping.SafeSave<T>( obj, ref data, this );
+                switch( memberResult )
+                {
+                    case MappingResult.Finished:
+                        _finishedMembers[i] = true;
+                        anyFinished = true;
+                        break;
+                    case MappingResult.Failed:
+                        anyFailed = true;
+                        break;
+                    case MappingResult.Progressed:
+                        anyProgressed = true;
+                        break;
+                }
+
                 _data[i] = data;
             }
-            return allSucceeded;
+
+            return MappingResult_Ex.GetCompoundResult( anyFailed, anyFinished, anyProgressed );
         }
     }
 }

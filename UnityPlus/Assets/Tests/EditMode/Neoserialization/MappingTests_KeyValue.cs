@@ -106,7 +106,7 @@ namespace Neoserialization
                 { baseClass, new DerivedClass() }
             };
             BidirectionalReferenceStore refStore = new BidirectionalReferenceStore();
-
+#warning TODO - tests to do external and internal refs.
             // Act
             var data = SerializationUnit.Serialize<Dictionary<BaseClass, BaseClass>>( KeyValueContext.RefToValue, initialValue, refStore );
             var finalValue = SerializationUnit.Deserialize<Dictionary<BaseClass, BaseClass>>( KeyValueContext.RefToValue, data, refStore );

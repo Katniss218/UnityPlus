@@ -25,6 +25,35 @@ namespace Neoserialization
             // Assert
             Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
+        
+        [Test]
+        public void Mapping___DerivedClass___RoundTrip()
+        {
+            // Arrange
+            var initialValue = new DerivedClass() { baseMember = 2, derivedMember = "42" };
+
+            // Act
+            var data = SerializationUnit.Serialize<DerivedClass>( initialValue );
+            var finalValue = SerializationUnit.Deserialize<DerivedClass>( data );
+
+            // Assert
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
+        }
+        
+        
+        [Test]
+        public void Mapping___FactoryClass___RoundTrip()
+        {
+            // Arrange
+            var initialValue = new FactoryClass( 2 ) { nonFac2 = "42" };
+
+            // Act
+            var data = SerializationUnit.Serialize<FactoryClass>( initialValue );
+            var finalValue = SerializationUnit.Deserialize<FactoryClass>( data );
+
+            // Assert
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
+        }
 
         [Test]
         public void Mapping___DerivedClass_Polymorphic___RoundTrip()

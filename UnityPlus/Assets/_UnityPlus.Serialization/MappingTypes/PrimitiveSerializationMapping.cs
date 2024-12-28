@@ -25,6 +25,7 @@ namespace UnityPlus.Serialization
 
         public override SerializationMapping GetInstance()
         {
+#warning TODO - oninstantiate needs to be able to output a failure condition.
             return new PrimitiveSerializationMapping<TSource>()
             {
                 Context = this.Context,
@@ -33,7 +34,7 @@ namespace UnityPlus.Serialization
             };
         }
 
-        public override bool Save<TMember>( TMember obj, ref SerializedData data, ISaver s )
+        public override MappingResult Save<TMember>( TMember obj, ref SerializedData data, ISaver s )
         {
             if( obj != null && MappingHelper.IsNonNullEligibleForTypeHeader<TMember>() ) // This doesn't appear to slow the system down much at all when benchbarked.
             {
@@ -47,7 +48,7 @@ namespace UnityPlus.Serialization
                 }
                 catch
                 {
-                    return false;
+                    return MappingResult.Failed;
                 }
             }
             else
@@ -58,17 +59,17 @@ namespace UnityPlus.Serialization
                 }
                 catch
                 {
-                    return false;
+                    return MappingResult.Failed;
                 }
             }
 
-            return true;
+            return MappingResult.Finished;
         }
 
-        public override bool Load<TMember>( ref TMember obj, SerializedData data, ILoader l )
+        public override MappingResult Load<TMember>( ref TMember obj, SerializedData data, ILoader l )
         {
             if( OnInstantiate == null )
-                return false;
+                return MappingResult.Finished;
 
             if( data != null && MappingHelper.IsNonNullEligibleForTypeHeader<TMember>() ) // This doesn't appear to slow the system down much at all when benchbarked.
             {
@@ -79,7 +80,7 @@ namespace UnityPlus.Serialization
                 }
                 catch
                 {
-                    return false;
+                    return MappingResult.Failed;
                 }
             }
             else
@@ -91,10 +92,10 @@ namespace UnityPlus.Serialization
                 }
                 catch
                 {
-                    return false;
+                    return MappingResult.Failed;
                 }
             }
-            return true;
+            return MappingResult.Finished;
         }
     }
 }

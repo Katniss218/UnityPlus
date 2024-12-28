@@ -21,12 +21,12 @@ namespace UnityPlus.Serialization
             return (MemberBase<TSource>)this.MemberwiseClone();
         }
 
-        public override bool Save( TSource source, SerializedData sourceData, ISaver s )
+        public override MappingResult Save( TSource source, SerializedData sourceData, ISaver s )
         {
             return _member.Save( source, sourceData, s );
         }
 
-        public override bool Load( ref object member, SerializedData sourceData, ILoader l )
+        public override MappingResult Load( ref object member, SerializedData sourceData, ILoader l )
         {
             return _member.Load( ref member, sourceData, l );
         }

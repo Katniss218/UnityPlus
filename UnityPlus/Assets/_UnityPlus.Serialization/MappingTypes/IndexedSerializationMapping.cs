@@ -1,21 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using UnityEngine;
 
 namespace UnityPlus.Serialization
 {
-#warning TODO add a collection mapping for IList / IList<T>?
-
     public class IndexedSerializationMapping<TSource, TElement> : SerializationMapping
     {
         int elementContext;
         Func<TSource, int> elementCountGetter;
         Func<TSource, int, TElement> elementGetter;
         Action<TSource, int, TElement> elementSetter;
+        private bool _objectHasBeenInstantiated;
 
-        Func<int, object> earlyFactory;
-        Func<IEnumerable<TElement>, object> factory;
+        Func<SerializedData, ILoader, object> _rawFactory = null;
+        Func<int, object> factory;
+        Func<IEnumerable<TElement>, object> lateFactory;
+        List<TElement> elementStorageLocations;
 
-        //HashSet<int> _indices = new();
+        List<int> _previousFailures;
+        private int _startFrom = 0;
 
         public IndexedSerializationMapping( Func<TSource, int> countGetter, Func<TSource, int, TElement> getter, Action<TSource, int, TElement> setter )
         {
@@ -38,16 +42,16 @@ namespace UnityPlus.Serialization
             return new IndexedSerializationMapping<TSource, TElement>( elementCountGetter, elementContext, elementGetter, elementSetter )
             {
                 Context = Context,
-                earlyFactory = earlyFactory,
-                factory = factory
+                factory = factory,
+                lateFactory = lateFactory
             };
         }
 
-        public override bool Save<T>( T obj, ref SerializedData data, ISaver s )
+        public override MappingResult Save<T>( T obj, ref SerializedData data, ISaver s )
         {
             if( obj == null )
             {
-                return true;
+                return MappingResult.Finished;
             }
 
             TSource sourceObj = (TSource)(object)obj;
@@ -68,9 +72,8 @@ namespace UnityPlus.Serialization
                 serArray = (SerializedArray)data["value"];
             }
 
-            for( int i = 0; i < length; i++ )
+            for( int i = _startFrom; i < length; i++ )
             {
-#warning TODO - store which elements were already done.
                 var elem = elementGetter.Invoke( sourceObj, i );
 
                 var mapping = SerializationMappingRegistry.GetMapping<TElement>( elementContext, elem );
@@ -79,6 +82,11 @@ namespace UnityPlus.Serialization
 
                 var ret = mapping.SafeSave( elem, ref dataElem, s );
 
+                if( ret != MappingResult.Finished )
+                {
+#warning TODO - handle previous failures when called again
+                    _previousFailures.Add( i );
+                }
                 if( i < serArray.Count )
                 {
                     serArray[i] = dataElem;
@@ -88,22 +96,21 @@ namespace UnityPlus.Serialization
                     serArray.Add( dataElem );
                 }
 
-                if( s.ShouldPause() )
+                /*if( s.ShouldPause() )
                 {
+                    _startFrom = i;
                     break;
-                }
-                //_indices for later.
-                // assume indices up to a given 'last' index are finished, except for indices specified by a collection.
-                // start at the 'last' index, but try to save/load the potentially failed indices as well.
+                }*/
             }
-            return true;
+
+            return MappingResult.Finished;
         }
 
-        public override bool Load<T>( ref T obj, SerializedData data, ILoader l )
+        public override MappingResult Load<T>( ref T obj, SerializedData data, ILoader l )
         {
             if( data == null )
             {
-                return true;
+                return MappingResult.Finished;
             }
 
             TSource obj2 = (obj == null) ? default : (TSource)(object)obj;
@@ -111,12 +118,14 @@ namespace UnityPlus.Serialization
             SerializedArray array = (SerializedArray)data["value"];
             int length = array.Count;
 
-            if( obj2 == null && earlyFactory != null ) // ready for instantiation means all members that'll be passed into the factory are fully deserialized.
+            if( !_objectHasBeenInstantiated )
             {
-                obj2 = (TSource)earlyFactory.Invoke( length );
+#warning TODO - instantiateearly can fail, if there is no early factory and the type doesn't have a parameterless constructor.
+                obj2 = InstantiateEarly( data, l, length );
+                _objectHasBeenInstantiated = true;
             }
 
-            for( int i = 0; i < length; i++ )
+            for( int i = _startFrom; i < length; i++ )
             {
                 var elemData = array[i];
 
@@ -129,31 +138,115 @@ namespace UnityPlus.Serialization
                 var mapping = MappingHelper.GetMapping_Load<TElement>( elementContext, memberType, elemData, l );
 
                 TElement element2 = default;
-                var isFullyLoaded = mapping.SafeLoad<TElement>( ref element2, elemData, l );
+                MappingResult result = mapping.SafeLoad<TElement>( ref element2, elemData, l );
 
-                elementSetter.Invoke( obj2, i, element2 );
-
-                if( l.ShouldPause() )
+                if( _objectHasBeenInstantiated )
                 {
-                    break;
+                    elementSetter.Invoke( obj2, i, element2 );
                 }
+                else
+                {
+#warning TODO - handle previous failures when called again
+                    elementStorageLocations ??= new();
+                    elementStorageLocations.Add( element2 );
+                }
+
+                /*if( l.ShouldPause() )
+                {
+                    _startFrom = i;
+                    break;
+                }*/
+            }
+
+            if( !_objectHasBeenInstantiated )
+            {
+                obj2 = InstantiateLate( data, l );
+                _objectHasBeenInstantiated = true;
             }
 
             obj = (T)(object)obj2;
-            return true;
+            return MappingResult.Finished;
+        }
+
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        TSource InstantiateEarly( SerializedData data, ILoader l, int elemCount )
+        {
+            // early - raw or earlyfactory or activator
+            // late - late factory or activator.
+            TSource obj;
+            if( factory != null )
+            {
+                obj = (TSource)factory.Invoke( elemCount );
+            }
+            else if( _rawFactory != null )
+            {
+                obj = (TSource)_rawFactory.Invoke( data, l );
+            }
+            else
+            {
+                if( data == null )
+                    return default;
+
+                obj = Activator.CreateInstance<TSource>();
+            }
+
+            if( data.TryGetValue( KeyNames.ID, out var id ) )
+            {
+                l.RefMap.SetObj( id.DeserializeGuid(), obj );
+            }
+
+            return obj;
+        }
+
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        TSource InstantiateLate( SerializedData data, ILoader l )
+        {
+            // early - raw or earlyfactory or activator
+            // late - late factory or activator.
+            TSource obj;
+
+            if( lateFactory != null )
+            {
+                obj = (TSource)lateFactory.Invoke( elementStorageLocations );
+            }
+            else
+            {
+                if( data == null )
+                    return default;
+
+                obj = Activator.CreateInstance<TSource>();
+            }
+
+            if( data.TryGetValue( KeyNames.ID, out var id ) )
+            {
+                l.RefMap.SetObj( id.DeserializeGuid(), obj );
+            }
+
+            return obj;
+        }
+
+        public IndexedSerializationMapping<TSource, TElement> WithRawFactory( Func<SerializedData, ILoader, object> rawFactory )
+        {
+            this._rawFactory = rawFactory;
+            return this;
         }
 
         public IndexedSerializationMapping<TSource, TElement> WithFactory( Func<IEnumerable<TElement>, object> factory )
         {
-            this.factory = factory;
+            this.lateFactory = factory;
             // loads elements into a list first, then passes that list here.
             // can be used for e.g. readonlylist.
             return this;
         }
 
+        /// <summary>
+        /// Input integer is the element count
+        /// </summary>
+        /// <param name="factory"></param>
+        /// <returns></returns>
         public IndexedSerializationMapping<TSource, TElement> WithFactory( Func<int, object> factory )
         {
-            this.earlyFactory = factory;
+            this.factory = factory;
             return this;
         }
     }

@@ -11,7 +11,13 @@ namespace UnityPlus.Serialization.Mappings
             return new PrimitiveSerializationMapping<T>()
             {
                 OnSave = ( o, s ) => s.RefMap.WriteObjectReference<T>( o ),
-                OnInstantiate = ( data, l ) => l.ReadObjectReference<T>( data )
+                OnInstantiate = ( data, l ) =>
+                {
+                    if( l.TryReadObjectReference<T>( data, out var obj ) )
+                        return obj;
+#warning TODO - handle this properly after the results are allowed.
+                    throw new Exception( $"missing reference, try again" );
+                }
             };
         }
 

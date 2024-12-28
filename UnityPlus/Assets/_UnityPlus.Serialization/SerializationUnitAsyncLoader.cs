@@ -10,40 +10,36 @@ namespace UnityPlus.Serialization
     [Obsolete( "Not finished yet" )]
     public class SerializationUnitAsyncLoader<T> : ILoader
     {
+        private bool[] _finishedMembers;
         private SerializedData[] _data;
         private T[] _objects;
 
-        private Type _memberType; // Specifies the type that all serialized/deserialized objects will derive from. May be `typeof(object)`
         private int _context = default;
 
         public IForwardReferenceMap RefMap { get; set; }
 
         public Dictionary<SerializedData, SerializationMapping> MappingCache { get; }
 
-        private Stack<LoadAction> loadActionsToPerform; // something like this?
-
-        internal SerializationUnitAsyncLoader( SerializedData[] data, Type memberType, int context )
+        internal SerializationUnitAsyncLoader( SerializedData[] data, int context )
         {
             this.RefMap = new BidirectionalReferenceStore();
             this.MappingCache = new Dictionary<SerializedData, SerializationMapping>( new SerializedDataReferenceComparer() );
             this._data = data;
-            this._memberType = memberType;
             this._context = context;
         }
 
-        internal SerializationUnitAsyncLoader( T[] objects, SerializedData[] data, Type memberType, int context )
+        internal SerializationUnitAsyncLoader( T[] objects, SerializedData[] data, int context )
         {
             this.RefMap = new BidirectionalReferenceStore();
             this.MappingCache = new Dictionary<SerializedData, SerializationMapping>( new SerializedDataReferenceComparer() );
             this._objects = objects;
             this._data = data;
-            this._memberType = memberType;
             this._context = context;
         }
 
         public bool ShouldPause()
         {
-            throw new NotImplementedException(); // use stopwatch to tell how long the current load is taking so far.
+            return false;
         }
 
         //
@@ -53,9 +49,15 @@ namespace UnityPlus.Serialization
         /// <summary>
         /// Performs deserialization of the previously specified objects.
         /// </summary>
-        public void Deserialize()
+        public void Deserialize( int maxIters = 10 )
         {
-            this.LoadCallback();
+            for( int i = 0; i < maxIters; i++ )
+            {
+                MappingResult result = this.LoadCallback();
+                if( result == MappingResult.Finished || result == MappingResult.NoChange )
+                    return;
+                //Debug.Log( i );
+            }
         }
 
         /// <summary>
@@ -110,24 +112,44 @@ namespace UnityPlus.Serialization
             return _objects.OfType<TDerived>();
         }
 
-        private void LoadCallback()
+        private MappingResult LoadCallback()
         {
-            // Called by the loader.
+            _finishedMembers ??= new bool[_data.Length];
+            _objects ??= new T[_data.Length];
 
-            _objects = new T[_data.Length];
+            bool anyFailed = false;
+            bool anyFinished = false;
+            bool anyProgressed = false;
 
             for( int i = 0; i < _data.Length; i++ )
             {
+                if( _finishedMembers[i] )
+                    continue;
+
                 SerializedData data = _data[i];
 
                 var mapping = MappingHelper.GetMapping_Load<T>( _context, MappingHelper.GetSerializedType<T>( data ), data, this );
 
                 T member = _objects[i];
-                if( mapping.SafeLoad( ref member, data, this ) )
+                var memberResult = mapping.SafeLoad( ref member, data, this );
+                switch( memberResult )
                 {
-                    _objects[i] = member;
+                    case MappingResult.Finished:
+                        _finishedMembers[i] = true;
+                        anyFinished = true;
+                        break;
+                    case MappingResult.Failed:
+                        anyFailed = true;
+                        break;
+                    case MappingResult.Progressed:
+                        anyProgressed = true;
+                        break;
                 }
+
+                _objects[i] = member;
             }
+
+            return MappingResult_Ex.GetCompoundResult( anyFailed, anyFinished, anyProgressed );
         }
     }
 }
