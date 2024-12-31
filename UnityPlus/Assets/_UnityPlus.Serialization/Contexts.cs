@@ -26,7 +26,7 @@ namespace UnityPlus.Serialization
     /// </summary>
     public static class ArrayContext
     {
-        public const int Default = 0;
+        public const int Default = ObjectContext.Default;
 
         public const int Values = Default;
         public const int Refs = 429303064;
@@ -38,7 +38,7 @@ namespace UnityPlus.Serialization
     /// </summary>
     public static class KeyValueContext
     {
-        public const int Default = 0;
+        public const int Default = ObjectContext.Default;
 
         public const int ValueToValue = Default;
         public const int ValueToRef = 846497468;

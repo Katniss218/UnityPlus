@@ -96,11 +96,11 @@ namespace UnityPlus.Serialization
                     serArray.Add( dataElem );
                 }
 
-                /*if( s.ShouldPause() )
+                if( s.ShouldPause() )
                 {
                     _startFrom = i;
                     break;
-                }*/
+                }
             }
 
             return MappingResult.Finished;
@@ -118,9 +118,8 @@ namespace UnityPlus.Serialization
             SerializedArray array = (SerializedArray)data["value"];
             int length = array.Count;
 
-            if( !_objectHasBeenInstantiated )
+            if( lateFactory == null && !_objectHasBeenInstantiated )
             {
-#warning TODO - instantiateearly can fail, if there is no early factory and the type doesn't have a parameterless constructor.
                 obj2 = InstantiateEarly( data, l, length );
                 _objectHasBeenInstantiated = true;
             }
@@ -135,11 +134,12 @@ namespace UnityPlus.Serialization
                     memberType = type.DeserializeType();
                 }
 
-                var mapping = MappingHelper.GetMapping_Load<TElement>( elementContext, memberType, elemData, l );
+                var mapping = MappingHelper.GetMapping_Load<TElement>( elementContext, memberType, elemData );
 
                 TElement element2 = default;
                 MappingResult result = mapping.SafeLoad<TElement>( ref element2, elemData, l );
 
+#warning TODO - lists and other collections can only use a subspace of all indices.
                 if( _objectHasBeenInstantiated )
                 {
                     elementSetter.Invoke( obj2, i, element2 );
@@ -151,11 +151,11 @@ namespace UnityPlus.Serialization
                     elementStorageLocations.Add( element2 );
                 }
 
-                /*if( l.ShouldPause() )
+                if( l.ShouldPause() )
                 {
                     _startFrom = i;
                     break;
-                }*/
+                }
             }
 
             if( !_objectHasBeenInstantiated )

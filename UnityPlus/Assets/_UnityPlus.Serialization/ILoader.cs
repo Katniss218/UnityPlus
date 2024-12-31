@@ -42,7 +42,6 @@ namespace UnityPlus.Serialization
         /// </summary>
         public IForwardReferenceMap RefMap { get; }
 
-        public Dictionary<SerializedData, SerializationMapping> MappingCache { get; }
         public bool ShouldPause();
     }
 }

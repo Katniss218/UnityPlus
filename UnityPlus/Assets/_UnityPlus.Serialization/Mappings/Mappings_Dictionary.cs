@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace UnityPlus.Serialization.Mappings
 {
@@ -9,17 +8,35 @@ namespace UnityPlus.Serialization.Mappings
         public static SerializationMapping KeyValuePair_ValueToValue_Mapping<TKey, TValue>()
         {
             return new MemberwiseSerializationMapping<KeyValuePair<TKey, TValue>>()
-                .WithMember( "key", o => o.Key, ( ref KeyValuePair<TKey, TValue> o, TKey value ) => { } )
-                .WithMember( "value", o => o.Value, ( ref KeyValuePair<TKey, TValue> o, TValue value ) => { } )
+                .WithReadonlyMember( "key", o => o.Key )
+                .WithReadonlyMember( "value", o => o.Value )
                 .WithFactory<TKey, TValue>( ( key, value ) => new KeyValuePair<TKey, TValue>( key, value ) );
         }
-        
+
         [MapsInheritingFrom( typeof( KeyValuePair<,> ), Context = KeyValueContext.RefToValue )]
         public static SerializationMapping KeyValuePair_RefToValue_Mapping<TKey, TValue>()
         {
             return new MemberwiseSerializationMapping<KeyValuePair<TKey, TValue>>()
-                .WithMember( "key", ObjectContext.Ref, o => o.Key, ( ref KeyValuePair<TKey, TValue> o, TKey value ) => { } )
-                .WithMember( "value", o => o.Value, ( ref KeyValuePair<TKey, TValue> o, TValue value ) => { } )
+                .WithReadonlyMember( "key", ObjectContext.Ref, o => o.Key )
+                .WithReadonlyMember( "value", o => o.Value )
+                .WithFactory<TKey, TValue>( ( key, value ) => new KeyValuePair<TKey, TValue>( key, value ) );
+        }
+
+        [MapsInheritingFrom( typeof( KeyValuePair<,> ), Context = KeyValueContext.ValueToRef )]
+        public static SerializationMapping KeyValuePair_ValueToRef_Mapping<TKey, TValue>()
+        {
+            return new MemberwiseSerializationMapping<KeyValuePair<TKey, TValue>>()
+                .WithReadonlyMember( "key", o => o.Key )
+                .WithReadonlyMember( "value", ObjectContext.Ref, o => o.Value )
+                .WithFactory<TKey, TValue>( ( key, value ) => new KeyValuePair<TKey, TValue>( key, value ) );
+        }
+
+        [MapsInheritingFrom( typeof( KeyValuePair<,> ), Context = KeyValueContext.RefToRef )]
+        public static SerializationMapping KeyValuePair_RefToRef_Mapping<TKey, TValue>()
+        {
+            return new MemberwiseSerializationMapping<KeyValuePair<TKey, TValue>>()
+                .WithReadonlyMember( "key", ObjectContext.Ref, o => o.Key )
+                .WithReadonlyMember( "value", ObjectContext.Ref, o => o.Value )
                 .WithFactory<TKey, TValue>( ( key, value ) => new KeyValuePair<TKey, TValue>( key, value ) );
         }
 
@@ -32,11 +49,11 @@ namespace UnityPlus.Serialization.Mappings
                 {
                     o[oElem.Key] = oElem.Value;
                 } )
-                .WithFactory( ( int length ) => new Dictionary<TKey, TValue>( length ) );
+                .WithFactory( ( int count ) => new Dictionary<TKey, TValue>( count ) );
         }
 
         [MapsInheritingFrom( typeof( Dictionary<,> ), Context = KeyValueContext.RefToValue )]
-        public static SerializationMapping Dictionary_TKey_TValue_Mapping<TKey, TValue>()
+        public static SerializationMapping Dictionary_RefToValue_Mapping<TKey, TValue>()
         {
             return new EnumeratedSerializationMapping<Dictionary<TKey, TValue>, KeyValuePair<TKey, TValue>>(
                 KeyValueContext.RefToValue,
@@ -44,7 +61,32 @@ namespace UnityPlus.Serialization.Mappings
                 {
                     o[oElem.Key] = oElem.Value;
                 } )
-                .WithFactory( ( int length ) => new Dictionary<TKey, TValue>( length ) );
+                .WithFactory( ( int count ) => new Dictionary<TKey, TValue>( count ) );
+        }
+
+        [MapsInheritingFrom( typeof( Dictionary<,> ), Context = KeyValueContext.ValueToRef )]
+        public static SerializationMapping Dictionary_ValueToRef_Mapping<TKey, TValue>()
+        {
+            return new EnumeratedSerializationMapping<Dictionary<TKey, TValue>, KeyValuePair<TKey, TValue>>(
+                KeyValueContext.ValueToRef,
+                ( o, i, oElem ) =>
+                {
+                    o[oElem.Key] = oElem.Value;
+                } )
+                .WithFactory( ( int count ) => new Dictionary<TKey, TValue>( count ) );
+        }
+
+        [MapsInheritingFrom( typeof( Dictionary<,> ), Context = KeyValueContext.RefToRef )]
+        public static SerializationMapping Dictionary_RefToRef_Mapping<TKey, TValue>()
+        {
+#warning TODO - would be nice if the element context could be specified as 'pass through' from the mapping's main context.
+            return new EnumeratedSerializationMapping<Dictionary<TKey, TValue>, KeyValuePair<TKey, TValue>>(
+                KeyValueContext.RefToRef,
+                ( o, i, oElem ) =>
+                {
+                    o[oElem.Key] = oElem.Value;
+                } )
+                .WithFactory( ( int count ) => new Dictionary<TKey, TValue>( count ) );
         }
     }
 }

@@ -109,9 +109,9 @@ namespace Neoserialization
             var su2 = SerializationUnit.FromData<object>( su.GetData() );
             su2.Deserialize();
 
-            var finalValue = su2.GetObjectsOfType<ReferencingClass>().First();
-            var finalRefValue = su2.GetObjectsOfType<BaseClass>().First();
-            var finalInterfaceRefValue = su2.GetObjectsOfType<InterfaceClass>().First();
+            var finalValue = su2.GetObjects<ReferencingClass>().First();
+            var finalRefValue = su2.GetObjects<BaseClass>().First();
+            var finalInterfaceRefValue = su2.GetObjects<InterfaceClass>().First();
 
             // Assert
             Assert.That( finalValue.refMember, Is.SameAs( finalRefValue ) );
@@ -137,9 +137,9 @@ namespace Neoserialization
             var su2 = SerializationUnit.FromData<object>( su.GetData() );
             su2.Deserialize();
 
-            var finalValue = su2.GetObjectsOfType<ReferencingClass>().First();
-            var finalRefValue = su2.GetObjectsOfType<BaseClass>().First();
-            var finalInterfaceRefValue = su2.GetObjectsOfType<InterfaceClass>().First();
+            var finalValue = su2.GetObjects<ReferencingClass>().First();
+            var finalRefValue = su2.GetObjects<BaseClass>().First();
+            var finalInterfaceRefValue = su2.GetObjects<InterfaceClass>().First();
 
             // Assert
             Assert.That( finalValue.refMember, Is.SameAs( finalRefValue ) );
@@ -166,7 +166,7 @@ namespace Neoserialization
             var su2 = SerializationUnit.FromData<object>( su.GetData() );
             su2.Deserialize( refStore );
 
-            var finalValue = su2.GetObjectsOfType<ReferencingClass>().First();
+            var finalValue = su2.GetObjects<ReferencingClass>().First();
 
             // Assert
             Assert.That( finalValue.refMember, Is.SameAs( refValue ) );

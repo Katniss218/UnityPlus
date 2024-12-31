@@ -1,4 +1,6 @@
 ﻿
+using UnityEngine.Networking.Types;
+
 namespace UnityPlus.Serialization
 {
     /// <summary>
@@ -13,6 +15,7 @@ namespace UnityPlus.Serialization
             return new PassthroughMember<TSource, TSourceBase>()
             {
                 _member = member,
+                Name = member.Name
             };
         }
 
@@ -21,21 +24,45 @@ namespace UnityPlus.Serialization
             return (MemberBase<TSource>)this.MemberwiseClone();
         }
 
-        public override MappingResult Save( TSource source, SerializedData sourceData, ISaver s )
-        {
-            return _member.Save( source, sourceData, s );
-        }
-
-        public override MappingResult Load( ref object member, SerializedData sourceData, ILoader l )
-        {
-            return _member.Load( ref member, sourceData, l );
-        }
-
-        public override void Assign( ref TSource source, object member )
+        /// <summary>
+        /// Calls the getter associated with this member.
+        /// </summary>
+        public override object Get( ref TSource source )
         {
             TSourceBase source2 = source;
-            _member.Assign( ref source2, member );
-            source = (TSource)source2;
+            return _member.Get( ref source2 );
+        }
+
+        public override MappingResult Save( TSource sourceObj, SerializedData sourceData, ISaver s, out SerializationMapping mapping, out object memberObj )
+        {
+            TSourceBase sourceObj2 = sourceObj;
+            return _member.Save( sourceObj2, sourceData, s, out mapping, out memberObj );
+        }
+
+        public override MappingResult SaveRetry( object memberObj, SerializationMapping mapping, SerializedData sourceData, ISaver s )
+        {
+            return _member.SaveRetry( memberObj, mapping, sourceData, s );
+        }
+
+        public override MappingResult Load( ref object memberObj, SerializedData sourceData, ILoader l, out SerializationMapping mapping )
+        {
+            return _member.Load( ref memberObj, sourceData, l, out mapping );
+        }
+
+        public override MappingResult LoadRetry( ref object memberObj, SerializationMapping mapping, SerializedData sourceData, ILoader l )
+        {
+            return _member.LoadRetry( ref memberObj, mapping, sourceData, l );
+        }
+
+        /// <summary>
+        /// Calls the setter associated with this member. <br/>
+        /// Does nothing if the member is 'readonly'.
+        /// </summary>
+        public override void Set( ref TSource sourceObj, object member )
+        {
+            TSourceBase source2 = sourceObj;
+            _member.Set( ref source2, member );
+            sourceObj = (TSource)source2;
         }
     }
 }

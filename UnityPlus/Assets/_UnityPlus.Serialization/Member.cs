@@ -20,8 +20,6 @@ namespace UnityPlus.Serialization
 
         private readonly Expression<Func<TSource, TMember>> _memberAccessExpr;
 
-        public string Name { get; }
-
         /// <summary>
         /// Checks if the member serialization represents a simple member access (object.member = value), as opposed to something more complicated.
         /// </summary>
@@ -33,6 +31,7 @@ namespace UnityPlus.Serialization
         public int Context => _context;
 
         private bool _hasCachedMapping;
+#warning TODO - members can only cache mappings if the mapping is primitive.
         private SerializationMapping _cachedMapping;
 
         private void TryCacheMemberMapping()
@@ -100,55 +99,93 @@ namespace UnityPlus.Serialization
             _structSetter = setter;
         }
 
+        public Member( string name, int context, Getter<TSource, TMember> getter )
+        {
+            this.Name = name;
+            _memberAccessExpr = null;
+            _context = context;
+            TryCacheMemberMapping();
+            _getter = getter;
+        }
+
         //
         //  Logic
         //
 
-        public override MappingResult Save( TSource source, SerializedData sourceData, ISaver s )
+        public override MappingResult Save( TSource sourceObj, SerializedData sourceData, ISaver s, out SerializationMapping mapping, out object memberObj )
         {
-            TMember member = _getter.Invoke( source );
+            if( !sourceData.TryGetValue( Name, out var memberData ) )
+                memberData = null;
 
-            var mapping = SerializationMappingRegistry.GetMapping<TMember>( _context, member );
+            TMember memberObj2 = _getter.Invoke( sourceObj );
+            memberObj = memberObj2;
 
-            if( !sourceData.TryGetValue( Name, out var data ) )
-                data = null;
-            var ret = mapping.SafeSave( member, ref data, s );
-            sourceData[Name] = data;
+            mapping = SerializationMappingRegistry.GetMapping<TMember>( _context, memberObj2 );
 
-            return ret;
+            MappingResult memberResult = mapping.SafeSave<TMember>( memberObj2, ref memberData, s );
+            sourceData[Name] = memberData;
+
+            return memberResult;
         }
 
-        public override MappingResult Load( ref object member, SerializedData sourceData, ILoader l )
+        public override MappingResult SaveRetry( object memberObj, SerializationMapping mapping, SerializedData sourceData, ISaver s )
         {
-            sourceData.TryGetValue( Name, out SerializedData data ); // data (but not sourceData) can be null, that's okay.
+            if( !sourceData.TryGetValue( Name, out var memberData ) )
+                memberData = null;
 
-            Type memberType = typeof( TMember );
-            if( data != null && data.TryGetValue( KeyNames.TYPE, out var type ) )
-            {
-                memberType = type.DeserializeType();
-            }
+            TMember memberObj2 = (TMember)memberObj;
+            MappingResult memberResult = mapping.SafeSave<TMember>( memberObj2, ref memberData, s );
 
-            SerializationMapping mapping;
+            sourceData[Name] = memberData;
+
+            return memberResult;
+        }
+
+        public override MappingResult Load( ref object memberObj, SerializedData sourceData, ILoader l, out SerializationMapping mapping )
+        {
+            if( !sourceData.TryGetValue( Name, out SerializedData memberData ) )
+                memberData = null;
+
             if( _hasCachedMapping )             // This caching appears to not do much performance-wise.
             {
                 mapping = _cachedMapping;
-                if( data != null )
-                {
-                    l.MappingCache[data] = mapping;
-                }
             }
             else
             {
-                mapping = MappingHelper.GetMapping_Load<TMember>( _context, memberType, data, l );
+                Type memberType = typeof( TMember );
+                if( memberData != null && memberData.TryGetValue( KeyNames.TYPE, out var type ) )
+                {
+                    memberType = type.DeserializeType();
+                }
+
+                mapping = SerializationMappingRegistry.GetMapping<TMember>( _context, memberType );
             }
 
-            TMember member2 = default;
-            var isFullyLoaded = mapping.SafeLoad<TMember>( ref member2, data, l );
-            member = member2;
-            return isFullyLoaded;
+            TMember memberObj2 = default;
+            MappingResult memberResult = mapping.SafeLoad<TMember>( ref memberObj2, memberData, l );
+            memberObj = memberObj2;
+
+            return memberResult;
         }
 
-        public override void Assign( ref TSource source, object member )
+        public override MappingResult LoadRetry( ref object memberObj, SerializationMapping mapping, SerializedData sourceData, ILoader l )
+        {
+            if( !sourceData.TryGetValue( Name, out SerializedData memberData ) )
+                memberData = null;
+
+            TMember memberObj2 = (TMember)memberObj;
+            MappingResult memberResult = mapping.SafeLoad<TMember>( ref memberObj2, memberData, l );
+            memberObj = memberObj2;
+
+            return memberResult;
+        }
+
+        public override object Get( ref TSource source )
+        {
+            return _getter.Invoke( source );
+        }
+
+        public override void Set( ref TSource source, object member )
         {
             if( _structSetter != null )
                 _structSetter.Invoke( ref source, (TMember)member );

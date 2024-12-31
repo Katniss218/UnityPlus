@@ -6,7 +6,6 @@ using UnityPlus.Serialization.ReferenceMaps;
 
 namespace UnityPlus.Serialization
 {
-    [Obsolete( "Not finished yet" )]
     public class SerializationUnitAsyncSaver<T> : ISaver
     {
         private bool[] _finishedMembers;
@@ -19,6 +18,7 @@ namespace UnityPlus.Serialization
         long _lastInvocationTimestamp = 0;
 
         public IReverseReferenceMap RefMap { get; set; }
+        public MappingResult Result { get; private set; }
 
         internal SerializationUnitAsyncSaver( T[] objects, int context )
         {
@@ -51,6 +51,7 @@ namespace UnityPlus.Serialization
             for( int i = 0; i < maxIters; i++ )
             {
                 MappingResult result = this.SaveCallback();
+                this.Result = result;
                 if( result == MappingResult.Finished || result == MappingResult.NoChange )
                     return;
             }
@@ -72,6 +73,7 @@ namespace UnityPlus.Serialization
             for( int i = 0; i < maxIters; i++ )
             {
                 MappingResult result = this.SaveCallback();
+                this.Result = result;
                 if( result == MappingResult.Finished || result == MappingResult.NoChange )
                     return;
                 // Debug.Log( i );

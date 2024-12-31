@@ -118,7 +118,14 @@ public class _playtester : MonoBehaviour
     void Start()
     {
         //SerializedData data = SerializationUnit.Serialize<(int, string)>( (218, "stringval") );
-        SerializedData data = SerializationUnit.Serialize<GameObject>( perfTestGo );
+        var su = SerializationUnit.FromObjectsAsync<GameObject>( perfTestGo );
+        do
+        { // INFO - the time includes things like the JIT, so first serialization will take more steps, but that doesn't affect anything.
+            su.Serialize();
+
+        } while( su.Result == MappingResult.Progressed );
+        var data = su.GetData().First();
+        //SerializedData data = SerializationUnit.Serialize<GameObject>( perfTestGo );
         //SerializedData data = SerializationUnit.Serialize<int[]>( new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 } );
 
         var sb = new StringBuilder();
@@ -126,7 +133,14 @@ public class _playtester : MonoBehaviour
         Debug.Log( sb.ToString() );
 
         //(int, string) var = SerializationUnit.Deserialize<(int, string)>( data );
-        GameObject var = SerializationUnit.Deserialize<GameObject>( data );
+        //GameObject var = SerializationUnit.Deserialize<GameObject>( data );
+        var su2 = SerializationUnit.FromDataAsync<GameObject>( data );
+        do
+        { // INFO - the time includes things like the JIT, so first serialization will take more steps, but that doesn't affect anything.
+            su2.Deserialize();
+
+        } while( su2.Result == MappingResult.Progressed );
+        GameObject var = su2.GetObjects<GameObject>().First();
         //int[] var = SerializationUnit.Deserialize<int[]>( data );
 
         //data = SerializationUnit.Serialize<(int, string)>( var );

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,7 +8,6 @@ using UnityPlus.Serialization.ReferenceMaps;
 
 namespace UnityPlus.Serialization
 {
-    [Obsolete( "Not finished yet" )]
     public class SerializationUnitAsyncLoader<T> : ILoader
     {
         private bool[] _finishedMembers;
@@ -16,14 +16,15 @@ namespace UnityPlus.Serialization
 
         private int _context = default;
 
-        public IForwardReferenceMap RefMap { get; set; }
+        public long AllowedMilisecondsPerInvocation { get; set; } = 100;
+        long _lastInvocationTimestamp = 0;
 
-        public Dictionary<SerializedData, SerializationMapping> MappingCache { get; }
+        public IForwardReferenceMap RefMap { get; set; }
+        public MappingResult Result { get; private set; }
 
         internal SerializationUnitAsyncLoader( SerializedData[] data, int context )
         {
             this.RefMap = new BidirectionalReferenceStore();
-            this.MappingCache = new Dictionary<SerializedData, SerializationMapping>( new SerializedDataReferenceComparer() );
             this._data = data;
             this._context = context;
         }
@@ -31,7 +32,6 @@ namespace UnityPlus.Serialization
         internal SerializationUnitAsyncLoader( T[] objects, SerializedData[] data, int context )
         {
             this.RefMap = new BidirectionalReferenceStore();
-            this.MappingCache = new Dictionary<SerializedData, SerializationMapping>( new SerializedDataReferenceComparer() );
             this._objects = objects;
             this._data = data;
             this._context = context;
@@ -39,7 +39,10 @@ namespace UnityPlus.Serialization
 
         public bool ShouldPause()
         {
-            return false;
+            long stamp = Stopwatch.GetTimestamp();
+            long miliseconds = ((stamp - _lastInvocationTimestamp) * 1000) / Stopwatch.Frequency;
+
+            return (miliseconds > AllowedMilisecondsPerInvocation);
         }
 
         //
@@ -51,9 +54,14 @@ namespace UnityPlus.Serialization
         /// </summary>
         public void Deserialize( int maxIters = 10 )
         {
+            this._finishedMembers = new bool[_data.Length];
+            this._objects = new T[_data.Length];
+            _lastInvocationTimestamp = Stopwatch.GetTimestamp();
+
             for( int i = 0; i < maxIters; i++ )
             {
                 MappingResult result = this.LoadCallback();
+                this.Result = result;
                 if( result == MappingResult.Finished || result == MappingResult.NoChange )
                     return;
                 //Debug.Log( i );
@@ -63,33 +71,64 @@ namespace UnityPlus.Serialization
         /// <summary>
         /// Performs deserialization of the previously specified objects.
         /// </summary>
-        public void Deserialize( IForwardReferenceMap l )
+        public void Deserialize( IForwardReferenceMap l, int maxIters = 10 )
         {
             if( l == null )
                 throw new ArgumentNullException( nameof( l ), $"The reference map to use can't be null." );
 
+            this._finishedMembers = new bool[_data.Length];
+            this._objects = new T[_data.Length];
             this.RefMap = l;
-            this.LoadCallback();
+            _lastInvocationTimestamp = Stopwatch.GetTimestamp();
+
+            for( int i = 0; i < maxIters; i++ )
+            {
+                MappingResult result = this.LoadCallback();
+                this.Result = result;
+                if( result == MappingResult.Finished || result == MappingResult.NoChange )
+                    return;
+                //Debug.Log( i );
+            }
         }
 
         /// <summary>
         /// Performs population of members of the previously specified objects.
         /// </summary>
-        public void Populate()
+        public void Populate( int maxIters = 10 )
         {
-            this.LoadCallback();
+            this._finishedMembers = new bool[_data.Length];
+            _lastInvocationTimestamp = Stopwatch.GetTimestamp();
+
+            for( int i = 0; i < maxIters; i++ )
+            {
+                MappingResult result = this.LoadCallback();
+                this.Result = result;
+                if( result == MappingResult.Finished || result == MappingResult.NoChange )
+                    return;
+                //Debug.Log( i );
+            }
         }
 
         /// <summary>
         /// Performs population of members of the previously specified objects.
         /// </summary>
-        public void Populate( IForwardReferenceMap l )
+        public void Populate( IForwardReferenceMap l, int maxIters = 10 )
         {
             if( l == null )
                 throw new ArgumentNullException( nameof( l ), $"The reference map to use can't be null." );
 
+            this._finishedMembers = new bool[_data.Length];
             this.RefMap = l;
-            this.LoadCallback();
+            _lastInvocationTimestamp = Stopwatch.GetTimestamp();
+
+            for( int i = 0; i < maxIters; i++ )
+            {
+                MappingResult result = this.LoadCallback();
+                this.Result = result;
+                if( result == MappingResult.Finished || result == MappingResult.NoChange )
+                    return;
+                //Debug.Log( i );
+            }
         }
 
         //
@@ -107,16 +146,13 @@ namespace UnityPlus.Serialization
         /// <summary>
         /// Returns the objects that were deserialized or populated, but only those that are of the specified type.
         /// </summary>
-        public IEnumerable<TDerived> GetObjectsOfType<TDerived>()
+        public IEnumerable<TDerived> GetObjects<TDerived>()
         {
             return _objects.OfType<TDerived>();
         }
 
         private MappingResult LoadCallback()
         {
-            _finishedMembers ??= new bool[_data.Length];
-            _objects ??= new T[_data.Length];
-
             bool anyFailed = false;
             bool anyFinished = false;
             bool anyProgressed = false;
@@ -128,7 +164,7 @@ namespace UnityPlus.Serialization
 
                 SerializedData data = _data[i];
 
-                var mapping = MappingHelper.GetMapping_Load<T>( _context, MappingHelper.GetSerializedType<T>( data ), data, this );
+                var mapping = MappingHelper.GetMapping_Load<T>( _context, MappingHelper.GetSerializedType<T>( data ), data );
 
                 T member = _objects[i];
                 var memberResult = mapping.SafeLoad( ref member, data, this );

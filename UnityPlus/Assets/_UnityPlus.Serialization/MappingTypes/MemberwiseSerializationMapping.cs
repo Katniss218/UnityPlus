@@ -39,6 +39,9 @@ namespace UnityPlus.Serialization
             if( !anyFinished && !anyProgressed )    // none finished and none progressed - all failed (or mix of failed and no change, meaning failed).
                 return MappingResult.Failed;
 
+            if( anyProgressed )
+                return MappingResult.Progressed;
+
             return MappingResult.NoChange;
         }
     }
@@ -50,10 +53,11 @@ namespace UnityPlus.Serialization
     public sealed class MemberwiseSerializationMapping<TSource> : SerializationMapping, IMemberwiseTemp
     {
         private List<MemberBase<TSource>> _members = new();
-        private bool[] _finishedMembers; // Generally seems to be faster than copying the 'remaining' members list and removing members from it.
         private bool _objectHasBeenInstantiated;
 
-        object[] _memberStorageLocations;
+        object[] _factoryMemberStorage;
+        int _startMember;
+        Dictionary<int, (object, SerializationMapping)> _retryMembers;
 
         public Func<SerializedData, ILoader, object> _rawFactory { get; set; } = null;
         private MemberBase<TSource>[] _factoryMembers = null;
@@ -69,7 +73,6 @@ namespace UnityPlus.Serialization
         {
             this.Context = copy.Context;
             this._members = copy._members;
-            this._finishedMembers = new bool[copy._members.Count];
             this._rawFactory = copy._rawFactory;
             this._factoryMembers = copy._factoryMembers;
             this._untypedFactory = copy._untypedFactory;
@@ -172,23 +175,69 @@ namespace UnityPlus.Serialization
             bool anyFinished = false;
             bool anyProgressed = false;
 
-            for( int i = 0; i < this._members.Count; i++ )
-            {
-                if( _finishedMembers[i] )
-                    continue;
+            //
+            //      RETRY PREVIOUSLY FAILED MEMBERS
+            //
 
-                var member = this._members[i];
-                var memberResult = member.Save( sourceObj, data, s );
+            if( _retryMembers != null )
+            {
+                List<int> retryMembersThatSucceededThisTime = new();
+
+                foreach( (int i, (object memberObj, SerializationMapping mapping)) in _retryMembers )
+                {
+                    MemberBase<TSource> member = this._members[i];
+
+                    MappingResult memberResult = member.SaveRetry( memberObj, mapping, data, s );
+                    switch( memberResult )
+                    {
+                        case MappingResult.Finished:
+                            retryMembersThatSucceededThisTime.Add( i );
+                            anyFinished = true;
+                            break;
+                        case MappingResult.Failed:
+                            anyFailed = true;
+                            break;
+                        case MappingResult.Progressed:
+                            anyProgressed = true;
+                            break;
+                    }
+
+                    if( s.ShouldPause() )
+                    {
+                        if( !anyFailed ) // On pause, if everything else has finished, replace the aggregate finished with progressed, since there's more to do later.
+                            anyProgressed = true;
+                        break;
+                    }
+                }
+
+                foreach( var i in retryMembersThatSucceededThisTime )
+                {
+                    _retryMembers.Remove( i );
+                }
+            }
+
+            //
+            //      PROCESS THE MEMBERS THAT HAVE NOT FAILED YET.
+            //
+
+            for( int i = _startMember; i < this._members.Count; i++ )
+            {
+                MemberBase<TSource> member = this._members[i];
+                MappingResult memberResult = member.Save( sourceObj, data, s, out var mapping, out var memberObj );
                 switch( memberResult )
                 {
                     case MappingResult.Finished:
-                        _finishedMembers[i] = true;
+                        _startMember = i + 1;
                         anyFinished = true;
                         break;
                     case MappingResult.Failed:
+                        _retryMembers ??= new();
+                        _retryMembers.Add( i, (memberObj, mapping) );
                         anyFailed = true;
                         break;
                     case MappingResult.Progressed:
+                        _retryMembers ??= new();
+                        _retryMembers.Add( i, (memberObj, mapping) );
                         anyProgressed = true;
                         break;
                 }
@@ -209,19 +258,22 @@ namespace UnityPlus.Serialization
             if( _factoryMembers == null )
                 return true;
 
-            foreach( var member in _factoryMembers )
+            if( _startMember <= _factoryMembers.Length - 1 )
             {
-                for( int i = 0; i < this._members.Count; i++ )
-                {
-                    if( this._members[i] != member )
-                        continue;
+                return false;
+            }
 
-                    if( !this._finishedMembers[i] )
+            if( _retryMembers != null )
+            {
+                foreach( var i in _retryMembers.Keys )
+                {
+                    if( i <= _factoryMembers.Length - 1 )
                     {
                         return false;
                     }
                 }
             }
+
             return true;
         }
 
@@ -232,7 +284,7 @@ namespace UnityPlus.Serialization
                 return MappingResult.Finished;
             }
 
-            TSource obj2 = (obj == null) ? default : (TSource)(object)obj;
+            TSource sourceObj = (obj == null) ? default : (TSource)(object)obj;
 
             // obj can be null here, this is normal.
 
@@ -241,36 +293,114 @@ namespace UnityPlus.Serialization
             //   because structs are never null, but they may be immutable.
             if( !_objectHasBeenInstantiated && FactoryMembersReadyForInstantiation() )
             {
-                obj2 = Instantiate( data, l );
+                sourceObj = Instantiate( data, l );
                 _objectHasBeenInstantiated = true;
             }
 
-            if( _memberStorageLocations == null )
+            if( _factoryMembers != null )
             {
-                _memberStorageLocations = new object[_members.Count];
+                _factoryMemberStorage ??= new object[_factoryMembers.Length];
             }
+#warning TODO - populate thinks that the object hasn't been instantiated yet and re-instantiates it.
 
             bool anyFailed = false;
             bool anyFinished = false;
             bool anyProgressed = false;
 
-            for( int i = 0; i < this._members.Count; i++ )
-            {
-                if( _finishedMembers[i] )
-                    continue;
+            //
+            //      RETRY PREVIOUSLY FAILED MEMBERS
+            //
 
-                var member = this._members[i];
-                var memberResult = member.Load( ref this._memberStorageLocations[i], data, l );
+            if( _retryMembers != null )
+            {
+                List<int> retryMembersThatSucceededThisTime = new();
+
+                foreach( (int i, (object o, SerializationMapping m)) in _retryMembers )
+                {
+                    MemberBase<TSource> member = this._members[i];
+
+                    object memberObj = o;
+                    MappingResult memberResult = member.LoadRetry( ref memberObj, m, data, l );
+                    switch( memberResult )
+                    {
+                        case MappingResult.Finished:
+                            retryMembersThatSucceededThisTime.Add( i );
+                            //_retryMembers.Remove( i );
+                            anyFinished = true;
+                            break;
+                        case MappingResult.Failed:
+                            anyFailed = true;
+                            break;
+                        case MappingResult.Progressed:
+                            anyProgressed = true;
+                            break;
+                    }
+
+                    // Instantiate the object that contains the members ('parent'), if available.
+                    // It stores when the factory is invoked instead of checking for null,
+                    //   because structs are never null, but they may be immutable.
+                    if( !_objectHasBeenInstantiated && FactoryMembersReadyForInstantiation() )
+                    {
+                        _factoryMemberStorage[i] = memberObj;
+
+                        sourceObj = Instantiate( data, l );
+                        // assign the initial members (if members are readonly this will silently do nothing).
+                        for( int j = 0; j < _factoryMemberStorage.Length; j++ )
+                        {
+                            _members[j].Set( ref sourceObj, this._factoryMemberStorage[j] );
+                        }
+                        _objectHasBeenInstantiated = true;
+                    }
+
+                    // Store the member for later in case the object doesn't exist yet.
+                    if( _objectHasBeenInstantiated )
+                    {
+                        member.Set( ref sourceObj, memberObj );
+                    }
+                    else
+                    {
+                        _factoryMemberStorage[i] = memberObj;
+                    }
+
+                    if( l.ShouldPause() )
+                    {
+                        if( !anyFailed ) // On pause, if everything else has finished, replace the aggregate finished with progressed, since there's more to do later.
+                            anyProgressed = true;
+                        break;
+                    }
+                }
+
+                foreach( var i in retryMembersThatSucceededThisTime )
+                {
+                    _retryMembers.Remove( i );
+                }
+            }
+
+            //
+            //      PROCESS THE MEMBERS THAT HAVE NOT FAILED YET.
+            //
+
+            for( int i = _startMember; i < this._members.Count; i++ )
+            {
+                MemberBase<TSource> member = this._members[i];
+
+                object memberObj = default;
+#warning TODO - pass in info if object is instantiated and write directly to it.
+                MappingResult memberResult = member.Load( ref memberObj, data, l, out var mapping );
                 switch( memberResult )
                 {
                     case MappingResult.Finished:
-                        _finishedMembers[i] = true;
+                        _startMember = i + 1;
                         anyFinished = true;
                         break;
                     case MappingResult.Failed:
+                        _retryMembers ??= new();
+                        _retryMembers.Add( i, (memberObj, mapping) );
                         anyFailed = true;
                         break;
                     case MappingResult.Progressed:
+                        _retryMembers ??= new();
+                        _retryMembers.Add( i, (memberObj, mapping) );
                         anyProgressed = true;
                         break;
                 }
@@ -280,8 +410,24 @@ namespace UnityPlus.Serialization
                 //   because structs are never null, but they may be immutable.
                 if( !_objectHasBeenInstantiated && FactoryMembersReadyForInstantiation() )
                 {
-                    obj2 = Instantiate( data, l );
+                    _factoryMemberStorage[i] = memberObj;
+                    sourceObj = Instantiate( data, l );
+                    // assign the initial members (if members are readonly this will silently do nothing).
+                    for( int j = 0; j < _factoryMemberStorage.Length; j++ )
+                    {
+                        _members[j].Set( ref sourceObj, this._factoryMemberStorage[j] );
+                    }
                     _objectHasBeenInstantiated = true;
+                }
+
+                // Store the member for later in case the object doesn't exist yet.
+                if( _objectHasBeenInstantiated )
+                {
+                    member.Set( ref sourceObj, memberObj );
+                }
+                else
+                {
+                    _factoryMemberStorage[i] = memberObj;
                 }
 
                 if( l.ShouldPause() )
@@ -292,19 +438,9 @@ namespace UnityPlus.Serialization
                 }
             }
 
-            var result = MappingResult_Ex.GetCompoundResult( anyFailed, anyFinished, anyProgressed );
-            if( result == MappingResult.Finished )
-            {
-                // Assigning when everything was finished guarantees that the factory has been called.
-                for( int i = 0; i < this._members.Count; i++ )
-                {
-                    _members[i].Assign( ref obj2, this._memberStorageLocations[i] );
-                }
-            }
+            obj = (T)(object)sourceObj;
 
-            obj = (T)(object)obj2;
-
-            return result;
+            return MappingResult_Ex.GetCompoundResult( anyFailed, anyFinished, anyProgressed );
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
@@ -313,7 +449,7 @@ namespace UnityPlus.Serialization
             TSource obj;
             if( _untypedFactory != null )
             {
-                obj = (TSource)_untypedFactory.DynamicInvoke( _memberStorageLocations.Take( _factoryMembers.Length ).ToArray() );
+                obj = (TSource)_untypedFactory.DynamicInvoke( _factoryMemberStorage );
             }
             else if( _rawFactory != null )
             {
@@ -373,6 +509,18 @@ namespace UnityPlus.Serialization
             return this;
         }
 
+        public MemberwiseSerializationMapping<TSource> WithReadonlyMember<TMember>( string serializedName, Getter<TSource, TMember> getter )
+        {
+            this._members.Add( new Member<TSource, TMember>( serializedName, ObjectContext.Default, getter ) );
+            return this;
+        }
+
+        public MemberwiseSerializationMapping<TSource> WithReadonlyMember<TMember>( string serializedName, int context, Getter<TSource, TMember> getter )
+        {
+            this._members.Add( new Member<TSource, TMember>( serializedName, context, getter ) );
+            return this;
+        }
+
         //
 
         public MemberwiseSerializationMapping<TSource> WithRawFactory( Func<SerializedData, ILoader, object> customFactory )
@@ -419,6 +567,8 @@ namespace UnityPlus.Serialization
             return this;
         }
 
+#warning TODO - named factories.
+        /*
         public MemberwiseSerializationMapping<TSource> WithFactory<TMember1>( string member1Name, Func<TMember1, object> factory )
         {
             // factory is invoked once all the specified members are created.
@@ -451,6 +601,6 @@ namespace UnityPlus.Serialization
             //OnInstantiate = factory;
             throw new NotImplementedException();
             return this;
-        }
+        }*/
     }
 }

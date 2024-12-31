@@ -40,20 +40,11 @@ namespace UnityPlus.Serialization
             return typeof( T );
         }
 
+        [Obsolete( "replace with body later" )]
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static SerializationMapping GetMapping_Load<T>( int context, Type memberType, SerializedData data, ILoader l )
+        public static SerializationMapping GetMapping_Load<T>( int context, Type memberType, SerializedData data )
         {
-            if( data == null )
-                return SerializationMappingRegistry.GetMapping<T>( context, memberType );
-
-            if( l.MappingCache.TryGetValue( data, out var mapping ) )
-                return mapping;
-
-            mapping = SerializationMappingRegistry.GetMapping<T>( context, memberType );
-
-            l.MappingCache[data] = mapping;
-
-            return mapping;
+            return SerializationMappingRegistry.GetMapping<T>( context, memberType );
         }
     }
 }

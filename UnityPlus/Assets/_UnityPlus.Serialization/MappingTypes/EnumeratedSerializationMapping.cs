@@ -89,7 +89,7 @@ namespace UnityPlus.Serialization
             SerializedArray array = (SerializedArray)data["value"];
             int length = array.Count;
 
-            if( !_objectHasBeenInstantiated )
+            if( lateFactory == null && !_objectHasBeenInstantiated )
             {
                 obj2 = InstantiateEarly( data, l, length );
                 _objectHasBeenInstantiated = true;
@@ -105,12 +105,13 @@ namespace UnityPlus.Serialization
                     memberType = type.DeserializeType();
                 }
 
-                var mapping = MappingHelper.GetMapping_Load<TElement>( elementContext, memberType, elemData, l );
+                var mapping = MappingHelper.GetMapping_Load<TElement>( elementContext, memberType, elemData );
 
                 TElement element2 = default;
                 var result = mapping.SafeLoad<TElement>( ref element2, elemData, l );
                 if( result == MappingResult.Finished )
                 {
+#warning TODO - should failures be passed into this? dicts need to guard null, but lists would work with just straight add/index. This would cause additional calls for each failure.
                     elementSetter.Invoke( obj2, i, element2 );
                 }
                 else
