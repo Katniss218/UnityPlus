@@ -44,9 +44,12 @@ namespace UnityPlus.Serialization
             return _member.SaveRetry( memberObj, mapping, sourceData, s );
         }
 
-        public override MappingResult Load( ref object memberObj, SerializedData sourceData, ILoader l, out SerializationMapping mapping )
+        public override MappingResult Load( ref TSource sourceObj, bool isInstantiated, SerializedData sourceData, ILoader l, out SerializationMapping mapping, out object memberObj )
         {
-            return _member.Load( ref memberObj, sourceData, l, out mapping );
+            TSourceBase sourceObj2 = sourceObj;
+            var res = _member.Load( ref sourceObj2, isInstantiated, sourceData, l, out mapping, out memberObj );
+            sourceObj = (TSource)sourceObj2;
+            return res;
         }
 
         public override MappingResult LoadRetry( ref object memberObj, SerializationMapping mapping, SerializedData sourceData, ILoader l )

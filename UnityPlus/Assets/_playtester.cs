@@ -124,44 +124,47 @@ public class _playtester : MonoBehaviour
             su.Serialize();
 
         } while( su.Result == MappingResult.Progressed );
-        var data = su.GetData().First();
-        //SerializedData data = SerializationUnit.Serialize<GameObject>( perfTestGo );
-        //SerializedData data = SerializationUnit.Serialize<int[]>( new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 } );
+        SerializedData data = su.GetData().First();
 
         var sb = new StringBuilder();
         new JsonStringWriter( data, sb ).Write();
         Debug.Log( sb.ToString() );
 
-        //(int, string) var = SerializationUnit.Deserialize<(int, string)>( data );
-        //GameObject var = SerializationUnit.Deserialize<GameObject>( data );
+
+
         var su2 = SerializationUnit.FromDataAsync<GameObject>( data );
         do
         { // INFO - the time includes things like the JIT, so first serialization will take more steps, but that doesn't affect anything.
             su2.Deserialize();
 
         } while( su2.Result == MappingResult.Progressed );
-        GameObject var = su2.GetObjects<GameObject>().First();
-        //int[] var = SerializationUnit.Deserialize<int[]>( data );
+        GameObject obj = su2.GetObjects().First();
 
-        //data = SerializationUnit.Serialize<(int, string)>( var );
-        data = SerializationUnit.Serialize<GameObject>( var );
-        //data = SerializationUnit.Serialize<int[]>( var );
+
+
+        su = SerializationUnit.FromObjectsAsync<GameObject>( perfTestGo );
+        do
+        { // INFO - the time includes things like the JIT, so first serialization will take more steps, but that doesn't affect anything.
+            su.Serialize();
+
+        } while( su.Result == MappingResult.Progressed );
+        data = su.GetData().First();
 
         sb = new StringBuilder();
         new JsonStringWriter( data, sb ).Write();
         Debug.Log( sb.ToString() );
-
     }
 
     void Update()
     {
-        RunPerfTest();
+        //RunPerfTest();
+        RunPerfTestAsync_AsSync();
     }
+
+    const int COUNT = 1000;
 
     private void RunPerfTest()
     {
-        const int COUNT = 1000;
-
         List<GameObject> list = new List<GameObject>( COUNT );
 
         for( int i = 0; i < COUNT; i++ )
@@ -172,6 +175,44 @@ public class _playtester : MonoBehaviour
 
             Profiler.BeginSample( "t2" );
             GameObject go = SerializationUnit.Deserialize<GameObject>( data );
+            Profiler.EndSample();
+
+            list.Add( go );
+        }
+
+        foreach( var go in list.ToArray() )
+        {
+            Destroy( go );
+            list.Clear();
+        }
+    }
+
+    private void RunPerfTestAsync_AsSync()
+    {
+        List<GameObject> list = new List<GameObject>( COUNT );
+
+        for( int i = 0; i < COUNT; i++ )
+        {
+
+            Profiler.BeginSample( "t1" );
+            var su = SerializationUnit.FromObjectsAsync<GameObject>( perfTestGo );
+            do
+            { // INFO - the time includes things like the JIT, so first serialization will take more steps, but that doesn't affect anything.
+                su.Serialize();
+
+            } while( su.Result == MappingResult.Progressed );
+            SerializedData data = su.GetData().First();
+
+            Profiler.EndSample();
+
+            Profiler.BeginSample( "t2" );
+            var su2 = SerializationUnit.FromDataAsync<GameObject>( data );
+            do
+            { // INFO - the time includes things like the JIT, so first serialization will take more steps, but that doesn't affect anything.
+                su2.Deserialize();
+
+            } while( su2.Result == MappingResult.Progressed );
+            GameObject go = su2.GetObjects().First();
             Profiler.EndSample();
 
             list.Add( go );

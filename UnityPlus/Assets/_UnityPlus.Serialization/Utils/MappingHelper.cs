@@ -39,12 +39,5 @@ namespace UnityPlus.Serialization
 
             return typeof( T );
         }
-
-        [Obsolete( "replace with body later" )]
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static SerializationMapping GetMapping_Load<T>( int context, Type memberType, SerializedData data )
-        {
-            return SerializationMappingRegistry.GetMapping<T>( context, memberType );
-        }
     }
 }

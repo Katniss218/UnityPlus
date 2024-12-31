@@ -15,7 +15,7 @@ namespace UnityPlus.Serialization
         public abstract MappingResult Save( TSource sourceObj, SerializedData sourceData, ISaver s, out SerializationMapping mapping, out object memberObj );
         public abstract MappingResult SaveRetry( object memberObj, SerializationMapping mapping, SerializedData sourceData, ISaver s );
 
-        public abstract MappingResult Load( ref object memberObj, SerializedData sourceData, ILoader l, out SerializationMapping mapping );
+        public abstract MappingResult Load( ref TSource sourceObj, bool isInstantiated, SerializedData sourceData, ILoader l, out SerializationMapping mapping, out object memberObj );
         public abstract MappingResult LoadRetry( ref object memberObj, SerializationMapping mapping, SerializedData sourceData, ILoader l );
 
         /// <summary>

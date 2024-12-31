@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityPlus.Serialization.ReferenceMaps;
+using UnityEngine;
+using System.Diagnostics;
+using Debug = UnityEngine.Debug;
 
 namespace UnityPlus.Serialization
 {
@@ -62,9 +64,8 @@ namespace UnityPlus.Serialization
             {
                 MappingResult result = this.LoadCallback();
                 this.Result = result;
-                if( result == MappingResult.Finished || result == MappingResult.NoChange )
+                if( result != MappingResult.Progressed )
                     return;
-                //Debug.Log( i );
             }
         }
 
@@ -85,9 +86,8 @@ namespace UnityPlus.Serialization
             {
                 MappingResult result = this.LoadCallback();
                 this.Result = result;
-                if( result == MappingResult.Finished || result == MappingResult.NoChange )
+                if( result != MappingResult.Progressed )
                     return;
-                //Debug.Log( i );
             }
         }
 
@@ -103,9 +103,8 @@ namespace UnityPlus.Serialization
             {
                 MappingResult result = this.LoadCallback();
                 this.Result = result;
-                if( result == MappingResult.Finished || result == MappingResult.NoChange )
+                if( result != MappingResult.Progressed )
                     return;
-                //Debug.Log( i );
             }
         }
 
@@ -125,9 +124,8 @@ namespace UnityPlus.Serialization
             {
                 MappingResult result = this.LoadCallback();
                 this.Result = result;
-                if( result == MappingResult.Finished || result == MappingResult.NoChange )
+                if( result != MappingResult.Progressed )
                     return;
-                //Debug.Log( i );
             }
         }
 
@@ -164,7 +162,7 @@ namespace UnityPlus.Serialization
 
                 SerializedData data = _data[i];
 
-                var mapping = MappingHelper.GetMapping_Load<T>( _context, MappingHelper.GetSerializedType<T>( data ), data );
+                var mapping = SerializationMappingRegistry.GetMapping<T>( _context, MappingHelper.GetSerializedType<T>( data ) );
 
                 T member = _objects[i];
                 var memberResult = mapping.SafeLoad( ref member, data, this );

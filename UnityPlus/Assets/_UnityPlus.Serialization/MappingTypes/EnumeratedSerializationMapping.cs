@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using UnityEngine;
 
 namespace UnityPlus.Serialization
 {
     public class EnumeratedSerializationMapping<TSource, TElement> : SerializationMapping where TSource : IEnumerable<TElement>
     {
-        Action<TSource, int, TElement> elementSetter;
         int elementContext;
+        Action<TSource, int, TElement> elementSetter;
         private bool _objectHasBeenInstantiated;
+
+        TElement[] _factoryElementStorage;
+        int _startIndex = 0;
+        Dictionary<int, RetryEntry<TElement>> _retryElements;
 
         Func<SerializedData, ILoader, object> _rawFactory = null;
         Func<int, object> factory;
         Func<IEnumerable<TElement>, object> lateFactory;
-        List<TElement> elementStorageLocations;
-
-        List<int> _previousFailures;
-        private int _startFrom = 0;
 
         public EnumeratedSerializationMapping( Action<TSource, int, TElement> setter )
         {
@@ -63,18 +62,97 @@ namespace UnityPlus.Serialization
                 serArray = (SerializedArray)data["value"];
             }
 
-            foreach( var elem in sourceObj )
+            bool anyFailed = false;
+            bool anyFinished = false;
+            bool anyProgressed = false;
+
+            //
+            //
+            //
+
+            if( _retryElements != null )
             {
-                var mapping = SerializationMappingRegistry.GetMapping<TElement>( elementContext, elem );
+                List<int> retryMembersThatSucceededThisTime = new();
 
-                SerializedData dataElem = null;
+                foreach( (int i, var entry) in _retryElements )
+                {
+                    SerializedData elementData = null;
 
-                MappingResult result = mapping.SafeSave( elem, ref dataElem, s );
+                    MappingResult elementResult = entry.mapping.SafeSave<TElement>( entry.value, ref elementData, s );
+                    switch( elementResult )
+                    {
+                        case MappingResult.Finished:
+                            retryMembersThatSucceededThisTime.Add( i );
+                            anyFinished = true;
+                            break;
+                        case MappingResult.Failed:
+                            anyFailed = true;
+                            break;
+                        case MappingResult.Progressed:
+                            anyProgressed = true;
+                            break;
+                    }
 
-                serArray.Add( dataElem );
+                    serArray[i] = elementData;
+
+                    if( s.ShouldPause() )
+                    {
+                        break;
+                    }
+                }
+
+                foreach( var i in retryMembersThatSucceededThisTime )
+                {
+                    _retryElements.Remove( i );
+                }
             }
 
-            return MappingResult.Finished;
+            //
+            //
+            //
+
+            int index = 0;
+            foreach( TElement elementObj in sourceObj )
+            {
+                if( index < _startIndex ) // Assumes that the enumerable enumerates in the same order each time.
+                {
+                    index++;
+                    continue;
+                }
+
+                var mapping = SerializationMappingRegistry.GetMapping<TElement>( elementContext, elementObj );
+
+                SerializedData elementData = null;
+
+                MappingResult elementResult = mapping.SafeSave( elementObj, ref elementData, s );
+                switch( elementResult )
+                {
+                    case MappingResult.Finished:
+                        _startIndex = index + 1;
+                        anyFinished = true;
+                        break;
+                    case MappingResult.Failed:
+                        _retryElements ??= new();
+                        _retryElements.Add( index, new RetryEntry<TElement>( elementObj, mapping ) );
+                        anyFailed = true;
+                        break;
+                    case MappingResult.Progressed:
+                        _retryElements ??= new();
+                        _retryElements.Add( index, new RetryEntry<TElement>( elementObj, mapping ) );
+                        anyProgressed = true;
+                        break;
+                }
+
+                serArray.Add( elementData );
+                index++;
+
+                if( s.ShouldPause() )
+                {
+                    break;
+                }
+            }
+
+            return MappingResult_Ex.GetCompoundResult( anyFailed, anyFinished, anyProgressed );
         }
 
         public override MappingResult Load<T>( ref T obj, SerializedData data, ILoader l )
@@ -84,58 +162,127 @@ namespace UnityPlus.Serialization
                 return MappingResult.Finished;
             }
 
-            TSource obj2 = (obj == null) ? default : (TSource)(object)obj;
+            TSource sourceObj = (obj == null) ? default : (TSource)(object)obj;
 
             SerializedArray array = (SerializedArray)data["value"];
             int length = array.Count;
 
             if( lateFactory == null && !_objectHasBeenInstantiated )
             {
-                obj2 = InstantiateEarly( data, l, length );
+                sourceObj = InstantiateEarly( data, l, length );
                 _objectHasBeenInstantiated = true;
             }
-
-            for( int i = _startFrom; i < length; i++ )
+            else
             {
-                var elemData = array[i];
+                _factoryElementStorage ??= new TElement[length];
+            }
 
-                Type memberType = typeof( TElement );
-                if( elemData != null && elemData.TryGetValue( KeyNames.TYPE, out var type ) )
+            bool anyFailed = false;
+            bool anyFinished = false;
+            bool anyProgressed = false;
+
+            //
+            //
+            //
+
+            if( _retryElements != null )
+            {
+                List<int> retryMembersThatSucceededThisTime = new();
+
+                foreach( (int i, var entry) in _retryElements )
                 {
-                    memberType = type.DeserializeType();
+                    SerializedData elementData = array[i];
+
+                    MappingResult elementResult = entry.mapping.SafeLoad<TElement>( ref entry.value, elementData, l );
+                    switch( elementResult )
+                    {
+                        case MappingResult.Finished:
+                            retryMembersThatSucceededThisTime.Add( i );
+                            anyFinished = true;
+                            break;
+                        case MappingResult.Failed:
+                            anyFailed = true;
+                            break;
+                        case MappingResult.Progressed:
+                            anyProgressed = true;
+                            break;
+                    }
+
+                    if( _objectHasBeenInstantiated )
+                    {
+                        elementSetter.Invoke( sourceObj, i, entry.value );
+                    }
+                    else
+                    {
+                        _factoryElementStorage[i] = entry.value;
+                    }
+
+                    if( l.ShouldPause() )
+                    {
+                        break;
+                    }
                 }
 
-                var mapping = MappingHelper.GetMapping_Load<TElement>( elementContext, memberType, elemData );
-
-                TElement element2 = default;
-                var result = mapping.SafeLoad<TElement>( ref element2, elemData, l );
-                if( result == MappingResult.Finished )
+                foreach( var i in retryMembersThatSucceededThisTime )
                 {
-#warning TODO - should failures be passed into this? dicts need to guard null, but lists would work with just straight add/index. This would cause additional calls for each failure.
-                    elementSetter.Invoke( obj2, i, element2 );
+                    _retryElements.Remove( i );
+                }
+            }
+
+            //
+            //
+            //
+
+            for( int i = _startIndex; i < length; i++ )
+            {
+                SerializedData elementData = array[i];
+
+                Type memberType = MappingHelper.GetSerializedType<TElement>( elementData );
+                var mapping = SerializationMappingRegistry.GetMapping<TElement>( elementContext, memberType );
+
+                TElement elementObj = default;
+                MappingResult elementResult = mapping.SafeLoad<TElement>( ref elementObj, elementData, l );
+                switch( elementResult )
+                {
+                    case MappingResult.Finished:
+                        _startIndex = i + 1;
+                        anyFinished = true;
+                        break;
+                    case MappingResult.Failed:
+                        _retryElements ??= new();
+                        _retryElements.Add( i, new RetryEntry<TElement>( elementObj, mapping ) );
+                        anyFailed = true;
+                        break;
+                    case MappingResult.Progressed:
+                        _retryElements ??= new();
+                        _retryElements.Add( i, new RetryEntry<TElement>( elementObj, mapping ) );
+                        anyProgressed = true;
+                        break;
+                }
+
+                if( _objectHasBeenInstantiated )
+                {
+                    elementSetter.Invoke( sourceObj, i, elementObj );
                 }
                 else
                 {
-#warning TODO - enumerables can use the fact that the order isn't well defined here.
-#warning TODO - handle previous failures when called again
-                    elementStorageLocations ??= new();
-                    elementStorageLocations.Add( element2 );
+                    _factoryElementStorage[i] = elementObj;
                 }
 
-                /*if( l.ShouldPause() )
+                if( l.ShouldPause() )
                 {
                     break;
-                }*/
+                }
             }
 
             if( !_objectHasBeenInstantiated )
             {
-                obj2 = InstantiateLate( data, l );
+                sourceObj = InstantiateLate( data, l );
                 _objectHasBeenInstantiated = true;
             }
 
-            obj = (T)(object)obj2;
-            return MappingResult.Finished;
+            obj = (T)(object)sourceObj;
+            return MappingResult_Ex.GetCompoundResult( anyFailed, anyFinished, anyProgressed );
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
@@ -177,7 +324,7 @@ namespace UnityPlus.Serialization
 
             if( lateFactory != null )
             {
-                obj = (TSource)lateFactory.Invoke( elementStorageLocations );
+                obj = (TSource)lateFactory.Invoke( _factoryElementStorage );
             }
             else
             {

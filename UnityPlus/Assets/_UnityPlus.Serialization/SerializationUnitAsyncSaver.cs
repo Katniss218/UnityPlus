@@ -52,7 +52,7 @@ namespace UnityPlus.Serialization
             {
                 MappingResult result = this.SaveCallback();
                 this.Result = result;
-                if( result == MappingResult.Finished || result == MappingResult.NoChange )
+                if( result != MappingResult.Progressed )
                     return;
             }
         }
@@ -74,9 +74,8 @@ namespace UnityPlus.Serialization
             {
                 MappingResult result = this.SaveCallback();
                 this.Result = result;
-                if( result == MappingResult.Finished || result == MappingResult.NoChange )
+                if( result != MappingResult.Progressed )
                     return;
-                // Debug.Log( i );
             }
         }
 

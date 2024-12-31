@@ -45,9 +45,8 @@ namespace UnityPlus.Serialization
             for( int i = 0; i < maxIters; i++ )
             {
                 MappingResult result = this.SaveCallback();
-                if( result == MappingResult.Finished || result == MappingResult.NoChange )
+                if( result != MappingResult.Progressed )
                     return;
-                // Debug.Log( i );
             }
         }
 
@@ -66,9 +65,8 @@ namespace UnityPlus.Serialization
             for( int i = 0; i < maxIters; i++ )
             {
                 MappingResult result = this.SaveCallback();
-                if( result == MappingResult.Finished || result == MappingResult.NoChange )
+                if( result != MappingResult.Progressed )
                     return;
-                // Debug.Log( i );
             }
         }
 

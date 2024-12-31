@@ -141,7 +141,7 @@ namespace UnityPlus.Serialization
             return memberResult;
         }
 
-        public override MappingResult Load( ref object memberObj, SerializedData sourceData, ILoader l, out SerializationMapping mapping )
+        public override MappingResult Load( ref TSource sourceObj, bool isInstantiated, SerializedData sourceData, ILoader l, out SerializationMapping mapping, out object memberObj )
         {
             if( !sourceData.TryGetValue( Name, out SerializedData memberData ) )
                 memberData = null;
@@ -152,18 +152,24 @@ namespace UnityPlus.Serialization
             }
             else
             {
-                Type memberType = typeof( TMember );
-                if( memberData != null && memberData.TryGetValue( KeyNames.TYPE, out var type ) )
-                {
-                    memberType = type.DeserializeType();
-                }
-
+                Type memberType = MappingHelper.GetSerializedType<TMember>( memberData );
                 mapping = SerializationMappingRegistry.GetMapping<TMember>( _context, memberType );
             }
 
             TMember memberObj2 = default;
             MappingResult memberResult = mapping.SafeLoad<TMember>( ref memberObj2, memberData, l );
-            memberObj = memberObj2;
+            if( isInstantiated && memberResult == MappingResult.Finished )
+            {
+                memberObj = null;
+                if( _structSetter != null )
+                    _structSetter.Invoke( ref sourceObj, (TMember)memberObj2 );
+                else if( _setter != null )
+                    _setter.Invoke( sourceObj, (TMember)memberObj2 );
+            }
+            else
+            {
+                memberObj = memberObj2;
+            }
 
             return memberResult;
         }
