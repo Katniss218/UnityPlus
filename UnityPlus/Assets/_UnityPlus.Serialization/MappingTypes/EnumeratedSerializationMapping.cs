@@ -155,7 +155,7 @@ namespace UnityPlus.Serialization
             return MappingResult_Ex.GetCompoundResult( anyFailed, anyFinished, anyProgressed );
         }
 
-        public override MappingResult Load<T>( ref T obj, SerializedData data, ILoader l )
+        public override MappingResult Load<T>( ref T obj, SerializedData data, ILoader l, bool populate )
         {
             if( data == null )
             {
@@ -167,14 +167,21 @@ namespace UnityPlus.Serialization
             SerializedArray array = (SerializedArray)data["value"];
             int length = array.Count;
 
-            if( lateFactory == null && !_objectHasBeenInstantiated )
+            if( populate )
             {
-                sourceObj = InstantiateEarly( data, l, length );
                 _objectHasBeenInstantiated = true;
             }
             else
             {
-                _factoryElementStorage ??= new TElement[length];
+                if( lateFactory == null && !_objectHasBeenInstantiated )
+                {
+                    sourceObj = InstantiateEarly( data, l, length );
+                    _objectHasBeenInstantiated = true;
+                }
+                else
+                {
+                    _factoryElementStorage ??= new TElement[length];
+                }
             }
 
             bool anyFailed = false;
@@ -193,7 +200,7 @@ namespace UnityPlus.Serialization
                 {
                     SerializedData elementData = array[i];
 
-                    MappingResult elementResult = entry.mapping.SafeLoad<TElement>( ref entry.value, elementData, l );
+                    MappingResult elementResult = entry.mapping.SafeLoad<TElement>( ref entry.value, elementData, l, false );
                     switch( elementResult )
                     {
                         case MappingResult.Finished:
@@ -208,13 +215,16 @@ namespace UnityPlus.Serialization
                             break;
                     }
 
-                    if( _objectHasBeenInstantiated )
+                    if( elementResult == MappingResult.Finished )
                     {
-                        elementSetter.Invoke( sourceObj, i, entry.value );
-                    }
-                    else
-                    {
-                        _factoryElementStorage[i] = entry.value;
+                        if( _objectHasBeenInstantiated )
+                        {
+                            elementSetter.Invoke( sourceObj, i, entry.value );
+                        }
+                        else if( !populate )
+                        {
+                            _factoryElementStorage[i] = entry.value;
+                        }
                     }
 
                     if( l.ShouldPause() )
@@ -241,7 +251,7 @@ namespace UnityPlus.Serialization
                 var mapping = SerializationMappingRegistry.GetMapping<TElement>( elementContext, memberType );
 
                 TElement elementObj = default;
-                MappingResult elementResult = mapping.SafeLoad<TElement>( ref elementObj, elementData, l );
+                MappingResult elementResult = mapping.SafeLoad<TElement>( ref elementObj, elementData, l, false );
                 switch( elementResult )
                 {
                     case MappingResult.Finished:
@@ -260,13 +270,16 @@ namespace UnityPlus.Serialization
                         break;
                 }
 
-                if( _objectHasBeenInstantiated )
+                if( elementResult == MappingResult.Finished )
                 {
-                    elementSetter.Invoke( sourceObj, i, elementObj );
-                }
-                else
-                {
-                    _factoryElementStorage[i] = elementObj;
+                    if( _objectHasBeenInstantiated )
+                    {
+                        elementSetter.Invoke( sourceObj, i, elementObj );
+                    }
+                    else if( !populate )
+                    {
+                        _factoryElementStorage[i] = elementObj;
+                    }
                 }
 
                 if( l.ShouldPause() )
@@ -275,7 +288,7 @@ namespace UnityPlus.Serialization
                 }
             }
 
-            if( !_objectHasBeenInstantiated )
+            if( !populate && !_objectHasBeenInstantiated )
             {
                 sourceObj = InstantiateLate( data, l );
                 _objectHasBeenInstantiated = true;

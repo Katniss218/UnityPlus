@@ -158,7 +158,7 @@ namespace UnityPlus.Serialization
             return MappingResult_Ex.GetCompoundResult( anyFailed, anyFinished, anyProgressed );
         }
 
-        public override MappingResult Load<T>( ref T obj, SerializedData data, ILoader l )
+        public override MappingResult Load<T>( ref T obj, SerializedData data, ILoader l, bool populate )
         {
             if( data == null )
             {
@@ -170,14 +170,21 @@ namespace UnityPlus.Serialization
             SerializedArray array = (SerializedArray)data["value"];
             int length = array.Count;
 
-            if( _lateFactory == null && !_objectHasBeenInstantiated )
+            if( populate )
             {
-                sourceObj = InstantiateEarly( data, l, length );
                 _objectHasBeenInstantiated = true;
             }
             else
             {
-                _factoryElementStorage ??= new TElement[length];
+                if( _lateFactory == null && !_objectHasBeenInstantiated )
+                {
+                    sourceObj = InstantiateEarly( data, l, length );
+                    _objectHasBeenInstantiated = true;
+                }
+                else
+                {
+                    _factoryElementStorage ??= new TElement[length];
+                }
             }
 
             bool anyFailed = false;
@@ -196,7 +203,7 @@ namespace UnityPlus.Serialization
                 {
                     SerializedData elementData = array[i];
 
-                    MappingResult elementResult = entry.mapping.SafeLoad<TElement>( ref entry.value, elementData, l );
+                    MappingResult elementResult = entry.mapping.SafeLoad<TElement>( ref entry.value, elementData, l, false );
                     switch( elementResult )
                     {
                         case MappingResult.Finished:
@@ -215,7 +222,7 @@ namespace UnityPlus.Serialization
                     {
                         elementSetter.Invoke( sourceObj, i, entry.value );
                     }
-                    else
+                    else if( !populate )
                     {
                         _factoryElementStorage[i] = entry.value;
                     }
@@ -245,7 +252,7 @@ namespace UnityPlus.Serialization
                 var mapping = SerializationMappingRegistry.GetMapping<TElement>( elementContext, memberType );
 
                 TElement elementObj = default;
-                MappingResult elementResult = mapping.SafeLoad<TElement>( ref elementObj, elementData, l );
+                MappingResult elementResult = mapping.SafeLoad<TElement>( ref elementObj, elementData, l, false );
                 switch( elementResult )
                 {
                     case MappingResult.Finished:
@@ -268,7 +275,7 @@ namespace UnityPlus.Serialization
                 {
                     elementSetter.Invoke( sourceObj, i, elementObj );
                 }
-                else
+                else if( !populate )
                 {
                     _factoryElementStorage[i] = elementObj;
                 }
@@ -279,7 +286,7 @@ namespace UnityPlus.Serialization
                 }
             }
 
-            if( !_objectHasBeenInstantiated )
+            if( !populate && !_objectHasBeenInstantiated )
             {
                 sourceObj = InstantiateLate( data, l );
                 _objectHasBeenInstantiated = true;
@@ -317,6 +324,7 @@ namespace UnityPlus.Serialization
             }
 
             return obj;
+#warning TODO - I think this can still result in a weird infinite-loop-like thing when a skip happens. needs testing.
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]

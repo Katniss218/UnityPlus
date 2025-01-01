@@ -173,6 +173,32 @@ namespace Neoserialization
         }
     }
 
+    public class ArrayReferenceClass
+    {
+        public object[] refs;
+
+        public override bool Equals( object obj )
+        {
+            if( obj is not ArrayReferenceClass other )
+                return false;
+
+            return this.refs.SequenceEqual( other.refs );
+        }
+    }
+
+    public class DictionaryReferenceClass
+    {
+        public Dictionary<object, object> refs;
+
+        public override bool Equals( object obj )
+        {
+            if( obj is not DictionaryReferenceClass other )
+                return false;
+
+            return this.refs.SequenceEqual( other.refs );
+        }
+    }
+
     public class MappingRegistryTests
     {
         [MapsInheritingFrom( typeof( BaseClass ) )]
@@ -248,6 +274,20 @@ namespace Neoserialization
                 .WithMember( "fac1", o => o.fac1, ( o, value ) => { } )
                 .WithFactory<int>( fac1 => new FactoryClass( fac1 ) )
                 .WithMember( "non_fac2", o => o.nonFac2 );
+        }
+
+        [MapsInheritingFrom( typeof( ArrayReferenceClass ) )]
+        public static SerializationMapping ArrayReferenceClassMapping()
+        {
+            return new MemberwiseSerializationMapping<ArrayReferenceClass>()
+                .WithMember( "refs", ArrayContext.Refs, o => o.refs );
+        }
+        
+        [MapsInheritingFrom( typeof( DictionaryReferenceClass ) )]
+        public static SerializationMapping DictionaryReferenceClassMapping()
+        {
+            return new MemberwiseSerializationMapping<DictionaryReferenceClass>()
+                .WithMember( "refs", KeyValueContext.RefToRef, o => o.refs );
         }
 
         //

@@ -34,6 +34,6 @@ namespace UnityPlus.Serialization
         /// <returns>
         /// True if the member has been fully deserialized, false if the method needs to be called again to deserialize more.
         /// </returns>
-        public abstract MappingResult Load<T>( ref T obj, SerializedData data, ILoader l );
+        public abstract MappingResult Load<T>( ref T obj, SerializedData data, ILoader l, bool populate );
     }
 }

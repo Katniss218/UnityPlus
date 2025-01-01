@@ -22,6 +22,38 @@ namespace UnityPlus.Serialization.Mappings
                 .WithFactory( ( int count ) => new T[count] );
         }
 
+        [MapsInheritingFrom( typeof( Array ), Context = ArrayContext.Assets )]
+        public static SerializationMapping ArrayAssetMapping<T>() where T : class
+        {
+            return new IndexedSerializationMapping<T[], T>( o => o.Length,
+                ObjectContext.Asset,
+                ( o, i ) => // writes to data
+                {
+                    return o[i];
+                },
+                ( o, i, oElem ) => // loads from data
+                {
+                    o[i] = oElem;
+                } )
+                .WithFactory( length => new T[length] );
+        }
+
+        [MapsInheritingFrom( typeof( Array ), Context = ArrayContext.Refs )]
+        public static SerializationMapping ArrayReferenceMapping<T>() where T : class
+        {
+            return new IndexedSerializationMapping<T[], T>( o => o.Length,
+                ObjectContext.Ref,
+                ( o, i ) => // writes to data
+                {
+                    return o[i];
+                },
+                ( o, i, oElem ) => // loads from data
+                {
+                    o[i] = oElem;
+                } )
+                .WithFactory( length => new T[length] );
+        }
+
         /*[MapsInheritingFrom( typeof( List<> ), Context = ArrayContext.Values )]
         public static SerializationMapping ListMapping<T>()
         {

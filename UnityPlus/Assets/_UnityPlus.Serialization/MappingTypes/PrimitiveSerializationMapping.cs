@@ -36,6 +36,9 @@ namespace UnityPlus.Serialization
 
         public override MappingResult Save<TMember>( TMember obj, ref SerializedData data, ISaver s )
         {
+            if( OnSave == null )
+                return MappingResult.Finished;
+
             if( obj != null && MappingHelper.IsNonNullEligibleForTypeHeader<TMember>() ) // This doesn't appear to slow the system down much at all when benchbarked.
             {
                 data = new SerializedObject();
@@ -66,7 +69,7 @@ namespace UnityPlus.Serialization
             return MappingResult.Finished;
         }
 
-        public override MappingResult Load<TMember>( ref TMember obj, SerializedData data, ILoader l )
+        public override MappingResult Load<TMember>( ref TMember obj, SerializedData data, ILoader l, bool populate )
         {
             if( OnInstantiate == null )
                 return MappingResult.Finished;

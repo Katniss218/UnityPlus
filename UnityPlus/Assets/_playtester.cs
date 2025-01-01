@@ -122,9 +122,8 @@ public class _playtester : MonoBehaviour
         do
         { // INFO - the time includes things like the JIT, so first serialization will take more steps, but that doesn't affect anything.
             su.Serialize();
-
         } while( su.Result == MappingResult.Progressed );
-        SerializedData data = su.GetData().First();
+        var data = su.GetData().First();
 
         var sb = new StringBuilder();
         new JsonStringWriter( data, sb ).Write();
@@ -157,8 +156,8 @@ public class _playtester : MonoBehaviour
 
     void Update()
     {
-        //RunPerfTest();
-        RunPerfTestAsync_AsSync();
+        RunPerfTest();
+        //RunPerfTestAsync_AsSync();
     }
 
     const int COUNT = 1000;

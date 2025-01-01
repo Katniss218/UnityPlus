@@ -42,25 +42,19 @@ namespace UnityPlus.Serialization
         /// <summary>
         /// Performs serialization of the previously specified objects.
         /// </summary>
-        public void Serialize( int maxIters = 10 )
+        public void Serialize()
         {
             this._finishedMembers = new bool[_objects.Length];
             this._data = new SerializedData[_objects.Length];
             _lastInvocationTimestamp = Stopwatch.GetTimestamp();
 
-            for( int i = 0; i < maxIters; i++ )
-            {
-                MappingResult result = this.SaveCallback();
-                this.Result = result;
-                if( result != MappingResult.Progressed )
-                    return;
-            }
+            this.Result = this.SaveCallback();
         }
 
         /// <summary>
         /// Performs serialization of the previously specified objects.
         /// </summary>
-        public void Serialize( IReverseReferenceMap s, int maxIters = 10 )
+        public void Serialize( IReverseReferenceMap s )
         {
             if( s == null )
                 throw new ArgumentNullException( nameof( s ), $"The reference map to use can't be null." );
@@ -70,13 +64,7 @@ namespace UnityPlus.Serialization
             this.RefMap = s;
             _lastInvocationTimestamp = Stopwatch.GetTimestamp();
 
-            for( int i = 0; i < maxIters; i++ )
-            {
-                MappingResult result = this.SaveCallback();
-                this.Result = result;
-                if( result != MappingResult.Progressed )
-                    return;
-            }
+            this.Result = this.SaveCallback();
         }
 
         //

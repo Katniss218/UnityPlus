@@ -20,21 +20,5 @@ namespace UnityPlus.Serialization.Mappings
                 }
             };
         }
-
-        [MapsInheritingFrom( typeof( Array ), Context = ArrayContext.Refs )]
-        public static SerializationMapping ArrayReferenceMapping<T>() where T : class
-        {
-            return new IndexedSerializationMapping<T[], T>( o => o.Length,
-                ObjectContext.Ref,
-                ( o, i ) => // writes to data
-                {
-                    return o[i];
-                },
-                ( o, i, oElem ) => // loads from data
-                {
-                    o[i] = oElem;
-                } )
-                .WithFactory( length => new T[length] );
-        }
     }
 }

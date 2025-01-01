@@ -157,7 +157,7 @@ namespace UnityPlus.Serialization
             }
 
             TMember memberObj2 = default;
-            MappingResult memberResult = mapping.SafeLoad<TMember>( ref memberObj2, memberData, l );
+            MappingResult memberResult = mapping.SafeLoad<TMember>( ref memberObj2, memberData, l, false );
             if( isInstantiated && memberResult == MappingResult.Finished )
             {
                 memberObj = null;
@@ -180,7 +180,7 @@ namespace UnityPlus.Serialization
                 memberData = null;
 
             TMember memberObj2 = (TMember)memberObj;
-            MappingResult memberResult = mapping.SafeLoad<TMember>( ref memberObj2, memberData, l );
+            MappingResult memberResult = mapping.SafeLoad<TMember>( ref memberObj2, memberData, l, false );
             memberObj = memberObj2;
 
             return memberResult;

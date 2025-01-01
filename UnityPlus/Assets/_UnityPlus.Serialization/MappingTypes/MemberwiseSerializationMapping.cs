@@ -245,7 +245,7 @@ namespace UnityPlus.Serialization
             return true;
         }
 
-        public override MappingResult Load<T>( ref T obj, SerializedData data, ILoader l )
+        public override MappingResult Load<T>( ref T obj, SerializedData data, ILoader l, bool populate )
         {
             if( data == null )
             {
@@ -259,17 +259,23 @@ namespace UnityPlus.Serialization
             // Instantiate the object that contains the members ('parent'), if available.
             // It stores when the factory is invoked instead of checking for null,
             //   because structs are never null, but they may be immutable.
-            if( !_objectHasBeenInstantiated && FactoryMembersReadyForInstantiation() )
+            if( populate )
             {
-                sourceObj = Instantiate( data, l );
                 _objectHasBeenInstantiated = true;
             }
-
-            if( _factoryMembers != null )
+            else
             {
-                _factoryMemberStorage ??= new object[_factoryMembers.Length];
+                if( !_objectHasBeenInstantiated && FactoryMembersReadyForInstantiation() )
+                {
+                    sourceObj = Instantiate( data, l );
+                    _objectHasBeenInstantiated = true;
+                }
+
+                if( _factoryMembers != null )
+                {
+                    _factoryMemberStorage ??= new object[_factoryMembers.Length];
+                }
             }
-#warning TODO - populate thinks that the object hasn't been instantiated yet and re-instantiates it.
 
             bool anyFailed = false;
             bool anyFinished = false;
@@ -305,7 +311,7 @@ namespace UnityPlus.Serialization
                     // Instantiate the object that contains the members ('parent'), if available.
                     // It stores when the factory is invoked instead of checking for null,
                     //   because structs are never null, but they may be immutable.
-                    if( !_objectHasBeenInstantiated && FactoryMembersReadyForInstantiation() )
+                    if( !populate && !_objectHasBeenInstantiated && FactoryMembersReadyForInstantiation() )
                     {
                         _factoryMemberStorage[i] = entry.value;
 
@@ -323,7 +329,7 @@ namespace UnityPlus.Serialization
                     {
                         member.Set( ref sourceObj, entry.value );
                     }
-                    else
+                    else if( !populate )
                     {
                         _factoryMemberStorage[i] = entry.value;
                     }
@@ -374,7 +380,7 @@ namespace UnityPlus.Serialization
                 // Instantiate the object that contains the members ('parent'), if available.
                 // It stores when the factory is invoked instead of checking for null,
                 //   because structs are never null, but they may be immutable.
-                if( !_objectHasBeenInstantiated && FactoryMembersReadyForInstantiation() )
+                if( !populate && !_objectHasBeenInstantiated && FactoryMembersReadyForInstantiation() )
                 {
                     _factoryMemberStorage[i] = memberObj;
                     sourceObj = Instantiate( data, l );
@@ -394,7 +400,7 @@ namespace UnityPlus.Serialization
                         member.Set( ref sourceObj, memberObj );
                     }
                 }
-                else
+                else if( !populate )
                 {
                     _factoryMemberStorage[i] = memberObj;
                 }
@@ -497,41 +503,129 @@ namespace UnityPlus.Serialization
             return this;
         }
 
+        private void SetupFactory( Delegate factory, params Type[] types )
+        {
+            int start = _members.Count - types.Length;
+            if( start < 0 )
+                throw new Exception( $"Tried to register a factory with {types.Length} parameters, but there's only {_members.Count} members registered." );
+
+            for( int i = 0; i < types.Length; i++ )
+            {
+                Type memberXType = _members[start + i].GetType();
+                if( memberXType.GetGenericTypeDefinition() == typeof( Member<,> ) )
+                {
+                    Type memberType = memberXType.GetGenericArguments()[1];
+                    if( memberType != types[i] )
+                    {
+                        throw new ArgumentException( $"Mismatched member type '{memberType.FullName}' vs factory parameter type '{types[i].FullName}'. Factory parameters must match the last (in this case) {types.Length} member types." );
+                    }
+                }
+            }
+
+            _factoryMembers = this._members.Skip( start ).ToArray();
+            _untypedFactory = factory;
+        }
+
         public MemberwiseSerializationMapping<TSource> WithFactory( Func<object> factory )
         {
-            // factory invoked immediately, the type is fully mutable,
-            // just instantiated with a function instead of a parameterless constructor.
+            // Here the factory doesn't need checking, as it doesn't use members.
             _untypedFactory = factory;
             return this;
         }
 
         public MemberwiseSerializationMapping<TSource> WithFactory<TMember1>( Func<TMember1, object> factory )
         {
-            _factoryMembers = this._members.ToArray();
-            _untypedFactory = factory;
+            SetupFactory( factory, typeof( TMember1 ) );
             return this;
         }
 
         public MemberwiseSerializationMapping<TSource> WithFactory<TMember1, TMember2>( Func<TMember1, TMember2, object> factory )
         {
-            _factoryMembers = this._members.ToArray();
-            _untypedFactory = factory;
+            SetupFactory( factory, typeof( TMember1 ), typeof( TMember2 ) );
             return this;
         }
 
         public MemberwiseSerializationMapping<TSource> WithFactory<TMember1, TMember2, TMember3>( Func<TMember1, TMember2, TMember3, object> factory )
         {
-            // factory is invoked with all members.
-            _factoryMembers = this._members.ToArray();
-            _untypedFactory = factory;
+            SetupFactory( factory, typeof( TMember1 ), typeof( TMember2 ), typeof( TMember3 ) );
             return this;
         }
 
         public MemberwiseSerializationMapping<TSource> WithFactory<TMember1, TMember2, TMember3, TMember4>( Func<TMember1, TMember2, TMember3, TMember4, object> factory )
         {
-            // factory is invoked with all members.
-            _factoryMembers = this._members.ToArray();
-            _untypedFactory = factory;
+            SetupFactory( factory, typeof( TMember1 ), typeof( TMember2 ), typeof( TMember3 ), typeof( TMember4 ) );
+            return this;
+        }
+
+        public MemberwiseSerializationMapping<TSource> WithFactory<TMember1, TMember2, TMember3, TMember4, TMember5>( Func<TMember1, TMember2, TMember3, TMember4, TMember5, object> factory )
+        {
+            SetupFactory( factory, typeof( TMember1 ), typeof( TMember2 ), typeof( TMember3 ), typeof( TMember4 ), typeof( TMember5 ) );
+            return this;
+        }
+
+        public MemberwiseSerializationMapping<TSource> WithFactory<TMember1, TMember2, TMember3, TMember4, TMember5, TMember6>( Func<TMember1, TMember2, TMember3, TMember4, TMember5, TMember6, object> factory )
+        {
+            SetupFactory( factory, typeof( TMember1 ), typeof( TMember2 ), typeof( TMember3 ), typeof( TMember4 ), typeof( TMember5 ), typeof( TMember6 ) );
+            return this;
+        }
+
+        public MemberwiseSerializationMapping<TSource> WithFactory<TMember1, TMember2, TMember3, TMember4, TMember5, TMember6, TMember7>( Func<TMember1, TMember2, TMember3, TMember4, TMember5, TMember6, TMember7, object> factory )
+        {
+            SetupFactory( factory, typeof( TMember1 ), typeof( TMember2 ), typeof( TMember3 ), typeof( TMember4 ), typeof( TMember5 ), typeof( TMember6 ), typeof( TMember7 ) );
+            return this;
+        }
+
+        public MemberwiseSerializationMapping<TSource> WithFactory<TMember1, TMember2, TMember3, TMember4, TMember5, TMember6, TMember7, TMember8>( Func<TMember1, TMember2, TMember3, TMember4, TMember5, TMember6, TMember7, TMember8, object> factory )
+        {
+            SetupFactory( factory, typeof( TMember1 ), typeof( TMember2 ), typeof( TMember3 ), typeof( TMember4 ), typeof( TMember5 ), typeof( TMember6 ), typeof( TMember7 ), typeof( TMember8 ) );
+            return this;
+        }
+
+        public MemberwiseSerializationMapping<TSource> WithFactory<TMember1, TMember2, TMember3, TMember4, TMember5, TMember6, TMember7, TMember8, TMember9>( Func<TMember1, TMember2, TMember3, TMember4, TMember5, TMember6, TMember7, TMember8, TMember9, object> factory )
+        {
+            SetupFactory( factory, typeof( TMember1 ), typeof( TMember2 ), typeof( TMember3 ), typeof( TMember4 ), typeof( TMember5 ), typeof( TMember6 ), typeof( TMember7 ), typeof( TMember8 ), typeof( TMember9 ) );
+            return this;
+        }
+
+        public MemberwiseSerializationMapping<TSource> WithFactory<TMember1, TMember2, TMember3, TMember4, TMember5, TMember6, TMember7, TMember8, TMember9, TMember10>( Func<TMember1, TMember2, TMember3, TMember4, TMember5, TMember6, TMember7, TMember8, TMember9, TMember10, object> factory )
+        {
+            SetupFactory( factory, typeof( TMember1 ), typeof( TMember2 ), typeof( TMember3 ), typeof( TMember4 ), typeof( TMember5 ), typeof( TMember6 ), typeof( TMember7 ), typeof( TMember8 ), typeof( TMember9 ), typeof( TMember10 ) );
+            return this;
+        }
+
+        public MemberwiseSerializationMapping<TSource> WithFactory<TMember1, TMember2, TMember3, TMember4, TMember5, TMember6, TMember7, TMember8, TMember9, TMember10, TMember11>( Func<TMember1, TMember2, TMember3, TMember4, TMember5, TMember6, TMember7, TMember8, TMember9, TMember10, TMember11, object> factory )
+        {
+            SetupFactory( factory, typeof( TMember1 ), typeof( TMember2 ), typeof( TMember3 ), typeof( TMember4 ), typeof( TMember5 ), typeof( TMember6 ), typeof( TMember7 ), typeof( TMember8 ), typeof( TMember9 ), typeof( TMember10 ), typeof( TMember11 ) );
+            return this;
+        }
+
+        public MemberwiseSerializationMapping<TSource> WithFactory<TMember1, TMember2, TMember3, TMember4, TMember5, TMember6, TMember7, TMember8, TMember9, TMember10, TMember11, TMember12>( Func<TMember1, TMember2, TMember3, TMember4, TMember5, TMember6, TMember7, TMember8, TMember9, TMember10, TMember11, TMember12, object> factory )
+        {
+            SetupFactory( factory, typeof( TMember1 ), typeof( TMember2 ), typeof( TMember3 ), typeof( TMember4 ), typeof( TMember5 ), typeof( TMember6 ), typeof( TMember7 ), typeof( TMember8 ), typeof( TMember9 ), typeof( TMember10 ), typeof( TMember11 ), typeof( TMember12 ) );
+            return this;
+        }
+
+        public MemberwiseSerializationMapping<TSource> WithFactory<TMember1, TMember2, TMember3, TMember4, TMember5, TMember6, TMember7, TMember8, TMember9, TMember10, TMember11, TMember12, TMember13>( Func<TMember1, TMember2, TMember3, TMember4, TMember5, TMember6, TMember7, TMember8, TMember9, TMember10, TMember11, TMember12, TMember13, object> factory )
+        {
+            SetupFactory( factory, typeof( TMember1 ), typeof( TMember2 ), typeof( TMember3 ), typeof( TMember4 ), typeof( TMember5 ), typeof( TMember6 ), typeof( TMember7 ), typeof( TMember8 ), typeof( TMember9 ), typeof( TMember10 ), typeof( TMember11 ), typeof( TMember12 ), typeof( TMember13 ) );
+            return this;
+        }
+
+        public MemberwiseSerializationMapping<TSource> WithFactory<TMember1, TMember2, TMember3, TMember4, TMember5, TMember6, TMember7, TMember8, TMember9, TMember10, TMember11, TMember12, TMember13, TMember14>( Func<TMember1, TMember2, TMember3, TMember4, TMember5, TMember6, TMember7, TMember8, TMember9, TMember10, TMember11, TMember12, TMember13, TMember14, object> factory )
+        {
+            SetupFactory( factory, typeof( TMember1 ), typeof( TMember2 ), typeof( TMember3 ), typeof( TMember4 ), typeof( TMember5 ), typeof( TMember6 ), typeof( TMember7 ), typeof( TMember8 ), typeof( TMember9 ), typeof( TMember10 ), typeof( TMember11 ), typeof( TMember12 ), typeof( TMember13 ), typeof( TMember14 ) );
+            return this;
+        }
+
+        public MemberwiseSerializationMapping<TSource> WithFactory<TMember1, TMember2, TMember3, TMember4, TMember5, TMember6, TMember7, TMember8, TMember9, TMember10, TMember11, TMember12, TMember13, TMember14, TMember15>( Func<TMember1, TMember2, TMember3, TMember4, TMember5, TMember6, TMember7, TMember8, TMember9, TMember10, TMember11, TMember12, TMember13, TMember14, TMember15, object> factory )
+        {
+            SetupFactory( factory, typeof( TMember1 ), typeof( TMember2 ), typeof( TMember3 ), typeof( TMember4 ), typeof( TMember5 ), typeof( TMember6 ), typeof( TMember7 ), typeof( TMember8 ), typeof( TMember9 ), typeof( TMember10 ), typeof( TMember11 ), typeof( TMember12 ), typeof( TMember13 ), typeof( TMember14 ), typeof( TMember15 ) );
+            return this;
+        }
+
+        public MemberwiseSerializationMapping<TSource> WithFactory<TMember1, TMember2, TMember3, TMember4, TMember5, TMember6, TMember7, TMember8, TMember9, TMember10, TMember11, TMember12, TMember13, TMember14, TMember15, TMember16>( Func<TMember1, TMember2, TMember3, TMember4, TMember5, TMember6, TMember7, TMember8, TMember9, TMember10, TMember11, TMember12, TMember13, TMember14, TMember15, TMember16, object> factory )
+        {
+            SetupFactory( factory, typeof( TMember1 ), typeof( TMember2 ), typeof( TMember3 ), typeof( TMember4 ), typeof( TMember5 ), typeof( TMember6 ), typeof( TMember7 ), typeof( TMember8 ), typeof( TMember9 ), typeof( TMember10 ), typeof( TMember11 ), typeof( TMember12 ), typeof( TMember13 ), typeof( TMember14 ), typeof( TMember15 ), typeof( TMember16 ) );
             return this;
         }
 

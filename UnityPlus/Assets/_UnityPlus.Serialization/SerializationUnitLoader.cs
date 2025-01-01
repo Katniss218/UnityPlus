@@ -67,10 +67,9 @@ namespace UnityPlus.Serialization
 
             for( int i = 0; i < maxIters; i++ )
             {
-                MappingResult result = this.LoadCallback();
+                MappingResult result = this.LoadCallback( false );
                 if( result != MappingResult.Progressed )
                     return;
-                Debug.Log( i );
             }
         }
 
@@ -88,7 +87,7 @@ namespace UnityPlus.Serialization
 
             for( int i = 0; i < maxIters; i++ )
             {
-                MappingResult result = this.LoadCallback();
+                MappingResult result = this.LoadCallback( false );
                 if( result != MappingResult.Progressed )
                     return;
             }
@@ -103,7 +102,7 @@ namespace UnityPlus.Serialization
 
             for( int i = 0; i < maxIters; i++ )
             {
-                MappingResult result = this.LoadCallback();
+                MappingResult result = this.LoadCallback( true );
                 if( result != MappingResult.Progressed )
                     return;
             }
@@ -122,7 +121,7 @@ namespace UnityPlus.Serialization
 
             for( int i = 0; i < maxIters; i++ )
             {
-                MappingResult result = this.LoadCallback();
+                MappingResult result = this.LoadCallback( true );
                 if( result != MappingResult.Progressed )
                     return;
             }
@@ -148,7 +147,7 @@ namespace UnityPlus.Serialization
             return _objects.OfType<TDerived>();
         }
 
-        private MappingResult LoadCallback()
+        private MappingResult LoadCallback( bool populate )
         {
             bool anyFailed = false;
             bool anyFinished = false;
@@ -160,11 +159,11 @@ namespace UnityPlus.Serialization
                     continue;
 
                 SerializedData data = _data[i];
-                
+
                 var mapping = SerializationMappingRegistry.GetMapping<T>( _context, MappingHelper.GetSerializedType<T>( data ) );
 
                 T member = _objects[i];
-                var memberResult = mapping.SafeLoad( ref member, data, this );
+                var memberResult = mapping.SafeLoad( ref member, data, this, populate );
                 switch( memberResult )
                 {
                     case MappingResult.Finished:
