@@ -4,6 +4,14 @@ using System.Runtime.CompilerServices;
 
 namespace UnityPlus.Serialization
 {
+    /// <summary>
+    /// A type of mapping that operates on a collection type that is not indexable.
+    /// </summary>
+    /// <remarks>
+    /// Failed elements will be appended after elements that have succeeded. <br/>
+    /// Assumes that the collection type <typeparamref name="TSource"/> returns its elements in a consistent order.
+    /// </remarks>
+    /// <typeparam name="TSource">The type being mapped.</typeparam>
     public class EnumeratedSerializationMapping<TSource, TElement> : SerializationMapping where TSource : IEnumerable<TElement>
     {
         int elementContext;

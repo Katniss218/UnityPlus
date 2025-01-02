@@ -114,14 +114,12 @@ namespace UnityPlus.Serialization
 
         public override MappingResult Save( TSource sourceObj, SerializedData sourceData, ISaver s, out SerializationMapping mapping, out object memberObj )
         {
-            if( !sourceData.TryGetValue( Name, out var memberData ) )
-                memberData = null;
-
             TMember memberObj2 = _getter.Invoke( sourceObj );
             memberObj = memberObj2;
 
             mapping = SerializationMappingRegistry.GetMapping<TMember>( _context, memberObj2 );
 
+            SerializedData memberData = null;
             MappingResult memberResult = mapping.SafeSave<TMember>( memberObj2, ref memberData, s );
             sourceData[Name] = memberData;
 
@@ -143,8 +141,12 @@ namespace UnityPlus.Serialization
 
         public override MappingResult Load( ref TSource sourceObj, bool isInstantiated, SerializedData sourceData, ILoader l, out SerializationMapping mapping, out object memberObj )
         {
-            if( !sourceData.TryGetValue( Name, out SerializedData memberData ) )
-                memberData = null;
+            if( !sourceData.TryGetValue( Name, out SerializedData memberData ) ) 
+            {
+                mapping = default;
+                memberObj = default;
+                return MappingResult.Finished;
+            }
 
             if( _hasCachedMapping )             // This caching appears to not do much performance-wise.
             {

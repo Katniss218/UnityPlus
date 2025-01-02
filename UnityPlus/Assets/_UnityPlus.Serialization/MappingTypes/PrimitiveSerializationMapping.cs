@@ -3,9 +3,12 @@
 namespace UnityPlus.Serialization
 {
     /// <summary>
-    /// Maps an object that can be referenced by other objects, but can't contain references.
+    /// A type of mapping that operates on a primitive type.
     /// </summary>
-    /// <typeparam name="TSource">The type of the object being mapped.</typeparam>
+    /// <remarks>
+    /// A primitive type is one that can't be paused mid-save/load. Generally should be small, of fixed size, and not generic.
+    /// </remarks>
+    /// <typeparam name="TSource">The type being mapped.</typeparam>
     public sealed class PrimitiveSerializationMapping<TSource> : SerializationMapping
     {
         /// <summary>
