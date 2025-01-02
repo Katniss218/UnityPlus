@@ -63,5 +63,27 @@ namespace UnityPlus.Serialization.Mappings
                 OnInstantiate = ( data, l ) => new Quaternion( (float)data[0], (float)data[1], (float)data[2], (float)data[3] )
             };
         }
+
+        [MapsInheritingFrom( typeof( Matrix4x4 ) )]
+        public static SerializationMapping Matrix4x4Mapping()
+        {
+            return new PrimitiveSerializationMapping<Matrix4x4>()
+            {
+                OnSave = ( o, s ) => new SerializedArray( 16 ) 
+                { 
+                    (SerializedPrimitive)o.m00, (SerializedPrimitive)o.m01, (SerializedPrimitive)o.m02 , (SerializedPrimitive)o.m03,
+                    (SerializedPrimitive)o.m10, (SerializedPrimitive)o.m11, (SerializedPrimitive)o.m12 , (SerializedPrimitive)o.m13,
+                    (SerializedPrimitive)o.m20, (SerializedPrimitive)o.m21, (SerializedPrimitive)o.m22 , (SerializedPrimitive)o.m23,
+                    (SerializedPrimitive)o.m30, (SerializedPrimitive)o.m31, (SerializedPrimitive)o.m32 , (SerializedPrimitive)o.m33
+                },
+                OnInstantiate = ( data, l ) => new Matrix4x4()
+                {
+                     m00 = (float)data[0], m01 = (float)data[1], m02 = (float)data[2], m03 = (float)data[3],
+                     m10 = (float)data[0], m11 = (float)data[1], m12 = (float)data[2], m13 = (float)data[3],
+                     m20 = (float)data[0], m21 = (float)data[1], m22 = (float)data[2], m23 = (float)data[3],
+                     m30 = (float)data[0], m31 = (float)data[1], m32 = (float)data[2], m33 = (float)data[3]
+                }
+            };
+        }
     }
 }

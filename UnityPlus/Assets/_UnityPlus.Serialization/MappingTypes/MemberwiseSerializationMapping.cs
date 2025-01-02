@@ -29,10 +29,11 @@ namespace UnityPlus.Serialization
         int _startIndex;
         Dictionary<int, RetryEntry<object>> _retryMembers;
 
-        public Func<SerializedData, ILoader, object> _rawFactory { get; set; } = null;
-        public int _factoryStartMemberIndex { get; set; }
-        public int _factoryMemberCount { get; set; }
-        public Delegate _untypedFactory { get; set; } = null;
+        public Func<SerializedData, ILoader, object> _rawFactory { get; private set; } = null;
+        public int _factoryStartMemberIndex { get; private set; }
+        public int _factoryMemberCount { get; private set; }
+        public Delegate _untypedFactory { get; private set; } = null;
+        Action<SerializedData, TSource> _finalizer = null;
 
         public MemberwiseSerializationMapping()
         {
@@ -55,6 +56,7 @@ namespace UnityPlus.Serialization
             this._factoryStartMemberIndex = copy._factoryStartMemberIndex;
             this._factoryMemberCount = copy._factoryMemberCount;
             this._untypedFactory = copy._untypedFactory;
+            this._finalizer = copy._finalizer;
         }
 
         public override SerializationMapping GetInstance()
@@ -438,7 +440,12 @@ namespace UnityPlus.Serialization
             }
 
             obj = (T)(object)sourceObj;
-            return MappingResult_Ex.GetCompoundResult( anyFailed, anyFinished, anyProgressed );
+            var res = MappingResult_Ex.GetCompoundResult( anyFailed, anyFinished, anyProgressed );
+            if( res == MappingResult.Finished )
+            {
+                _finalizer?.Invoke( data, sourceObj );
+            }
+            return res;
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
@@ -673,5 +680,11 @@ namespace UnityPlus.Serialization
         {
             throw new NotImplementedException();
         }*/
+
+        public MemberwiseSerializationMapping<TSource> WithFinalizer( Action<SerializedData, TSource> finalizer )
+        {
+            this._finalizer = finalizer;
+            return this;
+        }
     }
 }
