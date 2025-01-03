@@ -27,7 +27,7 @@ namespace UnityPlus.Serialization.Input.Mappings
                 .WithReadonlyMember( "key", o => o.Key )
                 .WithFactory<float, KeyCode>( (value, key) =>
                 {
-                    return new KeyUpBinding( value, key );
+                    return new KeyHoldBinding( value, key );
                 } );
         }
         

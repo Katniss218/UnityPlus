@@ -85,7 +85,7 @@ public class _perftester : MonoBehaviour
         return new PrimitiveSerializationMapping<Vector32>()
         {
             OnSave = ( o, s ) => new SerializedArray( 3 ) { (SerializedPrimitive)o.x, (SerializedPrimitive)o.y, (SerializedPrimitive)o.z },
-            OnInstantiate = ( data, l ) => new Vector32( (double)data[0], (double)data[1], (double)data[2] )
+            OnLoad = ( data, l ) => new Vector32( (double)data[0], (double)data[1], (double)data[2] )
         };
     }
 

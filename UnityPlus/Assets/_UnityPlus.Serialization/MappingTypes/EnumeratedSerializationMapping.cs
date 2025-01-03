@@ -47,7 +47,7 @@ namespace UnityPlus.Serialization
             };
         }
 
-        public override MappingResult Save<T>( T obj, ref SerializedData data, ISaver s )
+        public override MappingResult Save<TMember>( TMember obj, ref SerializedData data, ISaver s )
         {
             if( obj == null )
             {
@@ -164,7 +164,7 @@ namespace UnityPlus.Serialization
             return MappingResult_Ex.GetCompoundResult( anyFailed, anyFinished, anyProgressed );
         }
 
-        public override MappingResult Load<T>( ref T obj, SerializedData data, ILoader l, bool populate )
+        public override MappingResult Load<TMember>( ref TMember obj, SerializedData data, ILoader l, bool populate )
         {
             if( data == null )
             {
@@ -303,7 +303,7 @@ namespace UnityPlus.Serialization
                 _objectHasBeenInstantiated = true;
             }
 
-            obj = (T)(object)sourceObj;
+            obj = (TMember)(object)sourceObj;
             return MappingResult_Ex.GetCompoundResult( anyFailed, anyFinished, anyProgressed );
         }
 
