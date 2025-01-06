@@ -98,6 +98,8 @@ namespace UnityPlus.Serialization.Mappings
                         {
                             Guid id2 = compData[KeyNames.ID].DeserializeGuid();
                             Type type = compData[KeyNames.TYPE].DeserializeType();
+                            if( type == null )
+                                continue; // Skips adding to refmap
 
                             Component component = obj.GetTransformOrAddComponent( type );
                             if( component is Behaviour behaviour )

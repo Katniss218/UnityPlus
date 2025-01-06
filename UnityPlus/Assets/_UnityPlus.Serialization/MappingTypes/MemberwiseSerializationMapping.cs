@@ -158,8 +158,8 @@ namespace UnityPlus.Serialization
             {
                 data = new SerializedObject();
 
-                data[KeyNames.ID] = s.RefMap.GetID( sourceObj ).SerializeGuid();
                 data[KeyNames.TYPE] = obj.GetType().SerializeType();
+                data[KeyNames.ID] = s.RefMap.GetID( sourceObj ).SerializeGuid();
             }
 
             bool anyFailed = false;

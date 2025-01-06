@@ -125,6 +125,8 @@ public class _playtester : MonoBehaviour
         } while( su.Result == MappingResult.Progressed );
         var data = su.GetData().First();
 
+       // data["components"]["value"][1]["$type"] = "UnityEngine.MeshFilter1234, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null";
+
         var sb = new StringBuilder();
         new JsonStringWriter( data, sb ).Write();
         Debug.Log( sb.ToString() );

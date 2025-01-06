@@ -64,8 +64,8 @@ namespace UnityPlus.Serialization
             if( data == null )
             {
                 data = new SerializedObject();
-                data[KeyNames.ID] = s.RefMap.GetID( sourceObj ).SerializeGuid();
                 data[KeyNames.TYPE] = obj.GetType().SerializeType();
+                data[KeyNames.ID] = s.RefMap.GetID( sourceObj ).SerializeGuid();
 
                 serArray = new SerializedArray( length );
                 data["value"] = serArray;
