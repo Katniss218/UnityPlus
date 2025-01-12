@@ -324,7 +324,7 @@ namespace UnityPlus.Serialization
             //      RETRY PREVIOUSLY FAILED MEMBERS
             //
 
-            if( _retryMembers != null ) 
+            if( _retryMembers != null )
             {
                 List<int> retryMembersThatSucceededThisTime = new();
 
@@ -363,7 +363,10 @@ namespace UnityPlus.Serialization
                     // Store the member for later in case the object doesn't exist yet.
                     if( _objectHasBeenInstantiated )
                     {
-                        member.Set( ref sourceObj, entry.value );
+                        if( !memberResult.HasFlag( SerializationResult.Finished ) && !memberResult.HasFlag( SerializationResult.Paused ) )
+                        {
+                            member.Set( ref sourceObj, entry.value );
+                        }
                     }
                     else if( !populate )
                     {
@@ -426,9 +429,10 @@ namespace UnityPlus.Serialization
                 }
 
                 // Store the member for later in case the object doesn't exist yet.
+
                 if( _objectHasBeenInstantiated )
                 {
-                    if( !memberResult.HasFlag( SerializationResult.Finished ) )
+                    if( !memberResult.HasFlag( SerializationResult.Finished ) && !memberResult.HasFlag( SerializationResult.Paused ) )
                     {
                         member.Set( ref sourceObj, memberObj );
                     }

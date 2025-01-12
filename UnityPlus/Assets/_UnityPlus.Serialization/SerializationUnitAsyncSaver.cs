@@ -30,6 +30,7 @@ namespace UnityPlus.Serialization
             this.RefMap = new BidirectionalReferenceStore();
             this.CurrentPass = -1;
             this._objects = objects;
+            this._data = new SerializedData[objects.Length];
             this._context = context;
         }
 
@@ -50,10 +51,10 @@ namespace UnityPlus.Serialization
         /// </summary>
         public void Serialize()
         {
-            this._data = new SerializedData[_objects.Length];
+            //this._data = new SerializedData[_objects.Length];
             _lastInvocationTimestamp = Stopwatch.GetTimestamp();
 
-            this.Result = this.SaveCallback();
+            this.SaveCallback();
         }
 
         /// <summary>
@@ -64,11 +65,11 @@ namespace UnityPlus.Serialization
             if( s == null )
                 throw new ArgumentNullException( nameof( s ), $"The reference map to use can't be null." );
 
-            this._data = new SerializedData[_objects.Length];
+            //this._data = new SerializedData[_objects.Length];
             this.RefMap = s;
             _lastInvocationTimestamp = Stopwatch.GetTimestamp();
 
-            this.Result = this.SaveCallback();
+            this.SaveCallback();
         }
 
         //
@@ -100,8 +101,14 @@ namespace UnityPlus.Serialization
             } );
         }
 
-        private SerializationResult SaveCallback()
+        SerializationResult _lastResult;
+
+        private void SaveCallback()
         {
+#warning TODO - pass doesn't increment correctly when pausing.
+#warning TODO - mappings don't respond correctly to paused state.
+
+            //if( _lastResult != SerializationResult.Paused && this.Result != SerializationResult.Paused )
             this.CurrentPass++;
 
             if( _retryElements != null )
@@ -118,17 +125,28 @@ namespace UnityPlus.Serialization
 
                     var mapping = SerializationMappingRegistry.GetMapping<T>( _context, obj );
 
-                    SerializationResult elementResult = mapping.SafeSave<T>( obj, ref data, this );
-                    if( elementResult.HasFlag( SerializationResult.Failed ) )
+                    _lastResult = mapping.SafeSave<T>( obj, ref data, this );
+                    if( _lastResult.HasFlag( SerializationResult.Failed ) )
                     {
                         entry.pass = CurrentPass;
                     }
-                    else if( elementResult.HasFlag( SerializationResult.Finished ) )
+                    else if( _lastResult.HasFlag( SerializationResult.Finished ) )
                     {
                         retryMembersThatSucceededThisTime.Add( i );
                     }
 
                     _data[i] = data;
+
+                    if( this.ShouldPause() )
+                    {
+                        foreach( var ii in retryMembersThatSucceededThisTime )
+                        {
+                            _retryElements.Remove( ii );
+                        }
+
+                        this.Result = SerializationResult.Paused;
+                        return;
+                    }
                 }
 
                 foreach( var i in retryMembersThatSucceededThisTime )
@@ -144,10 +162,10 @@ namespace UnityPlus.Serialization
 
                 var mapping = SerializationMappingRegistry.GetMapping<T>( _context, obj );
 
-                SerializationResult elementResult = mapping.SafeSave<T>( obj, ref data, this );
-                if( elementResult.HasFlag( SerializationResult.Finished ) )
+                _lastResult = mapping.SafeSave<T>( obj, ref data, this );
+                if( _lastResult.HasFlag( SerializationResult.Finished ) )
                 {
-                    if( elementResult.HasFlag( SerializationResult.Failed ) )
+                    if( _lastResult.HasFlag( SerializationResult.Failed ) )
                         _wasFailureNoRetry = true;
 
                     _startIndex = i + 1;
@@ -159,6 +177,12 @@ namespace UnityPlus.Serialization
                 }
 
                 _data[i] = data;
+
+                if( this.ShouldPause() )
+                {
+                    this.Result = SerializationResult.Paused;
+                    return;
+                }
             }
 
             SerializationResult result = SerializationResult.NoChange;
@@ -170,7 +194,7 @@ namespace UnityPlus.Serialization
             if( result.HasFlag( SerializationResult.Finished ) && result.HasFlag( SerializationResult.HasFailures ) )
                 result |= SerializationResult.Failed;
 
-            return result;
+            this.Result = result;
         }
     }
 }

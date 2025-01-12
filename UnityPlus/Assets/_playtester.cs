@@ -158,11 +158,11 @@ public class _playtester : MonoBehaviour
 
     void Update()
     {
-        RunPerfTest();
-        //RunPerfTestAsync_AsSync();
+       // RunPerfTest();
+       // RunPerfTestAsync_AsSync();
     }
 
-    const int COUNT = 1000;
+    const int COUNT = 2;
 
     private void RunPerfTest()
     {
@@ -194,27 +194,36 @@ public class _playtester : MonoBehaviour
 
         for( int i = 0; i < COUNT; i++ )
         {
+            int sCount = 0;
 
             Profiler.BeginSample( "t1" );
             var su = SerializationUnit.FromObjectsAsync<GameObject>( perfTestGo );
             do
             { // INFO - the time includes things like the JIT, so first serialization will take more steps, but that doesn't affect anything.
                 su.Serialize();
+                sCount++;
 
             } while( !su.Result.HasFlag( SerializationResult.Finished ) );
             SerializedData data = su.GetData().First();
 
+            Debug.Log( sCount );
+
             Profiler.EndSample();
+
+            int lCount = 0;
 
             Profiler.BeginSample( "t2" );
             var su2 = SerializationUnit.FromDataAsync<GameObject>( data );
             do
             { // INFO - the time includes things like the JIT, so first serialization will take more steps, but that doesn't affect anything.
                 su2.Deserialize();
+                lCount++;
 
             } while( !su2.Result.HasFlag( SerializationResult.Finished ) );
             GameObject go = su2.GetObjects().First();
             Profiler.EndSample();
+
+            Debug.Log( lCount );
 
             list.Add( go );
         }

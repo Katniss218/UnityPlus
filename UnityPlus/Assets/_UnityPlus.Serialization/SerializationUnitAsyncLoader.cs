@@ -29,6 +29,7 @@ namespace UnityPlus.Serialization
         {
             this.RefMap = new BidirectionalReferenceStore();
             this.CurrentPass = -1;
+            this._objects = new T[data.Length];
             this._data = data;
             this._context = context;
         }
@@ -59,10 +60,10 @@ namespace UnityPlus.Serialization
         /// </summary>
         public void Deserialize()
         {
-            this._objects = new T[_data.Length];
+            //this._objects = new T[_data.Length];
             _lastInvocationTimestamp = Stopwatch.GetTimestamp();
 
-            this.Result = this.LoadCallback( false );
+            this.LoadOrPopulateCallback( false );
         }
 
         /// <summary>
@@ -73,11 +74,11 @@ namespace UnityPlus.Serialization
             if( l == null )
                 throw new ArgumentNullException( nameof( l ), $"The reference map to use can't be null." );
 
-            this._objects = new T[_data.Length];
+            //this._objects = new T[_data.Length];
             this.RefMap = l;
             _lastInvocationTimestamp = Stopwatch.GetTimestamp();
 
-            this.Result = this.LoadCallback( false );
+            this.LoadOrPopulateCallback( false );
         }
 
         /// <summary>
@@ -87,7 +88,7 @@ namespace UnityPlus.Serialization
         {
             _lastInvocationTimestamp = Stopwatch.GetTimestamp();
 
-            this.Result = this.LoadCallback( true );
+            this.LoadOrPopulateCallback( true );
         }
 
         /// <summary>
@@ -101,7 +102,7 @@ namespace UnityPlus.Serialization
             this.RefMap = l;
             _lastInvocationTimestamp = Stopwatch.GetTimestamp();
 
-            this.Result = this.LoadCallback( true );
+            this.LoadOrPopulateCallback( true );
         }
 
         //
@@ -124,10 +125,14 @@ namespace UnityPlus.Serialization
             return _objects.OfType<TDerived>();
         }
 
-        private SerializationResult LoadCallback( bool populate )
+        SerializationResult _lastResult;
+
+        private void LoadOrPopulateCallback( bool populate )
         {
-#warning TODO - only increment when starting a new pass
-            this.CurrentPass++;
+            //if( _lastResult != SerializationResult.Paused && this.Result != SerializationResult.Paused )
+                this.CurrentPass++;
+            // if previously called mapping returned paused, don't increment.
+            // if previously returned mapping (in the middle) did not return paused, it'll just go on to the next one.
 
             if( _retryElements != null )
             {
@@ -143,17 +148,28 @@ namespace UnityPlus.Serialization
 
                     var mapping = SerializationMappingRegistry.GetMapping<T>( _context, obj );
 
-                    SerializationResult elementResult = mapping.SafeLoad( ref obj, data, this, populate );
-                    if( elementResult.HasFlag( SerializationResult.Failed ) )
+                    _lastResult = mapping.SafeLoad( ref obj, data, this, populate );
+                    if( _lastResult.HasFlag( SerializationResult.Failed ) )
                     {
                         entry.pass = CurrentPass;
                     }
-                    else if( elementResult.HasFlag( SerializationResult.Finished ) )
+                    else if( _lastResult.HasFlag( SerializationResult.Finished ) )
                     {
                         retryMembersThatSucceededThisTime.Add( i );
                     }
 
                     _objects[i] = obj;
+
+                    if( this.ShouldPause() )
+                    {
+                        foreach( var ii in retryMembersThatSucceededThisTime )
+                        {
+                            _retryElements.Remove( ii );
+                        }
+
+                        this.Result = SerializationResult.Paused;
+                        return;
+                    }
                 }
 
                 foreach( var i in retryMembersThatSucceededThisTime )
@@ -169,10 +185,11 @@ namespace UnityPlus.Serialization
 
                 var mapping = SerializationMappingRegistry.GetMapping<T>( _context, MappingHelper.GetSerializedType<T>( data ) );
 
-                SerializationResult elementResult = mapping.SafeLoad( ref obj, data, this, populate );
-                if( elementResult.HasFlag( SerializationResult.Finished ) )
+                _lastResult = mapping.SafeLoad( ref obj, data, this, populate );
+                if( _lastResult.HasFlag( SerializationResult.Finished ) )
                 {
-                    if( elementResult.HasFlag( SerializationResult.Failed ) )
+#warning TODO - what about paused?
+                    if( _lastResult.HasFlag( SerializationResult.Failed ) )
                         _wasFailureNoRetry = true;
 
                     _startIndex = i + 1;
@@ -184,6 +201,12 @@ namespace UnityPlus.Serialization
                 }
 
                 _objects[i] = obj;
+
+                if( this.ShouldPause() )
+                {
+                    this.Result = SerializationResult.Paused;
+                    return;
+                }
             }
 
             SerializationResult result = SerializationResult.NoChange;
@@ -195,7 +218,7 @@ namespace UnityPlus.Serialization
             if( result.HasFlag( SerializationResult.Finished ) && result.HasFlag( SerializationResult.HasFailures ) )
                 result |= SerializationResult.Failed;
 
-            return result;
+            this.Result = result;
         }
     }
 }

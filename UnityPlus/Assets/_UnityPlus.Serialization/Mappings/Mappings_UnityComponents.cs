@@ -64,6 +64,7 @@ namespace UnityPlus.Serialization.Mappings
                         return o.transform.Children().Select( child => child.gameObject ).ToArray();
                     }, ( o, value ) =>
                     {
+#warning TODO - memberwise doesn't work here with pausing. for some reason
                         foreach( var child in value )           // The 'value' array here is a sort of 'virtual' array.
                         {
                             child.transform.SetParent( o.transform );

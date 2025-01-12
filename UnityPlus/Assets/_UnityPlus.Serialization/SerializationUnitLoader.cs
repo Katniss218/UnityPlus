@@ -54,7 +54,7 @@ namespace UnityPlus.Serialization
             for( int i = 0; i < maxIters; i++ )
             {
                 this.CurrentPass++;
-                SerializationResult result = this.LoadCallback( false );
+                SerializationResult result = this.LoadOrPopulateCallback( false );
                 if( result.HasFlag( SerializationResult.Finished ) )
                     return;
             }
@@ -75,7 +75,7 @@ namespace UnityPlus.Serialization
             for( int i = 0; i < maxIters; i++ )
             {
                 this.CurrentPass++;
-                SerializationResult result = this.LoadCallback( false );
+                SerializationResult result = this.LoadOrPopulateCallback( false );
                 if( result.HasFlag( SerializationResult.Finished ) )
                     return;
             }
@@ -91,7 +91,7 @@ namespace UnityPlus.Serialization
             for( int i = 0; i < maxIters; i++ )
             {
                 this.CurrentPass++;
-                SerializationResult result = this.LoadCallback( true );
+                SerializationResult result = this.LoadOrPopulateCallback( true );
                 if( result.HasFlag( SerializationResult.Finished ) )
                     return;
             }
@@ -111,7 +111,7 @@ namespace UnityPlus.Serialization
             for( int i = 0; i < maxIters; i++ )
             {
                 this.CurrentPass++;
-                SerializationResult result = this.LoadCallback( true );
+                SerializationResult result = this.LoadOrPopulateCallback( true );
                 if( result.HasFlag( SerializationResult.Finished ) )
                     return;
             }
@@ -137,7 +137,7 @@ namespace UnityPlus.Serialization
             return _objects.OfType<TDerived>();
         }
 
-        private SerializationResult LoadCallback( bool populate )
+        private SerializationResult LoadOrPopulateCallback( bool populate )
         {
             if( _retryElements != null )
             {
