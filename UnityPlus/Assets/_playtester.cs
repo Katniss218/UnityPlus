@@ -122,10 +122,10 @@ public class _playtester : MonoBehaviour
         do
         { // INFO - the time includes things like the JIT, so first serialization will take more steps, but that doesn't affect anything.
             su.Serialize();
-        } while( su.Result == MappingResult.Progressed );
+        } while( !su.Result.HasFlag( SerializationResult.Finished ) );
         var data = su.GetData().First();
 
-       // data["components"]["value"][1]["$type"] = "UnityEngine.MeshFilter1234, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null";
+        // data["components"]["value"][1]["$type"] = "UnityEngine.MeshFilter1234, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null";
 
         var sb = new StringBuilder();
         new JsonStringWriter( data, sb ).Write();
@@ -138,7 +138,7 @@ public class _playtester : MonoBehaviour
         { // INFO - the time includes things like the JIT, so first serialization will take more steps, but that doesn't affect anything.
             su2.Deserialize();
 
-        } while( su2.Result == MappingResult.Progressed );
+        } while( !su2.Result.HasFlag( SerializationResult.Finished ) );
         GameObject obj = su2.GetObjects().First();
 
 
@@ -148,7 +148,7 @@ public class _playtester : MonoBehaviour
         { // INFO - the time includes things like the JIT, so first serialization will take more steps, but that doesn't affect anything.
             su.Serialize();
 
-        } while( su.Result == MappingResult.Progressed );
+        } while( !su.Result.HasFlag( SerializationResult.Finished ) );
         data = su.GetData().First();
 
         sb = new StringBuilder();
@@ -201,7 +201,7 @@ public class _playtester : MonoBehaviour
             { // INFO - the time includes things like the JIT, so first serialization will take more steps, but that doesn't affect anything.
                 su.Serialize();
 
-            } while( su.Result == MappingResult.Progressed );
+            } while( !su.Result.HasFlag( SerializationResult.Finished ) );
             SerializedData data = su.GetData().First();
 
             Profiler.EndSample();
@@ -212,7 +212,7 @@ public class _playtester : MonoBehaviour
             { // INFO - the time includes things like the JIT, so first serialization will take more steps, but that doesn't affect anything.
                 su2.Deserialize();
 
-            } while( su2.Result == MappingResult.Progressed );
+            } while( !su2.Result.HasFlag( SerializationResult.Finished ) );
             GameObject go = su2.GetObjects().First();
             Profiler.EndSample();
 

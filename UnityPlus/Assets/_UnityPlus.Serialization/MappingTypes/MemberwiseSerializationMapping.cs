@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using UnityEngine;
 
 namespace UnityPlus.Serialization
 {
@@ -34,6 +35,8 @@ namespace UnityPlus.Serialization
         public int _factoryMemberCount { get; private set; }
         public Delegate _untypedFactory { get; private set; } = null;
         Action<SerializedData, TSource> _finalizer = null;
+
+        bool _wasFailureNoRetry = false;
 
         public MemberwiseSerializationMapping()
         {
@@ -145,11 +148,11 @@ namespace UnityPlus.Serialization
         //  Mapping methods:
         //
 
-        public override MappingResult Save<T>( T obj, ref SerializedData data, ISaver s )
+        public override SerializationResult Save<T>( T obj, ref SerializedData data, ISaver s )
         {
             if( obj == null )
             {
-                return MappingResult.Finished;
+                return SerializationResult.Finished;
             }
 
             TSource sourceObj = (TSource)(object)obj;
@@ -162,9 +165,7 @@ namespace UnityPlus.Serialization
                 data[KeyNames.ID] = s.RefMap.GetID( sourceObj ).SerializeGuid();
             }
 
-            bool anyFailed = false;
-            bool anyFinished = false;
-            bool anyProgressed = false;
+            //bool wasProgress = false;
 
             //
             //      RETRY PREVIOUSLY FAILED MEMBERS
@@ -176,28 +177,33 @@ namespace UnityPlus.Serialization
 
                 foreach( (int i, var entry) in _retryMembers )
                 {
+                    if( entry.pass == s.CurrentPass )
+                        continue;
+
                     MemberBase<TSource> member = this._members[i];
 
-                    MappingResult memberResult = member.SaveRetry( entry.value, entry.mapping, data, s );
-                    switch( memberResult )
+                    SerializationResult memberResult = member.SaveRetry( entry.value, entry.mapping, data, s );
+                    if( memberResult.HasFlag( SerializationResult.Failed ) )
                     {
-                        case MappingResult.Finished:
-                            retryMembersThatSucceededThisTime.Add( i );
-                            anyFinished = true;
-                            break;
-                        case MappingResult.Failed:
-                            anyFailed = true;
-                            break;
-                        case MappingResult.Progressed:
-                            anyProgressed = true;
-                            break;
+                        entry.pass = s.CurrentPass;
                     }
+                    else if( memberResult.HasFlag( SerializationResult.Finished ) )
+                    {
+                        retryMembersThatSucceededThisTime.Add( i );
+                        //wasProgress = true;
+                    }
+                    //if( memberResult.HasFlag( SerializationResult.Progressed ) )
+                    //{
+                    //    wasProgress = true;
+                    //}
 
                     if( s.ShouldPause() )
                     {
-                        if( !anyFailed ) // On pause, if everything else has finished, replace the aggregate finished with progressed, since there's more to do later.
-                            anyProgressed = true;
-                        break;
+                        foreach( var ii in retryMembersThatSucceededThisTime )
+                        {
+                            _retryMembers.Remove( ii );
+                        }
+                        return SerializationResult.Paused;
                     }
                 }
 
@@ -215,34 +221,43 @@ namespace UnityPlus.Serialization
             {
                 MemberBase<TSource> member = this._members[i];
 
-                MappingResult memberResult = member.Save( sourceObj, data, s, out var mapping, out var memberObj );
-                switch( memberResult )
+                SerializationResult memberResult = member.Save( sourceObj, data, s, out var mapping, out var memberObj );
+                if( memberResult.HasFlag( SerializationResult.Finished ) )
                 {
-                    case MappingResult.Finished:
-                        _startIndex = i + 1;
-                        anyFinished = true;
-                        break;
-                    case MappingResult.Failed:
-                        _retryMembers ??= new();
-                        _retryMembers.Add( i, new RetryEntry<object>( memberObj, mapping ) );
-                        anyFailed = true;
-                        break;
-                    case MappingResult.Progressed:
-                        _retryMembers ??= new();
-                        _retryMembers.Add( i, new RetryEntry<object>( memberObj, mapping ) );
-                        anyProgressed = true;
-                        break;
+                    if( memberResult.HasFlag( SerializationResult.Failed ) )
+                        _wasFailureNoRetry = true;
+
+                    _startIndex = i + 1;
+                    //    wasProgress = true;
                 }
+                else
+                {
+                    _retryMembers ??= new();
+                    _retryMembers.Add( i, new RetryEntry<object>( memberObj, mapping, s.CurrentPass ) );
+                }
+                //if( memberResult.HasFlag( SerializationResult.Progressed ) )
+                //{
+                //    wasProgress = true;
+                //}
 
                 if( s.ShouldPause() )
                 {
-                    if( !anyFailed ) // On pause, if everything else has finished, replace the aggregate finished with progressed, since there's more to do later.
-                        anyProgressed = true;
-                    break;
+                    return SerializationResult.Paused;
                 }
             }
 
-            return MappingResult_Ex.GetCompoundResult( anyFailed, anyFinished, anyProgressed );
+            SerializationResult result = SerializationResult.NoChange;
+            //if( wasProgress )
+            //    result |= SerializationResult.Progressed;
+            if( _wasFailureNoRetry || _retryMembers != null && _retryMembers.Count != 0 )
+                result |= SerializationResult.HasFailures;
+            if( _retryMembers == null || _retryMembers.Count == 0 )
+                result |= SerializationResult.Finished;
+
+            if( result.HasFlag( SerializationResult.Finished ) && result.HasFlag( SerializationResult.HasFailures ) )
+                result |= SerializationResult.Failed;
+
+            return result;
         }
 
         bool FactoryMembersReadyForInstantiation()
@@ -271,11 +286,11 @@ namespace UnityPlus.Serialization
             return true;
         }
 
-        public override MappingResult Load<T>( ref T obj, SerializedData data, ILoader l, bool populate )
+        public override SerializationResult Load<T>( ref T obj, SerializedData data, ILoader l, bool populate )
         {
             if( data == null )
             {
-                return MappingResult.Finished;
+                return SerializationResult.Finished;
             }
 
             TSource sourceObj = (obj == null) ? default : (TSource)(object)obj;
@@ -303,40 +318,35 @@ namespace UnityPlus.Serialization
                 }
             }
 
-            bool anyFailed = false;
-            bool anyFinished = false;
-            bool anyProgressed = false;
+            //bool wasProgress = false;
 
             //
             //      RETRY PREVIOUSLY FAILED MEMBERS
             //
 
-            if( _retryMembers != null )
+            if( _retryMembers != null ) 
             {
                 List<int> retryMembersThatSucceededThisTime = new();
 
                 foreach( (int i, var entry) in _retryMembers )
                 {
+                    if( entry.pass == l.CurrentPass )
+                        continue;
+
                     MemberBase<TSource> member = this._members[i];
 
-                    MappingResult memberResult = member.LoadRetry( ref entry.value, entry.mapping, data, l );
-                    switch( memberResult )
+                    SerializationResult memberResult = member.LoadRetry( ref entry.value, entry.mapping, data, l );
+                    if( memberResult.HasFlag( SerializationResult.Failed ) )
                     {
-                        case MappingResult.Finished:
-                            retryMembersThatSucceededThisTime.Add( i );
-                            anyFinished = true;
-                            break;
-                        case MappingResult.Failed:
-                            anyFailed = true;
-                            break;
-                        case MappingResult.Progressed:
-                            anyProgressed = true;
-                            break;
+                        entry.pass = l.CurrentPass;
+                    }
+                    else if( memberResult.HasFlag( SerializationResult.Finished ) )
+                    {
+                        retryMembersThatSucceededThisTime.Add( i );
+                        //    wasProgress = true;
                     }
 
                     // Instantiate the object that contains the members ('parent'), if available.
-                    // It stores when the factory is invoked instead of checking for null,
-                    //   because structs are never null, but they may be immutable.
                     if( !populate && !_objectHasBeenInstantiated && FactoryMembersReadyForInstantiation() )
                     {
                         _factoryMemberStorage[i] = entry.value;
@@ -362,15 +372,16 @@ namespace UnityPlus.Serialization
 
                     if( l.ShouldPause() )
                     {
-                        if( !anyFailed ) // On pause, if everything else has finished, replace the aggregate finished with progressed, since there's more to do later.
-                            anyProgressed = true;
-                        break;
+                        foreach( var ii in retryMembersThatSucceededThisTime )
+                        {
+                            _retryMembers.Remove( ii );
+                        }
+                        return SerializationResult.Paused;
                     }
                 }
 
                 foreach( var i in retryMembersThatSucceededThisTime )
                 {
-#warning TODO - in case of break here, prevent later block of members from running.
                     _retryMembers.Remove( i );
                 }
             }
@@ -384,23 +395,19 @@ namespace UnityPlus.Serialization
                 MemberBase<TSource> member = this._members[i];
 
                 // INFO: This will store the value of the loaded object in the source object if it is instantiated, and the result was successful.
-                MappingResult memberResult = member.Load( ref sourceObj, _objectHasBeenInstantiated, data, l, out var mapping, out var memberObj );
-                switch( memberResult )
+                SerializationResult memberResult = member.Load( ref sourceObj, _objectHasBeenInstantiated, data, l, out var mapping, out var memberObj );
+                if( memberResult.HasFlag( SerializationResult.Finished ) )
                 {
-                    case MappingResult.Finished:
-                        _startIndex = i + 1;
-                        anyFinished = true;
-                        break;
-                    case MappingResult.Failed:
-                        _retryMembers ??= new();
-                        _retryMembers.Add( i, new RetryEntry<object>( memberObj, mapping ) );
-                        anyFailed = true;
-                        break;
-                    case MappingResult.Progressed:
-                        _retryMembers ??= new();
-                        _retryMembers.Add( i, new RetryEntry<object>( memberObj, mapping ) );
-                        anyProgressed = true;
-                        break;
+                    if( memberResult.HasFlag( SerializationResult.Failed ) )
+                        _wasFailureNoRetry = true;
+
+                    _startIndex = i + 1;
+                    //wasProgress = true;
+                }
+                else
+                {
+                    _retryMembers ??= new();
+                    _retryMembers.Add( i, new RetryEntry<object>( memberObj, mapping, l.CurrentPass ) );
                 }
 
                 // Instantiate the object that contains the members ('parent'), if available.
@@ -421,7 +428,7 @@ namespace UnityPlus.Serialization
                 // Store the member for later in case the object doesn't exist yet.
                 if( _objectHasBeenInstantiated )
                 {
-                    if( memberResult != MappingResult.Finished )
+                    if( !memberResult.HasFlag( SerializationResult.Finished ) )
                     {
                         member.Set( ref sourceObj, memberObj );
                     }
@@ -433,19 +440,25 @@ namespace UnityPlus.Serialization
 
                 if( l.ShouldPause() )
                 {
-                    if( !anyFailed ) // On pause, if everything else has finished, replace the aggregate finished with progressed, since there's more to do later.
-                        anyProgressed = true;
-                    break;
+                    return SerializationResult.Paused;
                 }
             }
 
             obj = (T)(object)sourceObj;
-            var res = MappingResult_Ex.GetCompoundResult( anyFailed, anyFinished, anyProgressed );
-            if( res == MappingResult.Finished )
+
+            SerializationResult result = SerializationResult.NoChange;
+            //if( wasProgress )
+            //    result |= SerializationResult.Progressed;
+            if( _wasFailureNoRetry || _retryMembers != null && _retryMembers.Count != 0 )
+                result |= SerializationResult.HasFailures;
+            if( _retryMembers == null || _retryMembers.Count == 0 )
             {
                 _finalizer?.Invoke( data, sourceObj );
+                result |= SerializationResult.Finished;
             }
-            return res;
+            if( result.HasFlag( SerializationResult.Finished ) && result.HasFlag( SerializationResult.HasFailures ) )
+                result |= SerializationResult.Failed;
+            return result;
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
