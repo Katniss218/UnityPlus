@@ -123,7 +123,7 @@ namespace UnityPlus.Serialization
                     T obj = _objects[i];
                     SerializedData data = _data[i];
 
-                    var mapping = SerializationMappingRegistry.GetMapping<T>( _context, obj );
+                    var mapping = entry.mapping;
 
                     _lastResult = mapping.SafeSave<T>( obj, ref data, this );
                     if( _lastResult.HasFlag( SerializationResult.Failed ) )
@@ -172,6 +172,9 @@ namespace UnityPlus.Serialization
                 }
                 else
                 {
+                    if( _lastResult.HasFlag( SerializationResult.Paused ) )
+                        _startIndex = i + 1;
+
                     _retryElements ??= new();
                     _retryElements.Add( i, new RetryEntry<T>( obj, mapping, CurrentPass ) );
                 }

@@ -120,7 +120,6 @@ namespace UnityPlus.Serialization
             //
             //
             //
-
             for( int i = _startIndex; i < length; i++ )
             {
                 TElement elementObj = elementGetter.Invoke( sourceObj, i );
@@ -139,6 +138,9 @@ namespace UnityPlus.Serialization
                 }
                 else
                 {
+                    if( elementResult.HasFlag( SerializationResult.Paused ) )
+                        _startIndex = i + 1;
+
                     _retryElements ??= new();
                     _retryElements.Add( i, new RetryEntry<TElement>( elementObj, mapping, s.CurrentPass ) );
                 }
@@ -264,6 +266,9 @@ namespace UnityPlus.Serialization
                 }
                 else
                 {
+                    if( elementResult.HasFlag( SerializationResult.Paused ) )
+                        _startIndex = i + 1;
+
                     _retryElements ??= new();
                     _retryElements.Add( i, new RetryEntry<TElement>( elementObj, mapping, l.CurrentPass ) );
                 }
@@ -272,6 +277,7 @@ namespace UnityPlus.Serialization
                 {
                     if( _objectHasBeenInstantiated )
                     {
+#error TODO - this sometimes throws.
                         elementSetter.Invoke( sourceObj, i, elementObj );
                     }
                     else if( !populate )

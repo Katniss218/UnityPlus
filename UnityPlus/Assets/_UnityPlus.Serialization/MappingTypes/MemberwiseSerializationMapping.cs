@@ -190,12 +190,7 @@ namespace UnityPlus.Serialization
                     else if( memberResult.HasFlag( SerializationResult.Finished ) )
                     {
                         retryMembersThatSucceededThisTime.Add( i );
-                        //wasProgress = true;
                     }
-                    //if( memberResult.HasFlag( SerializationResult.Progressed ) )
-                    //{
-                    //    wasProgress = true;
-                    //}
 
                     if( s.ShouldPause() )
                     {
@@ -228,17 +223,15 @@ namespace UnityPlus.Serialization
                         _wasFailureNoRetry = true;
 
                     _startIndex = i + 1;
-                    //    wasProgress = true;
                 }
                 else
                 {
+                    if( memberResult.HasFlag( SerializationResult.Paused ) )
+                        _startIndex = i + 1;
+
                     _retryMembers ??= new();
                     _retryMembers.Add( i, new RetryEntry<object>( memberObj, mapping, s.CurrentPass ) );
                 }
-                //if( memberResult.HasFlag( SerializationResult.Progressed ) )
-                //{
-                //    wasProgress = true;
-                //}
 
                 if( s.ShouldPause() )
                 {
@@ -247,8 +240,6 @@ namespace UnityPlus.Serialization
             }
 
             SerializationResult result = SerializationResult.NoChange;
-            //if( wasProgress )
-            //    result |= SerializationResult.Progressed;
             if( _wasFailureNoRetry || _retryMembers != null && _retryMembers.Count != 0 )
                 result |= SerializationResult.HasFailures;
             if( _retryMembers == null || _retryMembers.Count == 0 )
@@ -318,8 +309,6 @@ namespace UnityPlus.Serialization
                 }
             }
 
-            //bool wasProgress = false;
-
             //
             //      RETRY PREVIOUSLY FAILED MEMBERS
             //
@@ -336,6 +325,20 @@ namespace UnityPlus.Serialization
                     MemberBase<TSource> member = this._members[i];
 
                     SerializationResult memberResult = member.LoadRetry( ref entry.value, entry.mapping, data, l );
+
+                    // Store the member for later in case the object doesn't exist yet.
+                    if( _objectHasBeenInstantiated )
+                    {
+                        if( !memberResult.HasFlag( SerializationResult.Finished ) && !memberResult.HasFlag( SerializationResult.Paused ) )
+                        {
+                            member.Set( ref sourceObj, entry.value );
+                        }
+                    }
+                    else if( !populate )
+                    {
+                        _factoryMemberStorage[i - _factoryStartMemberIndex] = entry.value;
+                    }
+
                     if( memberResult.HasFlag( SerializationResult.Failed ) )
                     {
                         entry.pass = l.CurrentPass;
@@ -343,7 +346,6 @@ namespace UnityPlus.Serialization
                     else if( memberResult.HasFlag( SerializationResult.Finished ) )
                     {
                         retryMembersThatSucceededThisTime.Add( i );
-                        //    wasProgress = true;
                     }
 
                     // Instantiate the object that contains the members ('parent'), if available.
@@ -358,19 +360,6 @@ namespace UnityPlus.Serialization
                             _members[j + _factoryStartMemberIndex].Set( ref sourceObj, this._factoryMemberStorage[j + _factoryStartMemberIndex] );
                         }
                         _objectHasBeenInstantiated = true;
-                    }
-
-                    // Store the member for later in case the object doesn't exist yet.
-                    if( _objectHasBeenInstantiated )
-                    {
-                        if( !memberResult.HasFlag( SerializationResult.Finished ) && !memberResult.HasFlag( SerializationResult.Paused ) )
-                        {
-                            member.Set( ref sourceObj, entry.value );
-                        }
-                    }
-                    else if( !populate )
-                    {
-                        _factoryMemberStorage[i - _factoryStartMemberIndex] = entry.value;
                     }
 
                     if( l.ShouldPause() )
@@ -399,16 +388,34 @@ namespace UnityPlus.Serialization
 
                 // INFO: This will store the value of the loaded object in the source object if it is instantiated, and the result was successful.
                 SerializationResult memberResult = member.Load( ref sourceObj, _objectHasBeenInstantiated, data, l, out var mapping, out var memberObj );
+
+                // Store the member for later in case the object doesn't exist yet.
+
+                if( _objectHasBeenInstantiated )
+                {
+                    if( !memberResult.HasFlag( SerializationResult.Finished ) && !memberResult.HasFlag( SerializationResult.Paused ) )
+                    {
+                        member.Set( ref sourceObj, memberObj );
+                    }
+                }
+                else if( !populate )
+                {
+                    _factoryMemberStorage[i - _factoryStartMemberIndex] = memberObj;
+                }
+
                 if( memberResult.HasFlag( SerializationResult.Finished ) )
                 {
                     if( memberResult.HasFlag( SerializationResult.Failed ) )
                         _wasFailureNoRetry = true;
 
                     _startIndex = i + 1;
-                    //wasProgress = true;
                 }
                 else
                 {
+                    if( memberResult.HasFlag( SerializationResult.Paused ) )
+                        _startIndex = i + 1;
+
+#error TODO - add retry due to pause with a negative fixed pass index so they are always executed.
                     _retryMembers ??= new();
                     _retryMembers.Add( i, new RetryEntry<object>( memberObj, mapping, l.CurrentPass ) );
                 }
@@ -426,20 +433,6 @@ namespace UnityPlus.Serialization
                         _members[j + _factoryStartMemberIndex].Set( ref sourceObj, this._factoryMemberStorage[j + _factoryStartMemberIndex] );
                     }
                     _objectHasBeenInstantiated = true;
-                }
-
-                // Store the member for later in case the object doesn't exist yet.
-
-                if( _objectHasBeenInstantiated )
-                {
-                    if( !memberResult.HasFlag( SerializationResult.Finished ) && !memberResult.HasFlag( SerializationResult.Paused ) )
-                    {
-                        member.Set( ref sourceObj, memberObj );
-                    }
-                }
-                else if( !populate )
-                {
-                    _factoryMemberStorage[i - _factoryStartMemberIndex] = memberObj;
                 }
 
                 if( l.ShouldPause() )

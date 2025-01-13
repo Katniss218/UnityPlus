@@ -151,7 +151,7 @@ namespace UnityPlus.Serialization
                     T obj = _objects[i];
                     SerializedData data = _data[i];
 
-                    var mapping = SerializationMappingRegistry.GetMapping<T>( _context, obj );
+                    var mapping = entry.mapping;
 
                     SerializationResult elementResult = mapping.SafeLoad( ref obj, data, this, populate );
                     if( elementResult.HasFlag( SerializationResult.Failed ) )

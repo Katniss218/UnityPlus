@@ -140,6 +140,9 @@ namespace UnityPlus.Serialization
                 }
                 else
                 {
+                    if( elementResult.HasFlag( SerializationResult.Paused ) )
+                        _startIndex = index + 1;
+
                     _retryElements ??= new();
                     _retryElements.Add( index, new RetryEntry<TElement>( elementObj, mapping, s.CurrentPass ) );
                 }
@@ -262,6 +265,9 @@ namespace UnityPlus.Serialization
                 }
                 else
                 {
+                    if( elementResult.HasFlag( SerializationResult.Paused ) )
+                        _startIndex = i + 1;
+
                     _retryElements ??= new();
                     _retryElements.Add( i, new RetryEntry<TElement>( elementObj, mapping, l.CurrentPass ) );
                 }

@@ -13,30 +13,30 @@ namespace Neoserialization
         public void Mapping___IntArray___RoundTrip()
         {
             // Arrange
-            var initialValue = new int[500];
+            var initialValue = new int[50000];
 
             for( int i = 0; i < initialValue.Length; i++ )
             {
                 initialValue[i] = i;
             }
-             
+
             var su = SerializationUnit.FromObjectsAsync<int[]>( initialValue );
-            su.AllowedMilisecondsPerInvocation = 100;
+            su.AllowedMilisecondsPerInvocation = 10;
             //do
             //{ 
             su.Serialize();
             su.Serialize();
-            /*su.Serialize();
             su.Serialize();
             su.Serialize();
             su.Serialize();
-            su.Serialize();*/
+            su.Serialize();
+            su.Serialize();
             //} while( !su.Result.HasFlag( SerializationResult.Finished ) );
             var data = su.GetData().First();
-            Debug.Log( ((SerializedArray)data["value"]).Count );
+            Debug.Log( "S" + ((SerializedArray)data["value"]).Count );
 
             var su2 = SerializationUnit.FromDataAsync<int[]>( data );
-            su2.AllowedMilisecondsPerInvocation = 1000;
+            su2.AllowedMilisecondsPerInvocation = 10;
             //do
             //{
             su2.Deserialize();
@@ -50,6 +50,8 @@ namespace Neoserialization
             int[] finalValue = su2.GetObjects().First();
             // var data = SerializationUnit.Serialize<int[]>( initialValue );
             // var finalValue = SerializationUnit.Deserialize<int[]>( data );
+
+            Debug.Log( "D" + (finalValue.Where( x => x > 0 ).Count() + 1));
 
             // Assert
             Assert.That( finalValue, Is.EquivalentTo( initialValue ) );
