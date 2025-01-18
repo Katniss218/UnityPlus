@@ -190,7 +190,12 @@ namespace UnityPlus.Serialization
                 else
                 {
                     _retryElements ??= new();
-                    _retryElements.Add( i, new RetryEntry<T>( obj, mapping, CurrentPass ) );
+                    _startIndex = i + 1;
+
+                    if( elementResult.HasFlag( SerializationResult.Paused ) )
+                        _retryElements.Add( i, new RetryEntry<T>( obj, mapping, -1 ) );
+                    else
+                        _retryElements.Add( i, new RetryEntry<T>( obj, mapping, CurrentPass ) );
                 }
 
                 _objects[i] = obj;

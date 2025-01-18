@@ -140,11 +140,13 @@ namespace UnityPlus.Serialization
                 }
                 else
                 {
-                    if( elementResult.HasFlag( SerializationResult.Paused ) )
-                        _startIndex = index + 1;
-
                     _retryElements ??= new();
-                    _retryElements.Add( index, new RetryEntry<TElement>( elementObj, mapping, s.CurrentPass ) );
+                    _startIndex = index + 1;
+
+                    if( elementResult.HasFlag( SerializationResult.Paused ) )
+                        _retryElements.Add( index, new RetryEntry<TElement>( elementObj, mapping, -1 ) );
+                    else
+                        _retryElements.Add( index, new RetryEntry<TElement>( elementObj, mapping, s.CurrentPass ) );
                 }
 
                 serArray.Add( elementData );
@@ -152,7 +154,7 @@ namespace UnityPlus.Serialization
 
                 if( s.ShouldPause() )
                 {
-                    break;
+                    return SerializationResult.Paused;
                 }
             }
 
@@ -233,7 +235,12 @@ namespace UnityPlus.Serialization
 
                     if( l.ShouldPause() )
                     {
-                        break;
+                        foreach( var ii in retryMembersThatSucceededThisTime )
+                        {
+                            _retryElements.Remove( ii );
+                        }
+                        obj = (TMember)(object)sourceObj;
+                        return SerializationResult.Paused;
                     }
                 }
 
@@ -265,11 +272,13 @@ namespace UnityPlus.Serialization
                 }
                 else
                 {
-                    if( elementResult.HasFlag( SerializationResult.Paused ) )
-                        _startIndex = i + 1;
-
                     _retryElements ??= new();
-                    _retryElements.Add( i, new RetryEntry<TElement>( elementObj, mapping, l.CurrentPass ) );
+                    _startIndex = i + 1;
+
+                    if( elementResult.HasFlag( SerializationResult.Paused ) )
+                        _retryElements.Add( i, new RetryEntry<TElement>( elementObj, mapping, -1 ) );
+                    else
+                        _retryElements.Add( i, new RetryEntry<TElement>( elementObj, mapping, l.CurrentPass ) );
                 }
 
                 if( elementResult.HasFlag( SerializationResult.Finished) )
@@ -286,7 +295,8 @@ namespace UnityPlus.Serialization
 
                 if( l.ShouldPause() )
                 {
-                    break;
+                    obj = (TMember)(object)sourceObj;
+                    return SerializationResult.Paused;
                 }
             }
 

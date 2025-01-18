@@ -188,7 +188,6 @@ namespace UnityPlus.Serialization
                 _lastResult = mapping.SafeLoad( ref obj, data, this, populate );
                 if( _lastResult.HasFlag( SerializationResult.Finished ) )
                 {
-#warning TODO - what about paused?
                     if( _lastResult.HasFlag( SerializationResult.Failed ) )
                         _wasFailureNoRetry = true;
 
@@ -196,11 +195,13 @@ namespace UnityPlus.Serialization
                 }
                 else
                 {
-                    if( _lastResult.HasFlag( SerializationResult.Paused ) )
-                        _startIndex = i + 1;
-
                     _retryElements ??= new();
-                    _retryElements.Add( i, new RetryEntry<T>( obj, mapping, CurrentPass ) );
+                    _startIndex = i + 1;
+
+                    if( _lastResult.HasFlag( SerializationResult.Paused ) )
+                        _retryElements.Add( i, new RetryEntry<T>( obj, mapping, -1 ) );
+                    else
+                        _retryElements.Add( i, new RetryEntry<T>( obj, mapping, CurrentPass ) );
                 }
 
                 _objects[i] = obj;
