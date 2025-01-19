@@ -160,9 +160,12 @@ namespace UnityPlus.Serialization
             if( data == null )
             {
                 data = new SerializedObject();
-
-                data[KeyNames.TYPE] = obj.GetType().SerializeType();
-                data[KeyNames.ID] = s.RefMap.GetID( sourceObj ).SerializeGuid();
+                 
+                if( MappingHelper.IsNonNullEligibleForTypeHeader<TMember>() )
+                {
+                    data[KeyNames.TYPE] = obj.GetType().SerializeType();
+                    data[KeyNames.ID] = s.RefMap.GetID( sourceObj ).SerializeGuid();
+                }
             }
 
             //

@@ -83,7 +83,7 @@ namespace UnityPlus.Serialization
 
                 foreach( (int i, var entry) in _retryElements )
                 {
-                    SerializedData elementData = null;
+                    SerializedData elementData = serArray.Count > i ? serArray[i] : null;
 
                     SerializationResult elementResult = entry.mapping.SafeSave<TElement>( entry.value, ref elementData, s );
                     if( elementResult.HasFlag( SerializationResult.Failed ) )
@@ -128,7 +128,7 @@ namespace UnityPlus.Serialization
 
                 var mapping = SerializationMappingRegistry.GetMapping<TElement>( elementContext, elementObj );
 
-                SerializedData elementData = null;
+                SerializedData elementData = serArray.Count > index ? serArray[index] : null;
 
                 SerializationResult elementResult = mapping.SafeSave( elementObj, ref elementData, s );
                 if( elementResult.HasFlag( SerializationResult.Finished ) )
@@ -221,7 +221,7 @@ namespace UnityPlus.Serialization
                         retryMembersThatSucceededThisTime.Add( i );
                     }
 
-                    if( elementResult.HasFlag( SerializationResult.Finished ))
+                    if( elementResult.HasFlag( SerializationResult.Finished ) )
                     {
                         if( _objectHasBeenInstantiated )
                         {
@@ -281,7 +281,7 @@ namespace UnityPlus.Serialization
                         _retryElements.Add( i, new RetryEntry<TElement>( elementObj, mapping, l.CurrentPass ) );
                 }
 
-                if( elementResult.HasFlag( SerializationResult.Finished) )
+                if( elementResult.HasFlag( SerializationResult.Finished ) )
                 {
                     if( _objectHasBeenInstantiated )
                     {

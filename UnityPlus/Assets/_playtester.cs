@@ -102,6 +102,7 @@ public class _playtester : MonoBehaviour
     }
 
     [SerializeField] GameObject perfTestGo;
+    [SerializeField] GameObject startTestGo;
 
     public Action<string> Action { get; set; }
 
@@ -118,7 +119,7 @@ public class _playtester : MonoBehaviour
     void Start()
     {
         //SerializedData data = SerializationUnit.Serialize<(int, string)>( (218, "stringval") );
-        var su = SerializationUnit.FromObjectsAsync<GameObject>( perfTestGo );
+        var su = SerializationUnit.FromObjectsAsync<GameObject>( startTestGo );
         do
         { // INFO - the time includes things like the JIT, so first serialization will take more steps, but that doesn't affect anything.
             su.Serialize();
@@ -143,7 +144,7 @@ public class _playtester : MonoBehaviour
 
 
 
-        su = SerializationUnit.FromObjectsAsync<GameObject>( perfTestGo );
+        su = SerializationUnit.FromObjectsAsync<GameObject>( startTestGo );
         do
         { // INFO - the time includes things like the JIT, so first serialization will take more steps, but that doesn't affect anything.
             su.Serialize();
@@ -158,11 +159,11 @@ public class _playtester : MonoBehaviour
 
     void Update()
     {
-       // RunPerfTest();
+       RunPerfTest();
        // RunPerfTestAsync_AsSync();
     }
 
-    const int COUNT = 2;
+    const int COUNT = 1000;
 
     private void RunPerfTest()
     {

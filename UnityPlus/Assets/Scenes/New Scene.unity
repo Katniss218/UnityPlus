@@ -2341,6 +2341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   perfTestGo: {fileID: 0}
+  startTestGo: {fileID: 0}
 --- !u!4 &283596385
 Transform:
   m_ObjectHideFlags: 0
@@ -3254,7 +3255,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caa2649d8ab65d64c8feb27f45ff73a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  perfTestGo: {fileID: 823204803}
+  perfTestGo: {fileID: 2139138319}
+  startTestGo: {fileID: 823204803}
 --- !u!4 &401418319
 Transform:
   m_ObjectHideFlags: 0
@@ -10553,6 +10555,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   perfTestGo: {fileID: 2139138319}
+  startTestGo: {fileID: 0}
 --- !u!4 &1256481795
 Transform:
   m_ObjectHideFlags: 0

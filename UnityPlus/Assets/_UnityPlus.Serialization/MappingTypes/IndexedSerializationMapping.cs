@@ -282,7 +282,6 @@ namespace UnityPlus.Serialization
                 {
                     if( _objectHasBeenInstantiated )
                     {
-#warning TODO - this sometimes throws.
                         elementSetter.Invoke( sourceObj, i, elementObj );
                     }
                     else if( !populate )
