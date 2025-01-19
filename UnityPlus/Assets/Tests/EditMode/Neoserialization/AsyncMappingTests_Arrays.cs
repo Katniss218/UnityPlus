@@ -13,10 +13,11 @@ namespace Neoserialization
         [Test]
         public void Mapping___IntArray___RoundTrip()
         {
+            const int SIZE = 70000; // The size has to be large enough to force multiple invocations.
             // Arrange
-            var initialValue = new int[50000];
+            var initialValue = new int[SIZE];
 
-            for( int i = 0; i < initialValue.Length; i++ )
+            for( int i = 0; i < SIZE; i++ )
             {
                 initialValue[i] = i;
             }
@@ -31,7 +32,6 @@ namespace Neoserialization
 
             var data = su.GetData().First();
             Debug.Log( "S" + ((SerializedArray)data["value"]).Count );
-
 
 
             var su2 = SerializationUnit.FromDataAsync<int[]>( data );
@@ -52,10 +52,12 @@ namespace Neoserialization
         [Test]
         public void Mapping___Dictionary___RoundTrip()
         {
-            // Arrange
-            var initialValue = new Dictionary<string, int>();
+            const int SIZE = 20000; // The size has to be large enough to force multiple invocations.
 
-            for( int i = 0; i < 2; i++ )
+            // Arrange
+            var initialValue = new Dictionary<string, int>( SIZE );
+
+            for( int i = 0; i < SIZE; i++ )
             {
                 initialValue.Add( i.ToString(), i );
             }
@@ -70,6 +72,7 @@ namespace Neoserialization
 
             var data = su.GetData().First();
             Debug.Log( "S" + ((SerializedArray)data["value"]).Count );
+
 
             var su2 = SerializationUnit.FromDataAsync<Dictionary<string, int>>( data );
             su2.AllowedMilisecondsPerInvocation = 10;
