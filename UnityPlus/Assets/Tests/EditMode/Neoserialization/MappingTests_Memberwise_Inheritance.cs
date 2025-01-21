@@ -132,6 +132,36 @@ namespace Neoserialization
             }
         }
 
+        public class GappedImmutableClass : BaseClass
+        {
+            public readonly string m2;
+            public double m3;
+
+            public GappedImmutableClass( string m2 )
+            {
+                this.m2 = m2;
+            }
+
+            public override bool Equals( object obj )
+            {
+                if( obj is not GappedImmutableClass other )
+                    return false;
+
+                return this.m1 == other.m1
+                    && this.m2 == other.m2
+                    && this.m3 == other.m3;
+            }
+
+            [MapsInheritingFrom( typeof( GappedImmutableClass ) )]
+            public static SerializationMapping Mapping()
+            {
+                return new MemberwiseSerializationMapping<GappedImmutableClass>()
+                    .WithReadonlyMember( "m2", o => o.m2 )
+                    .WithFactory<string>( (m2) => new GappedImmutableClass( m2 ) )
+                    .WithMember( "m3", o => o.m3 );
+            }
+        }
+
 
 
 
@@ -343,6 +373,20 @@ namespace Neoserialization
             // Act
             var data = SerializationUnit.Serialize<BaseImmutableClass>( initialValue );
             var finalValue = SerializationUnit.Deserialize<BaseImmutableClass>( data );
+
+            // Assert
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
+        }
+
+        [Test]
+        public void Mapping___GappedImmutableClass___RoundTrip()
+        {
+            // Arrange
+            GappedImmutableClass initialValue = new GappedImmutableClass( "hello" ) { m1 = 5, m3 = 5.25 };
+
+            // Act
+            var data = SerializationUnit.Serialize<GappedImmutableClass>( initialValue );
+            var finalValue = SerializationUnit.Deserialize<GappedImmutableClass>( data );
 
             // Assert
             Assert.That( finalValue, Is.EqualTo( initialValue ) );

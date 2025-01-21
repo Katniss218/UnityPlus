@@ -26,6 +26,7 @@ namespace UnityPlus.Serialization
         private List<MemberBase<TSource>> _members = new();
         private bool _objectHasBeenInstantiated;
 
+        object[] _preFactoryMemberStorage;
         object[] _factoryMemberStorage;
         int _startIndex;
         Dictionary<int, RetryEntry<object>> _retryMembers;
@@ -309,6 +310,10 @@ namespace UnityPlus.Serialization
                     _objectHasBeenInstantiated = true;
                 }
 
+                if( _factoryStartMemberIndex != 0 )
+                {
+                    _preFactoryMemberStorage ??= new object[_factoryStartMemberIndex];
+                }
                 if( _factoryMemberCount != 0 )
                 {
                     _factoryMemberStorage ??= new object[_factoryMemberCount];
@@ -343,7 +348,7 @@ namespace UnityPlus.Serialization
                     }
                     else if( !populate )
                     {
-                        _factoryMemberStorage[i - _factoryStartMemberIndex] = entry.value;
+                        AssignMemberToTempStorage( i, entry.value );
                     }
 
                     if( memberResult.HasFlag( SerializationResult.Failed ) )
@@ -359,14 +364,10 @@ namespace UnityPlus.Serialization
                     // Instantiate the object that contains the members ('parent'), if available.
                     if( !populate && !_objectHasBeenInstantiated && FactoryMembersReadyForInstantiation( retryMembersThatSucceededThisTime ) )
                     {
-                        _factoryMemberStorage[i] = entry.value;
+                        AssignMemberToTempStorage( i, entry.value );
 
                         sourceObj = Instantiate( data, l );
-                        // assign the initial members (if members are readonly this will silently do nothing).
-                        for( int j = 0; j < _factoryMemberStorage.Length; j++ )
-                        {
-                            _members[j + _factoryStartMemberIndex].Set( ref sourceObj, this._factoryMemberStorage[j + _factoryStartMemberIndex] );
-                        }
+                        CopyTempStorageMembersToObject( ref sourceObj );
                         _objectHasBeenInstantiated = true;
                     }
 
@@ -409,7 +410,7 @@ namespace UnityPlus.Serialization
                 }
                 else if( !populate )
                 {
-                    _factoryMemberStorage[i - _factoryStartMemberIndex] = memberObj;
+                    AssignMemberToTempStorage( i, memberObj );
                 }
 
                 if( memberResult.HasFlag( SerializationResult.Finished ) )
@@ -435,13 +436,10 @@ namespace UnityPlus.Serialization
                 //   because structs are never null, but they may be immutable.
                 if( !populate && !_objectHasBeenInstantiated && FactoryMembersReadyForInstantiation() )
                 {
-                    _factoryMemberStorage[i] = memberObj;
+                    AssignMemberToTempStorage( i, memberObj );
+
                     sourceObj = Instantiate( data, l );
-                    // assign the initial members (if members are readonly this will silently do nothing).
-                    for( int j = 0; j < _factoryMemberStorage.Length; j++ )
-                    {
-                        _members[j + _factoryStartMemberIndex].Set( ref sourceObj, this._factoryMemberStorage[j + _factoryStartMemberIndex] );
-                    }
+                    CopyTempStorageMembersToObject( ref sourceObj );
                     _objectHasBeenInstantiated = true;
                 }
 
@@ -464,6 +462,29 @@ namespace UnityPlus.Serialization
             if( result.HasFlag( SerializationResult.Finished ) && result.HasFlag( SerializationResult.HasFailures ) )
                 result |= SerializationResult.Failed;
             return result;
+        }
+
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        private void CopyTempStorageMembersToObject( ref TSource sourceObj )
+        {
+            // assign the initial members (if members are readonly this will silently do nothing).
+            for( int j = 0; j < _factoryStartMemberIndex; j++ )
+            {
+                _members[j].Set( ref sourceObj, this._preFactoryMemberStorage[j] );
+            }
+            for( int j = 0; j < _factoryMemberCount; j++ )
+            {
+                _members[_factoryStartMemberIndex + j].Set( ref sourceObj, this._factoryMemberStorage[j] );
+            }
+        }
+
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        private void AssignMemberToTempStorage( int i, object memberObj )
+        {
+            if( i < _factoryStartMemberIndex )
+                _preFactoryMemberStorage[i] = memberObj;
+            else
+                _factoryMemberStorage[i - _factoryStartMemberIndex] = memberObj;
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
