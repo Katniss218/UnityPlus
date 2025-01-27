@@ -53,18 +53,17 @@ namespace UnityPlus.Serialization.Mappings
         [MapsInheritingFrom( typeof( GameObject ) )]
         public static SerializationMapping GameObjectMapping()
         {
-            return new MemberwiseSerializationMapping<GameObject>()
-                .WithMember( "name", o => o.name )
-                .WithMember( "layer", o => o.layer )
-                .WithMember( "is_active", o => o.activeSelf, ( o, value ) => { /*o.SetActive( value )*/ } )
+            return new GameObjectSerializationMapping()
+                //.WithMember( "is_active", o => o.activeSelf, ( o, value ) => { /*o.SetActive( value )*/ } )
                 .WithMember( "is_static", o => o.isStatic )
+                .WithMember( "layer", o => o.layer )
+                .WithMember( "name", o => o.name )
                 .WithMember( "tag", o => o.tag )
                 .WithMember( "children", o =>
                     {
                         return o.transform.Children().Select( child => child.gameObject ).ToArray();
                     }, ( o, value ) =>
                     {
-#warning TODO - memberwise doesn't work here with pausing. for some reason
                         foreach( var child in value )           // The 'value' array here is a sort of 'virtual' array.
                         {
                             child.transform.SetParent( o.transform );
@@ -120,13 +119,6 @@ namespace UnityPlus.Serialization.Mappings
                     }
                 }
                 return obj;
-            } )
-            .WithFinalizer( ( data, go ) =>
-            {
-                if( data.TryGetValue( "is_active", out var isActive ) )
-                {
-                    go.SetActive( (bool)isActive );
-                }
             } );
         }
 
