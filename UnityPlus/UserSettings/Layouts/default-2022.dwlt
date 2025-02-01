@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
-  m_Title: Project
+  m_Title: Test Runner
   m_RootView: {fileID: 6}
   m_MinSize: {x: 875, y: 371}
   m_MaxSize: {x: 10000, y: 10000}
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 47
+  controlID: 22
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -222,7 +222,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 137
+  controlID: 139
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -321,8 +321,8 @@ MonoBehaviour:
     y: 0
     width: 456
     height: 947
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 101, y: 121}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 22}
   m_Panes:
   - {fileID: 21}
@@ -642,7 +642,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: b6060000
       m_LastClickedID: 0
-      m_ExpandedIDs: 34fbffff
+      m_ExpandedIDs: c0f7ffff34fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -2052,7 +2052,7 @@ MonoBehaviour:
     m_CachedPref: 160
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: 1718
+  m_LastInspectedObjectInstanceID: -1
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0
@@ -2088,7 +2088,7 @@ MonoBehaviour:
     m_LastAppliedPresetName: Default
     m_SaveData: []
   m_Spl:
-    ID: 167
+    ID: 229
     splitterInitialOffset: 710
     currentActiveSplitter: -1
     realSizes:
@@ -2171,9 +2171,9 @@ MonoBehaviour:
       uniqueId: '[UnityPlus][suite]'
       name: UnityPlus
       fullName: UnityPlus
-      resultStatus: 2
-      duration: 1.2970824
-      messages: One or more child tests had errors
+      resultStatus: 1
+      duration: 0.8755431
+      messages: 
       output: 
       stacktrace: 
       notRunnable: 0
@@ -2187,9 +2187,9 @@ MonoBehaviour:
       uniqueId: '[EditMode.dll][suite]'
       name: EditMode.dll
       fullName: E:/GIT/UnityPlus/UnityPlus/Library/ScriptAssemblies/EditMode.dll
-      resultStatus: 2
-      duration: 1.2842908
-      messages: One or more child tests had errors
+      resultStatus: 1
+      duration: 0.8579385
+      messages: 
       output: 
       stacktrace: 
       notRunnable: 0
@@ -2203,9 +2203,9 @@ MonoBehaviour:
       uniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
       name: Neoserialization
       fullName: Neoserialization
-      resultStatus: 2
-      duration: 1.2828071
-      messages: One or more child tests had errors
+      resultStatus: 1
+      duration: 0.8565566
+      messages: 
       output: 
       stacktrace: 
       notRunnable: 0
@@ -3426,7 +3426,7 @@ MonoBehaviour:
       name: MappingTests_Read_BadTypes
       fullName: Neoserialization.MappingTests_Read_BadTypes
       resultStatus: 1
-      duration: 0.0057108
+      duration: 0.8532814
       messages: 
       output: 
       stacktrace: 
@@ -3442,7 +3442,7 @@ MonoBehaviour:
       name: Reading___BadType___DeserializedAsDefault
       fullName: Neoserialization.MappingTests_Read_BadTypes.Reading___BadType___DeserializedAsDefault
       resultStatus: 1
-      duration: 0.0002441
+      duration: 0.7908935
       messages: 
       output: 
       stacktrace: 
@@ -3459,7 +3459,7 @@ MonoBehaviour:
       name: Reading___BadType_Array___LeftAsDefault
       fullName: Neoserialization.MappingTests_Read_BadTypes.Reading___BadType_Array___LeftAsDefault
       resultStatus: 1
-      duration: 0.0007955
+      duration: 0.0058574
       messages: 
       output: 
       stacktrace: 
@@ -3476,7 +3476,7 @@ MonoBehaviour:
       name: Reading___BadType_Member___LeftAsDefault
       fullName: Neoserialization.MappingTests_Read_BadTypes.Reading___BadType_Member___LeftAsDefault
       resultStatus: 1
-      duration: 0.0012332
+      duration: 0.0477405
       messages: 
       output: 
       stacktrace: 
@@ -5818,17 +5818,12 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: EditMode.dll/UnityEngineTests/[EditMode][UnityEngineTests.QuaternionDblTests][suite]
-    m_ResultText: 'UnityPlus (1,297s)
-
-      ---
-
-      One or more child tests had
-      errors'
+    m_ResultText: Reading___BadType_Member___LeftAsDefault (0,048s)
     m_ResultStacktrace: 
     m_TestListState:
-      scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 3b259179
-      m_LastClickedID: 2039555387
+      scrollPos: {x: 0, y: 900}
+      m_SelectedIDs: c1c07808
+      m_LastClickedID: 142131393
       m_ExpandedIDs: ee885b80fb3f93892026c08ecebbdc90436c61936ae00595ad608d96cc856f9aedc39d9bda46919c4a4bc2a03daec8abeba168ad6f3e92b2dcfc56b4a7da5dbd651ad6bdf70309c40ec433c4baa0dacb0a5fded7d6d190dba2b77edce9a53ae2fa56d200f6a283050e41801750b8d623dcd9b527b2b38c2b0407f42bf580f53a020566448b9bc44689de525c4edece62463b4e6458bcc369fb2cbd6ae625256db58db36f3b2591793fea547b4b5ea47c5538167d41ea8f7e6e2ff87fffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0

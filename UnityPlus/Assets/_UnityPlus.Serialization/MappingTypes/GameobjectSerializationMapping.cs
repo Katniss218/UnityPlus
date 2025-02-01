@@ -21,6 +21,7 @@ namespace UnityPlus.Serialization
         bool _wasActive = false;
 
         bool _wasFailureNoRetry = false;
+        public string IsActiveKey = "is_active";
 
         public GameObjectSerializationMapping()
         {
@@ -59,7 +60,7 @@ namespace UnityPlus.Serialization
 
                 data[KeyNames.TYPE] = obj.GetType().SerializeType();
                 data[KeyNames.ID] = s.RefMap.GetID( sourceObj ).SerializeGuid();
-                data["is_active"] = _wasActive;
+                data[IsActiveKey] = _wasActive;
             }
             sourceObj.SetActive( false );
 
@@ -284,7 +285,7 @@ namespace UnityPlus.Serialization
                 result |= SerializationResult.HasFailures;
             if( _retryMembers == null || _retryMembers.Count == 0 )
             {
-                if( data.TryGetValue( "is_active", out var isActive ) )
+                if( data.TryGetValue( IsActiveKey, out var isActive ) )
                 {
                     sourceObj.SetActive( (bool)isActive );
                 }

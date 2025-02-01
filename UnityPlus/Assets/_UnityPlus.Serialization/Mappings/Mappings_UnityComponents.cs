@@ -2,7 +2,6 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Extensions;
-using static UnityPlus.Serialization.SerializedPrimitive;
 
 namespace UnityPlus.Serialization.Mappings
 {
@@ -29,13 +28,6 @@ namespace UnityPlus.Serialization.Mappings
                 } );
         }
 
-        [MapsInheritingFrom( typeof( Behaviour ) )]
-        public static SerializationMapping BehaviourMapping()
-        {
-            return new MemberwiseSerializationMapping<Behaviour>()
-                .WithMember( "is_enabled", o => o.enabled );
-        }
-
         [MapsInheritingFrom( typeof( Component ) )]
         public static SerializationMapping ComponentMapping()
         {
@@ -54,7 +46,7 @@ namespace UnityPlus.Serialization.Mappings
         public static SerializationMapping GameObjectMapping()
         {
             return new GameObjectSerializationMapping()
-                //.WithMember( "is_active", o => o.activeSelf, ( o, value ) => { /*o.SetActive( value )*/ } )
+                //.WithMember( "is_active", o => o.activeSelf, ( o, value ) => { /*o.SetActive( value )*/ } ) // handled by the GameObjectSerializationMapping itself.
                 .WithMember( "is_static", o => o.isStatic )
                 .WithMember( "layer", o => o.layer )
                 .WithMember( "name", o => o.name )
@@ -80,9 +72,6 @@ namespace UnityPlus.Serialization.Mappings
             .WithRawFactory( ( data, l ) =>
             {
                 GameObject obj = new GameObject();
-                // Disable the gameobject to prevent 'start' from firing prematurely if deserializing over multiple frames.
-                // It will be re-enabled by the finalizer.
-                obj.SetActive( false );
 
                 if( data.TryGetValue( KeyNames.ID, out var id ) )
                 {
@@ -102,12 +91,6 @@ namespace UnityPlus.Serialization.Mappings
                                 continue; // Skips adding to refmap
 
                             Component component = obj.GetTransformOrAddComponent( type );
-                            if( component is Behaviour behaviour )
-                            {
-                                // Disable the behaviour to prevent 'start' from firing prematurely if deserializing over multiple frames.
-                                // It will be re-enabled later when the members are set.
-                                behaviour.enabled = false;
-                            }
 
                             l.RefMap.SetObj( id2, component );
                         }
@@ -120,6 +103,13 @@ namespace UnityPlus.Serialization.Mappings
                 }
                 return obj;
             } );
+        }
+
+        [MapsInheritingFrom( typeof( Behaviour ) )]
+        public static SerializationMapping BehaviourMapping()
+        {
+            return new MemberwiseSerializationMapping<Behaviour>()
+                .WithMember( "is_enabled", o => o.enabled );
         }
 
         [MapsInheritingFrom( typeof( Renderer ) )]
