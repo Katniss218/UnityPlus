@@ -182,6 +182,42 @@ namespace Neoserialization
         }
 
         [Test]
+        public void Mapping___List_Reference___RoundTrip()
+        {
+            // Arrange
+            var refValue = new BaseClass();
+            var interfaceRefValue = new InterfaceClass();
+            var initialValue = new ListReferenceClass()
+            {
+                refs = new()
+                {
+                    refValue,
+                    refValue,
+                    interfaceRefValue,
+                    interfaceRefValue
+                }
+            };
+
+            // Act
+            // Round-trip the referenced instance and the class that references it.
+            var su = SerializationUnit.FromObjects<object>( refValue, initialValue, interfaceRefValue );
+            su.Serialize();
+            var su2 = SerializationUnit.FromData<object>( su.GetData() );
+            su2.Deserialize();
+
+            var finalValue = su2.GetObjects<ListReferenceClass>().First();
+            var finalRefValue = su2.GetObjects<BaseClass>().First();
+            var finalInterfaceRefValue = su2.GetObjects<InterfaceClass>().First();
+
+            // Assert
+            Assert.That( finalValue.refs, Has.Count.EqualTo( 4 ) );
+            Assert.That( finalValue.refs[0], Is.SameAs( finalRefValue ) );
+            Assert.That( finalValue.refs[1], Is.SameAs( finalRefValue ) );
+            Assert.That( finalValue.refs[2], Is.SameAs( finalInterfaceRefValue ) );
+            Assert.That( finalValue.refs[3], Is.SameAs( finalInterfaceRefValue ) );
+        }
+
+        [Test]
         public void Mapping___Dictionary_Reference___RoundTrip()
         {
             // Arrange

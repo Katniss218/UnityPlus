@@ -1,5 +1,8 @@
 ﻿using NUnit.Framework;
+using System.Text;
+using UnityEngine;
 using UnityPlus.Serialization;
+using UnityPlus.Serialization.Json;
 
 namespace Neoserialization
 {

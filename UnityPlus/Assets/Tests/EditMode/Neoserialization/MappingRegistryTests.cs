@@ -165,6 +165,19 @@ namespace Neoserialization
             return this.refs.SequenceEqual( other.refs );
         }
     }
+    
+    public class ListReferenceClass
+    {
+        public List<object> refs;
+
+        public override bool Equals( object obj )
+        {
+            if( obj is not ListReferenceClass other )
+                return false;
+
+            return this.refs.SequenceEqual( other.refs );
+        }
+    }
 
     public class DictionaryReferenceClass
     {
@@ -251,6 +264,13 @@ namespace Neoserialization
         public static SerializationMapping ArrayReferenceClassMapping()
         {
             return new MemberwiseSerializationMapping<ArrayReferenceClass>()
+                .WithMember( "refs", ArrayContext.Refs, o => o.refs );
+        }
+        
+        [MapsInheritingFrom( typeof( ListReferenceClass ) )]
+        public static SerializationMapping ListReferenceClassMapping()
+        {
+            return new MemberwiseSerializationMapping<ListReferenceClass>()
                 .WithMember( "refs", ArrayContext.Refs, o => o.refs );
         }
         
