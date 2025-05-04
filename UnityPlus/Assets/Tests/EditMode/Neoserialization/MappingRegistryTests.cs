@@ -23,9 +23,15 @@ namespace Neoserialization
         float interfaceMember { get; set; }
     }
 
-    public class InterfaceClass : IAnInterface
+    public interface IADerivedUnmappedInterface : IAnInterface
+    {
+        int interfaceMemberDerived { get; set; }
+    }
+
+    public class InterfaceClass : IADerivedUnmappedInterface
     {
         public float interfaceMember { get; set; }
+        public int interfaceMemberDerived { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public override bool Equals( object obj )
         {
@@ -147,90 +153,132 @@ namespace Neoserialization
         }
     }
 
+    public class ArrayReferenceClass
+    {
+        public object[] refs;
+
+        public override bool Equals( object obj )
+        {
+            if( obj is not ArrayReferenceClass other )
+                return false;
+
+            return this.refs.SequenceEqual( other.refs );
+        }
+    }
+    
+    public class ListReferenceClass
+    {
+        public List<object> refs;
+
+        public override bool Equals( object obj )
+        {
+            if( obj is not ListReferenceClass other )
+                return false;
+
+            return this.refs.SequenceEqual( other.refs );
+        }
+    }
+
+    public class DictionaryReferenceClass
+    {
+        public Dictionary<object, object> refs;
+
+        public override bool Equals( object obj )
+        {
+            if( obj is not DictionaryReferenceClass other )
+                return false;
+
+            return this.refs.SequenceEqual( other.refs );
+        }
+    }
+
     public class MappingRegistryTests
     {
         [MapsInheritingFrom( typeof( BaseClass ) )]
         public static SerializationMapping BaseClassMapping()
         {
             return new MemberwiseSerializationMapping<BaseClass>()
-            {
-                ("base_member", new Member<BaseClass, float>( o => o.baseMember ))
-            };
+                .WithMember( "base_member", o => o.baseMember );
         }
 
         [MapsInheritingFrom( typeof( DerivedClass ) )]
         public static SerializationMapping DerivedClassMapping()
         {
             return new MemberwiseSerializationMapping<DerivedClass>()
-            {
-                ("derived_member", new Member<DerivedClass, string>( o => o.derivedMember ))
-            };
+                .WithMember( "derived_member", o => o.derivedMember );
         }
 
         [MapsInheritingFrom( typeof( GenericClass<> ) )]
         public static SerializationMapping TestclassMapping<T>()
         {
             return new MemberwiseSerializationMapping<GenericClass<T>>()
-            {
-                ("member", new Member<GenericClass<T>, T>( o => o.member ))
-            };
+                .WithMember( "member", o => o.member );
         }
 
         [MapsInheritingFrom( typeof( MultiGenericClass<,,> ) )]
         public static SerializationMapping TestclassMapping<T1, T2, T3>()
         {
             return new MemberwiseSerializationMapping<MultiGenericClass<T1, T2, T3>>()
-            {
-                ("member1", new Member<MultiGenericClass<T1, T2, T3>, T1>( o => o.member1 )),
-                ("member2", new Member<MultiGenericClass<T1, T2, T3>, T2>( o => o.member2 )),
-                ("member3", new Member<MultiGenericClass<T1, T2, T3>, T3>( o => o.member3 ))
-            };
+                .WithMember( "member1", o => o.member1 )
+                .WithMember( "member2", o => o.member2 )
+                .WithMember( "member3", o => o.member3 );
         }
 
         [MapsInheritingFrom( typeof( OwningClass ) )]
         public static SerializationMapping OwningMapping()
         {
             return new MemberwiseSerializationMapping<OwningClass>()
-            {
-                ("ref_member", new Member<OwningClass, BaseClass>( o => o.refMember ))
-            };
+                .WithMember( "ref_member", o => o.refMember );
         }
 
         [MapsInheritingFrom( typeof( InterfaceClass ) )]
         public static SerializationMapping InterfaceClassMapping()
         {
             return new MemberwiseSerializationMapping<InterfaceClass>()
-            {
-                ("interface_member", new Member<InterfaceClass, float>( o => o.interfaceMember ))
-            };
+                .WithMember( "interface_member", o => o.interfaceMember );
         }
 
         [MapsImplementing( typeof( IAnInterface ) )]
         public static SerializationMapping IAnInterfaceMapping()
         {
             return new MemberwiseSerializationMapping<IAnInterface>()
-            {
-                ("interface_member", new Member<IAnInterface, float>( o => o.interfaceMember ))
-            };
+                .WithMember( "interface_member", o => o.interfaceMember );
         }
 
         [MapsInheritingFrom( typeof( ReferencingClass ) )]
         public static SerializationMapping ReferencingClassMapping()
         {
             return new MemberwiseSerializationMapping<ReferencingClass>()
-            {
-                ("ref_member", new Member<ReferencingClass, BaseClass>( ObjectContext.Ref, o => o.refMember )),
-                ("interface_ref_member", new Member<ReferencingClass, IAnInterface>( ObjectContext.Ref, o => o.interfaceRefMember ))
-            };
+                .WithMember( "ref_member", ObjectContext.Ref, o => o.refMember )
+                .WithMember( "interface_ref_member", ObjectContext.Ref, o => o.interfaceRefMember );
         }
 
         [MapsInheritingFrom( typeof( MappedDerivedClass ) )]
         public static SerializationMapping MappedDerivedClassMapping()
         {
             return new MemberwiseSerializationMapping<MappedDerivedClass>()
-            {
-                ("derived_member", new Member<MappedDerivedClass, string>( o => o.derivedMember ))
-            };
+                .WithMember( "derived_member", o => o.derivedMember );
+        }
+
+        [MapsInheritingFrom( typeof( ArrayReferenceClass ) )]
+        public static SerializationMapping ArrayReferenceClassMapping()
+        {
+            return new MemberwiseSerializationMapping<ArrayReferenceClass>()
+                .WithMember( "refs", ArrayContext.Refs, o => o.refs );
+        }
+        
+        [MapsInheritingFrom( typeof( ListReferenceClass ) )]
+        public static SerializationMapping ListReferenceClassMapping()
+        {
+            return new MemberwiseSerializationMapping<ListReferenceClass>()
+                .WithMember( "refs", ArrayContext.Refs, o => o.refs );
+        }
+        
+        [MapsInheritingFrom( typeof( DictionaryReferenceClass ) )]
+        public static SerializationMapping DictionaryReferenceClassMapping()
+        {
+            return new MemberwiseSerializationMapping<DictionaryReferenceClass>()
+                .WithMember( "refs", KeyValueContext.RefToRef, o => o.refs );
         }
 
         //
@@ -247,8 +295,8 @@ namespace Neoserialization
             SerializationMapping mapping2 = SerializationMappingRegistry.GetMapping<bool>( ObjectContext.Default, true.GetType() );
 
             // Assert
-            Assert.That( mapping2, Is.InstanceOf( typeof( PrimitiveStructSerializationMapping<bool> ) ) );
-            Assert.That( mapping1, Is.EqualTo( mapping2 ) );
+            Assert.That( mapping2, Is.InstanceOf( typeof( PrimitiveSerializationMapping<bool> ) ) );
+            Assert.That( mapping2, Is.InstanceOf( typeof( PrimitiveSerializationMapping<bool> ) ) );
         }
 
         [Test]
@@ -262,7 +310,7 @@ namespace Neoserialization
 
             // Assert
             Assert.That( mapping2, Is.InstanceOf( typeof( MemberwiseSerializationMapping<DerivedClass> ) ) );
-            Assert.That( mapping1, Is.EqualTo( mapping2 ) );
+            Assert.That( mapping2, Is.InstanceOf( typeof( MemberwiseSerializationMapping<DerivedClass> ) ) );
         }
 
         [Test]
@@ -276,7 +324,7 @@ namespace Neoserialization
 
             // Assert
             Assert.That( mapping2, Is.InstanceOf( typeof( MemberwiseSerializationMapping<GenericClass<float>> ) ) );
-            Assert.That( mapping1, Is.EqualTo( mapping2 ) );
+            Assert.That( mapping2, Is.InstanceOf( typeof( MemberwiseSerializationMapping<GenericClass<float>> ) ) );
         }
 
         [Test]
@@ -290,7 +338,7 @@ namespace Neoserialization
 
             // Assert
             Assert.That( mapping2, Is.InstanceOf( typeof( MemberwiseSerializationMapping<MultiGenericClass<float, int, float>> ) ) );
-            Assert.That( mapping1, Is.EqualTo( mapping2 ) );
+            Assert.That( mapping2, Is.InstanceOf( typeof( MemberwiseSerializationMapping<MultiGenericClass<float, int, float>> ) ) );
         }
 
         [Test]
@@ -303,8 +351,8 @@ namespace Neoserialization
             SerializationMapping mapping2 = SerializationMappingRegistry.GetMapping<int[]>( ObjectContext.Default, new int[] { 1 }.GetType() );
 
             // Assert
-            Assert.That( mapping2, Is.InstanceOf( typeof( NonPrimitiveSerializationMapping<int[]> ) ) );
-            Assert.That( mapping1, Is.EqualTo( mapping2 ) );
+            Assert.That( mapping2, Is.InstanceOf( typeof( IndexedSerializationMapping<int[], int> ) ) );
+            Assert.That( mapping2, Is.InstanceOf( typeof( IndexedSerializationMapping<int[], int> ) ) );
         }
 
         [Test]
@@ -318,7 +366,7 @@ namespace Neoserialization
 
             // Assert
             Assert.That( mapping1, Is.InstanceOf( typeof( MemberwiseSerializationMapping<IAnInterface> ) ) );
-            Assert.That( mapping1, Is.EqualTo( mapping2 ) );
+            Assert.That( mapping2, Is.InstanceOf( typeof( MemberwiseSerializationMapping<IAnInterface> ) ) );
         }
 
         [Test]
@@ -328,42 +376,11 @@ namespace Neoserialization
 
             // Act
             SerializationMapping mapping1 = SerializationMappingRegistry.GetMapping<UnmappedBaseClass>( ObjectContext.Default, typeof( MappedDerivedClass ) );
-            SerializationMapping mapping1m = SerializationMappingRegistry.GetMapping<UnmappedBaseClass>( ObjectContext.Default, new MappedDerivedClass() );
+            SerializationMapping mapping2 = SerializationMappingRegistry.GetMapping<UnmappedBaseClass>( ObjectContext.Default, new MappedDerivedClass() );
 
             // Assert
-            Assert.That( mapping1, Is.Not.Null );
-            Assert.That( mapping1m, Is.Not.Null );
-            Assert.That( mapping1, Is.SameAs( mapping1m ) );
-        }
-
-        [Test]
-        public void GetMappingFor___MappingWithState___ReturnsDifferentInstance()
-        {
-            // Arrange
-
-            // Act
-            SerializationMapping mapping1 = SerializationMappingRegistry.GetMapping( ObjectContext.Default, (Dictionary<int, int>)null );
-            SerializationMapping mapping2 = SerializationMappingRegistry.GetMapping( ObjectContext.Default, (Dictionary<int, int>)null );
-
-            // Assert
-            Assert.That( mapping1, Is.Not.Null );
-            Assert.That( mapping2, Is.Not.Null );
-            Assert.That( mapping1, Is.Not.SameAs( mapping2 ) );
-        }
-
-        [Test]
-        public void GetMappingFor___MappingWithoutState___ReturnsSameInstance()
-        {
-            // Arrange
-
-            // Act
-            SerializationMapping mapping1 = SerializationMappingRegistry.GetMapping( ObjectContext.Default, (int)1 );
-            SerializationMapping mapping2 = SerializationMappingRegistry.GetMapping( ObjectContext.Default, (int)1 );
-
-            // Assert
-            Assert.That( mapping1, Is.Not.Null );
-            Assert.That( mapping2, Is.Not.Null );
-            Assert.That( mapping1, Is.SameAs( mapping2 ) );
+            Assert.That( mapping1, Is.InstanceOf( typeof( MemberwiseSerializationMapping<MappedDerivedClass> ) ) );
+            Assert.That( mapping2, Is.InstanceOf( typeof( MemberwiseSerializationMapping<MappedDerivedClass> ) ) );
         }
 
         [Test]

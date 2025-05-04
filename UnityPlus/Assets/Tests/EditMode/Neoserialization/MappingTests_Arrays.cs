@@ -1,12 +1,8 @@
 ﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityPlus.Serialization;
+using UnityPlus.Serialization.Json;
 
 namespace Neoserialization
 {
@@ -60,9 +56,9 @@ namespace Neoserialization
             // Arrange
             var initialValue = new int[][]
             {
-                new int[] { 1, 2 }, 
-                new int[] { 3, 4 },
-                new int[] { 5, 6 }
+                new int[] { 1 }, 
+                new int[] { 2, 3 },
+                new int[] { 4, 5, 6 }
             };
 
             // Act
@@ -77,7 +73,7 @@ namespace Neoserialization
         public void Mapping___ArrayWithNulls___RoundTrip()
         {
             // Arrange
-            var initialValue = new BaseClass[] { new BaseClass(), null };
+            var initialValue = new BaseClass[] { new BaseClass(), null, new BaseClass(), null };
 
             // Act
             var data = SerializationUnit.Serialize<BaseClass[]>( initialValue );

@@ -1,11 +1,5 @@
 ﻿using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
 using UnityPlus.Serialization;
 
 namespace Neoserialization
@@ -27,7 +21,7 @@ namespace Neoserialization
         }
 
         [Test]
-        public void Mapping___Tuple_ObjectObject___RoundTrip()
+        public void Mapping___Tuple_ArrayArray___RoundTrip()
         {
             // Arrange
             var initialValue = (new int[] { 1, 2, 3, 4, 5 }, new float[] { 1.1f, 2.2f, 3.3f, 4.4f, 5.5f });
@@ -59,7 +53,21 @@ namespace Neoserialization
         public void Mapping___Tuple_7___RoundTrip()
         {
             // Arrange
-            var initialValue = (-5, 5, 5, 5, 5, 5, 5);
+            var initialValue = (-5.0f, 5, 5, 5, 5, 5, 5);
+
+            // Act
+            var data = SerializationUnit.Serialize<object>( initialValue );
+            var finalValue = SerializationUnit.Deserialize<object>( data );
+
+            // Assert
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
+        }
+        
+        [Test]
+        public void Mapping___Tuple_TRest8___RoundTrip()
+        {
+            // Arrange
+            var initialValue = (-5.0f, 5, 5, 5, 5, 5, 5, 7);
 
             // Act
             var data = SerializationUnit.Serialize<object>( initialValue );
@@ -70,7 +78,7 @@ namespace Neoserialization
         }
 
         [Test]
-        public void Mapping___Tuple_SplitIntoTRest___RoundTrip()
+        public void Mapping___Tuple_TRest11___RoundTrip()
         {
             // Arrange
             var initialValue = (-5, 5, 5, 5, 5, 5, 5, 5, 4, 5, 3);

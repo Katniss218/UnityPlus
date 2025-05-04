@@ -1,11 +1,4 @@
 ﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
 using UnityPlus.Serialization;
 
 namespace Neoserialization
@@ -13,7 +6,7 @@ namespace Neoserialization
     public class MappingTests_SerializedData
     {
         [Test]
-        public void Mapping___SerializedPrimitive___RoundTrip()
+        public void Mapping___SerializedPrimitive_Polymorphic___RoundTrip()
         {
             // Arrange
             var initialValue = (SerializedPrimitive)5.4112f;
@@ -25,9 +18,39 @@ namespace Neoserialization
             // Assert
             Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
+        
+        [Test]
+        public void Mapping___SerializedPrimitive_Null_Polymorphic___RoundTrip()
+        {
+            // Arrange
+            var initialValue = (SerializedPrimitive)null;
+
+            // Act
+            var data = SerializationUnit.Serialize<SerializedData>( initialValue );
+            var finalValue = SerializationUnit.Deserialize<SerializedData>( data );
+
+            // Assert
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
+        }
 
         [Test]
-        public void Mapping___SerializedArray___RoundTrip()
+        public void Mapping___SerializedArray_Empty_Polymorphic___RoundTrip()
+        {
+            // Arrange
+            var initialValue = new SerializedArray()
+            {
+            };
+
+            // Act
+            var data = SerializationUnit.Serialize<SerializedData>( initialValue );
+            var finalValue = SerializationUnit.Deserialize<SerializedData>( data );
+
+            // Assert
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
+        }
+        
+        [Test]
+        public void Mapping___SerializedArray_Polymorphic___RoundTrip()
         {
             // Arrange
             var initialValue = new SerializedArray()
@@ -43,8 +66,25 @@ namespace Neoserialization
             // Assert
             Assert.That( finalValue, Is.EqualTo( initialValue ) );
         }
+
         [Test]
-        public void Mapping___SerializedObject___RoundTrip()
+        public void Mapping___SerializedObject_Empty_Polymorphic___RoundTrip()
+        {
+            // Arrange
+            var initialValue = new SerializedObject()
+            {
+            };
+
+            // Act
+            var data = SerializationUnit.Serialize<SerializedData>( initialValue );
+            var finalValue = SerializationUnit.Deserialize<SerializedData>( data );
+
+            // Assert
+            Assert.That( finalValue, Is.EqualTo( initialValue ) );
+        }
+
+        [Test]
+        public void Mapping___SerializedObject_Polymorphic___RoundTrip()
         {
             // Arrange
             var initialValue = new SerializedObject()
