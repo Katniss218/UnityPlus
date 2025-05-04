@@ -1,6 +1,9 @@
 ﻿
 namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
 {
+    /// <summary>
+    /// Represents any expression that can be evaluated against a pivot item to produce a result.
+    /// </summary>
     public interface IExpression
     {
         /// <summary>

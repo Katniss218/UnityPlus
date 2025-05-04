@@ -114,7 +114,7 @@ public class _playtester : MonoBehaviour
     {
         /*
         
-        (FOR any WHERE $this."$type" == "some literal 123")
+        (FOR any WHERE $"$type" == "some literal 123")
         {
             this = null;
         }
@@ -123,7 +123,7 @@ public class _playtester : MonoBehaviour
 
         var mm = new DataFixerScript()
         {
-            Transformations = new Transformation[]
+            Statements = new IStatement[]
             {
                 new Transformation()
                 {
@@ -143,7 +143,7 @@ public class _playtester : MonoBehaviour
                         {
                             Filter = new BinaryExpression()
                             {
-                                Left = new ValueOf()
+                                Left = new ValueOfExpression()
                                 {
                                     Target = new SerializedDataPath()
                                     {
@@ -161,23 +161,20 @@ public class _playtester : MonoBehaviour
                             }
                         }
                     },
-                    Body = new TransformationBody()
+                    Body = new IStatement[]
                     {
-                        Statements = new Statement[]
+                        new AssignmentStatement()
                         {
-                            new AssignmentStatement()
+                            Left = new SerializedDataPath()
                             {
-                                Left = new SerializedDataPath()
+                                Segments = new SerializedDataPathSegment[]
                                 {
-                                    Segments = new SerializedDataPathSegment[]
-                                    {
-                                        new ThisSerializedDataPathSegment()
-                                    }
-                                },
-                                Right = new LiteralExpression()
-                                {
-                                    Value = (SerializedData)null
+                                    new ThisSerializedDataPathSegment()
                                 }
+                            },
+                            Right = new LiteralExpression()
+                            {
+                                Value = (SerializedData)null
                             }
                         }
                     }

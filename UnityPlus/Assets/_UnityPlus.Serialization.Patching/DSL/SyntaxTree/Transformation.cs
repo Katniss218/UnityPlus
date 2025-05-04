@@ -1,19 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
 {
     /// <summary>
     /// A transformation is the basic unit of work performed by a script. Kind of like a function call, or a sequence of statements.
     /// </summary>
-    public class Transformation : IStatementOrTransformation
+    /// <example>
+    /// 
+    ///     (FOR any WHERE this == "literal")
+    ///     {
+    ///         this = null;
+    ///     }
+    /// 
+    /// </example>
+    public class Transformation : IStatement
     {
         public TransformationHeader[] Headers { get; set; }
 
-        public TransformationBody Body;
+        public IStatement[] Body;
 
         public void Invoke( IEnumerable<TrackedSerializedData> pivot )
         {
@@ -22,7 +26,10 @@ namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
                 pivot = header.Invoke( pivot );
             }
 
-            Body.Invoke( pivot );
+            foreach( var statement in Body )
+            {
+                statement.Invoke( pivot );
+            }
         }
     }
 }

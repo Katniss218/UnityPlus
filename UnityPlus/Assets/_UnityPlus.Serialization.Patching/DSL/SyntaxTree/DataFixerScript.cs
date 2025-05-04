@@ -2,15 +2,18 @@
 
 namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
 {
+    /// <summary>
+    /// Represents a DataFixer script file.
+    /// </summary>
     public class DataFixerScript
     {
-        public Transformation[] Transformations { get; set; }
+        public IStatement[] Statements { get; set; }
 
         public void InvokeOn( SerializedData rootPivot )
         {
             IEnumerable<TrackedSerializedData> pivot = new TrackedSerializedData[] { new TrackedSerializedData( rootPivot ) };
 
-            foreach( var transformation in Transformations )
+            foreach( var transformation in Statements )
             {
                 transformation.Invoke( pivot );
             }
@@ -20,7 +23,7 @@ namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
         {
             IEnumerable<TrackedSerializedData> pivot = new TrackedSerializedData[] { rootPivot };
 
-            foreach( var transformation in Transformations )
+            foreach( var transformation in Statements )
             {
                 transformation.Invoke( pivot );
             }

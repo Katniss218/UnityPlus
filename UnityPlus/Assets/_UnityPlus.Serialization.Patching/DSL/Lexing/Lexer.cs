@@ -1,67 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Reflection.Metadata;
-using UnityEngine;
 
-namespace UnityPlus.Serialization.Patching.DSL
+namespace UnityPlus.Serialization.Patching.DSL.Lexing
 {
-    public enum SyntaxTokenType
-    {
-        OPENING_PARENTHESIS,
-        CLOSING_PARENTHESIS,
-        OPENING_SQUARE_BRACKET,
-        CLOSING_SQUARE_BRACKET,
-        OPENING_CURLY_BRACKET,
-        CLOSING_CURLY_BRACKET,
-        OPENING_QUOTE,
-        CLOSING_QUOTE,
-        DOT,
-        PLUS,
-        MINUS,
-        ASTERISK,
-        SLASH,
-        BACKSLASH,
-        EQUALS,
-        SEMICOLON,
-        DOLLAR,
-        HASH,
-        AT,
-
-        // symbol instead?
-
-        FROM_CLAUSE,
-        WHERE_CLAUSE,
-
-        COMMENT,
-
-        WHITESPACE,
-
-        IDENTIFIER_SEGMENT,
-
-
-        QUOTE,
-        TEXT,
-        DIGIT
-    }
-
-    public struct SyntaxToken
-    {
-        public readonly SyntaxTokenType type;
-        public readonly string value;
-
-        public SyntaxToken( SyntaxTokenType type, string value )
-        {
-            this.type = type;
-            this.value = value;
-        }
-
-        public SyntaxToken( SyntaxTokenType type, char value )
-        {
-            this.type = type;
-            this.value = value.ToString();
-        }
-    }
 
     public class Lexer
     {
@@ -84,8 +24,6 @@ namespace UnityPlus.Serialization.Patching.DSL
         {
             List<SyntaxToken> tokens = new();
 
-            int pos = 0;
-
             for( int i = 0; i < str.Length; i++ )
             {
                 SyntaxToken currentToken;
@@ -94,7 +32,8 @@ namespace UnityPlus.Serialization.Patching.DSL
 
                 if( char.IsWhiteSpace( c ) )
                 {
-                    currentToken = new SyntaxToken( SyntaxTokenType.WHITESPACE, c );
+                    // currentToken = new SyntaxToken( SyntaxTokenType.WHITESPACE, c );
+                    // skip whitespace.
                     continue;
                 }
 

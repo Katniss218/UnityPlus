@@ -5,13 +5,19 @@ namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
     /// <summary>
     /// An assignment statement in the form of `<left> = <right>`.
     /// </summary>
-    public class AssignmentStatement : Statement
+    public class AssignmentStatement : IStatement
     {
+        /// <summary>
+        /// The expression result will be assigned to all entries returned by this path.
+        /// </summary>
         public SerializedDataPath Left { get; set; }
 
+        /// <summary>
+        /// The expression the result of which to assign to the entries.
+        /// </summary>
         public IExpression Right { get; set; }
 
-        public override void Invoke( IEnumerable<TrackedSerializedData> pivot )
+        public void Invoke( IEnumerable<TrackedSerializedData> pivot )
         {
             foreach( var pivotItem in pivot )
             {

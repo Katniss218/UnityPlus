@@ -1,12 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace UnityPlus.Serialization.Patching.DSL
 {
     public class MismatchedTypeException : DSLExecutionException
     {
+        public MismatchedTypeException()
+        {
+        }
+
+        public MismatchedTypeException( string message )
+            : base( message )
+        {
+        }
+
+        public MismatchedTypeException( string message, Exception innerException )
+            : base( message, innerException )
+        {
+        }
+
+        protected MismatchedTypeException( SerializationInfo info, StreamingContext context )
+            : base( info, context )
+        {
+        }
     }
 }

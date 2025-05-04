@@ -2,12 +2,25 @@
 
 namespace UnityPlus.Serialization.Patching.DSL
 {
+    /// <summary>
+    /// Represents an arbitrary type of path segment.
+    /// </summary>
     public abstract class SerializedDataPathSegment
     {
+        /// <summary>
+        /// Evaluates a path on a single pivot.
+        /// </summary>
         public abstract IEnumerable<TrackedSerializedData> Evaluate( TrackedSerializedData pivotItem );
+
+        /// <summary>
+        /// Evaluates a path on multiple pivots, returns a flattened sequence of results from each pivot element in sequence.
+        /// </summary>
         public abstract IEnumerable<TrackedSerializedData> Evaluate( IEnumerable<TrackedSerializedData> pivot );
     }
 
+    /// <summary>
+    /// Represents the 'this' path segment. Returns the pivot item itself.
+    /// </summary>
     public class ThisSerializedDataPathSegment : SerializedDataPathSegment
     {
         public ThisSerializedDataPathSegment()
@@ -28,31 +41,53 @@ namespace UnityPlus.Serialization.Patching.DSL
         }
     }
 
+    /// <summary>
+    /// Represents the 'any' path segment. Returns all descendants (at any depth) of the pivot item.
+    /// </summary>
     public class AnySerializationDataPathSegment : SerializedDataPathSegment
     {
-#warning TODO - this should flatten *everything*
         public override IEnumerable<TrackedSerializedData> Evaluate( TrackedSerializedData pivotItem )
         {
-            for( int i = 0; i < pivotItem.value.Count; i++ )
-            {
-                if( pivotItem.value.TryGetValue( i, out var value ) )
-                    yield return new TrackedSerializedData( value, pivotItem.value, i );
-            }
+            return Traverse( pivotItem );
         }
 
         public override IEnumerable<TrackedSerializedData> Evaluate( IEnumerable<TrackedSerializedData> pivot )
         {
-            foreach( var pivotItem in pivot )
+            foreach( var item in pivot )
             {
-                for( int i = 0; i < pivotItem.value.Count; i++ )
+                foreach( var descendant in Traverse( item ) )
                 {
-                    if( pivotItem.value.TryGetValue( i, out var value ) )
-                        yield return new TrackedSerializedData( value, pivotItem.value, i );
+                    yield return descendant;
+                }
+            }
+        }
+
+        private IEnumerable<TrackedSerializedData> Traverse( TrackedSerializedData root )
+        {
+            var stack = new Stack<TrackedSerializedData>();
+            stack.Push( root );
+
+            while( stack.Count > 0 )
+            {
+                var current = stack.Pop();
+
+                // For each child of current
+                for( int i = 0; i < current.value.Count; i++ )
+                {
+                    if( current.value.TryGetValue( i, out var childValue ) )
+                    {
+                        var child = new TrackedSerializedData( childValue, current.value, i );
+                        yield return child;
+                        stack.Push( child ); // Continue traversing this branch
+                    }
                 }
             }
         }
     }
 
+    /// <summary>
+    /// Represents a path segment that returns a child entry by its name.
+    /// </summary>
     public class NamedSerializedDataPathSegment : SerializedDataPathSegment
     {
         public string Name { get; set; }
@@ -78,8 +113,14 @@ namespace UnityPlus.Serialization.Patching.DSL
         }
     }
 
+    /// <summary>
+    /// Represents a path segment that returns child entries by their index.
+    /// </summary>
     public class IndexedSerializedDataPathSegment : SerializedDataPathSegment
     {
+        /// <summary>
+        /// Whether or not to return all child elements in the pivot - [*].
+        /// </summary>
         public bool Every { get; set; }
         public int IndexMin { get; set; }
         public int IndexMax { get; set; }
