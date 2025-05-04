@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
 {
+    /// <summary>
+    /// A transformation is the basic unit of work performed by a script. Kind of like a function call, or a sequence of statements.
+    /// </summary>
     public class Transformation : IStatementOrTransformation
     {
         public TransformationHeader[] Headers { get; set; }

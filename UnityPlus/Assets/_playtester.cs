@@ -110,8 +110,17 @@ public class _playtester : MonoBehaviour
         Debug.Log( s );
     }
 
-    void Start()
+    private void TestDataFixer()
     {
+        /*
+        
+        (FOR any WHERE $this."$type" == "some literal 123")
+        {
+            this = null;
+        }
+
+        */
+
         var mm = new DataFixerScript()
         {
             Transformations = new Transformation[]
@@ -120,7 +129,7 @@ public class _playtester : MonoBehaviour
                 {
                     Headers = new TransformationHeader[]
                     {
-                        new FromTransformationHeader()
+                        new ForTransformationHeader()
                         {
                             Target = new SerializedDataPath()
                             {
@@ -129,14 +138,14 @@ public class _playtester : MonoBehaviour
                                     new AnySerializationDataPathSegment()
                                 }
                             }
-                        }, 
+                        },
                         new WhereTransformationHeader()
                         {
                             Filter = new BinaryExpression()
                             {
-                                Left = new IdentifierAccess()
+                                Left = new ValueOf()
                                 {
-                                    Path = new SerializedDataPath()
+                                    Target = new SerializedDataPath()
                                     {
                                         Segments = new SerializedDataPathSegment[]
                                         {
@@ -144,7 +153,10 @@ public class _playtester : MonoBehaviour
                                         }
                                     }
                                 },
-                                RightLiteral = (SerializedData)"somevalue",
+                                Right = new LiteralExpression()
+                                {
+                                    Value = (SerializedData)"some literal 123"
+                                },
                                 Op = new EqualOp()
                             }
                         }
@@ -155,11 +167,17 @@ public class _playtester : MonoBehaviour
                         {
                             new AssignmentStatement()
                             {
-                                Left = new IdentifierAccess()
+                                Left = new SerializedDataPath()
                                 {
-                                    Path = new SerializedDataPath()
+                                    Segments = new SerializedDataPathSegment[]
+                                    {
+                                        new ThisSerializedDataPathSegment()
+                                    }
                                 },
-                                RightLiteral = (SerializedData)null
+                                Right = new LiteralExpression()
+                                {
+                                    Value = (SerializedData)null
+                                }
                             }
                         }
                     }
@@ -171,13 +189,22 @@ public class _playtester : MonoBehaviour
         {
             new SerializedObject()
             {
-                { "$type", "somevalue" },
+                { "$type", "some literal 123" },
             },
             new SerializedObject()
             {
                 { "$type", "othervalue" },
             },
         };
+
+        mm.InvokeOn( data );
+    }
+
+    void Start()
+    {
+        TestDataFixer();
+
+
         //SerializedData data = SerializationUnit.Serialize<(int, string)>( (218, "stringval") );
         var su = SerializationUnit.FromObjectsAsync<GameObject>( startTestGo );
         do
@@ -212,7 +239,6 @@ public class _playtester : MonoBehaviour
         } while( !su.Result.HasFlag( SerializationResult.Finished ) );
         data = su.GetData().First();
 
-        mm.InvokeOn( data );
         sb = new StringBuilder();
         new JsonStringWriter( data, sb ).Write();
         Debug.Log( sb.ToString() );
@@ -220,8 +246,8 @@ public class _playtester : MonoBehaviour
 
     void Update()
     {
-      // RunPerfTest();
-        RunPerfTestAsync_AsSync();
+        // RunPerfTest();
+        // RunPerfTestAsync_AsSync();
     }
 
     const int COUNT = 1000;

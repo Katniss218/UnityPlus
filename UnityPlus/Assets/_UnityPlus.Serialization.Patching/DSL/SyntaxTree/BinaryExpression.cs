@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
 {
+    public interface IBinaryOperation
+    {
+        SerializedData Evaluate( SerializedData left, SerializedData right );
+    }
+
     /// <summary>
     /// An expression that returns a true or false when evaluated.
     /// </summary>
@@ -36,8 +36,8 @@ namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
                 : Right.GetFrom( pivotItem ).First().value;
             */
 
-            SerializedData left = Left.GetFrom( pivotItem ).First().value;
-            SerializedData right = Right.GetFrom( pivotItem ).First().value;
+            SerializedData left = Left.Evaluate( pivotItem );
+            SerializedData right = Right.Evaluate( pivotItem );
 
             SerializedData result = Op.Evaluate( left, right );
             return result;

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace UnityPlus.Serialization.Patching.DSL
 {
@@ -10,6 +6,26 @@ namespace UnityPlus.Serialization.Patching.DSL
     {
         public abstract IEnumerable<TrackedSerializedData> Evaluate( TrackedSerializedData pivotItem );
         public abstract IEnumerable<TrackedSerializedData> Evaluate( IEnumerable<TrackedSerializedData> pivot );
+    }
+
+    public class ThisSerializedDataPathSegment : SerializedDataPathSegment
+    {
+        public ThisSerializedDataPathSegment()
+        {
+        }
+
+        public override IEnumerable<TrackedSerializedData> Evaluate( TrackedSerializedData pivotItem )
+        {
+            yield return pivotItem;
+        }
+
+        public override IEnumerable<TrackedSerializedData> Evaluate( IEnumerable<TrackedSerializedData> pivot )
+        {
+            foreach( var pivotItem in pivot )
+            {
+                yield return pivotItem;
+            }
+        }
     }
 
     public class AnySerializationDataPathSegment : SerializedDataPathSegment

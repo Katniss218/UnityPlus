@@ -10,7 +10,7 @@ namespace UnityPlus.Serialization.Patching
     {
         public static SerializedData ConvertToFloat( this SerializedData data )
         {
-
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
 {
-    public class FromTransformationHeader : TransformationHeader
+    /// <summary>
+    /// Represents the 'FOR' transformation header.
+    /// </summary>
+    /// <example>
+    /// 
+    ///     (FOR vessels[*].gameobjects)
+    ///     {
+    ///         // ...
+    ///     }
+    /// 
+    /// </example>
+    public class ForTransformationHeader : TransformationHeader
     {
         public SerializedDataPath Target { get; set; }
 

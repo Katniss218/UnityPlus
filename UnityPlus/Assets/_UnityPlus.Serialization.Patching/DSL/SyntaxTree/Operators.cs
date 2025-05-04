@@ -129,7 +129,7 @@ namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
             return new SerializedPrimitive( result, leftType );
         }
     }
-    
+
     public sealed class SubtractOp : IBinaryOperation
     {
         public SerializedData Evaluate( SerializedData left, SerializedData right )
@@ -158,7 +158,7 @@ namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
             return new SerializedPrimitive( result, leftType );
         }
     }
-    
+
     public sealed class MultiplyOp : IBinaryOperation
     {
         public SerializedData Evaluate( SerializedData left, SerializedData right )
@@ -187,7 +187,7 @@ namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
             return new SerializedPrimitive( result, leftType );
         }
     }
-    
+
     public sealed class DivideOp : IBinaryOperation
     {
         public SerializedData Evaluate( SerializedData left, SerializedData right )
@@ -216,7 +216,7 @@ namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
             return new SerializedPrimitive( result, leftType );
         }
     }
-    
+
     public sealed class ModuloOp : IBinaryOperation
     {
         public SerializedData Evaluate( SerializedData left, SerializedData right )
@@ -254,6 +254,23 @@ namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
 
             bool output = !input;
             return (SerializedPrimitive)output;
+        }
+    }
+
+    /// <summary>
+    /// The '$' operator. Used to retrieve a value from the pivot.
+    /// </summary>
+    public sealed class ValueOf : IExpression
+    {
+        public SerializedDataPath Target { get; set; }
+
+        public SerializedData Evaluate( TrackedSerializedData pivotItem )
+        {
+            IEnumerable<TrackedSerializedData> newPivots = Target.Evaluate( pivotItem );
+            if( newPivots == null || newPivots.Count() != 1 )
+                throw new DSLExecutionException( "the '$' operator of can return only 1 element." );
+
+            return newPivots.First().value;
         }
     }
 }

@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
 {
-    public class IdentifierAccess
-    {
+    /*public class IdentifierAccess
+    { replaced by just using the path
         public SerializedDataPath Path { get; set; }
 
         public IEnumerable<TrackedSerializedData> GetFrom( TrackedSerializedData pivotItem )
         {
             return Path.Evaluate( pivotItem );
         }
-    }
+    }*/
 }

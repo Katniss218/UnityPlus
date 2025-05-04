@@ -1,35 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
 {
+    /// <summary>
+    /// An assignment statement in the form of `<left> = <right>`.
+    /// </summary>
     public class AssignmentStatement : Statement
     {
-        public IdentifierAccess Left { get; set; }
+        public SerializedDataPath Left { get; set; }
 
-        public BinaryExpression Right { get; set; }
-        public SerializedData RightLiteral { get; set; }
+        public IExpression Right { get; set; }
 
         public override void Invoke( IEnumerable<TrackedSerializedData> pivot )
         {
             foreach( var pivotItem in pivot )
             {
-                IEnumerable<TrackedSerializedData> newPivots = Left.GetFrom( pivotItem );
+                IEnumerable<TrackedSerializedData> newPivots = Left.Evaluate( pivotItem );
                 foreach( var newPivotItem in newPivots )
                 {
-#warning TODO - a can a serialized data expression even return multiple things?
-                    SerializedData rightItems = Right == null
-                        ? RightLiteral
-                        : Right.Evaluate( newPivotItem );
+                    SerializedData rightItem = Right.Evaluate( newPivotItem );
 
-#warning TODO - Make a SerializedArray if there are many returned rightItems.
                     if( newPivotItem.IsByName )
-                        newPivotItem.parent[newPivotItem.name] = rightItems;
+                        newPivotItem.parent[newPivotItem.name] = rightItem;
                     else
-                        newPivotItem.parent[newPivotItem.index] = rightItems;
+                        newPivotItem.parent[newPivotItem.index] = rightItem;
                 }
             }
         }

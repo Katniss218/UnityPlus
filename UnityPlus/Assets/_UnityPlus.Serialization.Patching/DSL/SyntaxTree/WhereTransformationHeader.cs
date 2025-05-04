@@ -1,11 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
 {
+    /// <summary>
+    /// Represents the 'WHERE' transformation header.
+    /// </summary>
+    /// <example>
+    /// 
+    ///     (WHERE "$type" == "somevalue")
+    ///     {
+    ///         // ...
+    ///     }
+    /// 
+    /// </example>
     public class WhereTransformationHeader : TransformationHeader
     {
         public IExpression Filter { get; set; }
@@ -16,6 +24,7 @@ namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
             {
                 var result = Filter.Evaluate( pivotItem );
 
+                // Anything that is not a primitive boolean is falsy. TODO - may not be the best but whatever.
                 if( result is not SerializedPrimitive prim )
                     return false;
 

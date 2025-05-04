@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace UnityPlus.Serialization.Patching.DSL
 {
+    /// <summary>
+    /// A struct that keeps track of the parent of the current item, to allow the current item to be changed in the hierarchy.
+    /// </summary>
     public struct TrackedSerializedData
     {
+        // kind of a hack since I'd need to change the data inside the parent object array via changing a reference, but the reference can't be stored here easily.
         public readonly SerializedData value;
         public readonly SerializedData parent;
         public readonly string name;

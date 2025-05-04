@@ -1,12 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace UnityPlus.Serialization.Patching.DSL
 {
     public class DSLExecutionException : Exception
     {
+        public DSLExecutionException()
+        {
+        }
+
+        public DSLExecutionException( string message )
+            : base( message )
+        {
+        }
+
+        public DSLExecutionException( string message, Exception innerException )
+            : base( message, innerException )
+        {
+        }
+
+        protected DSLExecutionException( SerializationInfo info, StreamingContext context )
+            : base( info, context )
+        {
+        }
     }
 }

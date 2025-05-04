@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
 {
-    internal class LiteralExpression : IExpression
+    public class LiteralExpression : IExpression
     {
-        SerializedData LiteralValue { get; set; }
+        public SerializedData Value { get; set; }
 
         public SerializedData Evaluate( TrackedSerializedData pivotItem )
         {
-            return this.LiteralValue;
+            return this.Value;
         }
     }
 }
