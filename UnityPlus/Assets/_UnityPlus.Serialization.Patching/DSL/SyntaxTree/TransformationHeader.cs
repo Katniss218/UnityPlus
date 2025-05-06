@@ -2,8 +2,8 @@
 
 namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
 {
-    public abstract class TransformationHeader
+    public interface ITransformationHeader
     {
-        public abstract IEnumerable<TrackedSerializedData> Invoke( IEnumerable<TrackedSerializedData> pivot );
+        public IEnumerable<TrackedSerializedData> Invoke( IEnumerable<TrackedSerializedData> pivot );
     }
 }

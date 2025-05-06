@@ -127,7 +127,7 @@ public class _playtester : MonoBehaviour
             {
                 new Transformation()
                 {
-                    Headers = new TransformationHeader[]
+                    Headers = new ITransformationHeader[]
                     {
                         new ForTransformationHeader()
                         {

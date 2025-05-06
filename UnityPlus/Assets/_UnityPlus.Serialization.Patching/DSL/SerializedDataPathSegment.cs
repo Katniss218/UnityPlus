@@ -88,6 +88,35 @@ namespace UnityPlus.Serialization.Patching.DSL
     /// <summary>
     /// Represents a path segment that returns a child entry by its name.
     /// </summary>
+    /// <remarks>
+    /// If the pivot is not an object, or has no children, it returns nothing.
+    /// </remarks>
+    public class GlobalSerializedDataPathSegment : SerializedDataPathSegment
+    {
+        public GlobalSerializedDataPathSegment()
+        {
+        }
+
+        public override IEnumerable<TrackedSerializedData> Evaluate( TrackedSerializedData pivotItem )
+        {
+            yield return new TrackedSerializedData( null ); // return the root element that the script was invoked with.
+        }
+
+        public override IEnumerable<TrackedSerializedData> Evaluate( IEnumerable<TrackedSerializedData> pivot )
+        {
+            foreach( var _ in pivot )
+            {
+                yield return new TrackedSerializedData( null ); // return the root element that the script was invoked with.
+            }
+        }
+    }
+
+    /// <summary>
+    /// Represents a path segment that returns a child entry by its name.
+    /// </summary>
+    /// <remarks>
+    /// If the pivot is not an object, or has no children, it returns nothing.
+    /// </remarks>
     public class NamedSerializedDataPathSegment : SerializedDataPathSegment
     {
         public string Name { get; set; }
@@ -116,6 +145,9 @@ namespace UnityPlus.Serialization.Patching.DSL
     /// <summary>
     /// Represents a path segment that returns child entries by their index.
     /// </summary>
+    /// <remarks>
+    /// If the pivot is not an array, or has no children, it returns nothing.
+    /// </remarks>
     public class IndexedSerializedDataPathSegment : SerializedDataPathSegment
     {
         /// <summary>
@@ -131,7 +163,7 @@ namespace UnityPlus.Serialization.Patching.DSL
         protected IndexedSerializedDataPathSegment()
         {
         }
-        
+
         public IndexedSerializedDataPathSegment( int index )
         {
             this.IndexMin = index;

@@ -14,11 +14,11 @@ namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
     ///     }
     /// 
     /// </example>
-    public class WhereTransformationHeader : TransformationHeader
+    public class WhereTransformationHeader : ITransformationHeader
     {
         public IExpression Filter { get; set; }
 
-        public override IEnumerable<TrackedSerializedData> Invoke( IEnumerable<TrackedSerializedData> pivot )
+        public IEnumerable<TrackedSerializedData> Invoke( IEnumerable<TrackedSerializedData> pivot )
         {
             IEnumerable<TrackedSerializedData> newPivots = pivot.Where( pivotItem =>
             {

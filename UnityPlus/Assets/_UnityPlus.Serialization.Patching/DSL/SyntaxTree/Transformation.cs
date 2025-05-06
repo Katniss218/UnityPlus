@@ -15,7 +15,7 @@ namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
     /// </example>
     public class Transformation : IStatement
     {
-        public TransformationHeader[] Headers { get; set; }
+        public ITransformationHeader[] Headers { get; set; }
 
         public IStatement[] Body;
 

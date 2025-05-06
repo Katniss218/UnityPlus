@@ -14,16 +14,6 @@ namespace UnityPlus.Serialization.Patching.DSL.SyntaxTree
 
         public SerializedData Evaluate( TrackedSerializedData pivotItem )
         {
-            /*
-            SerializedData left = Left == null
-                ? LeftLiteral
-                : Left.GetFrom( pivotItem ).First().value;
-
-            SerializedData right = Right == null
-                ? RightLiteral
-                : Right.GetFrom( pivotItem ).First().value;
-            */
-
             SerializedData center = Center.Evaluate( pivotItem );
 
             SerializedData result = Op.Evaluate( center );
