@@ -34,6 +34,22 @@ namespace Neoserialization
         }
 
         [Test]
+        public void Reading___MissingMember___LeftAsDefault()
+        {
+            var initialValue = new SerializedObject()
+            {
+                { "$type", "Neoserialization.OwningClass, EditMode, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" }
+            };
+
+            var refMap = new BidirectionalReferenceStore();
+
+            var obj = SerializationUnit.Deserialize<OwningClass>( ObjectContext.Value, initialValue, refMap );
+
+            Assert.That( obj, Is.EqualTo( new OwningClass() ) );
+            Assert.That( obj.refMember, Is.Null );
+        }
+
+        [Test]
         public void Reading___ArrayInsteadOfObject___()
         {
 #warning TODO - maybe handle this with the 'errors', add an error, map it to a hierarchy of guids that can be followed to get to the gameobject(s) to delete them.
