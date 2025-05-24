@@ -192,6 +192,27 @@ namespace Neoserialization
         }
     }
 
+    public class GenericSelfMappedClass<T>
+    {
+        public T member;
+
+        public override bool Equals( object obj )
+        {
+            if( obj is not GenericClass<T> other )
+                return false;
+
+            return this.member.Equals( other.member );
+        }
+
+        [MapsInheritingFrom( typeof( GenericSelfMappedClass<> ) )]
+        public static SerializationMapping TestclassMapping()
+        {
+            return new MemberwiseSerializationMapping<GenericSelfMappedClass<T>>()
+                .WithMember( "member", o => o.member );
+        }
+
+    }
+
     public class MappingRegistryTests
     {
         [MapsInheritingFrom( typeof( BaseClass ) )]
@@ -284,6 +305,13 @@ namespace Neoserialization
         //
         //  These tests test both the mapping registry search algorithm, and the construction of the mappings that's inside it.
         //
+
+        [SetUp]
+        public void SetUp()
+        {
+            // Clear the mapping registry before each test
+            SerializationMappingRegistry.ForceReload();
+        }
 
         [Test]
         public void GetMappingFor___Simple___ReturnsCorrectMapping()
@@ -381,6 +409,20 @@ namespace Neoserialization
             // Assert
             Assert.That( mapping1, Is.InstanceOf( typeof( MemberwiseSerializationMapping<MappedDerivedClass> ) ) );
             Assert.That( mapping2, Is.InstanceOf( typeof( MemberwiseSerializationMapping<MappedDerivedClass> ) ) );
+        }
+
+        [Test]
+        public void GetMappingFor___SelfMappedGeneric___ReturnsCorrectMapping()
+        {
+            // Arrange
+
+            // Act
+            SerializationMapping mapping1 = SerializationMappingRegistry.GetMapping<GenericSelfMappedClass<float>>( ObjectContext.Default, new GenericSelfMappedClass<float>() );
+            SerializationMapping mapping2 = SerializationMappingRegistry.GetMapping<GenericSelfMappedClass<float>>( ObjectContext.Default, new GenericSelfMappedClass<float>().GetType() );
+
+            // Assert
+            Assert.That( mapping1, Is.InstanceOf( typeof( MemberwiseSerializationMapping<GenericSelfMappedClass<float>> ) ) );
+            Assert.That( mapping2, Is.InstanceOf( typeof( MemberwiseSerializationMapping<GenericSelfMappedClass<float>> ) ) );
         }
 
         [Test]
