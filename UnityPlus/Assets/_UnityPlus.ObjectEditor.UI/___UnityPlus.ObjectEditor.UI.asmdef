@@ -1,0 +1,20 @@
+{
+    "name": "_UnityPlus.ObjectEditor.UI",
+    "rootNamespace": "",
+    "references": [
+        "GUID:27d62e6e15e3fa24eabddedaa74a2424",
+        "GUID:d728809217af3ae4db3ac3c77dc1c871",
+        "GUID:87a56a5e30ee94241ba07b1d3f5fc645",
+        "GUID:818660ac77c5b5a44b258d55008fc8f3",
+        "GUID:c82c696bae534834ea738d7d72110d7e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
