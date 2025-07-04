@@ -82,5 +82,10 @@ namespace UnityPlus.Logging
         {
             Application.logMessageReceived -= this.HandleLog;
         }
+
+        void OnDestroy()
+        {
+            _output.Close();
+        }
     }
 }
