@@ -184,7 +184,7 @@ namespace UnityPlus.UILib
                 {
                     UICanvas canvas = canvasLayer.GetComponent<UICanvas>();
 
-                    Register( canvasLayer.ID, canvas );
+                    Register( scene, canvasLayer.ID, canvas );
                 }
                 catch( Exception ex )
                 {

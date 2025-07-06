@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -28,9 +24,9 @@ namespace UnityPlus.UILib.UIElements
         [field: SerializeField]
         public string ID { get; private set; } = null;
 
-        public static UICanvas Create( Scene scene, string id )
+        public static UICanvas Create( Scene scene )
         {
-            var x = Create<UICanvas>( scene, id );
+            var x = Create<UICanvas>( scene );
 
             x.canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             x.canvas.pixelPerfect = false;
@@ -50,13 +46,13 @@ namespace UnityPlus.UILib.UIElements
         /// </summary>
         /// <param name="scene">The scene in which the canvas will be placed.</param>
         /// <param name="id">The unique ID of the canvas.</param>
-        protected internal static (T ui, Canvas canvas, CanvasScaler canvasScaler) Create<T>( Scene scene, string id ) where T : UICanvas
+        protected internal static (T ui, Canvas canvas, CanvasScaler canvasScaler) Create<T>( Scene scene ) where T : UICanvas
         {
             GameObject canvasObject = new GameObject( "UICanvas" );
             SceneManager.MoveGameObjectToScene( canvasObject, scene );
 
             T uiCanvas = canvasObject.AddComponent<T>();
-            uiCanvas.ID = id;
+            //uiCanvas.ID = id;
 
             Canvas canvas = canvasObject.AddComponent<Canvas>();
             CanvasScaler canvasScaler = canvasObject.AddComponent<CanvasScaler>();
