@@ -24,9 +24,9 @@ namespace UnityPlus.UILib.UIElements
         [field: SerializeField]
         public string ID { get; private set; } = null;
 
-        public static UICanvas Create( Scene scene )
+        public static UICanvas Create( Scene scene, string id )
         {
-            var x = Create<UICanvas>( scene );
+            var x = Create<UICanvas>( scene, id );
 
             x.canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             x.canvas.pixelPerfect = false;
@@ -46,13 +46,13 @@ namespace UnityPlus.UILib.UIElements
         /// </summary>
         /// <param name="scene">The scene in which the canvas will be placed.</param>
         /// <param name="id">The unique ID of the canvas.</param>
-        protected internal static (T ui, Canvas canvas, CanvasScaler canvasScaler) Create<T>( Scene scene ) where T : UICanvas
+        protected internal static (T ui, Canvas canvas, CanvasScaler canvasScaler) Create<T>( Scene scene, string id ) where T : UICanvas
         {
             GameObject canvasObject = new GameObject( "UICanvas" );
             SceneManager.MoveGameObjectToScene( canvasObject, scene );
 
             T uiCanvas = canvasObject.AddComponent<T>();
-            //uiCanvas.ID = id;
+            uiCanvas.ID = id;
 
             Canvas canvas = canvasObject.AddComponent<Canvas>();
             CanvasScaler canvasScaler = canvasObject.AddComponent<CanvasScaler>();
