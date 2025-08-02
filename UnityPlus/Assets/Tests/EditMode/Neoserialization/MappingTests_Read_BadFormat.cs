@@ -1,5 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityPlus.Serialization;
 using UnityPlus.Serialization.ReferenceMaps;
 
@@ -69,6 +71,36 @@ namespace Neoserialization
             // Assert
             //Assert.Throws<Exception>( () => SerializationUnit.Deserialize<OwningClass>( ObjectContext.Value, initialValue, refMap ) );
             Assert.That( obj, Is.EqualTo( new OwningClass() ) );
+        }
+
+        [Test]
+        public void Mapping___FailedMember___DoesNotCallSetter()
+        {
+            // Arrange
+            var refValue = new BaseClass();
+            var interfaceRefValue = new InterfaceClass();
+            var initialValue = new ReferencingClass()
+            {
+                refMember = refValue,
+                interfaceRefMember = interfaceRefValue
+            };
+
+            var finalValue = new ReferencingClass()
+            {
+                refMember = refValue, // This would be reset by the setter.
+                interfaceRefMember = interfaceRefValue // This would be reset by the setter.
+            };
+
+            // Act
+            // Round-trip only the referencing class. Do not pass the ref store so deserialization can't resolve the reference.
+            var su = SerializationUnit.FromObjects<object>( initialValue );
+            su.Serialize();
+            var su2 = SerializationUnit.PopulateObject<object>( finalValue, su.GetData().First() );
+            su2.Populate();
+
+            // Assert
+            Assert.That( finalValue.refMember, Is.SameAs( refValue ) );
+            Assert.That( finalValue.interfaceRefMember, Is.SameAs( interfaceRefValue ) );
         }
     }
 }
