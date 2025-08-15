@@ -23,6 +23,11 @@ namespace Neoserialization
         float interfaceMember { get; set; }
     }
 
+    public interface IUnmappedInterface
+    {
+        int dummy { get; set; }
+    }
+
     public interface IADerivedUnmappedInterface : IAnInterface
     {
         int interfaceMemberDerived { get; set; }
@@ -126,6 +131,19 @@ namespace Neoserialization
         }
     }
 
+    public class OwningInterfaceClass
+    {
+        public IUnmappedInterface member;
+
+        public override bool Equals( object obj )
+        {
+            if( obj is not OwningInterfaceClass other )
+                return false;
+
+            return this.member.Equals( other.member );
+        }
+    }
+
     public class UnmappedBaseClass
     {
         public float baseMember;
@@ -165,7 +183,7 @@ namespace Neoserialization
             return this.refs.SequenceEqual( other.refs );
         }
     }
-    
+
     public class ListReferenceClass
     {
         public List<object> refs;
@@ -251,6 +269,12 @@ namespace Neoserialization
             return new MemberwiseSerializationMapping<OwningClass>()
                 .WithMember( "ref_member", o => o.refMember );
         }
+        [MapsInheritingFrom( typeof( OwningInterfaceClass ) )]
+        public static SerializationMapping OwningInterfaceMapping()
+        {
+            return new MemberwiseSerializationMapping<OwningInterfaceClass>()
+                .WithMember( "member", o => o.member );
+        }
 
         [MapsInheritingFrom( typeof( InterfaceClass ) )]
         public static SerializationMapping InterfaceClassMapping()
@@ -287,14 +311,14 @@ namespace Neoserialization
             return new MemberwiseSerializationMapping<ArrayReferenceClass>()
                 .WithMember( "refs", ArrayContext.Refs, o => o.refs );
         }
-        
+
         [MapsInheritingFrom( typeof( ListReferenceClass ) )]
         public static SerializationMapping ListReferenceClassMapping()
         {
             return new MemberwiseSerializationMapping<ListReferenceClass>()
                 .WithMember( "refs", ArrayContext.Refs, o => o.refs );
         }
-        
+
         [MapsInheritingFrom( typeof( DictionaryReferenceClass ) )]
         public static SerializationMapping DictionaryReferenceClassMapping()
         {
