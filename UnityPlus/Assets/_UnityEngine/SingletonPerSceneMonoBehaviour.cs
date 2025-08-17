@@ -71,5 +71,16 @@ namespace UnityPlus.SceneManagement
 
             return instance;
         }
+
+        protected static void SetInstance( Scene scene, T value )
+        {
+            // Use with care. Allows custom logic. Allows being set to a nonnull value when another different instance still exists.
+            if( !scene.isLoaded )
+            {
+                throw new System.ArgumentException( "The scene must be loaded.", nameof( scene ) );
+            }
+
+            __instances[scene] = value;
+        }
     }
 }
