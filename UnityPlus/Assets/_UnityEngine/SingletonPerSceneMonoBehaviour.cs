@@ -51,7 +51,7 @@ namespace UnityPlus.SceneManagement
             foreach( var newInstance in instances )
             {
                 Scene instanceScene = newInstance.gameObject.scene;
-                if( __instances.ContainsKey( scene ) )
+                if( __instances.TryGetValue( scene, out var x ) && instanceScene == scene && x != newInstance )
                 {
                     throw new SingletonInstanceException( $"Too many instances of {nameof( MonoBehaviour )} {typeof( T ).Name} in scene {instanceScene.name}." );
                 }
