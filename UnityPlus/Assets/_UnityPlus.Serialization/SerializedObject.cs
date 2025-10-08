@@ -9,14 +9,22 @@ namespace UnityPlus.Serialization
     /// <summary>
     /// A key-value pair node.
     /// </summary>
-    public sealed class SerializedObject : SerializedData, IDictionary<string, SerializedData>, IEquatable<SerializedObject>
+    public sealed class SerializedObject : SerializedData, ICollection<KeyValuePair<string, SerializedData>>, IEnumerable<KeyValuePair<string, SerializedData>>, IDictionary<string, SerializedData>, IEquatable<SerializedObject>, IReadOnlyCollection<KeyValuePair<string, SerializedData>>, IReadOnlyDictionary<string, SerializedData>
     {
         readonly Dictionary<string, SerializedData> _children;
 
-        public ICollection<string> Keys => _children.Keys;
-        public ICollection<SerializedData> Values => _children.Values;
+        public Dictionary<string, SerializedData>.KeyCollection Keys => _children.Keys;
+        public Dictionary<string, SerializedData>.ValueCollection Values => _children.Values;
         public int Count => _children.Count;
         public bool IsReadOnly => ((ICollection<KeyValuePair<string, SerializedData>>)_children).IsReadOnly;
+
+        ICollection<string> IDictionary<string, SerializedData>.Keys => ((IDictionary<string, SerializedData>)_children).Keys;
+
+        ICollection<SerializedData> IDictionary<string, SerializedData>.Values => ((IDictionary<string, SerializedData>)_children).Values;
+
+        IEnumerable<string> IReadOnlyDictionary<string, SerializedData>.Keys => ((IReadOnlyDictionary<string, SerializedData>)_children).Keys;
+
+        IEnumerable<SerializedData> IReadOnlyDictionary<string, SerializedData>.Values => ((IReadOnlyDictionary<string, SerializedData>)_children).Values;
 
         public override SerializedData this[int index]
         {
