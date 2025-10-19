@@ -357,6 +357,8 @@ namespace UnityPlus
                 systemToInsert.subSystemList = orphanedSubsystemList2;
                 _orphaned.Remove( pathTypes );
             }
+
+            // instead of the index finding and insert, copy, append anywhere and sort, then the sorted array is the final one.
 #warning TODO - maybe add using topological sorting with the new overload?
             List<PlayerLoopSystem> playerLoopSystemList = systemParent.subSystemList?.ToList() ?? new List<PlayerLoopSystem>();
 
@@ -370,7 +372,7 @@ namespace UnityPlus
                 }
             }
 
-            int index = playerLoopSystemList.Count; // default to end
+            /*int index = playerLoopSystemList.Count; // default to end
             if( _previous.Count > 0 || _next.Count > 0 )
             {
                 // find index of first 'next' and last 'previous' (of ones that exist).
@@ -415,7 +417,24 @@ namespace UnityPlus
             playerLoopSystemList.Insert( index, systemToInsert );
             systemParent.subSystemList = playerLoopSystemList.ToArray();
 
-            TryReAddSiblings( pathTypes, ref root );
+            TryReAddSiblings( pathTypes, ref root );*/
+
+            playerLoopSystemList.Add( systemToInsert );
+            var parentPath = pathTypes.ParentPath();
+            if( _orphaned.TryGetValue( parentPath, out var orphanedSiblings ) )
+            {
+                playerLoopSystemList.AddRange( orphanedSiblings );
+            }
+
+            playerLoopSystemList = ITopologicallySortable_Ex.SortDependencies<PlayerLoopSystem, Type>( playerLoopSystemList, n => n.GetType(), 
+                playerLoopSystem =>
+            {
+
+            },
+                playerLoopSystem =>
+            {
+
+            } );
         }
 
         private static void TryReAddSiblings( PlayerLoopPath pathTypes, ref PlayerLoopSystem root )
