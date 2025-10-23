@@ -128,7 +128,7 @@ namespace UnityPlus.Serialization.Mappings
                 .WithMember( "origin", o => o.origin )
                 .WithMember( "direction", o => o.direction );
         }
-        
+
         [MapsInheritingFrom( typeof( Ray2D ) )]
         public static SerializationMapping Ray2DMapping()
         {
@@ -136,7 +136,7 @@ namespace UnityPlus.Serialization.Mappings
                 .WithMember( "origin", o => o.origin )
                 .WithMember( "direction", o => o.direction );
         }
-        
+
         [MapsInheritingFrom( typeof( Plane ) )]
         public static SerializationMapping PlaneMapping()
         {
@@ -170,24 +170,55 @@ namespace UnityPlus.Serialization.Mappings
                 .WithMember( "mode", o => o.mode );
         }
 
+        [MapsInheritingFrom( typeof( Keyframe ) )]
+        public static SerializationMapping KeyframeMapping()
+        {
+            return new MemberwiseSerializationMapping<Keyframe>()
+                .WithMember( "time", o => o.time )
+                .WithMember( "value", o => o.value )
+                .WithMember( "in_tangent", o => o.inTangent )
+                .WithMember( "out_tangent", o => o.outTangent );
+        }
+
+        [MapsInheritingFrom( typeof( AnimationCurve ) )]
+        public static SerializationMapping AnimationCurveMapping()
+        {
+            return new MemberwiseSerializationMapping<AnimationCurve>()
+                .WithMember( "keys", o => o.keys )
+                .WithMember( "pre_wrap_mode", o => o.preWrapMode )
+                .WithMember( "post_wrap_mode", o => o.postWrapMode );
+        }
+
         [MapsInheritingFrom( typeof( Matrix4x4 ) )]
         public static SerializationMapping Matrix4x4Mapping()
         {
             return new PrimitiveSerializationMapping<Matrix4x4>()
             {
-                OnSave = ( o, s ) => new SerializedArray( 16 ) 
-                { 
-                    (SerializedPrimitive)o.m00, (SerializedPrimitive)o.m01, (SerializedPrimitive)o.m02 , (SerializedPrimitive)o.m03,
-                    (SerializedPrimitive)o.m10, (SerializedPrimitive)o.m11, (SerializedPrimitive)o.m12 , (SerializedPrimitive)o.m13,
-                    (SerializedPrimitive)o.m20, (SerializedPrimitive)o.m21, (SerializedPrimitive)o.m22 , (SerializedPrimitive)o.m23,
-                    (SerializedPrimitive)o.m30, (SerializedPrimitive)o.m31, (SerializedPrimitive)o.m32 , (SerializedPrimitive)o.m33
+                OnSave = ( o, s ) => new SerializedArray( 16 )
+                {
+                    (SerializedPrimitive)o.m00, (SerializedPrimitive)o.m01, (SerializedPrimitive)o.m02, (SerializedPrimitive)o.m03,
+                    (SerializedPrimitive)o.m10, (SerializedPrimitive)o.m11, (SerializedPrimitive)o.m12, (SerializedPrimitive)o.m13,
+                    (SerializedPrimitive)o.m20, (SerializedPrimitive)o.m21, (SerializedPrimitive)o.m22, (SerializedPrimitive)o.m23,
+                    (SerializedPrimitive)o.m30, (SerializedPrimitive)o.m31, (SerializedPrimitive)o.m32, (SerializedPrimitive)o.m33
                 },
                 OnLoad = ( data, l ) => new Matrix4x4()
                 {
-                     m00 = (float)data[0], m01 = (float)data[1], m02 = (float)data[2], m03 = (float)data[3],
-                     m10 = (float)data[0], m11 = (float)data[1], m12 = (float)data[2], m13 = (float)data[3],
-                     m20 = (float)data[0], m21 = (float)data[1], m22 = (float)data[2], m23 = (float)data[3],
-                     m30 = (float)data[0], m31 = (float)data[1], m32 = (float)data[2], m33 = (float)data[3]
+                    m00 = (float)data[0],
+                    m01 = (float)data[1],
+                    m02 = (float)data[2],
+                    m03 = (float)data[3],
+                    m10 = (float)data[0],
+                    m11 = (float)data[1],
+                    m12 = (float)data[2],
+                    m13 = (float)data[3],
+                    m20 = (float)data[0],
+                    m21 = (float)data[1],
+                    m22 = (float)data[2],
+                    m23 = (float)data[3],
+                    m30 = (float)data[0],
+                    m31 = (float)data[1],
+                    m32 = (float)data[2],
+                    m33 = (float)data[3]
                 }
             };
         }

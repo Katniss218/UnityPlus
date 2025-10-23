@@ -25,5 +25,18 @@ namespace Neoserialization
             // Assert
             Assert.That( finalValue.refMember, Is.Null );
         }
+        [Test]
+        public void Mapping___NullInterfaceMember___RoundTrip()
+        {
+            // Arrange
+            OwningInterfaceClass initialValue = new OwningInterfaceClass() { member = null };
+
+            // Act
+            var data = SerializationUnit.Serialize<OwningInterfaceClass>( initialValue );
+            var finalValue = SerializationUnit.Deserialize<OwningInterfaceClass>( data );
+
+            // Assert
+            Assert.That( finalValue.member, Is.Null );
+        }
     }
 }
