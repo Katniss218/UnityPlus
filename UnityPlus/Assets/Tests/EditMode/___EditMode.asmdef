@@ -11,7 +11,8 @@
         "_UnityPlus.AssetManagement",
         "_UnityPlus.OverridableEvents",
         "_UnityPlus.OverridableValueProviders",
-        "_UnityPlus.Serialization"
+        "_UnityPlus.Serialization",
+        "_UnityPlus.Serialization.Patching"
     ],
     "includePlatforms": [
         "Editor"

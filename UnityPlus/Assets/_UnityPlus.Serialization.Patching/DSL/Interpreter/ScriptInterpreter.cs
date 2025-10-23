@@ -26,34 +26,34 @@ namespace UnityPlus.Serialization.Patching.DSL.Interpreter
         {
             foreach( var statement in _script.Statements )
             {
-                switch( statement )
-                {
-                    //statement.Invoke( _currentPivots );
+//                switch( statement )
+//                {
+//                    //statement.Invoke( _currentPivots );
 
-                    case Transformation transformation:
+//                    case Transformation transformation:
 
-                        _variablesInScopes.Push( new Dictionary<string, List<SerializedData>>() );
+//                        _variablesInScopes.Push( new Dictionary<string, List<SerializedData>>() );
 
-                        var newPivots = new List<TrackedSerializedData>( ResolvePath( transformation.Path, pivots ) );
-                        if( !string.IsNullOrEmpty( transformation.VarName ) )
-                        {
-                            _variablesInScopes.Peek()[transformation.VarName] = newPivots;
-                        }
-#warning TODO - I would like the syntax nodes to either have accompanying class for execution, or execute themselves, but without storing the state.
-                        // that is, the interpreter shouldn't hardcode the behavior.
+//                        var newPivots = new List<TrackedSerializedData>( ResolvePath( transformation.Path, pivots ) );
+//                        if( !string.IsNullOrEmpty( transformation.VarName ) )
+//                        {
+//                            _variablesInScopes.Peek()[transformation.VarName] = newPivots;
+//                        }
+//#warning TODO - I would like the syntax nodes to either have accompanying class for execution, or execute themselves, but without storing the state.
+//                        // that is, the interpreter shouldn't hardcode the behavior.
 
-                        Execute( statement.Body, newPivots );
+//                        Execute( statement.Body, newPivots );
 
-                        _variablesInScopes.Pop();
-                        break;
+//                        _variablesInScopes.Pop();
+//                        break;
 
-                    case AssignmentStatement assign:
-                        Assign( assign.LeftPath, assign.Right, pivots );
-                        break;
+//                    case AssignmentStatement assign:
+//                        Assign( assign.LeftPath, assign.Right, pivots );
+//                        break;
 
-                    default:
-                        throw new NotSupportedException( $"Unsupported AST node: {statement.GetType()}" );
-                }
+//                    default:
+//                        throw new NotSupportedException( $"Unsupported AST node: {statement.GetType()}" );
+//                }
             }
         }
     }

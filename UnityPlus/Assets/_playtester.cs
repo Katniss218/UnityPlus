@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Profiling;
 using UnityPlus.Serialization;
 using UnityPlus.Serialization.Json;
+using UnityPlus.Serialization.Patching;
 using UnityPlus.Serialization.Patching.DSL;
 using UnityPlus.Serialization.Patching.DSL.SyntaxTree;
 using UnityPlus.Serialization.ReferenceMaps;
@@ -131,13 +132,7 @@ public class _playtester : MonoBehaviour
                     {
                         new ForTransformationHeader()
                         {
-                            Target = new SerializedDataPath()
-                            {
-                                Segments = new SerializedDataPathSegment[]
-                                {
-                                    new AnySerializationDataPathSegment()
-                                }
-                            }
+                            Target = new SerializedDataPath(SerializedDataPathSegment.Any())
                         },
                         new WhereTransformationHeader()
                         {
@@ -145,13 +140,7 @@ public class _playtester : MonoBehaviour
                             {
                                 Left = new ValueOfExpression()
                                 {
-                                    Target = new SerializedDataPath()
-                                    {
-                                        Segments = new SerializedDataPathSegment[]
-                                        {
-                                            new NamedSerializedDataPathSegment( "$type" )
-                                        }
-                                    }
+                                    Target = new SerializedDataPath(SerializedDataPathSegment.Named("$type"))
                                 },
                                 Right = new LiteralExpression()
                                 {
@@ -165,13 +154,7 @@ public class _playtester : MonoBehaviour
                     {
                         new AssignmentStatement()
                         {
-                            Left = new SerializedDataPath()
-                            {
-                                Segments = new SerializedDataPathSegment[]
-                                {
-                                    new ThisSerializedDataPathSegment()
-                                }
-                            },
+                            Left = new SerializedDataPath(SerializedDataPathSegment.This()),
                             Right = new LiteralExpression()
                             {
                                 Value = (SerializedData)null
