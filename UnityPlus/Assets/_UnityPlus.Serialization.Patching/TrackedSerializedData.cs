@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using UnityEngine;
 
 namespace UnityPlus.Serialization.Patching
 {
@@ -22,6 +21,11 @@ namespace UnityPlus.Serialization.Patching
         /// The parent of this value in the serialized data hierarchy.
         /// </summary>
         public readonly SerializedData parent;
+
+        /// <summary>
+        /// The root of the serialized data hierarchy that this serialized data tracks.
+        /// </summary>
+        public readonly SerializedData root;
 
         /// <summary>
         /// The name under which this value exists in its parent (if applicable).
@@ -50,6 +54,7 @@ namespace UnityPlus.Serialization.Patching
         {
             this.value = rootValue;
             this.parent = null;
+            this.root = rootValue;
             this.name = null;
             this.index = -1;
         }
@@ -57,10 +62,11 @@ namespace UnityPlus.Serialization.Patching
         /// <summary>
         /// Creates a tracked serialized data from a value, its parent and the name under which it exist in the parent.
         /// </summary>
-        private TrackedSerializedData( SerializedData value, SerializedData parent, string name )
+        private TrackedSerializedData( SerializedData value, SerializedData parent, string name, SerializedData root )
         {
             this.value = value;
             this.parent = parent;
+            this.root = root;
             this.name = name;
             this.index = -1;
         }
@@ -68,10 +74,11 @@ namespace UnityPlus.Serialization.Patching
         /// <summary>
         /// Creates a tracked serialized data from a value, its parent and the index under which it exist in the parent.
         /// </summary>
-        private TrackedSerializedData( SerializedData value, SerializedData parent, int index )
+        private TrackedSerializedData( SerializedData value, SerializedData parent, int index, SerializedData root )
         {
             this.value = value;
             this.parent = parent;
+            this.root = root;
             this.name = null;
             this.index = index;
         }
@@ -83,7 +90,7 @@ namespace UnityPlus.Serialization.Patching
         public TrackedSerializedData this[int index]
         {
             [MethodImpl( MethodImplOptions.AggressiveInlining )]
-            get => new TrackedSerializedData( value[index], value, index );
+            get => new TrackedSerializedData( value[index], value, index, root );
             [MethodImpl( MethodImplOptions.AggressiveInlining )]
             set => value[index] = value;
         }
@@ -94,7 +101,7 @@ namespace UnityPlus.Serialization.Patching
         public TrackedSerializedData this[string name]
         {
             [MethodImpl( MethodImplOptions.AggressiveInlining )]
-            get => new TrackedSerializedData( value[name], value, name );
+            get => new TrackedSerializedData( value[name], value, name, root );
             [MethodImpl( MethodImplOptions.AggressiveInlining )]
             set => value[name] = value;
         }
@@ -110,7 +117,7 @@ namespace UnityPlus.Serialization.Patching
         {
             if( this.value.TryGetValue( name, out var childValue ) )
             {
-                value = new TrackedSerializedData( childValue, this.value, name );
+                value = new TrackedSerializedData( childValue, this.value, name, root );
                 return true;
             }
             value = default;
@@ -128,7 +135,7 @@ namespace UnityPlus.Serialization.Patching
         {
             if( this.value.TryGetValue( index, out var childValue ) )
             {
-                value = new TrackedSerializedData( childValue, this.value, index );
+                value = new TrackedSerializedData( childValue, this.value, index, root );
                 return true;
             }
             value = default;
@@ -147,7 +154,7 @@ namespace UnityPlus.Serialization.Patching
             {
                 foreach( var kvp in obj )
                 {
-                    yield return new TrackedSerializedData( kvp.Value, value, kvp.Key );
+                    yield return new TrackedSerializedData( kvp.Value, value, kvp.Key, root );
                 }
                 yield break;
             }
@@ -155,7 +162,7 @@ namespace UnityPlus.Serialization.Patching
             {
                 for( int i = 0; i < arr.Count; ++i )
                 {
-                    yield return new TrackedSerializedData( arr[i], value, i );
+                    yield return new TrackedSerializedData( arr[i], value, i, root );
                 }
                 yield break;
             }

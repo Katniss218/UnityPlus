@@ -142,6 +142,8 @@ namespace Serialization
 
             // Non-numeric index
             Assert.Throws<FormatException>( () => SerializedDataPath.Parse( "a[b]" ) );
+            Assert.Throws<FormatException>( () => SerializedDataPath.Parse( "a[a..b]" ) );
+            Assert.Throws<FormatException>( () => SerializedDataPath.Parse( "a[0..4:c]" ) );
 
             // Non-numeric range bound
             Assert.Throws<FormatException>( () => SerializedDataPath.Parse( "a[1..x]" ) );
@@ -168,6 +170,8 @@ namespace Serialization
             // Nested brackets are not supported / malformed
             Assert.Throws<FormatException>( () => SerializedDataPath.Parse( "a[[1]]" ) );
 
+            Assert.Throws<FormatException>( () => SerializedDataPath.Parse( "a..b" ) );
+
             // Trailing backslash inside quoted string (unterminated escape)
             Assert.Throws<FormatException>( () => SerializedDataPath.Parse( "\"abc\\\"" ) ); // note: literal ends with backslash
 
@@ -192,6 +196,32 @@ namespace Serialization
 
             Assert.Throws<FormatException>( () => SerializedDataPath.Parse( "this." ) );
             Assert.Throws<FormatException>( () => SerializedDataPath.Parse( "." ) );
+        }
+
+        [Test]
+        public void RoundTrip()
+        {
+            var pathCases = new[]
+            {
+                "this.first",
+                "this.first[*].value",
+                "this[*].foo.any[10].bar",
+                "root[4..5].array[0].nested",
+                "this.\"a.b\".items[*].value",
+                "parent.child.leaf",
+                "arr[0].obj.\"value with spaces\"",
+                "this.\"escaped\\\\backslash\".x"
+            };
+
+            foreach( var pathText in pathCases )
+            {
+                // Round-trip twice to ensure formatting differences/normalization is handled.
+                var parsed = SerializedDataPath.Parse( pathText );
+                var serialized = parsed.ToString();
+                parsed = SerializedDataPath.Parse( serialized );
+                serialized = parsed.ToString();
+                Assert.That( serialized, Is.EqualTo( pathText ), $"Round-trip failed for path: {pathText}" );
+            }
         }
 
         [Test]
@@ -386,6 +416,377 @@ namespace Serialization
             // Assert
             Assert.That( list.Count, Is.EqualTo( 1 ) );
             Assert.That( list[0].value, Is.EqualTo( (SerializedPrimitive)i3o ) );
+        }
+
+        [Test]
+        public void Nested()
+        {
+            // Arrange - primitives we expect to be returned by the path
+            int intValue = 1;
+            bool boolValue = true;
+            string stringValue = "Hi!";
+
+            var obj = new SerializedObject()
+            {
+                // various other fields to test that it only selects what we want.
+                { "first", new SerializedArray()
+                    {
+                        new SerializedObject()
+                        {
+                            { "value", intValue },
+                            { "id",  100 },
+                            { "meta", "int-element" }
+                        },
+                        new SerializedObject()
+                        {
+                            { "value", boolValue },
+                            { "id",  101 },
+                            { "timestamp", 123456789L }
+                        },
+                        new SerializedObject()
+                        {
+                            { "value", stringValue },
+                            { "id",  102 },
+                            { "extra", new SerializedObject() { { "note", "some note" } } }
+                        }
+                    }
+                },
+
+                { "second", 2 },
+                { "third", false },
+                { "fourth", 4 },
+                { "fifth", "Ignored" }
+            };
+
+            TrackedSerializedData tObj = new TrackedSerializedData( obj );
+            List<TrackedSerializedData> list = SerializedDataPath.Parse( "this.first[*].value" ).Evaluate( tObj ).ToList();
+
+            // Assert
+            Assert.That( list.Count, Is.EqualTo( 3 ) );
+            Assert.That( list[0].value, Is.EqualTo( (SerializedPrimitive)intValue ) );
+            Assert.That( list[1].value, Is.EqualTo( (SerializedPrimitive)boolValue ) );
+            Assert.That( list[2].value, Is.EqualTo( (SerializedPrimitive)stringValue ) );
+        }
+
+        [Test]
+        public void ThisOnArray()
+        {
+            // Arrange
+            SerializedArray arr = new SerializedArray() { 1, 2, 3 };
+
+            // Act
+            TrackedSerializedData tArr = new TrackedSerializedData( arr );
+            List<TrackedSerializedData> list = new SerializedDataPath( SerializedDataPathSegment.This() ).Evaluate( tArr ).ToList();
+
+            // Assert
+            Assert.That( list.Count, Is.EqualTo( 1 ) );
+            Assert.That( list[0].value, Is.EqualTo( arr ) );
+        }
+
+        [Test]
+        public void ThisOnPrimitive()
+        {
+            // Arrange
+            var primitive = (SerializedPrimitive)"Hello";
+
+            // Act
+            TrackedSerializedData tPrim = new TrackedSerializedData( primitive );
+            List<TrackedSerializedData> list = new SerializedDataPath( SerializedDataPathSegment.This() ).Evaluate( tPrim ).ToList();
+
+            // Assert
+            Assert.That( list.Count, Is.EqualTo( 1 ) );
+            Assert.That( list[0].value, Is.EqualTo( primitive ) );
+        }
+
+        [Test]
+        public void EmptyPath()
+        {
+            // Arrange
+            var obj = new SerializedObject() { { "key", 42 } };
+
+            // Act
+            TrackedSerializedData tObj = new TrackedSerializedData( obj );
+            List<TrackedSerializedData> list = new SerializedDataPath().Evaluate( tObj ).ToList();
+
+            // Assert
+            Assert.That( list.Count, Is.EqualTo( 1 ) );
+            Assert.That( list[0].value, Is.EqualTo( obj ) );
+        }
+
+        [Test]
+        public void NonExistentNamedOnObject()
+        {
+            // Arrange
+            var obj = new SerializedObject() { { "exists", 1 } };
+
+            // Act
+            TrackedSerializedData tObj = new TrackedSerializedData( obj );
+            List<TrackedSerializedData> list = new SerializedDataPath( SerializedDataPathSegment.Named( "nonexistent" ) ).Evaluate( tObj ).ToList();
+
+            // Assert
+            Assert.That( list.Count, Is.EqualTo( 0 ) );
+        }
+
+        [Test]
+        public void NamedOnArray()
+        {
+            // Arrange
+            var arr = new SerializedArray() { 1, 2, 3 };
+
+            // Act
+            TrackedSerializedData tArr = new TrackedSerializedData( arr );
+            List<TrackedSerializedData> list = new SerializedDataPath( SerializedDataPathSegment.Named( "key" ) ).Evaluate( tArr ).ToList();
+
+            // Assert
+            Assert.That( list.Count, Is.EqualTo( 0 ) );
+        }
+
+        [Test]
+        public void IndexedOnObject()
+        {
+            // Arrange
+            var obj = new SerializedObject() { { "key", 1 } };
+
+            // Act
+            TrackedSerializedData tObj = new TrackedSerializedData( obj );
+            List<TrackedSerializedData> list = new SerializedDataPath( SerializedDataPathSegment.Indexed( 0 ) ).Evaluate( tObj ).ToList();
+
+            // Assert
+            Assert.That( list.Count, Is.EqualTo( 0 ) );
+        }
+
+        [Test]
+        public void IndexedAllOnArray()
+        {
+            // Arrange
+            var arr = new SerializedArray() { 1, true, "three" };
+
+            // Act
+            TrackedSerializedData tArr = new TrackedSerializedData( arr );
+            List<TrackedSerializedData> list = new SerializedDataPath( SerializedDataPathSegment.IndexedAll() ).Evaluate( tArr ).ToList();
+
+            // Assert
+            Assert.That( list.Count, Is.EqualTo( 3 ) );
+            Assert.That( list[0].value, Is.EqualTo( (SerializedPrimitive)1 ) );
+            Assert.That( list[1].value, Is.EqualTo( (SerializedPrimitive)true ) );
+            Assert.That( list[2].value, Is.EqualTo( (SerializedPrimitive)"three" ) );
+        }
+
+        [Test]
+        public void IndexedAllOnObject()
+        {
+            // Arrange
+            var obj = new SerializedObject() { { "key", 1 } };
+
+            // Act
+            TrackedSerializedData tObj = new TrackedSerializedData( obj );
+            List<TrackedSerializedData> list = new SerializedDataPath( SerializedDataPathSegment.IndexedAll() ).Evaluate( tObj ).ToList();
+
+            // Assert
+            Assert.That( list.Count, Is.EqualTo( 0 ) );
+        }
+
+        [Test]
+        public void PathBeyondPrimitive()
+        {
+            // Arrange
+            var obj = new SerializedObject()
+            {
+                { "leaf", (SerializedPrimitive) 42 }
+            };
+
+            // Act
+            TrackedSerializedData tObj = new TrackedSerializedData( obj );
+            List<TrackedSerializedData> list = SerializedDataPath.Parse( "this.leaf.foo" ).Evaluate( tObj ).ToList();
+
+            // Assert
+            Assert.That( list.Count, Is.EqualTo( 0 ) );
+        }
+
+        [Test]
+        public void QuotedNameOnObject()
+        {
+            // Arrange
+            var obj = new SerializedObject()
+            {
+                { "hello world", "value" }
+            };
+
+            // Act
+            TrackedSerializedData tObj = new TrackedSerializedData( obj );
+            List<TrackedSerializedData> list = SerializedDataPath.Parse( "this.\"hello world\"" ).Evaluate( tObj ).ToList();
+
+            // Assert
+            Assert.That( list.Count, Is.EqualTo( 1 ) );
+            Assert.That( list[0].value, Is.EqualTo( (SerializedPrimitive)"value" ) );
+        }
+
+        [Test]
+        public void EscapedQuoteInName()
+        {
+            // Arrange
+            var obj = new SerializedObject()
+            {
+                { "he\"llo", 123 }
+            };
+
+            // Act
+            TrackedSerializedData tObj = new TrackedSerializedData( obj );
+            List<TrackedSerializedData> list = SerializedDataPath.Parse( "this.\"he\\\"llo\"" ).Evaluate( tObj ).ToList();
+
+            // Assert
+            Assert.That( list.Count, Is.EqualTo( 1 ) );
+            Assert.That( list[0].value, Is.EqualTo( (SerializedPrimitive)123 ) );
+        }
+
+        [Test]
+        public void UnicodeName()
+        {
+            // Arrange
+            var obj = new SerializedObject()
+            {
+                { "A", "value" }
+            };
+
+            // Act
+            TrackedSerializedData tObj = new TrackedSerializedData( obj );
+            List<TrackedSerializedData> list = SerializedDataPath.Parse( "this.A" ).Evaluate( tObj ).ToList();
+
+            // Assert
+            Assert.That( list.Count, Is.EqualTo( 1 ) );
+            Assert.That( list[0].value, Is.EqualTo( (SerializedPrimitive)"value" ) );
+        }
+
+        [Test]
+        public void IndexedRangeStartAfterEnd()
+        {
+            // Arrange
+            var arr = new SerializedArray() { 0, 1, 2, 3, 4 };
+
+            // Act
+            TrackedSerializedData tArr = new TrackedSerializedData( arr );
+            List<TrackedSerializedData> list = new SerializedDataPath( SerializedDataPathSegment.IndexedRange( 4, 2 ) ).Evaluate( tArr ).ToList();
+
+            // Assert
+            Assert.That( list.Count, Is.EqualTo( 0 ) );
+        }
+
+        [Test]
+        public void IndexedRangeWithLargerStep()
+        {
+            // Arrange
+            var arr = new SerializedArray() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+            // Act
+            TrackedSerializedData tArr = new TrackedSerializedData( arr );
+            List<TrackedSerializedData> list = new SerializedDataPath( SerializedDataPathSegment.IndexedRange( 0, 10, 3 ) ).Evaluate( tArr ).ToList();
+
+            // Assert
+            Assert.That( list.Count, Is.EqualTo( 4 ) );
+            Assert.That( list[0].value, Is.EqualTo( (SerializedPrimitive)0 ) );
+            Assert.That( list[1].value, Is.EqualTo( (SerializedPrimitive)3 ) );
+            Assert.That( list[2].value, Is.EqualTo( (SerializedPrimitive)6 ) );
+            Assert.That( list[3].value, Is.EqualTo( (SerializedPrimitive)9 ) );
+        }
+
+        [Test]
+        public void MixedObjectArrayTraversal()
+        {
+            // Arrange
+            int expectedInt = 42;
+            string expectedStr = "nested";
+
+            var rootObj = new SerializedObject()
+            {
+                { "container", new SerializedArray()
+                    {
+                        new SerializedObject()
+                        {
+                            { "items", new SerializedArray()
+                                {
+                                    new SerializedObject()
+                                    {
+                                        { "data", expectedInt }
+                                    },
+                                    new SerializedObject()
+                                    {
+                                        { "info", "skip" }
+                                    },
+                                    new SerializedObject()
+                                    {
+                                        { "data", "skip" }
+                                    },
+                                    new SerializedObject()
+                                    {
+                                        { "data", expectedStr }
+                                    }
+                                } }
+                        },
+                        new SerializedObject()
+                        {
+                            { "other", 99 }
+                        }
+                    }
+                }
+            };
+
+            // Act
+            TrackedSerializedData tRoot = new TrackedSerializedData( rootObj );
+            List<TrackedSerializedData> list = SerializedDataPath.Parse( "this.container[*].items[1..4:2].data" ).Evaluate( tRoot ).ToList();
+
+            // Assert
+            Assert.That( list.Count, Is.EqualTo( 1 ) );
+            Assert.That( list[0].value, Is.EqualTo( (SerializedPrimitive)expectedStr ) );
+        }
+
+        [Test]
+        public void AnyMixedWithRanges()
+        {
+            // Arrange
+            var root = new SerializedObject()
+            {
+                { "section1", new SerializedArray()
+                    {
+                        new SerializedObject()
+                        {
+                            { "val", 1 }
+                        },
+                        new SerializedObject()
+                        {
+                            { "val", 2 }
+                        }
+                    }
+                },
+                { "section2", new SerializedArray()
+                    {
+                        new SerializedObject()
+                        {
+                            { "val", 3 }
+                        },
+                        new SerializedObject()
+                        {
+                            { "val", 4 }
+                        },
+                        new SerializedObject()
+                        {
+                            { "val", 5 }
+                        }
+                    }
+                }
+            };
+
+            // Act
+            TrackedSerializedData tRoot = new TrackedSerializedData( root );
+            List<TrackedSerializedData> list = SerializedDataPath.Parse( "any[0..].val" ).Evaluate( tRoot ).ToList(); // Kinda ugly, don't actually do this.
+                                                                                                                      // It expands only the arrays (because indexed) and gets the 'val' from them.
+
+            // Assert
+            Assert.That( list.Count, Is.EqualTo( 5 ) );
+            Assert.That( list[0].value, Is.EqualTo( (SerializedPrimitive)1 ) );
+            Assert.That( list[1].value, Is.EqualTo( (SerializedPrimitive)2 ) );
+            Assert.That( list[2].value, Is.EqualTo( (SerializedPrimitive)3 ) );
+            Assert.That( list[3].value, Is.EqualTo( (SerializedPrimitive)4 ) );
+            Assert.That( list[4].value, Is.EqualTo( (SerializedPrimitive)5 ) );
         }
     }
 }

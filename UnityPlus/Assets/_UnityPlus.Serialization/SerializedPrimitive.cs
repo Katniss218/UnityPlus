@@ -146,6 +146,20 @@ namespace UnityPlus.Serialization
             return this._value.equalityValue.GetHashCode();
         }
 
+        public override string ToString()
+        {
+            return _type switch
+            {
+                DataType.Invalid => "Invalid",
+                DataType.Boolean => _value.boolean.ToString(),
+                DataType.Int64 => _value.int64.ToString(),
+                DataType.UInt64 => _value.uint64.ToString(),
+                DataType.Float64 => _value.float64.ToString(),
+                DataType.Decimal => _value.@decimal.ToString(),
+                DataType.String => _value.str ?? "null",
+                _ => throw new ArgumentOutOfRangeException( nameof( _type ) ),
+            };
+        }
 
         public static implicit operator SerializedPrimitive( bool v ) => new SerializedPrimitive( new Value() { boolean = v }, DataType.Boolean );
         public static implicit operator SerializedPrimitive( sbyte v ) => new SerializedPrimitive( new Value() { int64 = v }, DataType.Int64 );

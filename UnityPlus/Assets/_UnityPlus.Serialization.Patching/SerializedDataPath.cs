@@ -105,6 +105,20 @@ namespace UnityPlus.Serialization.Patching
             return HashCode.Combine( _segments );
         }
 
+        public static bool TryParse( string s, out SerializedDataPath path )
+        {
+            try
+            {
+                path = Parse( s );
+                return true;
+            }
+            catch( Exception )
+            {
+                path = default;
+                return false;
+            }
+        }
+
         public static SerializedDataPath Parse( string s )
         {
             if( s == null )
@@ -390,6 +404,27 @@ namespace UnityPlus.Serialization.Patching
             }
 
             return new SerializedDataPath( segments );
+        }
+
+        public override string ToString()
+        {
+            if( _segments == null || _segments.Length == 0 )
+                return string.Empty;
+
+            var sb = new StringBuilder();
+            for( int i = 0; i < _segments.Length; i++ )
+            {
+                if( i > 0 )
+                {
+                    // determine if we need a dot
+                    if( _segments[i].Kind == SerializedDataPathSegment.KindEnum.Named )
+                    {
+                        sb.Append( '.' );
+                    }
+                }
+                sb.Append( _segments[i].ToString() );
+            }
+            return sb.ToString();
         }
     }
 }

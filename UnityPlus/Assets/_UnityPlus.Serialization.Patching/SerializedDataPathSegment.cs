@@ -91,8 +91,7 @@ namespace UnityPlus.Serialization.Patching
                     yield break;
 
                 case KindEnum.Global:
-#warning TODO - return the root element that the script was invoked with.
-                    yield return new TrackedSerializedData( null );
+                    yield return new TrackedSerializedData( pivotItem.root );
                     yield break;
 
                 case KindEnum.Named:
@@ -154,9 +153,8 @@ namespace UnityPlus.Serialization.Patching
                     yield break;
 
                 case KindEnum.Global:
-#warning TODO - return the root element that the script was invoked with.
-                    foreach( var _ in pivot )
-                        yield return new TrackedSerializedData( null );
+                    foreach( var p in pivot )
+                        yield return new TrackedSerializedData( p.root );
                     yield break;
 
                 case KindEnum.Named:
@@ -274,13 +272,76 @@ namespace UnityPlus.Serialization.Patching
                 case KindEnum.This: return "this";
                 case KindEnum.Any: return "any";
                 case KindEnum.Global: return "global";
-                case KindEnum.Named: return Name ?? string.Empty;
+                case KindEnum.Named:
+                {
+                    var name = Name ?? string.Empty;
+                    if( !NameNeedsQuoting( name ) )
+                        return name;
+                    return QuoteAndEscape( name );
+                }
                 case KindEnum.Indexed:
                     if( Every ) return "[*]";
                     if( IndexMin == IndexMax ) return $"[{IndexMin}]";
                     return $"[{IndexMin}..{IndexMax}{(Step != 1 ? $":{Step}" : "")}]";
                 default: return string.Empty;
             }
+        }
+
+        static bool NameNeedsQuoting( string name )
+        {
+            if( string.IsNullOrEmpty( name ) ) return true;
+
+            // reserved keywords that are special when unquoted
+            //if( name == "this" || name == "any" || name == "global" ) return true;
+
+            foreach( char c in name )
+            {
+                if( char.IsWhiteSpace( c ) ) return true;
+                switch( c )
+                {
+                    case '.':
+                    case '[':
+                    case ']':
+                    case '"':
+                    case '\\':
+                        return true;
+                }
+                // optionally: you could also disallow initial digits if your grammar treats those differently
+            }
+
+            return false;
+        }
+
+        static string QuoteAndEscape( string name )
+        {
+            var sb = new System.Text.StringBuilder();
+            sb.Append( '"' );
+            foreach( char c in name )
+            {
+                switch( c )
+                {
+                    case '\\': sb.Append( @"\\" ); break;
+                    case '"': sb.Append( "\\\"" ); break;
+                    case '\b': sb.Append( @"\b" ); break;
+                    case '\f': sb.Append( @"\f" ); break;
+                    case '\n': sb.Append( @"\n" ); break;
+                    case '\r': sb.Append( @"\r" ); break;
+                    case '\t': sb.Append( @"\t" ); break;
+                    default:
+                        if( char.IsControl( c ) || c < 32 )
+                        {
+                            sb.Append( "\\u" );
+                            sb.Append( ((int)c).ToString( "X4" ) ); // 4-digit hex
+                        }
+                        else
+                        {
+                            sb.Append( c );
+                        }
+                        break;
+                }
+            }
+            sb.Append( '"' );
+            return sb.ToString();
         }
 
         public static bool operator ==( SerializedDataPathSegment a, SerializedDataPathSegment b ) => a.Equals( b );
