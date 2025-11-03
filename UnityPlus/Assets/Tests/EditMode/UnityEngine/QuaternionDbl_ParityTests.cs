@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace UnityEngineTests
 {
-    public class QuaternionDblTests
+    public class QuaternionDbl_ParityTests
     {
         [Test]
         public void QuaternionDbl_AngleAxis___SameAsUnityQuaternion()

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace UnityEngine
+﻿namespace UnityEngine
 {
-	public static class MatrixMxN_Ex
+    public static class MatrixMxN_Ex
 	{
 		public static MatrixMxN ToMatrixMxN( this Vector2 vec )
 		{
