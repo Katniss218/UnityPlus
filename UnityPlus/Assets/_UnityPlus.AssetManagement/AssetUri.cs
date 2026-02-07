@@ -13,7 +13,7 @@ namespace UnityPlus.AssetManagement
         /// <summary>
         /// The Mod ID (Namespace) of the asset.
         /// </summary>
-        public readonly string ModId;
+        public readonly string ModID;
 
         /// <summary>
         /// The virtual path of the asset (excluding ModID and Query).
@@ -29,12 +29,12 @@ namespace UnityPlus.AssetManagement
         /// Returns the ID format without the query string (e.g. "ModId::Path").
         /// Useful for resolvers to find the base resource.
         /// </summary>
-        public string BaseId => $"{ModId}::{Path}";
+        public string BaseID => $"{ModID}::{Path}";
 
         private AssetUri( string original, string modId, string path, Dictionary<string, string> queryParams )
         {
             OriginalString = original;
-            ModId = modId;
+            ModID = modId;
             Path = path;
             QueryParams = queryParams;
         }
