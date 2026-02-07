@@ -149,6 +149,9 @@ namespace UnityPlus.AssetManagement
             return false;
         }
 
+        /// <summary>
+        /// Unregisters and unloads an asset by Reference.
+        /// </summary>
         public static bool Unregister( object assetRef )
         {
             if( assetRef == null )
@@ -173,14 +176,29 @@ namespace UnityPlus.AssetManagement
         }
 
         /// <summary>
+        /// Clears all registered assets, resolvers, loaders, and pending tasks.
+        /// </summary>
+        public static void Clear()
+        {
+            lock( _lock )
+            {
+                _loaded.Clear();
+                _inverseLoaded.Clear();
+                _resolvers.Clear();
+                _loaders.Clear();
+                _loadingTasks.Clear();
+            }
+        }
+
+        /// <summary>
         /// Scans the registry for UnityEngine.Objects that have been destroyed (== null) and unregisters them.
-        /// Call this periodically or on Scene Unload to prevent memory leaks in the inverse dictionary.
         /// </summary>
         public static void PruneDestroyedAssets()
         {
             lock( _lock )
             {
                 var toRemove = new List<object>();
+
                 foreach( var kvp in _inverseLoaded )
                 {
                     // Check if it is a Unity Object and if it is destroyed
@@ -192,7 +210,7 @@ namespace UnityPlus.AssetManagement
 
                 foreach( var obj in toRemove )
                 {
-                    // Perform internal unregister logic without re-locking
+                    // Reuse internal unregister logic manually to avoid deadlocks (we already hold lock)
                     if( _inverseLoaded.TryGetValue( obj, out string assetID ) )
                     {
                         _inverseLoaded.Remove( obj );
@@ -233,7 +251,9 @@ namespace UnityPlus.AssetManagement
         {
             lock( _lock )
             {
-                return _loadingTasks.Keys.Select( k => $"{k.Item1} ({k.Item2.Name})" ).ToList();
+                return _loadingTasks.Keys
+                    .Select( k => $"{k.id} ({k.reqType.Name})" )
+                    .ToList();
             }
         }
 
@@ -244,23 +264,6 @@ namespace UnityPlus.AssetManagement
         }
 
         /// <summary>
-        /// Helper to find an asset of type T in a list of mixed-type objects.
-        /// </summary>
-        private static T FindTypedAsset<T>( List<object> assets ) where T : class
-        {
-            for( int i = 0; i < assets.Count; i++ )
-            {
-                if( assets[i] is T typedAsset )
-                    return typedAsset;
-            }
-            return null;
-        }
-
-        //
-        //
-        //
-
-        /// <summary>
         /// Retrieves a registered asset synchronously.
         /// </summary>
         public static T Get<T>( string assetID ) where T : class
@@ -269,15 +272,8 @@ namespace UnityPlus.AssetManagement
                 throw new ArgumentNullException( nameof( assetID ) );
 
             // 1. Check Cache
-            lock( _lock )
-            {
-                if( _loaded.TryGetValue( assetID, out List<object> assets ) )
-                {
-                    T existing = FindTypedAsset<T>( assets );
-                    if( existing != null )
-                        return existing;
-                }
-            }
+            if( TryGetFromCache( assetID, out T cached ) )
+                return cached;
 
             // 2. Trigger Async Pipeline Synchronously
             try
@@ -287,6 +283,7 @@ namespace UnityPlus.AssetManagement
                 {
                     Task<T> task = GetAsync<T>( assetID, cts.Token );
 
+                    // Busy-wait pump to prevent deadlocks if the loading task requires the main thread
                     while( !task.IsCompleted )
                     {
                         MainThreadDispatcher.Pump();
@@ -319,15 +316,8 @@ namespace UnityPlus.AssetManagement
                 return null;
 
             // 1. Fast Cache Check
-            lock( _lock )
-            {
-                if( _loaded.TryGetValue( assetID, out List<object> assets ) )
-                {
-                    T existing = FindTypedAsset<T>( assets );
-                    if( existing != null )
-                        return existing;
-                }
-            }
+            if( TryGetFromCache( assetID, out T cached ) )
+                return cached;
 
             // 2. Cycle Detection
             bool isReentrant = IsLoadingRecursive( assetID );
@@ -338,11 +328,11 @@ namespace UnityPlus.AssetManagement
 
             lock( _lock )
             {
-                // We use a composite key (ID, Type) to prevent race conditions where loading 'Foo' as Texture 
-                // would otherwise block loading 'Foo' as JSON.
-                if( !isReentrant && _loadingTasks.TryGetValue( loadKey, out task ) )
+                // We use a composite key (ID, Type) to prevent race conditions 
+                // where loading 'Foo' as Texture would otherwise block loading 'Foo' as JSON.
+                if( _loadingTasks.TryGetValue( loadKey, out task ) )
                 {
-                    // Task exists, await it.
+                    // Task exists, simply await it.
                 }
                 else
                 {
@@ -359,17 +349,10 @@ namespace UnityPlus.AssetManagement
                 if( result is T typedResult )
                     return typedResult;
 
-                // Fallback: If deduplication logic failed us (unlikely with typed keys) or another thread finished 
+                // Fallback: If deduplication logic failed us or another thread finished 
                 // just before we started, check cache one last time.
-                lock( _lock )
-                {
-                    if( _loaded.TryGetValue( assetID, out List<object> assets ) )
-                    {
-                        T existing = FindTypedAsset<T>( assets );
-                        if( existing != null )
-                            return existing;
-                    }
-                }
+                if( TryGetFromCache( assetID, out T finalCheck ) )
+                    return finalCheck;
 
                 return null;
             }
@@ -386,20 +369,6 @@ namespace UnityPlus.AssetManagement
             }
         }
 
-        private static bool IsLoadingRecursive( string assetID )
-        {
-            LoadNode current = _reentrancyStack.Value;
-
-            while( current != null )
-            {
-                if( current.AssetID == assetID )
-                    return true;
-                current = current.Parent;
-            }
-
-            return false;
-        }
-
         private static async Task<object> GetAsyncInternal<T>( string assetID, CancellationToken ct ) where T : class
         {
             LoadNode parentNode = _reentrancyStack.Value;
@@ -411,107 +380,156 @@ namespace UnityPlus.AssetManagement
 
             try
             {
-                // Double-check cache
-                lock( _lock )
-                {
-                    if( _loaded.TryGetValue( assetID, out List<object> assets ) )
-                    {
-                        T existing = FindTypedAsset<T>( assets );
-                        if( existing != null )
-                            return existing;
-                    }
-                }
+                // Double-check cache inside the reentrancy context
+                if( TryGetFromCache( assetID, out T cached ) )
+                    return cached;
 
                 if( !AssetUri.TryParse( assetID, out AssetUri uri ) )
                     return null;
 
-                List<IAssetResolver> activeResolvers;
-                lock( _lock )
-                    activeResolvers = new List<IAssetResolver>( _resolvers );
-
                 // 1. RESOLUTION PHASE
-                List<AssetDataHandle> candidates = new List<AssetDataHandle>();
+                List<AssetDataHandle> candidates = await ResolveHandlesAsync<T>( uri, assetID, ct ).ConfigureAwait( false );
 
-                foreach( var resolver in activeResolvers )
-                {
-                    if( resolver.CanResolve( uri , typeof( T ) ) )
-                    {
-                        try
-                        {
-                            IEnumerable<AssetDataHandle> handles = await resolver.ResolveAsync( uri, ct ).ConfigureAwait( false );
-                            if( handles != null )
-                            {
-                                candidates.AddRange( handles );
-                            }
-                        }
-                        catch( Exception ex )
-                        {
-                            Debug.LogError( $"Resolver {((IOverridable<string>)resolver).ID} failed for {assetID}: {ex}" );
-                        }
-                    }
-                }
-
-                if( candidates.Count == 0 )
+                if( candidates == null || candidates.Count == 0 )
                     return null;
 
                 // 2. LOADING PHASE
                 try
                 {
-                    List<IAssetLoader> activeLoaders;
-                    lock( _lock ) activeLoaders = new List<IAssetLoader>( _loaders );
-
-                    foreach( var handle in candidates )
-                    {
-                        if( handle == null )
-                            continue;
-
-                        foreach( var loader in activeLoaders )
-                        {
-                            // 1. Type Check: Does this loader produce the type we want?
-                            if( !typeof( T ).IsAssignableFrom( loader.OutputType ) )
-                                continue;
-
-                            // 2. Format Check: Can the loader handle this data?
-                            if( loader.CanLoad( handle, typeof( T ) ) )
-                            {
-                                // MATCH FOUND
-                                // Run loader on ThreadPool to avoid blocking main thread with heavy parsing logic.
-                                // Loaders are responsible for dispatching unity-api calls to main thread.
-                                object result = await Task.Run( async () =>
-                                {
-                                    return await loader.LoadAsync( handle, typeof( T ), ct ).ConfigureAwait( false );
-                                }, ct ).ConfigureAwait( false );
-
-                                if( result != null )
-                                {
-                                    Register( assetID, result );
-                                    return result;
-                                }
-                            }
-                        }
-                    }
+                    return await TryLoadFromHandlesAsync<T>( assetID, candidates, ct ).ConfigureAwait( false );
                 }
                 finally
                 {
-                    // Dispose all handles
-                    foreach( var handle in candidates )
-                    {
-                        try
-                        {
-                            handle?.Dispose();
-                        }
-                        catch( Exception ex )
-                        {
-                            Debug.LogError( $"Error disposing handle for {assetID}: {ex}" );
-                        }
-                    }
+                    DisposeHandles( candidates, assetID );
                 }
-
-                return null;
             }
             finally
             {
                 _reentrancyStack.Value = parentNode;
+            }
+        }
+
+        private static async Task<List<AssetDataHandle>> ResolveHandlesAsync<T>( AssetUri uri, string assetID, CancellationToken ct )
+        {
+            List<IAssetResolver> activeResolvers;
+            lock( _lock )
+            {
+                activeResolvers = new List<IAssetResolver>( _resolvers );
+            }
+
+            List<AssetDataHandle> candidates = new List<AssetDataHandle>();
+
+            foreach( var resolver in activeResolvers )
+            {
+                if( resolver.CanResolve( uri, typeof( T ) ) )
+                {
+                    try
+                    {
+                        IEnumerable<AssetDataHandle> handles = await resolver.ResolveAsync( uri, ct ).ConfigureAwait( false );
+                        if( handles != null )
+                        {
+                            candidates.AddRange( handles );
+                        }
+                    }
+                    catch( Exception ex )
+                    {
+                        Debug.LogError( $"Resolver {((IOverridable<string>)resolver).ID} failed for {assetID}: {ex}" );
+                    }
+                }
+            }
+
+            return candidates;
+        }
+
+        private static async Task<object> TryLoadFromHandlesAsync<T>( string assetID, List<AssetDataHandle> handles, CancellationToken ct )
+        {
+            List<IAssetLoader> activeLoaders;
+            lock( _lock )
+            {
+                activeLoaders = new List<IAssetLoader>( _loaders );
+            }
+
+            foreach( var handle in handles )
+            {
+                if( handle == null )
+                    continue;
+
+                foreach( var loader in activeLoaders )
+                {
+                    // 1. Type Check: Does this loader produce the type we want?
+                    if( !typeof( T ).IsAssignableFrom( loader.OutputType ) )
+                        continue;
+
+                    // 2. Format Check: Can the loader handle this data?
+                    if( loader.CanLoad( handle, typeof( T ) ) )
+                    {
+                        // MATCH FOUND
+                        // Run loader on ThreadPool to avoid blocking main thread with heavy parsing logic.
+                        object result = await Task.Run( async () =>
+                        {
+                            return await loader.LoadAsync( handle, typeof( T ), ct ).ConfigureAwait( false );
+                        }, ct ).ConfigureAwait( false );
+
+                        if( result != null )
+                        {
+                            Register( assetID, result );
+                            return result;
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        private static bool TryGetFromCache<T>( string assetID, out T result ) where T : class
+        {
+            lock( _lock )
+            {
+                if( _loaded.TryGetValue( assetID, out List<object> assets ) )
+                {
+                    // Helper to find an asset of type T in a list of mixed-type objects
+                    for( int i = 0; i < assets.Count; i++ )
+                    {
+                        if( assets[i] is T typedAsset )
+                        {
+                            result = typedAsset;
+                            return true;
+                        }
+                    }
+                }
+            }
+            result = null;
+            return false;
+        }
+
+        private static bool IsLoadingRecursive( string assetID )
+        {
+            LoadNode current = _reentrancyStack.Value;
+            while( current != null )
+            {
+                if( current.AssetID == assetID )
+                    return true;
+                current = current.Parent;
+            }
+            return false;
+        }
+
+        private static void DisposeHandles( List<AssetDataHandle> handles, string assetID )
+        {
+            if( handles == null ) 
+                return;
+
+            foreach( var handle in handles )
+            {
+                try
+                {
+                    handle?.Dispose();
+                }
+                catch( Exception ex )
+                {
+                    Debug.LogError( $"Error disposing handle for {assetID}: {ex}" );
+                }
             }
         }
     }
