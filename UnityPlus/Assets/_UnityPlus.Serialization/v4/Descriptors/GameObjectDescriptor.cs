@@ -29,8 +29,8 @@ namespace UnityPlus.Serialization
                 case 3: return new PropertyMember( "isStatic", typeof( bool ), ( t ) => ((GameObject)t).isStatic, ( ref object t, object v ) => ((GameObject)t).isStatic = (bool)v );
 
                 // Virtual Containers
-                case 4: return new VirtualListMember( "components", target, new ComponentSequenceDescriptor() );
-                case 5: return new VirtualListMember( "children", target, new ChildSequenceDescriptor() );
+                case 4: return new VirtualListMember( KeyNames.COMPONENTS, target, new ComponentSequenceDescriptor() );
+                case 5: return new VirtualListMember( KeyNames.CHILDREN, target, new ChildSequenceDescriptor() );
 
                 // Activation (Must be last)
                 case 6: return new PropertyMember( "active", typeof( bool ), ( t ) => ((GameObject)t).activeSelf, ( ref object t, object v ) => ((GameObject)t).SetActive( (bool)v ) );
@@ -40,15 +40,33 @@ namespace UnityPlus.Serialization
 
         public override object CreateInitialTarget( SerializedData data, SerializationContext ctx )
         {
-            var go = new GameObject();
+            // Pre-scan for RectTransform to determine creation method
+            bool hasRectTransform = false;
+            if( data is SerializedObject objScan && objScan.TryGetValue( KeyNames.COMPONENTS, out var compDataScan ) && compDataScan is SerializedArray compArrScan )
+            {
+                foreach( var cNode in compArrScan )
+                {
+                    if( cNode is SerializedObject cObj && cObj.TryGetValue( KeyNames.TYPE, out var typeVal ) )
+                    {
+                        string typeName = (string)(SerializedPrimitive)typeVal;
+                        if( typeName.Contains( "RectTransform" ) ) // String check is faster/safer than loading type if assembly agnostic
+                        {
+                            hasRectTransform = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            var go = hasRectTransform
+                ? new GameObject( "New Game Object", typeof( RectTransform ) )
+                : new GameObject();
+
             go.SetActive( false ); // Ensure it's inactive during population
 
             // Pre-instantiate components based on data types
-            // This is required because we cannot "Set" a component index later; they must exist to be populated.
-            if( data is SerializedObject obj && obj.TryGetValue( "components", out var compData ) && compData is SerializedArray compArr )
+            if( data is SerializedObject obj && obj.TryGetValue( KeyNames.COMPONENTS, out var compData ) && compData is SerializedArray compArr )
             {
-                // We must account for the fact that a new GameObject ALWAYS has a Transform.
-                // Logic: Iterate data. If Component already exists (Transform, Rigidbody), use it. Else Add it.
                 foreach( var cNode in compArr )
                 {
                     if( cNode is SerializedObject cObj && cObj.TryGetValue( KeyNames.TYPE, out var typeVal ) )
@@ -58,6 +76,7 @@ namespace UnityPlus.Serialization
 
                         if( type != null )
                         {
+                            // Don't add duplicates of Transform/RectTransform which are auto-created
                             if( go.GetComponent( type ) == null )
                             {
                                 go.AddComponent( type );
@@ -75,6 +94,7 @@ namespace UnityPlus.Serialization
         private struct PropertyMember : IMemberInfo
         {
             public string Name { get; }
+            public int Index => -1;
             public Type MemberType { get; }
             public ITypeDescriptor TypeDescriptor { get; }
             public bool IsValueType => false;
@@ -98,6 +118,7 @@ namespace UnityPlus.Serialization
         private struct VirtualListMember : IMemberInfo
         {
             public string Name { get; }
+            public int Index => -1;
             public Type MemberType => typeof( GameObject ); // It wraps the GO
             public ITypeDescriptor TypeDescriptor { get; }
             public bool IsValueType => false;
@@ -153,14 +174,17 @@ namespace UnityPlus.Serialization
         private struct InstanceMemberInfo : IMemberInfo
         {
             public string Name => null; // Array element
+            public int Index => _index;
             public Type MemberType { get; }
             public ITypeDescriptor TypeDescriptor { get; }
             public bool IsValueType => false;
 
+            private int _index;
             private object _instance;
 
             public InstanceMemberInfo( int index, Component instance )
             {
+                _index = index;
                 _instance = instance;
                 MemberType = instance.GetType();
                 TypeDescriptor = TypeDescriptorRegistry.GetDescriptor( MemberType );
@@ -207,6 +231,7 @@ namespace UnityPlus.Serialization
         private struct ChildMemberInfo : IMemberInfo
         {
             public string Name => null;
+            public int Index => _index;
             public Type MemberType => typeof( GameObject );
             public ITypeDescriptor TypeDescriptor => TypeDescriptorRegistry.GetDescriptor( typeof( GameObject ) );
             public bool IsValueType => false;

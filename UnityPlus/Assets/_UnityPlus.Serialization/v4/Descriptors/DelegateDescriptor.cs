@@ -97,10 +97,11 @@ namespace UnityPlus.Serialization
         private struct DelegateEntryMemberInfo : IMemberInfo
         {
             private int _index;
-            // We use a custom descriptor for the Entry struct
-            private static ITypeDescriptor _entryDescriptor = new DelegateEntryDescriptor();
+            // We use a custom descriptor for the Entry struct, cached statically to avoid allocation
+            private static readonly ITypeDescriptor _entryDescriptor = new DelegateEntryDescriptor();
 
             public string Name => null;
+            public int Index => _index;
             public Type MemberType => typeof( DelegateEntry );
             public ITypeDescriptor TypeDescriptor => _entryDescriptor;
             public bool IsValueType => true;
@@ -132,6 +133,9 @@ namespace UnityPlus.Serialization
         // Serializes { target: $ref, method: { ... }, type: "..." }
         private class DelegateEntryDescriptor : CompositeDescriptor
         {
+            private static readonly ITypeDescriptor _methodDescriptor = new MethodInfoDescriptor();
+            private static readonly ITypeDescriptor _typeDescriptor = new SystemTypeDescriptor();
+
             public override Type WrappedType => typeof( DelegateEntry );
 
             // 3 members: Target, Method, Type
@@ -142,8 +146,8 @@ namespace UnityPlus.Serialization
                 switch( stepIndex )
                 {
                     case 0: return new TargetMemberInfo();
-                    case 1: return new MethodMemberInfo();
-                    case 2: return new DelegateTypeMemberInfo();
+                    case 1: return new MethodMemberInfo( _methodDescriptor );
+                    case 2: return new DelegateTypeMemberInfo( _typeDescriptor );
                 }
                 return null;
             }
@@ -158,6 +162,7 @@ namespace UnityPlus.Serialization
             struct TargetMemberInfo : IMemberInfo
             {
                 public string Name => "target";
+                public int Index => -1;
                 public Type MemberType => typeof( object );
                 // Use Ref context for the target!
                 public ITypeDescriptor TypeDescriptor => TypeDescriptorRegistry.GetDescriptor( typeof( object ), ObjectContext.Ref );
@@ -175,10 +180,12 @@ namespace UnityPlus.Serialization
             struct MethodMemberInfo : IMemberInfo
             {
                 public string Name => "method";
+                public int Index => -1;
                 public Type MemberType => typeof( MethodInfo );
-                // Custom descriptor for MethodInfo serialization
-                public ITypeDescriptor TypeDescriptor => new MethodInfoDescriptor();
+                public ITypeDescriptor TypeDescriptor { get; }
                 public bool IsValueType => false;
+
+                public MethodMemberInfo( ITypeDescriptor desc ) { TypeDescriptor = desc; }
 
                 public object GetValue( object target ) => ((DelegateEntry)target).Method;
                 public void SetValue( ref object target, object value )
@@ -192,9 +199,12 @@ namespace UnityPlus.Serialization
             struct DelegateTypeMemberInfo : IMemberInfo
             {
                 public string Name => "type";
+                public int Index => -1;
                 public Type MemberType => typeof( Type );
-                public ITypeDescriptor TypeDescriptor => new SystemTypeDescriptor();
+                public ITypeDescriptor TypeDescriptor { get; }
                 public bool IsValueType => false;
+
+                public DelegateTypeMemberInfo( ITypeDescriptor desc ) { TypeDescriptor = desc; }
 
                 public object GetValue( object target ) => ((DelegateEntry)target).DelegateType;
                 public void SetValue( ref object target, object value )
@@ -209,6 +219,11 @@ namespace UnityPlus.Serialization
         // Serializes MethodInfo as { declaringType: "...", name: "...", parameters: [...] }
         private class MethodInfoDescriptor : CompositeDescriptor
         {
+            // Cache common descriptors
+            private static readonly ITypeDescriptor _sysTypeDescriptor = new SystemTypeDescriptor();
+            private static readonly ITypeDescriptor _stringDescriptor = new StringDescriptor();
+            private static readonly ITypeDescriptor _typeArrayDescriptor = new ArrayDescriptor<Type>();
+
             public override Type WrappedType => typeof( MethodInfo );
             public override int GetStepCount( object target ) => 3;
             public override int GetConstructionStepCount( object target ) => 3; // Immutable construction
@@ -223,15 +238,15 @@ namespace UnityPlus.Serialization
                 // Serialize: target is MethodInfo
                 if( target is MethodInfo mi )
                 {
-                    if( stepIndex == 0 ) return new FixedValueMemberInfo( 0, "declaringType", typeof( Type ), new SystemTypeDescriptor(), mi.DeclaringType );
-                    if( stepIndex == 1 ) return new FixedValueMemberInfo( 1, "name", typeof( string ), new StringDescriptor(), mi.Name );
-                    if( stepIndex == 2 ) return new FixedValueMemberInfo( 2, "parameters", typeof( Type[] ), new ArrayDescriptor<Type>(), mi.GetParameters().Select( p => p.ParameterType ).ToArray() );
+                    if( stepIndex == 0 ) return new FixedValueMemberInfo( 0, "declaringType", typeof( Type ), _sysTypeDescriptor, mi.DeclaringType );
+                    if( stepIndex == 1 ) return new FixedValueMemberInfo( 1, "name", typeof( string ), _stringDescriptor, mi.Name );
+                    if( stepIndex == 2 ) return new FixedValueMemberInfo( 2, "parameters", typeof( Type[] ), _typeArrayDescriptor, mi.GetParameters().Select( p => p.ParameterType ).ToArray() );
                 }
                 // Deserialize: target is object[] buffer
                 return new BufferMemberInfo( stepIndex,
                     stepIndex == 0 ? "declaringType" : stepIndex == 1 ? "name" : "parameters",
                     stepIndex == 0 ? typeof( Type ) : stepIndex == 1 ? typeof( string ) : typeof( Type[] ),
-                    stepIndex == 0 ? (ITypeDescriptor)new SystemTypeDescriptor() : stepIndex == 1 ? (ITypeDescriptor)new StringDescriptor() : new ArrayDescriptor<Type>() );
+                    stepIndex == 0 ? _sysTypeDescriptor : stepIndex == 1 ? _stringDescriptor : _typeArrayDescriptor );
             }
 
             public override object Construct( object initialTarget )
@@ -255,6 +270,7 @@ namespace UnityPlus.Serialization
         private struct FixedValueMemberInfo : IMemberInfo
         {
             public string Name { get; }
+            public int Index => -1;
             public Type MemberType { get; }
             public ITypeDescriptor TypeDescriptor { get; }
             public bool IsValueType => false;
@@ -276,6 +292,7 @@ namespace UnityPlus.Serialization
         private struct BufferMemberInfo : IMemberInfo
         {
             public string Name { get; }
+            public int Index => -1;
             public Type MemberType { get; }
             public ITypeDescriptor TypeDescriptor { get; }
             public bool IsValueType => false;

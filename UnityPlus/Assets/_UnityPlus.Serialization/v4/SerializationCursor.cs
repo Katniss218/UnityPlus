@@ -4,14 +4,29 @@ namespace UnityPlus.Serialization
     public enum CursorPhase
     {
         /// <summary>
-        /// Gathering arguments for the constructor. Target is null.
+        /// Initial setup. Resolving types, allocating buffers, calling OnSerializing.
+        /// </summary>
+        PreProcessing,
+
+        /// <summary>
+        /// Gathering arguments for the constructor. Target is null (or buffer).
         /// </summary>
         Construction,
 
         /// <summary>
+        /// Creating the actual instance from the gathered arguments.
+        /// </summary>
+        Instantiation,
+
+        /// <summary>
         /// Setting members on the instantiated object. Target is valid.
         /// </summary>
-        Population
+        Population,
+
+        /// <summary>
+        /// Final cleanup and callbacks (OnDeserialized).
+        /// </summary>
+        PostProcessing
     }
 
     /// <summary>
@@ -25,11 +40,9 @@ namespace UnityPlus.Serialization
         public CursorPhase Phase;
 
         /// <summary>
-        /// The actual object instance being serialized/deserialized.
-        /// If this is a struct, 'Target' holds the Boxed value.
-        /// During Construction Phase, this is null.
+        /// The object, parent, and access info encapsulated in a single struct.
         /// </summary>
-        public object Target;
+        public TrackedObject Tracker;
 
         /// <summary>
         /// Storage for constructor arguments during the Construction Phase.
@@ -61,21 +74,10 @@ namespace UnityPlus.Serialization
         /// </summary>
         public SerializedData DataNode;
 
-        // --- Struct Write-Back Support ---
-
         /// <summary>
-        /// If true, 'Target' is a boxed value type copy, and must be written back to 'ParentTarget' when this cursor is popped.
+        /// If true, the Target will be written back to the Parent via the Member accessor when this cursor is popped.
+        /// Required for Deserialization (Assigning results) and Value Types (Propagating mutations).
         /// </summary>
-        public bool NeedsWriteBack;
-
-        /// <summary>
-        /// The object that owns this struct (if NeedsWriteBack is true).
-        /// </summary>
-        public object ParentTarget;
-
-        /// <summary>
-        /// The member info used to write the modified struct back to the parent.
-        /// </summary>
-        public IMemberInfo ParentMemberInfo;
+        public bool WriteBackOnPop;
     }
 }

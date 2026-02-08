@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
-using UnityPlus.Serialization.Contexts;
 
 namespace UnityPlus.Serialization
 {
@@ -396,6 +395,7 @@ namespace UnityPlus.Serialization
         private struct BufferMemberInfo : IMemberInfo
         {
             public string Name { get; }
+            public int Index => -1; // Constructor args are named
             public Type MemberType { get; }
             public ITypeDescriptor TypeDescriptor { get; }
             public bool IsValueType => MemberType.IsValueType;
@@ -470,6 +470,7 @@ namespace UnityPlus.Serialization
             }
 
             public string Name => _def.Name;
+            public int Index => -1;
             public Type MemberType => _def.MemberType;
             public bool IsValueType => MemberType.IsValueType;
 
@@ -494,6 +495,7 @@ namespace UnityPlus.Serialization
         private struct SkippedMemberInfo : IMemberInfo
         {
             public string Name { get; }
+            public int Index => -1;
             public Type MemberType { get; }
             public ITypeDescriptor TypeDescriptor => null;
             public bool IsValueType => false;
@@ -511,6 +513,7 @@ namespace UnityPlus.Serialization
         private readonly struct RuntimeMemberInfo<TMember> : IMemberInfo
         {
             public string Name { get; }
+            public int Index => -1;
             public Type MemberType { get; }
             public ITypeDescriptor TypeDescriptor { get; }
             public bool IsValueType => MemberType.IsValueType;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 
 namespace UnityPlus.Serialization
 {
@@ -11,6 +12,11 @@ namespace UnityPlus.Serialization
         /// The name used for serialization (Key in JSON object). Null for Array elements.
         /// </summary>
         string Name { get; }
+
+        /// <summary>
+        /// The index of the member, used for Arrays/Lists. -1 if not applicable (Named Member).
+        /// </summary>
+        int Index { get; }
 
         /// <summary>
         /// The C# type of this member.

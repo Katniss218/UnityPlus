@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 
 namespace UnityPlus.Serialization
 {
@@ -13,14 +14,8 @@ namespace UnityPlus.Serialization
         {
             int length = 0;
 
-            if( data is SerializedArray arr )
-            {
-                length = arr.Count;
-            }
-            else if( data is SerializedObject obj && obj.TryGetValue( "values", out SerializedData inner ) && inner is SerializedArray innerArr )
-            {
-                length = innerArr.Count;
-            }
+            var arr = SerializationHelpers.GetCollectionArrayNode( data );
+            if( arr != null ) length = arr.Count;
 
             return new T[length];
         }
@@ -58,6 +53,7 @@ namespace UnityPlus.Serialization
         private struct ArrayMemberInfo : IMemberInfo
         {
             public string Name => null;
+            public int Index => _index;
             public Type MemberType => typeof( T );
             public ITypeDescriptor TypeDescriptor { get; }
             public bool IsValueType => typeof( T ).IsValueType;

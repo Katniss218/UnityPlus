@@ -28,8 +28,6 @@ namespace UnityPlus.Serialization
         public override object CreateInitialTarget( SerializedData data, SerializationContext ctx )
         {
             // Note: Dictionaries don't support pre-sizing via constructor easily like Lists do, so we just return new.
-            // The data unwrapping logic (Object -> Array) handles the cursor traversing the right node,
-            // so we don't strictly need to inspect data here unless we wanted to optimize capacity.
             return new TDict();
         }
 
@@ -60,18 +58,20 @@ namespace UnityPlus.Serialization
 
             // Handle Append Mode (Deserialization where DataCount > DictCount)
             KeyValuePair<TKey, TValue> kvp = default;
-            if( stepIndex < dict.Count )
+            bool isExisting = stepIndex < dict.Count;
+            if( isExisting )
             {
                 // O(N) access - Dictionaries are not indexable. 
                 kvp = dict.ElementAt( stepIndex );
             }
 
-            return new DictionaryEntryMemberInfo( stepIndex, kvp, GetKvpDescriptor() );
+            return new DictionaryEntryMemberInfo( stepIndex, kvp, GetKvpDescriptor(), isExisting );
         }
 
         private struct DictionaryEntryMemberInfo : IMemberInfo
         {
-            public string Name => null; // Array element
+            public string Name => null;
+            public int Index => _index; // The entry index in the serialized array
             public Type MemberType => typeof( KeyValuePair<TKey, TValue> );
             public bool IsValueType => true; // KVP is a struct
             public ITypeDescriptor TypeDescriptor => _descriptor;
@@ -79,15 +79,21 @@ namespace UnityPlus.Serialization
             private int _index;
             private KeyValuePair<TKey, TValue> _kvp;
             private ITypeDescriptor _descriptor;
+            private bool _isExisting;
 
-            public DictionaryEntryMemberInfo( int index, KeyValuePair<TKey, TValue> kvp, ITypeDescriptor descriptor )
+            public DictionaryEntryMemberInfo( int index, KeyValuePair<TKey, TValue> kvp, ITypeDescriptor descriptor, bool isExisting )
             {
                 _index = index;
                 _kvp = kvp;
                 _descriptor = descriptor;
+                _isExisting = isExisting;
             }
 
-            public object GetValue( object target ) => _kvp; // Target is the dictionary, but we return the KVP we captured
+            // Target is the dictionary.
+            // If this represents an existing entry, return it.
+            // If this is a new entry (append), return null to force the Deserializer to Construct it.
+            // Returning default(KVP) would cause the Deserializer to skip Construction (treating it as PopulateExisting).
+            public object GetValue( object target ) => _isExisting ? (object)_kvp : null;
 
             public void SetValue( ref object target, object value )
             {
@@ -95,6 +101,10 @@ namespace UnityPlus.Serialization
                 // We add the result back to the Dictionary.
                 var dict = (TDict)target;
                 var pair = (KeyValuePair<TKey, TValue>)value;
+
+                // Safety check: Key cannot be null in a dictionary
+                if( pair.Key == null )
+                    return;
 
                 // If keys match existing, update. If new, add.
                 // Note: Iteration order stability in Dicts is not guaranteed if we modify while iterating.
@@ -126,65 +136,69 @@ namespace UnityPlus.Serialization
 
             public override int GetStepCount( object target ) => 2;
 
+            // Use Construction Phase pattern to allow fully constructing the KVP from an object array buffer
+            public override int GetConstructionStepCount( object target ) => 2;
+
             public override IMemberInfo GetMemberInfo( int stepIndex, object target )
             {
-                if( stepIndex == 0 ) return new KVPMemberInfo( "key", typeof( TKey ), _keyDescriptor, true );
-                return new KVPMemberInfo( "value", typeof( TValue ), _valDescriptor, false );
+                if( stepIndex == 0 ) return new KVPBufferMemberInfo( 0, "key", typeof( TKey ), _keyDescriptor );
+                return new KVPBufferMemberInfo( 1, "value", typeof( TValue ), _valDescriptor );
             }
 
             public override object CreateInitialTarget( SerializedData data, SerializationContext ctx )
             {
-                // Immutable struct, but we need a mutable container for the stack machine to write Key and Value into
-                // before we construct the final KVP.
-                return new KVPBuffer();
+                // Buffer to hold Key and Value. StackMachineDriver creates this automatically if ConstructionStepCount > 0
+                // but we can return it here explicitly if needed.
+                return new object[2];
             }
 
             public override object Construct( object initialTarget )
             {
-                var buf = (KVPBuffer)initialTarget;
-                return new KeyValuePair<TKey, TValue>( buf.Key, buf.Value );
+                var buf = (object[])initialTarget;
+                // Unbox/Cast elements.
+                // Handle potential nulls if construction failed partially
+                TKey k = buf[0] != null ? (TKey)buf[0] : default;
+                TValue v = buf[1] != null ? (TValue)buf[1] : default;
+                return new KeyValuePair<TKey, TValue>( k, v );
             }
 
-            private class KVPBuffer
-            {
-                public TKey Key;
-                public TValue Value;
-            }
-
-            private struct KVPMemberInfo : IMemberInfo
+            private struct KVPBufferMemberInfo : IMemberInfo
             {
                 public string Name { get; }
+                public int Index => -1; // Fields "key" and "value" are named
                 public Type MemberType { get; }
                 public bool IsValueType => MemberType.IsValueType;
                 public ITypeDescriptor TypeDescriptor { get; }
 
-                private bool _isKey;
+                private int _index;
 
-                public KVPMemberInfo( string name, Type type, ITypeDescriptor desc, bool isKey )
+                public KVPBufferMemberInfo( int index, string name, Type type, ITypeDescriptor desc )
                 {
+                    _index = index;
                     Name = name;
                     MemberType = type;
                     TypeDescriptor = desc;
-                    _isKey = isKey;
                 }
 
                 public object GetValue( object target )
                 {
+                    // Serialize: target is KeyValuePair
                     if( target is KeyValuePair<TKey, TValue> pair )
-                        return _isKey ? pair.Key : pair.Value;
+                        return _index == 0 ? (object)pair.Key : pair.Value;
 
-                    if( target is KVPBuffer buf )
-                        return _isKey ? buf.Key : buf.Value;
+                    // Deserialize: target is object[] buffer
+                    if( target is object[] buf )
+                        return buf[_index];
 
                     return null;
                 }
 
                 public void SetValue( ref object target, object value )
                 {
-                    if( target is KVPBuffer buf )
+                    // Deserialize: Write to buffer
+                    if( target is object[] buf )
                     {
-                        if( _isKey ) buf.Key = (TKey)value;
-                        else buf.Value = (TValue)value;
+                        buf[_index] = value;
                     }
                 }
             }

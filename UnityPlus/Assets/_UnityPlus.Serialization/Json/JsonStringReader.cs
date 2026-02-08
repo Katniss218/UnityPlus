@@ -1,400 +1,262 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UnityPlus.Serialization.Json
 {
     public class JsonStringReader
     {
-        // make a custom parser + reader/writer.
-
-        string _s;
-        int _pos;
-
-        char? _currentChar;
+        private readonly ReadOnlyMemory<char> _json;
+        private int _recursionDepth;
+        private const int MaxDepth = 512;
 
         public JsonStringReader( string json )
         {
-            this._s = json;
-            this._pos = 0;
-
-            UpdateCharacterCache();
-        }
-
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        void Advance( int num = 1 )
-        {
-            _pos += num;
-
-            UpdateCharacterCache();
-        }
-
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        void UpdateCharacterCache()
-        {
-            if( _pos < 0 || _pos >= _s.Length )
-                _currentChar = null;
-            else
-                _currentChar = _s[_pos];
-        }
-
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        private bool SeekCompare( string target )
-        {
-            if( _pos + target.Length > _s.Length )
-                return false;
-
-            return _s.Substring( _pos, target.Length ) == target;
-            //return _s[(_pos)..(_pos + target.Length)] == target;
-        }
-
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        private string Seek( int startOffset, int length )
-        {
-            if( _pos - startOffset < 0 || _pos + startOffset + length > _s.Length )
-                return null;
-
-            return _s.Substring( _pos + startOffset, length );
+            _json = json.AsMemory();
         }
 
         public SerializedData Read()
         {
-            EatWhiteSpace();
+            var span = _json.Span;
+            int index = 0;
+            _recursionDepth = 0;
 
-            SerializedData val = EatValue();
+            SkipWhitespace( span, ref index );
+            if( index >= span.Length ) return null;
 
-            EatWhiteSpace();
-
-            return val;
+            return ParseValue( span, ref index );
         }
 
-
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        private void EatWhiteSpace()
+        private SerializedData ParseValue( ReadOnlySpan<char> span, ref int index )
         {
-            while( _currentChar != null && char.IsWhiteSpace( _currentChar.Value ) )
+            if( _recursionDepth > MaxDepth ) throw new FormatException( "JSON recursion depth limit exceeded." );
+
+            SkipWhitespace( span, ref index );
+            if( index >= span.Length ) return null;
+
+            char c = span[index];
+
+            switch( c )
             {
-                Advance();
+                case '{':
+                    _recursionDepth++;
+                    var obj = ParseObject( span, ref index );
+                    _recursionDepth--;
+                    return obj;
+                case '[':
+                    _recursionDepth++;
+                    var arr = ParseArray( span, ref index );
+                    _recursionDepth--;
+                    return arr;
+                case '"': return ParseString( span, ref index );
+                case 't': // true
+                    if( IsMatch( span, index, "true" ) ) { index += 4; return true; }
+                    throw new FormatException( $"Invalid token at {index}" );
+                case 'f': // false
+                    if( IsMatch( span, index, "false" ) ) { index += 5; return false; }
+                    throw new FormatException( $"Invalid token at {index}" );
+                case 'n': // null
+                    if( IsMatch( span, index, "null" ) ) { index += 4; return null; }
+                    throw new FormatException( $"Invalid token at {index}" );
+                default:
+                    if( c == '-' || char.IsDigit( c ) ) return ParseNumber( span, ref index );
+                    throw new FormatException( $"Invalid JSON token at index {index}: '{c}'" );
             }
         }
 
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public void EatJsonText()
+        private bool IsMatch( ReadOnlySpan<char> span, int index, string literal )
         {
-            EatWhiteSpace();
-
-            EatValue();
-
-            EatWhiteSpace();
+            if( index + literal.Length > span.Length ) return false;
+            for( int i = 0; i < literal.Length; i++ )
+            {
+                if( span[index + i] != literal[i] ) return false;
+            }
+            return true;
         }
 
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public void Eat_ArrayEnd()
+        private SerializedObject ParseObject( ReadOnlySpan<char> span, ref int index )
         {
-            EatWhiteSpace();
-
-            if( _currentChar != ']' )
-                throw new InvalidOperationException( $"Invalid token, expected `,` or `]`, but found `{_currentChar}`. {_pos}." );
-            Advance();
-
-            EatWhiteSpace();
-        }
-
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public void Eat_ObjectEnd()
-        {
-            EatWhiteSpace();
-
-            if( _currentChar != '}' )
-                throw new InvalidOperationException( "Invalid token, expected `,` or `}`, but found " + $"`{_currentChar}`. {_pos}." );
-            Advance();
-
-            EatWhiteSpace();
-        }
-
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public void Eat_NameSeparator()
-        {
-            EatWhiteSpace();
-
-            if( _currentChar != ':' )
-                throw new InvalidOperationException( $"Invalid token, expected `:` after a name, but found `{_currentChar}`. {_pos}." );
-            Advance();
-
-            EatWhiteSpace();
-        }
-
-        public SerializedData EatValue()
-        {
-            if( SeekCompare( "false" ) )
-            {
-                Advance( "false".Length );
-                return (SerializedData)false;
-            }
-            if( SeekCompare( "true" ) )
-            {
-                Advance( "true".Length );
-                return (SerializedData)true;
-            }
-            if( SeekCompare( "null" ) )
-            {
-                Advance( "null".Length );
-                return (SerializedData)null;
-            }
-            if( _currentChar == '[' )
-            {
-                return EatArray();
-            }
-            if( _currentChar == '{' )
-            {
-                return EatObject();
-            }
-            if( _currentChar == '"' )
-            {
-                return EatString();
-            }
-            if( _currentChar == '-' || (_currentChar != null && char.IsDigit( _currentChar.Value )) )
-                return EatNumber();
-
-            throw new InvalidOperationException( $"Unexpected token at {_pos}." );
-        }
-
-        public SerializedObject EatObject()
-        {
-            Contract.Assert( _currentChar == '{' );
-            Advance();
-
-            EatWhiteSpace();
-
-            SerializedObject obj = new SerializedObject();
-
-            if( _currentChar == '}' )
-            {
-                Eat_ObjectEnd();
-                return obj;
-            }
+            index++; // Skip '{'
+            var obj = new SerializedObject();
+            bool first = true;
 
             while( true )
             {
-                (string name, SerializedData val) = EatMember();
-                obj.Add( name, val );
+                SkipWhitespace( span, ref index );
+                if( index >= span.Length ) throw new FormatException( "Unexpected end of JSON input in Object" );
 
-                // value sep
-                EatWhiteSpace();
-
-                if( _currentChar == ',' )
+                if( span[index] == '}' )
                 {
-                    Advance();
-
-                    EatWhiteSpace();
-                    continue;
+                    index++;
+                    break;
                 }
 
-                // current char assumed to be `}`, since it was not `,`, so there is no next value
-                break;
+                if( !first )
+                {
+                    if( span[index] != ',' ) throw new FormatException( $"Expected ',' at index {index}" );
+                    index++;
+                    SkipWhitespace( span, ref index );
+                }
+                first = false;
+
+                if( span[index] != '"' ) throw new FormatException( $"Expected property name at index {index}" );
+
+                string key = ParseStringInternal( span, ref index );
+
+                SkipWhitespace( span, ref index );
+                if( index >= span.Length || span[index] != ':' ) throw new FormatException( $"Expected ':' at index {index}" );
+                index++;
+
+                SerializedData value = ParseValue( span, ref index );
+                obj[key] = value;
             }
-
-            Eat_ObjectEnd();
-
             return obj;
         }
 
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public (string, SerializedData) EatMember()
+        private SerializedArray ParseArray( ReadOnlySpan<char> span, ref int index )
         {
-            string name = EatString();
-
-            Eat_NameSeparator();
-
-            SerializedData val = EatValue();
-
-            return (name, val);
-        }
-
-        public SerializedArray EatArray()
-        {
-            Contract.Assert( _currentChar == '[' );
-            Advance();
-
-            EatWhiteSpace();
-
-            SerializedArray arr = new SerializedArray();
-
-            if( _currentChar == ']' )
-            {
-                Eat_ArrayEnd();
-                return arr;
-            }
+            index++; // Skip '['
+            var arr = new SerializedArray();
+            bool first = true;
 
             while( true )
             {
-                SerializedData val = EatValue();
-                arr.Add( val );
+                SkipWhitespace( span, ref index );
+                if( index >= span.Length ) throw new FormatException( "Unexpected end of JSON input in Array" );
 
-                // value sep
-                EatWhiteSpace();
-
-                if( _currentChar == ',' )
+                if( span[index] == ']' )
                 {
-                    Advance();
-
-                    EatWhiteSpace();
-                    continue;
+                    index++;
+                    break;
                 }
 
-                // current char assumed to be `]`, since it was not `,`, so there is no next value
-                break;
+                if( !first )
+                {
+                    if( span[index] != ',' ) throw new FormatException( $"Expected ',' at index {index}" );
+                    index++;
+                }
+                first = false;
+
+                SerializedData value = ParseValue( span, ref index );
+                arr.Add( value );
             }
-
-            Eat_ArrayEnd();
-
             return arr;
         }
 
-        public SerializedPrimitive EatString()
+        private SerializedPrimitive ParseString( ReadOnlySpan<char> span, ref int index )
         {
-            Contract.Assert( _currentChar == '"' );
-            Advance();
-
-            int start = _pos;
-            StringBuilder sb = null;
-
-            // Unescaped quote means the end of string
-            while( _currentChar != '"' )
-            {
-                if( _currentChar == '\\' )
-                {
-                    if( sb == null )
-                    {
-                        sb = new StringBuilder();
-                    }
-                    int len = _pos - start;
-                    if( len > 0 )
-                    {
-                        sb.Append( _s.Substring( start, len ) );
-                    }
-
-                    string seeked = Seek( 0, 2 );
-                    if( seeked[1] == '\\' )
-                        sb.Append( '\\' );
-                    else if( seeked[1] == 'n' )
-                        sb.Append( '\n' );
-                    else if( seeked[1] == 'r' )
-                        sb.Append( '\r' );
-                    else if( seeked[1] == 'f' )
-                        sb.Append( '\f' );
-                    else if( seeked[1] == 'b' )
-                        sb.Append( '\b' );
-                    else if( seeked[1] == 't' )
-                        sb.Append( '\t' );
-                    else if( seeked[1] == 'u' )
-                    {
-                        string s = Seek( 2, 4 );
-                        if( s == null )
-                            throw new InvalidOperationException( $"Expected an escaped unicode char in the format `\\uNNNN`, where N is a digit 0-9. {_pos}" );
-
-                        foreach( var ch in s )
-                        {
-                            if( !char.IsDigit( ch ) )
-                                throw new InvalidOperationException( $"Expected an escaped unicode char in the format `\\uNNNN`, where N is a digit 0-9. {_pos}" );
-                        }
-
-                        // digit chars have a continuous underlying int value, and length is fixed,
-                        // so we can hardcode that by casting the char to int, subtracting int 48, and multiplying that by position base 16
-                        // I wonder if that's how int.Parse does it or not.
-                        char c = (char)int.Parse( s, NumberStyles.HexNumber );
-                        sb.Append( c );
-                        Advance( 4 );
-                    }
-                    else
-                        throw new InvalidOperationException( $"Expected an escaped unicode char. {_pos}" );
-                    Advance( 2 );
-                    start = _pos;
-                }
-                else
-                {
-                    Advance();
-                }
-            }
-
-            int len2 = _pos - start - 1;
-            if( sb != null && len2 > 0 ) // append last section, if not empty
-                sb.Append( _s.Substring( start + 1, len2 ) );
-
-            string val = sb == null
-                ? _s.Substring( start, _pos - start )
-                : sb.ToString();
-
-            Contract.Assert( _currentChar == '"' );
-            Advance();
-
-            return (SerializedPrimitive)val;
+            return (SerializedPrimitive)ParseStringInternal( span, ref index );
         }
 
-        public SerializedPrimitive EatNumber()
+        private string ParseStringInternal( ReadOnlySpan<char> span, ref int index )
         {
-            int start = _pos;
-            bool hasDecimalPoint = false;
-            bool hasExponent = false;
+            index++; // Skip opening quote
+            int start = index;
 
-            if( _currentChar == '-' )
-                Advance();
-
-            EatInt();
-
-            if( _currentChar == '.' )
+            while( index < span.Length )
             {
-                hasDecimalPoint = true;
-                Advance();
-
-                if( _currentChar == null || !char.IsDigit( _currentChar.Value ) )
+                char c = span[index];
+                if( c == '\\' )
                 {
-                    throw new InvalidOperationException( $"Invalid token, a decimal point must be succeeded by a digit - {_pos}." );
+                    index += 2;
+                    continue;
                 }
-
-                EatInt();
+                if( c == '"' )
+                {
+                    var content = span.Slice( start, index - start );
+                    index++;
+                    return JsonCommon.UnescapeString( content );
+                }
+                index++;
             }
-
-            if( _currentChar == 'e' || _currentChar == 'E' )
-            {
-                hasExponent = true;
-                Advance();
-
-                if( _currentChar != '+' && _currentChar != '-' )
-                {
-                    throw new InvalidOperationException( $"Invalid token, exponent 'e' must be succeeded by a plus/minus and a digit - {_pos}." );
-                }
-
-                Advance();
-
-                if( _currentChar == null || !char.IsDigit( _currentChar.Value ) )
-                {
-                    throw new InvalidOperationException( $"Invalid token, exponent 'e' must be succeeded by a plus/minus and a digit - {_pos}." );
-                }
-
-                EatInt();
-
-            }
-
-            string val = _s[start..(_pos)];
-
-            return (hasDecimalPoint || hasExponent)
-                ? (SerializedPrimitive)double.Parse( val, CultureInfo.InvariantCulture )
-                : (SerializedPrimitive)long.Parse( val, CultureInfo.InvariantCulture );
+            throw new FormatException( "Unterminated string literal" );
         }
 
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        private void EatInt()
+        private SerializedPrimitive ParseNumber( ReadOnlySpan<char> span, ref int index )
         {
-            while( _currentChar != null && char.IsDigit( _currentChar.Value ) )
+            int start = index;
+            bool isFloat = false;
+
+            // 1. Optional Minus
+            if( span[index] == '-' )
             {
-                Advance();
+                index++;
+                if( index >= span.Length ) throw new FormatException( "Invalid number format (lone minus)" );
+            }
+
+            // 2. Integer Part
+            if( span[index] == '0' )
+            {
+                index++;
+                // If starts with 0, next must NOT be a digit (unless it's . or e or end)
+                if( index < span.Length && char.IsDigit( span[index] ) )
+                    throw new FormatException( "Invalid number format (leading zero)" );
+            }
+            else if( char.IsDigit( span[index] ) )
+            {
+                index++;
+                while( index < span.Length && char.IsDigit( span[index] ) ) index++;
+            }
+            else
+            {
+                throw new FormatException( $"Invalid number format at index {index}" );
+            }
+
+            // 3. Fraction Part
+            if( index < span.Length && span[index] == '.' )
+            {
+                isFloat = true;
+                index++;
+                if( index >= span.Length || !char.IsDigit( span[index] ) ) throw new FormatException( "Invalid decimal format" );
+                while( index < span.Length && char.IsDigit( span[index] ) ) index++;
+            }
+
+            // 4. Exponent Part
+            if( index < span.Length && (span[index] == 'e' || span[index] == 'E') )
+            {
+                isFloat = true;
+                index++;
+                if( index < span.Length && (span[index] == '+' || span[index] == '-') ) index++;
+                if( index >= span.Length || !char.IsDigit( span[index] ) ) throw new FormatException( "Invalid exponent format" );
+                while( index < span.Length && char.IsDigit( span[index] ) ) index++;
+            }
+
+            var numberSpan = span.Slice( start, index - start );
+
+#if NETSTANDARD2_1_OR_GREATER || UNITY_2021_3_OR_NEWER
+            if( isFloat )
+            {
+                if( double.TryParse( numberSpan, NumberStyles.Float, CultureInfo.InvariantCulture, out double d ) )
+                    return (SerializedPrimitive)d;
+            }
+            else
+            {
+                if( long.TryParse( numberSpan, NumberStyles.Integer, CultureInfo.InvariantCulture, out long l ) )
+                    return (SerializedPrimitive)l;
+            }
+#else
+            string numStr = numberSpan.ToString();
+            if (isFloat)
+            {
+                if (double.TryParse(numStr, NumberStyles.Float, CultureInfo.InvariantCulture, out double d))
+                    return (SerializedPrimitive)d;
+            }
+            else
+            {
+                if (long.TryParse(numStr, NumberStyles.Integer, CultureInfo.InvariantCulture, out long l))
+                    return (SerializedPrimitive)l;
+            }
+#endif
+
+            throw new FormatException( $"Could not parse number: {numberSpan.ToString()}" );
+        }
+
+        private void SkipWhitespace( ReadOnlySpan<char> span, ref int index )
+        {
+            while( index < span.Length && char.IsWhiteSpace( span[index] ) )
+            {
+                index++;
             }
         }
     }

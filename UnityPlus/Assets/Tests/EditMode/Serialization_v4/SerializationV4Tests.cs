@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿
+using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityPlus.Serialization;
@@ -22,17 +23,33 @@ namespace SerializationV4Tests
             _driver = new StackMachineDriver( _context );
         }
 
+        private void RunDriver()
+        {
+            // Fail-safe to prevent infinite loops in tests if logic breaks
+            int maxTicks = 10000;
+            int ticks = 0;
+            while( !_driver.IsFinished && ticks++ < maxTicks )
+            {
+                _driver.Tick( 100 );
+            }
+
+            if( !_driver.IsFinished )
+            {
+                Assert.Fail( "StackMachineDriver failed to finish within tick limit." );
+            }
+        }
+
         [Test]
         public void Serialize_Int_Primitive()
         {
             int value = 42;
             var desc = TypeDescriptorRegistry.GetDescriptor( typeof( int ) );
 
-            _driver.Initialize( value, desc, SerializationOperation.Serialize );
-            while( !_driver.IsFinished ) _driver.Tick( 100, SerializationOperation.Serialize );
+            _driver.Initialize( value, desc, new SerializerStrategy() );
+            RunDriver();
 
             var result = (SerializedPrimitive)_driver.Result;
-            Assert.AreEqual( 42, (int)result );
+            Assert.That( (int)result, Is.EqualTo( 42 ) );
         }
 
         [Test]
@@ -42,16 +59,16 @@ namespace SerializationV4Tests
             var desc = TypeDescriptorRegistry.GetDescriptor( typeof( Vector3 ) );
 
             // Serialize
-            _driver.Initialize( original, desc, SerializationOperation.Serialize );
-            while( !_driver.IsFinished ) _driver.Tick( 100, SerializationOperation.Serialize );
+            _driver.Initialize( original, desc, new SerializerStrategy() );
+            RunDriver();
             var data = (SerializedData)_driver.Result;
 
             // Deserialize
-            _driver.Initialize( null, desc, SerializationOperation.Deserialize, data );
-            while( !_driver.IsFinished ) _driver.Tick( 100, SerializationOperation.Deserialize );
+            _driver.Initialize( null, desc, new DeserializerStrategy(), data );
+            RunDriver();
             var result = (Vector3)_driver.Result;
 
-            Assert.AreEqual( original, result );
+            Assert.That( result, Is.EqualTo( original ) );
         }
 
         [Test]
@@ -61,18 +78,18 @@ namespace SerializationV4Tests
             var desc = TypeDescriptorRegistry.GetDescriptor( typeof( TestClass ) );
 
             // Serialize
-            _driver.Initialize( original, desc, SerializationOperation.Serialize );
-            while( !_driver.IsFinished ) _driver.Tick( 100, SerializationOperation.Serialize );
+            _driver.Initialize( original, desc, new SerializerStrategy() );
+            RunDriver();
             var data = (SerializedData)_driver.Result;
 
             // Deserialize
-            _driver.Initialize( null, desc, SerializationOperation.Deserialize, data );
-            while( !_driver.IsFinished ) _driver.Tick( 100, SerializationOperation.Deserialize );
+            _driver.Initialize( null, desc, new DeserializerStrategy(), data );
+            RunDriver();
             var result = (TestClass)_driver.Result;
 
-            Assert.IsNotNull( result );
-            Assert.AreEqual( original.Name, result.Name );
-            Assert.AreEqual( original.Value, result.Value );
+            Assert.That( result, Is.Not.Null );
+            Assert.That( result.Name, Is.EqualTo( original.Name ) );
+            Assert.That( result.Value, Is.EqualTo( original.Value ) );
         }
 
         [Test]
@@ -86,21 +103,22 @@ namespace SerializationV4Tests
             var desc = TypeDescriptorRegistry.GetDescriptor( typeof( Node ) );
 
             // Serialize A (should include B)
-            _driver.Initialize( a, desc, SerializationOperation.Serialize );
-            while( !_driver.IsFinished ) _driver.Tick( 100, SerializationOperation.Serialize );
+            _driver.Initialize( a, desc, new SerializerStrategy() );
+            RunDriver();
             var data = (SerializedData)_driver.Result;
 
             // Deserialize
             // We expect the circular reference to be resolved via Deferred Queue
-            _driver.Initialize( null, desc, SerializationOperation.Deserialize, data );
-            while( !_driver.IsFinished ) _driver.Tick( 100, SerializationOperation.Deserialize );
+            _driver.Initialize( null, desc, new DeserializerStrategy(), data );
+            RunDriver();
             var resultA = (Node)_driver.Result;
 
-            Assert.IsNotNull( resultA );
-            Assert.AreEqual( "A", resultA.Name );
-            Assert.IsNotNull( resultA.Neighbor );
-            Assert.AreEqual( "B", resultA.Neighbor.Name );
-            Assert.AreSame( resultA, resultA.Neighbor.Neighbor );
+            Assert.That( resultA, Is.Not.Null );
+            Assert.That( resultA.Name, Is.EqualTo( "A" ) );
+            Assert.That( resultA.Neighbor, Is.Not.Null );
+            Assert.That( resultA.Neighbor.Name, Is.EqualTo( "B" ) );
+            // Check referential integrity
+            Assert.That( resultA.Neighbor.Neighbor, Is.SameAs( resultA ) );
         }
 
         [Test]
@@ -110,17 +128,17 @@ namespace SerializationV4Tests
             var desc = TypeDescriptorRegistry.GetDescriptor( typeof( int[] ) );
 
             // Serialize
-            _driver.Initialize( original, desc, SerializationOperation.Serialize );
-            while( !_driver.IsFinished ) _driver.Tick( 100, SerializationOperation.Serialize );
+            _driver.Initialize( original, desc, new SerializerStrategy() );
+            RunDriver();
             var data = (SerializedData)_driver.Result;
 
             // Deserialize
-            _driver.Initialize( null, desc, SerializationOperation.Deserialize, data );
-            while( !_driver.IsFinished ) _driver.Tick( 100, SerializationOperation.Deserialize );
+            _driver.Initialize( null, desc, new DeserializerStrategy(), data );
+            RunDriver();
             var result = (int[])_driver.Result;
 
-            Assert.AreEqual( original.Length, result.Length );
-            for( int i = 0; i < original.Length; i++ ) Assert.AreEqual( original[i], result[i] );
+            Assert.That( result, Is.Not.Null );
+            Assert.That( result, Is.EqualTo( original ) );
         }
 
         [Test]
@@ -130,18 +148,17 @@ namespace SerializationV4Tests
             var desc = TypeDescriptorRegistry.GetDescriptor( typeof( List<string> ) );
 
             // Serialize
-            _driver.Initialize( original, desc, SerializationOperation.Serialize );
-            while( !_driver.IsFinished ) _driver.Tick( 100, SerializationOperation.Serialize );
+            _driver.Initialize( original, desc, new SerializerStrategy() );
+            RunDriver();
             var data = (SerializedData)_driver.Result;
 
             // Deserialize
-            _driver.Initialize( null, desc, SerializationOperation.Deserialize, data );
-            while( !_driver.IsFinished ) _driver.Tick( 100, SerializationOperation.Deserialize );
+            _driver.Initialize( null, desc, new DeserializerStrategy(), data );
+            RunDriver();
             var result = (List<string>)_driver.Result;
 
-            Assert.AreEqual( original.Count, result.Count );
-            Assert.AreEqual( original[0], result[0] );
-            Assert.AreEqual( original[1], result[1] );
+            Assert.That( result, Is.Not.Null );
+            Assert.That( result, Is.EqualTo( original ) );
         }
 
         [Test]
@@ -151,18 +168,17 @@ namespace SerializationV4Tests
             var desc = TypeDescriptorRegistry.GetDescriptor( typeof( Dictionary<string, int> ) );
 
             // Serialize
-            _driver.Initialize( original, desc, SerializationOperation.Serialize );
-            while( !_driver.IsFinished ) _driver.Tick( 100, SerializationOperation.Serialize );
+            _driver.Initialize( original, desc, new SerializerStrategy() );
+            RunDriver();
             var data = (SerializedData)_driver.Result;
 
             // Deserialize
-            _driver.Initialize( null, desc, SerializationOperation.Deserialize, data );
-            while( !_driver.IsFinished ) _driver.Tick( 100, SerializationOperation.Deserialize );
+            _driver.Initialize( null, desc, new DeserializerStrategy(), data );
+            RunDriver();
             var result = (Dictionary<string, int>)_driver.Result;
 
-            Assert.AreEqual( original.Count, result.Count );
-            Assert.AreEqual( 1, result["A"] );
-            Assert.AreEqual( 2, result["B"] );
+            Assert.That( result, Is.Not.Null );
+            Assert.That( result, Is.EquivalentTo( original ) );
         }
 
         [Test]
@@ -172,17 +188,17 @@ namespace SerializationV4Tests
             var desc = TypeDescriptorRegistry.GetDescriptor( typeof( CallbackTestClass ) );
 
             // Serialize
-            _driver.Initialize( obj, desc, SerializationOperation.Serialize );
-            while( !_driver.IsFinished ) _driver.Tick( 100, SerializationOperation.Serialize );
-            Assert.IsTrue( obj.Serialized, "OnBeforeSerialize not called" );
+            _driver.Initialize( obj, desc, new SerializerStrategy() );
+            RunDriver();
+            Assert.That( obj.Serialized, Is.True, "OnBeforeSerialize should be called." );
 
             // Deserialize
             var data = (SerializedData)_driver.Result;
-            _driver.Initialize( null, desc, SerializationOperation.Deserialize, data );
-            while( !_driver.IsFinished ) _driver.Tick( 100, SerializationOperation.Deserialize );
+            _driver.Initialize( null, desc, new DeserializerStrategy(), data );
+            RunDriver();
             var result = (CallbackTestClass)_driver.Result;
 
-            Assert.IsTrue( result.Deserialized, "OnAfterDeserialize not called" );
+            Assert.That( result.Deserialized, Is.True, "OnAfterDeserialize should be called." );
         }
 
         // --- Mocks ---

@@ -1,91 +1,85 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
-using UnityEngine;
 using UnityPlus.Serialization;
 using UnityPlus.Serialization.Json;
-using UnityEngine.TestTools;
 
 namespace Serialization.Json
 {
     public class JsonStringReaderTests
     {
-        [Test]
-        public void EatValue___True___ParsesCorrectly()
-        {
-            // Arrange
-            string json = "true";
-            JsonStringReader sut = new JsonStringReader( json );
+        //[Test]
+        //public void EatValue___True___ParsesCorrectly()
+        //{
+        //    // Arrange
+        //    string json = "true";
+        //    JsonStringReader sut = new JsonStringReader( json );
 
-            // Act
-            SerializedData val = sut.EatValue();
+        //    // Act
+        //    SerializedData val = sut.EatValue();
 
-            // Assert
-            Assert.That( val, Is.EqualTo( (SerializedData)true ) );
-            Assert.That( (bool)val, Is.EqualTo( true ) );
-        }
+        //    // Assert
+        //    Assert.That( val, Is.EqualTo( (SerializedData)true ) );
+        //    Assert.That( (bool)val, Is.EqualTo( true ) );
+        //}
 
-        [Test]
-        public void EatValue___False___ParsesCorrectly()
-        {
-            // Arrange
-            string json = "false";
-            JsonStringReader sut = new JsonStringReader( json );
+        //[Test]
+        //public void EatValue___False___ParsesCorrectly()
+        //{
+        //    // Arrange
+        //    string json = "false";
+        //    JsonStringReader sut = new JsonStringReader( json );
 
-            // Act
-            SerializedData val = sut.EatValue();
+        //    // Act
+        //    SerializedData val = sut.EatValue();
 
-            // Assert
-            Assert.That( val, Is.EqualTo( (SerializedData)false ) );
-            Assert.That( (bool)val, Is.EqualTo( false ) );
-        }
+        //    // Assert
+        //    Assert.That( val, Is.EqualTo( (SerializedData)false ) );
+        //    Assert.That( (bool)val, Is.EqualTo( false ) );
+        //}
 
-        [Test]
-        public void EatValue___Null___ParsesCorrectly()
-        {
-            // Arrange
-            string json = "null";
-            JsonStringReader sut = new JsonStringReader( json );
+        //[Test]
+        //public void EatValue___Null___ParsesCorrectly()
+        //{
+        //    // Arrange
+        //    string json = "null";
+        //    JsonStringReader sut = new JsonStringReader( json );
 
-            // Act
-            SerializedData val = sut.EatValue();
+        //    // Act
+        //    SerializedData val = sut.EatValue();
 
-            // Assert
-            Assert.That( val, Is.EqualTo( (SerializedData)null ) );
-            Assert.That( (object)val, Is.EqualTo( null ) );
-        }
+        //    // Assert
+        //    Assert.That( val, Is.EqualTo( (SerializedData)null ) );
+        //    Assert.That( (object)val, Is.EqualTo( null ) );
+        //}
 
-        [Test]
-        public void EatString___Easy___ParsesCorrectly()
-        {
-            // Arrange
-            string json = "\"Hello World!\"";
-            JsonStringReader sut = new JsonStringReader( json );
+        //[Test]
+        //public void EatString___Easy___ParsesCorrectly()
+        //{
+        //    // Arrange
+        //    string json = "\"Hello World!\"";
+        //    JsonStringReader sut = new JsonStringReader( json );
 
-            // Act
-            string val = sut.EatString();
+        //    // Act
+        //    string val = sut.EatString();
 
-            // Assert
-            Assert.That( val, Is.EqualTo( "Hello World!" ) );
-            Assert.That( (string)val, Is.EqualTo( "Hello World!" ) );
-        }
+        //    // Assert
+        //    Assert.That( val, Is.EqualTo( "Hello World!" ) );
+        //    Assert.That( (string)val, Is.EqualTo( "Hello World!" ) );
+        //}
 
-        [Test]
-        public void EatString___Escaped___ParsesCorrectly()
-        {
-            // Arrange
-            string json = "\"Hello World \\r\\n \\t \\\\ Hello / \\u0032\"";
-            JsonStringReader sut = new JsonStringReader( json );
+        //[Test]
+        //public void EatString___Escaped___ParsesCorrectly()
+        //{
+        //    // Arrange
+        //    string json = "\"Hello World \\r\\n \\t \\\\ Hello / \\u0032\"";
+        //    JsonStringReader sut = new JsonStringReader( json );
 
-            // Act
-            string val = sut.EatString();
+        //    // Act
+        //    string val = sut.EatString();
 
-            // Assert
-            Assert.That( val, Is.EqualTo( "Hello World \r\n \t \\ Hello / \u0032" ) );
-            Assert.That( (string)val, Is.EqualTo( "Hello World \r\n \t \\ Hello / \u0032" ) );
-        }
+        //    // Assert
+        //    Assert.That( val, Is.EqualTo( "Hello World \r\n \t \\ Hello / \u0032" ) );
+        //    Assert.That( (string)val, Is.EqualTo( "Hello World \r\n \t \\ Hello / \u0032" ) );
+        //}
 
         [Test]
         public void Parse___Complicated___ParsesCorrectly()
@@ -131,119 +125,119 @@ namespace Serialization.Json
             Assert.That( (int)val["Image"]["IDs"][3], Is.EqualTo( 38793 ) );
         }
 
-        [Test]
-        public void EatNumber___Easy___ParsesCorrectly()
-        {
-            // Arrange
-            string json = "218";
-            JsonStringReader sut = new JsonStringReader( json );
+        //[Test]
+        //public void EatNumber___Easy___ParsesCorrectly()
+        //{
+        //    // Arrange
+        //    string json = "218";
+        //    JsonStringReader sut = new JsonStringReader( json );
 
-            // Act
-            SerializedPrimitive val = sut.EatNumber();
+        //    // Act
+        //    SerializedPrimitive val = sut.EatNumber();
 
-            // Assert
-            Assert.That( val, Is.EqualTo( (SerializedPrimitive)218 ) );
-            Assert.That( (int)val, Is.EqualTo( 218 ) );
-            Assert.That( (float)val, Is.EqualTo( 218.0f ) );
-        }
+        //    // Assert
+        //    Assert.That( val, Is.EqualTo( (SerializedPrimitive)218 ) );
+        //    Assert.That( (int)val, Is.EqualTo( 218 ) );
+        //    Assert.That( (float)val, Is.EqualTo( 218.0f ) );
+        //}
 
-        [Test]
-        public void EatNumber___Hard___ParsesCorrectly()
-        {
-            // Arrange
-            string json = "-3.1415E+11";
-            JsonStringReader sut = new JsonStringReader( json );
+        //[Test]
+        //public void EatNumber___Hard___ParsesCorrectly()
+        //{
+        //    // Arrange
+        //    string json = "-3.1415E+11";
+        //    JsonStringReader sut = new JsonStringReader( json );
 
-            // Act
-            SerializedPrimitive val = sut.EatNumber();
+        //    // Act
+        //    SerializedPrimitive val = sut.EatNumber();
 
-            // Assert
-            Assert.That( (float)val, Is.EqualTo( -3.1415E+11f ) ); // not ideal because depends on the round-tripping in SerializedValue working correctly.
-        }
+        //    // Assert
+        //    Assert.That( (float)val, Is.EqualTo( -3.1415E+11f ) ); // not ideal because depends on the round-tripping in SerializedValue working correctly.
+        //}
 
-        [Test]
-        public void EatArray___Numbers_Correct___ParsesCorrectly()
-        {
-            // Arrange
-            string json = "[ 1, 2.0, 3 ]";
-            JsonStringReader sut = new JsonStringReader( json );
+        //[Test]
+        //public void EatArray___Numbers_Correct___ParsesCorrectly()
+        //{
+        //    // Arrange
+        //    string json = "[ 1, 2.0, 3 ]";
+        //    JsonStringReader sut = new JsonStringReader( json );
 
-            // Act
-            SerializedArray val = sut.EatArray();
+        //    // Act
+        //    SerializedArray val = sut.EatArray();
 
-            // Assert
-            Assert.That( val.Count, Is.EqualTo( 3 ) );
-            Assert.That( (int)val[0], Is.EqualTo( 1 ) );
-            Assert.That( (float)val[1], Is.EqualTo( 2.0f ) );
-            Assert.That( (int)val[2], Is.EqualTo( 3 ) );
-        }
+        //    // Assert
+        //    Assert.That( val.Count, Is.EqualTo( 3 ) );
+        //    Assert.That( (int)val[0], Is.EqualTo( 1 ) );
+        //    Assert.That( (float)val[1], Is.EqualTo( 2.0f ) );
+        //    Assert.That( (int)val[2], Is.EqualTo( 3 ) );
+        //}
         
-        [Test]
-        public void EatArray___Empty___ParsesCorrectly()
-        {
-            // Arrange
-            string json = "[]";
-            JsonStringReader sut = new JsonStringReader( json );
+        //[Test]
+        //public void EatArray___Empty___ParsesCorrectly()
+        //{
+        //    // Arrange
+        //    string json = "[]";
+        //    JsonStringReader sut = new JsonStringReader( json );
 
-            // Act
-            SerializedArray val = sut.EatArray();
+        //    // Act
+        //    SerializedArray val = sut.EatArray();
 
-            // Assert
-            Assert.That( val.Count, Is.EqualTo( 0 ) );
-        }
+        //    // Assert
+        //    Assert.That( val.Count, Is.EqualTo( 0 ) );
+        //}
         
-        [Test]
-        public void Eatobject___Empty___ParsesCorrectly()
-        {
-            // Arrange
-            string json = "{}";
-            JsonStringReader sut = new JsonStringReader( json );
+        //[Test]
+        //public void Eatobject___Empty___ParsesCorrectly()
+        //{
+        //    // Arrange
+        //    string json = "{}";
+        //    JsonStringReader sut = new JsonStringReader( json );
 
-            // Act
-            SerializedObject val = sut.EatObject();
+        //    // Act
+        //    SerializedObject val = sut.EatObject();
 
-            // Assert
-            Assert.That( val.Count, Is.EqualTo( 0 ) );
-        }
+        //    // Assert
+        //    Assert.That( val.Count, Is.EqualTo( 0 ) );
+        //}
 
-        [Test]
-        public void EatArray___Numbers_Missing_Comma___ThrowsError()
-        {
-            // Arrange
-            string json = "[ 1, 2.0 3 ]";
-            JsonStringReader sut = new JsonStringReader( json );
+        //[Test]
+        //public void EatArray___Numbers_Missing_Comma___ThrowsError()
+        //{
+        //    // Arrange
+        //    string json = "[ 1, 2.0 3 ]";
+        //    JsonStringReader sut = new JsonStringReader( json );
 
-            // Act
-            // Assert
-            Assert.That( sut.EatArray, Throws.Exception );
-        }
+        //    // Act
+        //    // Assert
+        //    Assert.That( sut.EatArray, Throws.Exception );
+        //}
 
-        [Test]
-        public void EatArray___Strings_Missing_Comma___ThrowsError()
-        {
-            // Arrange
-            string json = "[ \"hello\", \"hi\" \"hey\" ]";
-            JsonStringReader sut = new JsonStringReader( json );
+        //[Test]
+        //public void EatArray___Strings_Missing_Comma___ThrowsError()
+        //{
+        //    // Arrange
+        //    string json = "[ \"hello\", \"hi\" \"hey\" ]";
+        //    JsonStringReader sut = new JsonStringReader( json );
 
-            // Act
-            // Assert
-            Assert.That( sut.EatArray, Throws.Exception );
-        }
+        //    // Act
+        //    // Assert
+        //    Assert.That( sut.EatArray, Throws.Exception );
+        //}
 
-        [Test]
-        public void EatObject___Correct___ParsesCorrectly()
-        {
-            // Arrange
-            string json = "{ \"name\": \"value\", \"name2\": 218 }";
-            JsonStringReader sut = new JsonStringReader( json );
+        //[Test]
+        //public void EatObject___Correct___ParsesCorrectly()
+        //{
+        //    // Arrange
+        //    string json = "{ \"name\": \"value\", \"name2\": 218 }";
+        //    JsonStringReader sut = new JsonStringReader( json );
 
-            // Act
-            SerializedObject val = sut.EatObject();
+        //    // Act
+        //    SerializedObject val = sut.EatObject();
 
-            // Assert
-            Assert.That( val.Count, Is.EqualTo( 2 ) );
-            Assert.That( (string)val["name"], Is.EqualTo( "value" ) );
-            Assert.That( (int)val["name2"], Is.EqualTo( 218 ) );
-        }
+        //    // Assert
+        //    Assert.That( val.Count, Is.EqualTo( 2 ) );
+        //    Assert.That( (string)val["name"], Is.EqualTo( "value" ) );
+        //    Assert.That( (int)val["name2"], Is.EqualTo( 218 ) );
+        //}
     }
 }

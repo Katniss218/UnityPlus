@@ -14,14 +14,8 @@ namespace UnityPlus.Serialization
         public override object CreateInitialTarget( SerializedData data, SerializationContext ctx )
         {
             int capacity = 0;
-            if( data is SerializedArray arr )
-            {
-                capacity = arr.Count;
-            }
-            else if( data is SerializedObject obj && obj.TryGetValue( "values", out SerializedData inner ) && inner is SerializedArray innerArr )
-            {
-                capacity = innerArr.Count;
-            }
+            var arr = SerializationHelpers.GetCollectionArrayNode( data );
+            if( arr != null ) capacity = arr.Count;
 
             return new List<T>( capacity );
         }
@@ -62,6 +56,7 @@ namespace UnityPlus.Serialization
         private struct ListMemberInfo : IMemberInfo
         {
             public string Name => null;
+            public int Index => _index;
             public Type MemberType => typeof( T );
             public ITypeDescriptor TypeDescriptor { get; }
             public bool IsValueType => typeof( T ).IsValueType;

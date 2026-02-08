@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -357,115 +358,6 @@ namespace UnityPlus.Serialization
             {
                 if( _implementsUnityCallback ) ((ISerializationCallbackReceiver)target).OnAfterDeserialize();
                 _onDeserialized?.Invoke( target );
-            }
-
-            private class ReflectionFieldInfo : IMemberInfo
-            {
-                public string Name { get; }
-                public Type MemberType { get; }
-                public bool IsValueType { get; }
-
-                private Func<object, object> _getter;
-                private Action<object, object> _setter; // For classes
-                private RefSetter<object, object> _structSetter; // For structs
-
-                private ITypeDescriptor _cachedDesc;
-                public ITypeDescriptor TypeDescriptor
-                {
-                    get
-                    {
-                        if( _cachedDesc == null )
-                            _cachedDesc = TypeDescriptorRegistry.GetDescriptor( MemberType, 0 );
-                        return _cachedDesc;
-                    }
-                }
-
-                public ReflectionFieldInfo( FieldInfo field )
-                {
-                    Name = field.Name;
-                    MemberType = field.FieldType;
-                    IsValueType = MemberType.IsValueType;
-
-                    // Optimize Getter
-                    var targetParam = Expression.Parameter( typeof( object ), "target" );
-                    var castTarget = Expression.Convert( targetParam, typeof( T ) );
-                    var fieldAccess = Expression.Field( castTarget, field );
-                    var castResult = Expression.Convert( fieldAccess, typeof( object ) );
-                    _getter = Expression.Lambda<Func<object, object>>( castResult, targetParam ).Compile();
-
-                    // Optimize Setter
-                    var valueParam = Expression.Parameter( typeof( object ), "value" );
-                    var castValue = Expression.Convert( valueParam, MemberType );
-
-                    if( typeof( T ).IsValueType )
-                    {
-                        // Struct setter needs Ref param
-                        // (ref object target, object value)
-                        var refTargetParam = Expression.Parameter( typeof( object ).MakeByRefType(), "target" );
-
-                        try
-                        {
-                            _structSetter = ( ref object target, object value ) => field.SetValue( target, value );
-                        }
-                        catch
-                        {
-                            _structSetter = ( ref object target, object value ) => field.SetValue( target, value );
-                        }
-                    }
-                    else
-                    {
-                        // Class setter
-                        var assign = Expression.Assign( fieldAccess, castValue );
-                        _setter = Expression.Lambda<Action<object, object>>( assign, targetParam, valueParam ).Compile();
-                    }
-                }
-
-                public object GetValue( object target ) => _getter( target );
-
-                public void SetValue( ref object target, object value )
-                {
-                    if( _setter != null ) _setter( target, value );
-                    else _structSetter( ref target, value );
-                }
-            }
-
-            private class ReflectionMethodInfo : IMethodInfo
-            {
-                private MethodInfo _method;
-                public string Name => _method.Name;
-                public string DisplayName => _method.Name;
-                public bool IsStatic => _method.IsStatic;
-                public bool IsGeneric => _method.IsGenericMethodDefinition;
-                public string[] GenericTypeParameters => IsGeneric ? Array.ConvertAll( _method.GetGenericArguments(), t => t.Name ) : Array.Empty<string>();
-                public IParameterInfo[] Parameters { get; }
-
-                public ReflectionMethodInfo( MethodInfo method )
-                {
-                    _method = method;
-                    var parameters = method.GetParameters();
-                    Parameters = new IParameterInfo[parameters.Length];
-                    for( int i = 0; i < parameters.Length; i++ )
-                    {
-                        Parameters[i] = new ReflectionParameterInfo( parameters[i] );
-                    }
-                }
-
-                public object Invoke( object target, object[] parameters )
-                {
-                    return _method.Invoke( target, parameters );
-                }
-            }
-
-            private class ReflectionParameterInfo : IParameterInfo
-            {
-                private ParameterInfo _info;
-                public string Name => _info.Name;
-                public Type ParameterType => _info.ParameterType;
-                public object DefaultValue => _info.HasDefaultValue ? _info.DefaultValue : (ParameterType.IsValueType ? Activator.CreateInstance( ParameterType ) : null);
-
-                public ITypeDescriptor TypeDescriptor => TypeDescriptorRegistry.GetDescriptor( ParameterType, 0 );
-
-                public ReflectionParameterInfo( ParameterInfo info ) { _info = info; }
             }
         }
     }

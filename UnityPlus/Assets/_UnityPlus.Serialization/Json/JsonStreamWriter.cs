@@ -1,198 +1,161 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace UnityPlus.Serialization.Json
 {
     public class JsonStreamWriter
     {
-        static readonly Encoding enc = Encoding.UTF8;
+        private readonly StreamWriter _writer;
+        private readonly SerializedData _root;
 
-        static readonly byte[] openObject = enc.GetBytes( "{" );
-        static readonly byte[] closeObject = enc.GetBytes( "}" );
-        static readonly byte[] openArray = enc.GetBytes( "[" );
-        static readonly byte[] closeArray = enc.GetBytes( "]" );
-        static readonly byte[] comma = enc.GetBytes( "," );
+        private struct WriteState
+        {
+            public IEnumerator<SerializedData> arrayEnumerator;
+            public IEnumerator<KeyValuePair<string, SerializedData>> objectEnumerator;
+            public bool first;
+            public bool isObject;
 
-        Stream _stream;
-        SerializedData _data;
+            public WriteState( IEnumerator<SerializedData> en )
+            {
+                arrayEnumerator = en;
+                objectEnumerator = null;
+                first = true;
+                isObject = false;
+            }
+
+            public WriteState( IEnumerator<KeyValuePair<string, SerializedData>> en )
+            {
+                arrayEnumerator = null;
+                objectEnumerator = en;
+                first = true;
+                isObject = true;
+            }
+        }
 
         public JsonStreamWriter( SerializedData data, Stream stream )
         {
-            this._data = data;
-            this._stream = stream;
+            _root = data;
+            _writer = new StreamWriter( stream, new UTF8Encoding( false ), 4096 );
         }
 
         public void Write()
         {
-            WriteJson( _data );
-        }
-        
-        void WriteJson( SerializedData data )
-        {
-            if( data is SerializedObject o )
-                WriteJson( o );
-            else if( data is SerializedArray a )
-                WriteJson( a );
-            else if( data is SerializedPrimitive v )
-                WriteJson( v );
-        }
-
-        void WriteJson( SerializedObject obj )
-        {
-            _stream.Write( openObject, 0, 1 );
-
-            bool seen = false;
-            foreach( var child in obj )
+            if( _root == null )
             {
-                if( seen )
-                {
-                    _stream.Write( comma, 0, 1 );
-                }
-                else
-                {
-                    seen = true;
-                }
-
-                var str = $"\"{child.Key}\":";
-
-                _stream.Write( enc.GetBytes( str ), 0, str.Length );
-
-                WriteJson( child.Value );
-            }
-
-            _stream.Write( closeObject, 0, 1 );
-        }
-
-        void WriteJson( SerializedArray obj )
-        {
-            _stream.Write( openArray, 0, 1 );
-
-            bool seen = false;
-            foreach( var child in obj )
-            {
-                if( seen )
-                {
-                    _stream.Write( comma, 0, 1 );
-                }
-                else
-                {
-                    seen = true;
-                }
-                WriteJson( child );
-            }
-
-            _stream.Write( closeArray, 0, 1 );
-        }
-
-        void WriteJson( SerializedPrimitive value )
-        {
-            if( value == null )
-            {
-                _stream.Write( enc.GetBytes( "null" ), 0, "null".Length );
+                _writer.Write( "null" );
+                _writer.Flush();
                 return;
             }
 
-            string s = null;
-            switch( value._type )
+            Stack<WriteState> stack = new Stack<WriteState>();
+
+            if( PushValue( _root, stack ) )
             {
-                case SerializedPrimitive.DataType.Boolean:
-                    s = value._value.boolean ? "true" : "false"; break;
-                case SerializedPrimitive.DataType.Int64:
-                    s = value._value.int64.ToString( CultureInfo.InvariantCulture ); break;
-                case SerializedPrimitive.DataType.UInt64:
-                    s = value._value.uint64.ToString( CultureInfo.InvariantCulture ); break;
-                case SerializedPrimitive.DataType.Float64:
-                    s = value._value.float64.ToString( CultureInfo.InvariantCulture ); break;
-                case SerializedPrimitive.DataType.Decimal:
-                    s = value._value.@decimal.ToString( CultureInfo.InvariantCulture ); break;
-                case SerializedPrimitive.DataType.String:
-                    WriteString(value._value.str); return;
+                while( stack.Count > 0 )
+                {
+                    var state = stack.Pop();
+
+                    bool hasMore;
+                    if( state.isObject )
+                        hasMore = state.objectEnumerator.MoveNext();
+                    else
+                        hasMore = state.arrayEnumerator.MoveNext();
+
+                    if( !hasMore )
+                    {
+                        if( state.isObject ) _writer.Write( '}' );
+                        else _writer.Write( ']' );
+                        continue;
+                    }
+
+                    if( !state.first )
+                    {
+                        _writer.Write( ',' );
+                    }
+                    state.first = false;
+                    stack.Push( state );
+
+                    SerializedData currentData;
+                    if( state.isObject )
+                    {
+                        var kvp = state.objectEnumerator.Current;
+                        JsonCommon.WriteEscapedString( kvp.Key, _writer );
+                        _writer.Write( ':' );
+                        currentData = kvp.Value;
+                    }
+                    else
+                    {
+                        currentData = state.arrayEnumerator.Current;
+                    }
+
+                    PushValue( currentData, stack );
+                }
             }
 
-            _stream.Write( enc.GetBytes( s ), 0, s.Length );
+            _writer.Flush();
         }
 
-        static readonly byte[] quote = enc.GetBytes( "\"" );
-        static readonly byte[] escapedBackslash = enc.GetBytes( "\\\\" );
-        static readonly byte[] escapedQuote = enc.GetBytes( "\\\"" );
-        static readonly byte[] escapedNewLine = enc.GetBytes( "\\n" );
-        static readonly byte[] escapedR = enc.GetBytes( "\\r" );
-        static readonly byte[] escapedTab = enc.GetBytes( "\\t" );
-        static readonly byte[] escapedB = enc.GetBytes( "\\b" );
-        static readonly byte[] escapedF = enc.GetBytes( "\\f" );
-
-        void WriteString( string sIn )
+        private bool PushValue( SerializedData data, Stack<WriteState> stack )
         {
-            _stream.Write( quote, 0, quote.Length );
-
-            int i = 0;
-            int start = 0;
-            foreach( var c in sIn )
+            if( data == null )
             {
-                if( c is '\\' )
-                {
-                    byte[] b = enc.GetBytes( sIn[start..i] );
-                    _stream.Write( b, 0, b.Length );
-                    _stream.Write( escapedBackslash, 0, escapedBackslash.Length );
-                }
-                else if( c is '\"' )
-                {
-                    byte[] b = enc.GetBytes( sIn[start..i] );
-                    _stream.Write( b, 0, b.Length );
-                    _stream.Write( escapedQuote, 0, escapedQuote.Length );
-                }
-                else if( c is '\n' )
-                {
-                    byte[] b = enc.GetBytes( sIn[start..i] );
-                    _stream.Write( b, 0, b.Length );
-                    _stream.Write( escapedNewLine, 0, escapedNewLine.Length );
-                }
-                else if( c is '\r' )
-                {
-                    byte[] b = enc.GetBytes( sIn[start..i] );
-                    _stream.Write( b, 0, b.Length );
-                    _stream.Write( escapedR, 0, escapedR.Length );
-                }
-                else if( c is '\t' )
-                {
-                    byte[] b = enc.GetBytes( sIn[start..i] );
-                    _stream.Write( b, 0, b.Length );
-                    _stream.Write( escapedTab, 0, escapedTab.Length );
-                }
-                else if( c is '\b' )
-                {
-                    byte[] b = enc.GetBytes( sIn[start..i] );
-                    _stream.Write( b, 0, b.Length );
-                    _stream.Write( escapedB, 0, escapedB.Length );
-                }
-                else if( c is '\f' )
-                {
-                    byte[] b = enc.GetBytes( sIn[start..i] );
-                    _stream.Write( b, 0, b.Length );
-                    _stream.Write( escapedF, 0, escapedF.Length );
-                }
-                else
-                {
-                    i++;
-                    continue;
-                }
-
-                i++;
-                start = i;
+                _writer.Write( "null" );
+                return false;
             }
 
-            if( i - start > 0 ) // write last (or the only if no escaping) part 
+            if( data is SerializedPrimitive prim )
             {
-                byte[] b = enc.GetBytes( sIn[start..i] );
-                _stream.Write( b, 0, b.Length );
+                WritePrimitive( prim );
+                return false;
             }
 
-            _stream.Write( quote, 0, quote.Length );
+            if( data is SerializedObject obj )
+            {
+                _writer.Write( '{' );
+                stack.Push( new WriteState( obj.GetEnumerator() ) );
+                return true;
+            }
+
+            if( data is SerializedArray arr )
+            {
+                _writer.Write( '[' );
+                stack.Push( new WriteState( arr.GetEnumerator() ) );
+                return true;
+            }
+
+            return false;
+        }
+
+        private void WritePrimitive( SerializedPrimitive p )
+        {
+            switch( p._type )
+            {
+                case SerializedPrimitive.DataType.Boolean:
+                    _writer.Write( p._value.boolean ? "true" : "false" );
+                    break;
+                case SerializedPrimitive.DataType.Int64:
+                    _writer.Write( p._value.int64.ToString( CultureInfo.InvariantCulture ) );
+                    break;
+                case SerializedPrimitive.DataType.UInt64:
+                    _writer.Write( p._value.uint64.ToString( CultureInfo.InvariantCulture ) );
+                    break;
+                case SerializedPrimitive.DataType.Float64:
+                    _writer.Write( p._value.float64.ToString( CultureInfo.InvariantCulture ) );
+                    break;
+                case SerializedPrimitive.DataType.Decimal:
+                    _writer.Write( p._value.@decimal.ToString( CultureInfo.InvariantCulture ) );
+                    break;
+                case SerializedPrimitive.DataType.String:
+                    JsonCommon.WriteEscapedString( p._value.str, _writer );
+                    break;
+                default:
+                    _writer.Write( "null" );
+                    break;
+            }
         }
     }
 }

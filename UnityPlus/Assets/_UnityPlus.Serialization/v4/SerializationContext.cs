@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 
 namespace UnityPlus.Serialization
@@ -30,6 +31,11 @@ namespace UnityPlus.Serialization
         public IForwardReferenceMap ForwardMap { get; set; }
         public IReverseReferenceMap ReverseMap { get; set; }
         public ITypeResolver TypeResolver { get; set; } = new DefaultTypeResolver();
+
+        /// <summary>
+        /// Collects errors, warnings, and info logs generated during the operation.
+        /// </summary>
+        public SerializationReport Report { get; } = new SerializationReport();
 
         /// <summary>
         /// If true, Collections (Arrays/Lists) are serialized as standard JSON arrays `[...]`.

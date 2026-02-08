@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
-  m_Title: Console
+  m_Title: Test Runner
   m_RootView: {fileID: 6}
   m_MinSize: {x: 875, y: 371}
   m_MaxSize: {x: 10000, y: 10000}
@@ -75,7 +75,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 85
+  controlID: 84
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 46
+  controlID: 21
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -222,7 +222,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 130
+  controlID: 120
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -247,7 +247,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 0
-  controlID: 84
+  controlID: 83
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -312,7 +312,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: InspectorWindow
+  m_Name: TestRunnerWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -321,14 +321,14 @@ MonoBehaviour:
     y: 0
     width: 456
     height: 947
-  m_MinSize: {x: 276, y: 71}
+  m_MinSize: {x: 101, y: 121}
   m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 21}
+  m_ActualView: {fileID: 22}
   m_Panes:
   - {fileID: 21}
   - {fileID: 22}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -385,7 +385,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 08570000
     m_LastClickedID: 22280
-    m_ExpandedIDs: 00000000085100000a5100000c5100000e51000010510000125100001451000016510000185100001a5100001c5100001e51000020510000225100002451000026510000285100002a510000
+    m_ExpandedIDs: 00000000525100005451000056510000585100005a5100005c5100005e51000060510000625100006451000066510000685100006a5100006c5100006e51000070510000725100007451000076510000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -413,7 +413,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000085100000a5100000c5100000e51000010510000125100001451000016510000185100001a5100001c5100001e51000020510000225100002451000026510000285100002a510000
+    m_ExpandedIDs: 00000000525100005451000056510000585100005a5100005c5100005e51000060510000625100006451000066510000685100006a5100006c5100006e51000070510000725100007451000076510000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -509,8 +509,7 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SkipHidden: 0
     m_SearchArea: 1
-    m_Folders:
-    - Assets/_UnityPlus.Serialization.Input
+    m_Folders: []
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 0
@@ -525,7 +524,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 24}
     m_SelectedIDs: 0e570000
     m_LastClickedID: 22286
-    m_ExpandedIDs: 00000000085100000a5100000c5100000e51000010510000125100001451000016510000185100001a5100001c5100001e51000020510000225100002451000026510000285100002a510000
+    m_ExpandedIDs: 00000000525100005451000056510000585100005a5100005c5100005e51000060510000625100006451000066510000685100006a5100006c5100006e51000070510000725100007451000076510000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -553,7 +552,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 480}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: ffffffff00000000085100000a5100000c5100000e51000010510000125100001451000016510000185100001a5100001c5100001e51000020510000225100002451000026510000285100002a510000
+    m_ExpandedIDs: ffffffff00000000525100005451000056510000585100005a5100005c5100005e51000060510000625100006451000066510000685100006a5100006c5100006e51000070510000725100007451000076510000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -642,7 +641,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 28fbffff
+      m_ExpandedIDs: 98e4fffff4e4ffff50e5fffface5ffffc6e6ffff3ee7ffff64e8ffff18e9ffff74e9ffffd0e9ffff2ceaffffb8eaffff14ebffff70ebffffccebffff28ecffff84ecffffe0ecffff3cedffff98edffff72efffffceefffff2af0ffff86f0ffffe2f0ffff3ef1ffff12f3ffff6ef3ffffcaf3ffff26f4ffff82f4ffffdef4ffff3af5ffff92f6ffffeef6ffff4af7ffffa6f7ffff02f8ffff5ef8ffffbaf8ffff16f9ffff74f9ffff34fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -2088,7 +2087,7 @@ MonoBehaviour:
     m_LastAppliedPresetName: Default
     m_SaveData: []
   m_Spl:
-    ID: 148
+    ID: 170
     splitterInitialOffset: 710
     currentActiveSplitter: -1
     realSizes:
@@ -2171,9 +2170,9 @@ MonoBehaviour:
       uniqueId: '[UnityPlus][suite]'
       name: UnityPlus
       fullName: UnityPlus
-      resultStatus: 1
-      duration: 0.2756985
-      messages: 
+      resultStatus: 2
+      duration: 0.0324608
+      messages: One or more child tests had errors
       output: 
       stacktrace: 
       notRunnable: 0
@@ -2187,9 +2186,9 @@ MonoBehaviour:
       uniqueId: '[EditMode.dll][suite]'
       name: EditMode.dll
       fullName: E:/GIT/UnityPlus/UnityPlus/Library/ScriptAssemblies/EditMode.dll
-      resultStatus: 1
-      duration: 0.2582853
-      messages: 
+      resultStatus: 2
+      duration: 0.01745
+      messages: One or more child tests had errors
       output: 
       stacktrace: 
       notRunnable: 0
@@ -2199,6 +2198,174 @@ MonoBehaviour:
       categories: []
       parentId: 1000
       parentUniqueId: '[UnityPlus][suite]'
+    - id: 1251
+      uniqueId: EditMode.dll/[EditMode][AssetManagementTests][suite]
+      name: AssetManagementTests
+      fullName: AssetManagementTests
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1243
+      parentUniqueId: '[EditMode.dll][suite]'
+    - id: 1234
+      uniqueId: EditMode.dll/AssetManagementTests/[EditMode][AssetManagementTests.AssetRegistryTests][suite]
+      name: AssetRegistryTests
+      fullName: AssetManagementTests.AssetRegistryTests
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1251
+      parentUniqueId: EditMode.dll/[EditMode][AssetManagementTests][suite]
+    - id: 1242
+      uniqueId: EditMode.dll/AssetManagementTests/AssetRegistryTests/[EditMode][AssetManagementTests.AssetRegistryTests.Pipeline_CircularDependency_IsHandled]
+      name: Pipeline_CircularDependency_IsHandled
+      fullName: AssetManagementTests.AssetRegistryTests.Pipeline_CircularDependency_IsHandled
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1234
+      parentUniqueId: EditMode.dll/AssetManagementTests/[EditMode][AssetManagementTests.AssetRegistryTests][suite]
+    - id: 1240
+      uniqueId: EditMode.dll/AssetManagementTests/AssetRegistryTests/[EditMode][AssetManagementTests.AssetRegistryTests.Pipeline_Deduplication_Works]
+      name: Pipeline_Deduplication_Works
+      fullName: AssetManagementTests.AssetRegistryTests.Pipeline_Deduplication_Works
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1234
+      parentUniqueId: EditMode.dll/AssetManagementTests/[EditMode][AssetManagementTests.AssetRegistryTests][suite]
+    - id: 1239
+      uniqueId: EditMode.dll/AssetManagementTests/AssetRegistryTests/[EditMode][AssetManagementTests.AssetRegistryTests.Pipeline_ResolveAndLoad_Works]
+      name: Pipeline_ResolveAndLoad_Works
+      fullName: AssetManagementTests.AssetRegistryTests.Pipeline_ResolveAndLoad_Works
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1234
+      parentUniqueId: EditMode.dll/AssetManagementTests/[EditMode][AssetManagementTests.AssetRegistryTests][suite]
+    - id: 1241
+      uniqueId: EditMode.dll/AssetManagementTests/AssetRegistryTests/[EditMode][AssetManagementTests.AssetRegistryTests.Pipeline_TypeMismatch_ReturnsNull]
+      name: Pipeline_TypeMismatch_ReturnsNull
+      fullName: AssetManagementTests.AssetRegistryTests.Pipeline_TypeMismatch_ReturnsNull
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1234
+      parentUniqueId: EditMode.dll/AssetManagementTests/[EditMode][AssetManagementTests.AssetRegistryTests][suite]
+    - id: 1238
+      uniqueId: EditMode.dll/AssetManagementTests/AssetRegistryTests/[EditMode][AssetManagementTests.AssetRegistryTests.PruneDestroyedAssets_RemovesNullUnityObjects]
+      name: PruneDestroyedAssets_RemovesNullUnityObjects
+      fullName: AssetManagementTests.AssetRegistryTests.PruneDestroyedAssets_RemovesNullUnityObjects
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1234
+      parentUniqueId: EditMode.dll/AssetManagementTests/[EditMode][AssetManagementTests.AssetRegistryTests][suite]
+    - id: 1235
+      uniqueId: EditMode.dll/AssetManagementTests/AssetRegistryTests/[EditMode][AssetManagementTests.AssetRegistryTests.Register_And_Get_Sync_Works]
+      name: Register_And_Get_Sync_Works
+      fullName: AssetManagementTests.AssetRegistryTests.Register_And_Get_Sync_Works
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1234
+      parentUniqueId: EditMode.dll/AssetManagementTests/[EditMode][AssetManagementTests.AssetRegistryTests][suite]
+    - id: 1237
+      uniqueId: EditMode.dll/AssetManagementTests/AssetRegistryTests/[EditMode][AssetManagementTests.AssetRegistryTests.Unregister_ByReference_RemovesAsset]
+      name: Unregister_ByReference_RemovesAsset
+      fullName: AssetManagementTests.AssetRegistryTests.Unregister_ByReference_RemovesAsset
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1234
+      parentUniqueId: EditMode.dll/AssetManagementTests/[EditMode][AssetManagementTests.AssetRegistryTests][suite]
+    - id: 1236
+      uniqueId: EditMode.dll/AssetManagementTests/AssetRegistryTests/[EditMode][AssetManagementTests.AssetRegistryTests.Unregister_RemovesAsset]
+      name: Unregister_RemovesAsset
+      fullName: AssetManagementTests.AssetRegistryTests.Unregister_RemovesAsset
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1234
+      parentUniqueId: EditMode.dll/AssetManagementTests/[EditMode][AssetManagementTests.AssetRegistryTests][suite]
     - id: 1206
       uniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
       name: Neoserialization
@@ -2390,6 +2557,23 @@ MonoBehaviour:
       categories:
       - Uncategorized
       parentId: 1036
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
+    - id: 1060
+      uniqueId: EditMode.dll/Neoserialization/MappingRegistryTests/[EditMode][Neoserialization.MappingRegistryTests.GetMappingFor___SelfMappedGeneric___ReturnsCorrectMapping]
+      name: GetMappingFor___SelfMappedGeneric___ReturnsCorrectMapping
+      fullName: Neoserialization.MappingRegistryTests.GetMappingFor___SelfMappedGeneric___ReturnsCorrectMapping
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1052
       parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingRegistryTests][suite]
     - id: 1037
       uniqueId: EditMode.dll/Neoserialization/MappingRegistryTests/[EditMode][Neoserialization.MappingRegistryTests.GetMappingFor___Simple___ReturnsCorrectMapping]
@@ -3167,6 +3351,23 @@ MonoBehaviour:
       categories: []
       parentId: 1206
       parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
+    - id: 1107
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Objects/[EditMode][Neoserialization.MappingTests_Objects.Mapping___NullInterfaceMember___RoundTrip]
+      name: Mapping___NullInterfaceMember___RoundTrip
+      fullName: Neoserialization.MappingTests_Objects.Mapping___NullInterfaceMember___RoundTrip
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1105
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Objects][suite]
     - id: 1082
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Objects/[EditMode][Neoserialization.MappingTests_Objects.Mapping___NullMember___RoundTrip]
       name: Mapping___NullMember___RoundTrip
@@ -3538,6 +3739,23 @@ MonoBehaviour:
       categories: []
       parentId: 1211
       parentUniqueId: EditMode.dll/[EditMode][Neoserialization][suite]
+    - id: 1133
+      uniqueId: EditMode.dll/Neoserialization/MappingTests_Read_BadFormat/[EditMode][Neoserialization.MappingTests_Read_BadFormat.Mapping___FailedMember___DoesNotCallSetter]
+      name: Mapping___FailedMember___DoesNotCallSetter
+      fullName: Neoserialization.MappingTests_Read_BadFormat.Mapping___FailedMember___DoesNotCallSetter
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1128
+      parentUniqueId: EditMode.dll/Neoserialization/[EditMode][Neoserialization.MappingTests_Read_BadFormat][suite]
     - id: 1114
       uniqueId: EditMode.dll/Neoserialization/MappingTests_Read_BadFormat/[EditMode][Neoserialization.MappingTests_Read_BadFormat.Reading___ArrayInsteadOfObject___]
       name: Reading___ArrayInsteadOfObject___
@@ -4575,6 +4793,23 @@ MonoBehaviour:
       categories: []
       parentId: 1205
       parentUniqueId: EditMode.dll/[EditMode][OverridableEvents][suite]
+    - id: 1040
+      uniqueId: EditMode.dll/OverridableEvents/SortOrder/[EditMode][OverridableEvents.SortOrder.TopologicalSort___AllUnrelated_OriginalOrderPreserved]
+      name: TopologicalSort___AllUnrelated_OriginalOrderPreserved
+      fullName: OverridableEvents.SortOrder.TopologicalSort___AllUnrelated_OriginalOrderPreserved
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1035
+      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.SortOrder][suite]
     - id: 1029
       uniqueId: EditMode.dll/OverridableEvents/SortOrder/[EditMode][OverridableEvents.SortOrder.TopologicalSort___BeforeAndAfter_NoCircles]
       name: TopologicalSort___BeforeAndAfter_NoCircles
@@ -4592,6 +4827,40 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1026
       parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.SortOrder][suite]
+    - id: 1038
+      uniqueId: EditMode.dll/OverridableEvents/SortOrder/[EditMode][OverridableEvents.SortOrder.TopologicalSort___DiamondDependency_NoCircles]
+      name: TopologicalSort___DiamondDependency_NoCircles
+      fullName: OverridableEvents.SortOrder.TopologicalSort___DiamondDependency_NoCircles
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1035
+      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.SortOrder][suite]
+    - id: 1041
+      uniqueId: EditMode.dll/OverridableEvents/SortOrder/[EditMode][OverridableEvents.SortOrder.TopologicalSort___LargeConnectedCycle_Detected]
+      name: TopologicalSort___LargeConnectedCycle_Detected
+      fullName: OverridableEvents.SortOrder.TopologicalSort___LargeConnectedCycle_Detected
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1035
+      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.SortOrder][suite]
     - id: 1032
       uniqueId: EditMode.dll/OverridableEvents/SortOrder/[EditMode][OverridableEvents.SortOrder.TopologicalSort___MultipleDependency_NoCircles]
       name: TopologicalSort___MultipleDependency_NoCircles
@@ -4608,6 +4877,23 @@ MonoBehaviour:
       categories:
       - Uncategorized
       parentId: 1026
+      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.SortOrder][suite]
+    - id: 1039
+      uniqueId: EditMode.dll/OverridableEvents/SortOrder/[EditMode][OverridableEvents.SortOrder.TopologicalSort___MultipleIndependentChains_PreservedWithinChains]
+      name: TopologicalSort___MultipleIndependentChains_PreservedWithinChains
+      fullName: OverridableEvents.SortOrder.TopologicalSort___MultipleIndependentChains_PreservedWithinChains
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1035
       parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.SortOrder][suite]
     - id: 1033
       uniqueId: EditMode.dll/OverridableEvents/SortOrder/[EditMode][OverridableEvents.SortOrder.TopologicalSort___OnlyAfter_AlreadySorted]
@@ -4659,6 +4945,40 @@ MonoBehaviour:
       categories:
       - Uncategorized
       parentId: 1026
+      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.SortOrder][suite]
+    - id: 1036
+      uniqueId: EditMode.dll/OverridableEvents/SortOrder/[EditMode][OverridableEvents.SortOrder.TopologicalSort___SelfDependency_IsCircular]
+      name: TopologicalSort___SelfDependency_IsCircular
+      fullName: OverridableEvents.SortOrder.TopologicalSort___SelfDependency_IsCircular
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1035
+      parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.SortOrder][suite]
+    - id: 1037
+      uniqueId: EditMode.dll/OverridableEvents/SortOrder/[EditMode][OverridableEvents.SortOrder.TopologicalSort___UnknownDependency_Ignored_NoCircles]
+      name: TopologicalSort___UnknownDependency_Ignored_NoCircles
+      fullName: OverridableEvents.SortOrder.TopologicalSort___UnknownDependency_Ignored_NoCircles
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1035
       parentUniqueId: EditMode.dll/OverridableEvents/[EditMode][OverridableEvents.SortOrder][suite]
     - id: 1031
       uniqueId: EditMode.dll/OverridableEvents/SortOrder/[EditMode][OverridableEvents.SortOrder.TopologicalSort___WithConnectedCircle]
@@ -5672,6 +5992,192 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1152
       parentUniqueId: EditMode.dll/Serialization/[EditMode][Serialization.SerializedPrimitiveTests][suite]
+    - id: 1246
+      uniqueId: EditMode.dll/[EditMode][SerializationV4Tests][suite]
+      name: SerializationV4Tests
+      fullName: SerializationV4Tests
+      resultStatus: 2
+      duration: 0.0165414
+      messages: One or more child tests had errors
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1243
+      parentUniqueId: '[EditMode.dll][suite]'
+    - id: 1020
+      uniqueId: EditMode.dll/SerializationV4Tests/[EditMode][SerializationV4Tests.SerializationV4Tests][suite]
+      name: SerializationV4Tests
+      fullName: SerializationV4Tests.SerializationV4Tests
+      resultStatus: 2
+      duration: 0.0120853
+      messages: One or more child tests had errors
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1246
+      parentUniqueId: EditMode.dll/[EditMode][SerializationV4Tests][suite]
+    - id: 1028
+      uniqueId: EditMode.dll/SerializationV4Tests/SerializationV4Tests/[EditMode][SerializationV4Tests.SerializationV4Tests.Lifecycle_Callbacks_Invoked]
+      name: Lifecycle_Callbacks_Invoked
+      fullName: SerializationV4Tests.SerializationV4Tests.Lifecycle_Callbacks_Invoked
+      resultStatus: 1
+      duration: 0.0017775
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1020
+      parentUniqueId: EditMode.dll/SerializationV4Tests/[EditMode][SerializationV4Tests.SerializationV4Tests][suite]
+    - id: 1025
+      uniqueId: EditMode.dll/SerializationV4Tests/SerializationV4Tests/[EditMode][SerializationV4Tests.SerializationV4Tests.Serialize_Deserialize_Array]
+      name: Serialize_Deserialize_Array
+      fullName: SerializationV4Tests.SerializationV4Tests.Serialize_Deserialize_Array
+      resultStatus: 1
+      duration: 0.0001335
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1020
+      parentUniqueId: EditMode.dll/SerializationV4Tests/[EditMode][SerializationV4Tests.SerializationV4Tests][suite]
+    - id: 1024
+      uniqueId: EditMode.dll/SerializationV4Tests/SerializationV4Tests/[EditMode][SerializationV4Tests.SerializationV4Tests.Serialize_Deserialize_Circular_Dependency]
+      name: Serialize_Deserialize_Circular_Dependency
+      fullName: SerializationV4Tests.SerializationV4Tests.Serialize_Deserialize_Circular_Dependency
+      resultStatus: 1
+      duration: 0.0001243
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1020
+      parentUniqueId: EditMode.dll/SerializationV4Tests/[EditMode][SerializationV4Tests.SerializationV4Tests][suite]
+    - id: 1023
+      uniqueId: EditMode.dll/SerializationV4Tests/SerializationV4Tests/[EditMode][SerializationV4Tests.SerializationV4Tests.Serialize_Deserialize_Class_Reflection]
+      name: Serialize_Deserialize_Class_Reflection
+      fullName: SerializationV4Tests.SerializationV4Tests.Serialize_Deserialize_Class_Reflection
+      resultStatus: 1
+      duration: 0.0010418
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1020
+      parentUniqueId: EditMode.dll/SerializationV4Tests/[EditMode][SerializationV4Tests.SerializationV4Tests][suite]
+    - id: 1027
+      uniqueId: EditMode.dll/SerializationV4Tests/SerializationV4Tests/[EditMode][SerializationV4Tests.SerializationV4Tests.Serialize_Deserialize_Dictionary]
+      name: Serialize_Deserialize_Dictionary
+      fullName: SerializationV4Tests.SerializationV4Tests.Serialize_Deserialize_Dictionary
+      resultStatus: 2
+      duration: 0.0002864
+      messages: 'System.ArgumentNullException : Value cannot be null.
+
+        Parameter
+        name: key'
+      output: 
+      stacktrace: "  at System.Collections.Generic.Dictionary`2[TKey,TValue].FindEntry
+        (TKey key) [0x00008] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 \r\n  at System.Collections.Generic.Dictionary`2[TKey,TValue].ContainsKey
+        (TKey key) [0x00000] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 \r\n  at UnityPlus.Serialization.DictionaryDescriptor`3+DictionaryEntryMemberInfo[TDict,TKey,TValue].SetValue
+        (System.Object& target, System.Object value) [0x00010] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\v4\\Descriptors\\DictionaryDescriptor.cs:102
+        \r\n  at UnityPlus.Serialization.StackMachineDriver.HandlePop (UnityPlus.Serialization.SerializationCursor
+        finishedCursor, System.Boolean isSerializing) [0x00021] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\v4\\StackMachineDriver.cs:867
+        \r\n  at UnityPlus.Serialization.StackMachineDriver.Tick (System.Single timeBudgetMs,
+        UnityPlus.Serialization.SerializationOperation op) [0x000b6] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\v4\\StackMachineDriver.cs:290
+        \r\n  at SerializationV4Tests.SerializationV4Tests.RunDriver (UnityPlus.Serialization.SerializationOperation
+        op) [0x0000c] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\Serialization_v4\\SerializationV4Tests.cs:32
+        \r\n  at SerializationV4Tests.SerializationV4Tests.Serialize_Deserialize_Dictionary
+        () [0x0006b] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\Serialization_v4\\SerializationV4Tests.cs:176
+        \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
+        at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
+        invokeAttr, System.Reflection.Binder binder, System.Object[] parameters,
+        System.Globalization.CultureInfo culture) [0x0006a] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 "
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1020
+      parentUniqueId: EditMode.dll/SerializationV4Tests/[EditMode][SerializationV4Tests.SerializationV4Tests][suite]
+    - id: 1026
+      uniqueId: EditMode.dll/SerializationV4Tests/SerializationV4Tests/[EditMode][SerializationV4Tests.SerializationV4Tests.Serialize_Deserialize_List]
+      name: Serialize_Deserialize_List
+      fullName: SerializationV4Tests.SerializationV4Tests.Serialize_Deserialize_List
+      resultStatus: 1
+      duration: 0.0016622
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1020
+      parentUniqueId: EditMode.dll/SerializationV4Tests/[EditMode][SerializationV4Tests.SerializationV4Tests][suite]
+    - id: 1022
+      uniqueId: EditMode.dll/SerializationV4Tests/SerializationV4Tests/[EditMode][SerializationV4Tests.SerializationV4Tests.Serialize_Deserialize_Vector3]
+      name: Serialize_Deserialize_Vector3
+      fullName: SerializationV4Tests.SerializationV4Tests.Serialize_Deserialize_Vector3
+      resultStatus: 1
+      duration: 0.0008555
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1020
+      parentUniqueId: EditMode.dll/SerializationV4Tests/[EditMode][SerializationV4Tests.SerializationV4Tests][suite]
+    - id: 1021
+      uniqueId: EditMode.dll/SerializationV4Tests/SerializationV4Tests/[EditMode][SerializationV4Tests.SerializationV4Tests.Serialize_Int_Primitive]
+      name: Serialize_Int_Primitive
+      fullName: SerializationV4Tests.SerializationV4Tests.Serialize_Int_Primitive
+      resultStatus: 1
+      duration: 0.0001581
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1020
+      parentUniqueId: EditMode.dll/SerializationV4Tests/[EditMode][SerializationV4Tests.SerializationV4Tests][suite]
     - id: 1204
       uniqueId: EditMode.dll/[EditMode][UnityEngine][suite]
       name: UnityEngine
@@ -6025,13 +6531,44 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: EditMode.dll/UnityEngineTests/[EditMode][UnityEngineTests.QuaternionDblTests][suite]
-    m_ResultText: Reading___MissingMember___LeftAsDefault (0,242s)
-    m_ResultStacktrace: 
+    m_ResultText: "Serialize_Deserialize_Dictionary (0,000s)\n---\nSystem.ArgumentNullException
+      : Value cannot be null.\r\nParameter name: key\n---\nat System.Collections.Generic.Dictionary`2[TKey,TValue].FindEntry
+      (TKey key) [0x00008] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 \r\n  at System.Collections.Generic.Dictionary`2[TKey,TValue].ContainsKey
+      (TKey key) [0x00000] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 \r\n  at UnityPlus.Serialization.DictionaryDescriptor`3+DictionaryEntryMemberInfo[TDict,TKey,TValue].SetValue
+      (System.Object& target, System.Object value) [0x00010] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\v4\\Descriptors\\DictionaryDescriptor.cs:102
+      \r\n  at UnityPlus.Serialization.StackMachineDriver.HandlePop (UnityPlus.Serialization.SerializationCursor
+      finishedCursor, System.Boolean isSerializing) [0x00021] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\v4\\StackMachineDriver.cs:867
+      \r\n  at UnityPlus.Serialization.StackMachineDriver.Tick (System.Single timeBudgetMs,
+      UnityPlus.Serialization.SerializationOperation op) [0x000b6] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\v4\\StackMachineDriver.cs:290
+      \r\n  at SerializationV4Tests.SerializationV4Tests.RunDriver (UnityPlus.Serialization.SerializationOperation
+      op) [0x0000c] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\Serialization_v4\\SerializationV4Tests.cs:32
+      \r\n  at SerializationV4Tests.SerializationV4Tests.Serialize_Deserialize_Dictionary
+      () [0x0006b] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\Serialization_v4\\SerializationV4Tests.cs:176
+      \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
+      at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
+      invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo
+      culture) [0x0006a] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0"
+    m_ResultStacktrace: "  at System.Collections.Generic.Dictionary`2[TKey,TValue].FindEntry
+      (TKey key) [0x00008] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 \r\n  at System.Collections.Generic.Dictionary`2[TKey,TValue].ContainsKey
+      (TKey key) [0x00000] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 \r\n  at UnityPlus.Serialization.DictionaryDescriptor`3+DictionaryEntryMemberInfo[TDict,TKey,TValue].SetValue
+      (System.Object& target, System.Object value) [0x00010] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\v4\\Descriptors\\DictionaryDescriptor.cs:102
+      \r\n  at UnityPlus.Serialization.StackMachineDriver.HandlePop (UnityPlus.Serialization.SerializationCursor
+      finishedCursor, System.Boolean isSerializing) [0x00021] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\v4\\StackMachineDriver.cs:867
+      \r\n  at UnityPlus.Serialization.StackMachineDriver.Tick (System.Single timeBudgetMs,
+      UnityPlus.Serialization.SerializationOperation op) [0x000b6] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\v4\\StackMachineDriver.cs:290
+      \r\n  at SerializationV4Tests.SerializationV4Tests.RunDriver (UnityPlus.Serialization.SerializationOperation
+      op) [0x0000c] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\Serialization_v4\\SerializationV4Tests.cs:32
+      \r\n  at SerializationV4Tests.SerializationV4Tests.Serialize_Deserialize_Dictionary
+      () [0x0006b] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\Serialization_v4\\SerializationV4Tests.cs:176
+      \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
+      at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
+      invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo
+      culture) [0x0006a] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 "
     m_TestListState:
-      scrollPos: {x: 0, y: 1140}
-      m_SelectedIDs: 2590ab52
-      m_LastClickedID: 1386975269
-      m_ExpandedIDs: ee885b8097138987fb3f93892026c08ecebbdc90436c61936ae00595ad608d96cc856f9aedc39d9bda46919c4a4bc2a03daec8abeba168ad6f3e92b2dcfc56b45b969fb5a7da5dbd651ad6bdf70309c40ec433c4baa0dacb0a5fded7d6d190dba2b77edce9a53ae2fa56d200f6a283050e41801750b8d623dcd9b527b2b38c2b0407f42bf580f53a020566448b9bc44689de525c4edece62463b4e6458bcc369fb2cbd6ae625256db58db36f3b2591793fea547b4b5ea47c5538167d41ea8f7e6e2ff87fffffff7f
+      scrollPos: {x: 0, y: 2201}
+      m_SelectedIDs: 2eef50a2
+      m_LastClickedID: -1571754194
+      m_ExpandedIDs: ee885b8097138987fb3f93892026c08ecebbdc90436c61936ae00595ad608d96cc856f9aedc39d9bda46919c4a4bc2a03daec8abeba168ad6f3e92b2dcfc56b45b969fb5a7da5dbd651ad6bdf70309c40ec433c4baa0dacb8a110dccb1cc6acf0a5fded7d6d190dba2b77edce9a53ae2fa56d200f6a283050e41801750b8d623dcd9b527b2b38c2b0407f42bf580f53a020566448b9bc44689de525c4edece62463b4e6458bcc369fb2cbd6ae625256db58db36f3b2591793fea547b4b5ea47c5538167d41ea8f7e6e2ff87fffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 

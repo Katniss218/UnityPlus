@@ -1,180 +1,157 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace UnityPlus.Serialization.Json
 {
     public class JsonStringWriter
     {
-        StringBuilder _sb;
-        SerializedData _data;
+        private readonly StringBuilder _sb;
+        private readonly SerializedData _root;
+
+        private struct WriteState
+        {
+            public IEnumerator<SerializedData> arrayEnumerator;
+            public IEnumerator<KeyValuePair<string, SerializedData>> objectEnumerator;
+            public bool first;
+            public bool isObject;
+
+            public WriteState( IEnumerator<SerializedData> en )
+            {
+                arrayEnumerator = en;
+                objectEnumerator = null;
+                first = true;
+                isObject = false;
+            }
+
+            public WriteState( IEnumerator<KeyValuePair<string, SerializedData>> en )
+            {
+                arrayEnumerator = null;
+                objectEnumerator = en;
+                first = true;
+                isObject = true;
+            }
+        }
 
         public JsonStringWriter( SerializedData data, StringBuilder sb )
         {
-            this._data = data;
-            this._sb = sb;
+            _root = data;
+            _sb = sb;
         }
 
         public void Write()
         {
-            WriteJson( _data );
+            if( _root == null )
+            {
+                _sb.Append( "null" );
+                return;
+            }
+
+            Stack<WriteState> stack = new Stack<WriteState>();
+
+            if( PushValue( _root, stack ) )
+            {
+                while( stack.Count > 0 )
+                {
+                    var state = stack.Pop();
+
+                    bool hasMore;
+                    if( state.isObject )
+                        hasMore = state.objectEnumerator.MoveNext();
+                    else
+                        hasMore = state.arrayEnumerator.MoveNext();
+
+                    if( !hasMore )
+                    {
+                        if( state.isObject ) _sb.Append( '}' );
+                        else _sb.Append( ']' );
+                        continue;
+                    }
+
+                    if( !state.first )
+                    {
+                        _sb.Append( ',' );
+                    }
+                    state.first = false;
+                    stack.Push( state );
+
+                    SerializedData currentData;
+                    if( state.isObject )
+                    {
+                        var kvp = state.objectEnumerator.Current;
+                        JsonCommon.WriteEscapedString( kvp.Key, _sb );
+                        _sb.Append( ':' );
+                        currentData = kvp.Value;
+                    }
+                    else
+                    {
+                        currentData = state.arrayEnumerator.Current;
+                    }
+
+                    PushValue( currentData, stack );
+                }
+            }
         }
 
-        void WriteJson( SerializedData data )
+        private bool PushValue( SerializedData data, Stack<WriteState> stack )
         {
             if( data == null )
             {
-#warning TODO - move all of these constants and stuff to a separate class.
                 _sb.Append( "null" );
-                return;
+                return false;
             }
 
-            if( data is SerializedObject o )
-                WriteJson( o );
-            else if( data is SerializedArray a )
-                WriteJson( a );
-            else if( data is SerializedPrimitive v )
-                WriteJson( v );
-        }
-
-        void WriteJson( SerializedObject obj )
-        {
-            _sb.Append( '{' );
-
-            bool seen = false;
-            foreach( var child in obj )
+            if( data is SerializedPrimitive prim )
             {
-                if( seen )
-                {
-                    _sb.Append( ',' );
-                }
-                else
-                {
-                    seen = true;
-                }
-
-                var str = $"\"{child.Key}\":";
-
-                _sb.Append( str );
-
-                WriteJson( child.Value );
+                WritePrimitive( prim );
+                return false;
             }
 
-            _sb.Append( '}' );
-        }
-
-        void WriteJson( SerializedArray obj )
-        {
-            _sb.Append( '[' );
-
-            bool seen = false;
-            foreach( var child in obj )
+            if( data is SerializedObject obj )
             {
-                if( seen )
-                {
-                    _sb.Append( ',' );
-                }
-                else
-                {
-                    seen = true;
-                }
-                WriteJson( child );
+                _sb.Append( '{' );
+                stack.Push( new WriteState( obj.GetEnumerator() ) );
+                return true;
             }
 
-            _sb.Append( ']' );
+            if( data is SerializedArray arr )
+            {
+                _sb.Append( '[' );
+                stack.Push( new WriteState( arr.GetEnumerator() ) );
+                return true;
+            }
+
+            return false;
         }
 
-        void WriteJson( SerializedPrimitive value )
+        private void WritePrimitive( SerializedPrimitive p )
         {
-            string s = null;
-            switch( value._type )
+            switch( p._type )
             {
                 case SerializedPrimitive.DataType.Boolean:
-                    s = value._value.boolean ? "true" : "false"; break;
+                    _sb.Append( p._value.boolean ? "true" : "false" );
+                    break;
                 case SerializedPrimitive.DataType.Int64:
-                    s = value._value.int64.ToString( CultureInfo.InvariantCulture ); break;
+                    _sb.Append( p._value.int64.ToString( CultureInfo.InvariantCulture ) );
+                    break;
                 case SerializedPrimitive.DataType.UInt64:
-                    s = value._value.uint64.ToString( CultureInfo.InvariantCulture ); break;
+                    _sb.Append( p._value.uint64.ToString( CultureInfo.InvariantCulture ) );
+                    break;
                 case SerializedPrimitive.DataType.Float64:
-                    s = value._value.float64.ToString( CultureInfo.InvariantCulture ); break;
+                    _sb.Append( p._value.float64.ToString( CultureInfo.InvariantCulture ) );
+                    break;
                 case SerializedPrimitive.DataType.Decimal:
-                    s = value._value.@decimal.ToString( CultureInfo.InvariantCulture ); break;
+                    _sb.Append( p._value.@decimal.ToString( CultureInfo.InvariantCulture ) );
+                    break;
                 case SerializedPrimitive.DataType.String:
-                    WriteString( value._value.str ); return;
+                    JsonCommon.WriteEscapedString( p._value.str, _sb );
+                    break;
+                default:
+                    _sb.Append( "null" );
+                    break;
             }
-
-            _sb.Append( s );
-        }
-
-        void WriteString( string sIn )
-        {
-            if( sIn == null )
-            {
-                _sb.Append( "null" );
-                return;
-            }
-
-            _sb.Append( '\"' );
-
-            int i = 0;
-            int start = 0;
-            foreach( var c in sIn )
-            {
-                if( c is '\\' )
-                {
-                    _sb.Append( sIn[start..i] );
-                    _sb.Append( "\\\\" );
-                }
-                else if( c is '\"' )
-                {
-                    _sb.Append( sIn[start..i] );
-                    _sb.Append( "\\\"" );
-                }
-                else if( c is '\n' )
-                {
-                    _sb.Append( sIn[start..i] );
-                    _sb.Append( "\\n" );
-                }
-                else if( c is '\r' )
-                {
-                    _sb.Append( sIn[start..i] );
-                    _sb.Append( "\\r" );
-                }
-                else if( c is '\t' )
-                {
-                    _sb.Append( sIn[start..i] );
-                    _sb.Append( "\\t" );
-                }
-                else if( c is '\b' )
-                {
-                    _sb.Append( sIn[start..i] );
-                    _sb.Append( "\\b" );
-                }
-                else if( c is '\f' )
-                {
-                    _sb.Append( sIn[start..i] );
-                    _sb.Append( "\\f" );
-                }
-                else
-                {
-                    i++;
-                    continue;
-                }
-
-                i++;
-                start = i;
-            }
-
-            if( i - start > 0 ) // write last (or the only if no escaping) part 
-            {
-                _sb.Append( sIn[start..i] );
-            }
-
-            _sb.Append( '\"' );
         }
     }
 }

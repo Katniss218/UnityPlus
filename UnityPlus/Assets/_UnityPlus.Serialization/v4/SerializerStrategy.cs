@@ -1,0 +1,269 @@
+﻿
+using System;
+
+namespace UnityPlus.Serialization
+{
+    public class SerializerStrategy : IOperationStrategy
+    {
+        public void InitializeRoot( object root, ITypeDescriptor rootDescriptor, SerializedData rootData, SerializationState state )
+        {
+            // [Primitive Root Support]
+            if( rootDescriptor is IPrimitiveTypeDescriptor primitiveRoot )
+            {
+                SerializedData d = null;
+                primitiveRoot.SerializeDirect( root, ref d, state.Context );
+                state.RootResult = d;
+                return; // Stack remains empty, IsFinished = true
+            }
+
+            // Create Root Node if needed
+            SerializedData createdNode = rootData;
+            if( createdNode == null )
+            {
+                if( rootDescriptor is ICollectionTypeDescriptor )
+                {
+                    createdNode = SerializationHelpers.CreateCollectionNode(
+                        root,
+                        state.Context.ReverseMap,
+                        state.Context.ForceStandardJson,
+                        out SerializedArray arrayNode );
+
+                    // For collections, the DataNode in the cursor tracks the array we are populating
+                    // But we store the wrapper (if exists) in RootResult
+                    state.RootResult = createdNode;
+
+                    // If we created a wrapper, the cursor data node should be the inner array
+                    if( createdNode != arrayNode ) createdNode = arrayNode;
+                }
+                else
+                {
+                    var objNode = new SerializedObject();
+                    if( root != null && !rootDescriptor.WrappedType.IsValueType )
+                    {
+                        Guid rootId = state.Context.ReverseMap.GetID( root );
+                        objNode[KeyNames.ID] = (SerializedPrimitive)rootId.ToString( "D" );
+                    }
+                    createdNode = objNode;
+                    state.RootResult = createdNode;
+                }
+            }
+            else
+            {
+                state.RootResult = rootData;
+            }
+
+            var cursor = new SerializationCursor
+            {
+                Tracker = new TrackedObject( root ),
+                Descriptor = rootDescriptor,
+                StepIndex = 0,
+                DataNode = createdNode,
+                Phase = CursorPhase.PreProcessing,
+                WriteBackOnPop = false // Serialization is read-only for the object graph
+            };
+
+            state.Stack.Push( cursor );
+        }
+
+        public StepResult Process( ref SerializationCursor cursor, SerializationState state )
+        {
+            switch( cursor.Phase )
+            {
+                case CursorPhase.PreProcessing:
+                    return PhasePreProcessing( ref cursor, state );
+                case CursorPhase.Population:
+                    return PhasePopulation( ref cursor, state );
+                case CursorPhase.PostProcessing:
+                    return StepResult.Finished;
+                default:
+                    // Serialize doesn't use Construction/Instantiation usually
+                    cursor.Phase = CursorPhase.Population;
+                    return StepResult.Continue;
+            }
+        }
+
+        private StepResult PhasePreProcessing( ref SerializationCursor cursor, SerializationState state )
+        {
+            if( cursor.Tracker.Target != null )
+            {
+                // 1. Polymorphism
+                if( cursor.DataNode is SerializedObject )
+                {
+                    HandlePolymorphism( cursor.Tracker.Target, cursor.Descriptor.WrappedType, cursor.DataNode, ref cursor.Descriptor );
+                }
+
+                // 2. Lifecycle Callback
+                if( cursor.Descriptor is ICompositeTypeDescriptor comp )
+                {
+                    comp.OnSerializing( cursor.Tracker.Target, state.Context );
+                }
+
+                // 3. Cycle Tracking
+                if( !cursor.Descriptor.WrappedType.IsValueType )
+                {
+                    state.VisitedObjects.Add( cursor.Tracker.Target );
+                }
+
+                // 4. Counts
+                if( cursor.Descriptor is ICompositeTypeDescriptor newComposite )
+                {
+                    cursor.PopulationStepCount = newComposite.GetStepCount( cursor.Tracker.Target );
+                }
+            }
+
+            cursor.Phase = CursorPhase.Population;
+            cursor.StepIndex = 0;
+            return StepResult.Continue;
+        }
+
+        private StepResult PhasePopulation( ref SerializationCursor cursor, SerializationState state )
+        {
+            var parentDesc = (ICompositeTypeDescriptor)cursor.Descriptor;
+
+            if( cursor.StepIndex >= cursor.PopulationStepCount )
+            {
+                cursor.Phase = CursorPhase.PostProcessing;
+                return StepResult.Continue;
+            }
+
+            int activeStepIndex = cursor.StepIndex;
+            IMemberInfo memberInfo = parentDesc.GetMemberInfo( activeStepIndex, cursor.Tracker.Target );
+
+            if( memberInfo == null || memberInfo.TypeDescriptor == null ) // Skipped
+            {
+                cursor.StepIndex++;
+                return StepResult.Continue;
+            }
+
+            ITypeDescriptor memberDescriptor = memberInfo.TypeDescriptor;
+            cursor.StepIndex++;
+
+            // 1. Primitive
+            if( memberDescriptor is IPrimitiveTypeDescriptor primitiveDesc )
+            {
+                object val = memberInfo.GetValue( cursor.Tracker.Target );
+                SerializedData primitiveData = null;
+                primitiveDesc.SerializeDirect( val, ref primitiveData, state.Context );
+                LinkDataNode( cursor.DataNode, memberInfo.Name, primitiveData, activeStepIndex );
+                return StepResult.Continue;
+            }
+
+            // 2. Composite
+            object childTarget = memberInfo.GetValue( cursor.Tracker.Target );
+            SerializedData childNode;
+            SerializedData cursorDataNode;
+
+            bool isCollection = memberDescriptor is ICollectionTypeDescriptor;
+
+            if( isCollection )
+            {
+                childNode = SerializationHelpers.CreateCollectionNode(
+                    childTarget,
+                    state.Context.ReverseMap,
+                    state.Context.ForceStandardJson,
+                    out SerializedArray arrayNode );
+                cursorDataNode = arrayNode;
+
+                if( childNode is SerializedObject wrapper )
+                {
+                    if( state.VisitedObjects.Contains( childTarget ) )
+                    {
+                        Guid id = state.Context.ReverseMap.GetID( childTarget );
+                        SerializedData refNode = new SerializedObject { { KeyNames.REF, (SerializedPrimitive)id.ToString( "D" ) } };
+                        LinkDataNode( cursor.DataNode, memberInfo.Name, refNode, activeStepIndex );
+                        return StepResult.Continue;
+                    }
+                    state.VisitedObjects.Add( childTarget );
+                }
+            }
+            else
+            {
+                var objNode = new SerializedObject();
+                childNode = objNode;
+                cursorDataNode = objNode;
+            }
+
+            if( childTarget != null )
+            {
+                Type actualType = childTarget.GetType();
+                bool isRefType = !actualType.IsValueType;
+
+                HandlePolymorphism( childTarget, memberInfo.MemberType, childNode, ref memberDescriptor );
+
+                if( memberDescriptor is IPrimitiveTypeDescriptor primitiveDescSwitched )
+                {
+                    SerializedData primitiveData = null;
+                    primitiveDescSwitched.SerializeDirect( childTarget, ref primitiveData, state.Context );
+                    LinkDataNode( cursor.DataNode, memberInfo.Name, primitiveData, activeStepIndex );
+                    return StepResult.Continue;
+                }
+
+                if( isRefType && !isCollection )
+                {
+                    Guid id = state.Context.ReverseMap.GetID( childTarget );
+
+                    if( state.VisitedObjects.Contains( childTarget ) )
+                    {
+                        SerializedData refNode = new SerializedObject { { KeyNames.REF, (SerializedPrimitive)id.ToString( "D" ) } };
+                        LinkDataNode( cursor.DataNode, memberInfo.Name, refNode, activeStepIndex );
+                        return StepResult.Continue;
+                    }
+
+                    state.VisitedObjects.Add( childTarget );
+
+                    if( childNode is SerializedObject objNode )
+                        objNode[KeyNames.ID] = (SerializedPrimitive)id.ToString( "D" );
+                }
+            }
+
+            LinkDataNode( cursor.DataNode, memberInfo.Name, childNode, activeStepIndex );
+
+            var childCursor = new SerializationCursor
+            {
+                Tracker = new TrackedObject( childTarget, cursor.Tracker.Target, memberInfo ),
+                Descriptor = memberDescriptor,
+                DataNode = cursorDataNode,
+                StepIndex = 0,
+                PopulationStepCount = (memberDescriptor as ICompositeTypeDescriptor)?.GetStepCount( childTarget ) ?? 0,
+                Phase = CursorPhase.PreProcessing,
+                WriteBackOnPop = false // Serializer is read-only
+            };
+
+            state.Stack.Push( childCursor );
+            return StepResult.PushedDependency;
+        }
+
+        public void OnCursorFinished( SerializationCursor cursor, SerializationState state )
+        {
+        }
+
+        private void LinkDataNode( SerializedData parent, string key, SerializedData child, int index )
+        {
+            if( parent is SerializedObject obj && key != null ) obj[key] = child;
+            else if( parent is SerializedArray arr )
+            {
+                if( index >= arr.Count ) arr.Add( child );
+                else arr[index] = child;
+            }
+        }
+
+        private void HandlePolymorphism( object target, Type declaredType, SerializedData dataNode, ref ITypeDescriptor descriptor )
+        {
+            if( target == null ) return;
+            Type actualType = target.GetType();
+
+            if( actualType != declaredType )
+            {
+                descriptor = TypeDescriptorRegistry.GetDescriptor( actualType );
+            }
+
+            if( descriptor is IPrimitiveTypeDescriptor ) return;
+            if( declaredType.IsValueType || declaredType.IsSealed ) return;
+            if( declaredType == actualType ) return;
+            if( typeof( Delegate ).IsAssignableFrom( declaredType ) ) return;
+
+            if( dataNode is SerializedObject objNode )
+                objNode[KeyNames.TYPE] = (SerializedPrimitive)actualType.AssemblyQualifiedName;
+        }
+    }
+}
