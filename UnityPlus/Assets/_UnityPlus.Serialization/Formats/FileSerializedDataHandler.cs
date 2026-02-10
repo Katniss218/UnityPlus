@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace UnityPlus.Serialization.DataHandlers
+namespace UnityPlus.Serialization.Formats
 {
     /// <summary>
     /// Reads and writes serialized data to a file path using a provided Format.

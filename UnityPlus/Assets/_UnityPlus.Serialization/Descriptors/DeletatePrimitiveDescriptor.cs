@@ -7,7 +7,7 @@ namespace UnityPlus.Serialization
     /// A primitive descriptor that delegates logic to functions.
     /// Useful for defining serialization logic inline within factory methods.
     /// </summary>
-    public class DelegatePrimitiveDescriptor<T> : PrimitiveDescriptor<T>
+    public class PrimitiveConfigurableDescriptor<T> : PrimitiveDescriptor<T>
     {
         private readonly Action<T, SerializedDataWrapper, SerializationContext> _serializer;
         private readonly Func<SerializedData, SerializationContext, T> _deserializer;
@@ -20,9 +20,7 @@ namespace UnityPlus.Serialization
             public SerializedData Data;
         }
 
-        public DelegatePrimitiveDescriptor(
-            Action<T, SerializedDataWrapper, SerializationContext> serializer,
-            Func<SerializedData, SerializationContext, T> deserializer )
+        public PrimitiveConfigurableDescriptor( Action<T, SerializedDataWrapper, SerializationContext> serializer, Func<SerializedData, SerializationContext, T> deserializer )
         {
             _serializer = serializer;
             _deserializer = deserializer;

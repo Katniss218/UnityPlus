@@ -1,13 +1,14 @@
-﻿
-using System;
+﻿using System;
 
 namespace UnityPlus.Serialization
 {
     public class ArrayDescriptor<T> : CollectionDescriptor, TypeDescriptorRegistry.ICollectionDescriptorWithContext
     {
-        public override Type WrappedType => typeof( T[] );
+        public override Type MappedType => typeof( T[] );
 
-        // The context used to resolve descriptors for the elements of the array.
+        /// <summary>
+        /// The context used to resolve descriptors for the elements of the array.
+        /// </summary>
         public int ElementContext { get; set; } = 0;
 
         public override object CreateInitialTarget( SerializedData data, SerializationContext ctx )
@@ -50,7 +51,7 @@ namespace UnityPlus.Serialization
             return new ArrayMemberInfo( stepIndex, elementDesc );
         }
 
-        private struct ArrayMemberInfo : IMemberInfo
+        private readonly struct ArrayMemberInfo : IMemberInfo
         {
             public string Name => null;
             public int Index => _index;
@@ -58,7 +59,7 @@ namespace UnityPlus.Serialization
             public IDescriptor TypeDescriptor { get; }
             public bool RequiresWriteBack => typeof( T ).IsValueType;
 
-            private int _index;
+            private readonly int _index;
 
             public ArrayMemberInfo( int index, IDescriptor descriptor )
             {

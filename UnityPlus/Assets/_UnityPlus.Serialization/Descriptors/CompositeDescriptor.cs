@@ -8,7 +8,10 @@ namespace UnityPlus.Serialization
     /// </summary>
     public abstract class CompositeDescriptor : ICompositeDescriptor
     {
-        public abstract Type WrappedType { get; }
+        /// <summary>
+        /// The type being described, which should be a composite type (has one or more members).
+        /// </summary>
+        public abstract Type MappedType { get; }
 
         public abstract int GetStepCount( object target );
         public abstract IMemberInfo GetMemberInfo( int stepIndex, object target );

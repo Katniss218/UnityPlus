@@ -1,7 +1,4 @@
-﻿
-using System;
-using UnityEngine;
-using UnityEngine.Rendering;
+﻿using UnityEngine;
 
 namespace UnityPlus.Serialization
 {
@@ -10,7 +7,7 @@ namespace UnityPlus.Serialization
         // --- BASE ---
 
         [MapsInheritingFrom( typeof( Transform ) )]
-        public static IDescriptor Transform() => new ClassDescriptor<Transform>()
+        public static IDescriptor Transform() => new ClassOrStructDescriptor<Transform>()
             .WithMember( "localPosition", t => t.localPosition )
             .WithMember( "localRotation", t => t.localRotation )
             .WithMember( "localScale", t => t.localScale );
@@ -18,19 +15,19 @@ namespace UnityPlus.Serialization
         // --- PHYSICS ---
 
         [MapsInheritingFrom( typeof( BoxCollider ) )]
-        public static IDescriptor BoxCollider() => new ClassDescriptor<BoxCollider>()
+        public static IDescriptor BoxCollider() => new ClassOrStructDescriptor<BoxCollider>()
             .WithMember( "isTrigger", c => c.isTrigger )
             .WithMember( "center", c => c.center )
             .WithMember( "size", c => c.size );
 
         [MapsInheritingFrom( typeof( SphereCollider ) )]
-        public static IDescriptor SphereCollider() => new ClassDescriptor<SphereCollider>()
+        public static IDescriptor SphereCollider() => new ClassOrStructDescriptor<SphereCollider>()
             .WithMember( "isTrigger", c => c.isTrigger )
             .WithMember( "center", c => c.center )
             .WithMember( "radius", c => c.radius );
 
         [MapsInheritingFrom( typeof( CapsuleCollider ) )]
-        public static IDescriptor CapsuleCollider() => new ClassDescriptor<CapsuleCollider>()
+        public static IDescriptor CapsuleCollider() => new ClassOrStructDescriptor<CapsuleCollider>()
             .WithMember( "isTrigger", c => c.isTrigger )
             .WithMember( "center", c => c.center )
             .WithMember( "radius", c => c.radius )
@@ -38,7 +35,7 @@ namespace UnityPlus.Serialization
             .WithMember( "direction", c => c.direction );
 
         [MapsInheritingFrom( typeof( MeshCollider ) )]
-        public static IDescriptor MeshCollider() => new ClassDescriptor<MeshCollider>()
+        public static IDescriptor MeshCollider() => new ClassOrStructDescriptor<MeshCollider>()
             .WithMember( "isTrigger", c => c.isTrigger )
             .WithMember( "convex", c => c.convex )
             .WithAsset( "sharedMesh", c => c.sharedMesh );
@@ -46,18 +43,18 @@ namespace UnityPlus.Serialization
         // --- RENDERING ---
 
         [MapsInheritingFrom( typeof( MeshFilter ) )]
-        public static IDescriptor MeshFilter() => new ClassDescriptor<MeshFilter>()
+        public static IDescriptor MeshFilter() => new ClassOrStructDescriptor<MeshFilter>()
             .WithAsset( "sharedMesh", m => m.sharedMesh );
 
         [MapsInheritingFrom( typeof( MeshRenderer ) )]
-        public static IDescriptor MeshRenderer() => new ClassDescriptor<MeshRenderer>()
+        public static IDescriptor MeshRenderer() => new ClassOrStructDescriptor<MeshRenderer>()
             .WithMember( "enabled", r => r.enabled )
             .WithMember( "shadowCastingMode", r => r.shadowCastingMode )
             .WithMember( "receiveShadows", r => r.receiveShadows )
             .WithMember( "sharedMaterials", ObjectContext.Asset, r => r.sharedMaterials );
 
         [MapsInheritingFrom( typeof( Camera ) )]
-        public static IDescriptor Camera() => new ClassDescriptor<Camera>()
+        public static IDescriptor Camera() => new ClassOrStructDescriptor<Camera>()
             .WithMember( "enabled", c => c.enabled )
             .WithMember( "clearFlags", c => c.clearFlags )
             .WithMember( "backgroundColor", c => c.backgroundColor )
@@ -70,7 +67,7 @@ namespace UnityPlus.Serialization
             .WithMember( "depth", c => c.depth );
 
         [MapsInheritingFrom( typeof( Light ) )]
-        public static IDescriptor Light() => new ClassDescriptor<Light>()
+        public static IDescriptor Light() => new ClassOrStructDescriptor<Light>()
             .WithMember( "enabled", l => l.enabled )
             .WithMember( "type", l => l.type )
             .WithMember( "color", l => l.color )
@@ -80,7 +77,7 @@ namespace UnityPlus.Serialization
             .WithMember( "shadows", l => l.shadows );
 
         [MapsInheritingFrom( typeof( LODGroup ) )]
-        public static IDescriptor LODGroup() => new ClassDescriptor<LODGroup>()
+        public static IDescriptor LODGroup() => new ClassOrStructDescriptor<LODGroup>()
             .WithMember( "localReferencePoint", l => l.localReferencePoint )
             .WithMember( "size", l => l.size )
             .WithMember( "fadeMode", l => l.fadeMode )
@@ -88,7 +85,7 @@ namespace UnityPlus.Serialization
             .WithMember( "lods", l => l.GetLODs(), ( l, v ) => l.SetLODs( v ) );
 
         [MapsInheritingFrom( typeof( LOD ) )]
-        public static IDescriptor LOD() => new ClassDescriptor<LOD>()
+        public static IDescriptor LOD() => new ClassOrStructDescriptor<LOD>()
             .WithMember( "screenRelativeTransitionHeight", l => l.screenRelativeTransitionHeight )
             .WithMember( "fadeTransitionWidth", l => l.fadeTransitionWidth )
             .WithMember( "renderers", ObjectContext.Ref, l => l.renderers );

@@ -13,7 +13,7 @@ namespace UnityPlus.Serialization
     /// </summary>
     public class DelegateDescriptor : CompositeDescriptor
     {
-        public override Type WrappedType => typeof( Delegate );
+        public override Type MappedType => typeof( Delegate );
 
         public override int GetConstructionStepCount( object target )
         {
@@ -100,11 +100,11 @@ namespace UnityPlus.Serialization
             // We use a custom descriptor for the Entry struct, cached statically to avoid allocation
             private static readonly IDescriptor _entryDescriptor = new DelegateEntryDescriptor();
 
-            public string Name => null;
-            public int Index => _index;
-            public Type MemberType => typeof( DelegateEntry );
-            public IDescriptor TypeDescriptor => _entryDescriptor;
-            public bool RequiresWriteBack => true;
+            public readonly string Name => null;
+            public readonly int Index => _index;
+            public readonly Type MemberType => typeof( DelegateEntry );
+            public readonly IDescriptor TypeDescriptor => _entryDescriptor;
+            public readonly bool RequiresWriteBack => true;
 
             public DelegateEntryMemberInfo( int index )
             {
@@ -136,7 +136,7 @@ namespace UnityPlus.Serialization
             private static readonly IDescriptor _methodDescriptor = new MethodInfoDescriptor();
             private static readonly IDescriptor _typeDescriptor = new SystemTypeDescriptor();
 
-            public override Type WrappedType => typeof( DelegateEntry );
+            public override Type MappedType => typeof( DelegateEntry );
 
             // 3 members: Target, Method, Type
             public override int GetStepCount( object target ) => 3;
@@ -161,12 +161,12 @@ namespace UnityPlus.Serialization
 
             struct TargetMemberInfo : IMemberInfo
             {
-                public string Name => "target";
-                public int Index => -1;
-                public Type MemberType => typeof( object );
+                public readonly string Name => "target";
+                public readonly int Index => -1;
+                public readonly Type MemberType => typeof( object );
                 // Use Ref context for the target!
-                public IDescriptor TypeDescriptor => TypeDescriptorRegistry.GetDescriptor( typeof( object ), ObjectContext.Ref );
-                public bool RequiresWriteBack => false;
+                public readonly IDescriptor TypeDescriptor => TypeDescriptorRegistry.GetDescriptor( typeof( object ), ObjectContext.Ref );
+                public readonly bool RequiresWriteBack => false;
 
                 public object GetValue( object target ) => ((DelegateEntry)target).Target;
                 public void SetValue( ref object target, object value )
@@ -177,13 +177,13 @@ namespace UnityPlus.Serialization
                 }
             }
 
-            struct MethodMemberInfo : IMemberInfo
+            readonly struct MethodMemberInfo : IMemberInfo
             {
-                public string Name => "method";
-                public int Index => -1;
-                public Type MemberType => typeof( MethodInfo );
+                public readonly string Name => "method";
+                public readonly int Index => -1;
+                public readonly Type MemberType => typeof( MethodInfo );
                 public IDescriptor TypeDescriptor { get; }
-                public bool RequiresWriteBack => false;
+                public readonly bool RequiresWriteBack => false;
 
                 public MethodMemberInfo( IDescriptor desc ) { TypeDescriptor = desc; }
 
@@ -196,13 +196,13 @@ namespace UnityPlus.Serialization
                 }
             }
 
-            struct DelegateTypeMemberInfo : IMemberInfo
+            readonly struct DelegateTypeMemberInfo : IMemberInfo
             {
-                public string Name => "type";
-                public int Index => -1;
-                public Type MemberType => typeof( Type );
+                public readonly string Name => "type";
+                public readonly int Index => -1;
+                public readonly Type MemberType => typeof( Type );
                 public IDescriptor TypeDescriptor { get; }
-                public bool RequiresWriteBack => false;
+                public readonly bool RequiresWriteBack => false;
 
                 public DelegateTypeMemberInfo( IDescriptor desc ) { TypeDescriptor = desc; }
 
@@ -224,7 +224,7 @@ namespace UnityPlus.Serialization
             private static readonly IDescriptor _stringDescriptor = new StringDescriptor();
             private static readonly IDescriptor _typeArrayDescriptor = new ArrayDescriptor<Type>();
 
-            public override Type WrappedType => typeof( MethodInfo );
+            public override Type MappedType => typeof( MethodInfo );
             public override int GetStepCount( object target ) => 3;
             public override int GetConstructionStepCount( object target ) => 3; // Immutable construction
 
@@ -267,15 +267,15 @@ namespace UnityPlus.Serialization
             }
         }
 
-        private struct FixedValueMemberInfo : IMemberInfo
+        private readonly struct FixedValueMemberInfo : IMemberInfo
         {
             public string Name { get; }
-            public int Index => -1;
-            public Type MemberType { get; }
+            public readonly int Index => -1;
+            public readonly Type MemberType { get; }
             public IDescriptor TypeDescriptor { get; }
-            public bool RequiresWriteBack => false;
+            public readonly bool RequiresWriteBack => false;
 
-            private object _value;
+            private readonly object _value;
 
             public FixedValueMemberInfo( int index, string name, Type type, IDescriptor desc, object val )
             {
@@ -289,15 +289,15 @@ namespace UnityPlus.Serialization
             public void SetValue( ref object target, object value ) { }
         }
 
-        private struct BufferMemberInfo : IMemberInfo
+        private readonly struct BufferMemberInfo : IMemberInfo
         {
             public string Name { get; }
-            public int Index => -1;
+            public readonly int Index => -1;
             public Type MemberType { get; }
             public IDescriptor TypeDescriptor { get; }
-            public bool RequiresWriteBack => false;
+            public readonly bool RequiresWriteBack => false;
 
-            private int _index;
+            private readonly int _index;
 
             public BufferMemberInfo( int index, string name, Type type, IDescriptor desc )
             {

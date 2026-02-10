@@ -1,6 +1,4 @@
-﻿
-using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityPlus.AssetManagement;
 
 namespace UnityPlus.Serialization
@@ -24,7 +22,7 @@ namespace UnityPlus.Serialization
 
             if( assetID != null )
             {
-                data = new SerializedObject
+                data = new SerializedObject()
                 {
                     { KeyNames.ASSETREF, (SerializedPrimitive)assetID }
                 };
@@ -41,6 +39,7 @@ namespace UnityPlus.Serialization
             if( data == null )
                 return DeserializationResult.Success;
 
+#warning TODO - make an extension for assets, like type and guid already have.
             if( data.TryGetValue( KeyNames.ASSETREF, out SerializedData refData ) )
             {
                 string assetID = (string)refData;

@@ -123,7 +123,7 @@ namespace UnityPlus.Serialization
         public static void Register( IDescriptor descriptor, int context = 0 )
         {
             if( descriptor == null ) return;
-            _descriptors[(descriptor.WrappedType, context)] = descriptor;
+            _descriptors[(descriptor.MappedType, context)] = descriptor;
         }
 
         public static IDescriptor GetDescriptor( Type type, int context = 0 )
@@ -329,7 +329,7 @@ namespace UnityPlus.Serialization
 
         private class ReflectionClassDescriptor<T> : CompositeDescriptor
         {
-            public override Type WrappedType => typeof( T );
+            public override Type MappedType => typeof( T );
             private readonly IMemberInfo[] _members;
             private readonly IMethodInfo[] _methods;
             private readonly Func<T> _constructor;

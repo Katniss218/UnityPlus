@@ -38,7 +38,7 @@ namespace UnityPlus.Serialization
                 else
                 {
                     var objNode = new SerializedObject();
-                    if( root != null && !rootDescriptor.WrappedType.IsValueType )
+                    if( root != null && !rootDescriptor.MappedType.IsValueType )
                     {
                         Guid rootId = state.Context.ReverseMap.GetID( root );
                         objNode[KeyNames.ID] = (SerializedPrimitive)rootId.ToString( "D" );
@@ -88,7 +88,7 @@ namespace UnityPlus.Serialization
                 // 1. Polymorphism
                 if( cursor.DataNode is SerializedObject )
                 {
-                    HandlePolymorphism( cursor.TargetObj.Target, cursor.Descriptor.WrappedType, cursor.DataNode, ref cursor.Descriptor );
+                    HandlePolymorphism( cursor.TargetObj.Target, cursor.Descriptor.MappedType, cursor.DataNode, ref cursor.Descriptor );
                 }
 
                 // 2. Lifecycle Callback
@@ -98,7 +98,7 @@ namespace UnityPlus.Serialization
                 }
 
                 // 3. Cycle Tracking
-                if( !cursor.Descriptor.WrappedType.IsValueType )
+                if( !cursor.Descriptor.MappedType.IsValueType )
                 {
                     state.VisitedObjects.Add( cursor.TargetObj.Target );
                 }

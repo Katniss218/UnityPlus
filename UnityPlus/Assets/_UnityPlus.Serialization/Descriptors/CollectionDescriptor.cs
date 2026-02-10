@@ -5,7 +5,10 @@ namespace UnityPlus.Serialization
 {
     public abstract class CollectionDescriptor : ICollectionDescriptor
     {
-        public abstract Type WrappedType { get; }
+        /// <summary>
+        /// The type being described, which should be a collection type (Array, List, etc.).
+        /// </summary>
+        public abstract Type MappedType { get; }
 
         public abstract object Resize( object target, int newSize );
         public abstract int GetStepCount( object target );

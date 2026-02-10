@@ -9,9 +9,62 @@ namespace UnityPlus.Serialization
     /// A concrete descriptor for a class or struct, composed of named members.
     /// </summary>
     /// <typeparam name="T">The type being described.</typeparam>
-    public class ClassDescriptor<T> : CompositeDescriptor
+    public class ClassOrStructDescriptor<T> : CompositeDescriptor
     {
-        public override Type WrappedType => typeof( T );
+        public readonly struct MemberModifier
+        {
+            private readonly ClassOrStructDescriptor<T> _descriptor;
+            private readonly int _index;
+
+            public MemberModifier( ClassOrStructDescriptor<T> descriptor, int index )
+            {
+                _descriptor = descriptor;
+                _index = index;
+            }
+
+            /// <summary>
+            /// Applies a condition to the selected member. The member will only be serialized/deserialized if the condition returns true.
+            /// </summary>
+            public ClassOrStructDescriptor<T> When( Predicate<T> condition )
+            {
+                if( _index == -1 ) return _descriptor;
+                var member = _descriptor._members[_index];
+
+                // Chain predicates (AND logic)
+                var old = member.ShouldSerialize;
+                member.ShouldSerialize = old == null ? (o => condition( (T)o )) : (o => old( o ) && condition( (T)o ));
+
+                return _descriptor;
+            }
+
+            /// <summary>
+            /// Applies a context-aware condition to the selected member.
+            /// </summary>
+            public ClassOrStructDescriptor<T> When( Func<T, SerializationContext, bool> condition )
+            {
+                if( _index == -1 ) return _descriptor;
+                var member = _descriptor._members[_index];
+
+                var old = member.ShouldSerializeWithContext;
+                member.ShouldSerializeWithContext = old == null ? (( o, c ) => condition( (T)o, c )) : (( o, c ) => old( o, c ) && condition( (T)o, c ));
+
+                return _descriptor;
+            }
+
+            /// <summary>
+            /// Removes the selected member from the serialization descriptor.
+            /// </summary>
+            public ClassOrStructDescriptor<T> Delete()
+            {
+                if( _index != -1 )
+                {
+                    _descriptor._members.RemoveAt( _index );
+                }
+                return _descriptor;
+            }
+        }
+
+        public override Type MappedType => typeof( T );
 
         private readonly List<MemberDefinition<object>> _members = new List<MemberDefinition<object>>();
         private readonly List<IMethodInfo> _methods = new List<IMethodInfo>();
@@ -42,71 +95,18 @@ namespace UnityPlus.Serialization
             return new MemberModifier( this, index );
         }
 
-        public struct MemberModifier
-        {
-            private readonly ClassDescriptor<T> _descriptor;
-            private readonly int _index;
-
-            public MemberModifier( ClassDescriptor<T> descriptor, int index )
-            {
-                _descriptor = descriptor;
-                _index = index;
-            }
-
-            /// <summary>
-            /// Applies a condition to the selected member. The member will only be serialized/deserialized if the condition returns true.
-            /// </summary>
-            public ClassDescriptor<T> When( Predicate<T> condition )
-            {
-                if( _index == -1 ) return _descriptor;
-                var member = _descriptor._members[_index];
-
-                // Chain predicates (AND logic)
-                var old = member.ShouldSerialize;
-                member.ShouldSerialize = old == null ? (o => condition( (T)o )) : (o => old( o ) && condition( (T)o ));
-
-                return _descriptor;
-            }
-
-            /// <summary>
-            /// Applies a context-aware condition to the selected member.
-            /// </summary>
-            public ClassDescriptor<T> When( Func<T, SerializationContext, bool> condition )
-            {
-                if( _index == -1 ) return _descriptor;
-                var member = _descriptor._members[_index];
-
-                var old = member.ShouldSerializeWithContext;
-                member.ShouldSerializeWithContext = old == null ? (( o, c ) => condition( (T)o, c )) : (( o, c ) => old( o, c ) && condition( (T)o, c ));
-
-                return _descriptor;
-            }
-
-            /// <summary>
-            /// Removes the selected member from the serialization descriptor.
-            /// </summary>
-            public ClassDescriptor<T> Delete()
-            {
-                if( _index != -1 )
-                {
-                    _descriptor._members.RemoveAt( _index );
-                }
-                return _descriptor;
-            }
-        }
-
         // --- Fluent API: Conditionals (Last Member Shortcut) ---
 
         /// <summary>
         /// Applies a condition to the LAST added member.
         /// </summary>
-        public ClassDescriptor<T> When( Predicate<T> condition )
+        public ClassOrStructDescriptor<T> When( Predicate<T> condition )
         {
             if( _members.Count == 0 ) throw new InvalidOperationException( "No members defined." );
             return new MemberModifier( this, _members.Count - 1 ).When( condition );
         }
 
-        public ClassDescriptor<T> When( Func<T, SerializationContext, bool> condition )
+        public ClassOrStructDescriptor<T> When( Func<T, SerializationContext, bool> condition )
         {
             if( _members.Count == 0 ) throw new InvalidOperationException( "No members defined." );
             return new MemberModifier( this, _members.Count - 1 ).When( condition );
@@ -114,18 +114,18 @@ namespace UnityPlus.Serialization
 
         // --- Fluent API: Members (Expression Based) ---
 
-        public ClassDescriptor<T> WithMember<TMember>( string name, Expression<Func<T, TMember>> accessor )
+        public ClassOrStructDescriptor<T> WithMember<TMember>( string name, Expression<Func<T, TMember>> accessor )
         {
             return WithMember( name, ObjectContext.Default, accessor );
         }
 
-        public ClassDescriptor<T> WithMember<TMember>( string name, Type contextType, Expression<Func<T, TMember>> accessor )
+        public ClassOrStructDescriptor<T> WithMember<TMember>( string name, Type contextType, Expression<Func<T, TMember>> accessor )
         {
             int contextId = ContextRegistry.GetId( contextType );
             return WithMember( name, contextId, accessor );
         }
 
-        public ClassDescriptor<T> WithMember<TMember>( string name, int context, Expression<Func<T, TMember>> accessor )
+        public ClassOrStructDescriptor<T> WithMember<TMember>( string name, int context, Expression<Func<T, TMember>> accessor )
         {
             var getter = AccessorUtils.CreateGetter( accessor );
             Setter<T, TMember> setter = null;
@@ -147,17 +147,17 @@ namespace UnityPlus.Serialization
 
         // --- Fluent API: Members (Delegate/v3 Compatibility) ---
 
-        public ClassDescriptor<T> WithMember<TMember>( string name, Getter<T, TMember> getter, Setter<T, TMember> setter )
+        public ClassOrStructDescriptor<T> WithMember<TMember>( string name, Getter<T, TMember> getter, Setter<T, TMember> setter )
         {
             return WithMember( name, ObjectContext.Default, getter, setter );
         }
 
-        public ClassDescriptor<T> WithMember<TMember>( string name, Type contextType, Getter<T, TMember> getter, Setter<T, TMember> setter )
+        public ClassOrStructDescriptor<T> WithMember<TMember>( string name, Type contextType, Getter<T, TMember> getter, Setter<T, TMember> setter )
         {
             return WithMember( name, ContextRegistry.GetId( contextType ), getter, setter );
         }
 
-        public ClassDescriptor<T> WithMember<TMember>( string name, int context, Getter<T, TMember> getter, Setter<T, TMember> setter )
+        public ClassOrStructDescriptor<T> WithMember<TMember>( string name, int context, Getter<T, TMember> getter, Setter<T, TMember> setter )
         {
             if( typeof( T ).IsValueType )
                 throw new InvalidOperationException( $"Cannot use Action<T, Member> setter for struct type {typeof( T )}. Use expressions or RefSetter." );
@@ -165,36 +165,36 @@ namespace UnityPlus.Serialization
             return RegisterMember( name, context, getter, setter, null, null );
         }
 
-        public ClassDescriptor<T> WithMember<TMember>( string name, Getter<T, TMember> getter, RefSetter<T, TMember> refSetter )
+        public ClassOrStructDescriptor<T> WithMember<TMember>( string name, Getter<T, TMember> getter, RefSetter<T, TMember> refSetter )
         {
             return WithMember( name, ObjectContext.Default, getter, refSetter );
         }
 
-        public ClassDescriptor<T> WithMember<TMember>( string name, Type contextType, Getter<T, TMember> getter, RefSetter<T, TMember> refSetter )
+        public ClassOrStructDescriptor<T> WithMember<TMember>( string name, Type contextType, Getter<T, TMember> getter, RefSetter<T, TMember> refSetter )
         {
             return WithMember( name, ContextRegistry.GetId( contextType ), getter, refSetter );
         }
 
-        public ClassDescriptor<T> WithMember<TMember>( string name, int context, Getter<T, TMember> getter, RefSetter<T, TMember> refSetter )
+        public ClassOrStructDescriptor<T> WithMember<TMember>( string name, int context, Getter<T, TMember> getter, RefSetter<T, TMember> refSetter )
         {
             return RegisterMember( name, context, getter, null, refSetter, null );
         }
 
         // --- Fluent API: Semantic Shortcuts ---
 
-        public ClassDescriptor<T> WithAsset<TMember>( string name, Expression<Func<T, TMember>> accessor )
+        public ClassOrStructDescriptor<T> WithAsset<TMember>( string name, Expression<Func<T, TMember>> accessor )
         {
             return WithMember( name, typeof( Contexts.Asset ), accessor );
         }
 
-        public ClassDescriptor<T> WithReference<TMember>( string name, Expression<Func<T, TMember>> accessor )
+        public ClassOrStructDescriptor<T> WithReference<TMember>( string name, Expression<Func<T, TMember>> accessor )
         {
             return WithMember( name, typeof( Contexts.Reference ), accessor );
         }
 
         // --- Fluent API: Dictionary Support ---
 
-        public ClassDescriptor<T> WithDictionary<TKey, TValue>(
+        public ClassOrStructDescriptor<T> WithDictionary<TKey, TValue>(
             string name,
             Expression<Func<T, Dictionary<TKey, TValue>>> accessor,
             int keyContext = ObjectContext.Default,
@@ -204,7 +204,7 @@ namespace UnityPlus.Serialization
             return WithMember( name, ctx, accessor );
         }
 
-        public ClassDescriptor<T> WithMember<TMember>( string name, DictionaryContext context, Expression<Func<T, TMember>> accessor )
+        public ClassOrStructDescriptor<T> WithMember<TMember>( string name, DictionaryContext context, Expression<Func<T, TMember>> accessor )
         {
             int contextId = context.GetId();
 
@@ -240,7 +240,7 @@ namespace UnityPlus.Serialization
 
         // --- Internal Registration Helper ---
 
-        private ClassDescriptor<T> RegisterMember<TMember>( string name, int context, Getter<T, TMember> getter, Setter<T, TMember> setter, RefSetter<T, TMember> refSetter, MemberInfo nativeMember )
+        private ClassOrStructDescriptor<T> RegisterMember<TMember>( string name, int context, Getter<T, TMember> getter, Setter<T, TMember> setter, RefSetter<T, TMember> refSetter, MemberInfo nativeMember )
         {
             _members.Add( new MemberDefinition<object>(
                 name,
@@ -260,12 +260,12 @@ namespace UnityPlus.Serialization
             return this;
         }
 
-        public ClassDescriptor<T> WithReadonlyMember<TMember>( string name, Func<T, TMember> getter )
+        public ClassOrStructDescriptor<T> WithReadonlyMember<TMember>( string name, Func<T, TMember> getter )
         {
             return WithReadonlyMember( name, ObjectContext.Default, getter );
         }
 
-        public ClassDescriptor<T> WithReadonlyMember<TMember>( string name, int context, Func<T, TMember> getter )
+        public ClassOrStructDescriptor<T> WithReadonlyMember<TMember>( string name, int context, Func<T, TMember> getter )
         {
             _members.Add( new MemberDefinition<object>(
                 name,
@@ -281,13 +281,13 @@ namespace UnityPlus.Serialization
 
         // --- Fluent API: Lifecycle ---
 
-        public ClassDescriptor<T> OnSerializing( Action<T, SerializationContext> callback )
+        public ClassOrStructDescriptor<T> OnSerializing( Action<T, SerializationContext> callback )
         {
             _onSerializing += callback;
             return this;
         }
 
-        public ClassDescriptor<T> OnDeserialized( Action<T, SerializationContext> callback )
+        public ClassOrStructDescriptor<T> OnDeserialized( Action<T, SerializationContext> callback )
         {
             _onDeserialized += callback;
             return this;
@@ -295,26 +295,26 @@ namespace UnityPlus.Serialization
 
         // --- Fluent API: Construction & UI ---
 
-        public ClassDescriptor<T> WithConstructor( Func<object[], T> constructor, params (string name, Type type)[] parameters )
+        public ClassOrStructDescriptor<T> WithConstructor( Func<object[], T> constructor, params (string name, Type type)[] parameters )
         {
             _constructor = constructor;
             _constructorParams = parameters;
             return this;
         }
 
-        public ClassDescriptor<T> WithFactory( Func<object> factory )
+        public ClassOrStructDescriptor<T> WithFactory( Func<object> factory )
         {
             _simpleFactory = factory;
             return this;
         }
 
-        public ClassDescriptor<T> WithRawFactory( Func<SerializedData, SerializationContext, T> factory )
+        public ClassOrStructDescriptor<T> WithRawFactory( Func<SerializedData, SerializationContext, T> factory )
         {
             _rawFactory = ( d, c ) => factory( d, c );
             return this;
         }
 
-        public ClassDescriptor<T> WithMethod( string name, Action<T> action, string displayName = null )
+        public ClassOrStructDescriptor<T> WithMethod( string name, Action<T> action, string displayName = null )
         {
             _methods.Add( new ActionMethodInfo( name, displayName, action ) );
             return this;
@@ -405,7 +405,7 @@ namespace UnityPlus.Serialization
 
         // --- Internal Definitions ---
 
-        private struct BufferMemberInfo : IMemberInfo
+        private readonly struct BufferMemberInfo : IMemberInfo
         {
             public string Name { get; }
             public int Index => -1; // Constructor args are named
@@ -413,7 +413,7 @@ namespace UnityPlus.Serialization
             public IDescriptor TypeDescriptor { get; }
             public bool RequiresWriteBack => MemberType.IsValueType;
 
-            private int _index;
+            private readonly int _index;
 
             public BufferMemberInfo( int index, string name, Type type, IDescriptor desc )
             {
@@ -454,7 +454,7 @@ namespace UnityPlus.Serialization
             public IMemberInfo Resolve( object target )
             {
                 TMember val = default;
-                if( target != null && !(target is object[]) ) // Ensure we don't try to get member from buffer
+                if( target != null && target is not object[] ) // Ensure we don't try to get member from buffer
                     val = Getter( target );
 
                 if( ShouldSerialize != null && !ShouldSerialize( target ) )
@@ -474,8 +474,8 @@ namespace UnityPlus.Serialization
 
         private class ConditionalMemberInfo<TMember> : IMemberInfo
         {
-            private MemberDefinition<TMember> _def;
-            private TMember _val;
+            private readonly MemberDefinition<TMember> _def;
+            private readonly TMember _val;
 
             public ConditionalMemberInfo( MemberDefinition<TMember> def, TMember val )
             {
@@ -506,10 +506,10 @@ namespace UnityPlus.Serialization
             }
         }
 
-        private struct SkippedMemberInfo : IMemberInfo
+        private readonly struct SkippedMemberInfo : IMemberInfo
         {
             public string Name { get; }
-            public int Index => -1;
+            public readonly int Index => -1;
             public Type MemberType { get; }
             public IDescriptor TypeDescriptor => null;
             public bool RequiresWriteBack => false;

@@ -14,7 +14,7 @@ namespace UnityPlus.Serialization
     public class DictionaryDescriptor<TDict, TKey, TValue> : CollectionDescriptor, IDictionaryDescriptor
         where TDict : IDictionary<TKey, TValue>, new()
     {
-        public override Type WrappedType => typeof( TDict );
+        public override Type MappedType => typeof( TDict );
 
         public int KeyContext { get; set; } = ObjectContext.Default;
         public int ValueContext { get; set; } = ObjectContext.Default;
@@ -70,11 +70,11 @@ namespace UnityPlus.Serialization
 
         private struct DictionaryEntryMemberInfo : IMemberInfo
         {
-            public string Name => null;
-            public int Index => _index; // The entry index in the serialized array
-            public Type MemberType => typeof( KeyValuePair<TKey, TValue> );
-            public bool RequiresWriteBack => true; // KVP is a struct
-            public IDescriptor TypeDescriptor => _descriptor;
+            public readonly string Name => null;
+            public readonly int Index => _index; // The entry index in the serialized array
+            public readonly Type MemberType => typeof( KeyValuePair<TKey, TValue> );
+            public readonly bool RequiresWriteBack => true; // KVP is a struct
+            public readonly IDescriptor TypeDescriptor => _descriptor;
 
             private int _index;
             private KeyValuePair<TKey, TValue> _kvp;
@@ -122,7 +122,7 @@ namespace UnityPlus.Serialization
 
         private class KeyValuePairDescriptor : CompositeDescriptor
         {
-            public override Type WrappedType => typeof( KeyValuePair<TKey, TValue> );
+            public override Type MappedType => typeof( KeyValuePair<TKey, TValue> );
             private readonly int _keyCtx;
             private readonly int _valCtx;
 
@@ -171,9 +171,9 @@ namespace UnityPlus.Serialization
             private struct KVPBufferMemberInfo : IMemberInfo
             {
                 public string Name { get; }
-                public int Index => -1; // Fields "key" and "value" are named
+                public readonly int Index => -1; // Fields "key" and "value" are named
                 public Type MemberType { get; }
-                public bool RequiresWriteBack => MemberType.IsValueType;
+                public readonly bool RequiresWriteBack => MemberType.IsValueType;
                 public IDescriptor TypeDescriptor { get; }
 
                 private int _index;

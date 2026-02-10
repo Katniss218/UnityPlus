@@ -35,7 +35,7 @@ namespace UnityPlus.Serialization.Tests.V4
         {
             // We need to register the constructor mapping manually since Reflection can't infer parameter names reliably without metadata
             TypeDescriptorRegistry.Register(
-                new ClassDescriptor<ImmutableUser>()
+                new ClassOrStructDescriptor<ImmutableUser>()
                     .WithConstructor(
                         args => new ImmutableUser( (string)args[0], (int)args[1] ),
                         ("username", typeof( string )),

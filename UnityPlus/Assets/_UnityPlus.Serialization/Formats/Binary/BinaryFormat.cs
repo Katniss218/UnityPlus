@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace UnityPlus.Serialization.DataHandlers
+namespace UnityPlus.Serialization.Formats
 {
     /// <summary>
     /// Binary format implementation.

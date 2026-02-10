@@ -7,7 +7,7 @@ namespace UnityPlus.Serialization
 {
     public class GameObjectDescriptor : CompositeDescriptor
     {
-        public override Type WrappedType => typeof( GameObject );
+        public override Type MappedType => typeof( GameObject );
 
         // Steps:
         // 0: Name
@@ -95,10 +95,10 @@ namespace UnityPlus.Serialization
         private struct PropertyMember : IMemberInfo
         {
             public string Name { get; }
-            public int Index => -1;
+            public readonly int Index => -1;
             public Type MemberType { get; }
             public IDescriptor TypeDescriptor { get; }
-            public bool RequiresWriteBack => false;
+            public readonly bool RequiresWriteBack => false;
 
             private Func<object, object> _getter;
             private RefSetter<object, object> _setter;
@@ -143,7 +143,7 @@ namespace UnityPlus.Serialization
     /// </summary>
     public class ComponentSequenceDescriptor : CompositeDescriptor
     {
-        public override Type WrappedType => typeof( GameObject );
+        public override Type MappedType => typeof( GameObject );
 
         public override int GetStepCount( object target )
         {
@@ -201,7 +201,7 @@ namespace UnityPlus.Serialization
     /// </summary>
     public class ChildSequenceDescriptor : CollectionDescriptor
     {
-        public override Type WrappedType => typeof( GameObject );
+        public override Type MappedType => typeof( GameObject );
 
         // We act as a collection of GameObjects
         public override int GetStepCount( object target )

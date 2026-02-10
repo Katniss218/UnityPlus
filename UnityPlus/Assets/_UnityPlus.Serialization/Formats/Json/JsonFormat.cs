@@ -1,10 +1,10 @@
 ﻿using System.IO;
 using UnityPlus.Serialization.Json;
 
-namespace UnityPlus.Serialization.DataHandlers
+namespace UnityPlus.Serialization.Formats
 {
     /// <summary>
-    /// JSON format implementation using the Utf8 JsonStreamReader/Writer.
+    /// UTF-8 JSON format implementation.
     /// </summary>
     public class JsonFormat : ISerializationFormat
     {

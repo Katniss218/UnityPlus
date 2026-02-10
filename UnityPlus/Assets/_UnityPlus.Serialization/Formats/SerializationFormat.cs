@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace UnityPlus.Serialization.DataHandlers
+namespace UnityPlus.Serialization.Formats
 {
     /// <summary>
     /// Defines a strategy for converting between a Stream and SerializedData.

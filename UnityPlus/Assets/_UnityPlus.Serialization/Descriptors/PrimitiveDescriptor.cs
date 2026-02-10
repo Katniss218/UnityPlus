@@ -5,7 +5,7 @@ namespace UnityPlus.Serialization
 {
     public abstract class PrimitiveDescriptor<T> : IPrimitiveDescriptor
     {
-        public Type WrappedType => typeof( T );
+        public Type MappedType => typeof( T );
 
         public abstract void SerializeDirect( object target, ref SerializedData data, SerializationContext ctx );
         public abstract DeserializationResult DeserializeDirect( SerializedData data, SerializationContext ctx, out object result );

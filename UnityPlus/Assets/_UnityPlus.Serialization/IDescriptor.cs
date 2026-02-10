@@ -7,7 +7,7 @@ namespace UnityPlus.Serialization
     /// </summary>
     public interface IDescriptor
     {
-        Type WrappedType { get; }
+        Type MappedType { get; }
 
         /// <summary>
         /// Creates the initial object for serialization. 

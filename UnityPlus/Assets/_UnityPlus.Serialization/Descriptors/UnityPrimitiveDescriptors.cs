@@ -9,7 +9,7 @@ namespace UnityPlus.Serialization
         // --- VECTORS ---
 
         [MapsInheritingFrom( typeof( Vector2 ) )]
-        public static IDescriptor Vector2Descriptor() => new DelegatePrimitiveDescriptor<Vector2>(
+        public static IDescriptor Vector2Descriptor() => new PrimitiveConfigurableDescriptor<Vector2>(
             ( target, wrapper, ctx ) =>
                 wrapper.Data = new SerializedArray { (SerializedPrimitive)target.x, (SerializedPrimitive)target.y },
             ( data, ctx ) =>
@@ -17,7 +17,7 @@ namespace UnityPlus.Serialization
         );
 
         [MapsInheritingFrom( typeof( Vector3 ) )]
-        public static IDescriptor Vector3Descriptor() => new DelegatePrimitiveDescriptor<Vector3>(
+        public static IDescriptor Vector3Descriptor() => new PrimitiveConfigurableDescriptor<Vector3>(
             ( target, wrapper, ctx ) =>
                 wrapper.Data = new SerializedArray { (SerializedPrimitive)target.x, (SerializedPrimitive)target.y, (SerializedPrimitive)target.z },
             ( data, ctx ) =>
@@ -25,7 +25,7 @@ namespace UnityPlus.Serialization
         );
 
         [MapsInheritingFrom( typeof( Vector4 ) )]
-        public static IDescriptor Vector4Descriptor() => new DelegatePrimitiveDescriptor<Vector4>(
+        public static IDescriptor Vector4Descriptor() => new PrimitiveConfigurableDescriptor<Vector4>(
             ( target, wrapper, ctx ) =>
                 wrapper.Data = new SerializedArray { (SerializedPrimitive)target.x, (SerializedPrimitive)target.y, (SerializedPrimitive)target.z, (SerializedPrimitive)target.w },
             ( data, ctx ) =>
@@ -33,7 +33,7 @@ namespace UnityPlus.Serialization
         );
 
         [MapsInheritingFrom( typeof( Vector2Int ) )]
-        public static IDescriptor Vector2IntDescriptor() => new DelegatePrimitiveDescriptor<Vector2Int>(
+        public static IDescriptor Vector2IntDescriptor() => new PrimitiveConfigurableDescriptor<Vector2Int>(
             ( target, wrapper, ctx ) =>
                 wrapper.Data = new SerializedArray { (SerializedPrimitive)target.x, (SerializedPrimitive)target.y },
             ( data, ctx ) =>
@@ -41,7 +41,7 @@ namespace UnityPlus.Serialization
         );
 
         [MapsInheritingFrom( typeof( Vector3Int ) )]
-        public static IDescriptor Vector3IntDescriptor() => new DelegatePrimitiveDescriptor<Vector3Int>(
+        public static IDescriptor Vector3IntDescriptor() => new PrimitiveConfigurableDescriptor<Vector3Int>(
             ( target, wrapper, ctx ) =>
                 wrapper.Data = new SerializedArray { (SerializedPrimitive)target.x, (SerializedPrimitive)target.y, (SerializedPrimitive)target.z },
             ( data, ctx ) =>
@@ -51,7 +51,7 @@ namespace UnityPlus.Serialization
         // --- QUATERNION ---
 
         [MapsInheritingFrom( typeof( Quaternion ) )]
-        public static IDescriptor QuaternionDescriptor() => new DelegatePrimitiveDescriptor<Quaternion>(
+        public static IDescriptor QuaternionDescriptor() => new PrimitiveConfigurableDescriptor<Quaternion>(
             ( target, wrapper, ctx ) =>
                 wrapper.Data = new SerializedArray { (SerializedPrimitive)target.x, (SerializedPrimitive)target.y, (SerializedPrimitive)target.z, (SerializedPrimitive)target.w },
             ( data, ctx ) =>
@@ -61,7 +61,7 @@ namespace UnityPlus.Serialization
         // --- MATRIX ---
 
         [MapsInheritingFrom( typeof( Matrix4x4 ) )]
-        public static IDescriptor Matrix4x4Descriptor() => new DelegatePrimitiveDescriptor<Matrix4x4>(
+        public static IDescriptor Matrix4x4Descriptor() => new PrimitiveConfigurableDescriptor<Matrix4x4>(
             ( target, wrapper, ctx ) => {
                 var arr = new SerializedArray( 16 );
                 for( int i = 0; i < 16; i++ ) arr.Add( (SerializedPrimitive)target[i] );
@@ -81,7 +81,7 @@ namespace UnityPlus.Serialization
         // --- COLORS ---
 
         [MapsInheritingFrom( typeof( Color ) )]
-        public static IDescriptor ColorDescriptor() => new DelegatePrimitiveDescriptor<Color>(
+        public static IDescriptor ColorDescriptor() => new PrimitiveConfigurableDescriptor<Color>(
             ( c, wrapper, ctx ) =>
                 wrapper.Data = new SerializedObject
                 {
@@ -100,7 +100,7 @@ namespace UnityPlus.Serialization
         );
 
         [MapsInheritingFrom( typeof( Color32 ) )]
-        public static IDescriptor Color32Descriptor() => new DelegatePrimitiveDescriptor<Color32>(
+        public static IDescriptor Color32Descriptor() => new PrimitiveConfigurableDescriptor<Color32>(
             ( c, wrapper, ctx ) =>
                 wrapper.Data = new SerializedObject
                 {
@@ -121,7 +121,7 @@ namespace UnityPlus.Serialization
         // --- RECT & BOUNDS ---
 
         [MapsInheritingFrom( typeof( Rect ) )]
-        public static IDescriptor RectDescriptor() => new DelegatePrimitiveDescriptor<Rect>(
+        public static IDescriptor RectDescriptor() => new PrimitiveConfigurableDescriptor<Rect>(
             ( r, wrapper, ctx ) =>
                 wrapper.Data = new SerializedObject
                 {
@@ -140,7 +140,7 @@ namespace UnityPlus.Serialization
         );
 
         [MapsInheritingFrom( typeof( RectInt ) )]
-        public static IDescriptor RectIntDescriptor() => new DelegatePrimitiveDescriptor<RectInt>(
+        public static IDescriptor RectIntDescriptor() => new PrimitiveConfigurableDescriptor<RectInt>(
             ( r, wrapper, ctx ) =>
                 wrapper.Data = new SerializedObject
                 {
@@ -161,7 +161,7 @@ namespace UnityPlus.Serialization
         // --- BOUNDS ---
 
         [MapsInheritingFrom( typeof( Bounds ) )]
-        public static IDescriptor BoundsDescriptor() => new DelegatePrimitiveDescriptor<Bounds>(
+        public static IDescriptor BoundsDescriptor() => new PrimitiveConfigurableDescriptor<Bounds>(
             ( b, wrapper, ctx ) => {
                 var centerDesc = TypeDescriptorRegistry.GetDescriptor( typeof( Vector3 ) ) as IPrimitiveDescriptor;
                 var extentsDesc = TypeDescriptorRegistry.GetDescriptor( typeof( Vector3 ) ) as IPrimitiveDescriptor;
@@ -184,7 +184,7 @@ namespace UnityPlus.Serialization
         );
 
         [MapsInheritingFrom( typeof( BoundsInt ) )]
-        public static IDescriptor BoundsIntDescriptor() => new DelegatePrimitiveDescriptor<BoundsInt>(
+        public static IDescriptor BoundsIntDescriptor() => new PrimitiveConfigurableDescriptor<BoundsInt>(
             ( b, wrapper, ctx ) => {
                 var v3Desc = TypeDescriptorRegistry.GetDescriptor( typeof( Vector3Int ) ) as IPrimitiveDescriptor;
                 SerializedData p = null, s = null;

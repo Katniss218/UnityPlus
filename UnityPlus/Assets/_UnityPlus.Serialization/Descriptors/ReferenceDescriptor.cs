@@ -20,6 +20,7 @@ namespace UnityPlus.Serialization
             if( data == null ) return DeserializationResult.Success;
 
             // 1. Extract GUID
+#warning TODO - use v3 extension for guid loading.
             if( !data.TryGetValue( KeyNames.REF, out SerializedData refVal ) )
             {
                 // Polymorphic mismatch or invalid data

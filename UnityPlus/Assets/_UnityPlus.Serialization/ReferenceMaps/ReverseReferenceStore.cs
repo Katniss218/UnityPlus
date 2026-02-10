@@ -66,5 +66,17 @@ namespace UnityPlus.Serialization.ReferenceMaps
 
             _reverse[obj] = id;
         }
+
+        public override string ToString()
+        {
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine( $"--- Reference Map Dump ({this.GetType().Name}) ---" );
+            foreach( var (id, obj) in this.GetAll() )
+            {
+                string objName = obj.IsUnityNull() ? "NULL" : obj.ToString();
+                sb.AppendLine( $"{id} : {objName}" );
+            }
+            return sb.ToString();
+        }
     }
 }

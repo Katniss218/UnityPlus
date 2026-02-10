@@ -1,12 +1,11 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace UnityPlus.Serialization
 {
     public class ListDescriptor<T> : CollectionDescriptor, TypeDescriptorRegistry.ICollectionDescriptorWithContext
     {
-        public override Type WrappedType => typeof( List<T> );
+        public override Type MappedType => typeof( List<T> );
 
         // The context used to resolve descriptors for the elements of the list.
         public int ElementContext { get; set; } = 0;
@@ -55,11 +54,11 @@ namespace UnityPlus.Serialization
 
         private struct ListMemberInfo : IMemberInfo
         {
-            public string Name => null;
-            public int Index => _index;
-            public Type MemberType => typeof( T );
-            public IDescriptor TypeDescriptor { get; }
-            public bool RequiresWriteBack => typeof( T ).IsValueType;
+            public readonly string Name => null;
+            public readonly int Index => _index;
+            public readonly Type MemberType => typeof( T );
+            public readonly IDescriptor TypeDescriptor { get; }
+            public readonly bool RequiresWriteBack => typeof( T ).IsValueType;
 
             private int _index;
 
