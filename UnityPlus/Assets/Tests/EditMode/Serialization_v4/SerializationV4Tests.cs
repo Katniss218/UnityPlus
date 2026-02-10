@@ -2,10 +2,9 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityPlus.Serialization;
 using UnityPlus.Serialization.ReferenceMaps;
 
-namespace SerializationV4Tests
+namespace UnityPlus.Serialization.Tests.V4
 {
     public class SerializationV4Tests
     {
@@ -45,7 +44,7 @@ namespace SerializationV4Tests
             int value = 42;
             var desc = TypeDescriptorRegistry.GetDescriptor( typeof( int ) );
 
-            _driver.Initialize( value, desc, new SerializerStrategy() );
+            _driver.Initialize( value, desc, new SerializationStrategy() );
             RunDriver();
 
             var result = (SerializedPrimitive)_driver.Result;
@@ -59,12 +58,12 @@ namespace SerializationV4Tests
             var desc = TypeDescriptorRegistry.GetDescriptor( typeof( Vector3 ) );
 
             // Serialize
-            _driver.Initialize( original, desc, new SerializerStrategy() );
+            _driver.Initialize( original, desc, new SerializationStrategy() );
             RunDriver();
             var data = (SerializedData)_driver.Result;
 
             // Deserialize
-            _driver.Initialize( null, desc, new DeserializerStrategy(), data );
+            _driver.Initialize( null, desc, new DeserializationStrategy(), data );
             RunDriver();
             var result = (Vector3)_driver.Result;
 
@@ -78,12 +77,12 @@ namespace SerializationV4Tests
             var desc = TypeDescriptorRegistry.GetDescriptor( typeof( TestClass ) );
 
             // Serialize
-            _driver.Initialize( original, desc, new SerializerStrategy() );
+            _driver.Initialize( original, desc, new SerializationStrategy() );
             RunDriver();
             var data = (SerializedData)_driver.Result;
 
             // Deserialize
-            _driver.Initialize( null, desc, new DeserializerStrategy(), data );
+            _driver.Initialize( null, desc, new DeserializationStrategy(), data );
             RunDriver();
             var result = (TestClass)_driver.Result;
 
@@ -103,13 +102,13 @@ namespace SerializationV4Tests
             var desc = TypeDescriptorRegistry.GetDescriptor( typeof( Node ) );
 
             // Serialize A (should include B)
-            _driver.Initialize( a, desc, new SerializerStrategy() );
+            _driver.Initialize( a, desc, new SerializationStrategy() );
             RunDriver();
             var data = (SerializedData)_driver.Result;
 
             // Deserialize
             // We expect the circular reference to be resolved via Deferred Queue
-            _driver.Initialize( null, desc, new DeserializerStrategy(), data );
+            _driver.Initialize( null, desc, new DeserializationStrategy(), data );
             RunDriver();
             var resultA = (Node)_driver.Result;
 
@@ -128,12 +127,12 @@ namespace SerializationV4Tests
             var desc = TypeDescriptorRegistry.GetDescriptor( typeof( int[] ) );
 
             // Serialize
-            _driver.Initialize( original, desc, new SerializerStrategy() );
+            _driver.Initialize( original, desc, new SerializationStrategy() );
             RunDriver();
             var data = (SerializedData)_driver.Result;
 
             // Deserialize
-            _driver.Initialize( null, desc, new DeserializerStrategy(), data );
+            _driver.Initialize( null, desc, new DeserializationStrategy(), data );
             RunDriver();
             var result = (int[])_driver.Result;
 
@@ -148,12 +147,12 @@ namespace SerializationV4Tests
             var desc = TypeDescriptorRegistry.GetDescriptor( typeof( List<string> ) );
 
             // Serialize
-            _driver.Initialize( original, desc, new SerializerStrategy() );
+            _driver.Initialize( original, desc, new SerializationStrategy() );
             RunDriver();
             var data = (SerializedData)_driver.Result;
 
             // Deserialize
-            _driver.Initialize( null, desc, new DeserializerStrategy(), data );
+            _driver.Initialize( null, desc, new DeserializationStrategy(), data );
             RunDriver();
             var result = (List<string>)_driver.Result;
 
@@ -168,12 +167,12 @@ namespace SerializationV4Tests
             var desc = TypeDescriptorRegistry.GetDescriptor( typeof( Dictionary<string, int> ) );
 
             // Serialize
-            _driver.Initialize( original, desc, new SerializerStrategy() );
+            _driver.Initialize( original, desc, new SerializationStrategy() );
             RunDriver();
             var data = (SerializedData)_driver.Result;
 
             // Deserialize
-            _driver.Initialize( null, desc, new DeserializerStrategy(), data );
+            _driver.Initialize( null, desc, new DeserializationStrategy(), data );
             RunDriver();
             var result = (Dictionary<string, int>)_driver.Result;
 
@@ -188,13 +187,13 @@ namespace SerializationV4Tests
             var desc = TypeDescriptorRegistry.GetDescriptor( typeof( CallbackTestClass ) );
 
             // Serialize
-            _driver.Initialize( obj, desc, new SerializerStrategy() );
+            _driver.Initialize( obj, desc, new SerializationStrategy() );
             RunDriver();
             Assert.That( obj.Serialized, Is.True, "OnBeforeSerialize should be called." );
 
             // Deserialize
             var data = (SerializedData)_driver.Result;
-            _driver.Initialize( null, desc, new DeserializerStrategy(), data );
+            _driver.Initialize( null, desc, new DeserializationStrategy(), data );
             RunDriver();
             var result = (CallbackTestClass)_driver.Result;
 

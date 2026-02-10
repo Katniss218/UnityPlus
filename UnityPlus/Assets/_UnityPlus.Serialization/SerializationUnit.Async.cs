@@ -1,113 +1,137 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
+using UnityPlus.Serialization.ReferenceMaps;
 
 namespace UnityPlus.Serialization
 {
+    /// <summary>
+    /// Async extensions for SerializationUnitV4 using MainThreadDispatcher for time-sliced execution.
+    /// </summary>
     public static partial class SerializationUnit
-    {
-        //
-        //  Creation methods (separate create + act + retrieve).
-        //
+	{
+		// --- Serialize Async ---
 
-        /// <summary>
-        /// Creates a serialization unit that will serialize (save) the specified object of type <typeparamref name="T"/>.
-        /// </summary>
-        public static SerializationUnitAsyncSaver<T> FromObjectsAsync<T>( T obj )
-        {
-            return new SerializationUnitAsyncSaver<T>( new T[] { obj }, ObjectContext.Default );
-        }
+		public static Task<SerializedData> SerializeAsync<T>( T obj, float timeBudgetMs = 2f )
+			=> SerializeAsync( ObjectContext.Default, obj, null, timeBudgetMs );
 
-        public static SerializationUnitAsyncSaver<T> FromObjectsAsync<T>( int context, T obj )
-        {
-            return new SerializationUnitAsyncSaver<T>( new T[] { obj }, context );
-        }
+		public static Task<SerializedData> SerializeAsync<T>( int context, T obj, float timeBudgetMs = 2f )
+			=> SerializeAsync( context, obj, null, timeBudgetMs );
 
-        /// <summary>
-        /// Creates a serialization unit that will serialize (save) the specified collection of objects.
-        /// </summary>
-        public static SerializationUnitAsyncSaver<T> FromObjectsAsync<T>( IEnumerable<T> objects )
-        {
-            return new SerializationUnitAsyncSaver<T>( objects.ToArray(), ObjectContext.Default );
-        }
+		public static Task<SerializedData> SerializeAsync<T>( T obj, IReverseReferenceMap refs, float timeBudgetMs = 2f )
+			=> SerializeAsync( ObjectContext.Default, obj, refs, timeBudgetMs );
 
-        public static SerializationUnitAsyncSaver<T> FromObjectsAsync<T>( int context, IEnumerable<T> objects )
-        {
-            return new SerializationUnitAsyncSaver<T>( objects.ToArray(), context );
-        }
+		public static Task<SerializedData> SerializeAsync<T>( int context, T obj, IReverseReferenceMap refs, float timeBudgetMs = 2f )
+		{
+			var ctx = new SerializationContext
+			{
+				ReverseMap = refs ?? new BidirectionalReferenceStore(),
+				ForwardMap = new ForwardReferenceStore()
+			};
 
-        /// <summary>
-        /// Creates a serialization unit that will serialize (save) the specified collection of objects.
-        /// </summary>
-        public static SerializationUnitAsyncSaver<T> FromObjectsAsync<T>( params T[] objects )
-        {
-            return new SerializationUnitAsyncSaver<T>( objects, ObjectContext.Default );
-        }
+			var driver = new StackMachineDriver( ctx );
+			var descriptor = TypeDescriptorRegistry.GetDescriptor( typeof( T ), context );
 
-        public static SerializationUnitAsyncSaver<T> FromObjectsAsync<T>( int context, params T[] objects )
-        {
-            return new SerializationUnitAsyncSaver<T>( objects, context );
-        }
+			driver.Initialize( obj, descriptor, new SerializationStrategy() );
 
-        /// <summary>
-        /// Creates a serialization unit that will deserialize (instantiate and load) an object of type <typeparamref name="T"/> from the specified serialized representation.
-        /// </summary>
-        public static SerializationUnitAsyncLoader<T> FromDataAsync<T>( SerializedData data )
-        {
-            return new SerializationUnitAsyncLoader<T>( new SerializedData[] { data }, ObjectContext.Default );
-        }
-        public static SerializationUnitAsyncLoader<T> FromDataAsync<T>( int context, SerializedData data )
-        {
-            return new SerializationUnitAsyncLoader<T>( new SerializedData[] { data }, context );
-        }
+			return RunDriverAsync<SerializedData>( driver, timeBudgetMs );
+		}
 
-        /// <summary>
-        /// Creates a serialization unit that will deserialize (instantiate and load) a collection of objects from the specified serialized representations.
-        /// </summary>
-        public static SerializationUnitAsyncLoader<T> FromDataAsync<T>( IEnumerable<SerializedData> data )
-        {
-            return new SerializationUnitAsyncLoader<T>( data.ToArray(), ObjectContext.Default );
-        }
-        public static SerializationUnitAsyncLoader<T> FromDataAsync<T>( int context, IEnumerable<SerializedData> data )
-        {
-            return new SerializationUnitAsyncLoader<T>( data.ToArray(), context );
-        }
+		// --- Deserialize Async ---
 
-        /// <summary>
-        /// Creates a serialization unit that will deserialize (instantiate and load) a collection of objects from the specified serialized representations.
-        /// </summary>
-        public static SerializationUnitAsyncLoader<T> FromDataAsync<T>( params SerializedData[] data )
-        {
-            return new SerializationUnitAsyncLoader<T>( data, ObjectContext.Default );
-        }
-        public static SerializationUnitAsyncLoader<T> FromDataAsync<T>( int context, params SerializedData[] data )
-        {
-            return new SerializationUnitAsyncLoader<T>( data, context );
-        }
+		public static Task<T> DeserializeAsync<T>( SerializedData data, float timeBudgetMs = 2f )
+			=> DeserializeAsync<T>( ObjectContext.Default, data, null, timeBudgetMs );
 
-        /// <summary>
-        /// Creates a serialization unit that will populate (load) the members of the specified object of type <typeparamref name="T"/> with the specified serialized representation of the same object.
-        /// </summary>
-        public static SerializationUnitAsyncLoader<T> PopulateObjectAsync<T>( T obj, SerializedData data )
-        {
-            return new SerializationUnitAsyncLoader<T>( new T[] { obj }, new SerializedData[] { data }, ObjectContext.Default );
-        }
+		public static Task<T> DeserializeAsync<T>( int context, SerializedData data, float timeBudgetMs = 2f )
+			=> DeserializeAsync<T>( context, data, null, timeBudgetMs );
 
-        public static SerializationUnitAsyncLoader<T> PopulateObjectAsync<T>( int context, T obj, SerializedData data )
-        {
-            return new SerializationUnitAsyncLoader<T>( new T[] { obj }, new SerializedData[] { data }, context );
-        }
+		public static Task<T> DeserializeAsync<T>( SerializedData data, IForwardReferenceMap refs, float timeBudgetMs = 2f )
+			=> DeserializeAsync<T>( ObjectContext.Default, data, refs, timeBudgetMs );
 
-        /// <summary>
-        /// Creates a serialization unit that will populate (load) the members of the specified objects with the corresponding specified serialized representations (objects[i] <![CDATA[<]]>==> data[i]).
-        /// </summary>
-        public static SerializationUnitAsyncLoader<T> PopulateObjectsAsync<T>( T[] objects, SerializedData[] data )
-        {
-            return new SerializationUnitAsyncLoader<T>( objects, data, ObjectContext.Default );
-        }
-        public static SerializationUnitAsyncLoader<T> PopulateObjectsAsync<T>( int context, T[] objects, SerializedData[] data )
-        {
-            return new SerializationUnitAsyncLoader<T>( objects, data, context );
-        }
-    }
+		public static Task<T> DeserializeAsync<T>( int context, SerializedData data, IForwardReferenceMap refs, float timeBudgetMs = 2f )
+		{
+			var ctx = new SerializationContext
+			{
+				ForwardMap = refs ?? new BidirectionalReferenceStore(),
+				ReverseMap = new ReverseReferenceStore()
+			};
+
+			var driver = new StackMachineDriver( ctx );
+			var descriptor = TypeDescriptorRegistry.GetDescriptor( typeof( T ), context );
+
+			driver.Initialize( null, descriptor, new DeserializationStrategy(), data );
+
+			return RunDriverAsync<T>( driver, timeBudgetMs );
+		}
+
+		// --- Populate Async ---
+
+		/// <summary>
+		/// Populates the object with data asynchronously. 
+		/// Returns the populated object (if T is a struct, the result is the modified boxed copy).
+		/// </summary>
+		public static Task<T> PopulateAsync<T>( T obj, SerializedData data, float timeBudgetMs = 2f )
+			=> PopulateAsync( ObjectContext.Default, obj, data, null, timeBudgetMs );
+
+		public static Task<T> PopulateAsync<T>( int context, T obj, SerializedData data, float timeBudgetMs = 2f )
+			=> PopulateAsync( context, obj, data, null, timeBudgetMs );
+
+		public static Task<T> PopulateAsync<T>( T obj, SerializedData data, IForwardReferenceMap refs, float timeBudgetMs = 2f )
+			=> PopulateAsync( ObjectContext.Default, obj, data, refs, timeBudgetMs );
+
+		public static Task<T> PopulateAsync<T>( int context, T obj, SerializedData data, IForwardReferenceMap refs, float timeBudgetMs = 2f )
+		{
+			if( obj == null ) throw new ArgumentNullException( nameof( obj ) );
+
+			var ctx = new SerializationContext
+			{
+				ForwardMap = refs ?? new BidirectionalReferenceStore(),
+				ReverseMap = new ReverseReferenceStore()
+			};
+
+			var driver = new StackMachineDriver( ctx );
+			var descriptor = TypeDescriptorRegistry.GetDescriptor( typeof( T ), context );
+
+			// PopulateExisting logic: Target is provided during Initialize
+			// Note: If T is struct, 'obj' is a copy. The result Task returns the modified copy.
+			driver.Initialize( obj, descriptor, new DeserializationStrategy(), data );
+
+			return RunDriverAsync<T>( driver, timeBudgetMs );
+		}
+
+		// --- Driver Helper ---
+
+		private static Task<TReturn> RunDriverAsync<TReturn>( StackMachineDriver driver, float timeBudgetMs )
+		{
+			var tcs = new TaskCompletionSource<TReturn>();
+
+			// We use a self-scheduling action to tick the driver via MainThreadDispatcher.
+			// This distributes the work across frames if the budget is exceeded.
+			Action tick = null;
+			tick = () =>
+			{
+				try
+				{
+					driver.Tick( timeBudgetMs );
+
+					if( driver.IsFinished )
+					{
+						tcs.SetResult( (TReturn)driver.Result );
+					}
+					else
+					{
+#warning TODO - consider max total time / cancellation token
+						// Schedule next tick
+						MainThreadDispatcher.Enqueue( tick );
+					}
+				}
+				catch( Exception ex )
+				{
+					tcs.SetException( ex );
+				}
+			};
+
+			MainThreadDispatcher.Enqueue( tick );
+			return tcs.Task;
+		}
+	}
 }

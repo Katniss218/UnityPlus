@@ -18,7 +18,7 @@ namespace UnityPlus.Serialization
         /// <summary>
         /// The specific descriptor instance, if available. 
         /// </summary>
-        public ITypeDescriptor Descriptor { get; }
+        public IDescriptor Descriptor { get; }
 
         public TypeDescriptorException()
         {
@@ -55,7 +55,7 @@ namespace UnityPlus.Serialization
         /// <summary>
         /// Creates an exception associated with a specific descriptor instance.
         /// </summary>
-        public TypeDescriptorException( ITypeDescriptor descriptor, string message )
+        public TypeDescriptorException( IDescriptor descriptor, string message )
             : base( $"Descriptor Error [{descriptor?.WrappedType?.Name ?? "Unknown"}]: {message}" )
         {
             Descriptor = descriptor;
@@ -65,7 +65,7 @@ namespace UnityPlus.Serialization
         /// <summary>
         /// Creates an exception associated with a specific descriptor instance.
         /// </summary>
-        public TypeDescriptorException( ITypeDescriptor descriptor, string message, Exception innerException )
+        public TypeDescriptorException( IDescriptor descriptor, string message, Exception innerException )
             : base( $"Descriptor Error [{descriptor?.WrappedType?.Name ?? "Unknown"}]: {message}", innerException )
         {
             Descriptor = descriptor;

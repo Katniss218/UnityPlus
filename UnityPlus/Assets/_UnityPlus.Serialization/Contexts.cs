@@ -61,6 +61,10 @@ namespace UnityPlus.Serialization
             // Map legacy array contexts to the new Unified Collection Context type
             ContextRegistry.RegisterMapping( typeof( Contexts.CtxCollection<Contexts.Reference> ), Refs );
             ContextRegistry.RegisterMapping( typeof( Contexts.CtxCollection<Contexts.Asset> ), Assets );
+
+            // Explicitly register the Rules for these integer IDs
+            ContextRegistry.RegisterCollectionRule( Refs, ObjectContext.Ref );
+            ContextRegistry.RegisterCollectionRule( Assets, ObjectContext.Asset );
         }
     }
 
@@ -79,12 +83,18 @@ namespace UnityPlus.Serialization
         static KeyValueContext()
         {
             // We map the legacy combination IDs to the equivalent Generic Type combination.
-
             ContextRegistry.RegisterMapping( typeof( Contexts.CtxDict<Contexts.Default, Contexts.Reference> ), ValueToRef );
             ContextRegistry.RegisterMapping( typeof( Contexts.CtxDict<Contexts.Reference, Contexts.Default> ), RefToValue );
             ContextRegistry.RegisterMapping( typeof( Contexts.CtxDict<Contexts.Reference, Contexts.Reference> ), RefToRef );
             ContextRegistry.RegisterMapping( typeof( Contexts.CtxDict<Contexts.Default, Contexts.Asset> ), ValueToAsset );
             ContextRegistry.RegisterMapping( typeof( Contexts.CtxDict<Contexts.Reference, Contexts.Asset> ), RefToAsset );
+
+            // Explicitly register the Rules for these integer IDs
+            ContextRegistry.RegisterDictionaryRule( ValueToRef, ObjectContext.Default, ObjectContext.Ref );
+            ContextRegistry.RegisterDictionaryRule( RefToValue, ObjectContext.Ref, ObjectContext.Default );
+            ContextRegistry.RegisterDictionaryRule( RefToRef, ObjectContext.Ref, ObjectContext.Ref );
+            ContextRegistry.RegisterDictionaryRule( ValueToAsset, ObjectContext.Default, ObjectContext.Asset );
+            ContextRegistry.RegisterDictionaryRule( RefToAsset, ObjectContext.Ref, ObjectContext.Asset );
         }
     }
 
