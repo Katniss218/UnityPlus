@@ -52,6 +52,17 @@ namespace UnityPlus.Serialization
             return _cachedKvpDescriptor;
         }
 
+        public override IEnumerator<IMemberInfo> GetMemberEnumerator( object target )
+        {
+            var dict = (TDict)target;
+            var kvpDesc = GetKvpDescriptor();
+            int index = 0;
+            foreach( var kvp in dict )
+            {
+                yield return new DictionaryEntryMemberInfo( index++, kvp, kvpDesc, true );
+            }
+        }
+
         public override IMemberInfo GetMemberInfo( int stepIndex, object target )
         {
             var dict = (TDict)target;
@@ -62,6 +73,7 @@ namespace UnityPlus.Serialization
             if( isExisting )
             {
                 // O(N) access - Dictionaries are not indexable. 
+                // This fallback is only used if GetMemberEnumerator returns null or during random access if needed.
                 kvp = dict.ElementAt( stepIndex );
             }
 

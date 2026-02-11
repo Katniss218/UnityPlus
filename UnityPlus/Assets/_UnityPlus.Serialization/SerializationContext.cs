@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace UnityPlus.Serialization
 {
+    /// <summary>
+    /// Represents the mutable session state of a serialization operation.
+    /// </summary>
     public class SerializationContext
     {
+        public SerializationConfiguration Config { get; }
+
         public IForwardReferenceMap ForwardMap { get; set; } // Used for serialization.
         public IReverseReferenceMap ReverseMap { get; set; } // Used for deserialization.
-
-        public ITypeResolver TypeResolver { get; set; } = new DefaultTypeResolver();
 
         /// <summary>
         /// Collects errors, warnings, and info logs generated during the operation.
@@ -16,19 +18,20 @@ namespace UnityPlus.Serialization
         public SerializationLog Log { get; } = new SerializationLog();
 
         /// <summary>
-        /// If true, Collections (Arrays/Lists) are serialized as standard JSON arrays `[...]`.
-        /// If false (default), Collections are wrapped in an object `{"$id":..., "values": [...]}` to ensure reference integrity.
-        /// </summary>
-        /// <remarks>
-        /// This prevents references to arrays from being preserved, but allows compatibility with standard json syntax.
-        /// </remarks>
-        public bool ForceStandardJson { get; set; } = false;
-
-        /// <summary>
         /// Holds operations that failed due to missing dependencies.
         /// They will be retried after the main stack is cleared.
         /// </summary>
         public Queue<DeferredOperation> DeferredOperations { get; private set; } = new Queue<DeferredOperation>();
+
+        public SerializationContext( SerializationConfiguration config )
+        {
+            Config = config ?? new SerializationConfiguration();
+        }
+
+        public SerializationContext()
+        {
+            Config = new SerializationConfiguration();
+        }
 
         public void EnqueueDeferred( object target, IMemberInfo member, SerializedData data )
         {

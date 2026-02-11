@@ -1,4 +1,6 @@
-﻿namespace UnityPlus.Serialization
+﻿using System.Collections.Generic;
+
+namespace UnityPlus.Serialization
 {
     /// <summary>
     /// Represents the state of a single object currently being processed on the stack.
@@ -29,6 +31,12 @@
         /// The current step (arg index or member index) we are processing within the current Phase.
         /// </summary>
         public int StepIndex;
+
+        /// <summary>
+        /// Used for O(N) iteration of collections during Serialization phase.
+        /// If null, StepIndex is used to access members via GetMemberInfo(index).
+        /// </summary>
+        public IEnumerator<IMemberInfo> MemberEnumerator;
 
         /// <summary>
         /// The number of steps in the Construction Phase.

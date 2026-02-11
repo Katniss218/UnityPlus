@@ -1,4 +1,6 @@
-﻿namespace UnityPlus.Serialization
+﻿using System.Collections.Generic;
+
+namespace UnityPlus.Serialization
 {
     /// <summary>
     /// Describes a Node that contains other nodes (Class, Struct, Array).
@@ -15,6 +17,12 @@
         /// Gets the descriptor for a specific step (index).
         /// </summary>
         IMemberInfo GetMemberInfo( int stepIndex, object target );
+
+        /// <summary>
+        /// Returns an enumerator for members, enabling O(N) serialization for collections.
+        /// Returns null if random access (GetMemberInfo) should be used.
+        /// </summary>
+        IEnumerator<IMemberInfo> GetMemberEnumerator( object target );
 
         // --- Immutable / Hybrid Construction Support ---
 

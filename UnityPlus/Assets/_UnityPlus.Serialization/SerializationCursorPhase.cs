@@ -13,7 +13,7 @@
         /// Gathering arguments for the constructor. Target is null (or buffer).
         /// </summary>
         /// <remarks>
-        /// Only used for deserialization.
+        /// Only used for deserialization, and only for objects which are at least partially immutable.
         /// </remarks>
         Construction,
 

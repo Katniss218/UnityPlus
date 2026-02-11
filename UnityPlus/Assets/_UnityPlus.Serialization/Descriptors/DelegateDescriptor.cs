@@ -326,7 +326,7 @@ namespace UnityPlus.Serialization
                 result = null;
                 if( data is SerializedPrimitive prim && prim._type == SerializedPrimitive.DataType.String )
                 {
-                    result = ctx.TypeResolver.ResolveType( (string)prim );
+                    result = ctx.Config.TypeResolver.ResolveType( (string)prim );
                     return DeserializationResult.Success;
                 }
                 return DeserializationResult.Success; // Null/Missing is success (null type)

@@ -36,7 +36,7 @@ namespace UnityPlus.Serialization
         /// </summary>
         public static SerializedData Serialize<T>( int context, T obj, IReverseReferenceMap s )
         {
-            var ctx = new SerializationContext
+            var ctx = new SerializationContext( new SerializationConfiguration() )
             {
                 ReverseMap = s ?? new BidirectionalReferenceStore(),
                 ForwardMap = new ForwardReferenceStore() // Not strictly used for serialize but initialized for consistency
@@ -81,7 +81,7 @@ namespace UnityPlus.Serialization
         /// </summary>
         public static T Deserialize<T>( int context, SerializedData data, IForwardReferenceMap l )
         {
-            var ctx = new SerializationContext
+            var ctx = new SerializationContext( new SerializationConfiguration() )
             {
                 ForwardMap = l ?? new BidirectionalReferenceStore(),
                 ReverseMap = new ReverseReferenceStore()
@@ -118,7 +118,7 @@ namespace UnityPlus.Serialization
         {
             if( obj == null ) throw new ArgumentNullException( nameof( obj ) );
 
-            var ctx = new SerializationContext
+            var ctx = new SerializationContext( new SerializationConfiguration() )
             {
                 ForwardMap = l ?? new BidirectionalReferenceStore(),
                 ReverseMap = new ReverseReferenceStore()
@@ -152,7 +152,7 @@ namespace UnityPlus.Serialization
 
         public static void Populate<T>( int context, ref T obj, SerializedData data, IForwardReferenceMap l ) where T : struct
         {
-            var ctx = new SerializationContext
+            var ctx = new SerializationContext( new SerializationConfiguration() )
             {
                 ForwardMap = l ?? new BidirectionalReferenceStore(),
                 ReverseMap = new ReverseReferenceStore()

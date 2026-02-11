@@ -1,5 +1,5 @@
-﻿
-using System;
+﻿using System;
+using System.Collections.Generic;
 
 namespace UnityPlus.Serialization
 {
@@ -13,6 +13,8 @@ namespace UnityPlus.Serialization
         public abstract object Resize( object target, int newSize );
         public abstract int GetStepCount( object target );
         public abstract IMemberInfo GetMemberInfo( int stepIndex, object target );
+
+        public virtual IEnumerator<IMemberInfo> GetMemberEnumerator( object target ) => null;
         public abstract object CreateInitialTarget( SerializedData data, SerializationContext ctx );
 
         public virtual int GetConstructionStepCount( object target ) => 0;

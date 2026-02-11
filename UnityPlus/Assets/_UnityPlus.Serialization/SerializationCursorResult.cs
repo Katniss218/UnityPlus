@@ -3,23 +3,27 @@
     public enum SerializationCursorResult
     {
         /// <summary>
-        /// Keep processing the current cursor
+        /// Move to the next step (Increment StepIndex).
         /// </summary>
-        Continue,
+        Advance,
+
         /// <summary>
-        /// Pop the current cursor
+        /// Keep the current StepIndex (used for Phase changes or Retry).
+        /// </summary>
+        Jump,
+
+        /// <summary>
+        /// Push a child cursor. The Driver will increment the Parent's StepIndex automatically.
+        /// </summary>
+        Push,
+
+        /// <summary>
+        /// Pop the current cursor (Finished processing).
         /// </summary>
         Finished,
+
         /// <summary>
-        /// Exit the tick loop (time budget)
-        /// </summary>
-        Paused,
-        /// <summary>
-        /// A new cursor was pushed; loop should restart to process top
-        /// </summary>
-        PushedDependency,
-        /// <summary>
-        /// The current cursor cannot proceed due to missing deps; pop it (it's queued)
+        /// The current cursor cannot proceed due to missing deps; pop it (it's queued).
         /// </summary>
         Deferred
     }

@@ -25,7 +25,7 @@ namespace UnityPlus.Serialization
                     createdNode = SerializationHelpers.CreateCollectionNode(
                         root,
                         state.Context.ReverseMap,
-                        state.Context.ForceStandardJson,
+                        state.Context.Config.ForceStandardJson,
                         out SerializedArray arrayNode );
 
                     // For collections, the DataNode in the cursor tracks the array we are populating
@@ -103,39 +103,56 @@ namespace UnityPlus.Serialization
                     state.VisitedObjects.Add( cursor.TargetObj.Target );
                 }
 
-                // 4. Counts
+                // 4. Counts & Enumerators
                 if( cursor.Descriptor is ICompositeDescriptor newComposite )
                 {
-                    cursor.PopulationStepCount = newComposite.GetStepCount( cursor.TargetObj.Target );
+                    cursor.MemberEnumerator = newComposite.GetMemberEnumerator( cursor.TargetObj.Target );
+                    if( cursor.MemberEnumerator == null )
+                    {
+                        cursor.PopulationStepCount = newComposite.GetStepCount( cursor.TargetObj.Target );
+                    }
                 }
             }
 
             cursor.Phase = SerializationCursorPhase.Population;
             cursor.StepIndex = 0;
-            return SerializationCursorResult.Continue;
+            return SerializationCursorResult.Jump; // Phase change
         }
 
         private SerializationCursorResult PhasePopulation( ref SerializationCursor cursor, SerializationState state )
         {
-            var parentDesc = (ICompositeDescriptor)cursor.Descriptor;
-
-            if( cursor.StepIndex >= cursor.PopulationStepCount )
-            {
-                cursor.Phase = SerializationCursorPhase.PostProcessing;
-                return SerializationCursorResult.Continue;
-            }
-
+            IMemberInfo memberInfo = null;
             int activeStepIndex = cursor.StepIndex;
-            IMemberInfo memberInfo = parentDesc.GetMemberInfo( activeStepIndex, cursor.TargetObj.Target );
+
+            if( cursor.MemberEnumerator != null )
+            {
+                if( !cursor.MemberEnumerator.MoveNext() )
+                {
+                    cursor.Phase = SerializationCursorPhase.PostProcessing;
+                    return SerializationCursorResult.Jump;
+                }
+                memberInfo = cursor.MemberEnumerator.Current;
+                // Note: For enumeration, we still increment StepIndex (Advance) to track count/progress, 
+                // even though 'activeStepIndex' isn't used for lookups in this mode.
+            }
+            else
+            {
+                if( cursor.StepIndex >= cursor.PopulationStepCount )
+                {
+                    cursor.Phase = SerializationCursorPhase.PostProcessing;
+                    return SerializationCursorResult.Jump;
+                }
+
+                var parentDesc = (ICompositeDescriptor)cursor.Descriptor;
+                memberInfo = parentDesc.GetMemberInfo( activeStepIndex, cursor.TargetObj.Target );
+            }
 
             if( memberInfo == null || memberInfo.TypeDescriptor == null ) // Skipped
             {
-                cursor.StepIndex++;
-                return SerializationCursorResult.Continue;
+                return SerializationCursorResult.Advance;
             }
 
             IDescriptor memberDescriptor = memberInfo.TypeDescriptor;
-            cursor.StepIndex++;
 
             // 1. Primitive
             if( memberDescriptor is IPrimitiveDescriptor primitiveDesc )
@@ -144,7 +161,7 @@ namespace UnityPlus.Serialization
                 SerializedData primitiveData = null;
                 primitiveDesc.SerializeDirect( val, ref primitiveData, state.Context );
                 LinkDataNode( cursor.DataNode, memberInfo.Name, primitiveData, activeStepIndex );
-                return SerializationCursorResult.Continue;
+                return SerializationCursorResult.Advance;
             }
 
             // 2. Composite
@@ -154,7 +171,7 @@ namespace UnityPlus.Serialization
             if( childTarget == null )
             {
                 LinkDataNode( cursor.DataNode, memberInfo.Name, null, activeStepIndex );
-                return SerializationCursorResult.Continue;
+                return SerializationCursorResult.Advance;
             }
 
             SerializedData childNode;
@@ -167,7 +184,7 @@ namespace UnityPlus.Serialization
                 childNode = SerializationHelpers.CreateCollectionNode(
                     childTarget,
                     state.Context.ReverseMap,
-                    state.Context.ForceStandardJson,
+                    state.Context.Config.ForceStandardJson,
                     out SerializedArray arrayNode );
                 cursorDataNode = arrayNode;
 
@@ -178,7 +195,7 @@ namespace UnityPlus.Serialization
                         Guid id = state.Context.ReverseMap.GetID( childTarget );
                         SerializedData refNode = new SerializedObject { { KeyNames.REF, (SerializedPrimitive)id.ToString( "D" ) } };
                         LinkDataNode( cursor.DataNode, memberInfo.Name, refNode, activeStepIndex );
-                        return SerializationCursorResult.Continue;
+                        return SerializationCursorResult.Advance;
                     }
                     state.VisitedObjects.Add( childTarget );
                 }
@@ -202,7 +219,7 @@ namespace UnityPlus.Serialization
                     SerializedData primitiveData = null;
                     primitiveDescSwitched.SerializeDirect( childTarget, ref primitiveData, state.Context );
                     LinkDataNode( cursor.DataNode, memberInfo.Name, primitiveData, activeStepIndex );
-                    return SerializationCursorResult.Continue;
+                    return SerializationCursorResult.Advance;
                 }
 
                 if( isRefType && !isCollection )
@@ -213,11 +230,12 @@ namespace UnityPlus.Serialization
                     {
                         SerializedData refNode = new SerializedObject { { KeyNames.REF, (SerializedPrimitive)id.ToString( "D" ) } };
                         LinkDataNode( cursor.DataNode, memberInfo.Name, refNode, activeStepIndex );
-                        return SerializationCursorResult.Continue;
+                        return SerializationCursorResult.Advance;
                     }
 
                     state.VisitedObjects.Add( childTarget );
 
+#warning TODO - use the v3 extension method for guid instead.
                     if( childNode is SerializedObject objNode )
                         objNode[KeyNames.ID] = (SerializedPrimitive)id.ToString( "D" );
                 }
@@ -237,7 +255,7 @@ namespace UnityPlus.Serialization
             };
 
             state.Stack.Push( childCursor );
-            return SerializationCursorResult.PushedDependency;
+            return SerializationCursorResult.Push; // Driver will Increment StepIndex on Parent
         }
 
         public void OnCursorFinished( SerializationCursor cursor, SerializationState state )
@@ -269,6 +287,7 @@ namespace UnityPlus.Serialization
             if( declaredType == actualType ) return;
             if( typeof( Delegate ).IsAssignableFrom( declaredType ) ) return;
 
+#warning TODO - use the v3 extension method for types instead.
             if( dataNode is SerializedObject objNode )
                 objNode[KeyNames.TYPE] = (SerializedPrimitive)actualType.AssemblyQualifiedName;
         }

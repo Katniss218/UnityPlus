@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 
 namespace UnityPlus.Serialization
@@ -22,15 +23,24 @@ namespace UnityPlus.Serialization
         public override object Resize( object target, int newSize )
         {
             List<T> list = (List<T>)target;
-            if( list.Count < newSize )
+
+            // IMPORTANT: We must ensure the collection reflects EXACTLY the serialized data.
+            // Existing items in the list (if we are populating a reused object) must be cleared.
+            list.Clear();
+
+            // Optimization: Pre-allocate capacity to avoid resizing during population
+            if( list.Capacity < newSize )
             {
-                int itemsToAdd = newSize - list.Count;
-                for( int i = 0; i < itemsToAdd; i++ ) list.Add( default );
+                list.Capacity = newSize;
             }
-            else if( list.Count > newSize )
+
+            // Fill with default values so that the StackMachine can access indices [0..N] 
+            // via GetMemberInfo -> SetValue.
+            for( int i = 0; i < newSize; i++ )
             {
-                list.RemoveRange( newSize, list.Count - newSize );
+                list.Add( default );
             }
+
             return list;
         }
 
@@ -41,6 +51,8 @@ namespace UnityPlus.Serialization
 
         public override IMemberInfo GetMemberInfo( int stepIndex, object target )
         {
+            // Note: During deserialization, the list has been resized to contain 'default(T)' at this index.
+            // Getting it is safe.
             object element = ((List<T>)target)[stepIndex];
             Type actualType = element != null ? element.GetType() : typeof( T );
             if( typeof( T ).IsValueType || typeof( T ).IsSealed ) actualType = typeof( T );

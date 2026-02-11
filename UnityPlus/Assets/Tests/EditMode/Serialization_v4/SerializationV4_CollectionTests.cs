@@ -97,7 +97,6 @@ namespace UnityPlus.Serialization.Tests.V4
         [Test]
         public void Deserialize_Dictionary_Append()
         {
-            // Dictionary population is typically additive.
             var existing = new Dictionary<string, int> { { "A", 1 } };
 
             // Data has B
@@ -105,14 +104,10 @@ namespace UnityPlus.Serialization.Tests.V4
             var kvpData = new SerializedObject { ["key"] = (SerializedPrimitive)"B", ["value"] = (SerializedPrimitive)2 };
             var data = new SerializedArray { kvpData };
 
-            // We need to construct the wrapper object for the dict if using defaults, 
-            // but Populate accepts the array directly if the logic supports it. 
-            // Let's ensure we match the serializer output format.
-            // Serializer usually outputs array of objects for dicts.
-
+            // Dictionary population should reset the items and add the new ones.
             SerializationUnit.Populate( existing, data );
 
-            Assert.That( existing.ContainsKey( "A" ), Is.True ); // Kept
+            Assert.That( existing.ContainsKey( "A" ), Is.False ); // Removed
             Assert.That( existing.ContainsKey( "B" ), Is.True ); // Added
             Assert.That( existing["B"], Is.EqualTo( 2 ) );
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 
 namespace UnityPlus.Serialization
@@ -52,7 +53,7 @@ namespace UnityPlus.Serialization
             if( cursor.DataNode is SerializedObject rootObj && rootObj.TryGetValue( KeyNames.TYPE, out SerializedData typeData ) )
             {
 #warning TODO - use the v3 extension method for types instead.
-                Type actualType = state.Context.TypeResolver.ResolveType( (string)(SerializedPrimitive)typeData );
+                Type actualType = state.Context.Config.TypeResolver.ResolveType( (string)(SerializedPrimitive)typeData );
                 if( actualType != null )
                 {
                     cursor.Descriptor = TypeDescriptorRegistry.GetDescriptor( actualType );
@@ -88,60 +89,57 @@ namespace UnityPlus.Serialization
             }
 
             cursor.StepIndex = 0;
-            return SerializationCursorResult.Continue;
+            return SerializationCursorResult.Jump;
         }
 
         private SerializationCursorResult PhaseConstruction( ref SerializationCursor cursor, SerializationState state )
         {
-            var parentDesc = (ICompositeDescriptor)cursor.Descriptor;
-
-            while( cursor.StepIndex < cursor.ConstructionStepCount )
+            if( cursor.StepIndex >= cursor.ConstructionStepCount )
             {
-                int activeIndex = cursor.StepIndex;
-                IMemberInfo memberInfo = parentDesc.GetMemberInfo( activeIndex, cursor.ConstructionBuffer );
-
-                if( memberInfo == null || memberInfo.TypeDescriptor == null )
-                {
-                    cursor.StepIndex++;
-                    continue;
-                }
-
-                MemberResolutionResult result = TryResolveMember( memberInfo, cursor.DataNode, activeIndex, state, out object val );
-
-                if( result == MemberResolutionResult.Resolved )
-                {
-                    object buffer = cursor.ConstructionBuffer;
-                    memberInfo.SetValue( ref buffer, val );
-                    cursor.StepIndex++;
-                }
-                else if( result == MemberResolutionResult.RequiresPush )
-                {
-                    PushChildCursor( ref cursor, memberInfo, activeIndex, true, state );
-                    cursor.StepIndex++; // Increment index so when we return, we process the NEXT item (write-back handles the current one)
-                    return SerializationCursorResult.PushedDependency;
-                }
-                else if( result == MemberResolutionResult.Deferred )
-                {
-                    state.Context.DeferredOperations.Enqueue( new DeferredOperation()
-                    {
-                        Target = cursor.TargetObj.Parent,
-                        Member = cursor.TargetObj.Member,
-                        Data = cursor.DataNode,
-                        Descriptor = cursor.Descriptor,
-                        ConstructionBuffer = cursor.ConstructionBuffer,
-                        ConstructionIndex = cursor.StepIndex
-                    } );
-                    return SerializationCursorResult.Deferred;
-                }
-                else
-                {
-                    UnityEngine.Debug.LogWarning( $"Failed to resolve construction argument {memberInfo.Name}" );
-                    cursor.StepIndex++;
-                }
+                cursor.Phase = SerializationCursorPhase.Instantiation;
+                return SerializationCursorResult.Jump;
             }
 
-            cursor.Phase = SerializationCursorPhase.Instantiation;
-            return SerializationCursorResult.Continue;
+            var parentDesc = (ICompositeDescriptor)cursor.Descriptor;
+            int activeIndex = cursor.StepIndex;
+            IMemberInfo memberInfo = parentDesc.GetMemberInfo( activeIndex, cursor.ConstructionBuffer );
+
+            if( memberInfo == null || memberInfo.TypeDescriptor == null )
+            {
+                return SerializationCursorResult.Advance;
+            }
+
+            MemberResolutionResult result = TryResolveMember( memberInfo, cursor.DataNode, activeIndex, state, out object val );
+
+            if( result == MemberResolutionResult.Resolved )
+            {
+                object buffer = cursor.ConstructionBuffer;
+                memberInfo.SetValue( ref buffer, val );
+                return SerializationCursorResult.Advance;
+            }
+            else if( result == MemberResolutionResult.RequiresPush )
+            {
+                PushChildCursor( ref cursor, memberInfo, activeIndex, true, state );
+                return SerializationCursorResult.Push; // Driver handles parent increment
+            }
+            else if( result == MemberResolutionResult.Deferred )
+            {
+                state.Context.DeferredOperations.Enqueue( new DeferredOperation()
+                {
+                    Target = cursor.TargetObj.Parent,
+                    Member = cursor.TargetObj.Member,
+                    Data = cursor.DataNode,
+                    Descriptor = cursor.Descriptor,
+                    ConstructionBuffer = cursor.ConstructionBuffer,
+                    ConstructionIndex = cursor.StepIndex
+                } );
+                return SerializationCursorResult.Deferred;
+            }
+            else
+            {
+                UnityEngine.Debug.LogWarning( $"Failed to resolve construction argument {memberInfo.Name}" );
+                return SerializationCursorResult.Advance;
+            }
         }
 
         private SerializationCursorResult PhaseInstantiation( ref SerializationCursor cursor, SerializationState state )
@@ -162,7 +160,7 @@ namespace UnityPlus.Serialization
                 cursor.TargetObj = cursor.TargetObj.WithTarget( newInstance );
             }
 
-            if( cursor.TargetObj.Target == null ) 
+            if( cursor.TargetObj.Target == null )
                 throw new Exception( "Factory returned null." );
 
             if( cursor.Descriptor is ICollectionDescriptor colDesc && cursor.DataNode is SerializedArray arr )
@@ -185,57 +183,54 @@ namespace UnityPlus.Serialization
 
             cursor.Phase = SerializationCursorPhase.Population;
             cursor.StepIndex = 0;
-            return SerializationCursorResult.Continue;
+            return SerializationCursorResult.Jump;
         }
 
         private SerializationCursorResult PhasePopulation( ref SerializationCursor cursor, SerializationState state )
         {
-            var parentDesc = (ICompositeDescriptor)cursor.Descriptor;
-            int totalSteps = cursor.PopulationStepCount;
-            int offset = cursor.ConstructionStepCount;
-
-            while( cursor.StepIndex < totalSteps )
+            if( cursor.StepIndex >= cursor.PopulationStepCount )
             {
-                int absoluteIndex = cursor.StepIndex + offset;
-                IMemberInfo memberInfo = parentDesc.GetMemberInfo( absoluteIndex, cursor.TargetObj.Target );
-
-                if( memberInfo == null || memberInfo.TypeDescriptor == null )
-                {
-                    cursor.StepIndex++;
-                    continue;
-                }
-
-                MemberResolutionResult result = TryResolveMember( memberInfo, cursor.DataNode, absoluteIndex, state, out object val );
-
-                if( result == MemberResolutionResult.Resolved )
-                {
-                    object t = cursor.TargetObj.Target;
-                    memberInfo.SetValue( ref t, val );
-
-                    // Update cursor target in case of value type replacement
-                    cursor.TargetObj = cursor.TargetObj.WithTarget( t );
-                    cursor.StepIndex++;
-                }
-                else if( result == MemberResolutionResult.RequiresPush )
-                {
-                    PushChildCursor( ref cursor, memberInfo, absoluteIndex, false, state );
-                    cursor.StepIndex++;
-                    return SerializationCursorResult.PushedDependency;
-                }
-                else if( result == MemberResolutionResult.Deferred )
-                {
-                    SerializedData failedData = GetDataNode( cursor.DataNode, memberInfo.Name, absoluteIndex );
-                    state.Context.EnqueueDeferred( cursor.TargetObj.Target, memberInfo, failedData );
-                    cursor.StepIndex++;
-                }
-                else
-                {
-                    cursor.StepIndex++;
-                }
+                cursor.Phase = SerializationCursorPhase.PostProcessing;
+                return SerializationCursorResult.Jump;
             }
 
-            cursor.Phase = SerializationCursorPhase.PostProcessing;
-            return SerializationCursorResult.Continue;
+            var parentDesc = (ICompositeDescriptor)cursor.Descriptor;
+            int offset = cursor.ConstructionStepCount;
+            int absoluteIndex = cursor.StepIndex + offset;
+
+            IMemberInfo memberInfo = parentDesc.GetMemberInfo( absoluteIndex, cursor.TargetObj.Target );
+
+            if( memberInfo == null || memberInfo.TypeDescriptor == null )
+            {
+                return SerializationCursorResult.Advance;
+            }
+
+            MemberResolutionResult result = TryResolveMember( memberInfo, cursor.DataNode, absoluteIndex, state, out object val );
+
+            if( result == MemberResolutionResult.Resolved )
+            {
+                object t = cursor.TargetObj.Target;
+                memberInfo.SetValue( ref t, val );
+
+                // Update cursor target in case of value type replacement
+                cursor.TargetObj = cursor.TargetObj.WithTarget( t );
+                return SerializationCursorResult.Advance;
+            }
+            else if( result == MemberResolutionResult.RequiresPush )
+            {
+                PushChildCursor( ref cursor, memberInfo, absoluteIndex, false, state );
+                return SerializationCursorResult.Push; // Driver increments
+            }
+            else if( result == MemberResolutionResult.Deferred )
+            {
+                SerializedData failedData = GetDataNode( cursor.DataNode, memberInfo.Name, absoluteIndex );
+                state.Context.EnqueueDeferred( cursor.TargetObj.Target, memberInfo, failedData );
+                return SerializationCursorResult.Advance; // Skip member and continue
+            }
+            else
+            {
+                return SerializationCursorResult.Advance;
+            }
         }
 
         private SerializationCursorResult PhasePostProcessing( ref SerializationCursor cursor, SerializationState state )
@@ -260,9 +255,9 @@ namespace UnityPlus.Serialization
                 SerializedData primitiveData = GetDataNode( parentData, memberInfo.Name, index );
                 DeserializationResult result = primitiveDesc.DeserializeDirect( primitiveData, state.Context, out value );
 
-                if( result == DeserializationResult.Success ) 
+                if( result == DeserializationResult.Success )
                     return MemberResolutionResult.Resolved;
-                if( result == DeserializationResult.Deferred ) 
+                if( result == DeserializationResult.Deferred )
                     return MemberResolutionResult.Deferred;
                 return MemberResolutionResult.Failed;
             }
@@ -337,7 +332,7 @@ namespace UnityPlus.Serialization
         {
             if( parent is SerializedObject obj && key != null && obj.TryGetValue( key, out var res ) )
                 return res;
-            if( parent is SerializedArray arr && index >= 0 && index < arr.Count ) 
+            if( parent is SerializedArray arr && index >= 0 && index < arr.Count )
                 return arr[index];
             return null;
         }

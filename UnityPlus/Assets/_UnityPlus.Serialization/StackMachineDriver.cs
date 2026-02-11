@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Diagnostics;
 
 namespace UnityPlus.Serialization
@@ -74,23 +75,31 @@ namespace UnityPlus.Serialization
                 SerializationCursorResult result = _strategy.Process( ref currentCursor, _state );
 
                 // Apply updates to the stack state
-                if( result == SerializationCursorResult.Continue )
+                if( result == SerializationCursorResult.Advance )
                 {
                     _state.Stack.Pop();
-                    _state.Stack.Push( currentCursor ); // Push new state
+                    currentCursor.StepIndex++; // Centralized Increment
+                    _state.Stack.Push( currentCursor );
+                }
+                else if( result == SerializationCursorResult.Jump )
+                {
+                    _state.Stack.Pop();
+                    _state.Stack.Push( currentCursor ); // Push new state (Phase change or manual index set)
                 }
                 else if( result == SerializationCursorResult.Finished )
                 {
                     SerializationCursor finishedCursor = _state.Stack.PopAndWriteback();
                     _strategy.OnCursorFinished( finishedCursor, _state );
                 }
-                else if( result == SerializationCursorResult.PushedDependency )
+                else if( result == SerializationCursorResult.Push )
                 {
-                    SerializationCursor newTop = _state.Stack.Pop(); // The dependency
+                    SerializationCursor newChild = _state.Stack.Pop(); // The dependency pushed by the strategy
                     _state.Stack.Pop(); // The old parent state
 
+                    currentCursor.StepIndex++; // Advance parent state so it resumes at Next when child returns
+
                     _state.Stack.Push( currentCursor ); // Push updated parent back
-                    _state.Stack.Push( newTop ); // Push dependency back on top
+                    _state.Stack.Push( newChild ); // Push dependency back on top
                 }
                 else if( result == SerializationCursorResult.Deferred )
                 {
@@ -134,7 +143,7 @@ namespace UnityPlus.Serialization
         private void ProcessDeferredQueue( float timeBudgetMs )
         {
             int count = _state.Context.DeferredOperations.Count;
-            if( count == 0 ) 
+            if( count == 0 )
                 return;
 
             bool progressMade = false;
@@ -142,7 +151,7 @@ namespace UnityPlus.Serialization
 
             for( int i = 0; i < count; i++ )
             {
-                if( _timer.ElapsedMilliseconds > timeBudgetMs ) 
+                if( _timer.ElapsedMilliseconds > timeBudgetMs )
                     return;
 
                 DeferredOperation op = _state.Context.DeferredOperations.Dequeue();

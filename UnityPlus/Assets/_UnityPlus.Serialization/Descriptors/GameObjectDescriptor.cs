@@ -46,6 +46,7 @@ namespace UnityPlus.Serialization
             {
                 foreach( var cNode in compArrScan )
                 {
+#warning TODO - use the v3 extension method for types instead.
                     if( cNode is SerializedObject cObj && cObj.TryGetValue( KeyNames.TYPE, out var typeVal ) )
                     {
                         string typeName = (string)(SerializedPrimitive)typeVal;
@@ -73,7 +74,7 @@ namespace UnityPlus.Serialization
                     if( cNode is SerializedObject cObj && cObj.TryGetValue( KeyNames.TYPE, out var typeVal ) )
                     {
                         string typeName = (string)(SerializedPrimitive)typeVal;
-                        Type type = ctx.TypeResolver.ResolveType( typeName );
+                        Type type = ctx.Config.TypeResolver.ResolveType( typeName );
 
                         if( type != null )
                         {

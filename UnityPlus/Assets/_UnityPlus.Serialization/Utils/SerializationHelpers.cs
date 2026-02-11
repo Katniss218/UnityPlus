@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 
 namespace UnityPlus.Serialization
 {
@@ -35,7 +34,7 @@ namespace UnityPlus.Serialization
                 var wrapper = new SerializedObject();
                 Guid id = referenceMap.GetID( target );
 
-                wrapper[KeyNames.ID] = (SerializedPrimitive)id.ToString( "D" );
+                wrapper[KeyNames.ID] = id.SerializeGuid();
                 wrapper[KeyNames.VALUES] = arrayToPopulate;
 
                 return wrapper;
