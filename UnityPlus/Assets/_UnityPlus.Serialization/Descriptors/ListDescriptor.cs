@@ -1,15 +1,13 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace UnityPlus.Serialization
 {
-    public class ListDescriptor<T> : CollectionDescriptor, TypeDescriptorRegistry.ICollectionDescriptorWithContext
+    public class ListDescriptor<T> : CollectionDescriptor, ICollectionDescriptorWithContext
     {
         public override Type MappedType => typeof( List<T> );
 
-        // The context used to resolve descriptors for the elements of the list.
-        public int ElementContext { get; set; } = 0;
+        public ContextKey ElementContext { get; set; } = ContextKey.Default;
 
         public override object CreateInitialTarget( SerializedData data, SerializationContext ctx )
         {
@@ -23,19 +21,13 @@ namespace UnityPlus.Serialization
         public override object Resize( object target, int newSize )
         {
             List<T> list = (List<T>)target;
-
-            // IMPORTANT: We must ensure the collection reflects EXACTLY the serialized data.
-            // Existing items in the list (if we are populating a reused object) must be cleared.
             list.Clear();
 
-            // Optimization: Pre-allocate capacity to avoid resizing during population
             if( list.Capacity < newSize )
             {
                 list.Capacity = newSize;
             }
 
-            // Fill with default values so that the StackMachine can access indices [0..N] 
-            // via GetMemberInfo -> SetValue.
             for( int i = 0; i < newSize; i++ )
             {
                 list.Add( default );
@@ -51,13 +43,10 @@ namespace UnityPlus.Serialization
 
         public override IMemberInfo GetMemberInfo( int stepIndex, object target )
         {
-            // Note: During deserialization, the list has been resized to contain 'default(T)' at this index.
-            // Getting it is safe.
             object element = ((List<T>)target)[stepIndex];
             Type actualType = element != null ? element.GetType() : typeof( T );
             if( typeof( T ).IsValueType || typeof( T ).IsSealed ) actualType = typeof( T );
 
-            // Use ElementContext to resolve the element descriptor
             IDescriptor elementDesc = TypeDescriptorRegistry.GetDescriptor( actualType, ElementContext )
                                        ?? TypeDescriptorRegistry.GetDescriptor( typeof( T ), ElementContext );
 

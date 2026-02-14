@@ -1,6 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System;
 
 namespace UnityPlus.Serialization
 {
@@ -50,10 +48,9 @@ namespace UnityPlus.Serialization
 
         private SerializationCursorResult PhasePreProcessing( ref SerializationCursor cursor, SerializationState state )
         {
-            if( cursor.DataNode is SerializedObject rootObj && rootObj.TryGetValue( KeyNames.TYPE, out SerializedData typeData ) )
+            if( cursor.DataNode is SerializedObject rootObj )
             {
-#warning TODO - use the v3 extension method for types instead.
-                Type actualType = state.Context.Config.TypeResolver.ResolveType( (string)(SerializedPrimitive)typeData );
+                Type actualType = Persistent_Type.ReadTypeHeader( rootObj, state.Context.Config.TypeResolver );
                 if( actualType != null )
                 {
                     cursor.Descriptor = TypeDescriptorRegistry.GetDescriptor( actualType );
@@ -169,9 +166,7 @@ namespace UnityPlus.Serialization
                 cursor.TargetObj = cursor.TargetObj.WithTarget( resized );
             }
 
-            if( cursor.DataNode is SerializedObject objNode
-                && objNode.TryGetValue( KeyNames.ID, out var idData )
-                && Guid.TryParse( (string)(SerializedPrimitive)idData, out Guid guid ) )
+            if( cursor.DataNode is SerializedObject objNode && Persistent_Guid.TryReadIdHeader( objNode, out Guid guid ) )
             {
                 state.Context.ForwardMap.SetObj( guid, cursor.TargetObj.Target );
             }

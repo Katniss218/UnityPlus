@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 
 namespace UnityPlus.Serialization
 {
@@ -41,7 +40,7 @@ namespace UnityPlus.Serialization
                     if( root != null && !rootDescriptor.MappedType.IsValueType )
                     {
                         Guid rootId = state.Context.ReverseMap.GetID( root );
-                        objNode[KeyNames.ID] = (SerializedPrimitive)rootId.ToString( "D" );
+                        Persistent_Guid.WriteIdHeader( objNode, rootId );
                     }
                     createdNode = objNode;
                     state.RootResult = createdNode;
@@ -86,9 +85,9 @@ namespace UnityPlus.Serialization
             if( cursor.TargetObj.Target != null )
             {
                 // 1. Polymorphism
-                if( cursor.DataNode is SerializedObject )
+                if( cursor.DataNode is SerializedObject objNode )
                 {
-                    HandlePolymorphism( cursor.TargetObj.Target, cursor.Descriptor.MappedType, cursor.DataNode, ref cursor.Descriptor );
+                    HandlePolymorphism( cursor.TargetObj.Target, cursor.Descriptor.MappedType, objNode, ref cursor.Descriptor );
                 }
 
                 // 2. Lifecycle Callback
@@ -193,7 +192,7 @@ namespace UnityPlus.Serialization
                     if( state.VisitedObjects.Contains( childTarget ) )
                     {
                         Guid id = state.Context.ReverseMap.GetID( childTarget );
-                        SerializedData refNode = new SerializedObject { { KeyNames.REF, (SerializedPrimitive)id.ToString( "D" ) } };
+                        SerializedData refNode = new SerializedObject { { KeyNames.REF, id.SerializeGuid() } };
                         LinkDataNode( cursor.DataNode, memberInfo.Name, refNode, activeStepIndex );
                         return SerializationCursorResult.Advance;
                     }
@@ -212,7 +211,10 @@ namespace UnityPlus.Serialization
                 Type actualType = childTarget.GetType();
                 bool isRefType = !actualType.IsValueType;
 
-                HandlePolymorphism( childTarget, memberInfo.MemberType, childNode, ref memberDescriptor );
+                if( childNode is SerializedObject objNode )
+                {
+                    HandlePolymorphism( childTarget, memberInfo.MemberType, objNode, ref memberDescriptor );
+                }
 
                 if( memberDescriptor is IPrimitiveDescriptor primitiveDescSwitched )
                 {
@@ -228,16 +230,15 @@ namespace UnityPlus.Serialization
 
                     if( state.VisitedObjects.Contains( childTarget ) )
                     {
-                        SerializedData refNode = new SerializedObject { { KeyNames.REF, (SerializedPrimitive)id.ToString( "D" ) } };
+                        SerializedData refNode = new SerializedObject { { KeyNames.REF, id.SerializeGuid() } };
                         LinkDataNode( cursor.DataNode, memberInfo.Name, refNode, activeStepIndex );
                         return SerializationCursorResult.Advance;
                     }
 
                     state.VisitedObjects.Add( childTarget );
 
-#warning TODO - use the v3 extension method for guid instead.
-                    if( childNode is SerializedObject objNode )
-                        objNode[KeyNames.ID] = (SerializedPrimitive)id.ToString( "D" );
+                    if( childNode is SerializedObject objNode2 )
+                        Persistent_Guid.WriteIdHeader( objNode2, id );
                 }
             }
 
@@ -272,7 +273,7 @@ namespace UnityPlus.Serialization
             }
         }
 
-        private void HandlePolymorphism( object target, Type declaredType, SerializedData dataNode, ref IDescriptor descriptor )
+        private void HandlePolymorphism( object target, Type declaredType, SerializedObject dataNode, ref IDescriptor descriptor )
         {
             if( target == null ) return;
             Type actualType = target.GetType();
@@ -287,9 +288,7 @@ namespace UnityPlus.Serialization
             if( declaredType == actualType ) return;
             if( typeof( Delegate ).IsAssignableFrom( declaredType ) ) return;
 
-#warning TODO - use the v3 extension method for types instead.
-            if( dataNode is SerializedObject objNode )
-                objNode[KeyNames.TYPE] = (SerializedPrimitive)actualType.AssemblyQualifiedName;
+            Persistent_Type.WriteTypeHeader( dataNode, actualType );
         }
     }
 }

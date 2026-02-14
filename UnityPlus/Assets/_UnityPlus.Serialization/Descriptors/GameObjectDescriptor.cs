@@ -1,6 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 namespace UnityPlus.Serialization
@@ -21,21 +19,19 @@ namespace UnityPlus.Serialization
 
         public override IMemberInfo GetMemberInfo( int stepIndex, object target )
         {
-            switch( stepIndex )
+            return stepIndex switch
             {
-                case 0: return new PropertyMember( "name", typeof( string ), ( t ) => ((GameObject)t).name, ( ref object t, object v ) => ((GameObject)t).name = (string)v );
-                case 1: return new PropertyMember( "layer", typeof( int ), ( t ) => ((GameObject)t).layer, ( ref object t, object v ) => ((GameObject)t).layer = (int)v );
-                case 2: return new PropertyMember( "tag", typeof( string ), ( t ) => ((GameObject)t).tag, ( ref object t, object v ) => ((GameObject)t).tag = (string)v );
-                case 3: return new PropertyMember( "isStatic", typeof( bool ), ( t ) => ((GameObject)t).isStatic, ( ref object t, object v ) => ((GameObject)t).isStatic = (bool)v );
-
+                0 => new PropertyMember( "name", typeof( string ), ( t ) => ((GameObject)t).name, ( ref object t, object v ) => ((GameObject)t).name = (string)v ),
+                1 => new PropertyMember( "layer", typeof( int ), ( t ) => ((GameObject)t).layer, ( ref object t, object v ) => ((GameObject)t).layer = (int)v ),
+                2 => new PropertyMember( "tag", typeof( string ), ( t ) => ((GameObject)t).tag, ( ref object t, object v ) => ((GameObject)t).tag = (string)v ),
+                3 => new PropertyMember( "isStatic", typeof( bool ), ( t ) => ((GameObject)t).isStatic, ( ref object t, object v ) => ((GameObject)t).isStatic = (bool)v ),
                 // Virtual Containers
-                case 4: return new VirtualListMember( KeyNames.COMPONENTS, target, new ComponentSequenceDescriptor() );
-                case 5: return new VirtualListMember( KeyNames.CHILDREN, target, new ChildSequenceDescriptor() );
-
+                4 => new VirtualListMember( KeyNames.COMPONENTS, target, new ComponentSequenceDescriptor() ),
+                5 => new VirtualListMember( KeyNames.CHILDREN, target, new ChildSequenceDescriptor() ),
                 // Activation (Must be last)
-                case 6: return new PropertyMember( "active", typeof( bool ), ( t ) => ((GameObject)t).activeSelf, ( ref object t, object v ) => ((GameObject)t).SetActive( (bool)v ) );
-            }
-            throw new IndexOutOfRangeException();
+                6 => new PropertyMember( "active", typeof( bool ), ( t ) => ((GameObject)t).activeSelf, ( ref object t, object v ) => ((GameObject)t).SetActive( (bool)v ) ),
+                _ => throw new IndexOutOfRangeException(),
+            };
         }
 
         public override object CreateInitialTarget( SerializedData data, SerializationContext ctx )
@@ -46,10 +42,8 @@ namespace UnityPlus.Serialization
             {
                 foreach( var cNode in compArrScan )
                 {
-#warning TODO - use the v3 extension method for types instead.
-                    if( cNode is SerializedObject cObj && cObj.TryGetValue( KeyNames.TYPE, out var typeVal ) )
+                    if( cNode is SerializedObject cObj && Persistent_Type.TryReadTypeName( cObj, out string typeName ) )
                     {
-                        string typeName = (string)(SerializedPrimitive)typeVal;
                         if( typeName.Contains( "RectTransform" ) ) // String check is faster/safer than loading type if assembly agnostic
                         {
                             hasRectTransform = true;
@@ -70,10 +64,8 @@ namespace UnityPlus.Serialization
             {
                 foreach( var cNode in compArr )
                 {
-#warning TODO - use the v3 extension method for types instead.
-                    if( cNode is SerializedObject cObj && cObj.TryGetValue( KeyNames.TYPE, out var typeVal ) )
+                    if( cNode is SerializedObject cObj && Persistent_Type.TryReadTypeName( cObj, out string typeName ) )
                     {
-                        string typeName = (string)(SerializedPrimitive)typeVal;
                         Type type = ctx.Config.TypeResolver.ResolveType( typeName );
 
                         if( type != null )

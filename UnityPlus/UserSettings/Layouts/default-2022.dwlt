@@ -267,8 +267,8 @@ MonoBehaviour:
     y: 0
     width: 268
     height: 486
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 201, y: 221}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 16}
@@ -385,7 +385,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 08570000
     m_LastClickedID: 22280
-    m_ExpandedIDs: 0000000050510000525100005451000056510000585100005a5100005c5100005e51000060510000625100006451000066510000685100006a5100006c5100006e510000705100007251000074510000
+    m_ExpandedIDs: 000000002c5100002e51000030510000325100003451000036510000385100003a5100003c5100003e51000040510000425100004451000046510000485100004a5100004c5100004e51000050510000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -413,7 +413,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000050510000525100005451000056510000585100005a5100005c5100005e51000060510000625100006451000066510000685100006a5100006c5100006e510000705100007251000074510000
+    m_ExpandedIDs: 000000002c5100002e51000030510000325100003451000036510000385100003a5100003c5100003e51000040510000425100004451000046510000485100004a5100004c5100004e51000050510000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -525,7 +525,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 24}
     m_SelectedIDs: 0e570000
     m_LastClickedID: 22286
-    m_ExpandedIDs: 0000000050510000525100005451000056510000585100005a5100005c5100005e51000060510000625100006451000066510000685100006a5100006c5100006e510000705100007251000074510000
+    m_ExpandedIDs: 000000002c5100002e51000030510000325100003451000036510000385100003a5100003c5100003e51000040510000425100004451000046510000485100004a5100004c5100004e51000050510000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -553,7 +553,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 480}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: ffffffff0000000050510000525100005451000056510000585100005a5100005c5100005e51000060510000625100006451000066510000685100006a5100006c5100006e510000705100007251000074510000
+    m_ExpandedIDs: ffffffff000000002c5100002e51000030510000325100003451000036510000385100003a5100003c5100003e51000040510000425100004451000046510000485100004a5100004c5100004e51000050510000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -640,9 +640,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 500a0000
+      m_SelectedIDs: d2070000
       m_LastClickedID: 0
-      m_ExpandedIDs: 8cf5ffffecf5fffffef6ffff5ef7ffffc0f7ffff34fbffff
+      m_ExpandedIDs: 44f5ffffacf5ffff34f6ffffa0f6ffff08f7ffff7cf7ffffd0f9ffff3afaffff34fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -2052,7 +2052,7 @@ MonoBehaviour:
     m_CachedPref: 160
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: 2640
+  m_LastInspectedObjectInstanceID: 2002
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0
@@ -2172,7 +2172,7 @@ MonoBehaviour:
       name: UnityPlus
       fullName: UnityPlus
       resultStatus: 1
-      duration: 0.0359651
+      duration: 0.0344815
       messages: 
       output: 
       stacktrace: 
@@ -2188,7 +2188,7 @@ MonoBehaviour:
       name: EditMode.dll
       fullName: E:/GIT/UnityPlus/UnityPlus/Library/ScriptAssemblies/EditMode.dll
       resultStatus: 1
-      duration: 0.0252706
+      duration: 0.0236828
       messages: 
       output: 
       stacktrace: 
@@ -3835,7 +3835,7 @@ MonoBehaviour:
       name: UnityPlus
       fullName: UnityPlus
       resultStatus: 1
-      duration: 0.0221837
+      duration: 0.0218418
       messages: 
       output: 
       stacktrace: 
@@ -3851,7 +3851,7 @@ MonoBehaviour:
       name: Serialization
       fullName: UnityPlus.Serialization
       resultStatus: 1
-      duration: 0.0186318
+      duration: 0.0171608
       messages: 
       output: 
       stacktrace: 
@@ -3867,7 +3867,7 @@ MonoBehaviour:
       name: Tests
       fullName: UnityPlus.Serialization.Tests
       resultStatus: 1
-      duration: 0.0150737
+      duration: 0.0135002
       messages: 
       output: 
       stacktrace: 
@@ -3883,7 +3883,7 @@ MonoBehaviour:
       name: V4
       fullName: UnityPlus.Serialization.Tests.V4
       resultStatus: 1
-      duration: 0.0109973
+      duration: 0.0119516
       messages: 
       output: 
       stacktrace: 
@@ -3898,9 +3898,9 @@ MonoBehaviour:
       uniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/[EditMode][UnityPlus.Serialization.Tests.V4.SerializationV4_CollectionTests][suite]
       name: SerializationV4_CollectionTests
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_CollectionTests
-      resultStatus: 1
-      duration: 0.0065904
-      messages: 
+      resultStatus: 2
+      duration: 0.3191328
+      messages: One or more child tests had errors
       output: 
       stacktrace: 
       notRunnable: 0
@@ -3915,11 +3915,11 @@ MonoBehaviour:
       name: Deserialize_Dictionary_Append
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_CollectionTests.Deserialize_Dictionary_Append
       resultStatus: 2
-      duration: 0.2628509
-      messages: "  Expected: True\r\n  But was:  False\r\n"
+      duration: 0.273623
+      messages: "  Expected: False\r\n  But was:  True\r\n"
       output: 
       stacktrace: 'at UnityPlus.Serialization.Tests.V4.SerializationV4_CollectionTests.Deserialize_Dictionary_Append
-        () [0x0006e] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Serialization_v4\SerializationV4_CollectionTests.cs:116
+        () [0x00058] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Serialization_v4\SerializationV4_CollectionTests.cs:110
 
 '
       notRunnable: 0
@@ -3935,7 +3935,7 @@ MonoBehaviour:
       name: Deserialize_List_Resizing
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_CollectionTests.Deserialize_List_Resizing
       resultStatus: 1
-      duration: 0.0053102
+      duration: 0.0042948
       messages: 
       output: 
       stacktrace: 
@@ -3952,7 +3952,7 @@ MonoBehaviour:
       name: Serialize_Dictionary_ObjectKey
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_CollectionTests.Serialize_Dictionary_ObjectKey
       resultStatus: 1
-      duration: 0.2852997
+      duration: 0.0280202
       messages: 
       output: 
       stacktrace: 
@@ -3969,7 +3969,7 @@ MonoBehaviour:
       name: Serialize_Dictionary_StringInt
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_CollectionTests.Serialize_Dictionary_StringInt
       resultStatus: 1
-      duration: 0.0020027
+      duration: 0.0009735
       messages: 
       output: 
       stacktrace: 
@@ -3986,7 +3986,7 @@ MonoBehaviour:
       name: Serialize_IntArray
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_CollectionTests.Serialize_IntArray
       resultStatus: 1
-      duration: 0.0075541
+      duration: 0.0010378
       messages: 
       output: 
       stacktrace: 
@@ -4003,7 +4003,7 @@ MonoBehaviour:
       name: Serialize_List_Strings
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_CollectionTests.Serialize_List_Strings
       resultStatus: 1
-      duration: 0.0022561
+      duration: 0.0012458
       messages: 
       output: 
       stacktrace: 
@@ -4020,7 +4020,7 @@ MonoBehaviour:
       name: SerializationV4_FailureTests
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_FailureTests
       resultStatus: 2
-      duration: 0.287374
+      duration: 0.2811741
       messages: One or more child tests had errors
       output: 
       stacktrace: 
@@ -4036,7 +4036,7 @@ MonoBehaviour:
       name: Deserialize_BadTypeHeader_IgnoredOrNull
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_FailureTests.Deserialize_BadTypeHeader_IgnoredOrNull
       resultStatus: 1
-      duration: 0.0035671
+      duration: 0.0038743
       messages: 
       output: 
       stacktrace: 
@@ -4053,7 +4053,7 @@ MonoBehaviour:
       name: Deserialize_MissingMember_Ignored
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_FailureTests.Deserialize_MissingMember_Ignored
       resultStatus: 1
-      duration: 0.1499508
+      duration: 0.1363984
       messages: 
       output: 
       stacktrace: 
@@ -4070,12 +4070,12 @@ MonoBehaviour:
       name: Deserialize_MissingReference_ThrowsSpecificException
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_FailureTests.Deserialize_MissingReference_ThrowsSpecificException
       resultStatus: 2
-      duration: 0.1320273
+      duration: 0.1363998
       messages: "  Expected: <UnityPlus.Serialization.UPSMissingReferenceException>\r\n 
         But was:  null\r\n"
       output: 
       stacktrace: 'at UnityPlus.Serialization.Tests.V4.SerializationV4_FailureTests.Deserialize_MissingReference_ThrowsSpecificException
-        () [0x0004b] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Serialization_v4\SerializationV4_FailureTests.cs:27
+        () [0x0004b] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Serialization_v4\SerializationV4_FailureTests.cs:25
 
 '
       notRunnable: 0
@@ -4091,7 +4091,7 @@ MonoBehaviour:
       name: SerializationV4_FeatureTests
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_FeatureTests
       resultStatus: 1
-      duration: 0.1463764
+      duration: 0.172066
       messages: 
       output: 
       stacktrace: 
@@ -4107,7 +4107,7 @@ MonoBehaviour:
       name: Serialize_Callbacks
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_FeatureTests.Serialize_Callbacks
       resultStatus: 1
-      duration: 0.1420866
+      duration: 0.1663906
       messages: 
       output: 
       stacktrace: 
@@ -4124,7 +4124,7 @@ MonoBehaviour:
       name: Serialize_ImmutableObject_Constructor
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_FeatureTests.Serialize_ImmutableObject_Constructor
       resultStatus: 1
-      duration: 0.0027847
+      duration: 0.0002161
       messages: 
       output: 
       stacktrace: 
@@ -4141,7 +4141,7 @@ MonoBehaviour:
       name: SerializationV4_PolymorphismTests
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_PolymorphismTests
       resultStatus: 1
-      duration: 0.0062585
+      duration: 0.0078294
       messages: 
       output: 
       stacktrace: 
@@ -4157,7 +4157,7 @@ MonoBehaviour:
       name: Serialize_PolymorphicList
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_PolymorphismTests.Serialize_PolymorphicList
       resultStatus: 1
-      duration: 0.0038363
+      duration: 0.0027229
       messages: 
       output: 
       stacktrace: 
@@ -4174,7 +4174,7 @@ MonoBehaviour:
       name: Serialize_RootPolymorphism
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_PolymorphismTests.Serialize_RootPolymorphism
       resultStatus: 1
-      duration: 0.0003383
+      duration: 0.0002644
       messages: 
       output: 
       stacktrace: 
@@ -4191,7 +4191,7 @@ MonoBehaviour:
       name: SerializationV4_PrimitiveTests
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_PrimitiveTests
       resultStatus: 1
-      duration: 0.5373932
+      duration: 0.657926
       messages: 
       output: 
       stacktrace: 
@@ -4207,7 +4207,7 @@ MonoBehaviour:
       name: Deserialize_TypeMismatch_Coercion
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_PrimitiveTests.Deserialize_TypeMismatch_Coercion
       resultStatus: 1
-      duration: 0.0005263
+      duration: 0.1366043
       messages: 
       output: 
       stacktrace: 
@@ -4224,7 +4224,7 @@ MonoBehaviour:
       name: Serialize_Enum_AsString_WithCustomDescriptor
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_PrimitiveTests.Serialize_Enum_AsString_WithCustomDescriptor
       resultStatus: 1
-      duration: 0.1387017
+      duration: 0.1285964
       messages: 
       output: 
       stacktrace: 
@@ -4241,7 +4241,7 @@ MonoBehaviour:
       name: Serialize_Enum_Default_AsInt
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_PrimitiveTests.Serialize_Enum_Default_AsInt
       resultStatus: 1
-      duration: 0.136976
+      duration: 0.1273011
       messages: 
       output: 
       stacktrace: 
@@ -4258,7 +4258,7 @@ MonoBehaviour:
       name: Serialize_Int_RoundTrip
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_PrimitiveTests.Serialize_Int_RoundTrip
       resultStatus: 1
-      duration: 0.1306701
+      duration: 0.1338303
       messages: 
       output: 
       stacktrace: 
@@ -4275,7 +4275,7 @@ MonoBehaviour:
       name: Serialize_String_RoundTrip
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_PrimitiveTests.Serialize_String_RoundTrip
       resultStatus: 1
-      duration: 0.1267496
+      duration: 0.1293003
       messages: 
       output: 
       stacktrace: 
@@ -4292,7 +4292,7 @@ MonoBehaviour:
       name: SerializationV4_StructureTests
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_StructureTests
       resultStatus: 1
-      duration: 0.4110824
+      duration: 0.408131
       messages: 
       output: 
       stacktrace: 
@@ -4308,7 +4308,7 @@ MonoBehaviour:
       name: Serialize_CircularDependency_DeferredResolution
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_StructureTests.Serialize_CircularDependency_DeferredResolution
       resultStatus: 1
-      duration: 0.1451108
+      duration: 0.1334621
       messages: 
       output: 
       stacktrace: 
@@ -4325,7 +4325,7 @@ MonoBehaviour:
       name: Serialize_DeepStruct_WriteBack
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_StructureTests.Serialize_DeepStruct_WriteBack
       resultStatus: 1
-      duration: 0.1335704
+      duration: 0.1331834
       messages: 
       output: 
       stacktrace: 
@@ -4342,7 +4342,7 @@ MonoBehaviour:
       name: Serialize_SelfReference
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_StructureTests.Serialize_SelfReference
       resultStatus: 1
-      duration: 0.1293845
+      duration: 0.1366896
       messages: 
       output: 
       stacktrace: 
@@ -4359,7 +4359,7 @@ MonoBehaviour:
       name: SerializationV4Tests
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4Tests
       resultStatus: 1
-      duration: 0.0120798
+      duration: 0.1605
       messages: 
       output: 
       stacktrace: 
@@ -4375,7 +4375,7 @@ MonoBehaviour:
       name: Lifecycle_Callbacks_Invoked
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4Tests.Lifecycle_Callbacks_Invoked
       resultStatus: 1
-      duration: 0.0016385
+      duration: 0.1493817
       messages: 
       output: 
       stacktrace: 
@@ -4392,7 +4392,7 @@ MonoBehaviour:
       name: Serialize_Deserialize_Array
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4Tests.Serialize_Deserialize_Array
       resultStatus: 1
-      duration: 0.0003173
+      duration: 0.0003597
       messages: 
       output: 
       stacktrace: 
@@ -4409,7 +4409,7 @@ MonoBehaviour:
       name: Serialize_Deserialize_Circular_Dependency
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4Tests.Serialize_Deserialize_Circular_Dependency
       resultStatus: 1
-      duration: 0.0009978
+      duration: 0.0012506
       messages: 
       output: 
       stacktrace: 
@@ -4426,7 +4426,7 @@ MonoBehaviour:
       name: Serialize_Deserialize_Class_Reflection
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4Tests.Serialize_Deserialize_Class_Reflection
       resultStatus: 1
-      duration: 0.0008804
+      duration: 0.0009295
       messages: 
       output: 
       stacktrace: 
@@ -4443,7 +4443,7 @@ MonoBehaviour:
       name: Serialize_Deserialize_Dictionary
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4Tests.Serialize_Deserialize_Dictionary
       resultStatus: 1
-      duration: 0.0012725
+      duration: 0.0012885
       messages: 
       output: 
       stacktrace: 
@@ -4460,7 +4460,7 @@ MonoBehaviour:
       name: Serialize_Deserialize_List
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4Tests.Serialize_Deserialize_List
       resultStatus: 1
-      duration: 0.0002763
+      duration: 0.000303
       messages: 
       output: 
       stacktrace: 
@@ -4477,7 +4477,7 @@ MonoBehaviour:
       name: Serialize_Deserialize_Vector3
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4Tests.Serialize_Deserialize_Vector3
       resultStatus: 1
-      duration: 0.0015201
+      duration: 0.0015415
       messages: 
       output: 
       stacktrace: 
@@ -4494,7 +4494,7 @@ MonoBehaviour:
       name: Serialize_Int_Primitive
       fullName: UnityPlus.Serialization.Tests.V4.SerializationV4Tests.Serialize_Int_Primitive
       resultStatus: 1
-      duration: 0.0001623
+      duration: 0.0001819
       messages: 
       output: 
       stacktrace: 
@@ -4506,12 +4506,12 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1020
       parentUniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/[EditMode][UnityPlus.Serialization.Tests.V4.SerializationV4Tests][suite]
-    m_ResultText: Serialize_Dictionary_StringInt (0,002s)
+    m_ResultText: SerializationV4_PolymorphismTests (0,008s)
     m_ResultStacktrace: 
     m_TestListState:
       scrollPos: {x: 0, y: 1057}
-      m_SelectedIDs: 787c08a9
-      m_LastClickedID: -1459061640
+      m_SelectedIDs: 1eb35c5b
+      m_LastClickedID: 1532801822
       m_ExpandedIDs: ee885b8066e1ce8397138987fb3f93892026c08e05135a8fcebbdc90436c61936ae00595ad608d96cc856f9aedc39d9bda46919c4a4bc2a03daec8abeba168ad6f3e92b2dcfc56b45b969fb532bc81bba7da5dbd651ad6bdf70309c40ec433c4baa0dacb8a110dcc691a72ceb1cc6acf0a5fded7d6d190dba2b77edce9a53ae28a91d0e4536b10f8c6f21cfbfa56d200f6a283050e41801750b8d623dcd9b527b2b38c2b0407f42bf580f53a56cec43fb0bad342020566448b9bc4461eb35c5b89de525c9796b65e4edece62463b4e6458bcc369fb2cbd6ae625256db58db36f3e71c5763b2591793fea547b4b5ea47c5538167d41ea8f7e6e2ff87fffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0

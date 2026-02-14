@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace UnityPlus.Serialization
 {
@@ -45,7 +46,15 @@ namespace UnityPlus.Serialization
 
             MemberExpression memberAccess = Expression.MakeMemberAccess( instance, memberExp.Member );
 
-            BinaryExpression assignment = Expression.Assign( memberAccess, value );
+            BinaryExpression assignment;
+            try
+            {
+                assignment = Expression.Assign( memberAccess, value );
+            }
+            catch( ArgumentException ex )
+            {
+                throw new ArgumentException( $"Cannot create setter for member '{memberExp.Member.Name}' on type '{typeof( TSource ).Name}'. The member is likely read-only. Use WithReadonlyMember or WithConstructor/WithFactory for immutable types.", ex );
+            }
 
             return Expression.Lambda<Setter<TSource, TMember>>( assignment, instance, value )
                 .Compile();
@@ -69,10 +78,104 @@ namespace UnityPlus.Serialization
 
             MemberExpression memberAccess = Expression.MakeMemberAccess( instance, memberExp.Member );
 
-            BinaryExpression assignment = Expression.Assign( memberAccess, value );
+            BinaryExpression assignment;
+            try
+            {
+                assignment = Expression.Assign( memberAccess, value );
+            }
+            catch( ArgumentException ex )
+            {
+                throw new ArgumentException( $"Cannot create setter for member '{memberExp.Member.Name}' on type '{typeof( TSource ).Name}'. The member is likely read-only. Use WithReadonlyMember or WithConstructor/WithFactory for immutable types.", ex );
+            }
 
             return Expression.Lambda<RefSetter<TSource, TMember>>( assignment, instance, value )
                 .Compile();
+        }
+
+        // --- Untyped Reflection Helpers (for ReflectionFieldInfo) ---
+
+        /// <summary>
+        /// Creates an untyped getter (object -> object) for a specific field.
+        /// </summary>
+        public static Getter<object, object> CreateUntypedGetter( FieldInfo field )
+        {
+            var targetParam = Expression.Parameter( typeof( object ), "target" );
+            var castTarget = Expression.Convert( targetParam, field.DeclaringType );
+            var fieldAccess = Expression.Field( castTarget, field );
+            var castResult = Expression.Convert( fieldAccess, typeof( object ) );
+
+            return Expression.Lambda<Getter<object, object>>( castResult, targetParam ).Compile();
+        }
+
+        /// <summary>
+        /// Creates an untyped setter (object -> object) for a specific field on a Class (Reference Type).
+        /// </summary>
+        public static Setter<object, object> CreateUntypedSetter( FieldInfo field )
+        {
+            if( field.DeclaringType.IsValueType )
+                throw new ArgumentException( "Cannot create a standard setter for a struct field. Use CreateUntypedStructSetter or FieldInfo.SetValue." );
+
+            var targetParam = Expression.Parameter( typeof( object ), "target" );
+            var valueParam = Expression.Parameter( typeof( object ), "value" );
+
+            var castTarget = Expression.Convert( targetParam, field.DeclaringType );
+            var castValue = Expression.Convert( valueParam, field.FieldType );
+            var fieldAccess = Expression.Field( castTarget, field );
+
+            BinaryExpression assign;
+            try
+            {
+                assign = Expression.Assign( fieldAccess, castValue );
+            }
+            catch( ArgumentException ex )
+            {
+                throw new ArgumentException( $"Cannot create setter for field '{field.Name}' on type '{field.DeclaringType.Name}'. The field might be init-only or constant.", ex );
+            }
+
+            return Expression.Lambda<Setter<object, object>>( assign, targetParam, valueParam ).Compile();
+        }
+
+        /// <summary>
+        /// Creates an untyped setter (ref object -> object) for a specific field on a Struct (Value Type).
+        /// Handles unboxing, assignment, and reboxing.
+        /// </summary>
+        public static RefSetter<object, object> CreateUntypedStructSetter( FieldInfo field )
+        {
+            if( !field.DeclaringType.IsValueType )
+                throw new ArgumentException( "CreateUntypedStructSetter requires a field on a value type." );
+
+            // (ref object target, object value)
+            var targetParam = Expression.Parameter( typeof( object ).MakeByRefType(), "target" );
+            var valueParam = Expression.Parameter( typeof( object ), "value" );
+
+            // Local variable for unboxed struct: 'T typed = (T)target;'
+            var typedVar = Expression.Variable( field.DeclaringType, "typed" );
+            var unbox = Expression.Assign( typedVar, Expression.Convert( targetParam, field.DeclaringType ) );
+
+            // Field assignment: 'typed.field = (FieldType)value;'
+            var fieldAccess = Expression.Field( typedVar, field );
+            var assign = Expression.Assign( fieldAccess, Expression.Convert( valueParam, field.FieldType ) );
+
+            // Rebox: 'target = (object)typed;'
+            var rebox = Expression.Assign( targetParam, Expression.Convert( typedVar, typeof( object ) ) );
+
+            // Block: { unbox; assign; rebox; }
+            var block = Expression.Block(
+                new[] { typedVar },
+                unbox,
+                assign,
+                rebox
+            );
+
+            return Expression.Lambda<RefSetter<object, object>>( block, targetParam, valueParam ).Compile();
+        }
+        /// <summary>
+        /// Creates a compiled lambda to instantiate a type using its parameterless constructor.
+        /// </summary>
+        public static Func<T> CreateConstructor<T>()
+        {
+            var newExp = Expression.New( typeof( T ) );
+            return Expression.Lambda<Func<T>>( newExp ).Compile();
         }
     }
 }

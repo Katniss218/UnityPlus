@@ -2,14 +2,11 @@
 
 namespace UnityPlus.Serialization
 {
-    public class ArrayDescriptor<T> : CollectionDescriptor, TypeDescriptorRegistry.ICollectionDescriptorWithContext
+    public class ArrayDescriptor<T> : CollectionDescriptor, ICollectionDescriptorWithContext
     {
         public override Type MappedType => typeof( T[] );
 
-        /// <summary>
-        /// The context used to resolve descriptors for the elements of the array.
-        /// </summary>
-        public int ElementContext { get; set; } = 0;
+        public ContextKey ElementContext { get; set; } = ContextKey.Default;
 
         public override object CreateInitialTarget( SerializedData data, SerializationContext ctx )
         {
@@ -44,7 +41,6 @@ namespace UnityPlus.Serialization
 
             if( typeof( T ).IsValueType || typeof( T ).IsSealed ) actualType = typeof( T );
 
-            // Use ElementContext to resolve the element descriptor
             IDescriptor elementDesc = TypeDescriptorRegistry.GetDescriptor( actualType, ElementContext )
                                        ?? TypeDescriptorRegistry.GetDescriptor( typeof( T ), ElementContext );
 

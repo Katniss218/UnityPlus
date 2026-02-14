@@ -7,7 +7,6 @@ namespace UnityPlus.Serialization
     /// Serializes an object as an Asset ID ("$assetref") using the AssetRegistry.
     /// Used when the member context is set to ObjectContext.Asset.
     /// </summary>
-    [TypeDescriptorContext( ObjectContext.Asset )]
     public class AssetDescriptor<T> : PrimitiveDescriptor<T> where T : class
     {
         public override void SerializeDirect( object target, ref SerializedData data, SerializationContext ctx )

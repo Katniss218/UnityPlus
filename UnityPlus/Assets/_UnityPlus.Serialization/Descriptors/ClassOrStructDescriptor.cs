@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -121,11 +122,11 @@ namespace UnityPlus.Serialization
 
         public ClassOrStructDescriptor<T> WithMember<TMember>( string name, Type contextType, Expression<Func<T, TMember>> accessor )
         {
-            int contextId = ContextRegistry.GetId( contextType );
+            var contextId = ContextRegistry.GetID( contextType );
             return WithMember( name, contextId, accessor );
         }
 
-        public ClassOrStructDescriptor<T> WithMember<TMember>( string name, int context, Expression<Func<T, TMember>> accessor )
+        public ClassOrStructDescriptor<T> WithMember<TMember>( string name, ContextKey context, Expression<Func<T, TMember>> accessor )
         {
             var getter = AccessorUtils.CreateGetter( accessor );
             Setter<T, TMember> setter = null;
@@ -154,10 +155,10 @@ namespace UnityPlus.Serialization
 
         public ClassOrStructDescriptor<T> WithMember<TMember>( string name, Type contextType, Getter<T, TMember> getter, Setter<T, TMember> setter )
         {
-            return WithMember( name, ContextRegistry.GetId( contextType ), getter, setter );
+            return WithMember( name, ContextRegistry.GetID( contextType ), getter, setter );
         }
 
-        public ClassOrStructDescriptor<T> WithMember<TMember>( string name, int context, Getter<T, TMember> getter, Setter<T, TMember> setter )
+        public ClassOrStructDescriptor<T> WithMember<TMember>( string name, ContextKey context, Getter<T, TMember> getter, Setter<T, TMember> setter )
         {
             if( typeof( T ).IsValueType )
                 throw new InvalidOperationException( $"Cannot use Action<T, Member> setter for struct type {typeof( T )}. Use expressions or RefSetter." );
@@ -172,75 +173,17 @@ namespace UnityPlus.Serialization
 
         public ClassOrStructDescriptor<T> WithMember<TMember>( string name, Type contextType, Getter<T, TMember> getter, RefSetter<T, TMember> refSetter )
         {
-            return WithMember( name, ContextRegistry.GetId( contextType ), getter, refSetter );
+            return WithMember( name, ContextRegistry.GetID( contextType ), getter, refSetter );
         }
 
-        public ClassOrStructDescriptor<T> WithMember<TMember>( string name, int context, Getter<T, TMember> getter, RefSetter<T, TMember> refSetter )
+        public ClassOrStructDescriptor<T> WithMember<TMember>( string name, ContextKey context, Getter<T, TMember> getter, RefSetter<T, TMember> refSetter )
         {
             return RegisterMember( name, context, getter, null, refSetter, null );
         }
 
-        // --- Fluent API: Semantic Shortcuts ---
-
-        public ClassOrStructDescriptor<T> WithAsset<TMember>( string name, Expression<Func<T, TMember>> accessor )
-        {
-            return WithMember( name, typeof( Contexts.Asset ), accessor );
-        }
-
-        public ClassOrStructDescriptor<T> WithReference<TMember>( string name, Expression<Func<T, TMember>> accessor )
-        {
-            return WithMember( name, typeof( Contexts.Reference ), accessor );
-        }
-
-        // --- Fluent API: Dictionary Support ---
-
-        public ClassOrStructDescriptor<T> WithDictionary<TKey, TValue>(
-            string name,
-            Expression<Func<T, Dictionary<TKey, TValue>>> accessor,
-            int keyContext = ObjectContext.Default,
-            int valueContext = ObjectContext.Default )
-        {
-            var ctx = new DictionaryContext( keyContext, valueContext );
-            return WithMember( name, ctx, accessor );
-        }
-
-        public ClassOrStructDescriptor<T> WithMember<TMember>( string name, DictionaryContext context, Expression<Func<T, TMember>> accessor )
-        {
-            int contextId = context.GetId();
-
-            // Auto-register the Dictionary Descriptor if needed
-            Type memberType = typeof( TMember );
-
-            // Check if descriptor already exists
-            if( TypeDescriptorRegistry.GetDescriptor( memberType, contextId ) == null )
-            {
-                Type dictInterface = null;
-                if( memberType.IsGenericType && memberType.GetGenericTypeDefinition() == typeof( Dictionary<,> ) )
-                {
-                    dictInterface = memberType;
-                }
-
-                if( dictInterface != null )
-                {
-                    Type[] args = dictInterface.GetGenericArguments();
-                    Type keyType = args[0];
-                    Type valType = args[1];
-
-                    Type descType = typeof( DictionaryDescriptor<,,> ).MakeGenericType( memberType, keyType, valType );
-                    var desc = (IDictionaryDescriptor)Activator.CreateInstance( descType );
-                    desc.KeyContext = context.KeyContext;
-                    desc.ValueContext = context.ValueContext;
-
-                    TypeDescriptorRegistry.Register( (IDescriptor)desc, contextId );
-                }
-            }
-
-            return WithMember( name, contextId, accessor );
-        }
-
         // --- Internal Registration Helper ---
 
-        private ClassOrStructDescriptor<T> RegisterMember<TMember>( string name, int context, Getter<T, TMember> getter, Setter<T, TMember> setter, RefSetter<T, TMember> refSetter, MemberInfo nativeMember )
+        private ClassOrStructDescriptor<T> RegisterMember<TMember>( string name, ContextKey context, Getter<T, TMember> getter, Setter<T, TMember> setter, RefSetter<T, TMember> refSetter, MemberInfo nativeMember )
         {
             _members.Add( new MemberDefinition<object>(
                 name,
@@ -279,6 +222,112 @@ namespace UnityPlus.Serialization
             return this;
         }
 
+        // --- Fluent API: Construction & Factories ---
+
+        /// <summary>
+        /// Defines a factory that creates the object using parameters loaded from serialized data.
+        /// </summary>
+        /// <param name="constructor">The delegate to create the object.</param>
+        /// <param name="parameters">The list of (name, type) pairs for the parameters, matching the order of the delegate.</param>
+        public ClassOrStructDescriptor<T> WithConstructor( Func<object[], T> constructor, params (string name, Type type)[] parameters )
+        {
+            _constructor = constructor;
+            _constructorParams = parameters;
+            return this;
+        }
+
+        /// <summary>
+        /// Defines a simple parameterless factory.
+        /// </summary>
+        public ClassOrStructDescriptor<T> WithFactory( Func<object> factory )
+        {
+            _simpleFactory = factory;
+            return this;
+        }
+
+        /// <summary>
+        /// Defines a factory that inspects the raw serialized data before creating the object.
+        /// Useful for ScriptableObject/Prefab instantiation.
+        /// </summary>
+        public ClassOrStructDescriptor<T> WithRawFactory( Func<SerializedData, SerializationContext, T> factory )
+        {
+            _rawFactory = ( d, c ) => factory( d, c );
+            return this;
+        }
+
+        // --- Strongly Typed Factory Overloads ---
+
+        public ClassOrStructDescriptor<T> WithFactory<P1>( Func<P1, T> factory, string n1 )
+        {
+            return WithConstructor(
+                args => factory( (P1)args[0] ),
+                (n1, typeof( P1 ))
+            );
+        }
+
+        public ClassOrStructDescriptor<T> WithFactory<P1, P2>( Func<P1, P2, T> factory, string n1, string n2 )
+        {
+            return WithConstructor(
+                args => factory( (P1)args[0], (P2)args[1] ),
+                (n1, typeof( P1 )),
+                (n2, typeof( P2 ))
+            );
+        }
+
+        public ClassOrStructDescriptor<T> WithFactory<P1, P2, P3>( Func<P1, P2, P3, T> factory, string n1, string n2, string n3 )
+        {
+            return WithConstructor(
+                args => factory( (P1)args[0], (P2)args[1], (P3)args[2] ),
+                (n1, typeof( P1 )),
+                (n2, typeof( P2 )),
+                (n3, typeof( P3 ))
+            );
+        }
+
+        public ClassOrStructDescriptor<T> WithFactory<P1, P2, P3, P4>( Func<P1, P2, P3, P4, T> factory, string n1, string n2, string n3, string n4 )
+        {
+            return WithConstructor(
+                args => factory( (P1)args[0], (P2)args[1], (P3)args[2], (P4)args[3] ),
+                (n1, typeof( P1 )),
+                (n2, typeof( P2 )),
+                (n3, typeof( P3 )),
+                (n4, typeof( P4 ))
+            );
+        }
+
+        public ClassOrStructDescriptor<T> WithFactory<P1, P2, P3, P4, P5>( Func<P1, P2, P3, P4, P5, T> factory, string n1, string n2, string n3, string n4, string n5 )
+        {
+            return WithConstructor(
+                args => factory( (P1)args[0], (P2)args[1], (P3)args[2], (P4)args[3], (P5)args[4] ),
+                (n1, typeof( P1 )),
+                (n2, typeof( P2 )),
+                (n3, typeof( P3 )),
+                (n4, typeof( P4 )),
+                (n5, typeof( P5 ))
+            );
+        }
+
+        public ClassOrStructDescriptor<T> WithFactory<P1, P2, P3, P4, P5, P6>( Func<P1, P2, P3, P4, P5, P6, T> factory, string n1, string n2, string n3, string n4, string n5, string n6 )
+        {
+            return WithConstructor(
+                args => factory( (P1)args[0], (P2)args[1], (P3)args[2], (P4)args[3], (P5)args[4], (P6)args[5] ),
+                (n1, typeof( P1 )),
+                (n2, typeof( P2 )),
+                (n3, typeof( P3 )),
+                (n4, typeof( P4 )),
+                (n5, typeof( P5 )),
+                (n6, typeof( P6 ))
+            );
+        }
+
+        // --- Method / UI Support ---
+
+        public ClassOrStructDescriptor<T> WithMethod( string name, Action<T> action, string displayName = null )
+        {
+            _methods.Add( new ActionMethodInfo( name, displayName, action ) );
+            return this;
+        }
+
         // --- Fluent API: Lifecycle ---
 
         public ClassOrStructDescriptor<T> OnSerializing( Action<T, SerializationContext> callback )
@@ -290,33 +339,6 @@ namespace UnityPlus.Serialization
         public ClassOrStructDescriptor<T> OnDeserialized( Action<T, SerializationContext> callback )
         {
             _onDeserialized += callback;
-            return this;
-        }
-
-        // --- Fluent API: Construction & UI ---
-
-        public ClassOrStructDescriptor<T> WithConstructor( Func<object[], T> constructor, params (string name, Type type)[] parameters )
-        {
-            _constructor = constructor;
-            _constructorParams = parameters;
-            return this;
-        }
-
-        public ClassOrStructDescriptor<T> WithFactory( Func<object> factory )
-        {
-            _simpleFactory = factory;
-            return this;
-        }
-
-        public ClassOrStructDescriptor<T> WithRawFactory( Func<SerializedData, SerializationContext, T> factory )
-        {
-            _rawFactory = ( d, c ) => factory( d, c );
-            return this;
-        }
-
-        public ClassOrStructDescriptor<T> WithMethod( string name, Action<T> action, string displayName = null )
-        {
-            _methods.Add( new ActionMethodInfo( name, displayName, action ) );
             return this;
         }
 
@@ -430,7 +452,7 @@ namespace UnityPlus.Serialization
         private class MemberDefinition<TMember>
         {
             public string Name { get; }
-            public int Context { get; }
+            public ContextKey Context { get; }
             public Func<object, TMember> Getter;
             public Action<object, TMember> Setter;
             public RefSetter<object, TMember> RefSetter;
@@ -440,7 +462,7 @@ namespace UnityPlus.Serialization
             public Predicate<object> ShouldSerialize;
             public Func<object, SerializationContext, bool> ShouldSerializeWithContext;
 
-            public MemberDefinition( string name, int context, Func<object, TMember> getter, Action<object, TMember> setter, RefSetter<object, TMember> refSetter, MemberInfo nativeMember, Type memberType = null )
+            public MemberDefinition( string name, ContextKey context, Func<object, TMember> getter, Action<object, TMember> setter, RefSetter<object, TMember> refSetter, MemberInfo nativeMember, Type memberType = null )
             {
                 Name = name;
                 Context = context;

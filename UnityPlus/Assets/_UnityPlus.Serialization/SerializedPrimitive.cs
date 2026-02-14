@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace UnityPlus.Serialization
@@ -6,10 +7,11 @@ namespace UnityPlus.Serialization
     /// <summary>
     /// An arbitrary supported primitive value stored in the tree structure.
     /// </summary>
+    [DebuggerDisplay( "{ToString()}" )]
     public sealed class SerializedPrimitive : SerializedData, IEquatable<SerializedPrimitive>
     {
         /// <summary>
-        /// Stores the actual value of the primitive.
+        /// Stores the actual value of the primitive. The length is 24 bytes (16 + ref)
         /// </summary>
         [StructLayout( LayoutKind.Explicit )]
         internal struct Value
@@ -26,6 +28,20 @@ namespace UnityPlus.Serialization
             [FieldOffset( 0 )] public double float64;
             [FieldOffset( 0 )] public decimal @decimal;
             [FieldOffset( 16 )] public string str; // Reference types can't be overlapped with value types :(, 16 bytes is the size of decimal.
+
+            public string ToString(DataType type)
+            {
+                return type switch
+                {
+                    DataType.Boolean => boolean.ToString(),
+                    DataType.Int64 => int64.ToString(),
+                    DataType.UInt64 => uint64.ToString(),
+                    DataType.Float64 => float64.ToString(),
+                    DataType.Decimal => @decimal.ToString(),
+                    DataType.String => str ?? "null",
+                    _ => "Invalid"
+                };
+            }
         }
 
         /// <summary>
@@ -74,7 +90,7 @@ namespace UnityPlus.Serialization
         internal readonly Value _value;
         internal readonly DataType _type;
 
-        SerializedPrimitive( Value value, DataType type )
+        private SerializedPrimitive( Value value, DataType type )
         {
             this._value = value;
             this._type = type;
@@ -127,6 +143,11 @@ namespace UnityPlus.Serialization
             }
 
             return this._value.equalityValue.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return this._value.ToString( this._type );
         }
 
 

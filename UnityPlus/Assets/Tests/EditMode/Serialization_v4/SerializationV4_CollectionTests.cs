@@ -1,7 +1,5 @@
-﻿
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System.Collections.Generic;
-using UnityPlus.Serialization;
 
 namespace UnityPlus.Serialization.Tests.V4
 {

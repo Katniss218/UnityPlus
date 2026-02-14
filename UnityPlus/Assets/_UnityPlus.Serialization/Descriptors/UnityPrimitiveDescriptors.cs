@@ -1,11 +1,15 @@
-﻿
-using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace UnityPlus.Serialization
 {
     public static class UnityPrimitiveDescriptors
     {
+        [MapsAnyInterface( ContextType = typeof( Ctx.Asset ) )]
+        [MapsInheritingFrom( typeof( object ), ContextType = typeof( Ctx.Asset ) )]
+        private static IDescriptor ProvideAsset<T>() where T : class
+        {
+            return new AssetDescriptor<T>();
+        }
         // --- VECTORS ---
 
         [MapsInheritingFrom( typeof( Vector2 ) )]
@@ -57,152 +61,134 @@ namespace UnityPlus.Serialization
             ( data, ctx ) =>
                 (data is SerializedArray arr && arr.Count >= 4) ? new Quaternion( (float)arr[0], (float)arr[1], (float)arr[2], (float)arr[3] ) : default
         );
-
         // --- MATRIX ---
 
         [MapsInheritingFrom( typeof( Matrix4x4 ) )]
         public static IDescriptor Matrix4x4Descriptor() => new PrimitiveConfigurableDescriptor<Matrix4x4>(
-            ( target, wrapper, ctx ) => {
-                var arr = new SerializedArray( 16 );
-                for( int i = 0; i < 16; i++ ) arr.Add( (SerializedPrimitive)target[i] );
-                wrapper.Data = arr;
-            },
-            ( data, ctx ) => {
-                if( data is SerializedArray arr && arr.Count >= 16 )
+            ( o, wrapper, ctx ) =>
+            {
+                wrapper.Data = new SerializedArray( 16 )
                 {
-                    var m = new Matrix4x4();
-                    for( int i = 0; i < 16; i++ ) m[i] = (float)arr[i];
-                    return m;
-                }
-                return Matrix4x4.identity;
+                    (SerializedPrimitive)o.m00, (SerializedPrimitive)o.m01, (SerializedPrimitive)o.m02, (SerializedPrimitive)o.m03,
+                    (SerializedPrimitive)o.m10, (SerializedPrimitive)o.m11, (SerializedPrimitive)o.m12, (SerializedPrimitive)o.m13,
+                    (SerializedPrimitive)o.m20, (SerializedPrimitive)o.m21, (SerializedPrimitive)o.m22, (SerializedPrimitive)o.m23,
+                    (SerializedPrimitive)o.m30, (SerializedPrimitive)o.m31, (SerializedPrimitive)o.m32, (SerializedPrimitive)o.m33
+                };
+            },
+            ( data, ctx ) => new Matrix4x4()
+            {
+                m00 = (float)data[0],
+                m01 = (float)data[1],
+                m02 = (float)data[2],
+                m03 = (float)data[3],
+                m10 = (float)data[4],
+                m11 = (float)data[5],
+                m12 = (float)data[6],
+                m13 = (float)data[7],
+                m20 = (float)data[8],
+                m21 = (float)data[9],
+                m22 = (float)data[10],
+                m23 = (float)data[11],
+                m30 = (float)data[12],
+                m31 = (float)data[13],
+                m32 = (float)data[14],
+                m33 = (float)data[15]
             }
         );
 
         // --- COLORS ---
 
         [MapsInheritingFrom( typeof( Color ) )]
-        public static IDescriptor ColorDescriptor() => new PrimitiveConfigurableDescriptor<Color>(
-            ( c, wrapper, ctx ) =>
-                wrapper.Data = new SerializedObject
-                {
-                    ["r"] = (SerializedPrimitive)c.r,
-                    ["g"] = (SerializedPrimitive)c.g,
-                    ["b"] = (SerializedPrimitive)c.b,
-                    ["a"] = (SerializedPrimitive)c.a
-                },
-            ( data, ctx ) =>
-                (data is SerializedObject obj) ? new Color(
-                    obj.TryGetValue( "r", out var r ) ? (float)r : 0f,
-                    obj.TryGetValue( "g", out var g ) ? (float)g : 0f,
-                    obj.TryGetValue( "b", out var b ) ? (float)b : 0f,
-                    obj.TryGetValue( "a", out var a ) ? (float)a : 1f
-                ) : default
-        );
+        public static IDescriptor ColorDescriptor() => new ClassOrStructDescriptor<Color>()
+            .WithMember( "r", c => c.r, ( ref Color c, float v ) => c.r = v )
+            .WithMember( "g", c => c.g, ( ref Color c, float v ) => c.g = v )
+            .WithMember( "b", c => c.b, ( ref Color c, float v ) => c.b = v )
+            .WithMember( "a", c => c.a, ( ref Color c, float v ) => c.a = v );
 
         [MapsInheritingFrom( typeof( Color32 ) )]
-        public static IDescriptor Color32Descriptor() => new PrimitiveConfigurableDescriptor<Color32>(
-            ( c, wrapper, ctx ) =>
-                wrapper.Data = new SerializedObject
-                {
-                    ["r"] = (SerializedPrimitive)c.r,
-                    ["g"] = (SerializedPrimitive)c.g,
-                    ["b"] = (SerializedPrimitive)c.b,
-                    ["a"] = (SerializedPrimitive)c.a
-                },
-            ( data, ctx ) =>
-                (data is SerializedObject obj) ? new Color32(
-                    obj.TryGetValue( "r", out var r ) ? (byte)r : (byte)0,
-                    obj.TryGetValue( "g", out var g ) ? (byte)g : (byte)0,
-                    obj.TryGetValue( "b", out var b ) ? (byte)b : (byte)0,
-                    obj.TryGetValue( "a", out var a ) ? (byte)a : (byte)255
-                ) : default
-        );
+        public static IDescriptor Color32Descriptor() => new ClassOrStructDescriptor<Color32>()
+            .WithMember( "r", c => c.r, ( ref Color32 c, byte v ) => c.r = v )
+            .WithMember( "g", c => c.g, ( ref Color32 c, byte v ) => c.g = v )
+            .WithMember( "b", c => c.b, ( ref Color32 c, byte v ) => c.b = v )
+            .WithMember( "a", c => c.a, ( ref Color32 c, byte v ) => c.a = v );
 
         // --- RECT & BOUNDS ---
 
         [MapsInheritingFrom( typeof( Rect ) )]
-        public static IDescriptor RectDescriptor() => new PrimitiveConfigurableDescriptor<Rect>(
-            ( r, wrapper, ctx ) =>
-                wrapper.Data = new SerializedObject
-                {
-                    ["x"] = (SerializedPrimitive)r.x,
-                    ["y"] = (SerializedPrimitive)r.y,
-                    ["width"] = (SerializedPrimitive)r.width,
-                    ["height"] = (SerializedPrimitive)r.height
-                },
-            ( data, ctx ) =>
-                (data is SerializedObject obj) ? new Rect(
-                    obj.TryGetValue( "x", out var x ) ? (float)x : 0f,
-                    obj.TryGetValue( "y", out var y ) ? (float)y : 0f,
-                    obj.TryGetValue( "width", out var w ) ? (float)w : 0f,
-                    obj.TryGetValue( "height", out var h ) ? (float)h : 0f
-                ) : default
-        );
+        public static IDescriptor RectDescriptor() => new ClassOrStructDescriptor<Rect>()
+            .WithMember( "x", r => r.x, ( ref Rect r, float v ) => r.x = v )
+            .WithMember( "y", r => r.y, ( ref Rect r, float v ) => r.y = v )
+            .WithMember( "width", r => r.width, ( ref Rect r, float v ) => r.width = v )
+            .WithMember( "height", r => r.height, ( ref Rect r, float v ) => r.height = v );
 
         [MapsInheritingFrom( typeof( RectInt ) )]
-        public static IDescriptor RectIntDescriptor() => new PrimitiveConfigurableDescriptor<RectInt>(
-            ( r, wrapper, ctx ) =>
-                wrapper.Data = new SerializedObject
-                {
-                    ["x"] = (SerializedPrimitive)r.x,
-                    ["y"] = (SerializedPrimitive)r.y,
-                    ["width"] = (SerializedPrimitive)r.width,
-                    ["height"] = (SerializedPrimitive)r.height
-                },
-            ( data, ctx ) =>
-                (data is SerializedObject obj) ? new RectInt(
-                    obj.TryGetValue( "x", out var x ) ? (int)x : 0,
-                    obj.TryGetValue( "y", out var y ) ? (int)y : 0,
-                    obj.TryGetValue( "width", out var w ) ? (int)w : 0,
-                    obj.TryGetValue( "height", out var h ) ? (int)h : 0
-                ) : default
-        );
+        public static IDescriptor RectIntDescriptor() => new ClassOrStructDescriptor<RectInt>()
+            .WithMember( "x", r => r.x, ( ref RectInt r, int v ) => r.x = v )
+            .WithMember( "y", r => r.y, ( ref RectInt r, int v ) => r.y = v )
+            .WithMember( "width", r => r.width, ( ref RectInt r, int v ) => r.width = v )
+            .WithMember( "height", r => r.height, ( ref RectInt r, int v ) => r.height = v );
 
         // --- BOUNDS ---
 
         [MapsInheritingFrom( typeof( Bounds ) )]
-        public static IDescriptor BoundsDescriptor() => new PrimitiveConfigurableDescriptor<Bounds>(
-            ( b, wrapper, ctx ) => {
-                var centerDesc = TypeDescriptorRegistry.GetDescriptor( typeof( Vector3 ) ) as IPrimitiveDescriptor;
-                var extentsDesc = TypeDescriptorRegistry.GetDescriptor( typeof( Vector3 ) ) as IPrimitiveDescriptor;
-                SerializedData c = null, e = null;
-                centerDesc?.SerializeDirect( b.center, ref c, ctx );
-                extentsDesc?.SerializeDirect( b.extents, ref e, ctx );
-                wrapper.Data = new SerializedObject { ["center"] = c, ["extents"] = e };
-            },
-            ( data, ctx ) => {
-                if( data is SerializedObject obj )
-                {
-                    var v3Desc = TypeDescriptorRegistry.GetDescriptor( typeof( Vector3 ) ) as IPrimitiveDescriptor;
-                    object c = default( Vector3 ), e = default( Vector3 );
-                    if( obj.TryGetValue( "center", out var cData ) ) v3Desc?.DeserializeDirect( cData, ctx, out c );
-                    if( obj.TryGetValue( "extents", out var eData ) ) v3Desc?.DeserializeDirect( eData, ctx, out e );
-                    return new Bounds( (Vector3)c, (Vector3)e * 2f );
-                }
-                return default;
-            }
-        );
+        public static IDescriptor BoundsDescriptor() => new ClassOrStructDescriptor<Bounds>()
+            .WithMember( "center", b => b.center, ( ref Bounds b, Vector3 v ) => b.center = v )
+            .WithMember( "extents", b => b.extents, ( ref Bounds b, Vector3 v ) => b.extents = v );
 
         [MapsInheritingFrom( typeof( BoundsInt ) )]
-        public static IDescriptor BoundsIntDescriptor() => new PrimitiveConfigurableDescriptor<BoundsInt>(
-            ( b, wrapper, ctx ) => {
-                var v3Desc = TypeDescriptorRegistry.GetDescriptor( typeof( Vector3Int ) ) as IPrimitiveDescriptor;
-                SerializedData p = null, s = null;
-                v3Desc?.SerializeDirect( b.position, ref p, ctx );
-                v3Desc?.SerializeDirect( b.size, ref s, ctx );
-                wrapper.Data = new SerializedObject { ["position"] = p, ["size"] = s };
-            },
-            ( data, ctx ) => {
-                if( data is SerializedObject obj )
-                {
-                    var v3Desc = TypeDescriptorRegistry.GetDescriptor( typeof( Vector3Int ) ) as IPrimitiveDescriptor;
-                    object p = default( Vector3Int ), s = default( Vector3Int );
-                    if( obj.TryGetValue( "position", out var pData ) ) v3Desc?.DeserializeDirect( pData, ctx, out p );
-                    if( obj.TryGetValue( "size", out var sData ) ) v3Desc?.DeserializeDirect( sData, ctx, out s );
-                    return new BoundsInt( (Vector3Int)p, (Vector3Int)s );
-                }
-                return default;
-            }
-        );
+        public static IDescriptor BoundsIntDescriptor() => new ClassOrStructDescriptor<BoundsInt>()
+            .WithMember( "position", b => b.position, ( ref BoundsInt b, Vector3Int v ) => b.position = v )
+            .WithMember( "size", b => b.size, ( ref BoundsInt b, Vector3Int v ) => b.size = v );
+
+        // --- RAYS & PLANES ---
+
+        [MapsInheritingFrom( typeof( Ray ) )]
+        public static IDescriptor RayDescriptor() => new ClassOrStructDescriptor<Ray>()
+            .WithMember( "origin", r => r.origin, ( ref Ray r, Vector3 v ) => r.origin = v )
+            .WithMember( "direction", r => r.direction, ( ref Ray r, Vector3 v ) => r.direction = v );
+
+        [MapsInheritingFrom( typeof( Ray2D ) )]
+        public static IDescriptor Ray2DDescriptor() => new ClassOrStructDescriptor<Ray2D>()
+            .WithMember( "origin", r => r.origin, ( ref Ray2D r, Vector2 v ) => r.origin = v )
+            .WithMember( "direction", r => r.direction, ( ref Ray2D r, Vector2 v ) => r.direction = v );
+
+        [MapsInheritingFrom( typeof( Plane ) )]
+        public static IDescriptor PlaneDescriptor() => new ClassOrStructDescriptor<Plane>()
+            .WithMember( "normal", p => p.normal, ( ref Plane p, Vector3 v ) => p.normal = v )
+            .WithMember( "distance", p => p.distance, ( ref Plane p, float v ) => p.distance = v );
+
+        // --- ANIMATION / GRADIENTS ---
+
+        [MapsInheritingFrom( typeof( Keyframe ) )]
+        public static IDescriptor KeyframeDescriptor() => new ClassOrStructDescriptor<Keyframe>()
+            .WithMember( "time", k => k.time, ( ref Keyframe k, float v ) => k.time = v )
+            .WithMember( "value", k => k.value, ( ref Keyframe k, float v ) => k.value = v )
+            .WithMember( "in_tangent", k => k.inTangent, ( ref Keyframe k, float v ) => k.inTangent = v )
+            .WithMember( "out_tangent", k => k.outTangent, ( ref Keyframe k, float v ) => k.outTangent = v )
+            .WithMember( "in_weight", k => k.inWeight, ( ref Keyframe k, float v ) => k.inWeight = v )
+            .WithMember( "out_weight", k => k.outWeight, ( ref Keyframe k, float v ) => k.outWeight = v )
+            .WithMember( "weighted_mode", k => k.weightedMode, ( ref Keyframe k, WeightedMode v ) => k.weightedMode = v );
+
+        [MapsInheritingFrom( typeof( AnimationCurve ) )]
+        public static IDescriptor AnimationCurveDescriptor() => new ClassOrStructDescriptor<AnimationCurve>()
+            .WithMember( "keys", c => c.keys, ( c, v ) => c.keys = v )
+            .WithMember( "pre_wrap_mode", c => c.preWrapMode, ( c, v ) => c.preWrapMode = v )
+            .WithMember( "post_wrap_mode", c => c.postWrapMode, ( c, v ) => c.postWrapMode = v );
+
+        [MapsInheritingFrom( typeof( GradientColorKey ) )]
+        public static IDescriptor GradientColorKeyDescriptor() => new ClassOrStructDescriptor<GradientColorKey>()
+            .WithMember( "color", k => k.color, ( ref GradientColorKey k, Color v ) => k.color = v )
+            .WithMember( "time", k => k.time, ( ref GradientColorKey k, float v ) => k.time = v );
+
+        [MapsInheritingFrom( typeof( GradientAlphaKey ) )]
+        public static IDescriptor GradientAlphaKeyDescriptor() => new ClassOrStructDescriptor<GradientAlphaKey>()
+            .WithMember( "alpha", k => k.alpha, ( ref GradientAlphaKey k, float v ) => k.alpha = v )
+            .WithMember( "time", k => k.time, ( ref GradientAlphaKey k, float v ) => k.time = v );
+
+        [MapsInheritingFrom( typeof( Gradient ) )]
+        public static IDescriptor GradientDescriptor() => new ClassOrStructDescriptor<Gradient>()
+            .WithMember( "color_keys", g => g.colorKeys, ( g, v ) => g.colorKeys = v )
+            .WithMember( "alpha_keys", g => g.alphaKeys, ( g, v ) => g.alphaKeys = v )
+            .WithMember( "mode", g => g.mode, ( g, v ) => g.mode = v );
     }
 }

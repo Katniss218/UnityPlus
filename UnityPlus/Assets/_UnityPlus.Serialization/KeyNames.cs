@@ -41,7 +41,7 @@ namespace UnityPlus.Serialization
         /// <summary>
         /// The key used to store the array of items when a Collection is wrapped in an Object (to support circular refs).
         /// </summary>
-        public const string VALUES = "values";
+        public const string VALUES = "value";
 
         /// <summary>
         /// The key used to store Components on a GameObject.

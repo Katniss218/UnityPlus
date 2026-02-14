@@ -4,6 +4,9 @@ namespace UnityPlus.Serialization
 {
     public static class UnityComponentDescriptors
     {
+        [MapsInheritingFrom( typeof( GameObject ) )]
+        private static IDescriptor ProvideGameObject() => new GameObjectDescriptor();
+
         // --- BASE ---
 
         [MapsInheritingFrom( typeof( Transform ) )]
@@ -38,20 +41,20 @@ namespace UnityPlus.Serialization
         public static IDescriptor MeshCollider() => new ClassOrStructDescriptor<MeshCollider>()
             .WithMember( "isTrigger", c => c.isTrigger )
             .WithMember( "convex", c => c.convex )
-            .WithAsset( "sharedMesh", c => c.sharedMesh );
+            .WithMember( "sharedMesh", typeof( Ctx.Asset ), c => c.sharedMesh );
 
         // --- RENDERING ---
 
         [MapsInheritingFrom( typeof( MeshFilter ) )]
         public static IDescriptor MeshFilter() => new ClassOrStructDescriptor<MeshFilter>()
-            .WithAsset( "sharedMesh", m => m.sharedMesh );
+            .WithMember( "sharedMesh", typeof( Ctx.Asset ), m => m.sharedMesh );
 
         [MapsInheritingFrom( typeof( MeshRenderer ) )]
         public static IDescriptor MeshRenderer() => new ClassOrStructDescriptor<MeshRenderer>()
             .WithMember( "enabled", r => r.enabled )
             .WithMember( "shadowCastingMode", r => r.shadowCastingMode )
             .WithMember( "receiveShadows", r => r.receiveShadows )
-            .WithMember( "sharedMaterials", ObjectContext.Asset, r => r.sharedMaterials );
+            .WithMember( "sharedMaterials", typeof( Ctx.Asset ), r => r.sharedMaterials );
 
         [MapsInheritingFrom( typeof( Camera ) )]
         public static IDescriptor Camera() => new ClassOrStructDescriptor<Camera>()
@@ -88,6 +91,6 @@ namespace UnityPlus.Serialization
         public static IDescriptor LOD() => new ClassOrStructDescriptor<LOD>()
             .WithMember( "screenRelativeTransitionHeight", l => l.screenRelativeTransitionHeight )
             .WithMember( "fadeTransitionWidth", l => l.fadeTransitionWidth )
-            .WithMember( "renderers", ObjectContext.Ref, l => l.renderers );
+            .WithMember( "renderers", typeof( Ctx.Ref ), l => l.renderers );
     }
 }

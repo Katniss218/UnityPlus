@@ -34,7 +34,7 @@ namespace UnityPlus.Serialization
                 var wrapper = new SerializedObject();
                 Guid id = referenceMap.GetID( target );
 
-                wrapper[KeyNames.ID] = id.SerializeGuid();
+                Persistent_Guid.WriteIdHeader( wrapper, id );
                 wrapper[KeyNames.VALUES] = arrayToPopulate;
 
                 return wrapper;

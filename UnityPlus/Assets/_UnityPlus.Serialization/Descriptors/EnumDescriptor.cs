@@ -1,11 +1,16 @@
-﻿
-using System;
+﻿using System;
 
 namespace UnityPlus.Serialization
 {
     public enum EnumSerializationMode
     {
+        /// <summary>
+        /// Serializes the enum as its underlying integer value (e.g. 0, 1, 2).
+        /// </summary>
         Integer,
+        /// <summary>
+        /// Serializes the enum as its string name (e.g. "FirstValue", "SecondValue").
+        /// </summary>
         String
     }
 
