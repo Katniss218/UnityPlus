@@ -239,6 +239,13 @@ namespace UnityPlus.Serialization
 
         public void OnCursorFinished( SerializationCursor cursor, SerializationState state )
         {
+            // CRITICAL FIX: If the root object was a Value Type (struct) or the reference was swapped
+            // (e.g. array resize, or re-boxing during population), the 'TargetObj.Target' inside
+            // the finished cursor holds the FINAL version. We must update the state result.
+            if( cursor.TargetObj.IsRoot )
+            {
+                state.RootResult = cursor.TargetObj.Target;
+            }
         }
 
         private MemberResolutionResult TryResolveMember( IMemberInfo memberInfo, SerializedData parentData, int index, SerializationState state, out object value )

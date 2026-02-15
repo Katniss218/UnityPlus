@@ -99,9 +99,18 @@ namespace UnityPlus.Serialization
         /// </summary>
         public static Getter<object, object> CreateUntypedGetter( FieldInfo field )
         {
-            var targetParam = Expression.Parameter( typeof( object ), "target" );
-            var castTarget = Expression.Convert( targetParam, field.DeclaringType );
-            var fieldAccess = Expression.Field( castTarget, field );
+            ParameterExpression targetParam = Expression.Parameter( typeof( object ), "target" );
+
+            // Optimization: Use Expression.Unbox.
+            // Standard Expression.Convert emits 'unbox.any' which copies the struct to the stack.
+            // Expression.Unbox emits 'unbox' which pushes the Managed Pointer (address) of the struct inside the box.
+            // Reading the field from the address avoids the copy.
+            // Reference types just cast
+            Expression sourceExp = (field.DeclaringType.IsValueType)
+                    ? Expression.Unbox( targetParam, field.DeclaringType )
+                    : Expression.Convert( targetParam, field.DeclaringType );
+
+            var fieldAccess = Expression.Field( sourceExp, field );
             var castResult = Expression.Convert( fieldAccess, typeof( object ) );
 
             return Expression.Lambda<Getter<object, object>>( castResult, targetParam ).Compile();
@@ -115,8 +124,8 @@ namespace UnityPlus.Serialization
             if( field.DeclaringType.IsValueType )
                 throw new ArgumentException( "Cannot create a standard setter for a struct field. Use CreateUntypedStructSetter or FieldInfo.SetValue." );
 
-            var targetParam = Expression.Parameter( typeof( object ), "target" );
-            var valueParam = Expression.Parameter( typeof( object ), "value" );
+            ParameterExpression targetParam = Expression.Parameter( typeof( object ), "target" );
+            ParameterExpression valueParam = Expression.Parameter( typeof( object ), "value" );
 
             var castTarget = Expression.Convert( targetParam, field.DeclaringType );
             var castValue = Expression.Convert( valueParam, field.FieldType );
@@ -129,7 +138,7 @@ namespace UnityPlus.Serialization
             }
             catch( ArgumentException ex )
             {
-                throw new ArgumentException( $"Cannot create setter for field '{field.Name}' on type '{field.DeclaringType.Name}'. The field might be init-only or constant.", ex );
+                throw new ArgumentException( $"Cannot create setter for field '{field.Name}' on type '{field.DeclaringType.Name}'. The field might be read-only or constant.", ex );
             }
 
             return Expression.Lambda<Setter<object, object>>( assign, targetParam, valueParam ).Compile();
@@ -148,27 +157,20 @@ namespace UnityPlus.Serialization
             var targetParam = Expression.Parameter( typeof( object ).MakeByRefType(), "target" );
             var valueParam = Expression.Parameter( typeof( object ), "value" );
 
-            // Local variable for unboxed struct: 'T typed = (T)target;'
-            var typedVar = Expression.Variable( field.DeclaringType, "typed" );
-            var unbox = Expression.Assign( typedVar, Expression.Convert( targetParam, field.DeclaringType ) );
+            // Optimization: Use Expression.Unbox.
+            // We explicitly convert targetParam to object to ensure the expression compiler treats it as a load (Ldind_Ref).
+            // If we passed the ref parameter directly, some compilers might interpret it incorrectly or fallback to Unbox.Any behavior.
+            // This emits the 'unbox' opcode, returning a Managed Pointer (ref T) to the heap value.
+            var loadRef = Expression.Convert( targetParam, typeof( object ) );
+            var unboxExp = Expression.Unbox( loadRef, field.DeclaringType );
 
-            // Field assignment: 'typed.field = (FieldType)value;'
-            var fieldAccess = Expression.Field( typedVar, field );
-            var assign = Expression.Assign( fieldAccess, Expression.Convert( valueParam, field.FieldType ) );
+            // Field assignment: 'typedPtr.field = (FieldType)value;'
+            var fieldAccess = Expression.Field( unboxExp, field );
+            var assignExp = Expression.Assign( fieldAccess, Expression.Convert( valueParam, field.FieldType ) );
 
-            // Rebox: 'target = (object)typed;'
-            var rebox = Expression.Assign( targetParam, Expression.Convert( typedVar, typeof( object ) ) );
-
-            // Block: { unbox; assign; rebox; }
-            var block = Expression.Block(
-                new[] { typedVar },
-                unbox,
-                assign,
-                rebox
-            );
-
-            return Expression.Lambda<RefSetter<object, object>>( block, targetParam, valueParam ).Compile();
+            return Expression.Lambda<RefSetter<object, object>>( assignExp, targetParam, valueParam ).Compile();
         }
+
         /// <summary>
         /// Creates a compiled lambda to instantiate a type using its parameterless constructor.
         /// </summary>

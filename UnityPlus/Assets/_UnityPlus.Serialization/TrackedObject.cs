@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 
 namespace UnityPlus.Serialization
 {
@@ -13,18 +12,21 @@ namespace UnityPlus.Serialization
         /// The current object instance. 
         /// For value types, this is a boxed copy.
         /// </summary>
-        public readonly object Target;
+        public object Target { get; }
 
         /// <summary>
         /// The object that owns the Target.
         /// </summary>
-        public readonly object Parent;
+        public object Parent { get; }
 
         /// <summary>
         /// The member info describing how Target is accessed on Parent.
         /// </summary>
-        public readonly IMemberInfo Member;
+        public IMemberInfo Member { get; }
 
+        /// <summary>
+        /// Whether this TrackedObject is the root of the traversal (i.e., has no Parent).
+        /// </summary>
         public bool IsRoot => Parent == null;
 
         public TrackedObject( object target )
@@ -53,9 +55,9 @@ namespace UnityPlus.Serialization
         public bool Equals( TrackedObject other )
         {
             // Identity comparison
-            return ReferenceEquals( Target, other.Target ) &&
-                   ReferenceEquals( Parent, other.Parent ) &&
-                   Equals( Member, other.Member );
+            return ReferenceEquals( Target, other.Target )
+                && ReferenceEquals( Parent, other.Parent )
+                && Equals( Member, other.Member );
         }
 
         public override bool Equals( object obj ) => obj is TrackedObject other && Equals( other );

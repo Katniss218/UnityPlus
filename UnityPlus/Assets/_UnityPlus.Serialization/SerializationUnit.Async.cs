@@ -6,6 +6,50 @@ namespace UnityPlus.Serialization
 {
     public static partial class SerializationUnit
     {
+        private class AsyncDriverRunner<TReturn>
+        {
+            public TaskCompletionSource<TReturn> tcs;
+            public StackMachineDriver driver;
+            public float timeBudgetMs;
+            public Action tickAction;
+
+            public void Tick()
+            {
+                try
+                {
+                    driver.Tick( timeBudgetMs );
+
+                    if( driver.IsFinished )
+                    {
+                        tcs.SetResult( (TReturn)driver.Result );
+                    }
+                    else
+                    {
+                        MainThreadDispatcher.Enqueue( tickAction );
+                    }
+                }
+                catch( Exception ex )
+                {
+                    tcs.SetException( ex );
+                }
+            }
+        }
+
+        private static Task<TReturn> RunDriverAsync<TReturn>( StackMachineDriver driver, float timeBudgetMs )
+        {
+            var runner = new AsyncDriverRunner<TReturn>
+            {
+                tcs = new TaskCompletionSource<TReturn>(),
+                driver = driver,
+                timeBudgetMs = timeBudgetMs
+            };
+
+            runner.tickAction = runner.Tick;
+
+            MainThreadDispatcher.Enqueue( runner.tickAction );
+            return runner.tcs.Task;
+        }
+
         // --- Serialize Async ---
 
         public static Task<SerializedData> SerializeAsync<T>( T obj, float timeBudgetMs = 2f )
@@ -87,52 +131,6 @@ namespace UnityPlus.Serialization
             driver.Initialize( obj, descriptor, new DeserializationStrategy(), data );
 
             return RunDriverAsync<T>( driver, timeBudgetMs );
-        }
-
-        // --- Driver Helper ---
-
-        private class AsyncDriverRunner<TReturn>
-        {
-            public TaskCompletionSource<TReturn> tcs;
-            public StackMachineDriver driver;
-            public float timeBudgetMs;
-            public Action tickAction;
-
-            public void Tick()
-            {
-                try
-                {
-                    driver.Tick( timeBudgetMs );
-
-                    if( driver.IsFinished )
-                    {
-                        tcs.SetResult( (TReturn)driver.Result );
-                    }
-                    else
-                    {
-                        MainThreadDispatcher.Enqueue( tickAction );
-                    }
-                }
-                catch( Exception ex )
-                {
-                    tcs.SetException( ex );
-                }
-            }
-        }
-
-        private static Task<TReturn> RunDriverAsync<TReturn>( StackMachineDriver driver, float timeBudgetMs )
-        {
-            var runner = new AsyncDriverRunner<TReturn>
-            {
-                tcs = new TaskCompletionSource<TReturn>(),
-                driver = driver,
-                timeBudgetMs = timeBudgetMs
-            };
-
-            runner.tickAction = runner.Tick;
-
-            MainThreadDispatcher.Enqueue( runner.tickAction );
-            return runner.tcs.Task;
         }
     }
 }

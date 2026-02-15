@@ -70,6 +70,7 @@ namespace UnityPlus.Serialization.Tests.V4
         [Test]
         public void System_ValueTuples()
         {
+#warning TODO - tuples have population instead of readonly. this is fine.
             AssertRoundTrip( (1, "A") );
             AssertRoundTrip( (1, 2.5f, "B") );
             AssertRoundTrip( (1, 2, 3, 4) );

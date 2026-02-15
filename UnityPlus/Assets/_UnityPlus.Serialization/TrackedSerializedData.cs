@@ -12,30 +12,33 @@ namespace UnityPlus.Serialization
         /// <summary>
         /// The current data node.
         /// </summary>
-        public readonly SerializedData Value;
+        public SerializedData Value { get; }
 
         /// <summary>
         /// The parent node containing this data.
         /// </summary>
-        public readonly SerializedData Parent;
+        public SerializedData Parent { get; }
 
         /// <summary>
         /// The absolute root of the hierarchy.
         /// </summary>
-        public readonly SerializedData Root;
+        public SerializedData Root { get; }
 
         /// <summary>
         /// The dictionary key in the Parent (if Parent is Object). Null otherwise.
         /// </summary>
-        public readonly string Name;
+        public string Name { get; }
 
         /// <summary>
         /// The array index in the Parent (if Parent is Array). -1 otherwise.
         /// </summary>
-        public readonly int Index;
+        public int Index { get; }
 
         public bool IsByIndex => Index != -1;
         public bool IsByName => Index == -1 && Name != null;
+        /// <summary>
+        /// Whether this TrackedSerializedData is the root of the traversal (i.e., has no Parent).
+        /// </summary>
         public bool IsRoot => Parent == null;
 
         public TrackedSerializedData( SerializedData rootValue )
@@ -108,7 +111,8 @@ namespace UnityPlus.Serialization
         /// </summary>
         public void Replace( SerializedData newValue )
         {
-            if( IsRoot ) throw new InvalidOperationException( "Cannot replace root node via TrackedSerializedData." );
+            if( IsRoot ) 
+                throw new InvalidOperationException( "Cannot replace root node via TrackedSerializedData." );
 
             if( IsByName )
             {
@@ -141,7 +145,10 @@ namespace UnityPlus.Serialization
         public bool Equals( TrackedSerializedData other )
         {
             // Identity equality based on the DOM node reference
-            return ReferenceEquals( Value, other.Value ) && ReferenceEquals( Parent, other.Parent ) && Name == other.Name && Index == other.Index;
+            return ReferenceEquals( Value, other.Value )
+                && ReferenceEquals( Parent, other.Parent )
+                && Name == other.Name
+                && Index == other.Index;
         }
 
         public override bool Equals( object obj ) => obj is TrackedSerializedData other && Equals( other );
