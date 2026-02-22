@@ -13,7 +13,7 @@ namespace UnityPlus.Serialization
 
         public bool TryGet( TContext context, Type type, out T value )
         {
-            if( type == null ) 
+            if( type == null )
                 throw new ArgumentNullException( nameof( type ) );
 
             Type currentTypeToCheck = type;

@@ -20,12 +20,10 @@ namespace UnityPlus.Serialization
         private static int _nextDynamicId = 2000000;
 
         // Generic cache: "GenericTypeDefName + ArgIDs" -> ContextID
-        // Key is string to avoid allocation of complex struct keys or tuples of varying length
         private static readonly Dictionary<string, int> _genericCombinations = new Dictionary<string, int>();
 
-        // Structural Rules: Map a Context ID to its Generic Argument Context IDs.
-        // e.g. Ctx.Dict<Ref, Asset> (ID 100) -> [ RefID, AssetID ]
-        private static readonly Dictionary<int, int[]> _contextArguments = new Dictionary<int, int[]>();
+        // Selectors: Map a Context ID to its selection logic.
+        private static readonly Dictionary<int, IContextSelector> _selectors = new Dictionary<int, IContextSelector>();
 
         // Cache for context hierarchies
         private static readonly Dictionary<int, int[]> _hierarchyCache = new Dictionary<int, int[]>();
@@ -34,6 +32,7 @@ namespace UnityPlus.Serialization
         /// Registers a fixed mapping between a Type and an ID. 
         /// Used for v3 backward compatibility.
         /// </summary>
+        [Obsolete( "Use GetID to automatically register context types and GetOrRegisterGenericContext for generic contexts instead of fixed mappings" )]
         public static void Register( Type type, int id )
         {
             if( type == null ) return;
@@ -50,14 +49,6 @@ namespace UnityPlus.Serialization
         {
             if( _idToName.TryGetValue( key.ID, out string name ) ) return name;
             if( _idToType.TryGetValue( key.ID, out Type t ) ) return t.Name;
-
-            // Try to resolve dynamic names
-            if( _contextArguments.TryGetValue( key.ID, out int[] args ) && args.Length > 0 )
-            {
-                var argNames = args.Select( a => GetContextName( new ContextKey( a ) ) );
-                return $"Ctx<{string.Join( ", ", argNames )}>";
-            }
-
             return key.ID == 0 ? "Default" : $"Context_{key.ID}";
         }
 
@@ -66,44 +57,127 @@ namespace UnityPlus.Serialization
             return _idToType.TryGetValue( key.ID, out Type t ) ? t : null;
         }
 
-        /// <summary>
-        /// Registers a rule that states: When in <paramref name="context"/>, the generic arguments are <paramref name="args"/>.
-        /// </summary>
-        public static void RegisterContextArguments( ContextKey context, params ContextKey[] args )
+        public static IReadOnlyList<int> GetContextHierarchy( int contextId )
         {
-            _contextArguments[context.ID] = args.Select( c => c.ID ).ToArray();
+            if( contextId == ContextIDs.Default )
+                return Array.Empty<int>();
+
+            if( _hierarchyCache.TryGetValue( contextId, out int[] cached ) )
+                return cached;
+
+            List<int> hierarchy = new List<int>()
+            {
+                contextId
+            };
+
+            if( _idToType.TryGetValue( contextId, out Type type ) )
+            {
+                if( type.IsGenericType && !type.IsGenericTypeDefinition )
+                {
+                    Type genericDef = type.GetGenericTypeDefinition();
+                    ContextKey defKey = GetID( genericDef );
+                    if( defKey.ID != contextId && defKey.ID != ContextIDs.Default )
+                    {
+                        hierarchy.Add( defKey.ID );
+                    }
+                }
+            }
+
+            if( contextId != ContextIDs.Default )
+            {
+                hierarchy.Add( ContextIDs.Default );
+            }
+
+            int[] result = hierarchy.ToArray();
+            _hierarchyCache[contextId] = result;
+            return result;
         }
 
         /// <summary>
-        /// Gets the generic arguments associated with the context.
-        /// Returns empty array if no rules exist (e.g. ObjectContext.Default).
+        /// Registers a selector for the given context.
         /// </summary>
+        public static void RegisterSelector( ContextKey context, IContextSelector selector )
+        {
+            _selectors[context.ID] = selector;
+        }
+
+        /// <summary>
+        /// Legacy compatibility: Registers a UniformSelector for the given arguments.
+        /// </summary>
+        [Obsolete( "Use RegisterSelector with UniformSelector or a custom IContextSelector for more complex selection logic" )]
+        public static void RegisterContextArguments( ContextKey context, params ContextKey[] args )
+        {
+            _selectors[context.ID] = new UniformSelector( args );
+        }
+
+        /// <summary>
+        /// Resolves the context for a specific child element based on the registered Selector.
+        /// </summary>
+        public static ContextKey Resolve( ContextKey parentContext, int elementIndex, object key, Type declaredType, Type actualType, SerializedData data, int containerCount = -1 )
+        {
+            if( _selectors.TryGetValue( parentContext.ID, out var selector ) )
+            {
+                var args = new ContextSelectionArgs( elementIndex, key, declaredType, actualType, data, containerCount );
+                return selector.Select( args );
+            }
+            return ContextIDs.Default;
+        }
+
+        public static bool IsGenericContext( ContextKey context )
+        {
+            return _selectors.TryGetValue( context.ID, out var selector ) && selector is UniformSelector;
+        }
+
+        public static bool TryGetGenericContextArguments( ContextKey context, out ContextKey[] genericArgs )
+        {
+            if( _selectors.TryGetValue( context.ID, out var selector ) && selector is UniformSelector uniform )
+            {
+                genericArgs = uniform.Contexts;
+                return true;
+            }
+            genericArgs = null;
+            return false;
+        }
+
+        // --- Compatibility Helpers ---
+
+        /// <summary>
+        /// Helper for descriptors that don't support dynamic resolution yet (legacy).
+        /// Returns the Uniform arguments if available.
+        /// </summary>
+        [Obsolete( "Use Resolve with a proper IContextSelector for dynamic resolution instead of fixed arguments" )]
         public static ContextKey[] GetContextArguments( ContextKey context )
         {
-            if( _contextArguments.TryGetValue( context.ID, out int[] args ) )
+            if( _selectors.TryGetValue( context.ID, out var selector ) && selector is UniformSelector uniform )
             {
-                var result = new ContextKey[args.Length];
-                for( int i = 0; i < args.Length; i++ ) result[i] = new ContextKey( args[i] );
-                return result;
+                return uniform.Contexts;
             }
             return Array.Empty<ContextKey>();
         }
 
+        public static ContextKey GetCollectionElementContext( ContextKey containerContext )
+        {
+            var args = GetContextArguments( containerContext );
+            return args.Length > 0 ? args[0] : ContextIDs.Default;
+        }
+
+        public static (ContextKey keyCtx, ContextKey valCtx) GetDictionaryElementContexts( ContextKey containerContext )
+        {
+            var args = GetContextArguments( containerContext );
+            if( args.Length >= 2 ) return (args[0], args[1]);
+            return (ContextIDs.Default, ContextIDs.Default);
+        }
+
         /// <summary>
         /// Gets the unique ID for a context type.
-        /// Automatically handles Generic Contexts (types implementing IContext) by registering new context rules on the fly.
-        /// Enforces that Contexts must be Interfaces implementing IContext.
         /// </summary>
         public static ContextKey GetID( Type contextType )
         {
             if( contextType == null ) return ContextIDs.Default;
 
-            // 1. Direct Cache / Legacy Fixed Mappings
             if( _typeToId.TryGetValue( contextType, out int id ) )
                 return new ContextKey( id );
 
-            // 2. Core Marker Aliasing (Inheritance)
-            // Cache the result to avoid repeated IsAssignableFrom calls
             if( typeof( Ctx.Asset ).IsAssignableFrom( contextType ) )
             {
                 Register( contextType, ContextIDs.Asset );
@@ -120,7 +194,6 @@ namespace UnityPlus.Serialization
                 return ObjectContext.Default;
             }
 
-            // 3. Generic Interface Scanning (If the type is the interface definition itself)
             if( contextType.IsGenericType && typeof( Ctx.IContext ).IsAssignableFrom( contextType ) )
             {
                 if( TryProcessGenericType( contextType, contextType, out id ) )
@@ -132,11 +205,10 @@ namespace UnityPlus.Serialization
 
             var interfaces = contextType.GetInterfaces();
 
-            // Pass 1: Prioritize User Defined Interfaces (Direct Implementation)
             foreach( var i in interfaces )
             {
                 if( !typeof( Ctx.IContext ).IsAssignableFrom( i ) ) continue;
-                if( i == typeof( Ctx.IContext ) ) continue; // Skip root
+                if( i == typeof( Ctx.IContext ) ) continue;
 
                 if( i.IsGenericType )
                 {
@@ -145,7 +217,6 @@ namespace UnityPlus.Serialization
                 }
                 else
                 {
-                    // Aliasing to non-generic interface (e.g. class MyContext : IMyContext)
                     ContextKey aliasId = GetID( i );
                     if( aliasId.ID != ContextIDs.Default )
                     {
@@ -155,7 +226,6 @@ namespace UnityPlus.Serialization
                 }
             }
 
-            // 4. Definition Check: Must be Interface and implement IContext
             if( contextType.IsInterface && typeof( Ctx.IContext ).IsAssignableFrom( contextType ) && contextType != typeof( Ctx.IContext ) )
             {
                 id = _nextDynamicId++;
@@ -163,13 +233,11 @@ namespace UnityPlus.Serialization
                 return new ContextKey( id );
             }
 
-            // Invalid Type: Does not implement IContext, or is a Class not implementing IContext.
             return ContextIDs.Default;
         }
 
         private static bool TryProcessGenericType( Type genericInterface, Type originalType, out int id )
         {
-            // Must be an IContext
             if( !typeof( Ctx.IContext ).IsAssignableFrom( genericInterface ) )
             {
                 id = 0;
@@ -179,24 +247,20 @@ namespace UnityPlus.Serialization
             Type genericDef = genericInterface.GetGenericTypeDefinition();
             Type[] typeArgs = genericInterface.GetGenericArguments();
 
-            // If arguments are generic parameters (Open Generic definition), we can't recurse GetId on them.
-            // e.g. typeof(Ctx.List<>)
             foreach( var arg in typeArgs )
             {
                 if( arg.IsGenericParameter )
                 {
                     id = 0;
-                    return false; // Treat as Open Generic Definition -> Register as unique ID (Fallthrough to step 4)
+                    return false;
                 }
             }
 
-            // Extract Context Args
             List<ContextKey> contextArgs = new List<ContextKey>();
             bool hasValidArgs = false;
 
             foreach( var arg in typeArgs )
             {
-                // Only consider arguments that are Contexts
                 if( typeof( Ctx.IContext ).IsAssignableFrom( arg ) )
                 {
                     contextArgs.Add( GetID( arg ) );
@@ -210,38 +274,28 @@ namespace UnityPlus.Serialization
                 return true;
             }
 
-            // If we are inspecting the interface itself (e.g. IMyContext<T>), and it's closed (IMyContext<int>),
-            // but T isn't a context, we just register it normally via Step 4.
-
             if( originalType == genericInterface )
             {
                 id = 0;
                 return false;
             }
 
-            // If a class implements IContext directly without generic context args, alias it to the interface ID
             id = GetID( genericInterface ).ID;
             return true;
         }
 
-        /// <summary>
-        /// Gets an ID for a generic context combination. If it doesn't exist, mints one and registers the rules.
-        /// </summary>
         public static ContextKey GetOrRegisterGenericContext( Type genericDefinition, ContextKey[] args, Type sourceContextType = null )
         {
-            // Create a stable key for the combination: "TypeName[Arg1,Arg2,...]"
             StringBuilder keyBuilder = new StringBuilder();
             keyBuilder.Append( genericDefinition.AssemblyQualifiedName );
             keyBuilder.Append( '[' );
             for( int i = 0; i < args.Length; i++ )
             {
-                if( i > 0 )
-                    keyBuilder.Append( ',' );
+                if( i > 0 ) keyBuilder.Append( ',' );
                 keyBuilder.Append( args[i].ID );
             }
             keyBuilder.Append( ']' );
 
-            // Can be optimized by using integer IDs in an array?
             string key = keyBuilder.ToString();
 
             if( !_genericCombinations.TryGetValue( key, out int id ) )
@@ -249,11 +303,10 @@ namespace UnityPlus.Serialization
                 id = _nextDynamicId++;
                 _genericCombinations[key] = id;
 
-                // Register the rule immediately
+                // Register uniform selector for generic args
                 RegisterContextArguments( new ContextKey( id ), args );
             }
 
-            // Map the specific source type to this ID so subsequent lookups are fast O(1) map hits
             if( sourceContextType != null )
             {
                 Register( sourceContextType, id );

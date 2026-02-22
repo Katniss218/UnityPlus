@@ -13,7 +13,7 @@ namespace UnityPlus.Serialization
 
         public bool TryGet( TContext context, Type type, out T value )
         {
-            if( type == null ) 
+            if( type == null )
                 throw new ArgumentNullException( nameof( type ) );
 
             // If the type itself is an interface, check it first
@@ -26,7 +26,7 @@ namespace UnityPlus.Serialization
             // Iterate all implemented interfaces
             foreach( Type interfaceType in type.GetInterfaces() )
             {
-                if( CheckInterface( context, interfaceType, out value ) ) 
+                if( CheckInterface( context, interfaceType, out value ) )
                     return true;
             }
 

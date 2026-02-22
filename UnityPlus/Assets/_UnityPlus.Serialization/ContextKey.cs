@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Diagnostics;
 
 namespace UnityPlus.Serialization
@@ -14,12 +13,20 @@ namespace UnityPlus.Serialization
 
         public readonly int ID;
 
+        /// <summary>
+        /// Gets the C# type associated with this context.
+        /// </summary>
         public Type Type => ContextRegistry.GetContextType( this );
+
+        public bool IsGenericContext => ContextRegistry.IsGenericContext( this );
 
         public ContextKey( int id )
         {
             ID = id;
         }
+
+        public bool TryGetGenericContextArguments( out ContextKey[] args )
+            => ContextRegistry.TryGetGenericContextArguments( this, out args );
 
         public bool Equals( ContextKey other ) => ID == other.ID;
         public override bool Equals( object obj ) => obj is ContextKey other && Equals( other );

@@ -11,12 +11,12 @@ namespace UnityPlus.Serialization
         private static readonly Dictionary<(Type, int), IDescriptor> _descriptors = new Dictionary<(Type, int), IDescriptor>();
 
         // Provider Lookups (V3 Style - Generalized)
-        private static readonly Dictionary<(int, Type), MethodInfo> _inheritingProviders = new Dictionary<(int, Type), MethodInfo>();
-        private static readonly Dictionary<(int, Type), MethodInfo> _implementingProviders = new Dictionary<(int, Type), MethodInfo>();
-        private static readonly Dictionary<int, MethodInfo> _anyClassProviders = new Dictionary<int, MethodInfo>();
-        private static readonly Dictionary<int, MethodInfo> _anyStructProviders = new Dictionary<int, MethodInfo>();
-        private static readonly Dictionary<int, MethodInfo> _anyInterfaceProviders = new Dictionary<int, MethodInfo>();
-        private static readonly Dictionary<int, MethodInfo> _anyProviders = new Dictionary<int, MethodInfo>();
+        private static readonly MapsInheritingFromSearcher<int, MethodInfo> _inheritingSearcher = new();
+        private static readonly MapsImplementingSearcher<int, MethodInfo> _implementingSearcher = new();
+        private static readonly MapsAnyClassSearcher<int, MethodInfo> _anyClassSearcher = new();
+        private static readonly MapsAnyStructSearcher<int, MethodInfo> _anyStructSearcher = new();
+        private static readonly MapsAnyInterfaceSearcher<int, MethodInfo> _anyInterfaceSearcher = new();
+        private static readonly MapsAnySearcher<int, MethodInfo> _anySearcher = new();
 
         // Extensions: (TargetType, Context) -> List of Extension Methods
         private static readonly Dictionary<(Type, int), List<MethodInfo>> _extensions = new Dictionary<(Type, int), List<MethodInfo>>();
@@ -25,7 +25,8 @@ namespace UnityPlus.Serialization
 
         private static void Initialize()
         {
-            if( _isInitialized ) return;
+            if( _isInitialized )
+                return;
 
             // Force initialization of compatibility context constants before reflecting on them
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -78,12 +79,23 @@ namespace UnityPlus.Serialization
 
                             foreach( var ctx in targetContexts )
                             {
-                                if( attr is MapsInheritingFromAttribute inh ) _inheritingProviders[(ctx, inh.MappedType)] = method;
-                                else if( attr is MapsImplementingAttribute imp ) _implementingProviders[(ctx, imp.MappedType)] = method;
-                                else if( attr is MapsAnyClassAttribute ) _anyClassProviders[ctx] = method;
-                                else if( attr is MapsAnyStructAttribute ) _anyStructProviders[ctx] = method;
-                                else if( attr is MapsAnyInterfaceAttribute ) _anyInterfaceProviders[ctx] = method;
-                                else if( attr is MapsAnyAttribute ) _anyProviders[ctx] = method;
+                                if( attr is MapsInheritingFromAttribute inh )
+                                    _inheritingSearcher.TrySet( ctx, inh.MappedType, method );
+
+                                else if( attr is MapsImplementingAttribute imp )
+                                    _implementingSearcher.TrySet( ctx, imp.MappedType, method );
+
+                                else if( attr is MapsAnyClassAttribute )
+                                    _anyClassSearcher.TrySet( ctx, null, method );
+
+                                else if( attr is MapsAnyStructAttribute )
+                                    _anyStructSearcher.TrySet( ctx, null, method );
+
+                                else if( attr is MapsAnyInterfaceAttribute )
+                                    _anyInterfaceSearcher.TrySet( ctx, null, method );
+
+                                else if( attr is MapsAnyAttribute )
+                                    _anySearcher.TrySet( ctx, null, method );
                             }
                         }
                     }
@@ -96,13 +108,15 @@ namespace UnityPlus.Serialization
 
         public static void Register( IDescriptor descriptor, ContextKey context = default )
         {
-            if( descriptor == null ) return;
+            if( descriptor == null )
+                return;
             _descriptors[(descriptor.MappedType, context.ID)] = descriptor;
         }
 
         public static IDescriptor GetDescriptor( Type type, ContextKey context = default )
         {
-            if( type == null ) return null;
+            if( type == null )
+                return null;
 
             if( !_isInitialized )
                 Initialize();
@@ -126,12 +140,12 @@ namespace UnityPlus.Serialization
         {
             _descriptors.Clear();
 
-            _inheritingProviders.Clear();
-            _implementingProviders.Clear();
-            _anyClassProviders.Clear();
-            _anyStructProviders.Clear();
-            _anyInterfaceProviders.Clear();
-            _anyProviders.Clear();
+            _inheritingSearcher.Clear();
+            _implementingSearcher.Clear();
+            _anyClassSearcher.Clear();
+            _anyStructSearcher.Clear();
+            _anyInterfaceSearcher.Clear();
+            _anySearcher.Clear();
 
             _extensions.Clear();
 
@@ -164,47 +178,45 @@ namespace UnityPlus.Serialization
         {
             int contextId = context.ID;
 
-            // Providers:
-            // --- Provider Attributes (Inheritance) ---
-            Type checkType = type;
-            while( checkType != null )
+            MethodInfo method;
+
+            while( true )
             {
-                if( _inheritingProviders.TryGetValue( (contextId, checkType), out var method ) )
+                // --- 2. Inheritance Hierarchy (Specific Bases) ---
+                if( _inheritingSearcher.TryGet( contextId, type, out method ) )
                     return InvokeProvider( method, type, context );
 
-                if( checkType.IsGenericType && !checkType.IsGenericTypeDefinition )
-                {
-                    if( _inheritingProviders.TryGetValue( (contextId, checkType.GetGenericTypeDefinition()), out method ) )
-                        return InvokeProvider( method, type, context );
-                }
-
-                checkType = checkType.BaseType;
-            }
-
-            // --- Provider Attributes (Interfaces) ---
-            foreach( var iface in type.GetInterfaces() )
-            {
-                if( _implementingProviders.TryGetValue( (contextId, iface), out var method ) )
+                // --- 3. Interfaces ---
+                if( _implementingSearcher.TryGet( contextId, type, out method ) )
                     return InvokeProvider( method, type, context );
 
-                if( iface.IsGenericType && !iface.IsGenericTypeDefinition )
+                // --- 5. Category Fallbacks (Any Class/Struct/Interface) ---
+                if( _anyClassSearcher.TryGet( contextId, type, out method ) )
+                    return InvokeProvider( method, type, context );
+
+                if( _anyStructSearcher.TryGet( contextId, type, out method ) )
+                    return InvokeProvider( method, type, context );
+
+                if( _anyInterfaceSearcher.TryGet( contextId, type, out method ) )
+                    return InvokeProvider( method, type, context );
+
+                // --- 6. Absolute Fallback (Any) ---
+                if( _anySearcher.TryGet( contextId, type, out method ) )
+                    return InvokeProvider( method, type, context );
+
+                if( context == ContextKey.Default )
                 {
-                    if( _implementingProviders.TryGetValue( (contextId, iface.GetGenericTypeDefinition()), out method ) )
-                        return InvokeProvider( method, type, context );
+                    break;
+                }
+
+                if( context.IsGenericContext )
+                {
+#warning TODO - needs to check 'base' **contexts**, and Default as well (for all generic params in the context, try an unconstrained type, and then default).
+                    ContextRegistry.GetContextHierarchy
                 }
             }
 
-            // --- Provider Attributes (Category) ---
-            if( type.IsClass && _anyClassProviders.TryGetValue( contextId, out var classMethod ) )
-                return InvokeProvider( classMethod, type, context );
-            if( type.IsValueType && _anyStructProviders.TryGetValue( contextId, out var structMethod ) )
-                return InvokeProvider( structMethod, type, context );
-            if( type.IsInterface && _anyInterfaceProviders.TryGetValue( contextId, out var ifaceMethod ) )
-                return InvokeProvider( ifaceMethod, type, context );
-            if( _anyProviders.TryGetValue( contextId, out var anyMethod ) )
-                return InvokeProvider( anyMethod, type, context );
-
-            // --- Reflection Fallback ---
+            // --- Reflection Fallback (auto-generated provider) ---
             if( type.IsClass || type.IsValueType || type.IsInterface )
             {
                 Type descType = typeof( ReflectionClassDescriptor<> ).MakeGenericType( type );
