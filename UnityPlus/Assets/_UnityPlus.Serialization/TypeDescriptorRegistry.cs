@@ -176,12 +176,14 @@ namespace UnityPlus.Serialization
         /// </summary>
         private static IDescriptor CreateDescriptor( Type type, ContextKey context )
         {
-            int contextId = context.ID;
+            // Traverse context hierarchy (Specific ID -> Generic Def ID -> Default ID)
+            // This allows a provider registered for Ctx.Dict<,> to handle Ctx.Dict<Int,Int> requests.
+            IReadOnlyList<int> contextHierarchy = ContextRegistry.GetContextHierarchy( context.ID );
 
-            MethodInfo method;
-
-            while( true )
+            foreach( int contextId in contextHierarchy )
             {
+                MethodInfo method;
+
                 // --- 2. Inheritance Hierarchy (Specific Bases) ---
                 if( _inheritingSearcher.TryGet( contextId, type, out method ) )
                     return InvokeProvider( method, type, context );
@@ -207,12 +209,6 @@ namespace UnityPlus.Serialization
                 if( context == ContextKey.Default )
                 {
                     break;
-                }
-
-                if( context.IsGenericContext )
-                {
-#warning TODO - needs to check 'base' **contexts**, and Default as well (for all generic params in the context, try an unconstrained type, and then default).
-                    ContextRegistry.GetContextHierarchy
                 }
             }
 

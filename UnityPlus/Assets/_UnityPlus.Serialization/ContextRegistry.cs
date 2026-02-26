@@ -60,7 +60,7 @@ namespace UnityPlus.Serialization
         public static IReadOnlyList<int> GetContextHierarchy( int contextId )
         {
             if( contextId == ContextIDs.Default )
-                return Array.Empty<int>();
+                return new int[] { ContextIDs.Default };
 
             if( _hierarchyCache.TryGetValue( contextId, out int[] cached ) )
                 return cached;
