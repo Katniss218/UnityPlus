@@ -6,6 +6,12 @@ namespace UnityPlus.Serialization
     {
         public void InitializeRoot( object root, IDescriptor rootDescriptor, SerializedData rootData, SerializationState state )
         {
+            if( rootData == null )
+            {
+                state.RootResult = null;
+                return;
+            }
+
             // [Primitive Root]
             if( rootDescriptor is IPrimitiveDescriptor primitiveRoot )
             {

@@ -6,6 +6,13 @@ namespace UnityPlus.Serialization
     {
         public void InitializeRoot( object root, IDescriptor rootDescriptor, SerializedData rootData, SerializationState state )
         {
+            if( root == null )
+            {
+                SerializedData d = null;
+                state.RootResult = d;
+                return;
+            }
+
             // [Primitive Root Support]
             if( rootDescriptor is IPrimitiveDescriptor primitiveRoot )
             {
@@ -265,17 +272,21 @@ namespace UnityPlus.Serialization
 
         private void LinkDataNode( SerializedData parent, string key, SerializedData child, int index )
         {
-            if( parent is SerializedObject obj && key != null ) obj[key] = child;
+            if( parent is SerializedObject obj && key != null )
+                obj[key] = child;
             else if( parent is SerializedArray arr )
             {
-                if( index >= arr.Count ) arr.Add( child );
-                else arr[index] = child;
+                if( index >= arr.Count )
+                    arr.Add( child );
+                else
+                    arr[index] = child;
             }
         }
 
         private void HandlePolymorphism( object target, Type declaredType, SerializedObject dataNode, ref IDescriptor descriptor )
         {
-            if( target == null ) return;
+            if( target == null )
+                return;
             Type actualType = target.GetType();
 
             if( actualType != declaredType )
@@ -283,10 +294,14 @@ namespace UnityPlus.Serialization
                 descriptor = TypeDescriptorRegistry.GetDescriptor( actualType );
             }
 
-            if( descriptor is IPrimitiveDescriptor ) return;
-            if( declaredType.IsValueType || declaredType.IsSealed ) return;
-            if( declaredType == actualType ) return;
-            if( typeof( Delegate ).IsAssignableFrom( declaredType ) ) return;
+            if( descriptor is IPrimitiveDescriptor )
+                return;
+            if( declaredType.IsValueType || declaredType.IsSealed )
+                return;
+            if( declaredType == actualType )
+                return;
+            if( typeof( Delegate ).IsAssignableFrom( declaredType ) )
+                return;
 
             Persistent_Type.WriteTypeHeader( dataNode, actualType );
         }

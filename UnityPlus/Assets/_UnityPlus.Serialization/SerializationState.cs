@@ -18,7 +18,7 @@ namespace UnityPlus.Serialization
         /// <summary>
         /// The final result of the operation (Reference to the root object or root DataNode).
         /// </summary>
-        public object RootResult;
+        public object RootResult { get; set; }
 
         public SerializationState( SerializationContext context )
         {

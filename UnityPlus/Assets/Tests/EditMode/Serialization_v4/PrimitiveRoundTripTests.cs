@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace UnityPlus.Serialization.Tests.V4
@@ -74,6 +75,14 @@ namespace UnityPlus.Serialization.Tests.V4
             AssertRoundTrip( (1, "A") );
             AssertRoundTrip( (1, 2.5f, "B") );
             AssertRoundTrip( (1, 2, 3, 4) );
+        }
+
+        [Test]
+        public void System_Null()
+        {
+            AssertRoundTrip<int[]>( null );
+            AssertRoundTrip<Dictionary<int, int>>( null );
+            AssertRoundTrip<object>( null );
         }
 
         // --- Unity Math ---
