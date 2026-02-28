@@ -35,6 +35,13 @@ namespace UnityPlus.Serialization.Tests.V4
             Assert.That( data, Is.InstanceOf<SerializedPrimitive>() );
             Assert.That( (string)data, Is.EqualTo( "Hello" ) );
         }
+        
+        [Test]
+        public void Structure_Null_String()
+        {
+            var data = Serialize( (string)null );
+            Assert.That( data, Is.Null );
+        }
 
         [Test]
         public void Structure_Primitive_Bool()

@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 
 namespace UnityPlus.Serialization
 {
@@ -24,7 +23,11 @@ namespace UnityPlus.Serialization
         Type MemberType { get; }
 
         /// <summary>
-        /// The descriptor that handles this member's type.
+        /// The descriptor that handles this member's declared type.
+        /// <para>
+        /// This should return the descriptor for <see cref="MemberType"/>, NOT the runtime type of the value.
+        /// Polymorphism is handled by the SerializationStrategy.
+        /// </para>
         /// </summary>
         IDescriptor TypeDescriptor { get; }
 

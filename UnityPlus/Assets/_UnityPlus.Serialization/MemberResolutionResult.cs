@@ -5,6 +5,10 @@
         Resolved,
         RequiresPush,
         Deferred,
-        Failed
+        Failed,
+        /// <summary>
+        /// Member missing from data, skip when deserializing.
+        /// </summary>
+        Missing
     }
 }

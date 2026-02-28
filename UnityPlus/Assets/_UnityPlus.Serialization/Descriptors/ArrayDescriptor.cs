@@ -20,11 +20,14 @@ namespace UnityPlus.Serialization
 
         public override object Resize( object target, int newSize )
         {
+            // should be fine if 
             T[] array = (T[])target;
             if( array == null || array.Length != newSize )
             {
-                if( array != null ) Array.Resize( ref array, newSize );
-                else array = new T[newSize];
+                if( array != null )
+                    Array.Resize( ref array, newSize );
+                else
+                    array = new T[newSize];
             }
             return array;
         }
@@ -34,17 +37,16 @@ namespace UnityPlus.Serialization
             return ((T[])target).Length;
         }
 
+        private IDescriptor _cachedElementDescriptor;
+
         public override IMemberInfo GetMemberInfo( int stepIndex, object target )
         {
-            object element = ((T[])target)[stepIndex];
-            Type actualType = element != null ? element.GetType() : typeof( T );
+            if( _cachedElementDescriptor == null )
+            {
+                _cachedElementDescriptor = TypeDescriptorRegistry.GetDescriptor( typeof( T ), ElementContext );
+            }
 
-            if( typeof( T ).IsValueType || typeof( T ).IsSealed ) actualType = typeof( T );
-
-            IDescriptor elementDesc = TypeDescriptorRegistry.GetDescriptor( actualType, ElementContext )
-                                       ?? TypeDescriptorRegistry.GetDescriptor( typeof( T ), ElementContext );
-
-            return new ArrayMemberInfo( stepIndex, elementDesc );
+            return new ArrayMemberInfo( stepIndex, _cachedElementDescriptor );
         }
 
         private readonly struct ArrayMemberInfo : IMemberInfo

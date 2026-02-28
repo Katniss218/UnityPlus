@@ -87,7 +87,11 @@ namespace UnityPlus.Serialization
             }
         }
 
-        private SerializationCursorResult PhasePreProcessing( ref SerializationCursor cursor, SerializationState state )
+        public void OnCursorFinished( SerializationCursor cursor, SerializationState state )
+        {
+        }
+
+        private static SerializationCursorResult PhasePreProcessing( ref SerializationCursor cursor, SerializationState state )
         {
             if( cursor.TargetObj.Target != null )
             {
@@ -125,9 +129,9 @@ namespace UnityPlus.Serialization
             return SerializationCursorResult.Jump; // Phase change
         }
 
-        private SerializationCursorResult PhasePopulation( ref SerializationCursor cursor, SerializationState state )
+        private static SerializationCursorResult PhasePopulation( ref SerializationCursor cursor, SerializationState state )
         {
-            IMemberInfo memberInfo = null;
+            IMemberInfo memberInfo;
             int activeStepIndex = cursor.StepIndex;
 
             if( cursor.MemberEnumerator != null )
@@ -149,7 +153,7 @@ namespace UnityPlus.Serialization
                     return SerializationCursorResult.Jump;
                 }
 
-                var parentDesc = (ICompositeDescriptor)cursor.Descriptor;
+                var parentDesc = (ICompositeDescriptor)cursor.Descriptor; // Should be true because primitives are handled inline.
                 memberInfo = parentDesc.GetMemberInfo( activeStepIndex, cursor.TargetObj.Target );
             }
 
@@ -158,119 +162,143 @@ namespace UnityPlus.Serialization
                 return SerializationCursorResult.Advance;
             }
 
-            IDescriptor memberDescriptor = memberInfo.TypeDescriptor;
+            MemberResolutionResult result = TryResolveMember( memberInfo, cursor.TargetObj.Target, cursor.DataNode, activeStepIndex, state, out object childTarget, out IDescriptor childDesc, out SerializedData childNode );
 
-            // 1. Primitive
-            if( memberDescriptor is IPrimitiveDescriptor primitiveDesc )
+            if( result == MemberResolutionResult.Resolved )
             {
-                object val = memberInfo.GetValue( cursor.TargetObj.Target );
+                return SerializationCursorResult.Advance;
+            }
+            else if( result == MemberResolutionResult.RequiresPush )
+            {
+                PushChildCursor( ref cursor, childTarget, childDesc, childNode, memberInfo, state );
+                return SerializationCursorResult.Push; // Driver increments
+            }
+
+            return SerializationCursorResult.Advance;
+        }
+
+        private static MemberResolutionResult TryResolveMember( IMemberInfo memberInfo, object target, SerializedData parentData, int index, SerializationState state, out object childTarget, out IDescriptor childDesc, out SerializedData childNode )
+        {
+            childTarget = null;
+            childDesc = null;
+            childNode = null;
+
+            // 1. Get Value
+            object val = memberInfo.GetValue( target );
+
+            // 2. Null
+            if( val == null )
+            {
+                LinkDataNode( parentData, memberInfo.Name, null, index );
+                return MemberResolutionResult.Resolved;
+            }
+
+            // 3. Polymorphism
+            IDescriptor descriptor = memberInfo.TypeDescriptor;
+            Type declaredType = memberInfo.MemberType;
+            Type actualType = val.GetType();
+
+            if( declaredType != actualType )
+            {
+                descriptor = TypeDescriptorRegistry.GetDescriptor( actualType );
+            }
+
+            // 4. Primitive
+            if( descriptor is IPrimitiveDescriptor primitiveDesc )
+            {
                 SerializedData primitiveData = null;
                 primitiveDesc.SerializeDirect( val, ref primitiveData, state.Context );
-                LinkDataNode( cursor.DataNode, memberInfo.Name, primitiveData, activeStepIndex );
-                return SerializationCursorResult.Advance;
+                LinkDataNode( parentData, memberInfo.Name, primitiveData, index );
+                return MemberResolutionResult.Resolved;
             }
 
-            // 2. Composite
-            object childTarget = memberInfo.GetValue( cursor.TargetObj.Target );
+            // 5. Composite
+            childTarget = val;
+            childDesc = descriptor;
 
-            // If the child is null, we just link null and don't push a cursor
-            if( childTarget == null )
-            {
-                LinkDataNode( cursor.DataNode, memberInfo.Name, null, activeStepIndex );
-                return SerializationCursorResult.Advance;
-            }
-
-            SerializedData childNode;
-            SerializedData cursorDataNode;
-
-            bool isCollection = memberDescriptor is ICollectionDescriptor;
+            bool isCollection = descriptor is ICollectionDescriptor;
+            SerializedData nodeToLink;
 
             if( isCollection )
             {
-                childNode = SerializationHelpers.CreateCollectionNode(
-                    childTarget,
+                nodeToLink = SerializationHelpers.CreateCollectionNode(
+                    val,
                     state.Context.ReverseMap,
                     state.Context.Config.ForceStandardJson,
                     out SerializedArray arrayNode );
-                cursorDataNode = arrayNode;
 
-                if( childNode is SerializedObject wrapper )
+                childNode = arrayNode;
+
+                // Cycle detection for collection wrapper
+                if( nodeToLink is SerializedObject wrapper )
                 {
-                    if( state.VisitedObjects.Contains( childTarget ) )
+                    if( TryResolveReference( val, state, out SerializedData refNode ) )
                     {
-                        Guid id = state.Context.ReverseMap.GetID( childTarget );
-                        SerializedData refNode = new SerializedObject { { KeyNames.REF, id.SerializeGuid() } };
-                        LinkDataNode( cursor.DataNode, memberInfo.Name, refNode, activeStepIndex );
-                        return SerializationCursorResult.Advance;
+                        LinkDataNode( parentData, memberInfo.Name, refNode, index );
+                        return MemberResolutionResult.Resolved;
                     }
-                    state.VisitedObjects.Add( childTarget );
+                    state.VisitedObjects.Add( val );
                 }
             }
             else
             {
                 var objNode = new SerializedObject();
+                nodeToLink = objNode;
                 childNode = objNode;
-                cursorDataNode = objNode;
-            }
 
-            if( childTarget != null )
-            {
-                Type actualType = childTarget.GetType();
-                bool isRefType = !actualType.IsValueType;
-
-                if( childNode is SerializedObject objNode )
+                // Cycle Check (Always for objects)
+                if( !actualType.IsValueType )
                 {
-                    HandlePolymorphism( childTarget, memberInfo.MemberType, objNode, ref memberDescriptor );
-                }
-
-                if( memberDescriptor is IPrimitiveDescriptor primitiveDescSwitched )
-                {
-                    SerializedData primitiveData = null;
-                    primitiveDescSwitched.SerializeDirect( childTarget, ref primitiveData, state.Context );
-                    LinkDataNode( cursor.DataNode, memberInfo.Name, primitiveData, activeStepIndex );
-                    return SerializationCursorResult.Advance;
-                }
-
-                if( isRefType && !isCollection )
-                {
-                    Guid id = state.Context.ReverseMap.GetID( childTarget );
-
-                    if( state.VisitedObjects.Contains( childTarget ) )
+                    if( TryResolveReference( val, state, out SerializedData refNode ) )
                     {
-                        SerializedData refNode = new SerializedObject { { KeyNames.REF, id.SerializeGuid() } };
-                        LinkDataNode( cursor.DataNode, memberInfo.Name, refNode, activeStepIndex );
-                        return SerializationCursorResult.Advance;
+                        LinkDataNode( parentData, memberInfo.Name, refNode, index );
+                        return MemberResolutionResult.Resolved;
                     }
+                    state.VisitedObjects.Add( val );
 
-                    state.VisitedObjects.Add( childTarget );
+                    Guid id = state.Context.ReverseMap.GetID( val );
+                    Persistent_Guid.WriteIdHeader( objNode, id );
+                }
 
-                    if( childNode is SerializedObject objNode2 )
-                        Persistent_Guid.WriteIdHeader( objNode2, id );
+                // Write Type Header
+                if( !declaredType.IsValueType && !declaredType.IsSealed && declaredType != actualType && !typeof( Delegate ).IsAssignableFrom( declaredType ) )
+                {
+                    Persistent_Type.WriteTypeHeader( objNode, actualType );
                 }
             }
 
-            LinkDataNode( cursor.DataNode, memberInfo.Name, childNode, activeStepIndex );
+            LinkDataNode( parentData, memberInfo.Name, nodeToLink, index );
+            return MemberResolutionResult.RequiresPush;
+        }
 
+        private static bool TryResolveReference( object target, SerializationState state, out SerializedData refNode )
+        {
+            refNode = null;
+            if( state.VisitedObjects.Contains( target ) )
+            {
+                Guid id = state.Context.ReverseMap.GetID( target );
+                refNode = new SerializedObject { { KeyNames.REF, id.SerializeGuid() } };
+                return true;
+            }
+            return false;
+        }
+
+        private static void PushChildCursor( ref SerializationCursor parentCursor, object childTarget, IDescriptor childDesc, SerializedData childNode, IMemberInfo memberInfo, SerializationState state )
+        {
             var childCursor = new SerializationCursor
             {
-                TargetObj = new TrackedObject( childTarget, cursor.TargetObj.Target, memberInfo ),
-                Descriptor = memberDescriptor,
-                DataNode = cursorDataNode,
+                TargetObj = new TrackedObject( childTarget, parentCursor.TargetObj.Target, memberInfo ),
+                Descriptor = childDesc,
+                DataNode = childNode,
                 StepIndex = 0,
-                PopulationStepCount = (memberDescriptor as ICompositeDescriptor)?.GetStepCount( childTarget ) ?? 0,
+                PopulationStepCount = (childDesc as ICompositeDescriptor)?.GetStepCount( childTarget ) ?? 0,
                 Phase = SerializationCursorPhase.PreProcessing,
                 WriteBackOnPop = false // Serializer is read-only
             };
-
             state.Stack.Push( childCursor );
-            return SerializationCursorResult.Push; // Driver will Increment StepIndex on Parent
         }
 
-        public void OnCursorFinished( SerializationCursor cursor, SerializationState state )
-        {
-        }
-
-        private void LinkDataNode( SerializedData parent, string key, SerializedData child, int index )
+        private static void LinkDataNode( SerializedData parent, string key, SerializedData child, int index )
         {
             if( parent is SerializedObject obj && key != null )
                 obj[key] = child;
@@ -283,7 +311,7 @@ namespace UnityPlus.Serialization
             }
         }
 
-        private void HandlePolymorphism( object target, Type declaredType, SerializedObject dataNode, ref IDescriptor descriptor )
+        private static void HandlePolymorphism( object target, Type declaredType, SerializedObject dataNode, ref IDescriptor descriptor )
         {
             if( target == null )
                 return;

@@ -52,13 +52,25 @@ namespace UnityPlus.Serialization
             }
         }
 
-        private SerializationCursorResult PhasePreProcessing( ref SerializationCursor cursor, SerializationState state )
+        public void OnCursorFinished( SerializationCursor cursor, SerializationState state )
+        {
+            // CRITICAL FIX: If the root object was a Value Type (struct) or the reference was swapped
+            // (e.g. array resize, or re-boxing during population), the 'TargetObj.Target' inside
+            // the finished cursor holds the FINAL version. We must update the state result.
+            if( cursor.TargetObj.IsRoot )
+            {
+                state.RootResult = cursor.TargetObj.Target;
+            }
+        }
+
+        private static SerializationCursorResult PhasePreProcessing( ref SerializationCursor cursor, SerializationState state )
         {
             if( cursor.DataNode is SerializedObject rootObj )
             {
                 Type actualType = Persistent_Type.ReadTypeHeader( rootObj, state.Context.Config.TypeResolver );
                 if( actualType != null )
                 {
+#warning TODO - modify so that descriptor is retrieved only once, after we know what we will be loading.
                     cursor.Descriptor = TypeDescriptorRegistry.GetDescriptor( actualType );
                 }
             }
@@ -81,7 +93,9 @@ namespace UnityPlus.Serialization
                 cursor.PopulationStepCount = compDesc.GetStepCount( cursor.TargetObj.Target ) - cursor.ConstructionStepCount;
             }
 
-            if( cursor.TargetObj.Target == null && cursor.ConstructionStepCount > 0 )
+            // Always enter construction phase if the type requires it (e.g. immutable), 
+            // even if we have an existing target (Populate).
+            if( cursor.ConstructionStepCount > 0 )
             {
                 cursor.ConstructionBuffer = new object[cursor.ConstructionStepCount];
                 cursor.Phase = SerializationCursorPhase.Construction;
@@ -95,7 +109,7 @@ namespace UnityPlus.Serialization
             return SerializationCursorResult.Jump;
         }
 
-        private SerializationCursorResult PhaseConstruction( ref SerializationCursor cursor, SerializationState state )
+        private static SerializationCursorResult PhaseConstruction( ref SerializationCursor cursor, SerializationState state )
         {
             if( cursor.StepIndex >= cursor.ConstructionStepCount )
             {
@@ -118,6 +132,27 @@ namespace UnityPlus.Serialization
             {
                 object buffer = cursor.ConstructionBuffer;
                 memberInfo.SetValue( ref buffer, val );
+                return SerializationCursorResult.Advance;
+            }
+            else if( result == MemberResolutionResult.Missing )
+            {
+                // Try to read from existing target if available (Populate)
+                if( cursor.TargetObj.Target != null )
+                {
+                    try
+                    {
+                        // Attempt to read the value from the existing instance to fill the construction buffer
+                        object existingVal = memberInfo.GetValue( cursor.TargetObj.Target );
+                        object buffer = cursor.ConstructionBuffer;
+                        memberInfo.SetValue( ref buffer, existingVal );
+                        return SerializationCursorResult.Advance;
+                    }
+                    catch { } // Ignore if descriptor doesn't support reading from instance
+                }
+
+                // Fallback to null/default
+                object buf = cursor.ConstructionBuffer;
+                memberInfo.SetValue( ref buf, null );
                 return SerializationCursorResult.Advance;
             }
             else if( result == MemberResolutionResult.RequiresPush )
@@ -145,30 +180,31 @@ namespace UnityPlus.Serialization
             }
         }
 
-        private SerializationCursorResult PhaseInstantiation( ref SerializationCursor cursor, SerializationState state )
+        private static SerializationCursorResult PhaseInstantiation( ref SerializationCursor cursor, SerializationState state )
         {
             var compositeDesc = (ICompositeDescriptor)cursor.Descriptor;
 
-            if( cursor.TargetObj.Target == null )
+            // If we constructed a new instance (or forced construction), use it.
+            // If we skipped construction (Target != null && StepCount == 0), we keep existing target.
+            if( cursor.ConstructionBuffer != null )
             {
-                object newInstance;
-                if( cursor.ConstructionBuffer != null )
-                {
-                    newInstance = compositeDesc.Construct( cursor.ConstructionBuffer );
-                }
-                else
-                {
-                    newInstance = compositeDesc.CreateInitialTarget( cursor.DataNode, state.Context );
-                }
+                object newInstance = compositeDesc.Construct( cursor.ConstructionBuffer );
+                cursor.TargetObj = cursor.TargetObj.WithTarget( newInstance );
+            }
+            else if( cursor.TargetObj.Target == null )
+            {
+                object newInstance = compositeDesc.CreateInitialTarget( cursor.DataNode, state.Context );
                 cursor.TargetObj = cursor.TargetObj.WithTarget( newInstance );
             }
 
             if( cursor.TargetObj.Target == null )
                 throw new Exception( "Factory returned null." );
 
+            // If we are populating an existing collection (Target != null), we need to prepare it.
+            // Resize is intended to clear existing contents and prepare for population, but it also serves to resize arrays if needed.
             if( cursor.Descriptor is ICollectionDescriptor colDesc && cursor.DataNode is SerializedArray arr )
             {
-                var resized = colDesc.Resize( cursor.TargetObj.Target, arr.Count );
+                object resized = colDesc.Resize( cursor.TargetObj.Target, arr.Count );
                 cursor.TargetObj = cursor.TargetObj.WithTarget( resized );
             }
 
@@ -187,14 +223,21 @@ namespace UnityPlus.Serialization
             return SerializationCursorResult.Jump;
         }
 
-        private SerializationCursorResult PhasePopulation( ref SerializationCursor cursor, SerializationState state )
+        private static SerializationCursorResult PhasePopulation( ref SerializationCursor cursor, SerializationState state )
         {
+            if( cursor.TargetObj.Target == null )
+            {
+                cursor.Phase = SerializationCursorPhase.PostProcessing;
+                return SerializationCursorResult.Jump;
+            }
+
             if( cursor.StepIndex >= cursor.PopulationStepCount )
             {
                 cursor.Phase = SerializationCursorPhase.PostProcessing;
                 return SerializationCursorResult.Jump;
             }
 
+#warning TODO - phasepopulation and initializeroot is kind of duplicated. same for primitive and composite null handling.
             var parentDesc = (ICompositeDescriptor)cursor.Descriptor;
             int offset = cursor.ConstructionStepCount;
             int absoluteIndex = cursor.StepIndex + offset;
@@ -217,6 +260,10 @@ namespace UnityPlus.Serialization
                 cursor.TargetObj = cursor.TargetObj.WithTarget( t );
                 return SerializationCursorResult.Advance;
             }
+            else if( result == MemberResolutionResult.Missing )
+            {
+                return SerializationCursorResult.Advance; // Ignore missing members (Populate behavior)
+            }
             else if( result == MemberResolutionResult.RequiresPush )
             {
                 PushChildCursor( ref cursor, memberInfo, absoluteIndex, false, state );
@@ -224,7 +271,14 @@ namespace UnityPlus.Serialization
             }
             else if( result == MemberResolutionResult.Deferred )
             {
-                SerializedData failedData = GetDataNode( cursor.DataNode, memberInfo.Name, absoluteIndex );
+                // For population, we can't easily defer if we don't have the data node.
+                // But TryResolveMember only returns Deferred if it found a ref.
+                // If Missing, it returns Missing.
+
+                // If we are here, we found a ref but it's not resolved yet.
+                // We need the DataNode for the deferred operation.
+                TryGetDataNode( cursor.DataNode, memberInfo.Name, absoluteIndex, out SerializedData failedData );
+
                 state.Context.EnqueueDeferred( cursor.TargetObj.Target, memberInfo, failedData );
                 return SerializationCursorResult.Advance; // Skip member and continue
             }
@@ -234,7 +288,7 @@ namespace UnityPlus.Serialization
             }
         }
 
-        private SerializationCursorResult PhasePostProcessing( ref SerializationCursor cursor, SerializationState state )
+        private static SerializationCursorResult PhasePostProcessing( ref SerializationCursor cursor, SerializationState state )
         {
             if( cursor.TargetObj.Target != null && cursor.Descriptor is ICompositeDescriptor comp )
             {
@@ -243,24 +297,18 @@ namespace UnityPlus.Serialization
             return SerializationCursorResult.Finished;
         }
 
-        public void OnCursorFinished( SerializationCursor cursor, SerializationState state )
-        {
-            // CRITICAL FIX: If the root object was a Value Type (struct) or the reference was swapped
-            // (e.g. array resize, or re-boxing during population), the 'TargetObj.Target' inside
-            // the finished cursor holds the FINAL version. We must update the state result.
-            if( cursor.TargetObj.IsRoot )
-            {
-                state.RootResult = cursor.TargetObj.Target;
-            }
-        }
-
-        private MemberResolutionResult TryResolveMember( IMemberInfo memberInfo, SerializedData parentData, int index, SerializationState state, out object value )
+        private static MemberResolutionResult TryResolveMember( IMemberInfo memberInfo, SerializedData parentData, int index, SerializationState state, out object value )
         {
             IDescriptor memberDesc = memberInfo.TypeDescriptor;
 
             if( memberDesc is IPrimitiveDescriptor primitiveDesc )
             {
-                SerializedData primitiveData = GetDataNode( parentData, memberInfo.Name, index );
+                if( !TryGetDataNode( parentData, memberInfo.Name, index, out SerializedData primitiveData ) )
+                {
+                    value = null;
+                    return MemberResolutionResult.Missing;
+                }
+
                 DeserializationResult result = primitiveDesc.DeserializeDirect( primitiveData, state.Context, out value );
 
                 if( result == DeserializationResult.Success )
@@ -270,7 +318,12 @@ namespace UnityPlus.Serialization
                 return MemberResolutionResult.Failed;
             }
 
-            SerializedData childNode = GetDataNode( parentData, memberInfo.Name, index );
+            if( !TryGetDataNode( parentData, memberInfo.Name, index, out SerializedData childNode ) )
+            {
+                value = null;
+                return MemberResolutionResult.Missing;
+            }
+
             if( childNode == null )
             {
                 value = null;
@@ -286,7 +339,7 @@ namespace UnityPlus.Serialization
             return MemberResolutionResult.RequiresPush;
         }
 
-        private MemberResolutionResult TryResolveReference( SerializedData data, SerializationState state, out object value )
+        private static MemberResolutionResult TryResolveReference( SerializedData data, SerializationState state, out object value )
         {
             value = null;
             if( data is SerializedObject refObj && refObj.TryGetValue( KeyNames.REF, out var refVal ) )
@@ -307,10 +360,10 @@ namespace UnityPlus.Serialization
             return MemberResolutionResult.Failed;
         }
 
-        private void PushChildCursor( ref SerializationCursor parentCursor, IMemberInfo memberInfo, int absoluteIndex, bool isConstructionPhase, SerializationState state )
+        private static void PushChildCursor( ref SerializationCursor parentCursor, IMemberInfo memberInfo, int absoluteIndex, bool isConstructionPhase, SerializationState state )
         {
             IDescriptor memberDesc = memberInfo.TypeDescriptor;
-            SerializedData childNode = GetDataNode( parentCursor.DataNode, memberInfo.Name, absoluteIndex );
+            TryGetDataNode( parentCursor.DataNode, memberInfo.Name, absoluteIndex, out SerializedData childNode );
 
             // Determine parent for the child. 
             // If construction phase, parent is the buffer. If population, parent is the actual target.
@@ -318,10 +371,10 @@ namespace UnityPlus.Serialization
 
             // Optimization: If not construction phase, and parent exists, try to get existing object (PopulateExisting)
             object existingChild = null;
-            if( !isConstructionPhase && parentObj != null )
-            {
-                existingChild = memberInfo.GetValue( parentObj );
-            }
+            //if( !isConstructionPhase && parentObj != null )
+            //{
+            //    existingChild = memberInfo.GetValue( parentObj );
+            //}
 
             var childCursor = new SerializationCursor
             {
@@ -336,13 +389,17 @@ namespace UnityPlus.Serialization
             state.Stack.Push( childCursor );
         }
 
-        private SerializedData GetDataNode( SerializedData parent, string key, int index )
+        private static bool TryGetDataNode( SerializedData parent, string key, int index, out SerializedData data )
         {
-            if( parent is SerializedObject obj && key != null && obj.TryGetValue( key, out var res ) )
-                return res;
+            data = null;
+            if( parent is SerializedObject obj && key != null )
+                return obj.TryGetValue( key, out data );
             if( parent is SerializedArray arr && index >= 0 && index < arr.Count )
-                return arr[index];
-            return null;
+            {
+                data = arr[index];
+                return true;
+            }
+            return false;
         }
     }
 }

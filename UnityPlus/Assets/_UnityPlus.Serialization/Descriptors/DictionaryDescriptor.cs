@@ -20,6 +20,9 @@ namespace UnityPlus.Serialization
 
         public override object Resize( object target, int newSize )
         {
+            // When populating a dictionary, we must clear it first to ensure we populate from scratch.
+            // This aligns with the "Replace" philosophy for population.
+            ((TDict)target).Clear();
             return target;
         }
 

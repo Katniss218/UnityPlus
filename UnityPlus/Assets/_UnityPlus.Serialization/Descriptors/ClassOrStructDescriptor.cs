@@ -487,8 +487,8 @@ namespace UnityPlus.Serialization
 
                 Type actualType = val == null ? MemberType : val.GetType();
 
-                IDescriptor desc = TypeDescriptorRegistry.GetDescriptor( actualType, Context )
-                                    ?? TypeDescriptorRegistry.GetDescriptor( MemberType, Context );
+                // Optimization: Use declared type descriptor. Polymorphism is handled by SerializationStrategy.
+                IDescriptor desc = TypeDescriptorRegistry.GetDescriptor( MemberType, Context );
 
                 return new RuntimeMemberInfo<TMember>( Name, desc, Getter, Setter, RefSetter, NativeMember, MemberType );
             }
@@ -514,9 +514,8 @@ namespace UnityPlus.Serialization
             {
                 get
                 {
-                    Type actualType = _val == null ? MemberType : _val.GetType();
-                    return TypeDescriptorRegistry.GetDescriptor( actualType, _def.Context )
-                        ?? TypeDescriptorRegistry.GetDescriptor( MemberType, _def.Context );
+                    // Optimization: Use declared type descriptor.
+                    return TypeDescriptorRegistry.GetDescriptor( MemberType, _def.Context );
                 }
             }
 

@@ -41,16 +41,16 @@ namespace UnityPlus.Serialization
             return ((List<T>)target).Count;
         }
 
+        private IDescriptor _cachedElementDescriptor;
+
         public override IMemberInfo GetMemberInfo( int stepIndex, object target )
         {
-            object element = ((List<T>)target)[stepIndex];
-            Type actualType = element != null ? element.GetType() : typeof( T );
-            if( typeof( T ).IsValueType || typeof( T ).IsSealed ) actualType = typeof( T );
+            if( _cachedElementDescriptor == null )
+            {
+                _cachedElementDescriptor = TypeDescriptorRegistry.GetDescriptor( typeof( T ), ElementContext );
+            }
 
-            IDescriptor elementDesc = TypeDescriptorRegistry.GetDescriptor( actualType, ElementContext )
-                                       ?? TypeDescriptorRegistry.GetDescriptor( typeof( T ), ElementContext );
-
-            return new ListMemberInfo( stepIndex, elementDesc );
+            return new ListMemberInfo( stepIndex, _cachedElementDescriptor );
         }
 
         private struct ListMemberInfo : IMemberInfo

@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace UnityPlus.Serialization.Tests.V4
 {
@@ -77,7 +78,32 @@ namespace UnityPlus.Serialization.Tests.V4
         }
 
         [Test]
-        public void Deserialize_List_Resizing()
+        public void Populate_Vector3()
+        {
+            var existing = new Vector3( 0, 1, 2 );
+
+            var data = new SerializedArray { (SerializedPrimitive)10, (SerializedPrimitive)20, (SerializedPrimitive)30 };
+
+            SerializationUnit.Populate( ref existing, data );
+
+            Assert.That( existing, Is.EqualTo( new Vector3( 10, 20, 30 ) ) );
+        }
+
+        [Test]
+        public void Populate_KeyValuePair()
+        {
+            var existing = new KeyValuePair<string, int>( "a", 1 );
+
+            var data = new SerializedObject { ["key"] = (SerializedPrimitive)"b", ["value"] = (SerializedPrimitive)2 };
+
+            SerializationUnit.Populate( ref existing, data );
+
+            Assert.That( existing.Key, Is.EqualTo( "b" ) );
+            Assert.That( existing.Value, Is.EqualTo( 2 ) );
+        }
+
+        [Test]
+        public void Populate_List()
         {
             // Case: Target list has existing items, data has different count.
             var existing = new List<int> { 1, 2, 3, 4, 5 };
@@ -93,14 +119,15 @@ namespace UnityPlus.Serialization.Tests.V4
         }
 
         [Test]
-        public void Deserialize_Dictionary_Append()
+        public void Populate_Dictionary()
         {
             var existing = new Dictionary<string, int> { { "A", 1 } };
 
             // Data has B
             // Format: [ { key: "B", value: 2 } ]
             var kvpData = new SerializedObject { ["key"] = (SerializedPrimitive)"B", ["value"] = (SerializedPrimitive)2 };
-            var data = new SerializedArray { kvpData };
+            var data2 = new SerializedArray { kvpData };
+            var data = new SerializedObject { ["value"] = data2 };
 
             // Dictionary population should reset the items and add the new ones.
             SerializationUnit.Populate( existing, data );

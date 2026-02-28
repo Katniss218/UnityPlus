@@ -180,7 +180,7 @@ namespace UnityPlus.Serialization
             {
                 _index = index;
                 _instance = instance;
-                MemberType = instance.GetType();
+                MemberType = typeof( Component );
                 TypeDescriptor = TypeDescriptorRegistry.GetDescriptor( MemberType );
             }
 
