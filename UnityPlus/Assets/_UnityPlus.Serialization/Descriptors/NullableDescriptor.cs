@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using static UnityEngine.Networking.UnityWebRequest;
 
 namespace UnityPlus.Serialization
 {
@@ -69,7 +68,8 @@ namespace UnityPlus.Serialization
 
         public IEnumerator<IMemberInfo> GetMemberEnumerator( object target )
         {
-            if( target == null ) return null;
+            if( target == null )
+                return null;
             if( _underlyingDescriptor is ICompositeDescriptor comp )
             {
                 return comp.GetMemberEnumerator( target );
@@ -77,12 +77,11 @@ namespace UnityPlus.Serialization
             return null;
         }
 
-        public IMemberInfo GetMemberInfo( int index, object target )
+        public IMemberInfo GetMemberInfo( int index )
         {
-            if( target == null ) return null;
             if( _underlyingDescriptor is ICompositeDescriptor comp )
             {
-                return comp.GetMemberInfo( index, target );
+                return comp.GetMemberInfo( index );
             }
             return null;
         }

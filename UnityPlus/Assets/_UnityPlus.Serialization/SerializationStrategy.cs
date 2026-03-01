@@ -154,10 +154,10 @@ namespace UnityPlus.Serialization
                 }
 
                 var parentDesc = (ICompositeDescriptor)cursor.Descriptor; // Should be true because primitives are handled inline.
-                memberInfo = parentDesc.GetMemberInfo( activeStepIndex, cursor.TargetObj.Target );
+                memberInfo = parentDesc.GetMemberInfo( activeStepIndex );
             }
 
-            if( memberInfo == null || memberInfo.TypeDescriptor == null ) // Skipped
+            if( memberInfo == null || (memberInfo.TypeDescriptor == null && TypeDescriptorRegistry.GetDescriptor( memberInfo.MemberType, memberInfo.GetContext( cursor.TargetObj.Target ) ) == null) ) // Skipped
             {
                 return SerializationCursorResult.Advance;
             }
@@ -200,7 +200,11 @@ namespace UnityPlus.Serialization
 
             if( declaredType != actualType )
             {
-                descriptor = TypeDescriptorRegistry.GetDescriptor( actualType );
+                descriptor = TypeDescriptorRegistry.GetDescriptor( actualType, memberInfo.GetContext( target ) );
+            }
+            if( descriptor == null ) // types match, but was not given from memberinfo.
+            {
+                descriptor = TypeDescriptorRegistry.GetDescriptor( memberInfo.MemberType, memberInfo.GetContext( target ) );
             }
 
             // 4. Primitive

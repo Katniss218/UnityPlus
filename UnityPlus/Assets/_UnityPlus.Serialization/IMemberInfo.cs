@@ -37,6 +37,11 @@ namespace UnityPlus.Serialization
         bool RequiresWriteBack { get; }
 
         /// <summary>
+        /// The serialization context used to resolve the descriptor for this member.
+        /// </summary>
+        ContextKey GetContext( object target );
+
+        /// <summary>
         /// Retrieves the value from the target object.
         /// </summary>
         object GetValue( object target );

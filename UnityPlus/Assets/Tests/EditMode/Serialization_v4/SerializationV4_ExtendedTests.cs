@@ -175,7 +175,7 @@ namespace UnityPlus.Serialization.Tests.V4
 
             // Register a special descriptor ONLY for this context
             // We'll map "Value" to a constant 999 for testing
-            var customDesc = new ClassOrStructDescriptor<ContextTestClass>()
+            var customDesc = new MemberwiseDescriptor<ContextTestClass>()
                 .WithMember( "Value", o => 999, ( ref ContextTestClass o, int v ) => o.Value = v );
 
             TypeDescriptorRegistry.Register( customDesc, myContext );

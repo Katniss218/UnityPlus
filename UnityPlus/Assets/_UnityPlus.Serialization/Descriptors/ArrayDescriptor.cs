@@ -13,7 +13,8 @@ namespace UnityPlus.Serialization
             int length = 0;
 
             var arr = SerializationHelpers.GetValueNode( data );
-            if( arr != null ) length = arr.Count;
+            if( arr != null ) 
+                length = arr.Count;
 
             return new T[length];
         }
@@ -37,32 +38,12 @@ namespace UnityPlus.Serialization
             return ((T[])target).Length;
         }
 
+#warning TODO - finish.
         private IDescriptor _cachedElementDescriptor;
 
-        public override IMemberInfo GetMemberInfo( int stepIndex, object target )
+        public override IMemberInfo GetMemberInfo( int stepIndex )
         {
-            IDescriptor descriptor;
-            if( ElementSelector is UniformSelector uniform )
-            {
-                if( _cachedElementDescriptor == null )
-                {
-                    var ctx = uniform.Select( default );
-                    _cachedElementDescriptor = TypeDescriptorRegistry.GetDescriptor( typeof( T ), ctx );
-                }
-                descriptor = _cachedElementDescriptor;
-            }
-            else
-            {
-#warning TODO - needs to get the actual type and serializeddata, somehow. 
-                // so we need to invert the logic, to scan the serialized data for the element type, and then use that to select the context, and then get the appropriate descriptor only once.
-                // so, instead of assigning the actual descriptor to the memberInfo, we want to assign the ContextKey.
-
-                var args = new ContextSelectionArgs( stepIndex, null, typeof( T ), null, null, ((T[])target).Length );
-                var ctx = ElementSelector.Select( args );
-                descriptor = TypeDescriptorRegistry.GetDescriptor( typeof( T ), ctx );
-            }
-
-            return new ArrayMemberInfo( stepIndex, descriptor );
+            return new ArrayMemberInfo( stepIndex, ElementSelector );
         }
 
         private readonly struct ArrayMemberInfo : IMemberInfo
@@ -70,15 +51,34 @@ namespace UnityPlus.Serialization
             public string Name => null;
             public int Index => _index;
             public Type MemberType => typeof( T );
-            public IDescriptor TypeDescriptor { get; }
             public bool RequiresWriteBack => typeof( T ).IsValueType;
 
             private readonly int _index;
+            private readonly IContextSelector _selector;
 
-            public ArrayMemberInfo( int index, IDescriptor descriptor )
+            public ArrayMemberInfo( int index, IContextSelector selector )
             {
                 _index = index;
-                TypeDescriptor = descriptor;
+                _selector = selector;
+            }
+
+            public ContextKey GetContext( object target )
+            {
+                if( _selector is UniformSelector uniform )
+                    return uniform.Select( default );
+
+                var args = new ContextSelectionArgs( _index, typeof( T ), typeof( T ), ((T[])target).Length );
+                return _selector.Select( args );
+            }
+
+            public IDescriptor TypeDescriptor
+            {
+                get
+                {
+                    if( _selector is UniformSelector uniform )
+                        return TypeDescriptorRegistry.GetDescriptor( typeof( T ), uniform.Select( default ) );
+                    return null; // Dynamic resolution by strategy
+                }
             }
 
             public object GetValue( object target ) => ((T[])target)[_index];

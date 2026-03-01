@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
-using System.Numerics;
+using UnityEngine;
 
 namespace UnityPlus.Serialization.Tests.V4
 {
@@ -42,6 +42,7 @@ namespace UnityPlus.Serialization.Tests.V4
             };
 
             var data = SerializationUnit.Serialize( dict );
+            Debug.Log(data.DumpToString());
             var result = SerializationUnit.Deserialize<Dictionary<string, int>>( data );
 
             Assert.That( result["HP"], Is.EqualTo( 100 ) );

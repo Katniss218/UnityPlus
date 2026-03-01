@@ -8,12 +8,12 @@ namespace UnityPlus.Serialization
     {
         // --- Fluent API: Semantic Shortcuts ---
 
-        public static ClassOrStructDescriptor<T> WithAsset<T, TMember>( this ClassOrStructDescriptor<T> self, string name, Expression<Func<T, TMember>> accessor )
+        public static MemberwiseDescriptor<T> WithAsset<T, TMember>( this MemberwiseDescriptor<T> self, string name, Expression<Func<T, TMember>> accessor )
         {
             return self.WithMember( name, typeof( Ctx.Asset ), accessor );
         }
 
-        public static ClassOrStructDescriptor<T> WithReference<T, TMember>( this ClassOrStructDescriptor<T> self, string name, Expression<Func<T, TMember>> accessor )
+        public static MemberwiseDescriptor<T> WithReference<T, TMember>( this MemberwiseDescriptor<T> self, string name, Expression<Func<T, TMember>> accessor )
         {
             return self.WithMember( name, typeof( Ctx.Ref ), accessor );
         }

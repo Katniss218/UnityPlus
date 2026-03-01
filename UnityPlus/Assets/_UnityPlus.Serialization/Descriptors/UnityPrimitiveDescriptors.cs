@@ -99,14 +99,14 @@ namespace UnityPlus.Serialization
         // --- COLORS ---
 
         [MapsInheritingFrom( typeof( Color ) )]
-        public static IDescriptor ColorDescriptor() => new ClassOrStructDescriptor<Color>()
+        public static IDescriptor ColorDescriptor() => new MemberwiseDescriptor<Color>()
             .WithMember( "r", c => c.r )
             .WithMember( "g", c => c.g )
             .WithMember( "b", c => c.b )
             .WithMember( "a", c => c.a );
 
         [MapsInheritingFrom( typeof( Color32 ) )]
-        public static IDescriptor Color32Descriptor() => new ClassOrStructDescriptor<Color32>()
+        public static IDescriptor Color32Descriptor() => new MemberwiseDescriptor<Color32>()
             .WithMember( "r", c => c.r )
             .WithMember( "g", c => c.g )
             .WithMember( "b", c => c.b )
@@ -115,14 +115,14 @@ namespace UnityPlus.Serialization
         // --- RECT & BOUNDS ---
 
         [MapsInheritingFrom( typeof( Rect ) )]
-        public static IDescriptor RectDescriptor() => new ClassOrStructDescriptor<Rect>()
+        public static IDescriptor RectDescriptor() => new MemberwiseDescriptor<Rect>()
             .WithMember( "x", r => r.x )
             .WithMember( "y", r => r.y )
             .WithMember( "width", r => r.width )
             .WithMember( "height", r => r.height );
 
         [MapsInheritingFrom( typeof( RectInt ) )]
-        public static IDescriptor RectIntDescriptor() => new ClassOrStructDescriptor<RectInt>()
+        public static IDescriptor RectIntDescriptor() => new MemberwiseDescriptor<RectInt>()
             .WithMember( "x", r => r.x )
             .WithMember( "y", r => r.y )
             .WithMember( "width", r => r.width )
@@ -131,36 +131,36 @@ namespace UnityPlus.Serialization
         // --- BOUNDS ---
 
         [MapsInheritingFrom( typeof( Bounds ) )]
-        public static IDescriptor BoundsDescriptor() => new ClassOrStructDescriptor<Bounds>()
+        public static IDescriptor BoundsDescriptor() => new MemberwiseDescriptor<Bounds>()
             .WithMember( "center", b => b.center )
             .WithMember( "extents", b => b.extents );
 
         [MapsInheritingFrom( typeof( BoundsInt ) )]
-        public static IDescriptor BoundsIntDescriptor() => new ClassOrStructDescriptor<BoundsInt>()
+        public static IDescriptor BoundsIntDescriptor() => new MemberwiseDescriptor<BoundsInt>()
             .WithMember( "position", b => b.position )
             .WithMember( "size", b => b.size );
 
         // --- RAYS & PLANES ---
 
         [MapsInheritingFrom( typeof( Ray ) )]
-        public static IDescriptor RayDescriptor() => new ClassOrStructDescriptor<Ray>()
+        public static IDescriptor RayDescriptor() => new MemberwiseDescriptor<Ray>()
             .WithMember( "origin", r => r.origin )
             .WithMember( "direction", r => r.direction );
 
         [MapsInheritingFrom( typeof( Ray2D ) )]
-        public static IDescriptor Ray2DDescriptor() => new ClassOrStructDescriptor<Ray2D>()
+        public static IDescriptor Ray2DDescriptor() => new MemberwiseDescriptor<Ray2D>()
             .WithMember( "origin", r => r.origin )
             .WithMember( "direction", r => r.direction );
 
         [MapsInheritingFrom( typeof( Plane ) )]
-        public static IDescriptor PlaneDescriptor() => new ClassOrStructDescriptor<Plane>()
+        public static IDescriptor PlaneDescriptor() => new MemberwiseDescriptor<Plane>()
             .WithMember( "normal", p => p.normal )
             .WithMember( "distance", p => p.distance );
 
         // --- ANIMATION / GRADIENTS ---
 
         [MapsInheritingFrom( typeof( Keyframe ) )]
-        public static IDescriptor KeyframeDescriptor() => new ClassOrStructDescriptor<Keyframe>()
+        public static IDescriptor KeyframeDescriptor() => new MemberwiseDescriptor<Keyframe>()
             .WithMember( "time", k => k.time )
             .WithMember( "value", k => k.value )
             .WithMember( "in_tangent", k => k.inTangent )
@@ -170,23 +170,23 @@ namespace UnityPlus.Serialization
             .WithMember( "weighted_mode", k => k.weightedMode );
 
         [MapsInheritingFrom( typeof( AnimationCurve ) )]
-        public static IDescriptor AnimationCurveDescriptor() => new ClassOrStructDescriptor<AnimationCurve>()
+        public static IDescriptor AnimationCurveDescriptor() => new MemberwiseDescriptor<AnimationCurve>()
             .WithMember( "keys", c => c.keys )
             .WithMember( "pre_wrap_mode", c => c.preWrapMode )
             .WithMember( "post_wrap_mode", c => c.postWrapMode );
 
         [MapsInheritingFrom( typeof( GradientColorKey ) )]
-        public static IDescriptor GradientColorKeyDescriptor() => new ClassOrStructDescriptor<GradientColorKey>()
+        public static IDescriptor GradientColorKeyDescriptor() => new MemberwiseDescriptor<GradientColorKey>()
             .WithMember( "color", k => k.color )
             .WithMember( "time", k => k.time );
 
         [MapsInheritingFrom( typeof( GradientAlphaKey ) )]
-        public static IDescriptor GradientAlphaKeyDescriptor() => new ClassOrStructDescriptor<GradientAlphaKey>()
+        public static IDescriptor GradientAlphaKeyDescriptor() => new MemberwiseDescriptor<GradientAlphaKey>()
             .WithMember( "alpha", k => k.alpha )
             .WithMember( "time", k => k.time );
 
         [MapsInheritingFrom( typeof( Gradient ) )]
-        public static IDescriptor GradientDescriptor() => new ClassOrStructDescriptor<Gradient>()
+        public static IDescriptor GradientDescriptor() => new MemberwiseDescriptor<Gradient>()
             .WithMember( "color_keys", g => g.colorKeys )
             .WithMember( "alpha_keys", g => g.alphaKeys )
             .WithMember( "mode", g => g.mode );

@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace UnityPlus.Serialization
@@ -15,7 +14,7 @@ namespace UnityPlus.Serialization
         public abstract Type MappedType { get; }
 
         public abstract int GetStepCount( object target );
-        public abstract IMemberInfo GetMemberInfo( int stepIndex, object target );
+        public abstract IMemberInfo GetMemberInfo( int stepIndex );
 
         public virtual IEnumerator<IMemberInfo> GetMemberEnumerator( object target ) => null;
 

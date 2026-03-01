@@ -127,6 +127,12 @@ namespace UnityPlus.Serialization
             ( d, c ) => d.DeserializeGuid()
         );
 
+        [MapsInheritingFrom( typeof( Type ) )]
+        private static IDescriptor ProvideType() => new PrimitiveConfigurableDescriptor<Type>(
+            ( v, w, c ) => w.Data = v.SerializeType(),
+            ( d, c ) => d.DeserializeType()
+        );
+
         [MapsInheritingFrom( typeof( DateTime ) )]
         private static IDescriptor ProvideDateTime() => new PrimitiveConfigurableDescriptor<DateTime>(
             ( v, w, c ) => w.Data = (SerializedPrimitive)v.ToString( "o", CultureInfo.InvariantCulture ),
@@ -150,7 +156,7 @@ namespace UnityPlus.Serialization
         [MapsInheritingFrom( typeof( ValueTuple<,> ) )]
         private static IDescriptor ProvideValueTuple2<T1, T2>()
         {
-            return new ClassOrStructDescriptor<ValueTuple<T1, T2>>()
+            return new MemberwiseDescriptor<ValueTuple<T1, T2>>()
                 .WithMember( "1", t => t.Item1, ( ref ValueTuple<T1, T2> t, T1 v ) => t.Item1 = v )
                 .WithMember( "2", t => t.Item2, ( ref ValueTuple<T1, T2> t, T2 v ) => t.Item2 = v );
         }
@@ -158,7 +164,7 @@ namespace UnityPlus.Serialization
         [MapsInheritingFrom( typeof( ValueTuple<,,> ) )]
         private static IDescriptor ProvideValueTuple3<T1, T2, T3>()
         {
-            return new ClassOrStructDescriptor<ValueTuple<T1, T2, T3>>()
+            return new MemberwiseDescriptor<ValueTuple<T1, T2, T3>>()
                 .WithMember( "1", t => t.Item1, ( ref ValueTuple<T1, T2, T3> t, T1 v ) => t.Item1 = v )
                 .WithMember( "2", t => t.Item2, ( ref ValueTuple<T1, T2, T3> t, T2 v ) => t.Item2 = v )
                 .WithMember( "3", t => t.Item3, ( ref ValueTuple<T1, T2, T3> t, T3 v ) => t.Item3 = v );
@@ -167,7 +173,7 @@ namespace UnityPlus.Serialization
         [MapsInheritingFrom( typeof( ValueTuple<,,,> ) )]
         private static IDescriptor ProvideValueTuple4<T1, T2, T3, T4>()
         {
-            return new ClassOrStructDescriptor<ValueTuple<T1, T2, T3, T4>>()
+            return new MemberwiseDescriptor<ValueTuple<T1, T2, T3, T4>>()
                 .WithMember( "1", t => t.Item1, ( ref ValueTuple<T1, T2, T3, T4> t, T1 v ) => t.Item1 = v )
                 .WithMember( "2", t => t.Item2, ( ref ValueTuple<T1, T2, T3, T4> t, T2 v ) => t.Item2 = v )
                 .WithMember( "3", t => t.Item3, ( ref ValueTuple<T1, T2, T3, T4> t, T3 v ) => t.Item3 = v )
@@ -177,7 +183,7 @@ namespace UnityPlus.Serialization
         [MapsInheritingFrom( typeof( ValueTuple<,,,,> ) )]
         private static IDescriptor ProvideValueTuple5<T1, T2, T3, T4, T5>()
         {
-            return new ClassOrStructDescriptor<ValueTuple<T1, T2, T3, T4, T5>>()
+            return new MemberwiseDescriptor<ValueTuple<T1, T2, T3, T4, T5>>()
                 .WithMember( "1", t => t.Item1, ( ref ValueTuple<T1, T2, T3, T4, T5> t, T1 v ) => t.Item1 = v )
                 .WithMember( "2", t => t.Item2, ( ref ValueTuple<T1, T2, T3, T4, T5> t, T2 v ) => t.Item2 = v )
                 .WithMember( "3", t => t.Item3, ( ref ValueTuple<T1, T2, T3, T4, T5> t, T3 v ) => t.Item3 = v )
@@ -188,7 +194,7 @@ namespace UnityPlus.Serialization
         [MapsInheritingFrom( typeof( ValueTuple<,,,,,> ) )]
         private static IDescriptor ProvideValueTuple6<T1, T2, T3, T4, T5, T6>()
         {
-            return new ClassOrStructDescriptor<ValueTuple<T1, T2, T3, T4, T5, T6>>()
+            return new MemberwiseDescriptor<ValueTuple<T1, T2, T3, T4, T5, T6>>()
                 .WithMember( "1", t => t.Item1, ( ref ValueTuple<T1, T2, T3, T4, T5, T6> t, T1 v ) => t.Item1 = v )
                 .WithMember( "2", t => t.Item2, ( ref ValueTuple<T1, T2, T3, T4, T5, T6> t, T2 v ) => t.Item2 = v )
                 .WithMember( "3", t => t.Item3, ( ref ValueTuple<T1, T2, T3, T4, T5, T6> t, T3 v ) => t.Item3 = v )
@@ -200,7 +206,7 @@ namespace UnityPlus.Serialization
         [MapsInheritingFrom( typeof( ValueTuple<,,,,,,> ) )]
         private static IDescriptor ProvideValueTuple7<T1, T2, T3, T4, T5, T6, T7>()
         {
-            return new ClassOrStructDescriptor<ValueTuple<T1, T2, T3, T4, T5, T6, T7>>()
+            return new MemberwiseDescriptor<ValueTuple<T1, T2, T3, T4, T5, T6, T7>>()
                 .WithMember( "1", t => t.Item1, ( ref ValueTuple<T1, T2, T3, T4, T5, T6, T7> t, T1 v ) => t.Item1 = v )
                 .WithMember( "2", t => t.Item2, ( ref ValueTuple<T1, T2, T3, T4, T5, T6, T7> t, T2 v ) => t.Item2 = v )
                 .WithMember( "3", t => t.Item3, ( ref ValueTuple<T1, T2, T3, T4, T5, T6, T7> t, T3 v ) => t.Item3 = v )

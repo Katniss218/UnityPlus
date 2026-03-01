@@ -13,7 +13,7 @@ namespace UnityPlus.Serialization.Tests.V4
             [MapsInheritingFrom( typeof( SimpleRef ) )]
             public static IDescriptor Mapping()
             {
-                return new ClassOrStructDescriptor<SimpleRef>()
+                return new MemberwiseDescriptor<SimpleRef>()
                     .WithMember( "next", typeof( Ctx.Ref ), o => o.Next );
             }
         }
@@ -58,11 +58,11 @@ namespace UnityPlus.Serialization.Tests.V4
         [Test]
         public void Deserialize_MissingMember_Ignored()
         {
-            var desc = new ClassOrStructDescriptor<SerializationV4_PrimitiveTests.TestEnum>(); // Dummy descriptor
+            var desc = new MemberwiseDescriptor<SerializationV4_PrimitiveTests.TestEnum>(); // Dummy descriptor
 
             // WARNING: This registration pollutes the global registry for SerializationV4_StructureTests.Node
             // This is why Clear() in TearDown is essential.
-            TypeDescriptorRegistry.Register( new ClassOrStructDescriptor<Node>()
+            TypeDescriptorRegistry.Register( new MemberwiseDescriptor<Node>()
                 .WithMember( "Name", n => n.Name ) );
 
             // Data has extra field "Age"

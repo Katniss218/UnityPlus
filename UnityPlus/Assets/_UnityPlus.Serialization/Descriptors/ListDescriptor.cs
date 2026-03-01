@@ -7,13 +7,14 @@ namespace UnityPlus.Serialization
     {
         public override Type MappedType => typeof( List<T> );
 
-        public IContextSelector ElementSelector { get; set; }
+        public IContextSelector ElementSelector { get; set; } = new UniformSelector( ContextIDs.Default );
 
         public override object CreateInitialTarget( SerializedData data, SerializationContext ctx )
         {
             int capacity = 0;
             var arr = SerializationHelpers.GetValueNode( data );
-            if( arr != null ) capacity = arr.Count;
+            if( arr != null ) 
+                capacity = arr.Count;
 
             return new List<T>( capacity );
         }
@@ -41,45 +42,47 @@ namespace UnityPlus.Serialization
             return ((List<T>)target).Count;
         }
 
+#warning TODO - finish.
         private IDescriptor _cachedElementDescriptor;
 
-        public override IMemberInfo GetMemberInfo( int stepIndex, object target )
+        public override IMemberInfo GetMemberInfo( int stepIndex )
         {
-            IDescriptor descriptor = null;
-
-            if( ElementSelector is UniformSelector uniform )
-            {
-                if( _cachedElementDescriptor == null )
-                {
-                    var ctx = uniform.Select( default );
-                    _cachedElementDescriptor = TypeDescriptorRegistry.GetDescriptor( typeof( T ), ctx );
-                }
-                descriptor = _cachedElementDescriptor;
-            }
-            else
-            {
-                var args = new ContextSelectionArgs( stepIndex, null, typeof( T ), null, null, ((List<T>)target).Count );
-                var ctx = ElementSelector.Select( args );
-                descriptor = TypeDescriptorRegistry.GetDescriptor( typeof( T ), ctx );
-            }
-
-            return new ListMemberInfo( stepIndex, descriptor );
+            return new ListMemberInfo( stepIndex, ElementSelector );
         }
 
-        private struct ListMemberInfo : IMemberInfo
+        private readonly struct ListMemberInfo : IMemberInfo
         {
-            public readonly string Name => null;
-            public readonly int Index => _index;
-            public readonly Type MemberType => typeof( T );
-            public readonly IDescriptor TypeDescriptor { get; }
-            public readonly bool RequiresWriteBack => typeof( T ).IsValueType;
+            public string Name => null;
+            public int Index => _index;
+            public Type MemberType => typeof( T );
+            public bool RequiresWriteBack => typeof( T ).IsValueType;
 
-            private int _index;
+            private readonly int _index;
+            private readonly IContextSelector _selector;
 
-            public ListMemberInfo( int index, IDescriptor descriptor )
+            public ListMemberInfo( int index, IContextSelector selector )
             {
                 _index = index;
-                TypeDescriptor = descriptor;
+                _selector = selector;
+            }
+
+            public ContextKey GetContext( object target )
+            {
+                if( _selector is UniformSelector uniform )
+                    return uniform.Select( default );
+
+                var args = new ContextSelectionArgs( _index, typeof( T ), typeof( T ), ((List<T>)target).Count );
+                return _selector.Select( args );
+            }
+
+            public IDescriptor TypeDescriptor
+            {
+                get
+                {
+                    if( _selector is UniformSelector uniform )
+                        return TypeDescriptorRegistry.GetDescriptor( typeof( T ), uniform.Select( default ) );
+                    return null;
+                }
             }
 
             public object GetValue( object target ) => ((List<T>)target)[_index];

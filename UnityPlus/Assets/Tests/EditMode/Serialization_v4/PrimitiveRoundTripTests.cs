@@ -106,6 +106,16 @@ namespace UnityPlus.Serialization.Tests.V4
         }
 
         [Test]
+        public void System_Type()
+        {
+            // Note: Precision issues can occur with floating point serialization, 
+            // but Is.EqualTo handles Unity objects with a small epsilon usually.
+            AssertRoundTrip( typeof( Int32 ) );
+            AssertRoundTrip( typeof( Dictionary<int, string> ) );
+            AssertRoundTrip( typeof( Dictionary<,> ) );
+        }
+
+        [Test]
         public void Unity_Matrix4x4()
         {
             Matrix4x4 m = Matrix4x4.TRS( new Vector3( 1, 2, 3 ), Quaternion.Euler( 0, 90, 0 ), Vector3.one * 2 );

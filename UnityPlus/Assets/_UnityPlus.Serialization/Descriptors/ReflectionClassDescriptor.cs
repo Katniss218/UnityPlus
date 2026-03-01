@@ -37,13 +37,16 @@ namespace UnityPlus.Serialization
 
             foreach( var field in fields )
             {
-                if( field.IsStatic ) continue;
+                if( field.IsStatic )
+                    continue;
                 bool isPublic = field.IsPublic;
                 bool hasSerializeField = field.GetCustomAttribute<SerializeField>() != null;
                 bool hasNonSerialized = field.GetCustomAttribute<NonSerializedAttribute>() != null;
 
-                if( hasNonSerialized ) continue;
-                if( !isPublic && !hasSerializeField ) continue;
+                if( hasNonSerialized )
+                    continue;
+                if( !isPublic && !hasSerializeField )
+                    continue;
 
                 memberList.Add( new ReflectionFieldInfo( field ) );
             }
@@ -60,8 +63,10 @@ namespace UnityPlus.Serialization
                 if( method.GetCustomAttribute<OnDeserializedAttribute>() != null && method.GetParameters().Length == 1 )
                     _onDeserialized = ( obj ) => method.Invoke( obj, new object[] { default( StreamingContext ) } );
 
-                if( method.IsSpecialName ) continue;
-                if( method.DeclaringType == typeof( object ) || method.DeclaringType == typeof( Component ) || method.DeclaringType == typeof( MonoBehaviour ) ) continue;
+                if( method.IsSpecialName )
+                    continue;
+                if( method.DeclaringType == typeof( object ) || method.DeclaringType == typeof( Component ) || method.DeclaringType == typeof( MonoBehaviour ) )
+                    continue;
 
                 methodList.Add( new ReflectionMethodInfo( method ) );
             }
@@ -71,14 +76,15 @@ namespace UnityPlus.Serialization
         }
 
         public override int GetStepCount( object target ) => _members.Length;
-        public override IMemberInfo GetMemberInfo( int stepIndex, object target ) => _members[stepIndex];
+        public override IMemberInfo GetMemberInfo( int stepIndex ) => _members[stepIndex];
 
         public override int GetMethodCount() => _methods.Length;
         public override IMethodInfo GetMethodInfo( int methodIndex ) => _methods[methodIndex];
 
         public override object CreateInitialTarget( SerializedData data, SerializationContext ctx )
         {
-            if( typeof( T ).IsInterface ) return null;
+            if( typeof( T ).IsInterface )
+                return null;
 
             if( typeof( ScriptableObject ).IsAssignableFrom( typeof( T ) ) )
                 return ScriptableObject.CreateInstance( typeof( T ) );
@@ -86,19 +92,27 @@ namespace UnityPlus.Serialization
             if( _constructor != null )
                 return _constructor();
 
-            try { return Activator.CreateInstance<T>(); }
-            catch { return null; }
+            try
+            {
+                return Activator.CreateInstance<T>();
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public override void OnSerializing( object target, SerializationContext context )
         {
-            if( _implementsUnityCallback ) ((ISerializationCallbackReceiver)target).OnBeforeSerialize();
+            if( _implementsUnityCallback )
+                ((ISerializationCallbackReceiver)target).OnBeforeSerialize();
             _onSerializing?.Invoke( target );
         }
 
         public override void OnDeserialized( object target, SerializationContext context )
         {
-            if( _implementsUnityCallback ) ((ISerializationCallbackReceiver)target).OnAfterDeserialize();
+            if( _implementsUnityCallback )
+                ((ISerializationCallbackReceiver)target).OnAfterDeserialize();
             _onDeserialized?.Invoke( target );
         }
     }

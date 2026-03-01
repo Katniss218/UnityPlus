@@ -121,12 +121,25 @@ namespace UnityPlus.Serialization
         /// Resolves the context for a specific child element based on the registered Selector.
         /// </summary>
         /// <param name="parentContext">The context of the array, when invoked on array element, and so on.</param>
-        public static ContextKey Resolve( ContextKey parentContext, int elementIndex, object key, Type declaredType, Type actualType, SerializedData data, int containerCount = -1 )
+        public static ContextKey Resolve( ContextKey parentContext, string key, Type declaredType, Type actualType, int containerCount = -1 )
         {
-#warning TODO - this needs a wrapper for usability.
             if( _selectors.TryGetValue( parentContext.ID, out var selector ) )
             {
-                var args = new ContextSelectionArgs( elementIndex, key, declaredType, actualType, data, containerCount );
+                var args = new ContextSelectionArgs( key, declaredType, actualType, containerCount );
+                return selector.Select( args );
+            }
+            return ContextIDs.Default;
+        }
+
+        /// <summary>
+        /// Resolves the context for a specific child element based on the registered Selector.
+        /// </summary>
+        /// <param name="parentContext">The context of the array, when invoked on array element, and so on.</param>
+        public static ContextKey Resolve( ContextKey parentContext, int index, Type declaredType, Type actualType, int containerCount = -1 )
+        {
+            if( _selectors.TryGetValue( parentContext.ID, out var selector ) )
+            {
+                var args = new ContextSelectionArgs( index, declaredType, actualType, containerCount );
                 return selector.Select( args );
             }
             return ContextIDs.Default;
@@ -164,12 +177,14 @@ namespace UnityPlus.Serialization
             return Array.Empty<ContextKey>();
         }
 
+        [Obsolete( "Use Resolve with a proper IContextSelector for dynamic resolution instead of fixed arguments" )]
         public static ContextKey GetCollectionElementContext( ContextKey containerContext )
         {
             var args = GetContextArguments( containerContext );
             return args.Length > 0 ? args[0] : ContextIDs.Default;
         }
 
+        [Obsolete( "Use Resolve with a proper IContextSelector for dynamic resolution instead of fixed arguments" )]
         public static (ContextKey keyCtx, ContextKey valCtx) GetDictionaryElementContexts( ContextKey containerContext )
         {
             var args = GetContextArguments( containerContext );

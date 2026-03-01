@@ -95,7 +95,7 @@ namespace UnityPlus.Serialization.Tests.V4
             container.Assets.Add( "MyAsset", asset );
 
             TypeDescriptorRegistry.Register(
-                new ClassOrStructDescriptor<Container>()
+                new MemberwiseDescriptor<Container>()
                     // Use the generic type to specify context: Dict<Default, Asset>
                     .WithMember( "assets", typeof( Ctx.KeyValue<Ctx.Value, Ctx.Asset> ), c => c.Assets )
             );

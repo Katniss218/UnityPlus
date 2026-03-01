@@ -41,7 +41,7 @@ namespace UnityPlus.Serialization.Tests.V4
         {
             // Register using the new strongly-typed factory overload
             TypeDescriptorRegistry.Register(
-                new ClassOrStructDescriptor<ManualPerson>()
+                new MemberwiseDescriptor<ManualPerson>()
                     .WithFactory(
                         ( string n, int a ) => new ManualPerson( n, a ),
                         "name", "age"
@@ -63,7 +63,7 @@ namespace UnityPlus.Serialization.Tests.V4
         {
             // Register using the new strongly-typed factory overload for structs
             TypeDescriptorRegistry.Register(
-                new ClassOrStructDescriptor<ManualPoint>()
+                new MemberwiseDescriptor<ManualPoint>()
                     .WithFactory(
                         ( int x, int y, int z ) => new ManualPoint( x, y, z ),
                         "x", "y", "z"
@@ -87,14 +87,14 @@ namespace UnityPlus.Serialization.Tests.V4
         {
             // Ensure no ReflectionClassDescriptor is created if we manually register.
             // We use a private class that definitely has no other way of being serialized.
-            var descriptor = new ClassOrStructDescriptor<ManualPerson>()
+            var descriptor = new MemberwiseDescriptor<ManualPerson>()
                                 .WithMember( "name", p => p.Name )
                                 .WithMember( "age", p => p.Age ); // Note: Read/Write usage despite properties being get-only is allowed via reflection in WithMember, but here we use getters for serialization.
                                                                   // Actually, WithMember tries to create a Setter. Since properties are get-only, WithMember via Expression might fail to create setter.
                                                                   // Let's use WithReadonlyMember for safety in this specific test case of 'ManualPerson' which is immutable.
 
             // Re-define for mutable test
-            var descMutable = new ClassOrStructDescriptor<MutablePerson>()
+            var descMutable = new MemberwiseDescriptor<MutablePerson>()
                 .WithMember( "name", p => p.Name, ( p, v ) => p.Name = v )
                 .WithMember( "age", p => p.Age, ( p, v ) => p.Age = v );
 

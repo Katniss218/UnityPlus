@@ -14,11 +14,10 @@ namespace UnityPlus.Serialization
 
         /// <summary>
         /// The Key identifier for this element.
-        /// <para>For Arrays/Lists: Same as Index.</para>
+        /// <para>For Arrays: Null.</para>
         /// <para>For Objects: The Member Name (string).</para>
-        /// <para>For Dictionaries: The Dictionary Key object (often string or int).</para>
         /// </summary>
-        public readonly object Key { get; }
+        public readonly string Key { get; }
 
         /// <summary>
         /// The declared type of the storage location (e.g., T in List<T>).
@@ -29,14 +28,9 @@ namespace UnityPlus.Serialization
         /// <summary>
         /// The actual type of the object instance.
         /// <para>On Serialization: The type of the live instance (`instance.GetType()`).</para>
-        /// <para>On Deserialization: The resolved type from the `$type` header. Null if no header exists.</para>
+        /// <para>On Deserialization: The resolved type from the `$type` header. Equal <see cref="DeclaredType"/> when no header exists.</para>
         /// </summary>
         public readonly Type ActualType { get; }
-
-        /// <summary>
-        /// The serialized data for the child (Only available during Deserialization).
-        /// </summary>
-        public readonly SerializedData Data { get; }
 
         /// <summary>
         /// The total number of elements in the parent container. 
@@ -44,13 +38,21 @@ namespace UnityPlus.Serialization
         /// </summary>
         public readonly int ContainerCount { get; }
 
-        public ContextSelectionArgs( int index, object key, Type declaredType, Type actualType, SerializedData data, int containerCount )
+        public ContextSelectionArgs( string key, Type declaredType, Type actualType, int containerCount )
         {
-            Index = index;
+            Index = -1;
             Key = key;
             DeclaredType = declaredType;
             ActualType = actualType ?? declaredType;
-            Data = data;
+            ContainerCount = containerCount;
+        }
+
+        public ContextSelectionArgs( int index, Type declaredType, Type actualType, int containerCount )
+        {
+            Index = index;
+            Key = null;
+            DeclaredType = declaredType;
+            ActualType = actualType ?? declaredType;
             ContainerCount = containerCount;
         }
     }

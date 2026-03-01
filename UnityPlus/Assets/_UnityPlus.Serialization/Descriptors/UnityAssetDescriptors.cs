@@ -16,13 +16,13 @@ namespace UnityPlus.Serialization
         }
 
         [MapsInheritingFrom( typeof( TextureInfo ) )]
-        public static IDescriptor TextureInfoGetter() => new ClassOrStructDescriptor<TextureInfo>()
+        public static IDescriptor TextureInfoGetter() => new MemberwiseDescriptor<TextureInfo>()
             .WithMember( "texture", typeof( Ctx.Asset ), o => o.texture )
             .WithMember( "offset", o => o.offset )
             .WithMember( "scale", o => o.scale );
 
         [MapsInheritingFrom( typeof( Material ) )]
-        public static IDescriptor Material() => new ClassOrStructDescriptor<Material>()
+        public static IDescriptor Material() => new MemberwiseDescriptor<Material>()
             .WithReadonlyMember("shader", typeof( Ctx.Asset ), o => o.shader )
             .WithFactory<Shader>( s => new Material( s ), "shader" )
             .WithMember( "textures",
@@ -201,7 +201,7 @@ namespace UnityPlus.Serialization
             );
 
         [MapsInheritingFrom( typeof( ScriptableObject ) )]
-        public static IDescriptor GetScriptableObject() => new ClassOrStructDescriptor<ScriptableObject>()
+        public static IDescriptor GetScriptableObject() => new MemberwiseDescriptor<ScriptableObject>()
             .WithRawFactory( ( data, ctx ) =>
             {
                 if( data.TryGetValue( KeyNames.TYPE, out var type ) )

@@ -17,7 +17,7 @@ namespace UnityPlus.Serialization
         // 6: Active (Applied last to trigger Awake/OnEnable after full population)
         public override int GetStepCount( object target ) => 7;
 
-        public override IMemberInfo GetMemberInfo( int stepIndex, object target )
+        public override IMemberInfo GetMemberInfo( int stepIndex )
         {
             return stepIndex switch
             {
@@ -26,8 +26,8 @@ namespace UnityPlus.Serialization
                 2 => new PropertyMember( "tag", typeof( string ), ( t ) => ((GameObject)t).tag, ( ref object t, object v ) => ((GameObject)t).tag = (string)v ),
                 3 => new PropertyMember( "isStatic", typeof( bool ), ( t ) => ((GameObject)t).isStatic, ( ref object t, object v ) => ((GameObject)t).isStatic = (bool)v ),
                 // Virtual Containers
-                4 => new VirtualListMember( KeyNames.COMPONENTS, target, new ComponentSequenceDescriptor() ),
-                5 => new VirtualListMember( KeyNames.CHILDREN, target, new ChildSequenceDescriptor() ),
+                4 => new VirtualListMember( KeyNames.COMPONENTS, new ComponentSequenceDescriptor() ),
+                5 => new VirtualListMember( KeyNames.CHILDREN, new ChildSequenceDescriptor() ),
                 // Activation (Must be last)
                 6 => new PropertyMember( "active", typeof( bool ), ( t ) => ((GameObject)t).activeSelf, ( ref object t, object v ) => ((GameObject)t).SetActive( (bool)v ) ),
                 _ => throw new IndexOutOfRangeException(),
@@ -105,6 +105,9 @@ namespace UnityPlus.Serialization
                 _setter = setter;
             }
 
+            public ContextKey GetContext( object target ) => default;
+            public bool IsActive( object target ) => true;
+
             public object GetValue( object target ) => _getter( target );
             public void SetValue( ref object target, object value ) => _setter( ref target, value );
         }
@@ -117,16 +120,16 @@ namespace UnityPlus.Serialization
             public IDescriptor TypeDescriptor { get; }
             public bool RequiresWriteBack => false;
 
-            private object _target;
-
-            public VirtualListMember( string name, object target, IDescriptor descriptor )
+            public VirtualListMember( string name, IDescriptor descriptor )
             {
                 Name = name;
-                _target = target;
                 TypeDescriptor = descriptor;
             }
 
-            public object GetValue( object target ) => _target; // Pass the GameObject through to the SequenceDescriptor
+            public ContextKey GetContext( object target ) => default;
+            public bool IsActive( object target ) => true;
+
+            public object GetValue( object target ) => target; // Pass the GameObject through to the SequenceDescriptor
             public void SetValue( ref object target, object value ) { /* No-op, list is modified in-place */ }
         }
     }
@@ -149,14 +152,9 @@ namespace UnityPlus.Serialization
             return ((GameObject)target).GetComponents<Component>().Length;
         }
 
-        public override IMemberInfo GetMemberInfo( int stepIndex, object target )
+        public override IMemberInfo GetMemberInfo( int stepIndex )
         {
-            var components = ((GameObject)target).GetComponents<Component>();
-            if( stepIndex < components.Length )
-            {
-                return new InstanceMemberInfo( stepIndex, components[stepIndex] );
-            }
-            return null;
+            return new InstanceMemberInfo( stepIndex );
         }
 
         public override object CreateInitialTarget( SerializedData data, SerializationContext ctx )
@@ -174,17 +172,24 @@ namespace UnityPlus.Serialization
             public bool RequiresWriteBack => false;
 
             private int _index;
-            private object _instance;
 
-            public InstanceMemberInfo( int index, Component instance )
+            public InstanceMemberInfo( int index )
             {
                 _index = index;
-                _instance = instance;
                 MemberType = typeof( Component );
                 TypeDescriptor = TypeDescriptorRegistry.GetDescriptor( MemberType );
             }
 
-            public object GetValue( object target ) => _instance;
+            public ContextKey GetContext( object target ) => default;
+            public bool IsActive( object target ) => true;
+
+            public object GetValue( object target )
+            {
+                var components = ((GameObject)target).GetComponents<Component>();
+                if( _index < components.Length )
+                    return components[_index];
+                return null;
+            }
             public void SetValue( ref object target, object value ) { }
         }
     }
@@ -204,17 +209,19 @@ namespace UnityPlus.Serialization
 
         public override object Resize( object target, int newSize )
         {
-            // We can't resize child count arbitrarily without creating objects.
-            // The StackMachine will drive creation via CreateInitialTarget of the children.
+            // When populating a GameObject's children, we destroy existing children 
+            // to ensure the collection is overwritten by the new data.
+            Transform t = ((GameObject)target).transform;
+            for( int i = t.childCount - 1; i >= 0; i-- )
+            {
+                UnityEngine.Object.DestroyImmediate( t.GetChild( i ).gameObject );
+            }
             return target;
         }
 
-        public override IMemberInfo GetMemberInfo( int stepIndex, object target )
+        public override IMemberInfo GetMemberInfo( int stepIndex )
         {
-            Transform t = ((GameObject)target).transform;
-            GameObject child = stepIndex < t.childCount ? t.GetChild( stepIndex ).gameObject : null;
-
-            return new ChildMemberInfo( stepIndex, child );
+            return new ChildMemberInfo( stepIndex );
         }
 
         public override object CreateInitialTarget( SerializedData data, SerializationContext ctx )
@@ -231,15 +238,22 @@ namespace UnityPlus.Serialization
             public bool RequiresWriteBack => false;
 
             private int _index;
-            private GameObject _child;
 
-            public ChildMemberInfo( int index, GameObject child )
+            public ChildMemberInfo( int index )
             {
                 _index = index;
-                _child = child;
             }
 
-            public object GetValue( object target ) => _child;
+            public ContextKey GetContext( object target ) => default;
+            public bool IsActive( object target ) => true;
+
+            public object GetValue( object target )
+            {
+                Transform t = ((GameObject)target).transform;
+                if( _index < t.childCount )
+                    return t.GetChild( _index ).gameObject;
+                return null;
+            }
 
             public void SetValue( ref object target, object value )
             {

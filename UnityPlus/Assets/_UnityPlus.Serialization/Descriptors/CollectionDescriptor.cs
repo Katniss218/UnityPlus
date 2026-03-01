@@ -12,7 +12,7 @@ namespace UnityPlus.Serialization
 
         public abstract object Resize( object target, int newSize );
         public abstract int GetStepCount( object target );
-        public abstract IMemberInfo GetMemberInfo( int stepIndex, object target );
+        public abstract IMemberInfo GetMemberInfo( int stepIndex );
 
         public virtual IEnumerator<IMemberInfo> GetMemberEnumerator( object target ) => null;
         public abstract object CreateInitialTarget( SerializedData data, SerializationContext ctx );

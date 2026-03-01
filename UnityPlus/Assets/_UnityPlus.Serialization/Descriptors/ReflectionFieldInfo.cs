@@ -13,6 +13,9 @@ namespace UnityPlus.Serialization
         public Type MemberType { get; }
         public bool RequiresWriteBack { get; }
 
+        private readonly ContextKey _context;
+        public ContextKey GetContext( object target ) => _context;
+
         private readonly Getter<object, object> _getter;
         private readonly Setter<object, object> _setter; // For classes
         private readonly RefSetter<object, object> _refSetter; // For structs
@@ -23,16 +26,17 @@ namespace UnityPlus.Serialization
             get
             {
                 if( _cachedDesc == null )
-                    _cachedDesc = TypeDescriptorRegistry.GetDescriptor( MemberType, 0 );
+                    _cachedDesc = TypeDescriptorRegistry.GetDescriptor( MemberType, _context );
                 return _cachedDesc;
             }
         }
 
-        public ReflectionFieldInfo( FieldInfo field )
+        public ReflectionFieldInfo( FieldInfo field, ContextKey context = default )
         {
             Name = field.Name;
             MemberType = field.FieldType;
             RequiresWriteBack = MemberType.IsValueType;
+            _context = context;
 
             // Use AccessorUtils to generate optimized delegates
             _getter = AccessorUtils.CreateUntypedGetter( field );

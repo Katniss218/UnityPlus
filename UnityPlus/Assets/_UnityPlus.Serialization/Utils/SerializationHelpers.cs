@@ -12,6 +12,7 @@ namespace UnityPlus.Serialization
             if( data is SerializedArray arr )
                 return arr;
 
+#warning TODO - only when forceStandardJson is true.
             if( data is SerializedObject obj && obj.TryGetValue( KeyNames.VALUE, out SerializedData inner ) && inner is SerializedArray innerArr )
                 return innerArr;
 

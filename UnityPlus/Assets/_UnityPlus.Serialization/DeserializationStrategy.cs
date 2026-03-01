@@ -126,15 +126,15 @@ namespace UnityPlus.Serialization
 
             var parentDesc = (ICompositeDescriptor)cursor.Descriptor;
             int activeIndex = cursor.StepIndex;
-#warning TODO - potentially store memberinfo in the cursor instead of pending type and other, and avoid the double lookup.
-            IMemberInfo memberInfo = parentDesc.GetMemberInfo( activeIndex, cursor.ConstructionBuffer );
+            IMemberInfo memberInfo = parentDesc.GetMemberInfo( activeIndex );
 
-            if( memberInfo == null || memberInfo.TypeDescriptor == null )
+            if( memberInfo == null )
             {
                 return SerializationCursorResult.Advance;
             }
 
-            MemberResolutionResult result = TryResolveMember( memberInfo, cursor.DataNode, activeIndex, state, out object val );
+#warning TODO - potentially replace call to construction buffer with just actual type.
+            MemberResolutionResult result = TryResolveMember( memberInfo, cursor.ConstructionBuffer, cursor.DataNode, activeIndex, state, out object val );
 
             if( result == MemberResolutionResult.Resolved )
             {
@@ -254,14 +254,14 @@ namespace UnityPlus.Serialization
             int offset = cursor.ConstructionStepCount;
             int absoluteIndex = cursor.StepIndex + offset;
 
-            IMemberInfo memberInfo = parentDesc.GetMemberInfo( absoluteIndex, cursor.TargetObj.Target );
+            IMemberInfo memberInfo = parentDesc.GetMemberInfo( absoluteIndex );
 
-            if( memberInfo == null || memberInfo.TypeDescriptor == null )
+            if( memberInfo == null )
             {
                 return SerializationCursorResult.Advance;
             }
 
-            MemberResolutionResult result = TryResolveMember( memberInfo, cursor.DataNode, absoluteIndex, state, out object val );
+            MemberResolutionResult result = TryResolveMember( memberInfo, cursor.TargetObj.Target, cursor.DataNode, absoluteIndex, state, out object val );
 
             if( result == MemberResolutionResult.Resolved )
             {
@@ -309,9 +309,13 @@ namespace UnityPlus.Serialization
             return SerializationCursorResult.Finished;
         }
 
-        private static MemberResolutionResult TryResolveMember( IMemberInfo memberInfo, SerializedData parentData, int index, SerializationState state, out object value )
+        private static MemberResolutionResult TryResolveMember( IMemberInfo memberInfo, object target, SerializedData parentData, int index, SerializationState state, out object value )
         {
             IDescriptor memberDesc = memberInfo.TypeDescriptor;
+            if( memberDesc == null )
+            {
+                memberDesc = TypeDescriptorRegistry.GetDescriptor( memberInfo.MemberType, memberInfo.GetContext( target ) );
+            }
 
             if( memberDesc is IPrimitiveDescriptor primitiveDesc )
             {
@@ -374,12 +378,27 @@ namespace UnityPlus.Serialization
 
         private static void PushChildCursor( ref SerializationCursor parentCursor, IMemberInfo memberInfo, int absoluteIndex, bool isConstructionPhase, SerializationState state )
         {
-            IDescriptor memberDesc = memberInfo.TypeDescriptor;
             TryGetDataNode( parentCursor.DataNode, memberInfo.Name, absoluteIndex, out SerializedData childNode );
 
             // Determine parent for the child. 
             // If construction phase, parent is the buffer. If population, parent is the actual target.
             object parentObj = isConstructionPhase ? (object)parentCursor.ConstructionBuffer : parentCursor.TargetObj.Target;
+
+            // Resolve Polymorphism for Child
+            IDescriptor memberDesc = memberInfo.TypeDescriptor;
+            if( memberDesc == null )
+            {
+                memberDesc = TypeDescriptorRegistry.GetDescriptor( memberInfo.MemberType, memberInfo.GetContext( parentObj ) );
+            }
+
+            if( childNode is SerializedObject childObj )
+            {
+                Type actualType = Persistent_Type.ReadTypeHeader( childObj, state.Context.Config.TypeResolver );
+                if( actualType != null && actualType != memberInfo.MemberType )
+                {
+                    memberDesc = TypeDescriptorRegistry.GetDescriptor( actualType, memberInfo.GetContext( parentObj ) );
+                }
+            }
 
             // Optimization: If not construction phase, and parent exists, try to get existing object (PopulateExisting)
             object existingChild = null;
