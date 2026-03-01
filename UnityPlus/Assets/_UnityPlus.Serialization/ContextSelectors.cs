@@ -4,7 +4,8 @@ using System.Collections.Generic;
 namespace UnityPlus.Serialization
 {
     /// <summary>
-    /// Always returns the context at the specified index from a fixed array.
+    /// Always returns the context at the specified index from a fixed array. <br/>
+    /// Mostly used for encoding generic context arguments.
     /// </summary>
     public class UniformSelector : IContextSelector
     {
@@ -17,10 +18,13 @@ namespace UnityPlus.Serialization
 
         public ContextKey Select( ContextSelectionArgs args )
         {
-            if( Contexts.Length == 0 ) return ContextKey.Default;
-            if( Contexts.Length == 1 ) return Contexts[0];
+            int len = Contexts.Length;
+            if( len == 0 )
+                return ContextKey.Default;
+            if( len == 1 ) 
+                return Contexts[0];
 
-            return Contexts[args.Index % Contexts.Length];
+            return Contexts[args.Index % len];
         }
     }
 

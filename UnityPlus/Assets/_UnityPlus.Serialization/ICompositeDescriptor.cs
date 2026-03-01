@@ -33,7 +33,7 @@ namespace UnityPlus.Serialization
         /// <summary>
         /// Gets the descriptor for a specific step (index).
         /// </summary>
-        IMemberInfo GetMemberInfo( int stepIndex, object target );
+        IMemberInfo GetMemberInfo( int stepIndex, ContextSelectionArgs target );
 
         /// <summary>
         /// Returns an enumerator for members, enabling O(N) serialization for collections.

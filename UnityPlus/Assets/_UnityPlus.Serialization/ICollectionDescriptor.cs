@@ -2,7 +2,7 @@
 {
     public interface ICollectionDescriptorWithContext : ICollectionDescriptor
     {
-        ContextKey ElementContext { get; set; }
+        IContextSelector ElementSelector { get; set; }
     }
 
     /// <summary>

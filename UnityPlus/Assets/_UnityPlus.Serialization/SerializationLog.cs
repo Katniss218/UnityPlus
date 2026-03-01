@@ -8,6 +8,9 @@ namespace UnityPlus.Serialization
         Info,
         Warning,
         Error,
+        /// <summary>
+        /// Serialization must be aborted and cleaned up.
+        /// </summary>
         Fatal
     }
 

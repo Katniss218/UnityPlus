@@ -35,7 +35,7 @@ namespace UnityPlus.Serialization.Tests.V4
             Assert.That( data, Is.InstanceOf<SerializedPrimitive>() );
             Assert.That( (string)data, Is.EqualTo( "Hello" ) );
         }
-        
+
         [Test]
         public void Structure_Null_String()
         {
@@ -51,6 +51,38 @@ namespace UnityPlus.Serialization.Tests.V4
             Assert.That( (bool)data, Is.EqualTo( true ) );
         }
 
+        [Test]
+        public void Structure_Primitive_NullableBool_Null()
+        {
+            bool? b = null;
+            var data = Serialize( b );
+            Assert.That( data, Is.Null );
+        }
+
+        [Test]
+        public void Structure_Primitive_NullableBool()
+        {
+            bool? b = true;
+            var data = Serialize( b );
+            Assert.That( data, Is.InstanceOf<SerializedPrimitive>() );
+            Assert.That( (bool)data, Is.EqualTo( true ) );
+        }
+
+        [Test]
+        public void Structure_Primitive_NullableVector3()
+        {
+            Vector3? v = new Vector3( 1, 2, 3 );
+            var data = Serialize( v );
+
+            Assert.That( data, Is.InstanceOf<SerializedArray>() );
+            var obj = (SerializedArray)data;
+
+            Assert.That( obj.Count, Is.EqualTo( 3 ) );
+            Assert.That( (float)obj[0], Is.EqualTo( 1f ) );
+            Assert.That( (float)obj[1], Is.EqualTo( 2f ) );
+            Assert.That( (float)obj[2], Is.EqualTo( 3f ) );
+        }
+
         // --- Unity Primitives ---
 
         [Test]
@@ -58,13 +90,13 @@ namespace UnityPlus.Serialization.Tests.V4
         {
             var data = Serialize( new Vector3( 1, 2, 3 ) );
 
-            Assert.That( data, Is.InstanceOf<SerializedObject>() );
-            var obj = (SerializedObject)data;
+            Assert.That( data, Is.InstanceOf<SerializedArray>() );
+            var obj = (SerializedArray)data;
 
             Assert.That( obj.Count, Is.EqualTo( 3 ) );
-            Assert.That( (float)obj["x"], Is.EqualTo( 1f ) );
-            Assert.That( (float)obj["y"], Is.EqualTo( 2f ) );
-            Assert.That( (float)obj["z"], Is.EqualTo( 3f ) );
+            Assert.That( (float)obj[0], Is.EqualTo( 1f ) );
+            Assert.That( (float)obj[1], Is.EqualTo( 2f ) );
+            Assert.That( (float)obj[2], Is.EqualTo( 3f ) );
         }
 
         [Test]
@@ -73,13 +105,13 @@ namespace UnityPlus.Serialization.Tests.V4
             var q = new Quaternion( 0.1f, 0.2f, 0.3f, 0.4f );
             var data = Serialize( q );
 
-            Assert.That( data, Is.InstanceOf<SerializedObject>() );
-            var obj = (SerializedObject)data;
+            Assert.That( data, Is.InstanceOf<SerializedArray>() );
+            var obj = (SerializedArray)data;
 
-            Assert.That( (float)obj["x"], Is.EqualTo( 0.1f ) );
-            Assert.That( (float)obj["y"], Is.EqualTo( 0.2f ) );
-            Assert.That( (float)obj["z"], Is.EqualTo( 0.3f ) );
-            Assert.That( (float)obj["w"], Is.EqualTo( 0.4f ) );
+            Assert.That( (float)obj[0], Is.EqualTo( 0.1f ) );
+            Assert.That( (float)obj[1], Is.EqualTo( 0.2f ) );
+            Assert.That( (float)obj[2], Is.EqualTo( 0.3f ) );
+            Assert.That( (float)obj[3], Is.EqualTo( 0.4f ) );
         }
 
         [Test]
@@ -104,8 +136,9 @@ namespace UnityPlus.Serialization.Tests.V4
         {
             var data = Serialize( new int[] { 1, 2, 3 } );
 
-            Assert.That( data, Is.InstanceOf<SerializedArray>() );
-            var arr = (SerializedArray)data;
+            Assert.That( data, Is.InstanceOf<SerializedObject>() );
+            Assert.That( data["value"], Is.InstanceOf<SerializedArray>() );
+            var arr = (SerializedArray)data["value"];
 
             Assert.That( arr.Count, Is.EqualTo( 3 ) );
             Assert.That( (int)arr[0], Is.EqualTo( 1 ) );
@@ -119,8 +152,9 @@ namespace UnityPlus.Serialization.Tests.V4
             var list = new List<string> { "A", "B" };
             var data = Serialize( list );
 
-            Assert.That( data, Is.InstanceOf<SerializedArray>() );
-            var arr = (SerializedArray)data;
+            Assert.That( data, Is.InstanceOf<SerializedObject>() );
+            Assert.That( data["value"], Is.InstanceOf<SerializedArray>() );
+            var arr = (SerializedArray)data["value"];
 
             Assert.That( arr.Count, Is.EqualTo( 2 ) );
             Assert.That( (string)arr[0], Is.EqualTo( "A" ) );
@@ -133,19 +167,20 @@ namespace UnityPlus.Serialization.Tests.V4
             var dict = new Dictionary<string, int> { { "A", 1 }, { "B", 2 } };
             var data = Serialize( dict );
 
-            Assert.That( data, Is.InstanceOf<SerializedArray>() );
-            var arr = (SerializedArray)data;
+            Assert.That( data, Is.InstanceOf<SerializedObject>() );
+            Assert.That( data["value"], Is.InstanceOf<SerializedArray>() );
+            var arr = (SerializedArray)data["value"];
 
             Assert.That( arr.Count, Is.EqualTo( 2 ) );
 
             // Dictionaries are serialized as array of entries { k, v }
             var entry0 = (SerializedObject)arr[0];
-            Assert.That( (string)entry0["k"], Is.EqualTo( "A" ) );
-            Assert.That( (int)entry0["v"], Is.EqualTo( 1 ) );
+            Assert.That( (string)entry0["key"], Is.EqualTo( "A" ) );
+            Assert.That( (int)entry0["value"], Is.EqualTo( 1 ) );
 
             var entry1 = (SerializedObject)arr[1];
-            Assert.That( (string)entry1["k"], Is.EqualTo( "B" ) );
-            Assert.That( (int)entry1["v"], Is.EqualTo( 2 ) );
+            Assert.That( (string)entry1["key"], Is.EqualTo( "B" ) );
+            Assert.That( (int)entry1["value"], Is.EqualTo( 2 ) );
         }
 
         // --- Classes & Polymorphism ---

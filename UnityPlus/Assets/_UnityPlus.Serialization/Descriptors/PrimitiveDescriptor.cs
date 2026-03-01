@@ -66,7 +66,7 @@ namespace UnityPlus.Serialization
         [MapsInheritingFrom( typeof( char ) )]
         private static IDescriptor ProvideChar() => new PrimitiveConfigurableDescriptor<char>(
             ( v, w, c ) => w.Data = (SerializedPrimitive)v.ToString(),
-            ( d, c ) => { string s = (string)d; return string.IsNullOrEmpty( s ) ? '\0' : s[0]; }
+            ( d, c ) => { string strData = (string)d; return string.IsNullOrEmpty( strData ) ? '\0' : strData[0]; }
         );
 
         [MapsInheritingFrom( typeof( string ) )]
@@ -123,8 +123,8 @@ namespace UnityPlus.Serialization
 
         [MapsInheritingFrom( typeof( Guid ) )]
         private static IDescriptor ProvideGuid() => new PrimitiveConfigurableDescriptor<Guid>(
-            ( v, w, c ) => w.Data = Persistent_Guid.SerializeGuid( v ),
-            ( d, c ) => Persistent_Guid.DeserializeGuid( d )
+            ( v, w, c ) => w.Data = v.SerializeGuid(),
+            ( d, c ) => d.DeserializeGuid()
         );
 
         [MapsInheritingFrom( typeof( DateTime ) )]
@@ -210,35 +210,33 @@ namespace UnityPlus.Serialization
                 .WithMember( "7", t => t.Item7, ( ref ValueTuple<T1, T2, T3, T4, T5, T6, T7> t, T7 v ) => t.Item7 = v );
         }
 
-
         [MapsInheritingFrom( typeof( Array ) )]
-        private static IDescriptor ProvideArray<T>( ContextKey context )
+        private static IDescriptor ProvideArray<T>( ContextKey context ) // context needs to be here because of the 'pass through' feature where one provider can handle families of contexts.
         {
-            var desc = new ArrayDescriptor<T>();
-            var args = ContextRegistry.GetContextArguments( context );
-            desc.ElementContext = args.Length > 0 ? args[0] : ContextIDs.Default;
+            var desc = new ArrayDescriptor<T>()
+            {
+                ElementSelector = ContextRegistry.GetSelector( context )
+            };
             return desc;
         }
 
         [MapsInheritingFrom( typeof( List<> ) )]
         private static IDescriptor ProvideList<T>( ContextKey context )
         {
-            var desc = new ListDescriptor<T>();
-            var args = ContextRegistry.GetContextArguments( context );
-            desc.ElementContext = args.Length > 0 ? args[0] : ContextIDs.Default;
+            var desc = new ListDescriptor<T>()
+            {
+                ElementSelector = ContextRegistry.GetSelector( context )
+            };
             return desc;
         }
 
         [MapsInheritingFrom( typeof( Dictionary<,> ) )]
         private static IDescriptor ProvideDictionary<TKey, TValue>( ContextKey context )
         {
-            var desc = new DictionaryDescriptor<Dictionary<TKey, TValue>, TKey, TValue>();
-            var args = ContextRegistry.GetContextArguments( context );
-            if( args.Length >= 2 )
+            var desc = new DictionaryDescriptor<Dictionary<TKey, TValue>, TKey, TValue>()
             {
-                desc.KeyContext = args[0];
-                desc.ValueContext = args[1];
-            }
+                ElementSelector = ContextRegistry.GetSelector( context )
+            };
 
             return desc;
         }

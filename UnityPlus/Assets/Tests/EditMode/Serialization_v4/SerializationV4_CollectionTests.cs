@@ -6,6 +6,12 @@ namespace UnityPlus.Serialization.Tests.V4
 {
     public class SerializationV4_CollectionTests
     {
+        [TearDown]
+        public void Cleanup()
+        {
+            TypeDescriptorRegistry.Clear();
+        }
+
         [Test]
         public void Serialize_IntArray()
         {
@@ -98,8 +104,8 @@ namespace UnityPlus.Serialization.Tests.V4
 
             SerializationUnit.Populate( ref existing, data );
 
-            Assert.That( existing.Key, Is.EqualTo( "b" ) );
-            Assert.That( existing.Value, Is.EqualTo( 2 ) );
+            Assert.That( existing.Key, Is.EqualTo( "a" ) ); // immutable stays the same
+            Assert.That( existing.Value, Is.EqualTo( 1 ) );
         }
 
         [Test]

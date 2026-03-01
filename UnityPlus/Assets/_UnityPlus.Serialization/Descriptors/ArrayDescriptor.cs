@@ -6,13 +6,13 @@ namespace UnityPlus.Serialization
     {
         public override Type MappedType => typeof( T[] );
 
-        public ContextKey ElementContext { get; set; } = ContextKey.Default;
+        public IContextSelector ElementSelector { get; set; }
 
         public override object CreateInitialTarget( SerializedData data, SerializationContext ctx )
         {
             int length = 0;
 
-            var arr = SerializationHelpers.GetCollectionArrayNode( data );
+            var arr = SerializationHelpers.GetValueNode( data );
             if( arr != null ) length = arr.Count;
 
             return new T[length];
@@ -41,12 +41,28 @@ namespace UnityPlus.Serialization
 
         public override IMemberInfo GetMemberInfo( int stepIndex, object target )
         {
-            if( _cachedElementDescriptor == null )
+            IDescriptor descriptor;
+            if( ElementSelector is UniformSelector uniform )
             {
-                _cachedElementDescriptor = TypeDescriptorRegistry.GetDescriptor( typeof( T ), ElementContext );
+                if( _cachedElementDescriptor == null )
+                {
+                    var ctx = uniform.Select( default );
+                    _cachedElementDescriptor = TypeDescriptorRegistry.GetDescriptor( typeof( T ), ctx );
+                }
+                descriptor = _cachedElementDescriptor;
+            }
+            else
+            {
+#warning TODO - needs to get the actual type and serializeddata, somehow. 
+                // so we need to invert the logic, to scan the serialized data for the element type, and then use that to select the context, and then get the appropriate descriptor only once.
+                // so, instead of assigning the actual descriptor to the memberInfo, we want to assign the ContextKey.
+
+                var args = new ContextSelectionArgs( stepIndex, null, typeof( T ), null, null, ((T[])target).Length );
+                var ctx = ElementSelector.Select( args );
+                descriptor = TypeDescriptorRegistry.GetDescriptor( typeof( T ), ctx );
             }
 
-            return new ArrayMemberInfo( stepIndex, _cachedElementDescriptor );
+            return new ArrayMemberInfo( stepIndex, descriptor );
         }
 
         private readonly struct ArrayMemberInfo : IMemberInfo

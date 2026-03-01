@@ -81,7 +81,7 @@ namespace UnityPlus.Serialization.Tests.V4
         }
 
         [Test]
-        public void Serialization_UsesGenericContext_ForDictionary()
+        public void Serialization_Dictionary_Asset()
         {
             AssetRegistry.Clear();
             // Arrange: Object with Dictionary, configured via Fluent API using Generic Context Type
@@ -108,7 +108,7 @@ namespace UnityPlus.Serialization.Tests.V4
             // Actual: { "assets": { "$id": "..." } }
 
             var obj = (SerializedObject)data;
-            SerializedArray assetsArr = SerializationHelpers.GetCollectionArrayNode( obj["assets"] );
+            SerializedArray assetsArr = SerializationHelpers.GetValueNode( obj["assets"] );
 
             SerializedObject entry = (SerializedObject)assetsArr[0];
             SerializedData valNode = entry["value"];

@@ -100,95 +100,95 @@ namespace UnityPlus.Serialization
 
         [MapsInheritingFrom( typeof( Color ) )]
         public static IDescriptor ColorDescriptor() => new ClassOrStructDescriptor<Color>()
-            .WithMember( "r", c => c.r, ( ref Color c, float v ) => c.r = v )
-            .WithMember( "g", c => c.g, ( ref Color c, float v ) => c.g = v )
-            .WithMember( "b", c => c.b, ( ref Color c, float v ) => c.b = v )
-            .WithMember( "a", c => c.a, ( ref Color c, float v ) => c.a = v );
+            .WithMember( "r", c => c.r )
+            .WithMember( "g", c => c.g )
+            .WithMember( "b", c => c.b )
+            .WithMember( "a", c => c.a );
 
         [MapsInheritingFrom( typeof( Color32 ) )]
         public static IDescriptor Color32Descriptor() => new ClassOrStructDescriptor<Color32>()
-            .WithMember( "r", c => c.r, ( ref Color32 c, byte v ) => c.r = v )
-            .WithMember( "g", c => c.g, ( ref Color32 c, byte v ) => c.g = v )
-            .WithMember( "b", c => c.b, ( ref Color32 c, byte v ) => c.b = v )
-            .WithMember( "a", c => c.a, ( ref Color32 c, byte v ) => c.a = v );
+            .WithMember( "r", c => c.r )
+            .WithMember( "g", c => c.g )
+            .WithMember( "b", c => c.b )
+            .WithMember( "a", c => c.a );
 
         // --- RECT & BOUNDS ---
 
         [MapsInheritingFrom( typeof( Rect ) )]
         public static IDescriptor RectDescriptor() => new ClassOrStructDescriptor<Rect>()
-            .WithMember( "x", r => r.x, ( ref Rect r, float v ) => r.x = v )
-            .WithMember( "y", r => r.y, ( ref Rect r, float v ) => r.y = v )
-            .WithMember( "width", r => r.width, ( ref Rect r, float v ) => r.width = v )
-            .WithMember( "height", r => r.height, ( ref Rect r, float v ) => r.height = v );
+            .WithMember( "x", r => r.x )
+            .WithMember( "y", r => r.y )
+            .WithMember( "width", r => r.width )
+            .WithMember( "height", r => r.height );
 
         [MapsInheritingFrom( typeof( RectInt ) )]
         public static IDescriptor RectIntDescriptor() => new ClassOrStructDescriptor<RectInt>()
-            .WithMember( "x", r => r.x, ( ref RectInt r, int v ) => r.x = v )
-            .WithMember( "y", r => r.y, ( ref RectInt r, int v ) => r.y = v )
-            .WithMember( "width", r => r.width, ( ref RectInt r, int v ) => r.width = v )
-            .WithMember( "height", r => r.height, ( ref RectInt r, int v ) => r.height = v );
+            .WithMember( "x", r => r.x )
+            .WithMember( "y", r => r.y )
+            .WithMember( "width", r => r.width )
+            .WithMember( "height", r => r.height );
 
         // --- BOUNDS ---
 
         [MapsInheritingFrom( typeof( Bounds ) )]
         public static IDescriptor BoundsDescriptor() => new ClassOrStructDescriptor<Bounds>()
-            .WithMember( "center", b => b.center, ( ref Bounds b, Vector3 v ) => b.center = v )
-            .WithMember( "extents", b => b.extents, ( ref Bounds b, Vector3 v ) => b.extents = v );
+            .WithMember( "center", b => b.center )
+            .WithMember( "extents", b => b.extents );
 
         [MapsInheritingFrom( typeof( BoundsInt ) )]
         public static IDescriptor BoundsIntDescriptor() => new ClassOrStructDescriptor<BoundsInt>()
-            .WithMember( "position", b => b.position, ( ref BoundsInt b, Vector3Int v ) => b.position = v )
-            .WithMember( "size", b => b.size, ( ref BoundsInt b, Vector3Int v ) => b.size = v );
+            .WithMember( "position", b => b.position )
+            .WithMember( "size", b => b.size );
 
         // --- RAYS & PLANES ---
 
         [MapsInheritingFrom( typeof( Ray ) )]
         public static IDescriptor RayDescriptor() => new ClassOrStructDescriptor<Ray>()
-            .WithMember( "origin", r => r.origin, ( ref Ray r, Vector3 v ) => r.origin = v )
-            .WithMember( "direction", r => r.direction, ( ref Ray r, Vector3 v ) => r.direction = v );
+            .WithMember( "origin", r => r.origin )
+            .WithMember( "direction", r => r.direction );
 
         [MapsInheritingFrom( typeof( Ray2D ) )]
         public static IDescriptor Ray2DDescriptor() => new ClassOrStructDescriptor<Ray2D>()
-            .WithMember( "origin", r => r.origin, ( ref Ray2D r, Vector2 v ) => r.origin = v )
-            .WithMember( "direction", r => r.direction, ( ref Ray2D r, Vector2 v ) => r.direction = v );
+            .WithMember( "origin", r => r.origin )
+            .WithMember( "direction", r => r.direction );
 
         [MapsInheritingFrom( typeof( Plane ) )]
         public static IDescriptor PlaneDescriptor() => new ClassOrStructDescriptor<Plane>()
-            .WithMember( "normal", p => p.normal, ( ref Plane p, Vector3 v ) => p.normal = v )
-            .WithMember( "distance", p => p.distance, ( ref Plane p, float v ) => p.distance = v );
+            .WithMember( "normal", p => p.normal )
+            .WithMember( "distance", p => p.distance );
 
         // --- ANIMATION / GRADIENTS ---
 
         [MapsInheritingFrom( typeof( Keyframe ) )]
         public static IDescriptor KeyframeDescriptor() => new ClassOrStructDescriptor<Keyframe>()
-            .WithMember( "time", k => k.time, ( ref Keyframe k, float v ) => k.time = v )
-            .WithMember( "value", k => k.value, ( ref Keyframe k, float v ) => k.value = v )
-            .WithMember( "in_tangent", k => k.inTangent, ( ref Keyframe k, float v ) => k.inTangent = v )
-            .WithMember( "out_tangent", k => k.outTangent, ( ref Keyframe k, float v ) => k.outTangent = v )
-            .WithMember( "in_weight", k => k.inWeight, ( ref Keyframe k, float v ) => k.inWeight = v )
-            .WithMember( "out_weight", k => k.outWeight, ( ref Keyframe k, float v ) => k.outWeight = v )
-            .WithMember( "weighted_mode", k => k.weightedMode, ( ref Keyframe k, WeightedMode v ) => k.weightedMode = v );
+            .WithMember( "time", k => k.time )
+            .WithMember( "value", k => k.value )
+            .WithMember( "in_tangent", k => k.inTangent )
+            .WithMember( "out_tangent", k => k.outTangent )
+            .WithMember( "in_weight", k => k.inWeight )
+            .WithMember( "out_weight", k => k.outWeight )
+            .WithMember( "weighted_mode", k => k.weightedMode );
 
         [MapsInheritingFrom( typeof( AnimationCurve ) )]
         public static IDescriptor AnimationCurveDescriptor() => new ClassOrStructDescriptor<AnimationCurve>()
-            .WithMember( "keys", c => c.keys, ( c, v ) => c.keys = v )
-            .WithMember( "pre_wrap_mode", c => c.preWrapMode, ( c, v ) => c.preWrapMode = v )
-            .WithMember( "post_wrap_mode", c => c.postWrapMode, ( c, v ) => c.postWrapMode = v );
+            .WithMember( "keys", c => c.keys )
+            .WithMember( "pre_wrap_mode", c => c.preWrapMode )
+            .WithMember( "post_wrap_mode", c => c.postWrapMode );
 
         [MapsInheritingFrom( typeof( GradientColorKey ) )]
         public static IDescriptor GradientColorKeyDescriptor() => new ClassOrStructDescriptor<GradientColorKey>()
-            .WithMember( "color", k => k.color, ( ref GradientColorKey k, Color v ) => k.color = v )
-            .WithMember( "time", k => k.time, ( ref GradientColorKey k, float v ) => k.time = v );
+            .WithMember( "color", k => k.color )
+            .WithMember( "time", k => k.time );
 
         [MapsInheritingFrom( typeof( GradientAlphaKey ) )]
         public static IDescriptor GradientAlphaKeyDescriptor() => new ClassOrStructDescriptor<GradientAlphaKey>()
-            .WithMember( "alpha", k => k.alpha, ( ref GradientAlphaKey k, float v ) => k.alpha = v )
-            .WithMember( "time", k => k.time, ( ref GradientAlphaKey k, float v ) => k.time = v );
+            .WithMember( "alpha", k => k.alpha )
+            .WithMember( "time", k => k.time );
 
         [MapsInheritingFrom( typeof( Gradient ) )]
         public static IDescriptor GradientDescriptor() => new ClassOrStructDescriptor<Gradient>()
-            .WithMember( "color_keys", g => g.colorKeys, ( g, v ) => g.colorKeys = v )
-            .WithMember( "alpha_keys", g => g.alphaKeys, ( g, v ) => g.alphaKeys = v )
-            .WithMember( "mode", g => g.mode, ( g, v ) => g.mode = v );
+            .WithMember( "color_keys", g => g.colorKeys )
+            .WithMember( "alpha_keys", g => g.alphaKeys )
+            .WithMember( "mode", g => g.mode );
     }
 }

@@ -4,12 +4,12 @@ using System.Linq;
 
 namespace UnityPlus.Serialization
 {
-    public class DictionaryDescriptor<TDict, TKey, TValue> : CollectionDescriptor where TDict : IDictionary<TKey, TValue>, new()
+    public class DictionaryDescriptor<TDict, TKey, TValue> : CollectionDescriptor, ICollectionDescriptorWithContext where TDict : IDictionary<TKey, TValue>, new()
     {
         public override Type MappedType => typeof( TDict );
 
-        public ContextKey KeyContext { get; set; } = ContextKey.Default;
-        public ContextKey ValueContext { get; set; } = ContextKey.Default;
+        public IContextSelector ElementSelector { get; set; }
+
 
         private IDescriptor _cachedKvpDescriptor;
 
@@ -31,23 +31,35 @@ namespace UnityPlus.Serialization
             return ((TDict)target).Count;
         }
 
-        private IDescriptor GetKvpDescriptor()
+        private IDescriptor GetKvpDescriptor( int stepIndex, object target )
         {
-            if( _cachedKvpDescriptor == null )
+            if( _cachedKvpDescriptor != null )
+                return _cachedKvpDescriptor;
+
+            ContextSelectionArgs argsKey, argsVal;
+            if( ElementSelector is UniformSelector uniformKey )
             {
-                _cachedKvpDescriptor = new KeyValuePairDescriptor( KeyContext, ValueContext );
+                // Uniform selector selects based on the modulo of its internal array, and generic context parameters are handled by index,
+                //   so instead of the step index, we put in 0 and 1 respectively.
+                argsKey = new ContextSelectionArgs( 0, null, typeof( KeyValuePair<TKey, TValue> ), null, null, ((TDict)target).Count );
+                argsVal = new ContextSelectionArgs( 1, null, typeof( KeyValuePair<TKey, TValue> ), null, null, ((TDict)target).Count );
+                _cachedKvpDescriptor = new KeyValuePairDescriptor( uniformKey.Select( argsKey ), uniformKey.Select( argsVal ) );
+                return _cachedKvpDescriptor;
             }
-            return _cachedKvpDescriptor;
+
+            argsKey = new ContextSelectionArgs( stepIndex, "key", typeof( KeyValuePair<TKey, TValue> ), null, null, ((TDict)target).Count );
+            argsVal = new ContextSelectionArgs( stepIndex, "value", typeof( KeyValuePair<TKey, TValue> ), null, null, ((TDict)target).Count );
+            return new KeyValuePairDescriptor( ElementSelector.Select( argsKey ), ElementSelector.Select( argsVal ) );
         }
 
         public override IEnumerator<IMemberInfo> GetMemberEnumerator( object target )
         {
             var dict = (TDict)target;
-            var kvpDesc = GetKvpDescriptor();
             int index = 0;
             foreach( var kvp in dict )
             {
-                yield return new DictionaryEntryMemberInfo( index++, kvp, kvpDesc, true );
+                yield return new DictionaryEntryMemberInfo( index, kvp, GetKvpDescriptor( index, target ), true );
+                index++;
             }
         }
 
@@ -62,7 +74,7 @@ namespace UnityPlus.Serialization
                 kvp = dict.ElementAt( stepIndex );
             }
 
-            return new DictionaryEntryMemberInfo( stepIndex, kvp, GetKvpDescriptor(), isExisting );
+            return new DictionaryEntryMemberInfo( stepIndex, kvp, GetKvpDescriptor( stepIndex, target ), isExisting );
         }
 
         private struct DictionaryEntryMemberInfo : IMemberInfo
@@ -128,7 +140,8 @@ namespace UnityPlus.Serialization
 
             public override IMemberInfo GetMemberInfo( int stepIndex, object target )
             {
-                if( stepIndex == 0 ) return new KVPBufferMemberInfo( 0, "key", typeof( TKey ), _keyDescriptor );
+                if( stepIndex == 0 ) 
+                    return new KVPBufferMemberInfo( 0, "key", typeof( TKey ), _keyDescriptor );
                 return new KVPBufferMemberInfo( 1, "value", typeof( TValue ), _valDescriptor );
             }
 

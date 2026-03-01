@@ -1,11 +1,22 @@
 ﻿using NUnit.Framework;
 using System;
+using Node = UnityPlus.Serialization.Tests.V4.SerializationV4_StructureTests.Node;
 
 namespace UnityPlus.Serialization.Tests.V4
 {
     public class SerializationV4_FailureTests
     {
-        public class SimpleRef { public SimpleRef Next; }
+        public class SimpleRef
+        {
+            public SimpleRef Next;
+
+            [MapsInheritingFrom( typeof( SimpleRef ) )]
+            public static IDescriptor Mapping()
+            {
+                return new ClassOrStructDescriptor<SimpleRef>()
+                    .WithMember( "next", typeof( Ctx.Ref ), o => o.Next );
+            }
+        }
 
         [TearDown]
         public void Cleanup()
@@ -19,13 +30,17 @@ namespace UnityPlus.Serialization.Tests.V4
         {
             // Construct data with a broken reference
             var obj = new SerializedObject();
-            obj["Next"] = new SerializedObject { { KeyNames.REF, (SerializedPrimitive)Guid.NewGuid().ToString( "D" ) } };
+            obj["next"] = new SerializedObject()
+            {
+                { KeyNames.REF, (SerializedPrimitive)Guid.NewGuid().ToString( "D" ) }
+            };
 
             // We expect a specific exception type defined in v4
-            Assert.Throws<UPSMissingReferenceException>( () =>
+            UPSUnresolvableObjectException ex = Assert.Catch<UPSUnresolvableObjectException>( () =>
             {
                 SerializationUnit.Deserialize<SimpleRef>( obj );
             } );
+            Assert.That( ex.Log.HasFatalErrors, Is.True, "Expected fatal errors in the log" );
         }
 
         [Test]
@@ -35,16 +50,6 @@ namespace UnityPlus.Serialization.Tests.V4
             var obj = new SerializedObject();
             obj[KeyNames.TYPE] = (SerializedPrimitive)"Bad.Type.Name, Assembly";
             obj["Value"] = (SerializedPrimitive)10;
-
-            // Should fall back to the requested type (object) or return null/default if totally incompatible?
-            // DeserializerStrategy logic: If ResolveType returns null, it usually keeps the default descriptor or fails.
-
-            // In v4 DeserializerStrategy.PhasePreProcessing:
-            // Type actualType = resolver.ResolveType(...);
-            // if (actualType != null) cursor.Descriptor = GetDescriptor(actualType);
-
-            // So if type is bad, it ignores it and uses the descriptor for <object>.
-            // Descriptor for <object> is empty/minimal.
 
             var result = SerializationUnit.Deserialize<object>( obj );
             Assert.That( result, Is.Not.Null ); // It creates *an* object, likely just new object() or map
@@ -57,7 +62,7 @@ namespace UnityPlus.Serialization.Tests.V4
 
             // WARNING: This registration pollutes the global registry for SerializationV4_StructureTests.Node
             // This is why Clear() in TearDown is essential.
-            TypeDescriptorRegistry.Register( new ClassOrStructDescriptor<SerializationV4_StructureTests.Node>()
+            TypeDescriptorRegistry.Register( new ClassOrStructDescriptor<Node>()
                 .WithMember( "Name", n => n.Name ) );
 
             // Data has extra field "Age"
@@ -65,10 +70,11 @@ namespace UnityPlus.Serialization.Tests.V4
             data["Name"] = (SerializedPrimitive)"Node";
             data["Age"] = (SerializedPrimitive)99;
 
-            var result = SerializationUnit.Deserialize<SerializationV4_StructureTests.Node>( data );
+            var result = SerializationUnit.Deserialize<Node>( data );
 
             Assert.That( result.Name, Is.EqualTo( "Node" ) );
             // No crash on "Age"
+            Assert.That( result.Neighbor, Is.EqualTo( new Node().Neighbor ) ); // stays whatever it was when instantiated.
         }
     }
 }

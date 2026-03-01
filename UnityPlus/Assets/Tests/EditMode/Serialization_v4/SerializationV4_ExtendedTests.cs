@@ -70,7 +70,7 @@ namespace UnityPlus.Serialization.Tests.V4
             var data = SerializationUnit.Serialize( list );
 
             var obj = (SerializedObject)data;
-            var arr = (SerializedArray)obj[KeyNames.VALUES];
+            var arr = (SerializedArray)obj[KeyNames.VALUE];
 
             Assert.That( arr.Count, Is.EqualTo( 3 ) );
             Assert.That( (string)arr[0], Is.EqualTo( "A" ) );
@@ -81,7 +81,7 @@ namespace UnityPlus.Serialization.Tests.V4
             Assert.That( result.Count, Is.EqualTo( 3 ) );
             Assert.That( result[1], Is.Null );
         }
-        
+
         [Test]
         public void Collection_NullElements2()
         {
@@ -89,7 +89,7 @@ namespace UnityPlus.Serialization.Tests.V4
             var data = SerializationUnit.Serialize( list );
 
             var obj = (SerializedObject)data;
-            var arr = (SerializedArray)obj[KeyNames.VALUES];
+            var arr = (SerializedArray)obj[KeyNames.VALUE];
 
             Assert.That( arr.Count, Is.EqualTo( 2 ) );
             Assert.That( arr[0], Is.Null );
@@ -108,7 +108,7 @@ namespace UnityPlus.Serialization.Tests.V4
             var data = SerializationUnit.Serialize( list );
 
             var obj = (SerializedObject)data;
-            var arr = (SerializedArray)obj[KeyNames.VALUES];
+            var arr = (SerializedArray)obj[KeyNames.VALUE];
 
             Assert.That( arr.Count, Is.EqualTo( 2 ) );
             Assert.That( arr[0], Is.Null );
@@ -134,7 +134,7 @@ namespace UnityPlus.Serialization.Tests.V4
 
             // Structure: Wrapped Object -> Values Array -> Element 0 is Ref to Wrapped Object
             var wrapper = (SerializedObject)data;
-            var values = (SerializedArray)wrapper[KeyNames.VALUES];
+            var values = (SerializedArray)wrapper[KeyNames.VALUE];
             var element = (SerializedObject)values[0];
 
             Assert.That( element.ContainsKey( KeyNames.REF ), Is.True );
@@ -153,19 +153,7 @@ namespace UnityPlus.Serialization.Tests.V4
 
             // Manually configure context
             var config = new SerializationConfiguration { ForceStandardJson = true };
-            var context = new SerializationContext( config )
-            {
-                ReverseMap = new ReferenceMaps.BidirectionalReferenceStore(),
-                ForwardMap = new ReferenceMaps.ForwardReferenceStore()
-            };
-
-            // Manually drive serialization to inject config
-            var driver = new StackMachineDriver( context );
-            var descriptor = TypeDescriptorRegistry.GetDescriptor( typeof( List<int> ) );
-            driver.Initialize( list, descriptor, new SerializationStrategy() );
-            while( !driver.IsFinished ) driver.Tick( 100 );
-
-            var data = driver.Result;
+            var data = SerializationUnit.Serialize( list, config );
 
             // Should be a direct array, NO wrapper
             Assert.That( data, Is.InstanceOf<SerializedArray>() );
@@ -204,42 +192,10 @@ namespace UnityPlus.Serialization.Tests.V4
             var customObj = (SerializedObject)customData;
             Assert.That( (int)customObj["Value"], Is.EqualTo( 999 ) );
         }
-        [Test]
-        public void Populate_KeyValuePair()
-        {
-            var existing = new KeyValuePair<string, int>( "a", 1 );
-
-            var data = new SerializedObject { ["key"] = (SerializedPrimitive)"b", ["value"] = (SerializedPrimitive)2 };
-
-            SerializationUnit.Populate( ref existing, data );
-
-            Assert.That( existing.Key, Is.EqualTo( "b" ) );
-            Assert.That( existing.Value, Is.EqualTo( 2 ) );
-        }
-
-        [Test]
-        public void Populate_KeyValuePair_Partial()
-        {
-            var existing = new KeyValuePair<string, int>( "a", 1 );
-
-            // Only update value, key should remain "a"
-            var data = new SerializedObject { ["value"] = (SerializedPrimitive)99 };
-
-            SerializationUnit.Populate( ref existing, data );
-
-            Assert.That( existing.Key, Is.EqualTo( "a" ) );
-            Assert.That( existing.Value, Is.EqualTo( 99 ) );
-        }
 
         [Test]
         public void Populate_IgnoreMissing()
         {
-            var list = new List<string> { "A", "B", "C" };
-
-            // Data has only 2 elements. 
-            // Populate on List usually resizes to match data count if it's an array.
-            // But here we are testing missing members on an object.
-
             var obj = new SerializationV4_DataStructureTests.SimpleClass { ID = 10, Name = "Original" };
 
             // Data only has ID

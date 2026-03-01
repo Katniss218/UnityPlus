@@ -7,12 +7,12 @@ namespace UnityPlus.Serialization
         /// <summary>
         /// Extracts the underlying SerializedArray from a data node that might be a Boxed Collection (Object with 'values') or a direct Array.
         /// </summary>
-        public static SerializedArray GetCollectionArrayNode( SerializedData data )
+        public static SerializedArray GetValueNode( SerializedData data )
         {
             if( data is SerializedArray arr )
                 return arr;
 
-            if( data is SerializedObject obj && obj.TryGetValue( KeyNames.VALUES, out SerializedData inner ) && inner is SerializedArray innerArr )
+            if( data is SerializedObject obj && obj.TryGetValue( KeyNames.VALUE, out SerializedData inner ) && inner is SerializedArray innerArr )
                 return innerArr;
 
             return null;
@@ -35,7 +35,7 @@ namespace UnityPlus.Serialization
                 Guid id = referenceMap.GetID( target );
 
                 Persistent_Guid.WriteIdHeader( wrapper, id );
-                wrapper[KeyNames.VALUES] = arrayToPopulate;
+                wrapper[KeyNames.VALUE] = arrayToPopulate;
 
                 return wrapper;
             }

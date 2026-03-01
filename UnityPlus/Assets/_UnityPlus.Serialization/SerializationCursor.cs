@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace UnityPlus.Serialization
 {
@@ -11,6 +12,16 @@ namespace UnityPlus.Serialization
         /// The current phase of this object's deserialization.
         /// </summary>
         public SerializationCursorPhase Phase { get; set; }
+
+        /// <summary>
+        /// Stores the ID of the object if it was read from the wrapper before unwrapping collections.
+        /// </summary>
+        public Guid? PendingID;
+        
+        /// <summary>
+        /// Stores the ID of the object if it was read from the wrapper before unwrapping collections.
+        /// </summary>
+        public Type PendingActualType;
 
         /// <summary>
         /// The object, parent, and access info encapsulated in a single struct.

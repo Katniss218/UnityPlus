@@ -7,12 +7,12 @@ namespace UnityPlus.Serialization
     {
         public override Type MappedType => typeof( List<T> );
 
-        public ContextKey ElementContext { get; set; } = ContextKey.Default;
+        public IContextSelector ElementSelector { get; set; }
 
         public override object CreateInitialTarget( SerializedData data, SerializationContext ctx )
         {
             int capacity = 0;
-            var arr = SerializationHelpers.GetCollectionArrayNode( data );
+            var arr = SerializationHelpers.GetValueNode( data );
             if( arr != null ) capacity = arr.Count;
 
             return new List<T>( capacity );
@@ -45,12 +45,25 @@ namespace UnityPlus.Serialization
 
         public override IMemberInfo GetMemberInfo( int stepIndex, object target )
         {
-            if( _cachedElementDescriptor == null )
+            IDescriptor descriptor = null;
+
+            if( ElementSelector is UniformSelector uniform )
             {
-                _cachedElementDescriptor = TypeDescriptorRegistry.GetDescriptor( typeof( T ), ElementContext );
+                if( _cachedElementDescriptor == null )
+                {
+                    var ctx = uniform.Select( default );
+                    _cachedElementDescriptor = TypeDescriptorRegistry.GetDescriptor( typeof( T ), ctx );
+                }
+                descriptor = _cachedElementDescriptor;
+            }
+            else
+            {
+                var args = new ContextSelectionArgs( stepIndex, null, typeof( T ), null, null, ((List<T>)target).Count );
+                var ctx = ElementSelector.Select( args );
+                descriptor = TypeDescriptorRegistry.GetDescriptor( typeof( T ), ctx );
             }
 
-            return new ListMemberInfo( stepIndex, _cachedElementDescriptor );
+            return new ListMemberInfo( stepIndex, descriptor );
         }
 
         private struct ListMemberInfo : IMemberInfo

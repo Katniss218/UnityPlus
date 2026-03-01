@@ -29,7 +29,7 @@ namespace UnityPlus.Serialization
         /// Polymorphism is handled by the SerializationStrategy.
         /// </para>
         /// </summary>
-        IDescriptor TypeDescriptor { get; }
+        IDescriptor TypeDescriptor { get; } // cached here for speed. Assigned from the parent descriptor when the member info is created.
 
         /// <summary>
         /// If true, modifying the value returned by GetValue requires a Write-Back to persist changes (e.g. Structs).

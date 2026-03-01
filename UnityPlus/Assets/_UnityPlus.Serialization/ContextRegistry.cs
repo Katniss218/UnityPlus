@@ -110,11 +110,20 @@ namespace UnityPlus.Serialization
             _selectors[context.ID] = new UniformSelector( args );
         }
 
+        public static IContextSelector GetSelector( ContextKey context )
+        {
+            return _selectors.TryGetValue( context.ID, out var selector )
+                ? selector
+                : new UniformSelector( ContextKey.Default );
+        }
+
         /// <summary>
         /// Resolves the context for a specific child element based on the registered Selector.
         /// </summary>
+        /// <param name="parentContext">The context of the array, when invoked on array element, and so on.</param>
         public static ContextKey Resolve( ContextKey parentContext, int elementIndex, object key, Type declaredType, Type actualType, SerializedData data, int containerCount = -1 )
         {
+#warning TODO - this needs a wrapper for usability.
             if( _selectors.TryGetValue( parentContext.ID, out var selector ) )
             {
                 var args = new ContextSelectionArgs( elementIndex, key, declaredType, actualType, data, containerCount );

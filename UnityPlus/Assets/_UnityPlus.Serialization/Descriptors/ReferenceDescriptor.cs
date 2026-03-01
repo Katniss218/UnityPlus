@@ -16,7 +16,8 @@ namespace UnityPlus.Serialization
         public override DeserializationResult DeserializeDirect( SerializedData data, SerializationContext ctx, out object result )
         {
             result = null;
-            if( data == null ) return DeserializationResult.Success;
+            if( data == null )
+                return DeserializationResult.Success;
 
             if( !data.TryGetValue( KeyNames.REF, out SerializedData refVal ) )
             {

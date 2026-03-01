@@ -2,10 +2,20 @@
 
 namespace UnityPlus.Serialization
 {
+    public interface IReadonlySerializationContext
+    {
+        SerializationConfiguration Config { get; }
+
+        IForwardReferenceMap ForwardMap { get; }
+        IReverseReferenceMap ReverseMap { get; }
+
+        SerializationLog Log { get; }
+    }
+
     /// <summary>
     /// Represents the mutable session state of a serialization operation.
     /// </summary>
-    public class SerializationContext
+    public class SerializationContext : IReadonlySerializationContext
     {
         public SerializationConfiguration Config { get; }
 

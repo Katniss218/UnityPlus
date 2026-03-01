@@ -53,20 +53,31 @@ namespace UnityPlus.Serialization
         // --- Serialize Async ---
 
         public static Task<SerializedData> SerializeAsync<T>( T obj, float timeBudgetMs = 2f )
-            => SerializeAsync( ObjectContext.Default, obj, null, timeBudgetMs );
+            => SerializeAsync( ObjectContext.Default, obj, null, null, timeBudgetMs );
+
+        public static Task<SerializedData> SerializeAsync<T>( T obj, SerializationConfiguration config, float timeBudgetMs = 2f )
+            => SerializeAsync( ObjectContext.Default, obj, null, config, timeBudgetMs );
 
         public static Task<SerializedData> SerializeAsync<T>( ContextKey context, T obj, float timeBudgetMs = 2f )
-            => SerializeAsync( context, obj, null, timeBudgetMs );
+            => SerializeAsync( context, obj, null, null, timeBudgetMs );
+
+        public static Task<SerializedData> SerializeAsync<T>( ContextKey context, T obj, SerializationConfiguration config, float timeBudgetMs = 2f )
+            => SerializeAsync( context, obj, null, config, timeBudgetMs );
 
         public static Task<SerializedData> SerializeAsync<T>( T obj, IReverseReferenceMap refs, float timeBudgetMs = 2f )
-            => SerializeAsync( ObjectContext.Default, obj, refs, timeBudgetMs );
+            => SerializeAsync( ObjectContext.Default, obj, refs, null, timeBudgetMs );
+
+        public static Task<SerializedData> SerializeAsync<T>( T obj, IReverseReferenceMap refs, SerializationConfiguration config, float timeBudgetMs = 2f )
+            => SerializeAsync( ObjectContext.Default, obj, refs, config, timeBudgetMs );
 
         public static Task<SerializedData> SerializeAsync<T>( ContextKey context, T obj, IReverseReferenceMap refs, float timeBudgetMs = 2f )
+            => SerializeAsync( context, obj, refs, null, timeBudgetMs );
+
+        public static Task<SerializedData> SerializeAsync<T>( ContextKey context, T obj, IReverseReferenceMap refs, SerializationConfiguration config, float timeBudgetMs = 2f )
         {
-            var ctx = new SerializationContext( new SerializationConfiguration() )
+            var ctx = new SerializationContext( config ?? new SerializationConfiguration() )
             {
-                ReverseMap = refs ?? new BidirectionalReferenceStore(),
-                ForwardMap = new ForwardReferenceStore()
+                ReverseMap = refs ?? new BidirectionalReferenceStore()
             };
 
             var driver = new StackMachineDriver( ctx );
@@ -80,20 +91,31 @@ namespace UnityPlus.Serialization
         // --- Deserialize Async ---
 
         public static Task<T> DeserializeAsync<T>( SerializedData data, float timeBudgetMs = 2f )
-            => DeserializeAsync<T>( ObjectContext.Default, data, null, timeBudgetMs );
+            => DeserializeAsync<T>( ObjectContext.Default, data, null, null, timeBudgetMs );
+
+        public static Task<T> DeserializeAsync<T>( SerializedData data, SerializationConfiguration config, float timeBudgetMs = 2f )
+            => DeserializeAsync<T>( ObjectContext.Default, data, null, config, timeBudgetMs );
 
         public static Task<T> DeserializeAsync<T>( ContextKey context, SerializedData data, float timeBudgetMs = 2f )
-            => DeserializeAsync<T>( context, data, null, timeBudgetMs );
+            => DeserializeAsync<T>( context, data, null, null, timeBudgetMs );
+
+        public static Task<T> DeserializeAsync<T>( ContextKey context, SerializedData data, SerializationConfiguration config, float timeBudgetMs = 2f )
+            => DeserializeAsync<T>( context, data, null, config, timeBudgetMs );
 
         public static Task<T> DeserializeAsync<T>( SerializedData data, IForwardReferenceMap refs, float timeBudgetMs = 2f )
-            => DeserializeAsync<T>( ObjectContext.Default, data, refs, timeBudgetMs );
+            => DeserializeAsync<T>( ObjectContext.Default, data, refs, null, timeBudgetMs );
+
+        public static Task<T> DeserializeAsync<T>( SerializedData data, IForwardReferenceMap refs, SerializationConfiguration config, float timeBudgetMs = 2f )
+            => DeserializeAsync<T>( ObjectContext.Default, data, refs, config, timeBudgetMs );
 
         public static Task<T> DeserializeAsync<T>( ContextKey context, SerializedData data, IForwardReferenceMap refs, float timeBudgetMs = 2f )
+            => DeserializeAsync<T>( context, data, refs, null, timeBudgetMs );
+
+        public static Task<T> DeserializeAsync<T>( ContextKey context, SerializedData data, IForwardReferenceMap refs, SerializationConfiguration config, float timeBudgetMs = 2f )
         {
-            var ctx = new SerializationContext( new SerializationConfiguration() )
+            var ctx = new SerializationContext( config ?? new SerializationConfiguration() )
             {
-                ForwardMap = refs ?? new BidirectionalReferenceStore(),
-                ReverseMap = new ReverseReferenceStore()
+                ForwardMap = refs ?? new BidirectionalReferenceStore()
             };
 
             var driver = new StackMachineDriver( ctx );
@@ -107,22 +129,33 @@ namespace UnityPlus.Serialization
         // --- Populate Async ---
 
         public static Task<T> PopulateAsync<T>( T obj, SerializedData data, float timeBudgetMs = 2f )
-            => PopulateAsync( ObjectContext.Default, obj, data, null, timeBudgetMs );
+            => PopulateAsync( ObjectContext.Default, obj, data, null, null, timeBudgetMs );
+
+        public static Task<T> PopulateAsync<T>( T obj, SerializedData data, SerializationConfiguration config, float timeBudgetMs = 2f )
+            => PopulateAsync( ObjectContext.Default, obj, data, null, config, timeBudgetMs );
 
         public static Task<T> PopulateAsync<T>( ContextKey context, T obj, SerializedData data, float timeBudgetMs = 2f )
-            => PopulateAsync( context, obj, data, null, timeBudgetMs );
+            => PopulateAsync( context, obj, data, null, null, timeBudgetMs );
+
+        public static Task<T> PopulateAsync<T>( ContextKey context, T obj, SerializedData data, SerializationConfiguration config, float timeBudgetMs = 2f )
+            => PopulateAsync( context, obj, data, null, config, timeBudgetMs );
 
         public static Task<T> PopulateAsync<T>( T obj, SerializedData data, IForwardReferenceMap refs, float timeBudgetMs = 2f )
-            => PopulateAsync( ObjectContext.Default, obj, data, refs, timeBudgetMs );
+            => PopulateAsync( ObjectContext.Default, obj, data, refs, null, timeBudgetMs );
+
+        public static Task<T> PopulateAsync<T>( T obj, SerializedData data, IForwardReferenceMap refs, SerializationConfiguration config, float timeBudgetMs = 2f )
+            => PopulateAsync( ObjectContext.Default, obj, data, refs, config, timeBudgetMs );
 
         public static Task<T> PopulateAsync<T>( ContextKey context, T obj, SerializedData data, IForwardReferenceMap refs, float timeBudgetMs = 2f )
+            => PopulateAsync( context, obj, data, refs, null, timeBudgetMs );
+
+        public static Task<T> PopulateAsync<T>( ContextKey context, T obj, SerializedData data, IForwardReferenceMap refs, SerializationConfiguration config, float timeBudgetMs = 2f )
         {
             if( obj == null ) throw new ArgumentNullException( nameof( obj ) );
 
-            var ctx = new SerializationContext( new SerializationConfiguration() )
+            var ctx = new SerializationContext( config ?? new SerializationConfiguration() )
             {
-                ForwardMap = refs ?? new BidirectionalReferenceStore(),
-                ReverseMap = new ReverseReferenceStore()
+                ForwardMap = refs ?? new BidirectionalReferenceStore()
             };
 
             var driver = new StackMachineDriver( ctx );

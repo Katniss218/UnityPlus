@@ -1,6 +1,6 @@
-﻿
-using System;
+﻿using System;
 using System.Diagnostics;
+using UnityEditor.VersionControl;
 
 namespace UnityPlus.Serialization
 {
@@ -42,7 +42,7 @@ namespace UnityPlus.Serialization
             }
             catch( Exception ex )
             {
-                HandleFatalException( ex, "Initialization" );
+                WrapFatalException( ex, "Initialization" );
             }
         }
 
@@ -136,7 +136,7 @@ namespace UnityPlus.Serialization
             }
             catch( Exception ex )
             {
-                HandleFatalException( ex, "Stack Processing" );
+                WrapFatalException( ex, "Stack Processing" );
             }
         }
 
@@ -234,47 +234,32 @@ namespace UnityPlus.Serialization
                     // Exceptions during deferred processing are tricky.
                     // We can't easily "path" them because the stack is empty (we just pushed).
                     // But we know the Operation context.
-                    string contextInfo = op.Member != null ? $"Deferred Member {op.Member.Name}" : "Deferred Root";
-                    HandleFatalException( ex, contextInfo );
+                    string message = op.Member != null ? $"Deferred Member {op.Member.Name}" : "Deferred Root";
+                    WrapFatalException( ex, message );
                 }
 
-                if( opSuccess ) progressMade = true;
+                if( opSuccess )
+                    progressMade = true;
             }
 
             if( !progressMade && processedCount == count && _state.Stack.Count == 0 && _state.Context.DeferredOperations.Count > 0 )
             {
-                string msg = $"Circular Dependency Deadlock: {_state.Context.DeferredOperations.Count} items could not be resolved.";
-                _state.Context.Log.Log( LogLevel.Error, msg, _state );
-                // We clear to prevent infinite loops, effectively "skipping" the deadlocked items.
-                // This is safer than throwing an exception for the whole load.
-                _state.Context.DeferredOperations.Clear();
+                string message = $"Circular Dependency Deadlock: {_state.Context.DeferredOperations.Count} items could not be resolved.";
+                _state.Context.Log.Log( LogLevel.Fatal, message, _state );
+                throw new UPSUnresolvableObjectException( _state.Context, message );
             }
         }
 
-        private void HandleFatalException( Exception ex, string stage )
+        private void WrapFatalException( Exception ex, string stage )
         {
             // If it's already one of our wrapped exceptions, just rethrow to avoid double-wrapping
-            if( ex is UPSSerializationException && !(ex is UPSMissingReferenceException) )
-            {
+            if( ex is UPSSerializationException )
                 throw ex;
-            }
 
-            // Build the path to the current object
-            string path = _state.Stack.BuildPath();
-
-            string message = $"Serialization Fatal Error during {stage} at '{path}': {ex.Message}";
-
-            // Log to the report container
+            string message = $"Serialization Fatal Error during {stage} at '{_state.Stack.BuildPath()}': {ex.Message}";
             _state.Context.Log.Log( LogLevel.Fatal, message );
 
-            // Re-throw wrapped exception for the caller to handle/crash
-            if( ex is UPSMissingReferenceException )
-            {
-                // Preserve specific type for missing refs
-                throw new UPSMissingReferenceException( $"{message} (Original: {ex.Message})", ex );
-            }
-
-            throw new UPSSerializationException( message, ex );
+            throw new UPSSerializationException( _state.Context, message, ex );
         }
     }
 }

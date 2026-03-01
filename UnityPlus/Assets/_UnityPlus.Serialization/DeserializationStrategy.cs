@@ -65,26 +65,33 @@ namespace UnityPlus.Serialization
 
         private static SerializationCursorResult PhasePreProcessing( ref SerializationCursor cursor, SerializationState state )
         {
-            if( cursor.DataNode is SerializedObject rootObj )
+            if( cursor.PendingActualType == null && cursor.DataNode is SerializedObject rootObj )
             {
                 Type actualType = Persistent_Type.ReadTypeHeader( rootObj, state.Context.Config.TypeResolver );
+                cursor.PendingActualType = actualType;
                 if( actualType != null )
                 {
-#warning TODO - modify so that descriptor is retrieved only once, after we know what we will be loading.
                     cursor.Descriptor = TypeDescriptorRegistry.GetDescriptor( actualType );
                 }
             }
 
+            // Capture ID before unwrapping collections (e.g. List wrapped in Object with $id)
+            if( cursor.DataNode is SerializedObject objNode && Persistent_Guid.TryReadIdHeader( objNode, out Guid preId ) )
+            {
+                cursor.PendingID = preId;
+            }
+
             if( cursor.Descriptor is ICollectionDescriptor )
             {
-                var unwrapped = SerializationHelpers.GetCollectionArrayNode( cursor.DataNode );
-                if( unwrapped != null ) cursor.DataNode = unwrapped;
+                var valNode = SerializationHelpers.GetValueNode( cursor.DataNode );
+                if( valNode != null )
+                    cursor.DataNode = valNode;
             }
 
             var compDesc = (ICompositeDescriptor)cursor.Descriptor;
             cursor.ConstructionStepCount = compDesc.GetConstructionStepCount( cursor.TargetObj.Target );
 
-            if( cursor.DataNode is SerializedArray arrNode && cursor.Descriptor is ICollectionDescriptor )
+            if( cursor.Descriptor is ICollectionDescriptor && cursor.DataNode is SerializedArray arrNode )
             {
                 cursor.PopulationStepCount = arrNode.Count;
             }
@@ -119,6 +126,7 @@ namespace UnityPlus.Serialization
 
             var parentDesc = (ICompositeDescriptor)cursor.Descriptor;
             int activeIndex = cursor.StepIndex;
+#warning TODO - potentially store memberinfo in the cursor instead of pending type and other, and avoid the double lookup.
             IMemberInfo memberInfo = parentDesc.GetMemberInfo( activeIndex, cursor.ConstructionBuffer );
 
             if( memberInfo == null || memberInfo.TypeDescriptor == null )
@@ -208,7 +216,11 @@ namespace UnityPlus.Serialization
                 cursor.TargetObj = cursor.TargetObj.WithTarget( resized );
             }
 
-            if( cursor.DataNode is SerializedObject objNode && Persistent_Guid.TryReadIdHeader( objNode, out Guid guid ) )
+            if( cursor.PendingID.HasValue )
+            {
+                state.Context.ForwardMap.SetObj( cursor.PendingID.Value, cursor.TargetObj.Target );
+            }
+            else if( cursor.DataNode is SerializedObject objNode && Persistent_Guid.TryReadIdHeader( objNode, out Guid guid ) )
             {
                 state.Context.ForwardMap.SetObj( guid, cursor.TargetObj.Target );
             }

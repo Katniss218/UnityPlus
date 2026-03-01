@@ -1,8 +1,4 @@
-﻿
-using NUnit.Framework;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityPlus.Serialization;
+﻿using NUnit.Framework;
 
 namespace UnityPlus.Serialization.Tests.V4
 {
@@ -12,7 +8,7 @@ namespace UnityPlus.Serialization.Tests.V4
         public class Node
         {
             public string Name;
-            public Node Neighbor;
+            public Node Neighbor = null;
         }
 
         public struct DeepStruct
