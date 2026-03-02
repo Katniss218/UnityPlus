@@ -83,7 +83,7 @@ namespace UnityPlus.Serialization
 
             if( cursor.Descriptor is ICollectionDescriptor )
             {
-                var valNode = SerializationHelpers.GetValueNode( cursor.DataNode );
+                var valNode = SerializationHelpers.GetValueNode( cursor.DataNode, state.Context.Config.ForceStandardJson );
                 if( valNode != null )
                     cursor.DataNode = valNode;
             }
@@ -402,10 +402,10 @@ namespace UnityPlus.Serialization
 
             // Optimization: If not construction phase, and parent exists, try to get existing object (PopulateExisting)
             object existingChild = null;
-            //if( !isConstructionPhase && parentObj != null )
-            //{
-            //    existingChild = memberInfo.GetValue( parentObj );
-            //}
+            if( !isConstructionPhase && parentObj != null )
+            {
+                existingChild = memberInfo.GetValue( parentObj );
+            }
 
             var childCursor = new SerializationCursor
             {

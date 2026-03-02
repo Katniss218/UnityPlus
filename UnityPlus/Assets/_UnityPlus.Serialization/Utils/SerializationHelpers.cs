@@ -5,18 +5,24 @@ namespace UnityPlus.Serialization
     public static class SerializationHelpers
     {
         /// <summary>
-        /// Extracts the underlying SerializedArray from a data node that might be a Boxed Collection (Object with 'values') or a direct Array.
+        /// Extracts the underlying SerializedArray from a data node.
+        /// Enforces format based on <paramref name="forceStandardJson"/>.
         /// </summary>
-        public static SerializedArray GetValueNode( SerializedData data )
+        public static SerializedArray GetValueNode( SerializedData data, bool forceStandardJson )
         {
-            if( data is SerializedArray arr )
-                return arr;
+            if( forceStandardJson )
+            {
+                // Expect direct array
+                return data as SerializedArray;
+            }
+            else
+            {
+                // Expect wrapper object
+                if( data is SerializedObject obj && obj.TryGetValue( KeyNames.VALUE, out SerializedData inner ) && inner is SerializedArray innerArr )
+                    return innerArr;
 
-#warning TODO - only when forceStandardJson is true.
-            if( data is SerializedObject obj && obj.TryGetValue( KeyNames.VALUE, out SerializedData inner ) && inner is SerializedArray innerArr )
-                return innerArr;
-
-            return null;
+                return null;
+            }
         }
 
         /// <summary>

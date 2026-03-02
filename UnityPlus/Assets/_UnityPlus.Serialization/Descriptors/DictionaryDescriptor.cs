@@ -25,22 +25,47 @@ namespace UnityPlus.Serialization
             return ((TDict)target).Count;
         }
 
-#warning TODO - finish.
         private IDescriptor _cachedKvpDescriptor;
+
+        private void EnsureCachedDescriptor()
+        {
+            if( _cachedKvpDescriptor != null ) return;
+
+            // Resolve context for KeyValuePair based on ElementSelector
+            // We assume index 0 = Key, index 1 = Value for the selector
+            var args1 = new ContextSelectionArgs( 0, typeof( KeyValuePair<TKey, TValue> ), typeof( KeyValuePair<TKey, TValue> ), 0 );
+            var args2 = new ContextSelectionArgs( 1, typeof( KeyValuePair<TKey, TValue> ), typeof( KeyValuePair<TKey, TValue> ), 0 );
+
+            ContextKey keyCtx = ElementSelector?.Select( args1 ) ?? ContextKey.Default;
+            ContextKey valCtx = ElementSelector?.Select( args2 ) ?? ContextKey.Default;
+
+            if( keyCtx == ContextKey.Default && valCtx == ContextKey.Default )
+            {
+                _cachedKvpDescriptor = TypeDescriptorRegistry.GetDescriptor( typeof( KeyValuePair<TKey, TValue> ) );
+            }
+            else
+            {
+                ContextKey kvpCtx = ContextRegistry.GetOrRegisterGenericContext( typeof( KeyValuePair<,> ), new[] { keyCtx, valCtx } );
+                _cachedKvpDescriptor = TypeDescriptorRegistry.GetDescriptor( typeof( KeyValuePair<TKey, TValue> ), kvpCtx );
+            }
+        }
+
         public override IMemberInfo GetMemberInfo( int stepIndex )
         {
+            EnsureCachedDescriptor();
             // Random Access Mode (Thin)
-            return new DictionaryEntryMemberInfo( stepIndex, default, false, this );
+            return new DictionaryEntryMemberInfo( stepIndex, default, false, _cachedKvpDescriptor );
         }
 
         public override IEnumerator<IMemberInfo> GetMemberEnumerator( object target )
         {
+            EnsureCachedDescriptor();
             var dict = (TDict)target;
             int index = 0;
             foreach( var kvp in dict )
             {
                 // Enumeration Mode (Fat)
-                yield return new DictionaryEntryMemberInfo( index, kvp, true, this );
+                yield return new DictionaryEntryMemberInfo( index, kvp, true, _cachedKvpDescriptor );
                 index++;
             }
         }
@@ -52,40 +77,21 @@ namespace UnityPlus.Serialization
             public Type MemberType => typeof( KeyValuePair<TKey, TValue> );
             public bool RequiresWriteBack => true;
 
-            // We let the strategy resolve the descriptor using GetContext
-            public IDescriptor TypeDescriptor => null;
+            public IDescriptor TypeDescriptor { get; }
 
             private readonly int _index;
             private readonly KeyValuePair<TKey, TValue> _kvp; // Only used during enumeration
             private readonly bool _isExisting;
-            private readonly DictionaryDescriptor<TDict, TKey, TValue> _parentDescriptor;
 
-            public DictionaryEntryMemberInfo( int index, KeyValuePair<TKey, TValue> kvp, bool isExisting, DictionaryDescriptor<TDict, TKey, TValue> parent )
+            public DictionaryEntryMemberInfo( int index, KeyValuePair<TKey, TValue> kvp, bool isExisting, IDescriptor descriptor )
             {
                 _index = index;
                 _kvp = kvp;
                 _isExisting = isExisting;
-                _parentDescriptor = parent;
+                TypeDescriptor = descriptor;
             }
 
-            public ContextKey GetContext( object target )
-            {
-                // We need to construct a context key that represents KeyValuePair<KeyCtx, ValCtx>
-                // We use the generic context mechanism.
-
-                var dict = (TDict)target;
-
-                var args1 = new ContextSelectionArgs( 0, typeof( KeyValuePair<TKey, TValue> ), typeof( KeyValuePair<TKey, TValue> ), dict.Count );
-                var args2 = new ContextSelectionArgs( 1, typeof( KeyValuePair<TKey, TValue> ), typeof( KeyValuePair<TKey, TValue> ), dict.Count );
-
-                ContextKey keyCtx = _parentDescriptor.ElementSelector.Select( args1 );
-                ContextKey valCtx = _parentDescriptor.ElementSelector.Select( args2 );
-
-                if( keyCtx == ContextKey.Default && valCtx == ContextKey.Default )
-                    return ContextKey.Default;
-
-                return ContextRegistry.GetOrRegisterGenericContext( typeof( KeyValuePair<,> ), new[] { keyCtx, valCtx } );
-            }
+            public ContextKey GetContext( object target ) => default;
 
             public object GetValue( object target )
             {

@@ -108,7 +108,7 @@ namespace UnityPlus.Serialization.Tests.V4
             // Actual: { "assets": { "$id": "..." } }
 
             var obj = (SerializedObject)data;
-            SerializedArray assetsArr = SerializationHelpers.GetValueNode( obj["assets"] );
+            SerializedArray assetsArr = SerializationHelpers.GetValueNode( obj["assets"], false );
 
             SerializedObject entry = (SerializedObject)assetsArr[0];
             SerializedData valNode = entry["value"];

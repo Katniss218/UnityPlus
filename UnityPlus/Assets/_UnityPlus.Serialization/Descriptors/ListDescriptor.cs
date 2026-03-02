@@ -12,8 +12,8 @@ namespace UnityPlus.Serialization
         public override object CreateInitialTarget( SerializedData data, SerializationContext ctx )
         {
             int capacity = 0;
-            var arr = SerializationHelpers.GetValueNode( data );
-            if( arr != null ) 
+            var arr = SerializationHelpers.GetValueNode( data, ctx.Config.ForceStandardJson );
+            if( arr != null )
                 capacity = arr.Count;
 
             return new List<T>( capacity );
@@ -42,12 +42,15 @@ namespace UnityPlus.Serialization
             return ((List<T>)target).Count;
         }
 
-#warning TODO - finish.
         private IDescriptor _cachedElementDescriptor;
 
         public override IMemberInfo GetMemberInfo( int stepIndex )
         {
-            return new ListMemberInfo( stepIndex, ElementSelector );
+            if( _cachedElementDescriptor == null && ElementSelector is UniformSelector uniform )
+            {
+                _cachedElementDescriptor = TypeDescriptorRegistry.GetDescriptor( typeof( T ), uniform.Select( default ) );
+            }
+            return new ListMemberInfo( stepIndex, ElementSelector, _cachedElementDescriptor );
         }
 
         private readonly struct ListMemberInfo : IMemberInfo
@@ -59,11 +62,13 @@ namespace UnityPlus.Serialization
 
             private readonly int _index;
             private readonly IContextSelector _selector;
+            private readonly IDescriptor _cachedDescriptor;
 
-            public ListMemberInfo( int index, IContextSelector selector )
+            public ListMemberInfo( int index, IContextSelector selector, IDescriptor cachedDescriptor )
             {
                 _index = index;
                 _selector = selector;
+                _cachedDescriptor = cachedDescriptor;
             }
 
             public ContextKey GetContext( object target )
@@ -79,6 +84,9 @@ namespace UnityPlus.Serialization
             {
                 get
                 {
+                    if( _cachedDescriptor != null )
+                        return _cachedDescriptor;
+
                     if( _selector is UniformSelector uniform )
                         return TypeDescriptorRegistry.GetDescriptor( typeof( T ), uniform.Select( default ) );
                     return null;

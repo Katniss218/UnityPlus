@@ -97,7 +97,60 @@ namespace UnityPlus.Serialization
         {
             private int _index;
             // We use a custom descriptor for the Entry struct, cached statically to avoid allocation
-            private static readonly IDescriptor _entryDescriptor = new DelegateEntryDescriptor();
+            private static readonly IDescriptor _entryDescriptor;
+
+            static DelegateEntryMemberInfo()
+            {
+                var methodDescriptor = new MemberwiseDescriptor<MethodInfo>()
+                    .WithFactory<Type, string, Type[]>( ( declaringType, name, parameters ) =>
+                    {
+                        if( declaringType == null || name == null )
+                            return null;
+                        try
+                        {
+                            var flags = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
+                            return declaringType.GetMethod( name, flags, null, parameters ?? Type.EmptyTypes, null );
+                        }
+                        catch 
+                        { 
+                            return null;
+                        }
+                    }, "declaringType", "name", "parameters" )
+                    .WithReadonlyMember( "declaringType", m => m.DeclaringType )
+                    .WithReadonlyMember( "name", m => m.Name )
+                    .WithReadonlyMember( "parameters", m => m.GetParameters().Select( p => p.ParameterType ).ToArray() );
+
+                // Register MethodInfo descriptor explicitly to ensure it's used? 
+                // Or just use it in DelegateEntry descriptor?
+                // MemberwiseDescriptor resolves via registry. 
+                // But MethodInfo is abstract, so registry might return something else or fail if not registered.
+                // We can register it or just use it if we could pass it.
+                // But MemberwiseDescriptor uses TypeDescriptorRegistry.
+
+                // Better: Register the MethodInfo descriptor in the registry?
+                // Or just use a custom descriptor for the member?
+                // MemberwiseDescriptor allows specifying context, but not direct descriptor instance for a member easily unless we use a custom member definition?
+                // Actually, MemberwiseDescriptor implementation uses TypeDescriptorRegistry.GetDescriptor( MemberType, Context ).
+
+                // So we should register this descriptor for MethodInfo.
+                // But MethodInfo is System.Reflection.MethodInfo.
+                // If we register it globally, it affects all MethodInfo serialization.
+                // That's probably fine and desirable.
+
+                // However, for this refactor, I'll register it in the static constructor if not present, 
+                // OR I can use a trick.
+
+                // Actually, the previous implementation used a private inner class `MethodInfoDescriptor`.
+                // If I want to keep it private/scoped, I can't easily use MemberwiseDescriptor unless I register it.
+
+                // Let's register it. It's a good descriptor for MethodInfo.
+                TypeDescriptorRegistry.Register( methodDescriptor );
+
+                _entryDescriptor = new MemberwiseDescriptor<DelegateEntry>()
+                    .WithMember( "target", ContextRegistry.GetID( typeof( Ctx.Ref ) ), e => e.Target, ( ref DelegateEntry e, object v ) => e.Target = v )
+                    .WithMember( "method", e => e.Method, ( ref DelegateEntry e, MethodInfo v ) => e.Method = v )
+                    .WithMember( "type", e => e.DelegateType, ( ref DelegateEntry e, Type v ) => e.DelegateType = v );
+            }
 
             public readonly string Name => null;
             public readonly int Index => _index;
@@ -128,211 +181,6 @@ namespace UnityPlus.Serialization
                 {
                     buffer[_index] = value;
                 }
-            }
-        }
-
-        // Serializes { target: $ref, method: { ... }, type: "..." }
-#warning TODO - pretty sure this can be handled with a normal immutable memberwise descriptor.
-        private class DelegateEntryDescriptor : CompositeDescriptor
-        {
-            private static readonly IDescriptor _methodDescriptor = new MethodInfoDescriptor();
-            private static readonly IDescriptor _typeDescriptor = new PrimitiveConfigurableDescriptor<Type>(
-                ( v, w, c ) => w.Data = v.SerializeType(),
-                ( d, c ) => d.DeserializeType() );
-
-            public override Type MappedType => typeof( DelegateEntry );
-
-            // 3 members: Target, Method, Type
-            public override int GetStepCount( object target ) => 3;
-
-            public override IMemberInfo GetMemberInfo( int stepIndex )
-            {
-                switch( stepIndex )
-                {
-                    case 0: return new TargetMemberInfo();
-                    case 1: return new MethodMemberInfo( _methodDescriptor );
-                    case 2: return new DelegateTypeMemberInfo( _typeDescriptor );
-                }
-                return null;
-            }
-
-            public override object CreateInitialTarget( SerializedData data, SerializationContext ctx )
-            {
-                return new DelegateEntry();
-            }
-
-            // --- Member Infos for Entry ---
-
-            struct TargetMemberInfo : IMemberInfo
-            {
-                public readonly string Name => "target";
-                public readonly int Index => -1;
-                public readonly Type MemberType => typeof( object );
-                // Use Ref context for the target!
-                public readonly IDescriptor TypeDescriptor => TypeDescriptorRegistry.GetDescriptor( typeof( object ), ContextRegistry.GetID( typeof( Ctx.Ref ) ) );
-                public readonly bool RequiresWriteBack => false;
-
-                public ContextKey GetContext( object target ) => ContextRegistry.GetID( typeof( Ctx.Ref ) );
-
-                public object GetValue( object target ) => ((DelegateEntry)target).Target;
-                public void SetValue( ref object target, object value )
-                {
-                    var entry = (DelegateEntry)target;
-                    entry.Target = value;
-                    target = entry;
-                }
-            }
-
-            readonly struct MethodMemberInfo : IMemberInfo
-            {
-                public readonly string Name => "method";
-                public readonly int Index => -1;
-                public readonly Type MemberType => typeof( MethodInfo );
-                public IDescriptor TypeDescriptor { get; }
-                public readonly bool RequiresWriteBack => false;
-
-                public MethodMemberInfo( IDescriptor desc ) { TypeDescriptor = desc; }
-
-                public ContextKey GetContext( object target ) => default;
-
-                public object GetValue( object target ) => ((DelegateEntry)target).Method;
-                public void SetValue( ref object target, object value )
-                {
-                    var entry = (DelegateEntry)target;
-                    entry.Method = (MethodInfo)value;
-                    target = entry;
-                }
-            }
-
-            readonly struct DelegateTypeMemberInfo : IMemberInfo
-            {
-                public readonly string Name => "type";
-                public readonly int Index => -1;
-                public readonly Type MemberType => typeof( Type );
-                public IDescriptor TypeDescriptor { get; }
-                public readonly bool RequiresWriteBack => false;
-
-                public DelegateTypeMemberInfo( IDescriptor desc ) { TypeDescriptor = desc; }
-
-                public ContextKey GetContext( object target ) => default;
-
-                public object GetValue( object target ) => ((DelegateEntry)target).DelegateType;
-                public void SetValue( ref object target, object value )
-                {
-                    var entry = (DelegateEntry)target;
-                    entry.DelegateType = (Type)value;
-                    target = entry;
-                }
-            }
-        }
-
-        // Serializes MethodInfo as { declaringType: "...", name: "...", parameters: [...] }
-
-#warning TODO - pretty sure this can be handled with a normal immutable memberwise descriptor.
-        private class MethodInfoDescriptor : CompositeDescriptor
-        {
-            // Cache common descriptors
-            private static readonly IDescriptor _sysTypeDescriptor = new PrimitiveConfigurableDescriptor<Type>(
-                ( v, w, c ) => w.Data = v.SerializeType(),
-                ( d, c ) => d.DeserializeType() );
-            private static readonly IDescriptor _stringDescriptor = new StringDescriptor();
-            private static readonly IDescriptor _typeArrayDescriptor = new ArrayDescriptor<Type>();
-
-            public override Type MappedType => typeof( MethodInfo );
-            public override int GetStepCount( object target ) => 3;
-            public override int GetConstructionStepCount( object target ) => 3; // Immutable construction
-
-            public override object CreateInitialTarget( SerializedData data, SerializationContext ctx )
-            {
-                return new object[3];
-            }
-
-            public override IMemberInfo GetMemberInfo( int stepIndex )
-            {
-                if( stepIndex == 0 ) return new DeclaringTypeMember( _sysTypeDescriptor );
-                if( stepIndex == 1 ) return new NameMember( _stringDescriptor );
-                if( stepIndex == 2 ) return new ParametersMember( _typeArrayDescriptor );
-                return null;
-            }
-
-            public override object Construct( object initialTarget )
-            {
-                var buffer = (object[])initialTarget;
-                Type declaringType = (Type)buffer[0];
-                string name = (string)buffer[1];
-                Type[] parameters = (Type[])buffer[2];
-
-                if( declaringType == null || name == null ) return null;
-
-                try
-                {
-                    var flags = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
-                    return declaringType.GetMethod( name, flags, null, parameters ?? Type.EmptyTypes, null );
-                }
-                catch { return null; }
-            }
-
-            private readonly struct DeclaringTypeMember : IMemberInfo
-            {
-                public string Name => "declaringType";
-                public int Index => -1;
-                public Type MemberType => typeof( Type );
-                public IDescriptor TypeDescriptor { get; }
-                public bool RequiresWriteBack => false;
-
-                public DeclaringTypeMember( IDescriptor desc ) { TypeDescriptor = desc; }
-
-                public ContextKey GetContext( object target ) => default;
-
-                public object GetValue( object target )
-                {
-                    if( target is MethodInfo mi ) return mi.DeclaringType;
-                    return ((object[])target)[0];
-                }
-
-                public void SetValue( ref object target, object value ) => ((object[])target)[0] = value;
-            }
-
-            private readonly struct NameMember : IMemberInfo
-            {
-                public string Name => "name";
-                public int Index => -1;
-                public Type MemberType => typeof( string );
-                public IDescriptor TypeDescriptor { get; }
-                public bool RequiresWriteBack => false;
-
-                public NameMember( IDescriptor desc ) { TypeDescriptor = desc; }
-
-                public ContextKey GetContext( object target ) => default;
-
-                public object GetValue( object target )
-                {
-                    if( target is MethodInfo mi ) return mi.Name;
-                    return ((object[])target)[1];
-                }
-
-                public void SetValue( ref object target, object value ) => ((object[])target)[1] = value;
-            }
-
-            private readonly struct ParametersMember : IMemberInfo
-            {
-                public string Name => "parameters";
-                public int Index => -1;
-                public Type MemberType => typeof( Type[] );
-                public IDescriptor TypeDescriptor { get; }
-                public bool RequiresWriteBack => false;
-
-                public ParametersMember( IDescriptor desc ) { TypeDescriptor = desc; }
-
-                public ContextKey GetContext( object target ) => default;
-
-                public object GetValue( object target )
-                {
-                    if( target is MethodInfo mi ) return mi.GetParameters().Select( p => p.ParameterType ).ToArray();
-                    return ((object[])target)[2];
-                }
-
-                public void SetValue( ref object target, object value ) => ((object[])target)[2] = value;
             }
         }
     }

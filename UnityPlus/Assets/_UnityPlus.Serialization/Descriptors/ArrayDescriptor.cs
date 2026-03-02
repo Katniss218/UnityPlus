@@ -12,8 +12,8 @@ namespace UnityPlus.Serialization
         {
             int length = 0;
 
-            var arr = SerializationHelpers.GetValueNode( data );
-            if( arr != null ) 
+            var arr = SerializationHelpers.GetValueNode( data, ctx.Config.ForceStandardJson );
+            if( arr != null )
                 length = arr.Count;
 
             return new T[length];
@@ -21,7 +21,6 @@ namespace UnityPlus.Serialization
 
         public override object Resize( object target, int newSize )
         {
-            // should be fine if 
             T[] array = (T[])target;
             if( array == null || array.Length != newSize )
             {
@@ -38,12 +37,15 @@ namespace UnityPlus.Serialization
             return ((T[])target).Length;
         }
 
-#warning TODO - finish.
         private IDescriptor _cachedElementDescriptor;
 
         public override IMemberInfo GetMemberInfo( int stepIndex )
         {
-            return new ArrayMemberInfo( stepIndex, ElementSelector );
+            if( _cachedElementDescriptor == null && ElementSelector is UniformSelector uniform )
+            {
+                _cachedElementDescriptor = TypeDescriptorRegistry.GetDescriptor( typeof( T ), uniform.Select( default ) );
+            }
+            return new ArrayMemberInfo( stepIndex, ElementSelector, _cachedElementDescriptor );
         }
 
         private readonly struct ArrayMemberInfo : IMemberInfo
@@ -55,11 +57,13 @@ namespace UnityPlus.Serialization
 
             private readonly int _index;
             private readonly IContextSelector _selector;
+            private readonly IDescriptor _cachedDescriptor;
 
-            public ArrayMemberInfo( int index, IContextSelector selector )
+            public ArrayMemberInfo( int index, IContextSelector selector, IDescriptor cachedDescriptor )
             {
                 _index = index;
                 _selector = selector;
+                _cachedDescriptor = cachedDescriptor;
             }
 
             public ContextKey GetContext( object target )
@@ -75,8 +79,12 @@ namespace UnityPlus.Serialization
             {
                 get
                 {
+                    if( _cachedDescriptor != null )
+                        return _cachedDescriptor;
+
                     if( _selector is UniformSelector uniform )
                         return TypeDescriptorRegistry.GetDescriptor( typeof( T ), uniform.Select( default ) );
+
                     return null; // Dynamic resolution by strategy
                 }
             }

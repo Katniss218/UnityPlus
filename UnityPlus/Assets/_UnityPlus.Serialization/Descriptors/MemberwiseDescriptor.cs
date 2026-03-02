@@ -355,8 +355,6 @@ namespace UnityPlus.Serialization
 
             if( stepIndex < ctorCount )
             {
-#warning TODO - When deserializing, BufferMemberInfo ensures we use a buffer to store the value into, but when serializing, we need to get the value from the actual object.
-
                 var (name, type) = _constructorParams[stepIndex];
                 IDescriptor typeDesc = TypeDescriptorRegistry.GetDescriptor( type, 0 );
                 return new BufferMemberInfo( stepIndex, name, type, typeDesc );
@@ -370,7 +368,7 @@ namespace UnityPlus.Serialization
             }
 
             var def = _members[memberIndex];
-            return def.Resolve();
+            return def;
         }
 
         public override object CreateInitialTarget( SerializedData data, SerializationContext ctx )
@@ -440,23 +438,38 @@ namespace UnityPlus.Serialization
             }
 
             public ContextKey GetContext( object target ) => default;
-            public bool IsActive( object target ) => true;
 
             public object GetValue( object target ) => ((object[])target)[_index];
             public void SetValue( ref object target, object value ) => ((object[])target)[_index] = value;
         }
 
-        private class MemberDefinition<TMember>
+        private class MemberDefinition<TMember> : IMemberInfo
         {
             public string Name { get; }
+            public int Index => -1;
             public ContextKey Context { get; }
             public Func<object, TMember> Getter;
             public Action<object, TMember> Setter;
             public RefSetter<object, TMember> RefSetter;
-            public Type MemberType;
+            public Type MemberType { get; }
+            public bool RequiresWriteBack => MemberType.IsValueType;
 
             public Predicate<object> ShouldSerialize;
             public Func<object, SerializationContext, bool> ShouldSerializeWithContext;
+
+            private IDescriptor _cachedDescriptor;
+
+            public IDescriptor TypeDescriptor
+            {
+                get
+                {
+                    if( _cachedDescriptor == null )
+                    {
+                        _cachedDescriptor = TypeDescriptorRegistry.GetDescriptor( MemberType, Context );
+                    }
+                    return _cachedDescriptor;
+                }
+            }
 
             public MemberDefinition( string name, ContextKey context, Func<object, TMember> getter, Action<object, TMember> setter, RefSetter<object, TMember> refSetter, Type memberType = null )
             {
@@ -468,62 +481,19 @@ namespace UnityPlus.Serialization
                 MemberType = memberType ?? typeof( TMember );
             }
 
-            public IMemberInfo Resolve()
-            {
-                // Optimization: Use declared type descriptor. Polymorphism is handled by SerializationStrategy.
-                IDescriptor desc = TypeDescriptorRegistry.GetDescriptor( MemberType, Context );
+            public ContextKey GetContext( object target ) => Context;
 
-#warning TODO 0- optimize using the memberdefinition field instead.
-                return new RuntimeMemberInfo<TMember>( Name, desc, Getter, Setter, RefSetter, MemberType, ShouldSerialize, ShouldSerializeWithContext );
-            }
-        }
-
-        /// <summary>
-        /// Used when serializing/deserializing to an actual instnace.
-        /// </summary>
-        /// <typeparam name="TMember"></typeparam>
-        private readonly struct RuntimeMemberInfo<TMember> : IMemberInfo
-        {
-            public string Name { get; }
-            public int Index => -1;
-            public Type MemberType { get; }
-            public IDescriptor TypeDescriptor { get; }
-            public bool RequiresWriteBack => MemberType.IsValueType;
-
-            private readonly Func<object, TMember> _getter;
-            private readonly Action<object, TMember> _setter;
-            private readonly RefSetter<object, TMember> _refSetter;
-
-            //private readonly Predicate<object> _shouldSerialize;
-            //private readonly Func<object, SerializationContext, bool> _shouldSerializeWithContext;
-
-            public RuntimeMemberInfo( string name, IDescriptor desc, Func<object, TMember> getter, Action<object, TMember> setter, RefSetter<object, TMember> refSetter, Type memberType,
-                Predicate<object> shouldSerialize, Func<object, SerializationContext, bool> shouldSerializeWithContext )
-            {
-                Name = name;
-                TypeDescriptor = desc;
-                _getter = getter;
-                _setter = setter;
-                _refSetter = refSetter;
-                MemberType = memberType;
-#warning TODO - re-add 'shouldserialize'.
-                //_shouldSerialize = shouldSerialize;
-                //_shouldSerializeWithContext = shouldSerializeWithContext;
-            }
-
-            public ContextKey GetContext( object target ) => default;
-
-            public object GetValue( object target ) => _getter( target );
+            public object GetValue( object target ) => Getter( target );
 
             public void SetValue( ref object target, object value )
             {
-                if( _refSetter != null )
+                if( RefSetter != null )
                 {
-                    _refSetter( ref target, (TMember)value );
+                    RefSetter( ref target, (TMember)value );
                 }
-                else if( _setter != null )
+                else if( Setter != null )
                 {
-                    _setter( target, (TMember)value );
+                    Setter( target, (TMember)value );
                 }
             }
         }

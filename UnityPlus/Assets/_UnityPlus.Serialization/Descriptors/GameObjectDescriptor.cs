@@ -3,9 +3,39 @@ using UnityEngine;
 
 namespace UnityPlus.Serialization
 {
+    public readonly struct ComponentCollection
+    {
+        public readonly GameObject GameObject;
+        public ComponentCollection( GameObject go ) => GameObject = go;
+    }
+
+    public readonly struct ChildCollection
+    {
+        public readonly GameObject GameObject;
+        public ChildCollection( GameObject go ) => GameObject = go;
+    }
+
     public class GameObjectDescriptor : CompositeDescriptor
     {
         public override Type MappedType => typeof( GameObject );
+
+        private readonly IMemberInfo[] _members;
+
+        public GameObjectDescriptor()
+        {
+            _members = new IMemberInfo[]
+            {
+                new PropertyMember( "name", typeof( string ), ( t ) => ((GameObject)t).name, ( ref object t, object v ) => ((GameObject)t).name = (string)v ),
+                new PropertyMember( "layer", typeof( int ), ( t ) => ((GameObject)t).layer, ( ref object t, object v ) => ((GameObject)t).layer = (int)v ),
+                new PropertyMember( "tag", typeof( string ), ( t ) => ((GameObject)t).tag, ( ref object t, object v ) => ((GameObject)t).tag = (string)v ),
+                new PropertyMember( "isStatic", typeof( bool ), ( t ) => ((GameObject)t).isStatic, ( ref object t, object v ) => ((GameObject)t).isStatic = (bool)v ),
+                // Virtual Containers
+                new VirtualListMember( KeyNames.COMPONENTS, typeof( ComponentCollection ), new ComponentSequenceDescriptor(), t => new ComponentCollection( (GameObject)t ) ),
+                new VirtualListMember( KeyNames.CHILDREN, typeof( ChildCollection ), new ChildSequenceDescriptor(), t => new ChildCollection( (GameObject)t ) ),
+                // Activation (Must be last)
+                new PropertyMember( "active", typeof( bool ), ( t ) => ((GameObject)t).activeSelf, ( ref object t, object v ) => ((GameObject)t).SetActive( (bool)v ) ),
+            };
+        }
 
         // Steps:
         // 0: Name
@@ -15,36 +45,33 @@ namespace UnityPlus.Serialization
         // 4: Components (Sequence)
         // 5: Children (Sequence)
         // 6: Active (Applied last to trigger Awake/OnEnable after full population)
-        public override int GetStepCount( object target ) => 7;
+        public override int GetStepCount( object target ) => _members.Length;
 
         public override IMemberInfo GetMemberInfo( int stepIndex )
         {
-            return stepIndex switch
-            {
-                0 => new PropertyMember( "name", typeof( string ), ( t ) => ((GameObject)t).name, ( ref object t, object v ) => ((GameObject)t).name = (string)v ),
-                1 => new PropertyMember( "layer", typeof( int ), ( t ) => ((GameObject)t).layer, ( ref object t, object v ) => ((GameObject)t).layer = (int)v ),
-                2 => new PropertyMember( "tag", typeof( string ), ( t ) => ((GameObject)t).tag, ( ref object t, object v ) => ((GameObject)t).tag = (string)v ),
-                3 => new PropertyMember( "isStatic", typeof( bool ), ( t ) => ((GameObject)t).isStatic, ( ref object t, object v ) => ((GameObject)t).isStatic = (bool)v ),
-                // Virtual Containers
-                4 => new VirtualListMember( KeyNames.COMPONENTS, new ComponentSequenceDescriptor() ),
-                5 => new VirtualListMember( KeyNames.CHILDREN, new ChildSequenceDescriptor() ),
-                // Activation (Must be last)
-                6 => new PropertyMember( "active", typeof( bool ), ( t ) => ((GameObject)t).activeSelf, ( ref object t, object v ) => ((GameObject)t).SetActive( (bool)v ) ),
-                _ => throw new IndexOutOfRangeException(),
-            };
+            if( stepIndex >= 0 && stepIndex < _members.Length )
+                return _members[stepIndex];
+            throw new IndexOutOfRangeException();
         }
 
         public override object CreateInitialTarget( SerializedData data, SerializationContext ctx )
         {
             // Pre-scan for RectTransform to determine creation method
             bool hasRectTransform = false;
-            if( data is SerializedObject objScan && objScan.TryGetValue( KeyNames.COMPONENTS, out var compDataScan ) && compDataScan is SerializedArray compArrScan )
+
+            SerializedArray componentsArray = null;
+            if( data is SerializedObject objRoot && objRoot.TryGetValue( KeyNames.COMPONENTS, out var compNode ) )
             {
-                foreach( var cNode in compArrScan )
+                componentsArray = SerializationHelpers.GetValueNode( compNode, ctx.Config.ForceStandardJson );
+            }
+
+            if( componentsArray != null )
+            {
+                foreach( var cNode in componentsArray )
                 {
                     if( cNode is SerializedObject cObj && Persistent_Type.TryReadTypeName( cObj, out string typeName ) )
                     {
-                        if( typeName.Contains( "RectTransform" ) ) // String check is faster/safer than loading type if assembly agnostic
+                        if( typeName.Contains( "RectTransform" ) )
                         {
                             hasRectTransform = true;
                             break;
@@ -60,9 +87,9 @@ namespace UnityPlus.Serialization
             go.SetActive( false ); // Ensure it's inactive during population
 
             // Pre-instantiate components based on data types
-            if( data is SerializedObject obj && obj.TryGetValue( KeyNames.COMPONENTS, out var compData ) && compData is SerializedArray compArr )
+            if( componentsArray != null )
             {
-                foreach( var cNode in compArr )
+                foreach( var cNode in componentsArray )
                 {
                     if( cNode is SerializedObject cObj && Persistent_Type.TryReadTypeName( cObj, out string typeName ) )
                     {
@@ -106,7 +133,6 @@ namespace UnityPlus.Serialization
             }
 
             public ContextKey GetContext( object target ) => default;
-            public bool IsActive( object target ) => true;
 
             public object GetValue( object target ) => _getter( target );
             public void SetValue( ref object target, object value ) => _setter( ref target, value );
@@ -116,50 +142,64 @@ namespace UnityPlus.Serialization
         {
             public string Name { get; }
             public int Index => -1;
-            public Type MemberType => typeof( GameObject ); // It wraps the GO
+            public Type MemberType { get; }
             public IDescriptor TypeDescriptor { get; }
             public bool RequiresWriteBack => false;
 
-            public VirtualListMember( string name, IDescriptor descriptor )
+            private Func<object, object> _getter;
+
+            public VirtualListMember( string name, Type type, IDescriptor descriptor, Func<object, object> getter )
             {
                 Name = name;
+                MemberType = type;
                 TypeDescriptor = descriptor;
+                _getter = getter;
             }
 
             public ContextKey GetContext( object target ) => default;
-            public bool IsActive( object target ) => true;
 
-            public object GetValue( object target ) => target; // Pass the GameObject through to the SequenceDescriptor
-            public void SetValue( ref object target, object value ) { /* No-op, list is modified in-place */ }
+            public object GetValue( object target ) => _getter( target );
+            public void SetValue( ref object target, object value ) { /* No-op */ }
         }
     }
 
     /// <summary>
     /// Iterates over components on a GameObject.
     /// </summary>
-    public class ComponentSequenceDescriptor : CompositeDescriptor
+    public class ComponentSequenceDescriptor : CollectionDescriptor
     {
-        public override Type MappedType => typeof( GameObject );
+        public override Type MappedType => typeof( ComponentCollection );
+
+        private IDescriptor _componentDescriptor;
+
+        public ComponentSequenceDescriptor()
+        {
+        }
+
+        private IDescriptor GetComponentDescriptor()
+        {
+            if( _componentDescriptor == null )
+                _componentDescriptor = TypeDescriptorRegistry.GetDescriptor( typeof( Component ) );
+            return _componentDescriptor;
+        }
 
         public override int GetStepCount( object target )
         {
-            // During serialization, we use the actual component count.
-            // During deserialization, the StackMachine uses the DataNode array length, so this value is ignored by the Driver logic 
-            // (Driver uses PopulationStepCount derived from DataNode for collections usually, but since this is a Composite acting as a collection, 
-            // we need to be careful).
-            // Actually, for Composite types, the Driver uses GetStepCount().
-            // So we must return the count of the components currently on the object (which we pre-instantiated in GameObjectDescriptor).
-            return ((GameObject)target).GetComponents<Component>().Length;
+            return ((ComponentCollection)target).GameObject.GetComponents<Component>().Length;
+        }
+
+        public override object Resize( object target, int newSize )
+        {
+            return target;
         }
 
         public override IMemberInfo GetMemberInfo( int stepIndex )
         {
-            return new InstanceMemberInfo( stepIndex );
+            return new InstanceMemberInfo( stepIndex, GetComponentDescriptor() );
         }
 
         public override object CreateInitialTarget( SerializedData data, SerializationContext ctx )
         {
-            // Should not be called directly, as this is accessed via an existing GameObject instance
             return null;
         }
 
@@ -167,25 +207,23 @@ namespace UnityPlus.Serialization
         {
             public string Name => null; // Array element
             public int Index => _index;
-            public Type MemberType { get; }
+            public Type MemberType => typeof( Component );
             public IDescriptor TypeDescriptor { get; }
             public bool RequiresWriteBack => false;
 
             private int _index;
 
-            public InstanceMemberInfo( int index )
+            public InstanceMemberInfo( int index, IDescriptor descriptor )
             {
                 _index = index;
-                MemberType = typeof( Component );
-                TypeDescriptor = TypeDescriptorRegistry.GetDescriptor( MemberType );
+                TypeDescriptor = descriptor;
             }
 
             public ContextKey GetContext( object target ) => default;
-            public bool IsActive( object target ) => true;
 
             public object GetValue( object target )
             {
-                var components = ((GameObject)target).GetComponents<Component>();
+                var components = ((ComponentCollection)target).GameObject.GetComponents<Component>();
                 if( _index < components.Length )
                     return components[_index];
                 return null;
@@ -199,19 +237,29 @@ namespace UnityPlus.Serialization
     /// </summary>
     public class ChildSequenceDescriptor : CollectionDescriptor
     {
-        public override Type MappedType => typeof( GameObject );
+        public override Type MappedType => typeof( ChildCollection );
 
-        // We act as a collection of GameObjects
+        private IDescriptor _gameObjectDescriptor;
+
+        public ChildSequenceDescriptor()
+        {
+        }
+
+        private IDescriptor GetGameObjectDescriptor()
+        {
+            if( _gameObjectDescriptor == null )
+                _gameObjectDescriptor = TypeDescriptorRegistry.GetDescriptor( typeof( GameObject ) );
+            return _gameObjectDescriptor;
+        }
+
         public override int GetStepCount( object target )
         {
-            return ((GameObject)target).transform.childCount;
+            return ((ChildCollection)target).GameObject.transform.childCount;
         }
 
         public override object Resize( object target, int newSize )
         {
-            // When populating a GameObject's children, we destroy existing children 
-            // to ensure the collection is overwritten by the new data.
-            Transform t = ((GameObject)target).transform;
+            Transform t = ((ChildCollection)target).GameObject.transform;
             for( int i = t.childCount - 1; i >= 0; i-- )
             {
                 UnityEngine.Object.DestroyImmediate( t.GetChild( i ).gameObject );
@@ -221,12 +269,12 @@ namespace UnityPlus.Serialization
 
         public override IMemberInfo GetMemberInfo( int stepIndex )
         {
-            return new ChildMemberInfo( stepIndex );
+            return new ChildMemberInfo( stepIndex, GetGameObjectDescriptor() );
         }
 
         public override object CreateInitialTarget( SerializedData data, SerializationContext ctx )
         {
-            return null; // Should not be called
+            return null;
         }
 
         private struct ChildMemberInfo : IMemberInfo
@@ -234,22 +282,22 @@ namespace UnityPlus.Serialization
             public string Name => null;
             public int Index => _index;
             public Type MemberType => typeof( GameObject );
-            public IDescriptor TypeDescriptor => TypeDescriptorRegistry.GetDescriptor( typeof( GameObject ) );
+            public IDescriptor TypeDescriptor { get; }
             public bool RequiresWriteBack => false;
 
             private int _index;
 
-            public ChildMemberInfo( int index )
+            public ChildMemberInfo( int index, IDescriptor descriptor )
             {
                 _index = index;
+                TypeDescriptor = descriptor;
             }
 
             public ContextKey GetContext( object target ) => default;
-            public bool IsActive( object target ) => true;
 
             public object GetValue( object target )
             {
-                Transform t = ((GameObject)target).transform;
+                Transform t = ((ChildCollection)target).GameObject.transform;
                 if( _index < t.childCount )
                     return t.GetChild( _index ).gameObject;
                 return null;
@@ -257,10 +305,9 @@ namespace UnityPlus.Serialization
 
             public void SetValue( ref object target, object value )
             {
-                // When a child is fully deserialized (or created), we parent it.
-                if( value is GameObject childGO && target is GameObject parentGO )
+                if( value is GameObject childGO && target is ChildCollection parentWrapper )
                 {
-                    childGO.transform.SetParent( parentGO.transform, false );
+                    childGO.transform.SetParent( parentWrapper.GameObject.transform, false );
                 }
             }
         }

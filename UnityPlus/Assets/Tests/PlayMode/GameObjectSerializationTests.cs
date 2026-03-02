@@ -28,6 +28,8 @@ namespace UnityPlus.Serialization.Tests
             // 2. Serialize
             var serialized = SerializationUnit.Serialize( go );
 
+            Debug.Log( serialized.DumpToString() );
+
             // 3. Destroy original
             Object.DestroyImmediate( go );
 

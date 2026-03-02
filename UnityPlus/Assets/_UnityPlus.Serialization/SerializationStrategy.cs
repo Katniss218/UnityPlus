@@ -39,7 +39,8 @@ namespace UnityPlus.Serialization
                     state.RootResult = createdNode;
 
                     // If we created a wrapper, the cursor data node should be the inner array
-                    if( createdNode != arrayNode ) createdNode = arrayNode;
+                    if( createdNode != arrayNode )
+                        createdNode = arrayNode;
                 }
                 else
                 {
@@ -119,7 +120,8 @@ namespace UnityPlus.Serialization
                     cursor.MemberEnumerator = newComposite.GetMemberEnumerator( cursor.TargetObj.Target );
                     if( cursor.MemberEnumerator == null )
                     {
-                        cursor.PopulationStepCount = newComposite.GetStepCount( cursor.TargetObj.Target );
+                        cursor.ConstructionStepCount = newComposite.GetConstructionStepCount( cursor.TargetObj.Target );
+                        cursor.PopulationStepCount = newComposite.GetStepCount( cursor.TargetObj.Target ) - cursor.ConstructionStepCount;
                     }
                 }
             }
@@ -153,7 +155,8 @@ namespace UnityPlus.Serialization
                     return SerializationCursorResult.Jump;
                 }
 
-                var parentDesc = (ICompositeDescriptor)cursor.Descriptor; // Should be true because primitives are handled inline.
+                var parentDesc = (ICompositeDescriptor)cursor.Descriptor; // Cast should be true because primitives are handled inline.
+                activeStepIndex = cursor.StepIndex + cursor.ConstructionStepCount; // Ensures that we don't use buffers when serializing.
                 memberInfo = parentDesc.GetMemberInfo( activeStepIndex );
             }
 
