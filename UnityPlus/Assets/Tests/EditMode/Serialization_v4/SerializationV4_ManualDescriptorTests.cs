@@ -16,6 +16,12 @@ namespace UnityPlus.Serialization.Tests.V4
             }
         }
 
+        public class MutablePerson
+        {
+            public string Name;
+            public int Age;
+        }
+
         public struct ManualPoint
         {
             public int X { get; }
@@ -86,12 +92,9 @@ namespace UnityPlus.Serialization.Tests.V4
         public void ManualDescriptor_WithoutReflection_Works()
         {
             // Ensure no ReflectionClassDescriptor is created if we manually register.
-            // We use a private class that definitely has no other way of being serialized.
             var descriptor = new MemberwiseDescriptor<ManualPerson>()
                                 .WithMember( "name", p => p.Name )
-                                .WithMember( "age", p => p.Age ); // Note: Read/Write usage despite properties being get-only is allowed via reflection in WithMember, but here we use getters for serialization.
-                                                                  // Actually, WithMember tries to create a Setter. Since properties are get-only, WithMember via Expression might fail to create setter.
-                                                                  // Let's use WithReadonlyMember for safety in this specific test case of 'ManualPerson' which is immutable.
+                                .WithMember( "age", p => p.Age );
 
             // Re-define for mutable test
             var descMutable = new MemberwiseDescriptor<MutablePerson>()
@@ -106,12 +109,6 @@ namespace UnityPlus.Serialization.Tests.V4
 
             Assert.That( result.Name, Is.EqualTo( "Bob" ) );
             Assert.That( result.Age, Is.EqualTo( 40 ) );
-        }
-
-        public class MutablePerson
-        {
-            public string Name;
-            public int Age;
         }
     }
 }

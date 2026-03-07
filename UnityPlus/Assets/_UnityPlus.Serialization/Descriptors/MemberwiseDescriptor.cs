@@ -5,10 +5,88 @@ using System.Linq.Expressions;
 namespace UnityPlus.Serialization
 {
     /// <summary>
+    /// Base class for MemberwiseDescriptor to allow sharing members across generic instantiations.
+    /// </summary>
+    public abstract class MemberwiseDescriptorBase : CompositeDescriptor
+    {
+        internal readonly List<MemberDefinition> _members = new List<MemberDefinition>();
+        internal readonly List<IMethodInfo> _methods = new List<IMethodInfo>();
+
+        // Factories
+        internal Func<object> _simpleFactory;
+        internal Func<SerializedData, SerializationContext, object> _rawFactory;
+        internal Delegate _constructor;
+        internal (string name, Type type)[] _constructorParams;
+
+        internal class MemberDefinition : IMemberInfo
+        {
+            public string Name { get; }
+            public int Index => -1;
+            public ContextKey Context { get; }
+            public Func<object, object> Getter;
+            public Action<object, object> Setter;
+            public RefSetter<object, object> RefSetter;
+            public Type MemberType { get; }
+            public bool RequiresWriteBack => MemberType.IsValueType;
+
+            public Predicate<object> ShouldSerialize;
+            public Func<object, SerializationContext, bool> ShouldSerializeWithContext;
+
+            private IDescriptor _cachedDescriptor;
+
+            public IDescriptor TypeDescriptor
+            {
+                get
+                {
+                    if( _cachedDescriptor == null )
+                    {
+                        _cachedDescriptor = TypeDescriptorRegistry.GetDescriptor( MemberType, Context );
+                    }
+                    return _cachedDescriptor;
+                }
+            }
+
+            public MemberDefinition( string name, ContextKey context, Func<object, object> getter, Action<object, object> setter, RefSetter<object, object> refSetter, Type memberType )
+            {
+                Name = name;
+                Context = context;
+                Getter = getter;
+                Setter = setter;
+                RefSetter = refSetter;
+                MemberType = memberType;
+            }
+
+            public MemberDefinition Clone()
+            {
+                var clone = new MemberDefinition( Name, Context, Getter, Setter, RefSetter, MemberType );
+                clone.ShouldSerialize = ShouldSerialize;
+                clone.ShouldSerializeWithContext = ShouldSerializeWithContext;
+                return clone;
+            }
+
+            public ContextKey GetContext( object target ) => Context;
+
+            public object GetValue( object target ) => Getter( target );
+
+            public void SetValue( ref object target, object value )
+            {
+                if( RefSetter != null )
+                {
+                    RefSetter( ref target, value );
+                }
+                else if( Setter != null )
+                {
+                    Setter( target, value );
+                }
+            }
+        }
+    }
+
+    /// <summary>
     /// A concrete descriptor for a class or struct, composed of named members.
     /// </summary>
     /// <typeparam name="T">The type being described.</typeparam>
-    public class MemberwiseDescriptor<T> : CompositeDescriptor
+    public class MemberwiseDescriptor<T> : MemberwiseDescriptorBase
     {
         public readonly struct MemberModifier
         {
@@ -65,18 +143,42 @@ namespace UnityPlus.Serialization
 
         public override Type MappedType => typeof( T );
 
-        private readonly List<MemberDefinition<object>> _members = new List<MemberDefinition<object>>();
-        private readonly List<IMethodInfo> _methods = new List<IMethodInfo>();
-
-        // Factories
-        private Func<object> _simpleFactory;
-        private Func<SerializedData, SerializationContext, object> _rawFactory;
-        private Delegate _constructor;
-        private (string name, Type type)[] _constructorParams;
-
         // Lifecycle
         private Action<T, SerializationContext> _onSerializing;
         private Action<T, SerializationContext> _onDeserialized;
+
+        public MemberwiseDescriptor()
+        {
+            IncludeBaseMembers();
+        }
+
+        private void IncludeBaseMembers()
+        {
+            Type baseType = typeof( T ).BaseType;
+            if( baseType == null || baseType == typeof( object ) || baseType == typeof( ValueType ) )
+                return;
+
+            // Resolve base descriptor
+            var baseDesc = TypeDescriptorRegistry.GetDescriptor( baseType );
+
+            if( baseDesc is MemberwiseDescriptorBase baseMemberwise )
+            {
+                // Copy members (Cloned to allow independent modification)
+                foreach( var m in baseMemberwise._members )
+                {
+                    _members.Add( m.Clone() );
+                }
+
+                // Copy methods (Shared)
+                _methods.AddRange( baseMemberwise._methods );
+
+                // Copy Factory (Last one wins, so we take base's initially)
+                _simpleFactory = baseMemberwise._simpleFactory;
+                _rawFactory = baseMemberwise._rawFactory;
+                _constructor = baseMemberwise._constructor;
+                _constructorParams = baseMemberwise._constructorParams;
+            }
+        }
 
         // --- Fluent API: Member Modification ---
 
@@ -92,6 +194,15 @@ namespace UnityPlus.Serialization
                 return new MemberModifier( this, -1 );
             }
             return new MemberModifier( this, index );
+        }
+
+        /// <summary>
+        /// Removes a member by name. Useful for excluding members inherited from base types.
+        /// </summary>
+        public MemberwiseDescriptor<T> WithoutMember( string name )
+        {
+            _members.RemoveAll( m => m.Name == name );
+            return this;
         }
 
         // --- Fluent API: Conditionals (Last Member Shortcut) ---
@@ -177,7 +288,7 @@ namespace UnityPlus.Serialization
 
         private MemberwiseDescriptor<T> RegisterMember<TMember>( string name, ContextKey context, Getter<T, TMember> getter, Setter<T, TMember> setter, RefSetter<T, TMember> refSetter )
         {
-            _members.Add( new MemberDefinition<object>(
+            _members.Add( new MemberDefinition(
                 name,
                 context,
                 t => (object)getter( (T)t ),
@@ -198,7 +309,7 @@ namespace UnityPlus.Serialization
         {
             return WithReadonlyMember( name, ContextKey.Default, getter );
         }
-        
+
         public MemberwiseDescriptor<T> WithReadonlyMember<TMember>( string name, Type contextType, Func<T, TMember> getter )
         {
             return WithReadonlyMember( name, ContextRegistry.GetID( contextType ), getter );
@@ -206,7 +317,7 @@ namespace UnityPlus.Serialization
 
         public MemberwiseDescriptor<T> WithReadonlyMember<TMember>( string name, ContextKey context, Func<T, TMember> getter )
         {
-            _members.Add( new MemberDefinition<object>(
+            _members.Add( new MemberDefinition(
                 name,
                 context,
                 t => (object)getter( (T)t ),
@@ -315,6 +426,78 @@ namespace UnityPlus.Serialization
             );
         }
 
+        public MemberwiseDescriptor<T> WithFactory<P1, P2, P3, P4, P5, P6, P7>( Func<P1, P2, P3, P4, P5, P6, P7, T> factory, string n1, string n2, string n3, string n4, string n5, string n6, string n7 )
+        {
+            return WithConstructor(
+                args => factory( (P1)args[0], (P2)args[1], (P3)args[2], (P4)args[3], (P5)args[4], (P6)args[5], (P7)args[6] ),
+                (n1, typeof( P1 )), (n2, typeof( P2 )), (n3, typeof( P3 )), (n4, typeof( P4 )), (n5, typeof( P5 )), (n6, typeof( P6 )), (n7, typeof( P7 ))
+            );
+        }
+
+        public MemberwiseDescriptor<T> WithFactory<P1, P2, P3, P4, P5, P6, P7, P8>( Func<P1, P2, P3, P4, P5, P6, P7, P8, T> factory, string n1, string n2, string n3, string n4, string n5, string n6, string n7, string n8 )
+        {
+            return WithConstructor(
+                args => factory( (P1)args[0], (P2)args[1], (P3)args[2], (P4)args[3], (P5)args[4], (P6)args[5], (P7)args[6], (P8)args[7] ),
+                (n1, typeof( P1 )), (n2, typeof( P2 )), (n3, typeof( P3 )), (n4, typeof( P4 )), (n5, typeof( P5 )), (n6, typeof( P6 )), (n7, typeof( P7 )), (n8, typeof( P8 ))
+            );
+        }
+
+        public MemberwiseDescriptor<T> WithFactory<P1, P2, P3, P4, P5, P6, P7, P8, P9>( Func<P1, P2, P3, P4, P5, P6, P7, P8, P9, T> factory, string n1, string n2, string n3, string n4, string n5, string n6, string n7, string n8, string n9 )
+        {
+            return WithConstructor(
+                args => factory( (P1)args[0], (P2)args[1], (P3)args[2], (P4)args[3], (P5)args[4], (P6)args[5], (P7)args[6], (P8)args[7], (P9)args[8] ),
+                (n1, typeof( P1 )), (n2, typeof( P2 )), (n3, typeof( P3 )), (n4, typeof( P4 )), (n5, typeof( P5 )), (n6, typeof( P6 )), (n7, typeof( P7 )), (n8, typeof( P8 )), (n9, typeof( P9 ))
+            );
+        }
+
+        public MemberwiseDescriptor<T> WithFactory<P1, P2, P3, P4, P5, P6, P7, P8, P9, P10>( Func<P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, T> factory, string n1, string n2, string n3, string n4, string n5, string n6, string n7, string n8, string n9, string n10 )
+        {
+            return WithConstructor(
+                args => factory( (P1)args[0], (P2)args[1], (P3)args[2], (P4)args[3], (P5)args[4], (P6)args[5], (P7)args[6], (P8)args[7], (P9)args[8], (P10)args[9] ),
+                (n1, typeof( P1 )), (n2, typeof( P2 )), (n3, typeof( P3 )), (n4, typeof( P4 )), (n5, typeof( P5 )), (n6, typeof( P6 )), (n7, typeof( P7 )), (n8, typeof( P8 )), (n9, typeof( P9 )), (n10, typeof( P10 ))
+            );
+        }
+
+        public MemberwiseDescriptor<T> WithFactory<P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11>( Func<P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, T> factory, string n1, string n2, string n3, string n4, string n5, string n6, string n7, string n8, string n9, string n10, string n11 )
+        {
+            return WithConstructor(
+                args => factory( (P1)args[0], (P2)args[1], (P3)args[2], (P4)args[3], (P5)args[4], (P6)args[5], (P7)args[6], (P8)args[7], (P9)args[8], (P10)args[9], (P11)args[10] ),
+                (n1, typeof( P1 )), (n2, typeof( P2 )), (n3, typeof( P3 )), (n4, typeof( P4 )), (n5, typeof( P5 )), (n6, typeof( P6 )), (n7, typeof( P7 )), (n8, typeof( P8 )), (n9, typeof( P9 )), (n10, typeof( P10 )), (n11, typeof( P11 ))
+            );
+        }
+
+        public MemberwiseDescriptor<T> WithFactory<P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12>( Func<P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, T> factory, string n1, string n2, string n3, string n4, string n5, string n6, string n7, string n8, string n9, string n10, string n11, string n12 )
+        {
+            return WithConstructor(
+                args => factory( (P1)args[0], (P2)args[1], (P3)args[2], (P4)args[3], (P5)args[4], (P6)args[5], (P7)args[6], (P8)args[7], (P9)args[8], (P10)args[9], (P11)args[10], (P12)args[11] ),
+                (n1, typeof( P1 )), (n2, typeof( P2 )), (n3, typeof( P3 )), (n4, typeof( P4 )), (n5, typeof( P5 )), (n6, typeof( P6 )), (n7, typeof( P7 )), (n8, typeof( P8 )), (n9, typeof( P9 )), (n10, typeof( P10 )), (n11, typeof( P11 )), (n12, typeof( P12 ))
+            );
+        }
+
+        public MemberwiseDescriptor<T> WithFactory<P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13>( Func<P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, T> factory, string n1, string n2, string n3, string n4, string n5, string n6, string n7, string n8, string n9, string n10, string n11, string n12, string n13 )
+        {
+            return WithConstructor(
+                args => factory( (P1)args[0], (P2)args[1], (P3)args[2], (P4)args[3], (P5)args[4], (P6)args[5], (P7)args[6], (P8)args[7], (P9)args[8], (P10)args[9], (P11)args[10], (P12)args[11], (P13)args[12] ),
+                (n1, typeof( P1 )), (n2, typeof( P2 )), (n3, typeof( P3 )), (n4, typeof( P4 )), (n5, typeof( P5 )), (n6, typeof( P6 )), (n7, typeof( P7 )), (n8, typeof( P8 )), (n9, typeof( P9 )), (n10, typeof( P10 )), (n11, typeof( P11 )), (n12, typeof( P12 )), (n13, typeof( P13 ))
+            );
+        }
+
+        public MemberwiseDescriptor<T> WithFactory<P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>( Func<P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, T> factory, string n1, string n2, string n3, string n4, string n5, string n6, string n7, string n8, string n9, string n10, string n11, string n12, string n13, string n14 )
+        {
+            return WithConstructor(
+                args => factory( (P1)args[0], (P2)args[1], (P3)args[2], (P4)args[3], (P5)args[4], (P6)args[5], (P7)args[6], (P8)args[7], (P9)args[8], (P10)args[9], (P11)args[10], (P12)args[11], (P13)args[12], (P14)args[13] ),
+                (n1, typeof( P1 )), (n2, typeof( P2 )), (n3, typeof( P3 )), (n4, typeof( P4 )), (n5, typeof( P5 )), (n6, typeof( P6 )), (n7, typeof( P7 )), (n8, typeof( P8 )), (n9, typeof( P9 )), (n10, typeof( P10 )), (n11, typeof( P11 )), (n12, typeof( P12 )), (n13, typeof( P13 )), (n14, typeof( P14 ))
+            );
+        }
+
+        public MemberwiseDescriptor<T> WithFactory<P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15>( Func<P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15, T> factory, string n1, string n2, string n3, string n4, string n5, string n6, string n7, string n8, string n9, string n10, string n11, string n12, string n13, string n14, string n15 )
+        {
+            return WithConstructor(
+                args => factory( (P1)args[0], (P2)args[1], (P3)args[2], (P4)args[3], (P5)args[4], (P6)args[5], (P7)args[6], (P8)args[7], (P9)args[8], (P10)args[9], (P11)args[10], (P12)args[11], (P13)args[12], (P14)args[13], (P15)args[14] ),
+                (n1, typeof( P1 )), (n2, typeof( P2 )), (n3, typeof( P3 )), (n4, typeof( P4 )), (n5, typeof( P5 )), (n6, typeof( P6 )), (n7, typeof( P7 )), (n8, typeof( P8 )), (n9, typeof( P9 )), (n10, typeof( P10 )), (n11, typeof( P11 )), (n12, typeof( P12 )), (n13, typeof( P13 )), (n14, typeof( P14 )), (n15, typeof( P15 ))
+            );
+        }
+
         // --- Method / UI Support ---
 
         public MemberwiseDescriptor<T> WithMethod( string name, Action<T> action, string displayName = null )
@@ -356,7 +539,15 @@ namespace UnityPlus.Serialization
             if( stepIndex < ctorCount )
             {
                 var (name, type) = _constructorParams[stepIndex];
-                IDescriptor typeDesc = TypeDescriptorRegistry.GetDescriptor( type, 0 );
+                // Try to find context from registered members
+                ContextKey context = ContextKey.Default;
+                var memberDef = _members.Find( m => m.Name == name );
+                if( memberDef != null )
+                {
+                    context = memberDef.Context;
+                }
+
+                IDescriptor typeDesc = TypeDescriptorRegistry.GetDescriptor( type, context );
                 return new BufferMemberInfo( stepIndex, name, type, typeDesc );
             }
 
@@ -441,61 +632,6 @@ namespace UnityPlus.Serialization
 
             public object GetValue( object target ) => ((object[])target)[_index];
             public void SetValue( ref object target, object value ) => ((object[])target)[_index] = value;
-        }
-
-        private class MemberDefinition<TMember> : IMemberInfo
-        {
-            public string Name { get; }
-            public int Index => -1;
-            public ContextKey Context { get; }
-            public Func<object, TMember> Getter;
-            public Action<object, TMember> Setter;
-            public RefSetter<object, TMember> RefSetter;
-            public Type MemberType { get; }
-            public bool RequiresWriteBack => MemberType.IsValueType;
-
-            public Predicate<object> ShouldSerialize;
-            public Func<object, SerializationContext, bool> ShouldSerializeWithContext;
-
-            private IDescriptor _cachedDescriptor;
-
-            public IDescriptor TypeDescriptor
-            {
-                get
-                {
-                    if( _cachedDescriptor == null )
-                    {
-                        _cachedDescriptor = TypeDescriptorRegistry.GetDescriptor( MemberType, Context );
-                    }
-                    return _cachedDescriptor;
-                }
-            }
-
-            public MemberDefinition( string name, ContextKey context, Func<object, TMember> getter, Action<object, TMember> setter, RefSetter<object, TMember> refSetter, Type memberType = null )
-            {
-                Name = name;
-                Context = context;
-                Getter = getter;
-                Setter = setter;
-                RefSetter = refSetter;
-                MemberType = memberType ?? typeof( TMember );
-            }
-
-            public ContextKey GetContext( object target ) => Context;
-
-            public object GetValue( object target ) => Getter( target );
-
-            public void SetValue( ref object target, object value )
-            {
-                if( RefSetter != null )
-                {
-                    RefSetter( ref target, (TMember)value );
-                }
-                else if( Setter != null )
-                {
-                    Setter( target, (TMember)value );
-                }
-            }
         }
 
         private class ActionMethodInfo : IMethodInfo
