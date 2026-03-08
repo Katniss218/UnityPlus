@@ -157,10 +157,18 @@ namespace UnityPlus.Serialization
 
         [MapsInheritingFrom( typeof( Delegate ) )]
         public static IDescriptor DelegateMapping() => new PrimitiveConfigurableDescriptor<Delegate>(
-            ( v, w, c ) => w.Data = Persistent_Delegate.GetData( v, c.ReverseMap ),
+            ( v, w, c ) =>
+            {
+                var data = Persistent_Delegate.GetData( v, c.ReverseMap );
+                var wrapper = new SerializedObject();
+                wrapper[KeyNames.ID] = c.ReverseMap.GetID( v ).SerializeGuid();
+                wrapper[KeyNames.VALUE] = data;
+                w.Data = wrapper;
+            },
             ( d, c ) =>
             {
-                // This is kinda non-standard, but since we need the reference to the `target` to even create the delegate, we can only create it here.
+                if( d is SerializedObject obj && obj.TryGetValue( KeyNames.VALUE, out var val ) )
+                    d = val;
                 return Persistent_Delegate.ToDelegate( d, c.ForwardMap );
             }
         );

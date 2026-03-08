@@ -43,7 +43,13 @@ namespace UnityPlus.Serialization
             // [Primitive Root]
             if( rootDescriptor is IPrimitiveDescriptor primitiveRoot )
             {
-                if( primitiveRoot.DeserializeDirect( rootData, state.Context, out object res ) == DeserializationResult.Success )
+                SerializedData dataToUse = rootData;
+                if( rootData is SerializedObject wrapperObj && wrapperObj.TryGetValue( KeyNames.VALUE, out var innerVal ) )
+                {
+                    dataToUse = innerVal;
+                }
+
+                if( primitiveRoot.DeserializeDirect( dataToUse, state.Context, out object res ) == DeserializationResult.Success )
                     state.RootResult = res;
                 return;
             }
@@ -385,6 +391,11 @@ namespace UnityPlus.Serialization
                 {
                     value = null;
                     return MemberResolutionResult.Missing;
+                }
+
+                if( primitiveData is SerializedObject wrapperObj && wrapperObj.TryGetValue( KeyNames.VALUE, out var innerVal ) )
+                {
+                    primitiveData = innerVal;
                 }
 
                 DeserializationResult result = DeserializationResult.Success;

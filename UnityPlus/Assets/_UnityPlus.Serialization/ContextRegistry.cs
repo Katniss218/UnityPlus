@@ -246,17 +246,17 @@ namespace UnityPlus.Serialization
             if( typeof( Ctx.Asset ).IsAssignableFrom( contextType ) )
             {
                 Register( contextType, ContextIDs.Asset );
-                return ObjectContext.Asset;
+                return ContextIDs.Asset;
             }
             if( typeof( Ctx.Ref ).IsAssignableFrom( contextType ) )
             {
                 Register( contextType, ContextIDs.Ref );
-                return ObjectContext.Ref;
+                return ContextIDs.Ref;
             }
             if( typeof( Ctx.Value ).IsAssignableFrom( contextType ) )
             {
                 Register( contextType, ContextIDs.Default );
-                return ObjectContext.Default;
+                return ContextIDs.Default;
             }
 
             if( contextType.IsGenericType && typeof( Ctx.IContext ).IsAssignableFrom( contextType ) )

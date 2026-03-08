@@ -7,7 +7,7 @@ namespace UnityPlus.Serialization
     {
         public override Type MappedType => typeof( List<T> );
 
-        public IContextSelector ElementSelector { get; set; } = new UniformSelector( ContextIDs.Default );
+        public IContextSelector ElementSelector { get; set; }
 
         public override object CreateInitialTarget( SerializedData data, SerializationContext ctx )
         {

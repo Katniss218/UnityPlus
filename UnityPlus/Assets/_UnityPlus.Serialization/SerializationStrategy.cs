@@ -13,6 +13,40 @@ namespace UnityPlus.Serialization
                 return;
             }
 
+            // [Boxed Primitive Root Support]
+            //  the declared root descriptor is NOT primitive, but the actual object IS primitive (e.g. Serialize<object>(5))
+            if( !(rootDescriptor is IPrimitiveDescriptor) )
+            {
+                Type actualType = root.GetType();
+                var actualDesc = TypeDescriptorRegistry.GetDescriptor( actualType );
+                if( actualDesc is IPrimitiveDescriptor primDesc )
+                {
+                    var wrapper = new SerializedObject();
+
+                    // Write ID (Boxed primitives are objects)
+                    Guid rootId = state.Context.ReverseMap.GetID( root );
+                    Persistent_Guid.WriteIdHeader( wrapper, rootId );
+
+                    // Write Type
+                    Persistent_Type.WriteTypeHeader( wrapper, actualType );
+
+                    // Write Value
+                    SerializedData valData = null;
+                    try
+                    {
+                        primDesc.SerializeDirect( root, ref valData, state.Context );
+                    }
+                    catch( Exception ex )
+                    {
+                        WrapException( ex, state, "Serializing Boxed Primitive Root", actualDesc, null );
+                    }
+                    wrapper[KeyNames.VALUE] = valData;
+
+                    state.RootResult = wrapper;
+                    return;
+                }
+            }
+
             // [Primitive Root Support]
             if( rootDescriptor is IPrimitiveDescriptor primitiveRoot )
             {
@@ -237,6 +271,20 @@ namespace UnityPlus.Serialization
                 {
                     WrapException( ex, state, "Serializing Primitive", descriptor, memberInfo );
                 }
+
+                // Check for boxing/polymorphism
+                if( !declaredType.IsValueType && declaredType != actualType )
+                {
+                    // Boxed primitive!
+                    var wrapper = new SerializedObject();
+                    Guid id = state.Context.ReverseMap.GetID( val );
+                    Persistent_Guid.WriteIdHeader( wrapper, id );
+                    Persistent_Type.WriteTypeHeader( wrapper, actualType );
+
+                    wrapper[KeyNames.VALUE] = primitiveData;
+                    primitiveData = wrapper;
+                }
+
                 LinkDataNode( parentData, memberInfo.Name, primitiveData, index );
                 return MemberResolutionResult.Resolved;
             }

@@ -37,6 +37,15 @@ namespace UnityPlus.Serialization.Tests.V4
         }
 
         [Test]
+        public void Structure_Boxed_Int()
+        {
+            var data = Serialize<object>( (int)6 );
+            Debug.Log( data.DumpToString() );
+            Assert.That( data, Is.InstanceOf<SerializedObject>() );
+            Assert.That( data["value"], Is.EqualTo( (SerializedPrimitive)6 ) );
+        }
+
+        [Test]
         public void Structure_Null_String()
         {
             var data = Serialize( (string)null );
