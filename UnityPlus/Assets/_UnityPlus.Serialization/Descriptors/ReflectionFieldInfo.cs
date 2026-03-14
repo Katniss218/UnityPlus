@@ -10,7 +10,7 @@ namespace UnityPlus.Serialization
     {
         public string Name { get; }
         public int Index => -1; // Fields are named, not indexed
-        public Type MemberType { get; }
+        public Type DeclaredType { get; }
         public bool RequiresWriteBack { get; }
 
         private readonly ContextKey _context;
@@ -26,7 +26,7 @@ namespace UnityPlus.Serialization
             get
             {
                 if( _cachedDesc == null )
-                    _cachedDesc = TypeDescriptorRegistry.GetDescriptor( MemberType, _context );
+                    _cachedDesc = TypeDescriptorRegistry.GetDescriptor( DeclaredType, _context );
                 return _cachedDesc;
             }
         }
@@ -34,8 +34,8 @@ namespace UnityPlus.Serialization
         public ReflectionFieldInfo( FieldInfo field, ContextKey context = default )
         {
             Name = field.Name;
-            MemberType = field.FieldType;
-            RequiresWriteBack = MemberType.IsValueType;
+            DeclaredType = field.FieldType;
+            RequiresWriteBack = DeclaredType.IsValueType;
             _context = context;
 
             // Use AccessorUtils to generate optimized delegates

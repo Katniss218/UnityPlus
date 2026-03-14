@@ -80,7 +80,7 @@ namespace UnityPlus.Serialization
             SerializedArray componentsArray = null;
             if( data is SerializedObject objRoot && objRoot.TryGetValue( KeyNames.COMPONENTS, out var compNode ) )
             {
-                componentsArray = SerializationHelpers.GetValueNode( compNode, ctx.Config.ForceStandardJson );
+                componentsArray = SerializationHelpers.GetValueNode( compNode );
             }
 
             if( componentsArray != null )
@@ -128,7 +128,7 @@ namespace UnityPlus.Serialization
         {
             public string Name { get; }
             public readonly int Index => -1;
-            public Type MemberType { get; }
+            public Type DeclaredType { get; }
             public IDescriptor TypeDescriptor { get; }
             public readonly bool RequiresWriteBack => false;
 
@@ -138,7 +138,7 @@ namespace UnityPlus.Serialization
             public PropertyMember( string name, Type type, Func<object, object> getter, RefSetter<object, object> setter )
             {
                 Name = name;
-                MemberType = type;
+                DeclaredType = type;
                 TypeDescriptor = TypeDescriptorRegistry.GetDescriptor( type );
                 _getter = getter;
                 _setter = setter;
@@ -154,7 +154,7 @@ namespace UnityPlus.Serialization
         {
             public string Name { get; }
             public int Index => -1;
-            public Type MemberType { get; }
+            public Type DeclaredType { get; }
             public IDescriptor TypeDescriptor { get; }
             public bool RequiresWriteBack => false;
 
@@ -163,7 +163,7 @@ namespace UnityPlus.Serialization
             public VirtualListMember( string name, Type type, IDescriptor descriptor, Func<object, object> getter )
             {
                 Name = name;
-                MemberType = type;
+                DeclaredType = type;
                 TypeDescriptor = descriptor;
                 _getter = getter;
             }
@@ -219,7 +219,7 @@ namespace UnityPlus.Serialization
         {
             public string Name => null; // Array element
             public int Index => _index;
-            public Type MemberType => typeof( Component );
+            public Type DeclaredType => typeof( Component );
             public IDescriptor TypeDescriptor { get; }
             public bool RequiresWriteBack => false;
 
@@ -293,7 +293,7 @@ namespace UnityPlus.Serialization
         {
             public string Name => null;
             public int Index => _index;
-            public Type MemberType => typeof( GameObject );
+            public Type DeclaredType => typeof( GameObject );
             public IDescriptor TypeDescriptor { get; }
             public bool RequiresWriteBack => false;
 

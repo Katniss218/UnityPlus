@@ -18,7 +18,7 @@ namespace UnityPlus.Serialization
     {
         private readonly EnumSerializationMode _mode;
 
-        public EnumDescriptor() : this( EnumSerializationMode.Integer )
+        public EnumDescriptor() : this( EnumSerializationMode.String )
         {
         }
 
@@ -43,24 +43,23 @@ namespace UnityPlus.Serialization
         public override DeserializationResult DeserializeDirect( SerializedData data, SerializationContext ctx, out object result )
         {
             result = default( T );
-            if( data is SerializedPrimitive prim )
+            if( data is not SerializedPrimitive prim )
+                return DeserializationResult.Failed;
+
+            if( _mode == EnumSerializationMode.String )
             {
-                // Reading String
-                if( prim._type == SerializedPrimitive.DataType.String )
+                if( Enum.TryParse<T>( (string)prim, true, out var res ) )
                 {
-                    if( Enum.TryParse<T>( (string)prim, true, out var res ) )
-                    {
-                        result = res;
-                        return DeserializationResult.Success;
-                    }
-                }
-                // Reading Number
-                else if( prim._type == SerializedPrimitive.DataType.Int64 )
-                {
-                    result = Enum.ToObject( typeof( T ), (long)prim );
+                    result = res;
                     return DeserializationResult.Success;
                 }
             }
+            else
+            {
+                result = Enum.ToObject( typeof( T ), (long)prim );
+                return DeserializationResult.Success;
+            }
+
             return DeserializationResult.Failed;
         }
     }

@@ -12,7 +12,7 @@ namespace UnityPlus.Serialization
         public override object CreateInitialTarget( SerializedData data, SerializationContext ctx )
         {
             int capacity = 0;
-            var arr = SerializationHelpers.GetValueNode( data, ctx.Config.ForceStandardJson );
+            var arr = SerializationHelpers.GetValueNode( data );
             if( arr != null )
                 capacity = arr.Count;
 
@@ -57,7 +57,7 @@ namespace UnityPlus.Serialization
         {
             public string Name => null;
             public int Index => _index;
-            public Type MemberType => typeof( T );
+            public Type DeclaredType => typeof( T );
             public bool RequiresWriteBack => typeof( T ).IsValueType;
 
             private readonly int _index;

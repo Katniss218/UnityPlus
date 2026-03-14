@@ -19,18 +19,6 @@ namespace UnityPlus.Serialization
         }
 
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static string SerializeGuidAsKey( this Guid guid )
-        {
-            return guid.ToString( "D" );
-        }
-
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
-        public static Guid DeserializeGuidAsKey( this string keyName )
-        {
-            return Guid.ParseExact( keyName, "D" );
-        }
-
-        [MethodImpl( MethodImplOptions.AggressiveInlining )]
         public static SerializedPrimitive SerializeGuid( this Guid guid )
         {
             // GUIDs should be saved in the '00000000-0000-0000-0000-000000000000' format, with dashes, and without extra anything.
@@ -51,7 +39,7 @@ namespace UnityPlus.Serialization
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
         public static void WriteIdHeader( SerializedObject data, Guid id )
         {
-            if( data == null || id == Guid.Empty ) 
+            if( data == null || id == Guid.Empty )
                 return;
             data[KeyNames.ID] = SerializeGuid( id );
         }
@@ -63,11 +51,27 @@ namespace UnityPlus.Serialization
         public static bool TryReadIdHeader( SerializedObject data, out Guid id )
         {
             id = Guid.Empty;
-            if( data == null ) 
+            if( data == null )
                 return false;
             if( data.TryGetValue( KeyNames.ID, out SerializedData val ) && val is SerializedPrimitive prim )
             {
                 // We use TryParseExact for safety in case of malformed data during deserialization
+                return Guid.TryParseExact( (string)prim, "D", out id );
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Tries to read the $ref header from the serialized object.
+        /// </summary>
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public static bool TryReadRefHeader( SerializedObject data, out Guid id )
+        {
+            id = Guid.Empty;
+            if( data == null )
+                return false;
+            if( data.TryGetValue( KeyNames.REF, out SerializedData val ) && val is SerializedPrimitive prim )
+            {
                 return Guid.TryParseExact( (string)prim, "D", out id );
             }
             return false;

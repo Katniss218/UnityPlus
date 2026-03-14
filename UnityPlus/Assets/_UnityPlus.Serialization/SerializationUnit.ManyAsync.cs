@@ -49,11 +49,10 @@ namespace UnityPlus.Serialization
             };
 
             var driver = new StackMachineDriver( ctx );
-            var descriptor = TypeDescriptorRegistry.GetDescriptor( typeof( T ), context );
 
             foreach( var obj in objects )
             {
-                driver.Initialize( obj, descriptor, new SerializationStrategy() );
+                driver.Initialize( typeof( T ), context, new SerializationStrategy(), obj, null );
                 yield return await RunDriverAsync<SerializedData>( driver, timeBudgetMs );
             }
         }
@@ -101,11 +100,10 @@ namespace UnityPlus.Serialization
             };
 
             var driver = new StackMachineDriver( ctx );
-            var descriptor = TypeDescriptorRegistry.GetDescriptor( typeof( T ), context );
 
             foreach( var d in data )
             {
-                driver.Initialize( null, descriptor, new DeserializationStrategy(), d );
+                driver.Initialize( typeof( T ), context, new DeserializationStrategy(), null, d );
                 yield return await RunDriverAsync<T>( driver, timeBudgetMs );
             }
         }
@@ -153,11 +151,10 @@ namespace UnityPlus.Serialization
             };
 
             var driver = new StackMachineDriver( ctx );
-            var descriptor = TypeDescriptorRegistry.GetDescriptor( typeof( T ), context );
 
             foreach( var (obj, data) in objects )
             {
-                driver.Initialize( obj, descriptor, new DeserializationStrategy(), data );
+                driver.Initialize( typeof( T ), context, new DeserializationStrategy(), obj, data );
                 yield return await RunDriverAsync<T>( driver, timeBudgetMs );
             }
         }

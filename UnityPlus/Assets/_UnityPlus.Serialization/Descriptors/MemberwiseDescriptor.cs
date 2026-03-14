@@ -26,8 +26,8 @@ namespace UnityPlus.Serialization
             public Func<object, object> Getter;
             public Action<object, object> Setter;
             public RefSetter<object, object> RefSetter;
-            public Type MemberType { get; }
-            public bool RequiresWriteBack => MemberType.IsValueType;
+            public Type DeclaredType { get; }
+            public bool RequiresWriteBack => DeclaredType.IsValueType;
 
             public Predicate<object> ShouldSerialize;
             public Func<object, SerializationContext, bool> ShouldSerializeWithContext;
@@ -40,7 +40,7 @@ namespace UnityPlus.Serialization
                 {
                     if( _cachedDescriptor == null )
                     {
-                        _cachedDescriptor = TypeDescriptorRegistry.GetDescriptor( MemberType, Context );
+                        _cachedDescriptor = TypeDescriptorRegistry.GetDescriptor( DeclaredType, Context );
                     }
                     return _cachedDescriptor;
                 }
@@ -53,12 +53,12 @@ namespace UnityPlus.Serialization
                 Getter = getter;
                 Setter = setter;
                 RefSetter = refSetter;
-                MemberType = memberType;
+                DeclaredType = memberType;
             }
 
             public MemberDefinition Clone()
             {
-                var clone = new MemberDefinition( Name, Context, Getter, Setter, RefSetter, MemberType );
+                var clone = new MemberDefinition( Name, Context, Getter, Setter, RefSetter, DeclaredType );
                 clone.ShouldSerialize = ShouldSerialize;
                 clone.ShouldSerializeWithContext = ShouldSerializeWithContext;
                 return clone;
@@ -614,9 +614,9 @@ namespace UnityPlus.Serialization
         {
             public string Name { get; }
             public int Index => -1; // Constructor args are named
-            public Type MemberType { get; }
+            public Type DeclaredType { get; }
             public IDescriptor TypeDescriptor { get; }
-            public bool RequiresWriteBack => MemberType.IsValueType;
+            public bool RequiresWriteBack => DeclaredType.IsValueType;
 
             private readonly int _index;
 
@@ -624,7 +624,7 @@ namespace UnityPlus.Serialization
             {
                 _index = index;
                 Name = name;
-                MemberType = type;
+                DeclaredType = type;
                 TypeDescriptor = desc;
             }
 

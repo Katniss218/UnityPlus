@@ -16,6 +16,16 @@ namespace UnityPlus.Serialization
 
         public virtual IEnumerator<IMemberInfo> GetMemberEnumerator( object target ) => null;
         public abstract object CreateInitialTarget( SerializedData data, SerializationContext ctx );
+        public virtual ObjectStructure DetermineObjectStructure( Type declaredType, Type actualType, SerializationConfiguration config, out bool needsId, out bool needsType )
+        {
+            SerializationHelpers.DetermineObjectStructure( declaredType, actualType, out needsId, out needsType );
+
+            if( (needsId || needsType) && !config.ForceStandardJson )
+            {
+                return ObjectStructure.Wrapped;
+            }
+            return ObjectStructure.Unwrapped;
+        }
 
         public virtual int GetConstructionStepCount( object target ) => 0;
         public object Construct( object initialTarget ) => initialTarget;

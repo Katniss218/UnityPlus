@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Reflection;
 
 namespace UnityPlus.Serialization
 {
@@ -12,46 +11,16 @@ namespace UnityPlus.Serialization
         public abstract void SerializeDirect( object target, ref SerializedData data, SerializationContext ctx );
         public abstract DeserializationResult DeserializeDirect( SerializedData data, SerializationContext ctx, out object result );
 
-        public object CreateInitialTarget( SerializedData data, SerializationContext ctx ) => default( T );
-    }
-
-    public class IntDescriptor : PrimitiveDescriptor<int>
-    {
-        public override void SerializeDirect( object target, ref SerializedData data, SerializationContext ctx ) => data = (SerializedPrimitive)(int)target;
-        public override DeserializationResult DeserializeDirect( SerializedData data, SerializationContext ctx, out object result )
+        public virtual object CreateInitialTarget( SerializedData data, SerializationContext ctx ) => default( T );
+        public virtual ObjectStructure DetermineObjectStructure( Type declaredType, Type actualType, SerializationConfiguration config, out bool needsId, out bool needsType )
         {
-            result = (int)data;
-            return DeserializationResult.Success;
-        }
-    }
+            SerializationHelpers.DetermineObjectStructure( declaredType, actualType, out needsId, out needsType );
 
-    public class FloatDescriptor : PrimitiveDescriptor<float>
-    {
-        public override void SerializeDirect( object target, ref SerializedData data, SerializationContext ctx ) => data = (SerializedPrimitive)(float)target;
-        public override DeserializationResult DeserializeDirect( SerializedData data, SerializationContext ctx, out object result )
-        {
-            result = (float)data;
-            return DeserializationResult.Success;
-        }
-    }
-
-    public class StringDescriptor : PrimitiveDescriptor<string>
-    {
-        public override void SerializeDirect( object target, ref SerializedData data, SerializationContext ctx ) => data = (SerializedPrimitive)(string)target;
-        public override DeserializationResult DeserializeDirect( SerializedData data, SerializationContext ctx, out object result )
-        {
-            result = (string)data;
-            return DeserializationResult.Success;
-        }
-    }
-
-    public class BoolDescriptor : PrimitiveDescriptor<bool>
-    {
-        public override void SerializeDirect( object target, ref SerializedData data, SerializationContext ctx ) => data = (SerializedPrimitive)(bool)target;
-        public override DeserializationResult DeserializeDirect( SerializedData data, SerializationContext ctx, out object result )
-        {
-            result = (bool)data;
-            return DeserializationResult.Success;
+            if( (needsId || needsType) && !config.ForceStandardJson )
+            {
+                return ObjectStructure.Wrapped;
+            }
+            return ObjectStructure.Unwrapped;
         }
     }
 }
@@ -66,15 +35,17 @@ namespace UnityPlus.Serialization
     {
         [MapsInheritingFrom( typeof( char ) )]
         private static IDescriptor ProvideChar() => new PrimitiveConfigurableDescriptor<char>(
-            ( v, w, c ) => w.Data = (SerializedPrimitive)v.ToString(),
+            ( v, w, c ) => w.Data = (SerializedPrimitive)(v.ToString()),
             ( d, c ) => { string strData = (string)d; return string.IsNullOrEmpty( strData ) ? '\0' : strData[0]; }
         );
 
         [MapsInheritingFrom( typeof( string ) )]
-        private static IDescriptor ProvideString() => new StringDescriptor();
+        private static IDescriptor ProvideString() => new PrimitiveConfigurableDescriptor<string>(
+            ( v, w, c ) => w.Data = (SerializedPrimitive)v, ( d, c ) => (string)(SerializedPrimitive)d );
 
         [MapsInheritingFrom( typeof( bool ) )]
-        private static IDescriptor ProvideBool() => new BoolDescriptor();
+        private static IDescriptor ProvideBool() => new PrimitiveConfigurableDescriptor<bool>(
+            ( v, w, c ) => w.Data = (SerializedPrimitive)v, ( d, c ) => (bool)(SerializedPrimitive)d );
 
         // --- Numeric Types (Explicit) ---
 
@@ -95,7 +66,8 @@ namespace UnityPlus.Serialization
             ( v, w, c ) => w.Data = (SerializedPrimitive)v, ( d, c ) => (ushort)(SerializedPrimitive)d );
 
         [MapsInheritingFrom( typeof( int ) )]
-        private static IDescriptor ProvideInt32() => new IntDescriptor();
+        private static IDescriptor ProvideInt32() => new PrimitiveConfigurableDescriptor<int>(
+            ( v, w, c ) => w.Data = (SerializedPrimitive)v, ( d, c ) => (int)(SerializedPrimitive)d );
 
         [MapsInheritingFrom( typeof( uint ) )]
         private static IDescriptor ProvideUInt32() => new PrimitiveConfigurableDescriptor<uint>(
@@ -110,7 +82,8 @@ namespace UnityPlus.Serialization
             ( v, w, c ) => w.Data = (SerializedPrimitive)v, ( d, c ) => (ulong)(SerializedPrimitive)d );
 
         [MapsInheritingFrom( typeof( float ) )]
-        private static IDescriptor ProvideSingle() => new FloatDescriptor();
+        private static IDescriptor ProvideSingle() => new PrimitiveConfigurableDescriptor<float>(
+            ( v, w, c ) => w.Data = (SerializedPrimitive)v, ( d, c ) => (float)(SerializedPrimitive)d );
 
         [MapsInheritingFrom( typeof( double ) )]
         private static IDescriptor ProvideDouble() => new PrimitiveConfigurableDescriptor<double>(
@@ -136,18 +109,26 @@ namespace UnityPlus.Serialization
 
         [MapsInheritingFrom( typeof( DateTime ) )]
         private static IDescriptor ProvideDateTime() => new PrimitiveConfigurableDescriptor<DateTime>(
+            // DateTime is saved as an ISO-8601 string.
+            // `2024-06-08T11:57:10.1564602Z`
             ( v, w, c ) => w.Data = (SerializedPrimitive)v.ToString( "o", CultureInfo.InvariantCulture ),
             ( d, c ) => DateTime.Parse( (string)d, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind )
         );
 
         [MapsInheritingFrom( typeof( DateTimeOffset ) )]
         private static IDescriptor ProvideDateTimeOffset() => new PrimitiveConfigurableDescriptor<DateTimeOffset>(
+            // DateTimeOffset is saved as an ISO-8601 string.
+            // `2024-06-08T11:57:10.1564602+00:00`
+
             ( v, w, c ) => w.Data = (SerializedPrimitive)v.ToString( "o", CultureInfo.InvariantCulture ),
             ( d, c ) => DateTimeOffset.Parse( (string)d, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind )
         );
 
         [MapsInheritingFrom( typeof( TimeSpan ) )]
         private static IDescriptor ProvideTimeSpan() => new PrimitiveConfigurableDescriptor<TimeSpan>(
+            // TimeSpan is saved as `[-][d'.']hh':'mm':'ss['.'fffffff]`.
+            // `-3962086.01:03:44.2452523`
+
             ( v, w, c ) => w.Data = (SerializedPrimitive)v.ToString( "c", CultureInfo.InvariantCulture ),
             ( d, c ) => TimeSpan.ParseExact( (string)d, "c", CultureInfo.InvariantCulture )
         );
@@ -160,10 +141,7 @@ namespace UnityPlus.Serialization
             ( v, w, c ) =>
             {
                 var data = Persistent_Delegate.GetData( v, c.ReverseMap );
-                var wrapper = new SerializedObject();
-                wrapper[KeyNames.ID] = c.ReverseMap.GetID( v ).SerializeGuid();
-                wrapper[KeyNames.VALUE] = data;
-                w.Data = wrapper;
+                w.Data = data;
             },
             ( d, c ) =>
             {

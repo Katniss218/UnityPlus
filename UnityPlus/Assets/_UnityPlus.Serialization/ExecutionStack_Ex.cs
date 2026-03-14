@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text;
 
 namespace UnityPlus.Serialization
 {
@@ -13,14 +12,14 @@ namespace UnityPlus.Serialization
             if( stack == null || stack.Count == 0 )
                 return new SerializedDataPath();
 
-            var frames = stack.Frames;
-            var segments = new List<SerializedDataPathSegment>( frames.Count );
+            int count = stack.Count;
+            var segments = new List<SerializedDataPathSegment>( count );
 
             // Frame 0 is the Root object. The path segments describe how to get *from* root *to* the leaf.
             // Therefore, we skip index 0.
-            for( int i = 1; i < frames.Count; i++ )
+            for( int i = 1; i < count; i++ )
             {
-                var cursor = frames[i];
+                var cursor = stack[i];
                 IMemberInfo member = cursor.TargetObj.Member;
 
                 if( member != null )

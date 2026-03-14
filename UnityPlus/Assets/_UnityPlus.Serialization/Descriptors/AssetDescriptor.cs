@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityPlus.AssetManagement;
 
 namespace UnityPlus.Serialization
@@ -9,6 +10,13 @@ namespace UnityPlus.Serialization
     /// </summary>
     public class AssetDescriptor<T> : PrimitiveDescriptor<T> where T : class
     {
+        public override ObjectStructure DetermineObjectStructure( Type declaredType, Type actualType, SerializationConfiguration config, out bool needsId, out bool needsType )
+        {
+            needsId = false;
+            needsType = false;
+            return ObjectStructure.Unwrapped;
+        }
+
         public override void SerializeDirect( object target, ref SerializedData data, SerializationContext ctx )
         {
             if( target == null || target.IsUnityNull() )
