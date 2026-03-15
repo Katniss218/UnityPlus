@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 using UnityPlus.AssetManagement;
 using UnityPlus.Serialization;
+using UnityPlus.Serialization.Descriptors;
 using UnityPlus.Serialization.ReferenceMaps;
 using Ctx = UnityPlus.Serialization.Ctx;
 

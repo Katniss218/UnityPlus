@@ -1,5 +1,8 @@
 ﻿using NUnit.Framework;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityPlus.Serialization;
 using Ctx = UnityPlus.Serialization.Ctx;
 
@@ -37,7 +40,7 @@ namespace Neoserialization.V4
             // Expecting an int, but getting a SerializedObject
             var data = new SerializedObject { { "value", (SerializedPrimitive)10 } };
 
-            Assert.Catch<Exception>( () =>
+            Assert.Catch<UPSSerializationException>( () =>
             {
                 SerializationUnit.Deserialize<int>( data );
             } );
@@ -49,7 +52,7 @@ namespace Neoserialization.V4
             // Expecting an array, but getting a primitive
             var data = (SerializedPrimitive)42;
 
-            Assert.Catch<Exception>( () =>
+            Assert.Catch<UPSSerializationException>( () =>
             {
                 SerializationUnit.Deserialize<int[]>( data );
             } );
@@ -61,7 +64,7 @@ namespace Neoserialization.V4
             // Enum value that doesn't exist
             var data = (SerializedPrimitive)999;
 
-            Assert.Catch<Exception>( () =>
+            Assert.Catch<UPSSerializationException>( () =>
             {
                 SerializationUnit.Deserialize<TestEnumStr>( data ); // string throws
             } );
@@ -80,7 +83,7 @@ namespace Neoserialization.V4
 
             var config = new SerializationConfiguration { CycleHandling = CycleHandling.Throw };
 
-            Assert.Catch<Exception>( () =>
+            Assert.Catch<UPSSerializationException>( () =>
             {
                 SerializationUnit.Deserialize<SimpleRef>( obj1, default, config );
             } );
@@ -93,12 +96,52 @@ namespace Neoserialization.V4
             var data = new SerializedObject { { KeyNames.VALUE, (SerializedPrimitive)10 } };
             var config = new SerializationConfiguration { WrapperHandling = WrapperHandling.Strict };
 
-            Assert.Catch<Exception>( () =>
+            Assert.Catch<UPSSerializationException>( () =>
             {
-                SerializationUnit.Deserialize<int>( data, default, config );
+                SerializationUnit.Deserialize<int>( data, config );
             } );
         }
 
+        [Test]
+        public void Deserialize_StrictWrapper_ExpectsNoWrapper_GivenWrapper_Throws()
+        {
+            var config = new SerializationConfiguration { WrapperHandling = WrapperHandling.Strict };
+            var configCompatJson = new SerializationConfiguration { WrapperHandling = WrapperHandling.Strict, ForceStandardJson = true };
+
+            // Expecting 2x2, but providing 3 lengths
+            SerializedData data = new SerializedObject {
+                { KeyNames.ID, (SerializedPrimitive)"c357a12d-495d-4d6a-8150-2fc6746b88bc" },
+                { "value", new SerializedArray { (SerializedPrimitive)1, (SerializedPrimitive)2, (SerializedPrimitive)3, (SerializedPrimitive)4 } }
+            };
+
+#warning TODO - because `int[]` array is a class, it expects to be wrapped. if it were a struct , it would expect no wrapper. we should test both cases to verify the behavior is correct in each case, and that the error message is clear about what the issue is and how to fix it (e.g. "Expected wrapper for array type, but found unwrapped value. To fix, either wrap the value in an object with a $id or $type, or change WrapperHandling to allow unwrapped values for arrays.")
+            Assert.Catch<UPSSerializationException>( () =>
+            {
+                var arr = SerializationUnit.Deserialize<int[]>( data, configCompatJson );
+            } );
+
+
+            data = new SerializedObject {
+                { KeyNames.ID, (SerializedPrimitive)"c357a12d-495d-4d6a-8150-2fc6746b88bc" },
+                { KeyNames.TYPE, (SerializedPrimitive)(typeof( int[] ).AssemblyQualifiedName.ToString()) },
+                { "value", new SerializedArray { (SerializedPrimitive)1, (SerializedPrimitive)2, (SerializedPrimitive)3, (SerializedPrimitive)4 } }
+            };
+
+            // array is a class so it is expected to be wrapped unless standard json is forced.
+            Assert.DoesNotThrow( () =>
+            {
+                SerializationUnit.Deserialize<int[]>( data, config );
+            } );
+
+            // now we try an unwrapped array when it expects to be wrapped (non-standard json) - should throw.
+            data = new SerializedArray { (SerializedPrimitive)1, (SerializedPrimitive)2, (SerializedPrimitive)3, (SerializedPrimitive)4 };
+
+            Assert.Catch<UPSSerializationException>( () =>
+            {
+                var arr = SerializationUnit.Deserialize<int[]>( data, config );
+            } );
+        }
+        
         [Test]
         public void Deserialize_MultiDimensionalArray_WrongLengths_Throws()
         {
@@ -108,9 +151,24 @@ namespace Neoserialization.V4
                 { "values", new SerializedArray { (SerializedPrimitive)1, (SerializedPrimitive)2, (SerializedPrimitive)3, (SerializedPrimitive)4 } }
             };
 
-            Assert.Catch<Exception>( () =>
+            Assert.Catch<UPSSerializationException>( () =>
             {
                 SerializationUnit.Deserialize<int[,]>( data );
+            } );
+        }
+        
+        [Test]
+        public void Deserialize_IEnumerableWithoutPolymorphism_Throws()
+        {
+            // Expecting 2x2, but providing 3 lengths
+            var data = new SerializedObject {
+                { KeyNames.ID, (SerializedPrimitive)"c357a12d-495d-4d6a-8150-2fc6746b88bc" },
+                { "value", new SerializedArray { (SerializedPrimitive)1, (SerializedPrimitive)2, (SerializedPrimitive)3, (SerializedPrimitive)4 } }
+            };
+
+            Assert.Catch<UPSSerializationException>( () =>
+            {
+                SerializationUnit.Deserialize<IEnumerable<int>>( data );
             } );
         }
 

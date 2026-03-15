@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityPlus.AssetManagement;
 
-namespace UnityPlus.Serialization.DescriptorTypes
+namespace UnityPlus.Serialization.Descriptors
 {
     /// <summary>
     /// Serializes an object as an Asset ID ("$assetref") using the AssetRegistry.

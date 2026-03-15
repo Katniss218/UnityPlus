@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using UnityPlus.Serialization;
+using UnityPlus.Serialization.Descriptors;
 
 namespace Neoserialization.V4
 {

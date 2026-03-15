@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace UnityPlus.Serialization
+namespace UnityPlus.Serialization.Descriptors
 {
     public class DictionaryDescriptor<TDict, TKey, TValue> : CollectionDescriptor, ICollectionDescriptorWithContext where TDict : IDictionary<TKey, TValue>, new()
     {

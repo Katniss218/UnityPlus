@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UnityPlus.Serialization
+namespace UnityPlus.Serialization.Descriptors
 {
     /// <summary>
     /// Serializes an object as a reference ("$ref") using the ReferenceMap.

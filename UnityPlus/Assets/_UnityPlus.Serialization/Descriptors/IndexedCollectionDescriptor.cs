@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace UnityPlus.Serialization
+namespace UnityPlus.Serialization.Descriptors
 {
     public class IndexedCollectionDescriptor<TCollection, TElement> : CollectionDescriptor, ICollectionDescriptorWithContext
     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
+using UnityPlus.Serialization.Descriptors;
 
 namespace UnityPlus.Serialization
 {

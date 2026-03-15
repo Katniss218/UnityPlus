@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace UnityPlus.Serialization
+namespace UnityPlus.Serialization.Descriptors
 {
     /// <summary>
     /// An IMemberInfo implementation that uses compiled Expression Trees for fast field access via AccessorUtils.

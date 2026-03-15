@@ -3,11 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityPlus.Serialization.Descriptors;
 
-namespace UnityPlus.Serialization
+namespace UnityPlus.Serialization.DescriptorProviders
 {
     public static class UnityAssetDescriptors
     {
+        [MapsAnyInterface( ContextType = typeof( Ctx.Asset ) )]
+        [MapsInheritingFrom( typeof( object ), ContextType = typeof( Ctx.Asset ) )]
+        public static IDescriptor ProvideAsset<T>() where T : class
+        {
+            return new AssetDescriptor<T>();
+        }
+
         public struct TextureInfo
         {
             public Texture texture;

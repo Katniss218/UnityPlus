@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using UnityPlus.Serialization.Descriptors;
 
-namespace UnityPlus.Serialization
+namespace UnityPlus.Serialization.DescriptorProviders
 {
     public static class UnityComponentDescriptors
     {

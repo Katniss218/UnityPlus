@@ -61,6 +61,7 @@ namespace UnityPlus.Serialization
         {
             if( cursor.Descriptor is ICollectionDescriptor )
             {
+#warning TODO - this causes incorrect handling of wrapped collections where expected = unwrapped. see the point lower about swallowing this silently for more details. The CreateInitialTarget is not even invoked.
                 if( cursor.DataNode is SerializedArray arr )
                 {
                     cursor.PopulationStepCount = arr.Count;
@@ -286,6 +287,7 @@ namespace UnityPlus.Serialization
                 state.Context.EnqueueDeferred( cursor.TargetObj.Target, member, memberData );
                 return SerializationCursorResult.Advance;
             }
+#warning TODO - handle members that are IDisposable / custom-disposable (e.g. gameobjects are disposable but do not implement IDisposable). automatic cleanup is nice QOL.
 
             return SerializationCursorResult.Advance;
         }
@@ -358,11 +360,13 @@ namespace UnityPlus.Serialization
             // 4. Structure determination & unwrapping.
             ObjectStructure expectedStructure = actualDescriptor.DetermineObjectStructure( declaredType, actualType, state.Context.Config, out _, out _ );
 
+            SerializedData wrappedNode = null;
             if( node is SerializedObject wrapperObj )
             {
-                if( expectedStructure == ObjectStructure.Wrapped && wrapperObj.TryGetValue( KeyNames.VALUE, out var innerVal ) )
+                bool flag = wrapperObj.TryGetValue( KeyNames.VALUE, out wrappedNode );
+                if( expectedStructure == ObjectStructure.Wrapped && flag )
                 {
-                    data = innerVal;
+                    data = wrappedNode;
                 }
                 else if( expectedStructure == ObjectStructure.InlineMetadata )
                 {
@@ -377,9 +381,19 @@ namespace UnityPlus.Serialization
 
             if( state.Context.Config.WrapperHandling == WrapperHandling.Strict )
             {
+#warning TODO - case where expected = unwrapped, actual = wrapped is swallowed silently.
+#warning TODO - especially deadly when the wrapper is missing a $type field, because then the actual type is "wrong", which can lead to bad deserializations. 
+                // but that means the deserialization should still throw if there should be no wrapper.
+                // the main issue is that we can't reliably distinguish a malformed wrapper from a valid unwrapped data.
+                // we would have to look if the member has its own member named "value" or not, but then that's annoying and slow.
                 if( expectedStructure == ObjectStructure.Wrapped && data == node )
                 {
                     throw new UPSInvalidWrapperException( state.Context, $"Expected a wrapper object with '{KeyNames.VALUE}' for type {actualType.FullName}, but found unwrapped data.", state.Stack.BuildPath(), actualDescriptor, memberInfo, "Processing Value", null );
+                }
+#warning INFO - kinda ugly "fix" but it works.
+                if( expectedStructure == ObjectStructure.Unwrapped && actualDescriptor is ICollectionDescriptor && wrappedNode != null ) // wrappedNode implicitly checks for node is SerializedObject as well.
+                {
+                    throw new UPSInvalidWrapperException( state.Context, $"Expected no wrapper object with '{KeyNames.VALUE}' for collection type {actualType.FullName}, but found wrapped data.", state.Stack.BuildPath(), actualDescriptor, memberInfo, "Processing Value", null );
                 }
             }
 
@@ -389,6 +403,7 @@ namespace UnityPlus.Serialization
                 DeserializationResult result = default;
                 try
                 {
+#warning TODO - descriptor can "choose" to swallow exceptions and return a 'failure' state. we need to handle this.
                     result = primitiveDesc.DeserializeDirect( data, state.Context, out actualValue );
                 }
                 catch( Exception ex )

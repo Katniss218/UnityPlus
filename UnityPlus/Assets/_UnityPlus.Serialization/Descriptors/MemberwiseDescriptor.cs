@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using System.Runtime.Serialization;
 using UnityPlus.Serialization.Resolvers;
 
-namespace UnityPlus.Serialization
+namespace UnityPlus.Serialization.Descriptors
 {
     /// <summary>
     /// A concrete descriptor for a class or struct, composed of named members.
@@ -504,8 +504,8 @@ namespace UnityPlus.Serialization
                     context = memberDef.Context;
                 }
 
-                IDescriptor typeDesc = TypeDescriptorRegistry.GetDescriptor( type, context );
-                return new BufferMemberInfo( stepIndex, name, type, typeDesc );
+#warning TODO - cache these.
+                return new BufferMemberInfo( stepIndex, name, type, context );
             }
 
             int memberIndex = stepIndex - ctorCount;
@@ -594,20 +594,21 @@ namespace UnityPlus.Serialization
             public string Name { get; }
             public int Index => -1; // Constructor args are named
             public Type DeclaredType { get; }
-            public IDescriptor TypeDescriptor { get; }
+            public IDescriptor TypeDescriptor => null;
             public bool RequiresWriteBack => DeclaredType.IsValueType;
 
             private readonly int _index;
+            private readonly ContextKey _context;
 
-            public BufferMemberInfo( int index, string name, Type type, IDescriptor desc )
+            public BufferMemberInfo( int index, string name, Type type, ContextKey context )
             {
                 _index = index;
                 Name = name;
                 DeclaredType = type;
-                TypeDescriptor = desc;
+                _context = context;
             }
 
-            public ContextKey GetContext( object target ) => default;
+            public ContextKey GetContext( object target ) => _context;
 
             public object GetValue( object target ) => ((object[])target)[_index];
             public void SetValue( ref object target, object value ) => ((object[])target)[_index] = value;

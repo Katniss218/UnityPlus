@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace UnityPlus.Serialization
+namespace UnityPlus.Serialization.Descriptors
 {
     public class EnumeratedCollectionDescriptor<TCollection, TElement> : CollectionDescriptor, ICollectionDescriptorWithContext
     {
@@ -102,7 +102,9 @@ namespace UnityPlus.Serialization
                     return uniform.Select( default );
 
                 int count = 0;
-                if( target is ICollection<TElement> coll ) count = coll.Count;
+                if( target is ICollection<TElement> coll )
+                    count = coll.Count;
+
                 var args = new ContextSelectionArgs( _index, typeof( TElement ), typeof( TElement ), count );
                 return _selector.Select( args );
             }

@@ -10,7 +10,7 @@ namespace UnityPlus.Serialization
     public sealed class ExtendsMappingOfAttribute : Attribute
     {
         public Type TargetType { get; }
-        public int Context { get; set; } = ObjectContext.Default;
+        public Type ContextType { get; set; }
 
         public ExtendsMappingOfAttribute( Type targetType )
         {

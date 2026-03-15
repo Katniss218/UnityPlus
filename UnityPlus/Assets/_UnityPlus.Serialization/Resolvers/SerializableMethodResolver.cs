@@ -38,6 +38,7 @@ namespace UnityPlus.Serialization.Resolvers
             //    if( !hasContextMenu && !hasSerializeMethod && !hasButtonAttribute )
             //        continue;
 
+            // #warning - add the try-catch like in other resolvers.
             //    methodList.Add( new ReflectionMethodInfo( method ) );
             //}
 

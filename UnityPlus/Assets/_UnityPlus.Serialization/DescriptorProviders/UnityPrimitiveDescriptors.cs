@@ -1,16 +1,10 @@
 ﻿using UnityEngine;
-using UnityPlus.Serialization.DescriptorTypes;
+using UnityPlus.Serialization.Descriptors;
 
-namespace UnityPlus.Serialization
+namespace UnityPlus.Serialization.DescriptorProviders
 {
     public static class UnityPrimitiveDescriptors
     {
-        [MapsAnyInterface( ContextType = typeof( Ctx.Asset ) )]
-        [MapsInheritingFrom( typeof( object ), ContextType = typeof( Ctx.Asset ) )]
-        public static IDescriptor ProvideAsset<T>() where T : class
-        {
-            return new AssetDescriptor<T>();
-        }
         // --- VECTORS ---
 
         [MapsInheritingFrom( typeof( Vector2 ) )]

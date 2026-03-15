@@ -66,8 +66,6 @@ namespace UnityPlus.Serialization
             RegisterSelector( new ContextKey( ContextIDs.DictRefToAsset ), new UniformSelector( new ContextKey( ContextIDs.Ref ), new ContextKey( ContextIDs.Asset ) ) );
         }
 
-#warning TODO - add a `Clear()` method and _isInitialized, mirroring the type descriptor registry.
-
         private static void Register( Type type, int id )
         {
             if( type == null )

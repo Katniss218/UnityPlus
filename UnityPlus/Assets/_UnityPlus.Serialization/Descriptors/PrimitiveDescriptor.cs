@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace UnityPlus.Serialization
+namespace UnityPlus.Serialization.Descriptors
 {
     public abstract class PrimitiveDescriptor<T> : IPrimitiveDescriptor
     {

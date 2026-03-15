@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 using UnityEngine;
 using UnityPlus.Serialization.Resolvers;
 
-namespace UnityPlus.Serialization
+namespace UnityPlus.Serialization.Descriptors
 {
     public class ReflectionClassDescriptor<T> : CompositeDescriptor, ISerializationCallbackDescriptor
     {

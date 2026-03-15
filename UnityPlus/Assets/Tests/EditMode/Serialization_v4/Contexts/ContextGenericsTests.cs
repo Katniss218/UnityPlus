@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using UnityPlus.AssetManagement;
 using UnityPlus.Serialization;
-using UnityPlus.Serialization.DescriptorTypes;
+using UnityPlus.Serialization.Descriptors;
 using Ctx = UnityPlus.Serialization.Ctx;
 
 namespace Neoserialization.V4

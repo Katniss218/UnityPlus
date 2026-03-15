@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using UnityPlus.Serialization.Descriptors;
 
 namespace UnityPlus.Serialization.Resolvers
 {
@@ -42,7 +43,15 @@ namespace UnityPlus.Serialization.Resolvers
                     // For now, let's just add them.
                     if( seenNames.Add( field.Name ) )
                     {
-                        memberList.Add( new ReflectionFieldInfo( field ) );
+                        try
+                        {
+                            memberList.Add( new ReflectionFieldInfo( field ) );
+                        }
+                        catch( Exception ex )
+                        {
+                            Debug.LogError( $"Failed to create ReflectionFieldInfo for field '{field.Name}' in type '{currentType.FullName}': {ex.Message}" );
+                            throw;
+                        }
                     }
                 }
 
@@ -67,7 +76,15 @@ namespace UnityPlus.Serialization.Resolvers
 
                     if( seenNames.Add( property.Name ) )
                     {
-                        memberList.Add( new ReflectionPropertyInfo( property ) );
+                        try
+                        {
+                            memberList.Add( new ReflectionPropertyInfo( property ) );
+                        }
+                        catch( Exception ex )
+                        {
+                            Debug.LogError( $"Failed to create ReflectionFieldInfo for field '{property.Name}' in type '{currentType.FullName}': {ex.Message}" );
+                            throw;
+                        }
                     }
                 }
 

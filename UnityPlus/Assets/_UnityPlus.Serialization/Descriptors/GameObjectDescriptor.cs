@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UnityPlus.Serialization
+namespace UnityPlus.Serialization.Descriptors
 {
     public readonly struct ComponentCollection
     {
@@ -14,6 +14,9 @@ namespace UnityPlus.Serialization
             GameObject = go;
             CachedComponents = go.GetComponents<Component>();
         }
+
+        [MapsInheritingFrom( typeof( ComponentCollection ) )]
+        private static IDescriptor ProvideString() => new ComponentSequenceDescriptor();
     }
 
     public readonly struct ChildCollection
@@ -31,6 +34,9 @@ namespace UnityPlus.Serialization
                 CachedChildren[i] = go.transform.GetChild( i );
             }
         }
+
+        [MapsInheritingFrom( typeof( ChildCollection ) )]
+        private static IDescriptor ProvideString() => new ChildSequenceDescriptor();
     }
 
     public class GameObjectDescriptor : CompositeDescriptor
@@ -139,12 +145,12 @@ namespace UnityPlus.Serialization
             {
                 Name = name;
                 DeclaredType = type;
-                TypeDescriptor = TypeDescriptorRegistry.GetDescriptor( type );
+                TypeDescriptor = TypeDescriptorRegistry.GetDescriptor( type, ContextKey.Default );
                 _getter = getter;
                 _setter = setter;
             }
 
-            public ContextKey GetContext( object target ) => default;
+            public ContextKey GetContext( object target ) => ContextKey.Default;
 
             public object GetValue( object target ) => _getter( target );
             public void SetValue( ref object target, object value ) => _setter( ref target, value );
@@ -197,6 +203,7 @@ namespace UnityPlus.Serialization
 
         public override int GetStepCount( object target )
         {
+            Debug.Log( "B" );
             return ((ComponentCollection)target).CachedComponents.Length;
         }
 

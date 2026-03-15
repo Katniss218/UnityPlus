@@ -13,7 +13,10 @@ namespace UnityPlus.Serialization
         /// </summary>
         String
     }
+}
 
+namespace UnityPlus.Serialization.Descriptors
+{
     public class EnumDescriptor<T> : PrimitiveDescriptor<T> where T : struct, Enum
     {
         private readonly EnumSerializationMode _mode;

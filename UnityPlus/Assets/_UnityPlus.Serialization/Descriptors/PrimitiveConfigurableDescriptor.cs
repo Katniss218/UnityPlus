@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UnityPlus.Serialization
+namespace UnityPlus.Serialization.Descriptors
 {
     /// <summary>
     /// A primitive descriptor that delegates logic to functions.
