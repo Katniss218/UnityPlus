@@ -61,8 +61,8 @@ namespace UnityPlus.Serialization.Tests.V4
             ContextKey arrayAssetCtx = ContextRegistry.GetID( typeof( Ctx.Array<Ctx.Asset> ) );
             IDescriptor desc = TypeDescriptorRegistry.GetDescriptor( typeof( Material[] ), arrayAssetCtx );
 
-            Assert.That( desc, Is.InstanceOf<ArrayDescriptor<Material>>() );
-            var arrayDesc = (ArrayDescriptor<Material>)desc;
+            Assert.That( desc, Is.InstanceOf<IndexedCollectionDescriptor<Material[], Material>>() );
+            var arrayDesc = (IndexedCollectionDescriptor<Material[], Material>)desc;
 
             Assert.That( arrayDesc.ElementSelector, Is.InstanceOf<UniformSelector>() );
 
@@ -98,9 +98,9 @@ namespace UnityPlus.Serialization.Tests.V4
 
             ContextKey ctx = ContextRegistry.GetID( typeof( Ctx.Array<Ctx.Asset> ) );
             IDescriptor c = TypeDescriptorRegistry.GetDescriptor( typeof( Material[] ), ctx );
-            Assert.That( c, Is.InstanceOf<ArrayDescriptor<Material>>() );
-            Assert.That( ((ArrayDescriptor<Material>)c).ElementSelector, Is.InstanceOf<UniformSelector>() );
-            Assert.That( ((ArrayDescriptor<Material>)c).ElementSelector.Select( default ), Is.EqualTo( assetCtx ) );
+            Assert.That( c, Is.InstanceOf<IndexedCollectionDescriptor<Material[], Material>>() );
+            Assert.That( ((IndexedCollectionDescriptor<Material[], Material>)c).ElementSelector, Is.InstanceOf<UniformSelector>() );
+            Assert.That( ((IndexedCollectionDescriptor<Material[], Material>)c).ElementSelector.Select( default ), Is.EqualTo( assetCtx ) );
         }
 
         [Test]

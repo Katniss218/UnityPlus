@@ -66,11 +66,15 @@ namespace UnityPlus.Serialization
                         {
                             if( !typeof( IDescriptor ).IsAssignableFrom( method.ReturnType ) ) continue;
 
-                            IEnumerable<int> targetContexts;
+                            int[] targetContexts;
                             if( attr.ContextType != null )
                             {
-                                int id = ContextRegistry.GetID( attr.ContextType ).ID;
-                                targetContexts = new int[] { id };
+                                targetContexts = new int[attr.ContextTypes.Length];
+                                for( int i = 0; i < attr.ContextTypes.Length; i++ )
+                                {
+                                    int id = ContextRegistry.GetID( attr.ContextType ).ID;
+                                    targetContexts[i] = id;
+                                }
                             }
                             else
                             {
@@ -99,7 +103,6 @@ namespace UnityPlus.Serialization
                             }
                         }
                     }
-
                 }
             }
 
@@ -309,6 +312,10 @@ namespace UnityPlus.Serialization
                 if( paramsInfo.Length == 1 && paramsInfo[0].ParameterType == typeof( ContextKey ) )
                 {
                     args = new object[] { context };
+                }
+                if( paramsInfo.Length == 2 && paramsInfo[0].ParameterType == typeof( ContextKey ) && paramsInfo[1].ParameterType == typeof( Type ) )
+                {
+                    args = new object[] { context, targetType };
                 }
 
                 return (IDescriptor)method.Invoke( null, args );

@@ -29,9 +29,6 @@ namespace UnityPlus.Serialization
         public virtual int GetConstructionStepCount( object target ) => 0;
         public virtual object Construct( object initialTarget ) => initialTarget;
 
-        public virtual void OnSerializing( object target, SerializationContext context ) { }
-        public virtual void OnDeserialized( object target, SerializationContext context ) { }
-
         public virtual int GetMethodCount() => 0;
         public virtual IMethodInfo GetMethodInfo( int methodIndex ) => throw new IndexOutOfRangeException();
     }

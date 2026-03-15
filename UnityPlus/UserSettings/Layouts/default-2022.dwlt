@@ -267,8 +267,8 @@ MonoBehaviour:
     y: 0
     width: 268
     height: 486
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 16}
@@ -321,8 +321,8 @@ MonoBehaviour:
     y: 0
     width: 470
     height: 947
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 101, y: 121}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 22}
   m_Panes:
   - {fileID: 21}
@@ -385,7 +385,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 08570000
     m_LastClickedID: 22280
-    m_ExpandedIDs: 0000000056510000585100005a5100005c5100005e51000060510000625100006451000066510000685100006a5100006c5100006e51000070510000725100007451000076510000785100007a510000
+    m_ExpandedIDs: 000000005a5100005c5100005e51000060510000625100006451000066510000685100006a5100006c5100006e51000070510000725100007451000076510000785100007a5100007c5100007e510000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -413,7 +413,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000056510000585100005a5100005c5100005e51000060510000625100006451000066510000685100006a5100006c5100006e51000070510000725100007451000076510000785100007a510000
+    m_ExpandedIDs: 000000005a5100005c5100005e51000060510000625100006451000066510000685100006a5100006c5100006e51000070510000725100007451000076510000785100007a5100007c5100007e510000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -525,7 +525,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 24}
     m_SelectedIDs: 0e570000
     m_LastClickedID: 22286
-    m_ExpandedIDs: 0000000056510000585100005a5100005c5100005e51000060510000625100006451000066510000685100006a5100006c5100006e51000070510000725100007451000076510000785100007a510000
+    m_ExpandedIDs: 000000005a5100005c5100005e51000060510000625100006451000066510000685100006a5100006c5100006e51000070510000725100007451000076510000785100007a5100007c5100007e510000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -553,7 +553,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 930}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: ffffffff0000000056510000585100005a5100005c5100005e51000060510000625100006451000066510000685100006a5100006c5100006e51000070510000725100007451000076510000785100007a510000
+    m_ExpandedIDs: ffffffff000000005a5100005c5100005e51000060510000625100006451000066510000685100006a5100006c5100006e51000070510000725100007451000076510000785100007a5100007c5100007e510000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -640,9 +640,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: ce070000
+      m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 9ee5ffffece6ffff4ce7ffff04e8ffff64e8ffffc4e8ffff26e9ffff86e9ffffe6e9ffff46eaffff6cebffffa8eeffff08efffff68efffffcaefffff2af0ffff8af0ffffeaf0ffff4af1ffff8af2ffffeaf2ffff4af3ffffaaf3ffff0af4ffff6af4ffffcaf4ffff2cf5ffffb0f5ffff38f6ffff98f6fffffaf6ffff34fbffff
+      m_ExpandedIDs: acf5ffff12f6ffff7af6ffffd6f6ffff32f7ffff8ef7fffff2f7ffff4ef8ffff4af9ffff44faffff32fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -2052,7 +2052,7 @@ MonoBehaviour:
     m_CachedPref: 160
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: 1998
+  m_LastInspectedObjectInstanceID: -1
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 1
@@ -2464,7 +2464,7 @@ MonoBehaviour:
       name: UnityPlus
       fullName: UnityPlus
       resultStatus: 2
-      duration: 0.2976861
+      duration: 0.1487253
       messages: One or more child tests had errors
       output: 
       stacktrace: 
@@ -2480,7 +2480,7 @@ MonoBehaviour:
       name: EditMode.dll
       fullName: E:/GIT/UnityPlus/UnityPlus/Library/ScriptAssemblies/EditMode.dll
       resultStatus: 2
-      duration: 0.2772871
+      duration: 0.1365501
       messages: One or more child tests had errors
       output: 
       stacktrace: 
@@ -2664,7 +2664,7 @@ MonoBehaviour:
       name: Neoserialization
       fullName: Neoserialization
       resultStatus: 2
-      duration: 0.2767507
+      duration: 0.1358509
       messages: One or more child tests had errors
       output: 
       stacktrace: 
@@ -2680,7 +2680,7 @@ MonoBehaviour:
       name: StructureValidationTests
       fullName: Neoserialization.StructureValidationTests
       resultStatus: 2
-      duration: 0.275851
+      duration: 0.1352196
       messages: One or more child tests had errors
       output: 
       stacktrace: 
@@ -2696,25 +2696,19 @@ MonoBehaviour:
       name: Assets_RoundTrip
       fullName: Neoserialization.StructureValidationTests.Assets_RoundTrip
       resultStatus: 2
-      duration: 0.1405891
-      messages: "  Serialized data did not match expected shape: {{3}}\r\n- $id =
-        \"ed4402ce-c489-4f22-91c8-6ede6c92e3f3\" (str)\r\n- name = {{3}}\r\n- - $id
-        = \"71191221-88f2-4609-8af7-fb1fe94592c1\" (str)\r\n- - $type = \"System.String,
-        mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"
-        (str)\r\n- - value = \"\" (str)\r\n- hideFlags = {{3}}\r\n- - $id = \"4bece272-5928-4a45-be40-5f945ff8684b\"
-        (str)\r\n- - $type = \"UnityEngine.HideFlags, UnityEngine.CoreModule, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null\" (str)\r\n- - value = \"None\" (str)\r\n
-        : \r\n  Expected: null\r\n  But was:  < [$id, \"ed4402ce-c489-4f22-91c8-6ede6c92e3f3\"
-        (str)], [name, SerializedObject (3 items)], [hideFlags, SerializedObject
-        (3 items)] >\r\n"
+      duration: 0.1323091
+      messages: "  Serialized data did not match expected shape: (a):{{1}}\r\n- $assetref
+        = \"test::mock\" (str)\r\n : (e):\r\n  Expected: null\r\n  But was:  < [$assetref,
+        \"test::mock\" (str)] >\r\n"
       output: 
       stacktrace: 'at Neoserialization.Tests.SerializationTestUtils.AssertRoundTrip[T]
         (T original, UnityPlus.Serialization.SerializedData expectedData, UnityPlus.Serialization.ContextKey
-        context, System.Action`2[T1,T2] customAssert) [0x00026] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Serialization_v4\SerializationTestUtils.cs:107
+        context, UnityPlus.Serialization.SerializationConfiguration config, System.Action`2[T1,T2]
+        customAssert) [0x00038] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Serialization_v4\SerializationTestUtils.cs:110
 
         at
         Neoserialization.StructureValidationTests.Assets_RoundTrip () [0x0001b] in
-        E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Serialization_v4\SerializedStructureTests.cs:260
+        E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Serialization_v4\StructureValidationTests.cs:285
 
 '
       notRunnable: 0
@@ -2764,20 +2758,21 @@ MonoBehaviour:
       name: Collections_RoundTrip
       fullName: Neoserialization.StructureValidationTests.Collections_RoundTrip
       resultStatus: 2
-      duration: 0.2677409
+      duration: 0.1347545
       messages: "  Serialized data did not match expected shape: (a):{{2}}\r\n- $id
-        = \"3890eab6-c969-479d-8d2f-48c38e710a71\" (str)\r\n- value = [[3]]\r\n-
+        = \"1e5fecb7-c329-47ee-86b2-37f5afe85362\" (str)\r\n- value = [[3]]\r\n-
         - 0 = 1 (i64)\r\n- - 1 = 2 (i64)\r\n- - 2 = 3 (i64)\r\n : (e):[[3]]\r\n-
         0 = 1 (i64)\r\n- 1 = 2 (i64)\r\n- 2 = 3 (i64)\r\n\r\n  Expected is <UnityPlus.Serialization.SerializedArray>,
         actual is <UnityPlus.Serialization.SerializedObject>\r\n"
       output: 
       stacktrace: 'at Neoserialization.Tests.SerializationTestUtils.AssertRoundTrip[T]
         (T original, UnityPlus.Serialization.SerializedData expectedData, UnityPlus.Serialization.ContextKey
-        context, System.Action`2[T1,T2] customAssert) [0x00026] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Serialization_v4\SerializationTestUtils.cs:107
+        context, UnityPlus.Serialization.SerializationConfiguration config, System.Action`2[T1,T2]
+        customAssert) [0x00038] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Serialization_v4\SerializationTestUtils.cs:110
 
         at
         Neoserialization.StructureValidationTests.Collections_RoundTrip () [0x000f8]
-        in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Serialization_v4\SerializedStructureTests.cs:168
+        in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Serialization_v4\StructureValidationTests.cs:190
 
 '
       notRunnable: 0
@@ -2793,7 +2788,7 @@ MonoBehaviour:
       name: Delegates_RoundTrip
       fullName: Neoserialization.StructureValidationTests.Delegates_RoundTrip
       resultStatus: 1
-      duration: 0.1365244
+      duration: 0.2961957
       messages: 
       output: 
       stacktrace: 
@@ -2860,32 +2855,11 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Neoserialization/StructureValidationTests/[EditMode][Neoserialization.StructureValidationTests.References_RoundTrip]
       name: References_RoundTrip
       fullName: Neoserialization.StructureValidationTests.References_RoundTrip
-      resultStatus: 2
-      duration: 0.1429884
-      messages: "UnityPlus.Serialization.UPSCircularReferenceException : Circular
-        reference detected for object of type Neoserialization.StructureValidationTests+Node.\n-
-        Operation: Processing Value \n- Descriptor:  \n- Path: next "
+      resultStatus: 1
+      duration: 0.1408774
+      messages: 
       output: 
-      stacktrace: "  at UnityPlus.Serialization.StackMachineDriver.WrapFatalException
-        (System.Exception ex, System.String stage) [0x00010] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\StackMachineDriver.cs:259
-        \r\n  at UnityPlus.Serialization.StackMachineDriver.ProcessMainStack (System.Single
-        timeBudgetMs) [0x002a3] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\StackMachineDriver.cs:141
-        \r\n  at UnityPlus.Serialization.StackMachineDriver.Tick (System.Single timeBudgetMs)
-        [0x00010] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\StackMachineDriver.cs:58
-        \r\n  at UnityPlus.Serialization.SerializationUnit.Serialize[T] (UnityPlus.Serialization.ContextKey
-        context, T obj, UnityPlus.Serialization.IReverseReferenceMap s, UnityPlus.Serialization.SerializationConfiguration
-        config) [0x00051] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnit.cs:60
-        \r\n  at UnityPlus.Serialization.SerializationUnit.Serialize[T] (UnityPlus.Serialization.ContextKey
-        context, T obj) [0x00000] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnit.cs:38
-        \r\n  at Neoserialization.Tests.SerializationTestUtils.AssertRoundTrip[T]
-        (T original, UnityPlus.Serialization.SerializedData expectedData, UnityPlus.Serialization.ContextKey
-        context, System.Action`2[T1,T2] customAssert) [0x0001e] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\Serialization_v4\\SerializationTestUtils.cs:105
-        \r\n  at Neoserialization.StructureValidationTests.References_RoundTrip ()
-        [0x00031] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\Serialization_v4\\SerializedStructureTests.cs:286
-        \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
-        at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
-        invokeAttr, System.Reflection.Binder binder, System.Object[] parameters,
-        System.Globalization.CultureInfo culture) [0x0006a] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 "
+      stacktrace: 
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -2898,32 +2872,11 @@ MonoBehaviour:
       uniqueId: EditMode.dll/Neoserialization/StructureValidationTests/[EditMode][Neoserialization.StructureValidationTests.References_SerializeMany_RoundTrip]
       name: References_SerializeMany_RoundTrip
       fullName: Neoserialization.StructureValidationTests.References_SerializeMany_RoundTrip
-      resultStatus: 2
-      duration: 0.1340975
-      messages: "UnityPlus.Serialization.UPSCircularReferenceException : Circular
-        reference detected for object of type Neoserialization.StructureValidationTests+Node.\n-
-        Operation: Processing Value \n- Descriptor:  \n- Path: next "
+      resultStatus: 1
+      duration: 0.1285333
+      messages: 
       output: 
-      stacktrace: "  at UnityPlus.Serialization.StackMachineDriver.WrapFatalException
-        (System.Exception ex, System.String stage) [0x00010] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\StackMachineDriver.cs:259
-        \r\n  at UnityPlus.Serialization.StackMachineDriver.ProcessMainStack (System.Single
-        timeBudgetMs) [0x002a3] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\StackMachineDriver.cs:141
-        \r\n  at UnityPlus.Serialization.StackMachineDriver.Tick (System.Single timeBudgetMs)
-        [0x00010] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\StackMachineDriver.cs:58
-        \r\n  at UnityPlus.Serialization.SerializationUnit+<SerializeMany>d__97`1[T].MoveNext
-        () [0x000db] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnit.Many.cs:60
-        \r\n  at UnityPlus.Serialization.SerializationUnit+<DeserializeMany>d__109`1[T].MoveNext
-        () [0x0012b] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\_UnityPlus.Serialization\\SerializationUnit.Many.cs:112
-        \r\n  at System.Collections.Generic.LargeArrayBuilder`1[T].AddRange (System.Collections.Generic.IEnumerable`1[T]
-        items) [0x0003d] in <87d9223270c747b5b01701ee6ec7a104>:0 \r\n  at System.Collections.Generic.EnumerableHelpers.ToArray[T]
-        (System.Collections.Generic.IEnumerable`1[T] source) [0x00033] in <87d9223270c747b5b01701ee6ec7a104>:0
-        \r\n  at System.Linq.Enumerable.ToArray[TSource] (System.Collections.Generic.IEnumerable`1[T]
-        source) [0x00018] in <87d9223270c747b5b01701ee6ec7a104>:0 \r\n  at Neoserialization.StructureValidationTests.References_SerializeMany_RoundTrip
-        () [0x00045] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\Serialization_v4\\SerializedStructureTests.cs:303
-        \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
-        at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
-        invokeAttr, System.Reflection.Binder binder, System.Object[] parameters,
-        System.Globalization.CultureInfo culture) [0x0006a] in <40c82fbb8a9645d5a6c0bfc1e0fa6dfd>:0 "
+      stacktrace: 
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -2954,20 +2907,21 @@ MonoBehaviour:
       name: UnityTypes_RoundTrip
       fullName: Neoserialization.StructureValidationTests.UnityTypes_RoundTrip
       resultStatus: 2
-      duration: 0.1482467
-      messages: "  Serialized data did not match expected shape: {{4}}\r\n- r = 1
-        (f64)\r\n- g = 0.5 (f64)\r\n- b = 0.20000000298023224 (f64)\r\n- a = 1 (f64)\r\n
-        : [[4]]\r\n- 0 = 1 (f64)\r\n- 1 = 0.5 (f64)\r\n- 2 = 0.20000000298023224
+      duration: 0.1464699
+      messages: "  Serialized data did not match expected shape: (a):{{4}}\r\n- r
+        = 1 (f64)\r\n- g = 0.5 (f64)\r\n- b = 0.20000000298023224 (f64)\r\n- a =
+        1 (f64)\r\n : (e):[[4]]\r\n- 0 = 1 (f64)\r\n- 1 = 0.5 (f64)\r\n- 2 = 0.20000000298023224
         (f64)\r\n- 3 = 1 (f64)\r\n\r\n  Expected is <UnityPlus.Serialization.SerializedArray>,
         actual is <UnityPlus.Serialization.SerializedObject>\r\n"
       output: 
       stacktrace: 'at Neoserialization.Tests.SerializationTestUtils.AssertRoundTrip[T]
         (T original, UnityPlus.Serialization.SerializedData expectedData, UnityPlus.Serialization.ContextKey
-        context, System.Action`2[T1,T2] customAssert) [0x00026] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Serialization_v4\SerializationTestUtils.cs:107
+        context, UnityPlus.Serialization.SerializationConfiguration config, System.Action`2[T1,T2]
+        customAssert) [0x00038] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Serialization_v4\SerializationTestUtils.cs:110
 
         at
-        Neoserialization.StructureValidationTests.UnityTypes_RoundTrip () [0x0038f]
-        in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Serialization_v4\SerializedStructureTests.cs:206
+        Neoserialization.StructureValidationTests.UnityTypes_RoundTrip () [0x00396]
+        in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Serialization_v4\StructureValidationTests.cs:229
 
 '
       notRunnable: 0
@@ -6515,56 +6469,6 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1067
       parentUniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/[EditMode][UnityPlus.Serialization.Tests.V4.SerializationV4_ManualDescriptorTests][suite]
-    - id: 1071
-      uniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/[EditMode][UnityPlus.Serialization.Tests.V4.SerializationV4_PolymorphismTests][suite]
-      name: SerializationV4_PolymorphismTests
-      fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_PolymorphismTests
-      resultStatus: 1
-      duration: 0.1404815
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1165
-      parentUniqueId: EditMode.dll/UnityPlus/Serialization/Tests/[EditMode][UnityPlus.Serialization.Tests.V4][suite]
-    - id: 1072
-      uniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/SerializationV4_PolymorphismTests/[EditMode][UnityPlus.Serialization.Tests.V4.SerializationV4_PolymorphismTests.Serialize_PolymorphicList]
-      name: Serialize_PolymorphicList
-      fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_PolymorphismTests.Serialize_PolymorphicList
-      resultStatus: 1
-      duration: 0.1370991
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1071
-      parentUniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/[EditMode][UnityPlus.Serialization.Tests.V4.SerializationV4_PolymorphismTests][suite]
-    - id: 1073
-      uniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/SerializationV4_PolymorphismTests/[EditMode][UnityPlus.Serialization.Tests.V4.SerializationV4_PolymorphismTests.Serialize_RootPolymorphism]
-      name: Serialize_RootPolymorphism
-      fullName: UnityPlus.Serialization.Tests.V4.SerializationV4_PolymorphismTests.Serialize_RootPolymorphism
-      resultStatus: 1
-      duration: 0.1361467
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1071
-      parentUniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/[EditMode][UnityPlus.Serialization.Tests.V4.SerializationV4_PolymorphismTests][suite]
     - id: 1074
       uniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/[EditMode][UnityPlus.Serialization.Tests.V4.SerializationV4_PrimitiveTests][suite]
       name: SerializationV4_PrimitiveTests
@@ -6733,158 +6637,6 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1080
       parentUniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/[EditMode][UnityPlus.Serialization.Tests.V4.SerializationV4_StructureTests][suite]
-    - id: 1035
-      uniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/[EditMode][UnityPlus.Serialization.Tests.V4.SerializationV4Tests][suite]
-      name: SerializationV4Tests
-      fullName: UnityPlus.Serialization.Tests.V4.SerializationV4Tests
-      resultStatus: 1
-      duration: 0.0124444
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1165
-      parentUniqueId: EditMode.dll/UnityPlus/Serialization/Tests/[EditMode][UnityPlus.Serialization.Tests.V4][suite]
-    - id: 1043
-      uniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/SerializationV4Tests/[EditMode][UnityPlus.Serialization.Tests.V4.SerializationV4Tests.Lifecycle_Callbacks_Invoked]
-      name: Lifecycle_Callbacks_Invoked
-      fullName: UnityPlus.Serialization.Tests.V4.SerializationV4Tests.Lifecycle_Callbacks_Invoked
-      resultStatus: 1
-      duration: 0.0017853
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1035
-      parentUniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/[EditMode][UnityPlus.Serialization.Tests.V4.SerializationV4Tests][suite]
-    - id: 1040
-      uniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/SerializationV4Tests/[EditMode][UnityPlus.Serialization.Tests.V4.SerializationV4Tests.Serialize_Deserialize_Array]
-      name: Serialize_Deserialize_Array
-      fullName: UnityPlus.Serialization.Tests.V4.SerializationV4Tests.Serialize_Deserialize_Array
-      resultStatus: 1
-      duration: 0.0002951
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1035
-      parentUniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/[EditMode][UnityPlus.Serialization.Tests.V4.SerializationV4Tests][suite]
-    - id: 1039
-      uniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/SerializationV4Tests/[EditMode][UnityPlus.Serialization.Tests.V4.SerializationV4Tests.Serialize_Deserialize_Circular_Dependency]
-      name: Serialize_Deserialize_Circular_Dependency
-      fullName: UnityPlus.Serialization.Tests.V4.SerializationV4Tests.Serialize_Deserialize_Circular_Dependency
-      resultStatus: 1
-      duration: 0.00135
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1035
-      parentUniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/[EditMode][UnityPlus.Serialization.Tests.V4.SerializationV4Tests][suite]
-    - id: 1038
-      uniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/SerializationV4Tests/[EditMode][UnityPlus.Serialization.Tests.V4.SerializationV4Tests.Serialize_Deserialize_Class_Reflection]
-      name: Serialize_Deserialize_Class_Reflection
-      fullName: UnityPlus.Serialization.Tests.V4.SerializationV4Tests.Serialize_Deserialize_Class_Reflection
-      resultStatus: 1
-      duration: 0.0010418
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1035
-      parentUniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/[EditMode][UnityPlus.Serialization.Tests.V4.SerializationV4Tests][suite]
-    - id: 1042
-      uniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/SerializationV4Tests/[EditMode][UnityPlus.Serialization.Tests.V4.SerializationV4Tests.Serialize_Deserialize_Dictionary]
-      name: Serialize_Deserialize_Dictionary
-      fullName: UnityPlus.Serialization.Tests.V4.SerializationV4Tests.Serialize_Deserialize_Dictionary
-      resultStatus: 1
-      duration: 0.001453
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1035
-      parentUniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/[EditMode][UnityPlus.Serialization.Tests.V4.SerializationV4Tests][suite]
-    - id: 1041
-      uniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/SerializationV4Tests/[EditMode][UnityPlus.Serialization.Tests.V4.SerializationV4Tests.Serialize_Deserialize_List]
-      name: Serialize_Deserialize_List
-      fullName: UnityPlus.Serialization.Tests.V4.SerializationV4Tests.Serialize_Deserialize_List
-      resultStatus: 1
-      duration: 0.0003356
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1035
-      parentUniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/[EditMode][UnityPlus.Serialization.Tests.V4.SerializationV4Tests][suite]
-    - id: 1037
-      uniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/SerializationV4Tests/[EditMode][UnityPlus.Serialization.Tests.V4.SerializationV4Tests.Serialize_Deserialize_Vector3]
-      name: Serialize_Deserialize_Vector3
-      fullName: UnityPlus.Serialization.Tests.V4.SerializationV4Tests.Serialize_Deserialize_Vector3
-      resultStatus: 1
-      duration: 0.0002316
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1035
-      parentUniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/[EditMode][UnityPlus.Serialization.Tests.V4.SerializationV4Tests][suite]
-    - id: 1036
-      uniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/SerializationV4Tests/[EditMode][UnityPlus.Serialization.Tests.V4.SerializationV4Tests.Serialize_Int_Primitive]
-      name: Serialize_Int_Primitive
-      fullName: UnityPlus.Serialization.Tests.V4.SerializationV4Tests.Serialize_Int_Primitive
-      resultStatus: 1
-      duration: 0.0001678
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1035
-      parentUniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/[EditMode][UnityPlus.Serialization.Tests.V4.SerializationV4Tests][suite]
     - id: 1084
       uniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/[EditMode][UnityPlus.Serialization.Tests.V4.StructAllocationTests][suite]
       name: StructAllocationTests
@@ -6935,29 +6687,29 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1084
       parentUniqueId: EditMode.dll/UnityPlus/Serialization/Tests/V4/[EditMode][UnityPlus.Serialization.Tests.V4.StructAllocationTests][suite]
-    m_ResultText: "Collections_RoundTrip (0,268s)\n---\nSerialized data did not match
-      expected shape: (a):{{2}}\r\n- $id = \"3890eab6-c969-479d-8d2f-48c38e710a71\"
-      (str)\r\n- value = [[3]]\r\n- - 0 = 1 (i64)\r\n- - 1 = 2 (i64)\r\n- - 2 = 3
-      (i64)\r\n : (e):[[3]]\r\n- 0 = 1 (i64)\r\n- 1 = 2 (i64)\r\n- 2 = 3 (i64)\r\n\r\n 
-      Expected is <UnityPlus.Serialization.SerializedArray>, actual is <UnityPlus.Serialization.SerializedObject>\n---\nat
+    m_ResultText: "Assets_RoundTrip (0,132s)\n---\nSerialized data did not match
+      expected shape: (a):{{1}}\r\n- $assetref = \"test::mock\" (str)\r\n : (e):\r\n 
+      Expected: null\r\n  But was:  < [$assetref, \"test::mock\" (str)] >\n---\nat
       Neoserialization.Tests.SerializationTestUtils.AssertRoundTrip[T] (T original,
       UnityPlus.Serialization.SerializedData expectedData, UnityPlus.Serialization.ContextKey
-      context, System.Action`2[T1,T2] customAssert) [0x00026] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\Serialization_v4\\SerializationTestUtils.cs:107\r\nat
-      Neoserialization.StructureValidationTests.Collections_RoundTrip () [0x000f8]
-      in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\Serialization_v4\\SerializedStructureTests.cs:168"
+      context, UnityPlus.Serialization.SerializationConfiguration config, System.Action`2[T1,T2]
+      customAssert) [0x00038] in E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\Serialization_v4\\SerializationTestUtils.cs:110\r\nat
+      Neoserialization.StructureValidationTests.Assets_RoundTrip () [0x0001b] in
+      E:\\GIT\\UnityPlus\\UnityPlus\\Assets\\Tests\\EditMode\\Serialization_v4\\StructureValidationTests.cs:285"
     m_ResultStacktrace: 'at Neoserialization.Tests.SerializationTestUtils.AssertRoundTrip[T]
       (T original, UnityPlus.Serialization.SerializedData expectedData, UnityPlus.Serialization.ContextKey
-      context, System.Action`2[T1,T2] customAssert) [0x00026] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Serialization_v4\SerializationTestUtils.cs:107
+      context, UnityPlus.Serialization.SerializationConfiguration config, System.Action`2[T1,T2]
+      customAssert) [0x00038] in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Serialization_v4\SerializationTestUtils.cs:110
 
       at
-      Neoserialization.StructureValidationTests.Collections_RoundTrip () [0x000f8]
-      in E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Serialization_v4\SerializedStructureTests.cs:168
+      Neoserialization.StructureValidationTests.Assets_RoundTrip () [0x0001b] in
+      E:\GIT\UnityPlus\UnityPlus\Assets\Tests\EditMode\Serialization_v4\StructureValidationTests.cs:285
 
 '
     m_TestListState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 7a757eea
-      m_LastClickedID: -360811142
+      m_SelectedIDs: 3a44fa53
+      m_LastClickedID: 1408910394
       m_ExpandedIDs: ee885b80085ed48066e1ce8397138987fb3f93892026c08e05135a8fcebbdc90436c61936ae00595ad608d96fef4e698cc856f9aedc39d9bda46919c3f8cfd9f4a4bc2a0ba5fefa03daec8abeba168ad6f3e92b2dcfc56b45b969fb532bc81bba7da5dbd651ad6bdf70309c40ec433c4f6e90acabaa0dacb8a110dcc691a72ceb1cc6acf0a5fded7d6d190dba2b77edcaa86c9dce9a53ae28a91d0e45e645ced536b10f8c6f21cfb36da55fefa56d2002cc34803f6a283050e41801750b8d623dcd9b5279344c12ab2b38c2b0407f42bf580f53a33a24f3d56cec43fb0bad342020566448b9bc4461eb35c5b89de525c9796b65e4edece62463b4e6458bcc369fb2cbd6ae625256db58db36f3e71c5763b2591793fea547b4b5ea47c5538167d41ea8f7e6e2ff87fffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
