@@ -48,11 +48,12 @@ namespace UnityPlus.Serialization
 
             if( _mode == EnumSerializationMode.String )
             {
-                if( Enum.TryParse<T>( (string)prim, true, out var res ) )
+                if( prim.TryGetString( out string val ) && Enum.TryParse<T>( val, true, out var res ) )
                 {
                     result = res;
                     return DeserializationResult.Success;
                 }
+                ctx.Log.Log( LogLevel.Warning, $"Failed to parse enum value '{prim}' for type '{typeof( T ).FullName}'." );
             }
             else
             {

@@ -1,7 +1,8 @@
 using NUnit.Framework;
 using System;
+using UnityPlus.Serialization;
 
-namespace UnityPlus.Serialization.Tests.V4
+namespace Neoserialization.V4
 {
     public class StructAllocationTests
     {

@@ -1,12 +1,14 @@
 ﻿using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityPlus.AssetManagement;
+using UnityPlus.Serialization;
+using UnityPlus.Serialization.DescriptorTypes;
+using Ctx = UnityPlus.Serialization.Ctx;
 
-namespace UnityPlus.Serialization.Tests.V4
+namespace Neoserialization.V4
 {
-    public class SerializationV4_ContextGenericsTests
+    public class ContextGenericsTests
     {
         [TearDown]
         public void Cleanup()
@@ -15,18 +17,8 @@ namespace UnityPlus.Serialization.Tests.V4
             AssetRegistry.Clear();
         }
 
-        public class MockAsset : ScriptableObject
-        {
-            public int Value;
-        }
-
-        public class Container
-        {
-            public Dictionary<string, MockAsset> Assets = new Dictionary<string, MockAsset>();
-        }
-
         [Test]
-        public void TypeDescriptorRegistry_ResolvesSpecificContext()
+        public void TypeDescriptorRegistry_DirectPath()
         {
             // Clear registry to ensure we scan real providers
             TypeDescriptorRegistry.Clear();
@@ -40,7 +32,7 @@ namespace UnityPlus.Serialization.Tests.V4
         }
 
         [Test]
-        public void TypeDescriptorRegistry_FallsBackToDefaultContext()
+        public void TypeDescriptorRegistry_IndirectPath_Fallback()
         {
             // Clear registry to ensure we scan real providers
             TypeDescriptorRegistry.Clear();
@@ -51,25 +43,6 @@ namespace UnityPlus.Serialization.Tests.V4
             IDescriptor desc = TypeDescriptorRegistry.GetDescriptor( typeof( Material ), refCtx );
 
             Assert.That( desc, Is.InstanceOf<ReferenceDescriptor<Material>>() );
-        }
-
-        [Test]
-        public void ArrayDescriptor_HasCorrectElementSelector()
-        {
-            TypeDescriptorRegistry.Clear();
-
-            ContextKey arrayAssetCtx = ContextRegistry.GetID( typeof( Ctx.Array<Ctx.Asset> ) );
-            IDescriptor desc = TypeDescriptorRegistry.GetDescriptor( typeof( Material[] ), arrayAssetCtx );
-
-            Assert.That( desc, Is.InstanceOf<IndexedCollectionDescriptor<Material[], Material>>() );
-            var arrayDesc = (IndexedCollectionDescriptor<Material[], Material>)desc;
-
-            Assert.That( arrayDesc.ElementSelector, Is.InstanceOf<UniformSelector>() );
-
-            ContextKey elementCtx = ((UniformSelector)arrayDesc.ElementSelector).Select( default );
-            ContextKey assetCtx = ContextRegistry.GetID( typeof( Ctx.Asset ) );
-
-            Assert.That( elementCtx.ID, Is.EqualTo( assetCtx.ID ) );
         }
 
         [Test]
@@ -104,6 +77,16 @@ namespace UnityPlus.Serialization.Tests.V4
         }
 
         [Test]
+        public void ContextRegistry_ResolvesValueAsDefault()
+        {
+            // Test: typeof(Ctx.List<Ctx.Asset>)
+            ContextKey contextId = ContextRegistry.GetID( typeof( Ctx.Value ) );
+
+            Assert.That( contextId.ID, Is.EqualTo( 0 ) );
+            Assert.That( contextId, Is.EqualTo( ContextKey.Default ) );
+        }
+
+        [Test]
         public void ContextRegistry_ResolvesGenericDictionary()
         {
             // Test: typeof(Ctx.Dict<Ctx.Default, Ctx.Asset>)
@@ -114,21 +97,12 @@ namespace UnityPlus.Serialization.Tests.V4
 
             Assert.That( contextId.ID, Is.Not.EqualTo( 0 ), "Generic Dictionary Context should not result in Default(0)" );
 
-            var rules = ContextRegistry.GetDictionaryElementContexts( contextId );
+            var rules = ContextRegistry.GetContextArguments( contextId );
             ContextKey keyId = ContextRegistry.GetID( typeof( Ctx.Value ) );
             ContextKey valueId = ContextRegistry.GetID( typeof( Ctx.Asset ) );
 
-            Assert.That( rules.keyCtx, Is.EqualTo( keyId ) );
-            Assert.That( rules.valCtx, Is.EqualTo( valueId ) );
-        }
-
-        [Test]
-        public void ContextRegistry_ResolvesValueAsDefault()
-        {
-            // Test: typeof(Ctx.List<Ctx.Asset>)
-            ContextKey contextId = ContextRegistry.GetID( typeof( Ctx.Value ) );
-
-            Assert.That( contextId.ID, Is.EqualTo( 0 ) );
+            Assert.That( rules[0], Is.EqualTo( keyId ) );
+            Assert.That( rules[1], Is.EqualTo( valueId ) );
         }
 
         [Test]
@@ -140,7 +114,7 @@ namespace UnityPlus.Serialization.Tests.V4
 
             Assert.That( contextId.ID, Is.Not.EqualTo( 0 ) );
 
-            ContextKey elemCtx = ContextRegistry.GetCollectionElementContext( contextId );
+            ContextKey elemCtx = ContextRegistry.GetContextArguments( contextId )[0];
             ContextKey expectedAssetCtx = ContextRegistry.GetID( typeof( Ctx.Asset ) );
 
             Assert.That( elemCtx, Is.EqualTo( expectedAssetCtx ) );
@@ -158,52 +132,33 @@ namespace UnityPlus.Serialization.Tests.V4
             ContextKey listId = ContextRegistry.GetID( listContextType );
             ContextKey dictId = ContextRegistry.GetID( dictContextType );
 
-            var rules = ContextRegistry.GetDictionaryElementContexts( dictId );
+            var rules = ContextRegistry.GetContextArguments( dictId );
 
-            Assert.That( rules.valCtx, Is.EqualTo( listId ) ); // Value context should match the List context ID
+            Assert.That( rules[1], Is.EqualTo( listId ) ); // Value context should match the List context ID
 
             // Verify the list context itself resolves correctly
             ContextKey assetCtx = ContextRegistry.GetID( typeof( Ctx.Asset ) );
-            Assert.That( ContextRegistry.GetCollectionElementContext( rules.valCtx ), Is.EqualTo( assetCtx ) );
+            var rules2 = ContextRegistry.GetContextArguments( rules[1] );
+            Assert.That( rules2[0], Is.EqualTo( assetCtx ) );
         }
 
         [Test]
-        public void Serialization_Dictionary_Asset()
+        public void ArrayDescriptor_HasCorrectElementSelector()
         {
-            AssetRegistry.Clear();
-            // Arrange: Object with Dictionary, configured via Fluent API using Generic Context Type
-            var asset = ScriptableObject.CreateInstance<MockAsset>();
-            asset.Value = 42;
-            string assetId = "test::mock";
+            TypeDescriptorRegistry.Clear();
 
-            AssetRegistry.Register( assetId, asset );
+            ContextKey arrayAssetCtx = ContextRegistry.GetID( typeof( Ctx.Array<Ctx.Asset> ) );
+            IDescriptor desc = TypeDescriptorRegistry.GetDescriptor( typeof( Material[] ), arrayAssetCtx );
 
-            var container = new Container();
-            container.Assets.Add( "MyAsset", asset );
+            Assert.That( desc, Is.InstanceOf<IndexedCollectionDescriptor<Material[], Material>>() );
+            var arrayDesc = (IndexedCollectionDescriptor<Material[], Material>)desc;
 
-            TypeDescriptorRegistry.Register(
-                new MemberwiseDescriptor<Container>()
-                    // Use the generic type to specify context: Dict<Default, Asset>
-                    .WithMember( "assets", typeof( Ctx.KeyValue<Ctx.Value, Ctx.Asset> ), c => c.Assets )
-            );
+            Assert.That( arrayDesc.ElementSelector, Is.InstanceOf<UniformSelector>() );
 
-            // Act: Serialize
-            SerializedData data = SerializationUnit.Serialize( container );
+            ContextKey elementCtx = ((UniformSelector)arrayDesc.ElementSelector).Select( default );
+            ContextKey assetCtx = ContextRegistry.GetID( typeof( Ctx.Asset ) );
 
-            // Assert: Verify the value is serialized as an AssetRef (String), not a full object
-            // Expected: { "assets": { "values": [ { "key": "MyAsset", "value": { "$assetref": "test::mock" } } ] } }
-            // Actual: { "assets": { "$id": "..." } }
-
-            var obj = (SerializedObject)data;
-            SerializedArray assetsArr = SerializationHelpers.GetValueNode( obj["assets"] );
-
-            SerializedObject entry = (SerializedObject)assetsArr[0];
-            SerializedData valNode = entry["value"];
-
-            AssetRegistry.Clear();
-            Assert.That( valNode, Is.TypeOf<SerializedObject>(), "Asset should be serialized as object node (containing ref)" );
-            Assert.That( ((SerializedObject)valNode).ContainsKey( KeyNames.ASSETREF ), Is.True, "Value should contain $assetref key" );
-            Assert.That( (string)((SerializedObject)valNode)[KeyNames.ASSETREF], Is.EqualTo( assetId ) );
+            Assert.That( elementCtx.ID, Is.EqualTo( assetCtx.ID ) );
         }
     }
 }

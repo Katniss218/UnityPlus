@@ -207,7 +207,7 @@ namespace UnityPlus.Serialization
                 return MemberResolutionResult.RequiresPush;
             }
 
-            throw new Exception( $"Unsupported descriptor type: {actualDescriptor.GetType().FullName}" );
+            throw new UPSSerializationException( state.Context, $"Unsupported descriptor type: {actualDescriptor.GetType().FullName}", state.Stack.BuildPath(), actualDescriptor, null, "Processing Value", null );
         }
 
         private static void PushCursor( object target, object parent, IMemberInfo memberInfo, IDescriptor descriptor, ObjectStructure structure, SerializedData dataNode, SerializationState state )

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityPlus.AssetManagement;
 
-namespace UnityPlus.Serialization
+namespace UnityPlus.Serialization.DescriptorTypes
 {
     /// <summary>
     /// Serializes an object as an Asset ID ("$assetref") using the AssetRegistry.
@@ -50,9 +50,11 @@ namespace UnityPlus.Serialization
             {
                 string assetID = (string)refData;
                 result = AssetRegistry.Get<T>( assetID );
+                if( result != null )
+                    return DeserializationResult.Success;
             }
 
-            return DeserializationResult.Success;
+            return DeserializationResult.Failed;
         }
     }
 }

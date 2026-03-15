@@ -1,10 +1,9 @@
-﻿
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System;
 using UnityEngine;
 using UnityPlus.Serialization;
 
-namespace UnityPlus.Serialization.Tests.V4
+namespace Neoserialization.V4
 {
     public class SerializationV4_FeatureTests
     {

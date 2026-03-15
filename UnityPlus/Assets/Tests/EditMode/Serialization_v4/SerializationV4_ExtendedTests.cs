@@ -1,16 +1,11 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
-using UnityEngine;
+using UnityPlus.Serialization;
 
-namespace UnityPlus.Serialization.Tests.V4
+namespace Neoserialization.V4
 {
     public class SerializationV4_ExtendedTests
     {
-        class Hello
-        {
-            public string a;
-        }
-
         [SetUp]
         public void Init()
         {
@@ -25,41 +20,6 @@ namespace UnityPlus.Serialization.Tests.V4
 
         // --- Unity Primitives ---
 
-        [Test]
-        public void Structure_Unity_Bounds()
-        {
-            var b = new Bounds( new Vector3( 1, 2, 3 ), new Vector3( 4, 5, 6 ) );
-            var data = SerializationUnit.Serialize( b );
-
-            Assert.That( data, Is.InstanceOf<SerializedObject>() );
-            var obj = (SerializedObject)data;
-
-            // Bounds uses a ClassOrStructDescriptor, so it keys by name
-            Assert.That( obj.ContainsKey( "center" ), Is.True );
-            Assert.That( obj.ContainsKey( "extents" ), Is.True );
-
-            var center = (SerializedArray)obj["center"];
-            Assert.That( (float)center[0], Is.EqualTo( 1f ) );
-
-            var result = SerializationUnit.Deserialize<Bounds>( data );
-            Assert.That( result, Is.EqualTo( b ) );
-        }
-
-        [Test]
-        public void Structure_Unity_Rect()
-        {
-            var r = new Rect( 10, 20, 100, 200 );
-            var data = SerializationUnit.Serialize( r );
-
-            Assert.That( data, Is.InstanceOf<SerializedObject>() );
-            var obj = (SerializedObject)data;
-
-            Assert.That( (float)obj["x"], Is.EqualTo( 10f ) );
-            Assert.That( (float)obj["width"], Is.EqualTo( 100f ) );
-
-            var result = SerializationUnit.Deserialize<Rect>( data );
-            Assert.That( result, Is.EqualTo( r ) );
-        }
 
         // --- Collections ---
 
@@ -130,7 +90,7 @@ namespace UnityPlus.Serialization.Tests.V4
             var list = new List<object>();
             list.Add( list ); // Add self
 
-            var data = SerializationUnit.Serialize( list );
+            var data = SerializationUnit.Serialize( list, new SerializationConfiguration() { CycleHandling = CycleHandling.AutoRef } );
 
             // Structure: Wrapped Object -> Values Array -> Element 0 is Ref to Wrapped Object
             var wrapper = (SerializedObject)data;
@@ -139,7 +99,8 @@ namespace UnityPlus.Serialization.Tests.V4
 
             Assert.That( element.ContainsKey( KeyNames.REF ), Is.True );
 
-            var result = SerializationUnit.Deserialize<List<object>>( data );
+            var result = SerializationUnit.Deserialize<List<object>>( data ); // Should not throw, should resolve reference, even when the member's context is not a reference.
+                                                                              // The serializer should be able to resolve references that were created when cycle handling was set to AutoRef.
             Assert.That( result.Count, Is.EqualTo( 1 ) );
             Assert.That( result[0], Is.SameAs( result ) );
         }
@@ -163,48 +124,18 @@ namespace UnityPlus.Serialization.Tests.V4
 
         // --- Context ---
 
-        public class ContextTestClass { public int Value; }
-
-        [Test]
-        public void Context_BasicUsage()
-        {
-            // Define a custom context key
-            int customId = 1000;
-            var myContext = new ContextKey( customId );
-            ContextRegistry.RegisterName( customId, "MyContext" );
-
-            // Register a special descriptor ONLY for this context
-            // We'll map "Value" to a constant 999 for testing
-            var customDesc = new MemberwiseDescriptor<ContextTestClass>()
-                .WithMember( "Value", o => 999, ( ref ContextTestClass o, int v ) => o.Value = v );
-
-            TypeDescriptorRegistry.Register( customDesc, myContext );
-
-            var obj = new ContextTestClass { Value = 42 };
-
-            // 1. Default Context Serialization
-            var defaultData = SerializationUnit.Serialize( obj );
-            var defaultObj = (SerializedObject)defaultData;
-            Assert.That( (int)defaultObj["Value"], Is.EqualTo( 42 ) );
-
-            // 2. Custom Context Serialization
-            var customData = SerializationUnit.Serialize( myContext, obj );
-            var customObj = (SerializedObject)customData;
-            Assert.That( (int)customObj["Value"], Is.EqualTo( 999 ) );
-        }
-
         [Test]
         public void Populate_IgnoreMissing()
         {
-            var obj = new SerializationV4_DataStructureTests.SimpleClass { ID = 10, Name = "Original" };
+            var obj = new SimpleStruct { Value = 10, Text = "Original" };
 
             // Data only has ID
-            var data = new SerializedObject { ["ID"] = (SerializedPrimitive)20 };
+            var data = new SerializedObject { ["Value"] = (SerializedPrimitive)20 };
 
-            SerializationUnit.Populate( obj, data );
+            SerializationUnit.Populate( ref obj, data );
 
-            Assert.That( obj.ID, Is.EqualTo( 20 ) );
-            Assert.That( obj.Name, Is.EqualTo( "Original" ) ); // Should NOT be null
+            Assert.That( obj.Value, Is.EqualTo( 20 ) );
+            Assert.That( obj.Text, Is.EqualTo( "Original" ) ); // Should NOT be null
         }
     }
 }

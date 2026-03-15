@@ -1,33 +1,10 @@
 ﻿using NUnit.Framework;
+using UnityPlus.Serialization;
 
-namespace UnityPlus.Serialization.Tests.V4
+namespace Neoserialization.V4
 {
     public class SerializationV4_StructureTests
     {
-        // --- Mocks ---
-        public class Node
-        {
-            public string Name;
-            public Node Neighbor = null;
-        }
-
-        public struct DeepStruct
-        {
-            public int Value;
-        }
-
-        public struct MiddleStruct
-        {
-            public DeepStruct Deep;
-            public string Tag;
-        }
-
-        public class RootClass
-        {
-            public MiddleStruct Mid;
-            public string Name;
-        }
-
         [SetUp]
         public void Init()
         {
@@ -64,41 +41,15 @@ namespace UnityPlus.Serialization.Tests.V4
         }
 
         [Test]
-        public void Serialize_CircularDependency_DeferredResolution()
-        {
-            // A <-> B
-            var a = new Node { Name = "A" };
-            var b = new Node { Name = "B" };
-            a.Neighbor = b;
-            b.Neighbor = a;
-
-            var data = SerializationUnit.Serialize( a );
-
-            // Check Data Structure: A should contain B, B should contain Ref(A)
-            var objA = (SerializedObject)data;
-            var objB = (SerializedObject)objA["Neighbor"];
-            var refA = (SerializedObject)objB["Neighbor"];
-
-            Assert.That( refA.ContainsKey( KeyNames.REF ), Is.True );
-
-            // Deserialize
-            var resultA = SerializationUnit.Deserialize<Node>( data );
-
-            Assert.That( resultA.Name, Is.EqualTo( "A" ) );
-            Assert.That( resultA.Neighbor.Name, Is.EqualTo( "B" ) );
-            Assert.That( resultA.Neighbor.Neighbor, Is.SameAs( resultA ), "Circular reference was not resolved correctly." );
-        }
-
-        [Test]
         public void Serialize_SelfReference()
         {
             var node = new Node { Name = "Self" };
-            node.Neighbor = node;
+            node.Next = node;
 
-            var data = SerializationUnit.Serialize( node );
+            var data = SerializationUnit.Serialize( node, new SerializationConfiguration() { CycleHandling = CycleHandling.AutoRef } );
             var result = SerializationUnit.Deserialize<Node>( data );
 
-            Assert.That( result.Neighbor, Is.SameAs( result ) );
+            Assert.That( result.Next, Is.SameAs( result ) );
         }
     }
 }

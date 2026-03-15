@@ -252,7 +252,7 @@ namespace UnityPlus.Serialization
             {
                 string message = $"Circular Dependency Deadlock: {_state.Context.DeferredOperations.Count} items could not be resolved.";
                 _state.Context.Log.Log( LogLevel.Fatal, message, _state );
-                throw new UPSUnresolvableObjectException( _state.Context, message, _state.Stack.BuildPath(), null, null, "Deferred Deadlock", null );
+                throw new UPSDeferredDeadlockException( _state.Context, message, _state.Stack.BuildPath(), null, null, "Deferred Deadlock", null );
             }
         }
 

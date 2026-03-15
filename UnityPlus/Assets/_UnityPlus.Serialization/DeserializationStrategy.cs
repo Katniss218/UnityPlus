@@ -22,6 +22,11 @@ namespace UnityPlus.Serialization
                 return;
             }
 
+            if( result == MemberResolutionResult.Failed )
+            {
+                throw new UPSMemberResolutionException( state.Context, $"Failed to resolve the root object.", "root", actualDescriptor, null, "Initialize Root", null );
+            }
+
             throw new UPSSerializationException( state.Context, "Root object cannot be a reference to an unresolved object.", "root", actualDescriptor, null, "Initialize Root", null );
         }
 
@@ -250,7 +255,6 @@ namespace UnityPlus.Serialization
             }
 
             ContextKey context = member.GetContext( cursor.TargetObj.Target );
-            IDescriptor expectedDesc = member.TypeDescriptor ?? TypeDescriptorRegistry.GetDescriptor( member.DeclaredType, context );
 
             MemberResolutionResult result = TryProcessMember( memberData, member.DeclaredType, context, member, state,
                 out object resolvedValue, out IDescriptor resolvedDescriptor, out SerializedData unwrappedNode, out Guid? pendingId );
@@ -336,14 +340,14 @@ namespace UnityPlus.Serialization
                     if( resolvedType == null )
                     {
                         string path = state.Stack.BuildPath();
-                        string msg = $"Type resolution failed: Unable to resolve type name '{typeName}' specified in data at '{path}'.";
-                        throw new UPSSerializationException( state.Context, msg, path, actualDescriptor, memberInfo, "Resolve Polymorphism", null );
+                        string msg = $"Unable to resolve type name '{typeName}' specified in data at '{path}'.";
+                        throw new UPSTypeResolutionException( state.Context, msg, path, actualDescriptor, memberInfo, "Resolve Polymorphism", null );
                     }
                     if( !declaredType.IsAssignableFrom( resolvedType ) )
                     {
                         string path = state.Stack.BuildPath();
-                        string msg = $"Polymorphic type mismatch: Data specifies type '{resolvedType.FullName}', which is not assignable to the expected type '{declaredType.AssemblyQualifiedName}'.";
-                        throw new UPSSerializationException( state.Context, msg, path, actualDescriptor, memberInfo, "Resolve Polymorphism", null );
+                        string msg = $"Data specifies type '{resolvedType.FullName}', which is not assignable to the expected type '{declaredType.AssemblyQualifiedName}'.";
+                        throw new UPSTypeResolutionException( state.Context, msg, path, actualDescriptor, memberInfo, "Resolve Polymorphism", null );
                     }
                     actualType = resolvedType;
                 }
@@ -364,6 +368,11 @@ namespace UnityPlus.Serialization
                 {
                     data = wrapperObj;
                 }
+            }
+
+            if( data == null ) // wrapped null.
+            {
+                return MemberResolutionResult.Resolved;
             }
 
             if( state.Context.Config.WrapperHandling == WrapperHandling.Strict )
@@ -414,10 +423,15 @@ namespace UnityPlus.Serialization
                     return MemberResolutionResult.Deferred;
                 }
 
+                if( data is SerializedPrimitive )
+                {
+                    throw new UPSDataMismatchException( state.Context, $"Expected either a {nameof( SerializedObject )} or a {nameof( SerializedArray )}  for type {actualType.FullName}, but found primitive.", state.Stack.BuildPath(), actualDescriptor, memberInfo, "Processing Value", null );
+                }
+
                 return MemberResolutionResult.RequiresPush;
             }
 
-            throw new Exception( $"Unsupported descriptor type: {actualDescriptor.GetType().FullName}" );
+            throw new UPSSerializationException( state.Context, $"Unsupported descriptor type: {actualDescriptor.GetType().FullName}", state.Stack.BuildPath(), actualDescriptor, memberInfo, "Processing Value", null );
         }
 
         private static void PushCursor( object target, object parent, IMemberInfo memberInfo, IDescriptor descriptor, SerializedData dataNode, Guid? pendingId, bool writeBackOnPop, SerializationState state )

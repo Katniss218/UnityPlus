@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityPlus.Serialization.DescriptorTypes;
 
 namespace UnityPlus.Serialization
 {

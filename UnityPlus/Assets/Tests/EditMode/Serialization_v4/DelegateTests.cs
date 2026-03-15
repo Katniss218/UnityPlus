@@ -1,8 +1,9 @@
 ﻿using System;
 using NUnit.Framework;
 using UnityEngine;
+using UnityPlus.Serialization;
 
-namespace UnityPlus.Serialization.Tests
+namespace Neoserialization.V4
 {
     public class DelegateTests
     {
@@ -92,13 +93,6 @@ namespace UnityPlus.Serialization.Tests
             Assert.That( result, Is.Not.Null );
             Assert.That( result.MyAction, Is.Not.Null );
             Assert.That( result.MyAction.GetInvocationList().Length, Is.EqualTo( 2 ) );
-        }
-
-        // Helper class for instance tests
-        public class TestScriptableTarget : ScriptableObject
-        {
-            public int Value;
-            public void Method() { Value++; }
         }
     }
 }

@@ -9,7 +9,7 @@ using UnityPlus.Serialization;
 using UnityPlus.Serialization.ReferenceMaps;
 using Ctx = UnityPlus.Serialization.Ctx;
 
-namespace Neoserialization
+namespace Neoserialization.V4
 {
     public class StructureValidationTests
     {
@@ -19,15 +19,6 @@ namespace Neoserialization
             TypeDescriptorRegistry.Clear();
             AssetRegistry.Clear();
         }
-
-        public enum TestEnumStr { First = 0, Second = 1, Third = 2 }
-        public enum TestEnumInt { First = 0, Second = 1, Third = 2 }
-
-
-        [MapsInheritingFrom( typeof( TestEnumStr ) )]
-        private static IDescriptor ProvideTestEnumStr() => new EnumDescriptor<TestEnumStr>( EnumSerializationMode.String );
-        [MapsInheritingFrom( typeof( TestEnumInt ) )]
-        private static IDescriptor ProvideTestEnumInt() => new EnumDescriptor<TestEnumInt>( EnumSerializationMode.Integer );
 
         [Test]
         public void Primitives_RoundTrip()
@@ -94,12 +85,6 @@ namespace Neoserialization
             } );
         }
 
-        public struct SimpleStruct
-        {
-            public int Value;
-            public string Text;
-        }
-
         [Test]
         public void BoxedStructs_RoundTrip()
         {
@@ -113,9 +98,18 @@ namespace Neoserialization
             } );
         }
 
-        public interface IAnimal { string Speak(); }
-        public class Dog : IAnimal { public string Name; public string Speak() => "Woof"; }
-        public class Cat : IAnimal { public int Lives; public string Speak() => "Meow"; }
+        [Test]
+        public void Class_RoundTrip()
+        {
+            object val = new SimpleClass { Value = 42, Text = "Test" };
+            SerializationTestUtils.AssertRoundTrip( val, new SerializedObject
+            {
+                { KeyNames.ID, (SerializedPrimitive)"" }, // boxed structs can have a reference to themselves.
+                { KeyNames.TYPE, (SerializedPrimitive)(typeof( SimpleClass ).AssemblyQualifiedName.ToString()) }, 
+                { "Value", (SerializedPrimitive)42 },
+                { "Text", (SerializedPrimitive)"Test" } 
+            } );
+        }
 
         [Test]
         public void Polymorphism_RoundTrip()
@@ -401,8 +395,6 @@ namespace Neoserialization
             } );
         }
 
-        public class MockAsset : ScriptableObject { public int Value; }
-
         [Test]
         public void Assets_RoundTrip()
         {
@@ -411,21 +403,6 @@ namespace Neoserialization
             AssetRegistry.Register( "test::mock", asset );
 
             SerializationTestUtils.AssertRoundTrip( asset, new SerializedObject { { KeyNames.ASSETREF, (SerializedPrimitive)"test::mock" } }, ContextRegistry.GetID( typeof( Ctx.Asset ) ) );
-        }
-
-        public class Node
-        {
-            public string Name;
-            public Node Next;
-
-
-            [MapsInheritingFrom( typeof( Node ) )]
-            private static IDescriptor Provide()
-            {
-                return new MemberwiseDescriptor<Node>()
-                    .WithMember( "name", o => o.Name )
-                    .WithMember( "next", o => o.Next );
-            }
         }
 
         [Test]
@@ -504,6 +481,45 @@ namespace Neoserialization
             Assert.That( result.Next.Name, Is.EqualTo( "Node2" ) );
             Assert.That( newRefMap.GetID( result ), Is.EqualTo( id1 ) );
             Assert.That( newRefMap.GetID( result.Next ), Is.EqualTo( id2 ) );
+        }
+
+        [Test]
+        public void Serialization_Dictionary_Asset()
+        {
+            AssetRegistry.Clear();
+            // Arrange: Object with Dictionary, configured via Fluent API using Generic Context Type
+            var asset = ScriptableObject.CreateInstance<MockAsset>();
+            asset.Value = 42;
+            string assetId = "test::mock";
+
+            AssetRegistry.Register( assetId, asset );
+
+            var container = new Container();
+            container.Assets.Add( "MyAsset", asset );
+
+            TypeDescriptorRegistry.Register(
+                new MemberwiseDescriptor<Container>()
+                    // Use the generic type to specify context: Dict<Default, Asset>
+                    .WithMember( "assets", typeof( Ctx.KeyValue<Ctx.Value, Ctx.Asset> ), c => c.Assets )
+            );
+
+            // Act: Serialize
+            SerializedData data = SerializationUnit.Serialize( container );
+
+            // Assert: Verify the value is serialized as an AssetRef (String), not a full object
+            // Expected: { "assets": { "values": [ { "key": "MyAsset", "value": { "$assetref": "test::mock" } } ] } }
+            // Actual: { "assets": { "$id": "..." } }
+
+            var obj = (SerializedObject)data;
+            SerializedArray assetsArr = SerializationHelpers.GetValueNode( obj["assets"] );
+
+            SerializedObject entry = (SerializedObject)assetsArr[0];
+            SerializedData valNode = entry["value"];
+
+            AssetRegistry.Clear();
+            Assert.That( valNode, Is.TypeOf<SerializedObject>(), "Asset should be serialized as object node (containing ref)" );
+            Assert.That( ((SerializedObject)valNode).ContainsKey( KeyNames.ASSETREF ), Is.True, "Value should contain $assetref key" );
+            Assert.That( (string)((SerializedObject)valNode)[KeyNames.ASSETREF], Is.EqualTo( assetId ) );
         }
     }
 }

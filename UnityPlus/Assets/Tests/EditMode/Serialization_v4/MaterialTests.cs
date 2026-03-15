@@ -1,8 +1,9 @@
 ﻿using NUnit.Framework;
 using UnityEngine;
 using UnityPlus.AssetManagement;
+using UnityPlus.Serialization;
 
-namespace UnityPlus.Serialization.Tests
+namespace Neoserialization.V4
 {
     [TestFixture]
     public class MaterialTests
