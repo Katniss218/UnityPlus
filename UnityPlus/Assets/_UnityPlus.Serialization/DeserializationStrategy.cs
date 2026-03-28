@@ -388,12 +388,12 @@ namespace UnityPlus.Serialization
                 // we would have to look if the member has its own member named "value" or not, but then that's annoying and slow.
                 if( expectedStructure == ObjectStructure.Wrapped && data == node )
                 {
-                    throw new UPSInvalidWrapperException( state.Context, $"Expected a wrapper object with '{KeyNames.VALUE}' for type {actualType.FullName}, but found unwrapped data.", state.Stack.BuildPath(), actualDescriptor, memberInfo, "Processing Value", null );
+                    throw new UPSInvalidWrapperException( state.Context, $"Expected a wrapper data object with '{KeyNames.VALUE}' for type {actualType.FullName}, but found unwrapped data.", state.Stack.BuildPath(), actualDescriptor, memberInfo, "Processing Value", null );
                 }
 #warning INFO - kinda ugly "fix" but it works.
                 if( expectedStructure == ObjectStructure.Unwrapped && actualDescriptor is ICollectionDescriptor && wrappedNode != null ) // wrappedNode implicitly checks for node is SerializedObject as well.
                 {
-                    throw new UPSInvalidWrapperException( state.Context, $"Expected no wrapper object with '{KeyNames.VALUE}' for collection type {actualType.FullName}, but found wrapped data.", state.Stack.BuildPath(), actualDescriptor, memberInfo, "Processing Value", null );
+                    throw new UPSInvalidWrapperException( state.Context, $"Expected unwrapped data for collection type {actualType.FullName}, but found wrapped data.", state.Stack.BuildPath(), actualDescriptor, memberInfo, "Processing Value", null );
                 }
             }
 
