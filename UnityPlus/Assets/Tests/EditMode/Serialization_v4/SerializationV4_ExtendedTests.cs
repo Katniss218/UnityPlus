@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
 using UnityPlus.Serialization;
+using UnityPlus.Serialization.Descriptors;
 
 namespace Neoserialization.V4
 {
@@ -40,6 +41,127 @@ namespace Neoserialization.V4
             var result = SerializationUnit.Deserialize<List<string>>( data );
             Assert.That( result.Count, Is.EqualTo( 3 ) );
             Assert.That( result[1], Is.Null );
+        }
+
+        private class TestWithInitialized
+        {
+            public object Value { get; set; } = new Dictionary<string, object>();
+
+
+            [MapsInheritingFrom( typeof( TestWithInitialized ) )]
+            public static IDescriptor InitialMapping()
+            {
+                return new MemberwiseDescriptor<TestWithInitialized>()
+                    .WithMember( "value", o => o.Value );
+            }
+        }
+
+        private interface ITest
+        {
+            object GetObj();
+        }
+
+        private abstract class Test
+        {
+        }
+
+        private class TestClass : Test, ITest
+        {
+            public object Value { get; set; }
+            public object GetObj()
+            {
+                return Value;
+            }
+
+            [MapsInheritingFrom( typeof( TestClass ) )]
+            public static IDescriptor InitialMapping()
+            {
+                return new MemberwiseDescriptor<TestClass>()
+                    .WithMember( "value", o => o.Value );
+            }
+        }
+
+        private class TestClass2 : Test, ITest
+        {
+            public int Num { get; set; }
+            public object GetObj()
+            {
+                return Num;
+            }
+
+            [MapsInheritingFrom( typeof( TestClass2 ) )]
+            public static IDescriptor InitialMapping()
+            {
+                return new MemberwiseDescriptor<TestClass2>()
+                    .WithMember( "num", o => o.Num );
+            }
+        }
+
+        private class TestWithInitializedInterface
+        {
+            public ITest Inter { get; set; } = new TestClass();
+
+
+            [MapsInheritingFrom( typeof( TestWithInitializedInterface ) )]
+            public static IDescriptor InitialMapping()
+            {
+                return new MemberwiseDescriptor<TestWithInitializedInterface>()
+                    .WithMember( "inter", o => o.Inter );
+            }
+        }
+        
+        private class TestWithInitializedBaseClass
+        {
+            public Test Inter { get; set; } = new TestClass();
+
+
+            [MapsInheritingFrom( typeof( TestWithInitializedBaseClass ) )]
+            public static IDescriptor InitialMapping()
+            {
+                return new MemberwiseDescriptor<TestWithInitializedBaseClass>()
+                    .WithMember( "inter", o => o.Inter );
+            }
+        }
+
+        [Test]
+        public void TestWithInitializedInterface_DifferentSubtype()
+        {
+            var data = new SerializedObject()
+            {
+                { "inter", new SerializedObject()
+                {
+                    { KeyNames.TYPE, typeof( TestClass2 ).SerializeType() },
+                    { "num", (SerializedPrimitive)5 }
+                } }
+            };
+
+            var deserialized = SerializationUnit.Deserialize<TestWithInitializedInterface>( data );
+            Assert.That( deserialized.Inter, Is.InstanceOf<TestClass2>() );
+        }
+        [Test]
+        public void TestWithInitializedClass_DifferentSubtype()
+        {
+            var data = new SerializedObject()
+            {
+                { "inter", new SerializedObject()
+                {
+                    { KeyNames.TYPE, typeof( TestClass2 ).SerializeType() },
+                    { "num", (SerializedPrimitive)5 }
+                } }
+            };
+
+            var deserialized = SerializationUnit.Deserialize<TestWithInitializedBaseClass>( data );
+            Assert.That( deserialized.Inter, Is.InstanceOf<TestClass2>() );
+        }
+
+        [Test]
+        public void TestWithInitialized_NullMember()
+        {
+            var obj = new TestWithInitialized { Value = null };
+            var data = SerializationUnit.Serialize( obj );
+
+            var deserialized = SerializationUnit.Deserialize<TestWithInitialized>( data );
+            Assert.That( deserialized.Value, Is.Null );
         }
 
         [Test]
