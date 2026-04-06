@@ -12,7 +12,7 @@ namespace UnityPlus.Serialization.DescriptorProviders
             ( target, wrapper, ctx ) =>
                 wrapper.Data = new SerializedArray { (SerializedPrimitive)target.x, (SerializedPrimitive)target.y, (SerializedPrimitive)target.z },
             ( data, ctx ) =>
-                (data is SerializedArray arr && arr.Count >= 3) ? new Vector3Dbl( (float)arr[0], (float)arr[1], (float)arr[2] ) : default
+                (data is SerializedArray arr && arr.Count >= 3) ? new Vector3Dbl( (double)arr[0], (double)arr[1], (double)arr[2] ) : default
         );
 
         // --- QUATERNION ---
@@ -22,7 +22,7 @@ namespace UnityPlus.Serialization.DescriptorProviders
             ( target, wrapper, ctx ) =>
                 wrapper.Data = new SerializedArray { (SerializedPrimitive)target.x, (SerializedPrimitive)target.y, (SerializedPrimitive)target.z, (SerializedPrimitive)target.w },
             ( data, ctx ) =>
-                (data is SerializedArray arr && arr.Count >= 4) ? new QuaternionDbl( (float)arr[0], (float)arr[1], (float)arr[2], (float)arr[3] ) : default
+                (data is SerializedArray arr && arr.Count >= 4) ? new QuaternionDbl( (double)arr[0], (double)arr[1], (double)arr[2], (double)arr[3] ) : default
         );
 
         [MapsInheritingFrom( typeof( FloatInterpolator ) )]
