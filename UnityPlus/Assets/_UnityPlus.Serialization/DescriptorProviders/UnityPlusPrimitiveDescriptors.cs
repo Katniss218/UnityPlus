@@ -8,21 +8,21 @@ namespace UnityPlus.Serialization.DescriptorProviders
         // --- VECTORS ---
 
         [MapsInheritingFrom( typeof( Vector3Dbl ) )]
-        public static IDescriptor Vector3Descriptor() => new PrimitiveConfigurableDescriptor<Vector3>(
+        public static IDescriptor Vector3DblDescriptor() => new PrimitiveConfigurableDescriptor<Vector3Dbl>(
             ( target, wrapper, ctx ) =>
                 wrapper.Data = new SerializedArray { (SerializedPrimitive)target.x, (SerializedPrimitive)target.y, (SerializedPrimitive)target.z },
             ( data, ctx ) =>
-                (data is SerializedArray arr && arr.Count >= 3) ? new Vector3( (float)arr[0], (float)arr[1], (float)arr[2] ) : default
+                (data is SerializedArray arr && arr.Count >= 3) ? new Vector3Dbl( (float)arr[0], (float)arr[1], (float)arr[2] ) : default
         );
 
         // --- QUATERNION ---
 
         [MapsInheritingFrom( typeof( QuaternionDbl ) )]
-        public static IDescriptor QuaternionDescriptor() => new PrimitiveConfigurableDescriptor<Quaternion>(
+        public static IDescriptor QuaternionDblDescriptor() => new PrimitiveConfigurableDescriptor<QuaternionDbl>(
             ( target, wrapper, ctx ) =>
                 wrapper.Data = new SerializedArray { (SerializedPrimitive)target.x, (SerializedPrimitive)target.y, (SerializedPrimitive)target.z, (SerializedPrimitive)target.w },
             ( data, ctx ) =>
-                (data is SerializedArray arr && arr.Count >= 4) ? new Quaternion( (float)arr[0], (float)arr[1], (float)arr[2], (float)arr[3] ) : default
+                (data is SerializedArray arr && arr.Count >= 4) ? new QuaternionDbl( (float)arr[0], (float)arr[1], (float)arr[2], (float)arr[3] ) : default
         );
 
         [MapsInheritingFrom( typeof( FloatInterpolator ) )]
