@@ -12,7 +12,7 @@ namespace UnityPlus
         public static void AddSystem( in PlayerLoopSystem systemToAdd )
         {
             PlayerLoopSystem loopRoot = PlayerLoop.GetCurrentPlayerLoop();
-            AddSystemNested( new Type[] { }, 0, ref loopRoot, in systemToAdd );
+            AddSystemNested( Type.EmptyTypes, 0, ref loopRoot, in systemToAdd );
             PlayerLoop.SetPlayerLoop( loopRoot );
         }
         
@@ -60,7 +60,7 @@ namespace UnityPlus
         public static void InsertSystemAfter<T1>( in PlayerLoopSystem systemToInsert, Type previous )
         {
             PlayerLoopSystem loopRoot = PlayerLoop.GetCurrentPlayerLoop();
-            InsertSystemNested( new[] { typeof( T1 ) }, 0, ref loopRoot, in systemToInsert, new List<Type>() { previous }, new Type[] { } );
+            InsertSystemNested( new[] { typeof( T1 ) }, 0, ref loopRoot, in systemToInsert, new List<Type>() { previous }, Type.EmptyTypes );
             PlayerLoop.SetPlayerLoop( loopRoot );
         }
 
@@ -81,7 +81,7 @@ namespace UnityPlus
         public static void InsertSystemAfter<T1, T2>( in PlayerLoopSystem systemToInsert, Type previous )
         {
             PlayerLoopSystem loopRoot = PlayerLoop.GetCurrentPlayerLoop();
-            InsertSystemNested( new[] { typeof( T1 ), typeof( T2 ) }, 0, ref loopRoot, in systemToInsert, new List<Type>() { previous }, new Type[] { } );
+            InsertSystemNested( new[] { typeof( T1 ), typeof( T2 ) }, 0, ref loopRoot, in systemToInsert, new List<Type>() { previous }, Type.EmptyTypes );
             PlayerLoop.SetPlayerLoop( loopRoot );
         }
 

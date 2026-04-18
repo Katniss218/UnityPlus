@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace UnityPlus.Serialization.ReferenceMaps
@@ -13,7 +11,7 @@ namespace UnityPlus.Serialization.ReferenceMaps
     /// </summary>
     public class ReverseReferenceStore : IReverseReferenceMap
     {
-        private readonly Dictionary<object, Guid> _reverse = new Dictionary<object, Guid>();
+        private readonly Dictionary<object, Guid> _reverse = new( ReferenceEqualityComparer.Instance );
 
         public ReverseReferenceStore() { }
 
@@ -67,6 +65,18 @@ namespace UnityPlus.Serialization.ReferenceMaps
                 return;
 
             _reverse[obj] = id;
+        }
+
+        public override string ToString()
+        {
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine( $"--- Reference Map Dump ({this.GetType().Name}) ---" );
+            foreach( var (id, obj) in this.GetAll() )
+            {
+                string objName = obj.IsUnityNull() ? "NULL" : obj.ToString();
+                sb.AppendLine( $"{id} : {objName}" );
+            }
+            return sb.ToString();
         }
     }
 }

@@ -40,188 +40,188 @@ public class _playtester : MonoBehaviour
         public IAnInterface interfaceRefMember;
     }
 
-    [MapsInheritingFrom( typeof( _playtester ) )]
-    public static SerializationMapping _playtesterMapping()
-    {
-        return new MemberwiseSerializationMapping<_playtester>()
-            .WithMember( "perf_test_go", ObjectContext.Ref, o => o.perfTestGo )
-            .WithMember( "action", o => o.Action );
-    }
+    //[MapsInheritingFrom( typeof( _playtester ) )]
+    //public static SerializationMapping _playtesterMapping()
+    //{
+    //    return new MemberwiseSerializationMapping<_playtester>()
+    //        .WithMember( "perf_test_go", ObjectContext.Ref, o => o.perfTestGo )
+    //        .WithMember( "action", o => o.Action );
+    //}
 
-    [MapsInheritingFrom( typeof( FPSCounterDebug ) )]
-    public static SerializationMapping FPSCounterDebugMapping()
-    {
-        return new MemberwiseSerializationMapping<FPSCounterDebug>()
-            .WithMember( "fps", o => o.fps );
-    }
+    //[MapsInheritingFrom( typeof( FPSCounterDebug ) )]
+    //public static SerializationMapping FPSCounterDebugMapping()
+    //{
+    //    return new MemberwiseSerializationMapping<FPSCounterDebug>()
+    //        .WithMember( "fps", o => o.fps );
+    //}
 
-    [MapsInheritingFrom( typeof( BaseClass ) )]
-    public static SerializationMapping BaseClassMapping()
-    {
-        return new MemberwiseSerializationMapping<BaseClass>()
-            .WithMember( "base_member", o => o.baseMember );
-    }
+    //[MapsInheritingFrom( typeof( BaseClass ) )]
+    //public static SerializationMapping BaseClassMapping()
+    //{
+    //    return new MemberwiseSerializationMapping<BaseClass>()
+    //        .WithMember( "base_member", o => o.baseMember );
+    //}
 
-    [MapsInheritingFrom( typeof( DerivedClass ) )]
-    public static SerializationMapping DerivedClassMapping()
-    {
-        return new MemberwiseSerializationMapping<DerivedClass>()
-            .WithMember( "derived_member", o => o.derivedMember );
-    }
+    //[MapsInheritingFrom( typeof( DerivedClass ) )]
+    //public static SerializationMapping DerivedClassMapping()
+    //{
+    //    return new MemberwiseSerializationMapping<DerivedClass>()
+    //        .WithMember( "derived_member", o => o.derivedMember );
+    //}
 
-    [MapsInheritingFrom( typeof( MoreDerivedClass ) )]
-    public static SerializationMapping MoreDerivedClassMapping()
-    {
-        return new MemberwiseSerializationMapping<MoreDerivedClass>()
-            .WithMember( "more_derived_member", o => o.moreDerivedMember );
-    }
+    //[MapsInheritingFrom( typeof( MoreDerivedClass ) )]
+    //public static SerializationMapping MoreDerivedClassMapping()
+    //{
+    //    return new MemberwiseSerializationMapping<MoreDerivedClass>()
+    //        .WithMember( "more_derived_member", o => o.moreDerivedMember );
+    //}
 
-    [MapsImplementing( typeof( IAnInterface ) )]
-    public static SerializationMapping IAnInterfaceMapping()
-    {
-        return new MemberwiseSerializationMapping<IAnInterface>()
-            .WithMember( "interface_member", o => o.interfaceMember );
-    }
+    //[MapsImplementing( typeof( IAnInterface ) )]
+    //public static SerializationMapping IAnInterfaceMapping()
+    //{
+    //    return new MemberwiseSerializationMapping<IAnInterface>()
+    //        .WithMember( "interface_member", o => o.interfaceMember );
+    //}
 
-    [MapsInheritingFrom( typeof( ReferencingClass ) )]
-    public static SerializationMapping ReferencingClassMapping()
-    {
-        return new MemberwiseSerializationMapping<ReferencingClass>()
-            .WithMember( "ref_member", ObjectContext.Ref, o => o.refMember );
-    }
+    //[MapsInheritingFrom( typeof( ReferencingClass ) )]
+    //public static SerializationMapping ReferencingClassMapping()
+    //{
+    //    return new MemberwiseSerializationMapping<ReferencingClass>()
+    //        .WithMember( "ref_member", ObjectContext.Ref, o => o.refMember );
+    //}
 
-    [SerializeField] GameObject perfTestGo;
-    [SerializeField] GameObject startTestGo;
+    //[SerializeField] GameObject perfTestGo;
+    //[SerializeField] GameObject startTestGo;
 
-    public Action<string> Action { get; set; }
+    //public Action<string> Action { get; set; }
 
-    private void Awake()
-    {
-        this.Action = DoSomething;
-    }
+    //private void Awake()
+    //{
+    //    this.Action = DoSomething;
+    //}
 
-    private void DoSomething( string s )
-    {
-        Debug.Log( s );
-    }
+    //private void DoSomething( string s )
+    //{
+    //    Debug.Log( s );
+    //}
 
-    void Start()
-    {
-        //SerializedData data = SerializationUnit.Serialize<(int, string)>( (218, "stringval") );
-        var su = SerializationUnit.FromObjectsAsync<GameObject>( startTestGo );
-        do
-        { // INFO - the time includes things like the JIT, so first serialization will take more steps, but that doesn't affect anything.
-            su.Serialize();
-        } while( !su.Result.HasFlag( SerializationResult.Finished ) );
-        var data = su.GetData().First();
+    //void Start()
+    //{
+    //    //SerializedData data = SerializationUnit.Serialize<(int, string)>( (218, "stringval") );
+    //    var su = SerializationUnit.FromObjectsAsync<GameObject>( startTestGo );
+    //    do
+    //    { // INFO - the time includes things like the JIT, so first serialization will take more steps, but that doesn't affect anything.
+    //        su.Serialize();
+    //    } while( !su.Result.HasFlag( SerializationResult.Finished ) );
+    //    var data = su.GetData().First();
 
-        // data["components"]["value"][1]["$type"] = "UnityEngine.MeshFilter1234, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null";
+    //    // data["components"]["value"][1]["$type"] = "UnityEngine.MeshFilter1234, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null";
 
-        var sb = new StringBuilder();
-        new JsonStringWriter( data, sb ).Write();
-        Debug.Log( sb.ToString() );
-
-
-
-        var su2 = SerializationUnit.FromDataAsync<GameObject>( data );
-        do
-        { // INFO - the time includes things like the JIT, so first serialization will take more steps, but that doesn't affect anything.
-            su2.Deserialize();
-
-        } while( !su2.Result.HasFlag( SerializationResult.Finished ) );
-        GameObject obj = su2.GetObjects().First();
+    //    var sb = new StringBuilder();
+    //    new JsonStringWriter( data, sb ).Write();
+    //    Debug.Log( sb.ToString() );
 
 
 
-        su = SerializationUnit.FromObjectsAsync<GameObject>( startTestGo );
-        do
-        { // INFO - the time includes things like the JIT, so first serialization will take more steps, but that doesn't affect anything.
-            su.Serialize();
+    //    var su2 = SerializationUnit.FromDataAsync<GameObject>( data );
+    //    do
+    //    { // INFO - the time includes things like the JIT, so first serialization will take more steps, but that doesn't affect anything.
+    //        su2.Deserialize();
 
-        } while( !su.Result.HasFlag( SerializationResult.Finished ) );
-        data = su.GetData().First();
+    //    } while( !su2.Result.HasFlag( SerializationResult.Finished ) );
+    //    GameObject obj = su2.GetObjects().First();
 
-        sb = new StringBuilder();
-        new JsonStringWriter( data, sb ).Write();
-        Debug.Log( sb.ToString() );
-    }
 
-    void Update()
-    {
-      // RunPerfTest();
-        RunPerfTestAsync_AsSync();
-    }
 
-    const int COUNT = 1000;
+    //    su = SerializationUnit.FromObjectsAsync<GameObject>( startTestGo );
+    //    do
+    //    { // INFO - the time includes things like the JIT, so first serialization will take more steps, but that doesn't affect anything.
+    //        su.Serialize();
 
-    private void RunPerfTest()
-    {
-        List<GameObject> list = new List<GameObject>( COUNT );
+    //    } while( !su.Result.HasFlag( SerializationResult.Finished ) );
+    //    data = su.GetData().First();
 
-        for( int i = 0; i < COUNT; i++ )
-        {
-            Profiler.BeginSample( "t1" );
-            SerializedData data = SerializationUnit.Serialize<GameObject>( perfTestGo );
-            Profiler.EndSample();
+    //    sb = new StringBuilder();
+    //    new JsonStringWriter( data, sb ).Write();
+    //    Debug.Log( sb.ToString() );
+    //}
 
-            Profiler.BeginSample( "t2" );
-            GameObject go = SerializationUnit.Deserialize<GameObject>( data );
-            Profiler.EndSample();
+    //void Update()
+    //{
+    //  // RunPerfTest();
+    //    RunPerfTestAsync_AsSync();
+    //}
 
-            list.Add( go );
-        }
+    //const int COUNT = 1000;
 
-        foreach( var go in list.ToArray() )
-        {
-            Destroy( go );
-            list.Clear();
-        }
-    }
+    //private void RunPerfTest()
+    //{
+    //    List<GameObject> list = new List<GameObject>( COUNT );
 
-    private void RunPerfTestAsync_AsSync()
-    {
-        List<GameObject> list = new List<GameObject>( COUNT );
+    //    for( int i = 0; i < COUNT; i++ )
+    //    {
+    //        Profiler.BeginSample( "t1" );
+    //        SerializedData data = SerializationUnit.Serialize<GameObject>( perfTestGo );
+    //        Profiler.EndSample();
 
-        for( int i = 0; i < COUNT; i++ )
-        {
-            //int sCount = 0;
+    //        Profiler.BeginSample( "t2" );
+    //        GameObject go = SerializationUnit.Deserialize<GameObject>( data );
+    //        Profiler.EndSample();
 
-            Profiler.BeginSample( "t1" );
-            var su = SerializationUnit.FromObjectsAsync<GameObject>( perfTestGo );
-            do
-            { // INFO - the time includes things like the JIT, so first serialization will take more steps, but that doesn't affect anything.
-                su.Serialize();
-                //sCount++;
+    //        list.Add( go );
+    //    }
 
-            } while( !su.Result.HasFlag( SerializationResult.Finished ) );
-            SerializedData data = su.GetData().First();
+    //    foreach( var go in list.ToArray() )
+    //    {
+    //        Destroy( go );
+    //        list.Clear();
+    //    }
+    //}
 
-            //Debug.Log( sCount );
+    //private void RunPerfTestAsync_AsSync()
+    //{
+    //    List<GameObject> list = new List<GameObject>( COUNT );
 
-            Profiler.EndSample();
+    //    for( int i = 0; i < COUNT; i++ )
+    //    {
+    //        //int sCount = 0;
 
-            //int lCount = 0;
+    //        Profiler.BeginSample( "t1" );
+    //        var su = SerializationUnit.FromObjectsAsync<GameObject>( perfTestGo );
+    //        do
+    //        { // INFO - the time includes things like the JIT, so first serialization will take more steps, but that doesn't affect anything.
+    //            su.Serialize();
+    //            //sCount++;
 
-            Profiler.BeginSample( "t2" );
-            var su2 = SerializationUnit.FromDataAsync<GameObject>( data );
-            do
-            { // INFO - the time includes things like the JIT, so first serialization will take more steps, but that doesn't affect anything.
-                su2.Deserialize();
-                //lCount++;
+    //        } while( !su.Result.HasFlag( SerializationResult.Finished ) );
+    //        SerializedData data = su.GetData().First();
 
-            } while( !su2.Result.HasFlag( SerializationResult.Finished ) );
-            GameObject go = su2.GetObjects().First();
-            Profiler.EndSample();
+    //        //Debug.Log( sCount );
 
-            //Debug.Log( lCount );
+    //        Profiler.EndSample();
 
-            list.Add( go );
-        }
+    //        //int lCount = 0;
 
-        foreach( var go in list.ToArray() )
-        {
-            Destroy( go );
-            list.Clear();
-        }
-    }
+    //        Profiler.BeginSample( "t2" );
+    //        var su2 = SerializationUnit.FromDataAsync<GameObject>( data );
+    //        do
+    //        { // INFO - the time includes things like the JIT, so first serialization will take more steps, but that doesn't affect anything.
+    //            su2.Deserialize();
+    //            //lCount++;
+
+    //        } while( !su2.Result.HasFlag( SerializationResult.Finished ) );
+    //        GameObject go = su2.GetObjects().First();
+    //        Profiler.EndSample();
+
+    //        //Debug.Log( lCount );
+
+    //        list.Add( go );
+    //    }
+
+    //    foreach( var go in list.ToArray() )
+    //    {
+    //        Destroy( go );
+    //        list.Clear();
+    //    }
+    //}
 }
