@@ -49,6 +49,18 @@ namespace Neoserialization.V4
         public string a;
     }
 
+    public class GenericClass<T>
+    {
+        public T val;
+
+        [MapsInheritingFrom( typeof( GenericClass<> ) )]
+        private static IDescriptor Provide()
+        {
+            return new MemberwiseDescriptor<GenericClass<T>>()
+                .WithMember( "val", o => o.val );
+        }
+    }
+
     public struct SimpleStruct
     {
         public int Value;

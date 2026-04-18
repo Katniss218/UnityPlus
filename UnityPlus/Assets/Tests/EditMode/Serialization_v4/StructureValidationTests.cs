@@ -69,20 +69,20 @@ namespace Neoserialization.V4
             SerializationTestUtils.AssertRoundTrip( val1, new SerializedObject
             {
                 { KeyNames.ID, (SerializedPrimitive)"" }, // boxed structs can have a reference to themselves.
-                { KeyNames.TYPE, (SerializedPrimitive)(typeof( int ).AssemblyQualifiedName.ToString()) }, 
+                { KeyNames.TYPE, (SerializedPrimitive)(typeof( int ).AssemblyQualifiedName.ToString()) },
                 { KeyNames.VALUE, (SerializedPrimitive)123 }
             } );
             SerializationTestUtils.AssertRoundTrip( val2, new SerializedObject
             {
                 { KeyNames.ID, (SerializedPrimitive)"" }, // boxed structs can have a reference to themselves.
-                { KeyNames.TYPE, (SerializedPrimitive)(typeof( string ).AssemblyQualifiedName.ToString()) }, 
-                { KeyNames.VALUE, (SerializedPrimitive)"Hello World" } 
+                { KeyNames.TYPE, (SerializedPrimitive)(typeof( string ).AssemblyQualifiedName.ToString()) },
+                { KeyNames.VALUE, (SerializedPrimitive)"Hello World" }
             } );
             SerializationTestUtils.AssertRoundTrip( val3, new SerializedObject
             {
                 { KeyNames.ID, (SerializedPrimitive)"" }, // boxed structs can have a reference to themselves.
-                { KeyNames.TYPE, (SerializedPrimitive)(typeof( TestEnumInt ).AssemblyQualifiedName.ToString()) }, 
-                { KeyNames.VALUE, (SerializedPrimitive)2 } 
+                { KeyNames.TYPE, (SerializedPrimitive)(typeof( TestEnumInt ).AssemblyQualifiedName.ToString()) },
+                { KeyNames.VALUE, (SerializedPrimitive)2 }
             } );
         }
 
@@ -93,9 +93,9 @@ namespace Neoserialization.V4
             SerializationTestUtils.AssertRoundTrip( val, new SerializedObject
             {
                 { KeyNames.ID, (SerializedPrimitive)"" }, // boxed structs can have a reference to themselves.
-                { KeyNames.TYPE, (SerializedPrimitive)(typeof( SimpleStruct ).AssemblyQualifiedName.ToString()) }, 
+                { KeyNames.TYPE, (SerializedPrimitive)(typeof( SimpleStruct ).AssemblyQualifiedName.ToString()) },
                 { "Value", (SerializedPrimitive)42 },
-                { "Text", (SerializedPrimitive)"Test" } 
+                { "Text", (SerializedPrimitive)"Test" }
             } );
         }
 
@@ -106,9 +106,9 @@ namespace Neoserialization.V4
             SerializationTestUtils.AssertRoundTrip( val, new SerializedObject
             {
                 { KeyNames.ID, (SerializedPrimitive)"" }, // boxed structs can have a reference to themselves.
-                { KeyNames.TYPE, (SerializedPrimitive)(typeof( SimpleClass ).AssemblyQualifiedName.ToString()) }, 
+                { KeyNames.TYPE, (SerializedPrimitive)(typeof( SimpleClass ).AssemblyQualifiedName.ToString()) },
                 { "Value", (SerializedPrimitive)42 },
-                { "Text", (SerializedPrimitive)"Test" } 
+                { "Text", (SerializedPrimitive)"Test" }
             } );
         }
 
@@ -118,8 +118,8 @@ namespace Neoserialization.V4
             IAnimal dog = new Dog { Name = "Rex" };
             IAnimal cat = new Cat { Lives = 9 };
 
-            SerializationTestUtils.AssertRoundTrip( dog, new SerializedObject 
-            { 
+            SerializationTestUtils.AssertRoundTrip( dog, new SerializedObject
+            {
                 { KeyNames.ID, (SerializedPrimitive)"" },
                 { KeyNames.TYPE, (SerializedPrimitive)(typeof( Dog ).AssemblyQualifiedName.ToString()) },
                 { "Name", (SerializedPrimitive)"Rex" } }
@@ -199,7 +199,7 @@ namespace Neoserialization.V4
                 { KeyNames.VALUE, new SerializedArray {
                     new SerializedObject { { "key", (SerializedPrimitive)"one" }, { "value", (SerializedPrimitive)1 } },
                     new SerializedObject { { "key", (SerializedPrimitive)"two" }, { "value", (SerializedPrimitive)2 } }
-                } } 
+                } }
             } );
             SerializationTestUtils.AssertRoundTrip( array, new SerializedObject
             {
@@ -230,11 +230,11 @@ namespace Neoserialization.V4
             SerializationTestUtils.AssertRoundTrip( multiArray, new SerializedObject
             {
                 { KeyNames.ID, (SerializedPrimitive)"" },
-                { KeyNames.VALUE, new SerializedObject 
+                { KeyNames.VALUE, new SerializedObject
                 {
                     { "lengths", new SerializedArray { (SerializedPrimitive)2, (SerializedPrimitive)2 } },
                     { "values", new SerializedArray { (SerializedPrimitive)1, (SerializedPrimitive)2, (SerializedPrimitive)3, (SerializedPrimitive)4 } }
-                } } 
+                } }
             } );
             SerializationTestUtils.AssertRoundTrip( jaggedArray, new SerializedObject
             {
@@ -343,7 +343,7 @@ namespace Neoserialization.V4
             gradient.SetKeys(
                 new[] { new GradientColorKey( Color.red, 0f ), new GradientColorKey( Color.blue, 1f ) },
                 new[] { new GradientAlphaKey( 1f, 0f ), new GradientAlphaKey( 0f, 1f ) }
-            ); 
+            );
             SerializationTestUtils.AssertRoundTrip( gradient, new SerializedObject()
             {
                 { KeyNames.ID, (SerializedPrimitive)"" },
@@ -521,6 +521,49 @@ namespace Neoserialization.V4
             Assert.That( valNode, Is.TypeOf<SerializedObject>(), "Asset should be serialized as object node (containing ref)" );
             Assert.That( ((SerializedObject)valNode).ContainsKey( KeyNames.ASSETREF ), Is.True, "Value should contain $assetref key" );
             Assert.That( (string)((SerializedObject)valNode)[KeyNames.ASSETREF], Is.EqualTo( assetId ) );
+        }
+
+
+        [Test]
+        public void CollectionsRef_RoundTrip()
+        {
+            var n1 = new Node();
+            var n2 = new Node();
+            var list = new List<Node> { n1, n2 };
+            var dict = new Dictionary<string, List<Node>> { { "one", new List<Node> { n1, n2 } } };
+            var array = new Node[] { n1, n2 };
+
+            var sdata = SerializationUnit.Serialize( typeof( Ctx.Ref ), new GenericClass<string>() { val = "fas" } );
+            var sdata2 = SerializationUnit.Serialize( typeof( Ctx.Array<Ctx.Ref> ), list );
+            Debug.Log( sdata.DumpToString() );
+
+            // Collections are wrapped by default (ObjectStructure.Wrapped) because they are classes (needsId = true).
+            SerializationTestUtils.AssertRoundTrip( list, new SerializedObject
+            {
+#warning TODO - references to generic objects serialize as detault context, for some reason.
+                { KeyNames.ID, (SerializedPrimitive)"" },
+                { KeyNames.VALUE, new SerializedArray {
+                    new SerializedObject() {
+                        { KeyNames.REF, (SerializedPrimitive)"" }
+                    },
+                    new SerializedObject() {
+                        { KeyNames.REF, (SerializedPrimitive)"" }
+                    }
+                } }
+            }, ContextRegistry.GetID( typeof( Ctx.Array<Ctx.Ref> ) ) );
+            SerializationTestUtils.AssertRoundTrip( dict, new SerializedObject
+            {
+                { KeyNames.ID, (SerializedPrimitive)"" },
+                { KeyNames.VALUE, new SerializedArray {
+                    new SerializedObject { { "key", (SerializedPrimitive)"one" }, { "value", (SerializedPrimitive)1 } },
+                    new SerializedObject { { "key", (SerializedPrimitive)"two" }, { "value", (SerializedPrimitive)2 } }
+                } }
+            } );
+            SerializationTestUtils.AssertRoundTrip( array, new SerializedObject
+            {
+                { KeyNames.ID, (SerializedPrimitive)"" },
+                { KeyNames.VALUE, new SerializedArray { (SerializedPrimitive)1, (SerializedPrimitive)2, (SerializedPrimitive)3 } }
+            } );
         }
     }
 }
