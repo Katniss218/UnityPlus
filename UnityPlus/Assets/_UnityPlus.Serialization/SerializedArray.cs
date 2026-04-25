@@ -31,6 +31,11 @@ namespace UnityPlus.Serialization
             _children = new List<SerializedData>( children );
         }
 
+        public SerializedArray( params SerializedData[] children )
+        {
+            _children = new List<SerializedData>( children );
+        }
+
         public override SerializedData this[int index]
         {
             get => _children[index];
@@ -142,6 +147,44 @@ namespace UnityPlus.Serialization
         public bool Equals( SerializedArray other )
         {
             return _children.SequenceEqual( other._children );
+        }
+
+        public override string ToString()
+        {
+            return $"{nameof( SerializedArray)} ({_children.Count} items)";
+        }
+
+        public override string DumpToString()
+        {
+            return DumpToString( 0 );
+        }
+
+        internal override string DumpToString( int indentLevel )
+        {
+            var sb = new System.Text.StringBuilder();
+            string indent = string.Concat( Enumerable.Repeat( "- ", indentLevel ) );
+            sb.AppendLine( $"[[{_children.Count}]]" );
+            for( int i = 0; i < _children.Count; i++ )
+            {
+                var val = _children[i];
+                sb.Append( $"{indent}- {i} = " );
+                if( val != null )
+                {
+                    if( val is SerializedPrimitive )
+                    {
+                        sb.AppendLine( val.ToString() );
+                    }
+                    else
+                    {
+                        sb.Append( val.DumpToString( indentLevel + 1 ) );
+                    }
+                }
+                else
+                {
+                    sb.AppendLine( "null" );
+                }
+            }
+            return sb.ToString();
         }
     }
 }

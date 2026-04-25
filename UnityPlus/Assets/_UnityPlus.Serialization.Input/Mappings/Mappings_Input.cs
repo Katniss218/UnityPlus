@@ -2,92 +2,93 @@
 using UnityEngine;
 using UnityPlus.Input;
 using UnityPlus.Input.Bindings;
+using UnityPlus.Serialization.Descriptors;
 
 namespace UnityPlus.Serialization.Input.Mappings
 {
     public static class Mappings_Input
     {
         [MapsInheritingFrom( typeof( KeyDownBinding ) )]
-        public static SerializationMapping KeyDownBindingMapping()
+        public static IDescriptor KeyDownBindingMapping()
         {
-            return new MemberwiseSerializationMapping<KeyDownBinding>()
+            return new MemberwiseDescriptor<KeyDownBinding>()
                 .WithReadonlyMember( "value", o => o.Value )
                 .WithReadonlyMember( "key", o => o.Key )
-                .WithFactory<float, KeyCode>( (value, key) =>
+                .WithFactory<float, KeyCode>( ( value, key ) =>
                 {
                     return new KeyDownBinding( value, key );
-                } );
+                }, "value", "key" );
         }
 
         [MapsInheritingFrom( typeof( KeyHoldBinding ) )]
-        public static SerializationMapping KeyHoldBindingMapping()
+        public static IDescriptor KeyHoldBindingMapping()
         {
-            return new MemberwiseSerializationMapping<KeyHoldBinding>()
+            return new MemberwiseDescriptor<KeyHoldBinding>()
                 .WithReadonlyMember( "value", o => o.Value )
                 .WithReadonlyMember( "key", o => o.Key )
-                .WithFactory<float, KeyCode>( (value, key) =>
+                .WithFactory<float, KeyCode>( ( value, key ) =>
                 {
                     return new KeyHoldBinding( value, key );
-                } );
+                }, "value", "key" );
         }
-        
+
         [MapsInheritingFrom( typeof( KeyUpBinding ) )]
-        public static SerializationMapping KeyUpBindingMapping()
+        public static IDescriptor KeyUpBindingMapping()
         {
-            return new MemberwiseSerializationMapping<KeyUpBinding>()
+            return new MemberwiseDescriptor<KeyUpBinding>()
                 .WithReadonlyMember( "value", o => o.Value )
                 .WithReadonlyMember( "key", o => o.Key )
-                .WithFactory<float, KeyCode>( (value, key) =>
+                .WithFactory<float, KeyCode>( ( value, key ) =>
                 {
                     return new KeyUpBinding( value, key );
-                } );
+                }, "value", "key" );
         }
-        
+
         [MapsInheritingFrom( typeof( MultipleKeyDownBinding ) )]
-        public static SerializationMapping MultipleKeyDownBindingMapping()
+        public static IDescriptor MultipleKeyDownBindingMapping()
         {
-            return new MemberwiseSerializationMapping<MultipleKeyDownBinding>()
+            return new MemberwiseDescriptor<MultipleKeyDownBinding>()
                 .WithReadonlyMember( "value", o => o.Value )
                 .WithReadonlyMember( "keys", o => o.KeysOrdered )
-                .WithFactory<float, KeyCode[]>( (value, keys) =>
+                .WithFactory<float, KeyCode[]>( ( value, keys ) =>
                 {
                     return new MultipleKeyDownBinding( value, keys );
-                } );
+                }, "value", "keys" );
         }
 
         [MapsInheritingFrom( typeof( AxisBinding ) )]
-        public static SerializationMapping AxisBindingMapping()
+        public static IDescriptor AxisBindingMapping()
         {
-            return new MemberwiseSerializationMapping<AxisBinding>()
+            return new MemberwiseDescriptor<AxisBinding>()
                 .WithReadonlyMember( "binding_tuples", o => o.BindingTuples.ToArray() )
                 .WithFactory<(IInputBinding binding, float valueMultiplier)[]>( bindingTuples =>
                 {
                     return new AxisBinding( bindingTuples );
-                } );
+                }, "binding_tuples" );
         }
 
         [MapsInheritingFrom( typeof( MouseClickBinding ) )]
-        public static SerializationMapping MouseClickBindingMapping()
+        public static IDescriptor MouseClickBindingMapping()
         {
-            return new MemberwiseSerializationMapping<MouseClickBinding>()
+            return new MemberwiseDescriptor<MouseClickBinding>()
                 .WithReadonlyMember( "value", o => o.Value )
                 .WithReadonlyMember( "key", o => o.Key )
                 .WithFactory<float, KeyCode>( ( value, key ) =>
                 {
                     return new MouseClickBinding( value, key );
-                } );
+                }, "value", "key" );
         }
 
         [MapsInheritingFrom( typeof( MouseDragBinding ) )]
-        public static SerializationMapping MouseDragBindingMapping()
+        public static IDescriptor MouseDragBindingMapping()
         {
-            return new MemberwiseSerializationMapping<MouseDragBinding>()
+            return new MemberwiseDescriptor<MouseDragBinding>()
                 .WithReadonlyMember( "value", o => o.Value )
                 .WithReadonlyMember( "key", o => o.Key )
                 .WithFactory<float, KeyCode>( ( value, key ) =>
                 {
                     return new MouseDragBinding( value, key );
-                } );
+                }, "value", "key" );
         }
     }
 }

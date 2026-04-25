@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace UnityPlus.Serialization.ReferenceMaps
@@ -13,8 +11,8 @@ namespace UnityPlus.Serialization.ReferenceMaps
     /// </summary>
     public class BidirectionalReferenceStore : IForwardReferenceMap, IReverseReferenceMap
     {
-        private readonly Dictionary<Guid, object> _forward = new Dictionary<Guid, object>();
-        private readonly Dictionary<object, Guid> _reverse = new Dictionary<object, Guid>();
+        private readonly Dictionary<Guid, object> _forward = new();
+        private readonly Dictionary<object, Guid> _reverse = new( ReferenceEqualityComparer.Instance );
 
         public BidirectionalReferenceStore() { }
 
@@ -64,6 +62,15 @@ namespace UnityPlus.Serialization.ReferenceMaps
             if( id == Guid.Empty || obj.IsUnityNull() )
                 return;
 
+            if( _forward.TryGetValue( id, out object oldObj ) )
+            {
+                _reverse.Remove( oldObj );
+            }
+            if( _reverse.TryGetValue( obj, out Guid oldId ) )
+            {
+                _forward.Remove( oldId );
+            }
+
             _forward[id] = obj; // same as setid
             _reverse[obj] = id;
         }
@@ -100,8 +107,29 @@ namespace UnityPlus.Serialization.ReferenceMaps
             if( obj.IsUnityNull() || id == Guid.Empty )
                 return;
 
+            if( _forward.TryGetValue( id, out object oldObj ) )
+            {
+                _reverse.Remove( oldObj );
+            }
+            if( _reverse.TryGetValue( obj, out Guid oldId ) )
+            {
+                _forward.Remove( oldId );
+            }
+
             _forward[id] = obj; // same as setobj
             _reverse[obj] = id;
+        }
+
+        public override string ToString()
+        {
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine( $"--- Reference Map Dump ({this.GetType().Name}) ---" );
+            foreach( var (id, obj) in this.GetAll() )
+            {
+                string objName = obj.IsUnityNull() ? "NULL" : obj.ToString();
+                sb.AppendLine( $"{id} : {objName}" );
+            }
+            return sb.ToString();
         }
     }
 }
