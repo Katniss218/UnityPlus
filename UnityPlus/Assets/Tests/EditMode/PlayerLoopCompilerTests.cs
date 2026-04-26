@@ -117,7 +117,7 @@ namespace UnityPlus.Tests
             var nodes = new List<Type>();
 
             var root = compiler.Compile( CreateMockNativeLoop(), nodes, BucketHandling.IncludeThrow );
-            var updatePhase = root.subSystemList.First( s => s.type == typeof( UnityEngine.PlayerLoop.Update ) );
+            var updatePhase = root.subSystemList.First( s => s.type == typeof( Update ) );
             var list = updatePhase.subSystemList.Select( s => s.type ).ToList();
 
             // Native order was 1, 2, 3
@@ -132,7 +132,7 @@ namespace UnityPlus.Tests
             var nodes = new List<Type> { typeof( SysE ) };
 
             var root = compiler.Compile( CreateMockNativeLoop(), nodes, BucketHandling.IncludeThrow );
-            var updatePhase = root.subSystemList.First( s => s.type == typeof( UnityEngine.PlayerLoop.Update ) );
+            var updatePhase = root.subSystemList.First( s => s.type == typeof( Update ) );
             var list = updatePhase.subSystemList.Select( s => s.type ).ToList();
 
             int idx1 = list.IndexOf( typeof( NativePhase1 ) );
@@ -151,7 +151,7 @@ namespace UnityPlus.Tests
 
             var root = compiler.Compile( CreateMockNativeLoop(), nodes, BucketHandling.IncludeThrow );
 
-            var updatePhase = root.subSystemList.First( s => s.type == typeof( UnityEngine.PlayerLoop.Update ) );
+            var updatePhase = root.subSystemList.First( s => s.type == typeof( Update ) );
             var list = updatePhase.subSystemList.Select( s => s.type ).ToList();
 
             int idxGroup = list.IndexOf( typeof( CustomGroup ) );
@@ -172,7 +172,7 @@ namespace UnityPlus.Tests
 
             var root = compiler.Compile( CreateMockNativeLoop(), nodes, BucketHandling.IncludeThrow );
 
-            var updatePhase = root.subSystemList.First( s => s.type == typeof( UnityEngine.PlayerLoop.Update ) );
+            var updatePhase = root.subSystemList.First( s => s.type == typeof( Update ) );
             var groupSystem = updatePhase.subSystemList.First( s => s.type == typeof( CustomGroup ) );
             var nestedGroup = groupSystem.subSystemList.First( s => s.type == typeof( NestedCustomGroup ) );
 
