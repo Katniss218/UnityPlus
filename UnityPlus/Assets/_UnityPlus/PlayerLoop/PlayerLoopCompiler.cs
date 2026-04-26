@@ -231,14 +231,19 @@ namespace UnityPlus.PlayerLoop
 
         private PlayerLoopSystem RebuildNativeRecursive( PlayerLoopSystem nativeNode, Dictionary<Type, List<CompiledNode>> customGroups, Dictionary<Type, PlayerLoopSystem> nodeMap )
         {
-            Type identity = _nativeToAlias.TryGetValue( nativeNode.type, out var stableAlias )
-                ? stableAlias
-                : nativeNode.type;
+            List<CompiledNode> customChildren = null;
+            if( nativeNode.type != null )
+            {
+                Type identity = _nativeToAlias.TryGetValue( nativeNode.type, out var stableAlias )
+                    ? stableAlias
+                    : nativeNode.type;
+
+                customChildren = customGroups.TryGetValue( identity, out var list )
+                    ? list
+                    : new List<CompiledNode>();
+            }
 
             PlayerLoopSystem[] nativeChildren = nativeNode.subSystemList ?? Array.Empty<PlayerLoopSystem>();
-            List<CompiledNode> customChildren = customGroups.TryGetValue( identity, out var list )
-                ? list
-                : new List<CompiledNode>();
 
             if( nativeChildren.Length > 0 || customChildren.Count > 0 )
             {
@@ -293,16 +298,19 @@ namespace UnityPlus.PlayerLoop
                 sortNodes.Add( sNode );
             }
 
-            foreach( var custom in customChildren )
+            if( customChildren != null )
             {
-                PlayerLoopSystem rebuiltCustom = RebuildCustomRecursive( custom, customGroups, nodeMap );
-                sortNodes.Add( new SortNode()
+                foreach( var custom in customChildren )
                 {
-                    ID = custom.ID,
-                    Before = custom.Before?.ToList() ?? new List<Type>(),
-                    After = custom.After?.ToList() ?? new List<Type>(),
-                    System = rebuiltCustom
-                } );
+                    PlayerLoopSystem rebuiltCustom = RebuildCustomRecursive( custom, customGroups, nodeMap );
+                    sortNodes.Add( new SortNode()
+                    {
+                        ID = custom.ID,
+                        Before = custom.Before?.ToList() ?? new List<Type>(),
+                        After = custom.After?.ToList() ?? new List<Type>(),
+                        System = rebuiltCustom
+                    } );
+                }
             }
 
             List<SortNode> sortedList = sortNodes.SortDependencies( n => n.ID, n => n.Before, n => n.After, out var circularErrors );
@@ -317,11 +325,14 @@ namespace UnityPlus.PlayerLoop
 
         private void TraverseAndMapNative( PlayerLoopSystem current, Dictionary<Type, PlayerLoopSystem> map )
         {
-            Type identity = _nativeToAlias.TryGetValue( current.type, out var stableAlias )
-                ? stableAlias
-                : current.type;
+            if( current.type != null )
+            {
+                Type identity = _nativeToAlias.TryGetValue( current.type, out var stableAlias )
+                    ? stableAlias
+                    : current.type;
 
-            map[identity] = current;
+                map[identity] = current;
+            }
 
             if( current.subSystemList == null )
                 return;

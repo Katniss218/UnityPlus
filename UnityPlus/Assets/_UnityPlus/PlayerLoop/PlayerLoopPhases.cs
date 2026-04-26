@@ -83,7 +83,7 @@
     /// Prohibited:<br/>
     /// - Mutating transforms during step.<br/>
     /// </remarks>
-    [PlayerLoopNative( Alias = typeof( UnityEngine.PlayerLoop.FixedUpdate.PhysicsFixedUpdate ) )]
+    [PlayerLoopNative( typeof( UnityEngine.PlayerLoop.FixedUpdate ), After = new[] { typeof( PhysicsStep ) } )]
     public struct PrePhysicsStep { }
 
     /// <summary>
@@ -94,7 +94,7 @@
     /// Typical uses:<br/>
     /// - Custom logic to happen "within" the physics step.<br/>
     /// </remarks>
-    [PlayerLoopNative( typeof( UnityEngine.PlayerLoop.FixedUpdate ), After = new[] { typeof( PrePhysicsStep ) }, Before = new[] { typeof( PhysicsStep2D ) } )]
+    [PlayerLoopNative( Alias = typeof( UnityEngine.PlayerLoop.FixedUpdate.PhysicsFixedUpdate ) )]
     public struct PhysicsStep { }
 
     /// <summary>
@@ -252,7 +252,7 @@
     /// Typical use:<br/>
     /// - Sync simulation to render state.<br/>
     /// </remarks>
-    [PlayerLoopNative( typeof( UnityEngine.PlayerLoop.PostLateUpdate ) )]
+    [PlayerLoopNative( typeof( UnityEngine.PlayerLoop.PostLateUpdate ), Before = new[] { typeof( UnityEngine.PlayerLoop.PostLateUpdate.UpdateRectTransform ) } )]
     public struct PreRender { }
 
     /// <summary>
@@ -267,7 +267,7 @@
     /// Prohibited:<br/>
     /// - Mutating simulation state.<br/>
     /// </remarks>
-    [PlayerLoopNative( typeof( UnityEngine.PlayerLoop.PostLateUpdate ), After = new[] { typeof( PreRender ) } )]
+    [PlayerLoopNative( typeof( UnityEngine.PlayerLoop.PostLateUpdate ), After = new[] { typeof( UnityEngine.PlayerLoop.PostLateUpdate.UpdateAllRenderers ) }, Before = new[] { typeof( UnityEngine.PlayerLoop.PostLateUpdate.FinishFrameRendering ) } )]
     public struct Render { }
 
     /// <summary>
@@ -286,7 +286,7 @@
     /// - GPU readbacks.<br/>
     /// - Diagnostics.<br/>
     /// </remarks>
-    [PlayerLoopNative( typeof( UnityEngine.PlayerLoop.PostLateUpdate ), After = new[] { typeof( Render ) } )]
+    [PlayerLoopNative( typeof( UnityEngine.PlayerLoop.PostLateUpdate ), After = new[] { typeof( UnityEngine.PlayerLoop.PostLateUpdate.FinishFrameRendering ) } )]
     public struct PostRender { }
 
     /// <summary>
@@ -301,6 +301,6 @@
     /// Postconditions:<br/>
     /// - Frame fully finalized.<br/>
     /// </remarks>
-    [PlayerLoopNative( typeof( UnityEngine.PlayerLoop.PostLateUpdate ), After = new[] { typeof( PostRender ) } )]
+    [PlayerLoopNative( typeof( UnityEngine.PlayerLoop.PostLateUpdate ), After = new[] { typeof( UnityEngine.PlayerLoop.PostLateUpdate.TriggerEndOfFrameCallbacks ) } )]
     public struct FrameEnd { }
 }
