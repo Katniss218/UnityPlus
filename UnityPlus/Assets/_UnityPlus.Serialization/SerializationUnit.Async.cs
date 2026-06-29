@@ -1,113 +1,202 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
+using UnityPlus.Serialization.ReferenceMaps;
 
 namespace UnityPlus.Serialization
 {
     public static partial class SerializationUnit
     {
-        //
-        //  Creation methods (separate create + act + retrieve).
-        //
-
-        /// <summary>
-        /// Creates a serialization unit that will serialize (save) the specified object of type <typeparamref name="T"/>.
-        /// </summary>
-        public static SerializationUnitAsyncSaver<T> FromObjectsAsync<T>( T obj )
+        private class AsyncDriverRunner<TReturn>
         {
-            return new SerializationUnitAsyncSaver<T>( new T[] { obj }, ObjectContext.Default );
-        }
+            public TaskCompletionSource<TReturn> tcs;
+            public StackMachineDriver driver;
+            public float timeBudgetMs;
+            public Action tickAction;
 
-        public static SerializationUnitAsyncSaver<T> FromObjectsAsync<T>( int context, T obj )
-        {
-            return new SerializationUnitAsyncSaver<T>( new T[] { obj }, context );
-        }
+            public void Tick()
+            {
+                try
+                {
+                    driver.Tick( timeBudgetMs );
 
-        /// <summary>
-        /// Creates a serialization unit that will serialize (save) the specified collection of objects.
-        /// </summary>
-        public static SerializationUnitAsyncSaver<T> FromObjectsAsync<T>( IEnumerable<T> objects )
-        {
-            return new SerializationUnitAsyncSaver<T>( objects.ToArray(), ObjectContext.Default );
-        }
-
-        public static SerializationUnitAsyncSaver<T> FromObjectsAsync<T>( int context, IEnumerable<T> objects )
-        {
-            return new SerializationUnitAsyncSaver<T>( objects.ToArray(), context );
-        }
-
-        /// <summary>
-        /// Creates a serialization unit that will serialize (save) the specified collection of objects.
-        /// </summary>
-        public static SerializationUnitAsyncSaver<T> FromObjectsAsync<T>( params T[] objects )
-        {
-            return new SerializationUnitAsyncSaver<T>( objects, ObjectContext.Default );
+                    if( driver.IsFinished )
+                    {
+                        tcs.SetResult( (TReturn)driver.Result );
+                    }
+                    else
+                    {
+                        MainThreadDispatcher.Enqueue( tickAction );
+                    }
+                }
+                catch( Exception ex )
+                {
+                    tcs.SetException( ex );
+                }
+            }
         }
 
-        public static SerializationUnitAsyncSaver<T> FromObjectsAsync<T>( int context, params T[] objects )
+        private static Task<TReturn> RunDriverAsync<TReturn>( StackMachineDriver driver, float timeBudgetMs )
         {
-            return new SerializationUnitAsyncSaver<T>( objects, context );
+            var runner = new AsyncDriverRunner<TReturn>()
+            {
+                tcs = new TaskCompletionSource<TReturn>(),
+                driver = driver,
+                timeBudgetMs = timeBudgetMs
+            };
+
+            runner.tickAction = runner.Tick;
+
+            MainThreadDispatcher.Enqueue( runner.tickAction );
+            return runner.tcs.Task;
         }
 
-        /// <summary>
-        /// Creates a serialization unit that will deserialize (instantiate and load) an object of type <typeparamref name="T"/> from the specified serialized representation.
-        /// </summary>
-        public static SerializationUnitAsyncLoader<T> FromDataAsync<T>( SerializedData data )
+        // --- Serialize Async ---
+
+        public static Task<SerializedData> SerializeAsync<T>( T obj, float timeBudgetMs = 2f )
+            => SerializeAsync( ContextKey.Default, obj, null, null, timeBudgetMs );
+
+        public static Task<SerializedData> SerializeAsync<T>( T obj, SerializationConfiguration config, float timeBudgetMs = 2f )
+            => SerializeAsync( ContextKey.Default, obj, null, config, timeBudgetMs );
+
+        public static Task<SerializedData> SerializeAsync<T>( T obj, IReverseReferenceMap refs, float timeBudgetMs = 2f )
+            => SerializeAsync( ContextKey.Default, obj, refs, null, timeBudgetMs );
+
+        public static Task<SerializedData> SerializeAsync<T>( T obj, IReverseReferenceMap refs, SerializationConfiguration config, float timeBudgetMs = 2f )
+            => SerializeAsync( ContextKey.Default, obj, refs, config, timeBudgetMs );
+
+        public static Task<SerializedData> SerializeAsync<T>( Type contextType, T obj, float timeBudgetMs = 2f )
+            => SerializeAsync( ContextRegistry.GetID( contextType ), obj, null, null, timeBudgetMs );
+
+        public static Task<SerializedData> SerializeAsync<T>( Type contextType, T obj, SerializationConfiguration config, float timeBudgetMs = 2f )
+            => SerializeAsync( ContextRegistry.GetID( contextType ), obj, null, config, timeBudgetMs );
+
+        public static Task<SerializedData> SerializeAsync<T>( Type contextType, T obj, IReverseReferenceMap s, float timeBudgetMs = 2f )
+            => SerializeAsync( ContextRegistry.GetID( contextType ), obj, s, null, timeBudgetMs );
+
+        public static Task<SerializedData> SerializeAsync<T>( Type contextType, T obj, IReverseReferenceMap s, SerializationConfiguration config, float timeBudgetMs = 2f )
+            => SerializeAsync( ContextRegistry.GetID( contextType ), obj, s, config, timeBudgetMs );
+
+        public static Task<SerializedData> SerializeAsync<T>( ContextKey context, T obj, float timeBudgetMs = 2f )
+            => SerializeAsync( context, obj, null, null, timeBudgetMs );
+
+        public static Task<SerializedData> SerializeAsync<T>( ContextKey context, T obj, SerializationConfiguration config, float timeBudgetMs = 2f )
+            => SerializeAsync( context, obj, null, config, timeBudgetMs );
+
+        public static Task<SerializedData> SerializeAsync<T>( ContextKey context, T obj, IReverseReferenceMap refs, float timeBudgetMs = 2f )
+            => SerializeAsync( context, obj, refs, null, timeBudgetMs );
+
+        public static Task<SerializedData> SerializeAsync<T>( ContextKey context, T obj, IReverseReferenceMap refs, SerializationConfiguration config, float timeBudgetMs = 2f )
         {
-            return new SerializationUnitAsyncLoader<T>( new SerializedData[] { data }, ObjectContext.Default );
-        }
-        public static SerializationUnitAsyncLoader<T> FromDataAsync<T>( int context, SerializedData data )
-        {
-            return new SerializationUnitAsyncLoader<T>( new SerializedData[] { data }, context );
+            var ctx = new SerializationContext( config ?? new SerializationConfiguration() )
+            {
+                ReverseMap = refs ?? new BidirectionalReferenceStore()
+            };
+
+            var driver = new StackMachineDriver( ctx );
+
+            driver.Initialize( typeof( T ), context, new SerializationStrategy(), obj, null );
+
+            return RunDriverAsync<SerializedData>( driver, timeBudgetMs );
         }
 
-        /// <summary>
-        /// Creates a serialization unit that will deserialize (instantiate and load) a collection of objects from the specified serialized representations.
-        /// </summary>
-        public static SerializationUnitAsyncLoader<T> FromDataAsync<T>( IEnumerable<SerializedData> data )
+        // --- Deserialize Async ---
+
+        public static Task<T> DeserializeAsync<T>( SerializedData data, float timeBudgetMs = 2f )
+            => DeserializeAsync<T>( ContextKey.Default, data, null, null, timeBudgetMs );
+
+        public static Task<T> DeserializeAsync<T>( SerializedData data, SerializationConfiguration config, float timeBudgetMs = 2f )
+            => DeserializeAsync<T>( ContextKey.Default, data, null, config, timeBudgetMs );
+
+        public static Task<T> DeserializeAsync<T>( SerializedData data, IForwardReferenceMap refs, float timeBudgetMs = 2f )
+            => DeserializeAsync<T>( ContextKey.Default, data, refs, null, timeBudgetMs );
+
+        public static Task<T> DeserializeAsync<T>( SerializedData data, IForwardReferenceMap refs, SerializationConfiguration config, float timeBudgetMs = 2f )
+            => DeserializeAsync<T>( ContextKey.Default, data, refs, config, timeBudgetMs );
+
+        public static Task<T> DeserializeAsync<T>( Type contextType, SerializedData data, float timeBudgetMs = 2f )
+            => DeserializeAsync<T>( ContextRegistry.GetID( contextType ), data, null, null, timeBudgetMs );
+
+        public static Task<T> DeserializeAsync<T>( Type contextType, SerializedData data, SerializationConfiguration config, float timeBudgetMs = 2f )
+            => DeserializeAsync<T>( ContextRegistry.GetID( contextType ), data, null, config, timeBudgetMs );
+
+        public static Task<T> DeserializeAsync<T>( Type contextType, SerializedData data, IForwardReferenceMap l, float timeBudgetMs = 2f )
+            => DeserializeAsync<T>( ContextRegistry.GetID( contextType ), data, l, null, timeBudgetMs );
+
+        public static Task<T> DeserializeAsync<T>( Type contextType, SerializedData data, IForwardReferenceMap l, SerializationConfiguration config, float timeBudgetMs = 2f )
+            => DeserializeAsync<T>( ContextRegistry.GetID( contextType ), data, l, config, timeBudgetMs );
+
+        public static Task<T> DeserializeAsync<T>( ContextKey context, SerializedData data, float timeBudgetMs = 2f )
+            => DeserializeAsync<T>( context, data, null, null, timeBudgetMs );
+
+        public static Task<T> DeserializeAsync<T>( ContextKey context, SerializedData data, SerializationConfiguration config, float timeBudgetMs = 2f )
+            => DeserializeAsync<T>( context, data, null, config, timeBudgetMs );
+
+        public static Task<T> DeserializeAsync<T>( ContextKey context, SerializedData data, IForwardReferenceMap refs, float timeBudgetMs = 2f )
+            => DeserializeAsync<T>( context, data, refs, null, timeBudgetMs );
+
+        public static Task<T> DeserializeAsync<T>( ContextKey context, SerializedData data, IForwardReferenceMap refs, SerializationConfiguration config, float timeBudgetMs = 2f )
         {
-            return new SerializationUnitAsyncLoader<T>( data.ToArray(), ObjectContext.Default );
-        }
-        public static SerializationUnitAsyncLoader<T> FromDataAsync<T>( int context, IEnumerable<SerializedData> data )
-        {
-            return new SerializationUnitAsyncLoader<T>( data.ToArray(), context );
+            var ctx = new SerializationContext( config ?? new SerializationConfiguration() )
+            {
+                ForwardMap = refs ?? new BidirectionalReferenceStore()
+            };
+
+            var driver = new StackMachineDriver( ctx );
+
+            driver.Initialize( typeof( T ), context, new DeserializationStrategy(), null, data );
+
+            return RunDriverAsync<T>( driver, timeBudgetMs );
         }
 
-        /// <summary>
-        /// Creates a serialization unit that will deserialize (instantiate and load) a collection of objects from the specified serialized representations.
-        /// </summary>
-        public static SerializationUnitAsyncLoader<T> FromDataAsync<T>( params SerializedData[] data )
-        {
-            return new SerializationUnitAsyncLoader<T>( data, ObjectContext.Default );
-        }
-        public static SerializationUnitAsyncLoader<T> FromDataAsync<T>( int context, params SerializedData[] data )
-        {
-            return new SerializationUnitAsyncLoader<T>( data, context );
-        }
+        // --- Populate Async ---
 
-        /// <summary>
-        /// Creates a serialization unit that will populate (load) the members of the specified object of type <typeparamref name="T"/> with the specified serialized representation of the same object.
-        /// </summary>
-        public static SerializationUnitAsyncLoader<T> PopulateObjectAsync<T>( T obj, SerializedData data )
-        {
-            return new SerializationUnitAsyncLoader<T>( new T[] { obj }, new SerializedData[] { data }, ObjectContext.Default );
-        }
+        public static Task<T> PopulateAsync<T>( T obj, SerializedData data, float timeBudgetMs = 2f )
+            => PopulateAsync( ContextKey.Default, obj, data, null, null, timeBudgetMs );
 
-        public static SerializationUnitAsyncLoader<T> PopulateObjectAsync<T>( int context, T obj, SerializedData data )
-        {
-            return new SerializationUnitAsyncLoader<T>( new T[] { obj }, new SerializedData[] { data }, context );
-        }
+        public static Task<T> PopulateAsync<T>( T obj, SerializedData data, SerializationConfiguration config, float timeBudgetMs = 2f )
+            => PopulateAsync( ContextKey.Default, obj, data, null, config, timeBudgetMs );
 
-        /// <summary>
-        /// Creates a serialization unit that will populate (load) the members of the specified objects with the corresponding specified serialized representations (objects[i] <![CDATA[<]]>==> data[i]).
-        /// </summary>
-        public static SerializationUnitAsyncLoader<T> PopulateObjectsAsync<T>( T[] objects, SerializedData[] data )
+        public static Task<T> PopulateAsync<T>( T obj, SerializedData data, IForwardReferenceMap refs, float timeBudgetMs = 2f )
+            => PopulateAsync( ContextKey.Default, obj, data, refs, null, timeBudgetMs );
+
+        public static Task<T> PopulateAsync<T>( T obj, SerializedData data, IForwardReferenceMap refs, SerializationConfiguration config, float timeBudgetMs = 2f )
+            => PopulateAsync( ContextKey.Default, obj, data, refs, config, timeBudgetMs );
+
+        public static Task<T> PopulateAsync<T>( Type contextType, T obj, SerializedData data, float timeBudgetMs = 2f ) where T : class
+            => PopulateAsync( ContextRegistry.GetID( contextType ), obj, data, null, null, timeBudgetMs );
+
+        public static Task<T> PopulateAsync<T>( Type contextType, T obj, SerializedData data, SerializationConfiguration config, float timeBudgetMs = 2f ) where T : class
+            => PopulateAsync( ContextRegistry.GetID( contextType ), obj, data, null, config, timeBudgetMs );
+
+        public static Task<T> PopulateAsync<T>( Type contextType, T obj, SerializedData data, IForwardReferenceMap l, float timeBudgetMs = 2f ) where T : class
+            => PopulateAsync( ContextRegistry.GetID( contextType ), obj, data, l, null, timeBudgetMs );
+
+        public static Task<T> PopulateAsync<T>( Type contextType, T obj, SerializedData data, IForwardReferenceMap l, SerializationConfiguration config, float timeBudgetMs = 2f ) where T : class
+            => PopulateAsync( ContextRegistry.GetID( contextType ), obj, data, l, config, timeBudgetMs );
+
+        public static Task<T> PopulateAsync<T>( ContextKey context, T obj, SerializedData data, float timeBudgetMs = 2f )
+            => PopulateAsync( context, obj, data, null, null, timeBudgetMs );
+
+        public static Task<T> PopulateAsync<T>( ContextKey context, T obj, SerializedData data, SerializationConfiguration config, float timeBudgetMs = 2f )
+            => PopulateAsync( context, obj, data, null, config, timeBudgetMs );
+
+        public static Task<T> PopulateAsync<T>( ContextKey context, T obj, SerializedData data, IForwardReferenceMap refs, float timeBudgetMs = 2f )
+            => PopulateAsync( context, obj, data, refs, null, timeBudgetMs );
+
+        public static Task<T> PopulateAsync<T>( ContextKey context, T obj, SerializedData data, IForwardReferenceMap refs, SerializationConfiguration config, float timeBudgetMs = 2f )
         {
-            return new SerializationUnitAsyncLoader<T>( objects, data, ObjectContext.Default );
-        }
-        public static SerializationUnitAsyncLoader<T> PopulateObjectsAsync<T>( int context, T[] objects, SerializedData[] data )
-        {
-            return new SerializationUnitAsyncLoader<T>( objects, data, context );
+            if( obj == null ) throw new ArgumentNullException( nameof( obj ) );
+
+            var ctx = new SerializationContext( config ?? new SerializationConfiguration() )
+            {
+                ForwardMap = refs ?? new BidirectionalReferenceStore()
+            };
+
+            var driver = new StackMachineDriver( ctx );
+
+            driver.Initialize( typeof(T), context, new DeserializationStrategy(), obj, data );
+
+            return RunDriverAsync<T>( driver, timeBudgetMs );
         }
     }
 }

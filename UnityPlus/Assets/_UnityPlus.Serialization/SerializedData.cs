@@ -2,21 +2,15 @@
 namespace UnityPlus.Serialization
 {
     /// <summary>
-    /// An abstract tree structure node representing arbitrary format-agnostic serialized data.
+    /// An abstract tree structure node representing arbitrary serialized data.
     /// </summary>
     /// <remarks>
     /// See also: <br/>
-    /// - <see cref="SerializedPrimitive"/> <br/>
     /// - <see cref="SerializedObject"/> <br/>
     /// - <see cref="SerializedArray"/>
     /// </remarks>
     public abstract class SerializedData
     {
-        /// <summary>
-        /// Gets the number of child elements (if applicable).
-        /// </summary>
-        public abstract int Count { get; }
-
         /// <summary>
         /// Accesses a child element by its index (if applicable).
         /// </summary>
@@ -32,7 +26,7 @@ namespace UnityPlus.Serialization
         /// </summary>
         /// <param name="name">The name of the child element to get.</param>
         /// <param name="value">The child element (if the returned value was true).</param>
-        /// <returns>True if the specified child element exists.</returns>
+        /// <returns>True if the child element exists.</returns>
         public abstract bool TryGetValue( string name, out SerializedData value );
 
         /// <summary>
@@ -40,24 +34,16 @@ namespace UnityPlus.Serialization
         /// </summary>
         /// <param name="name">The name of the child element to get.</param>
         /// <param name="value">The child element (if the returned value was true).</param>
-        /// <returns>True if the specified child element exists and is of a specified type.</returns>
+        /// <returns>True if the child element exists and is of a specified type.</returns>
         public abstract bool TryGetValue<T>( string name, out T value ) where T : SerializedData;
 
         /// <summary>
-        /// Tries to access a child element by its index.
+        /// Dumps the contents of the serialized data to a string for debugging purposes.
         /// </summary>
-        /// <param name="index">The index of the child element to get.</param>
-        /// <param name="value">The child element (if the returned value was true).</param>
-        /// <returns>True if the specified child element exists.</returns>
-        public abstract bool TryGetValue( int index, out SerializedData value );
+        public abstract string DumpToString();
 
-        /// <summary>
-        /// Tries to access a child element of a specified type by its index.
-        /// </summary>
-        /// <param name="index">The index of the child element to get.</param>
-        /// <param name="value">The child element (if the returned value was true).</param>
-        /// <returns>True if the specified child element exists and is of a specified type.</returns>
-        public abstract bool TryGetValue<T>( int index, out T value ) where T : SerializedData;
+        internal abstract string DumpToString( int indentLevel );
+
 
         public static implicit operator SerializedData( bool v ) => (SerializedPrimitive)v;
         public static implicit operator SerializedData( sbyte v ) => (SerializedPrimitive)v;
