@@ -9,6 +9,7 @@
         "_UnityPlus",
         "_UnityPlus.Animation",
         "_UnityPlus.AssetManagement",
+        "_UnityPlus.Input",
         "_UnityPlus.OverridableEvents",
         "_UnityPlus.OverridableValueProviders",
         "_UnityPlus.Serialization"
