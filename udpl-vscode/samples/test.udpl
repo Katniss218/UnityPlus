@@ -1,0 +1,60 @@
+MIGRATION "V1_TO_V2", "dryrun";
+
+INCLUDE "helpers.udpl";
+
+# Functions do not inherit 'this'. 
+# You must pass the target object as an argument (@ship).
+FUNC MigrateShip(@ship, @newType) {
+    
+    # Modify the object passed in via the variable.
+    @ship.type = @newType; 
+    
+    # quoted key required because '$' is a special char in the key name
+    @ship["$id"] = NewGuid(); 
+}
+
+FUNC APlusB(@a, @b) {
+    RETURN @a + @b;
+}
+
+# dynamic paths can be resolved using the BFL
+@myPath = "vessels[*].gameobjects";
+
+FOREACH vessels[2..5].nested[*] {
+    armor += 5;
+}
+
+FOREACH ResolvePath(root, @myPath) as @go {
+    
+    # Structural Pattern Matching with Variable Binding
+    FOREACH @go WHERE this is { "type" == "OldShip", "health" as @hp > 0 } {
+        
+        # Call function, explicitly passing 'this' (Void Context)
+        MigrateShip(this, "NewShip");
+        
+        # Math using bound variable. slightly illogical, but valid syntax.
+        health = @hp + 50;
+        
+        @maxHp = 100;
+        # Create a complex object using a mix of literals, derefs, and variables
+        stats = {
+            this: this.health,
+            max: @maxHp
+        };
+        
+        # Accessing Global state
+        IF global.debugMode == true {
+            log = "Processed " + name;
+        }
+
+        # Type Manipulation via BFL
+        @t = StringToTypeObj(this["$type"]);
+        IF @t.name == "OldNamespace.OldShip" {
+            @t.name = "NewNamespace.NewShip";
+            this["$type"] = TypeObjToString(@t);
+        }
+
+        # Cleanup
+        Delete(health);
+    }
+}

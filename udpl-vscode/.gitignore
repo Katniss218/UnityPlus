@@ -1,0 +1,15 @@
+# VS Code Extension Artifacts
+out/
+dist/
+*.vsix
+
+# Dependencies
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Test results
+.vscode-test/

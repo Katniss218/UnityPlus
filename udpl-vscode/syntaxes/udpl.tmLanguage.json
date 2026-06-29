@@ -1,0 +1,287 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "UDPL",
+  "scopeName": "source.udpl",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#directives" },
+    { "include": "#function-definitions" },
+    { "include": "#expressions" }
+  ],
+  "repository": {
+    "expressions": {
+      "patterns": [
+        { "include": "#comments" },
+        { "include": "#function-calls" },
+        { "include": "#properties" },
+        { "include": "#keywords" },
+        { "include": "#strings" },
+        { "include": "#variables" },
+        { "include": "#blocks" },
+        { "include": "#parens" },
+        { "include": "#indexers" },
+        { "include": "#identifiers" },
+        { "include": "#numbers" },
+        { "include": "#operators" },
+        { "include": "#punctuation" }
+      ]
+    },
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.number-sign.udpl",
+          "match": "#.*$"
+        }
+      ]
+    },
+    "directives": {
+      "name": "meta.directive.udpl",
+      "begin": "\\b(STRICT|INCLUDE|MIGRATION)\\b",
+      "beginCaptures": {
+        "1": { "name": "keyword.other.directive.udpl" }
+      },
+      "end": ";",
+      "endCaptures": {
+        "0": { "name": "punctuation.terminator.statement.udpl" }
+      },
+      "patterns": [
+        { "include": "#comments" },
+        { "include": "#strings" },
+        { "include": "#numbers" },
+        { "include": "#keywords" },
+        {
+          "name": "punctuation.separator.delimiter.udpl",
+          "match": ","
+        }
+      ]
+    },
+    "function-definitions": {
+      "name": "meta.function.udpl",
+      "begin": "\\b(FUNC)\\s+([a-zA-Z_]\\w*)\\s*(\\()",
+      "beginCaptures": {
+        "1": { "name": "storage.type.function.udpl" },
+        "2": { "name": "entity.name.function.udpl" },
+        "3": { "name": "punctuation.section.parameters.begin.udpl" }
+      },
+      "end": "\\)",
+      "endCaptures": {
+        "0": { "name": "punctuation.section.parameters.end.udpl" }
+      },
+      "patterns": [
+        { "include": "#comments" },
+        { "include": "#variables" },
+        {
+          "name": "punctuation.separator.delimiter.udpl",
+          "match": ","
+        }
+      ]
+    },
+    "function-calls": {
+      "name": "meta.function.call.udpl",
+      "begin": "\\b(?!(?:IF|ELSE|FOREACH|WHERE|RETURN|TO|as|is|not|true|false|null|this|root|global)\\b)([a-zA-Z_]\\w*)\\s*(\\()",
+      "beginCaptures": {
+        "1": { "name": "entity.name.function.udpl" },
+        "2": { "name": "punctuation.section.arguments.begin.udpl" }
+      },
+      "end": "\\)",
+      "endCaptures": {
+        "0": { "name": "punctuation.section.arguments.end.udpl" }
+      },
+      "patterns": [
+        { "include": "#expressions" }
+      ]
+    },
+    "blocks": {
+      "name": "meta.block.udpl",
+      "begin": "\\{",
+      "beginCaptures": {
+        "0": { "name": "punctuation.section.block.begin.udpl" }
+      },
+      "end": "\\}",
+      "endCaptures": {
+        "0": { "name": "punctuation.section.block.end.udpl" }
+      },
+      "patterns": [
+        { "include": "#expressions" }
+      ]
+    },
+    "parens": {
+      "name": "meta.parens.udpl",
+      "begin": "\\(",
+      "beginCaptures": {
+        "0": { "name": "punctuation.section.parenthesis.begin.udpl" }
+      },
+      "end": "\\)",
+      "endCaptures": {
+        "0": { "name": "punctuation.section.parenthesis.end.udpl" }
+      },
+      "patterns": [
+        { "include": "#expressions" }
+      ]
+    },
+    "indexers": {
+      "name": "meta.indexer.udpl",
+      "begin": "\\[",
+      "beginCaptures": {
+        "0": { "name": "punctuation.section.bracket.begin.udpl" }
+      },
+      "end": "\\]",
+      "endCaptures": {
+        "0": { "name": "punctuation.section.bracket.end.udpl" }
+      },
+      "patterns": [
+        { "include": "#expressions" }
+      ]
+    },
+    "properties": {
+      "patterns": [
+        {
+          "match": "\\b([a-zA-Z_]\\w*)\\s*(?=:)",
+          "captures": {
+            "1": { "name": "variable.other.property.udpl" }
+          }
+        },
+        {
+          "match": "\\b(?!(?:IF|ELSE|FOREACH|WHERE|RETURN|TO|as|is|not|true|false|null|this|root|global)\\b)([a-zA-Z_]\\w*)\\s*(?=(?:=(?!=)|\\+=|-=|\\*=|/=|%=|\\?\\?=))",
+          "captures": {
+            "1": { "name": "variable.other.property.udpl" }
+          }
+        },
+        {
+          "match": "\\b(?!(?:IF|ELSE|FOREACH|WHERE|RETURN|TO|as|is|not|true|false|null|this|root|global)\\b)([a-zA-Z_]\\w*)\\s*(?=as\\b)",
+          "captures": {
+            "1": { "name": "variable.other.property.udpl" }
+          }
+        },
+        {
+          "match": "\\b(?!(?:IF|ELSE|FOREACH|WHERE|RETURN|TO|as|is|not|true|false|null|this|root|global)\\b)([a-zA-Z_]\\w*)\\s*(?=(?:==|!=|<=|>=|<|>))",
+          "captures": {
+            "1": { "name": "variable.other.property.udpl" }
+          }
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.udpl",
+          "match": "\\b(IF|ELSE|FOREACH|WHERE|RETURN|TO|as|is|not)\\b"
+        },
+        {
+          "name": "constant.language.boolean.udpl",
+          "match": "\\b(true|false)\\b"
+        },
+        {
+          "name": "constant.language.null.udpl",
+          "match": "\\bnull\\b"
+        },
+        {
+          "name": "variable.language.udpl",
+          "match": "\\b(root|global)\\b"
+        },
+        {
+          "name": "variable.language.this.udpl",
+          "match": "\\bthis\\b"
+        }
+      ]
+    },
+    "variables": {
+      "patterns": [
+        {
+          "match": "(@)([a-zA-Z_]\\w*)",
+          "captures": {
+            "1": { "name": "punctuation.definition.variable.udpl" },
+            "2": { "name": "variable.other.readwrite.udpl" }
+          }
+        }
+      ]
+    },
+    "identifiers": {
+      "patterns": [
+        {
+          "name": "variable.other.member.udpl",
+          "match": "\\b[a-zA-Z_]\\w*\\b"
+        }
+      ]
+    },
+    "strings": {
+      "name": "string.quoted.double.udpl",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.udpl",
+          "match": "\\\\."
+        },
+        {
+          "name": "constant.other.placeholder.udpl",
+          "match": "\\{[0-9]+\\}"
+        },
+        {
+          "name": "keyword.other.system-key.udpl",
+          "match": "\\$(id|type|ref|assetref)\\b"
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.udpl",
+          "match": "\\b\\d+(\\.\\d+)?\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.comparison.udpl",
+          "match": "==|!=|<=|>=|<|>"
+        },
+        {
+          "name": "keyword.operator.assignment.compound.udpl",
+          "match": "\\+=|-=|\\*=|/=|%=|\\?\\?="
+        },
+        {
+          "name": "keyword.operator.assignment.udpl",
+          "match": "="
+        },
+        {
+          "name": "keyword.operator.arithmetic.udpl",
+          "match": "\\+|-|\\*|/|%"
+        },
+        {
+          "name": "keyword.operator.logical.udpl",
+          "match": "\\b(AND|OR|NOT)\\b|!|\\?\\?"
+        },
+        {
+          "name": "keyword.operator.range.udpl",
+          "match": "\\.\\."
+        },
+        {
+          "name": "variable.language.wildcard.udpl",
+          "match": "\\*"
+        }
+      ]
+    },
+    "punctuation": {
+      "patterns": [
+        {
+          "name": "punctuation.separator.key-value.udpl",
+          "match": ":"
+        },
+        {
+          "name": "punctuation.separator.delimiter.udpl",
+          "match": ","
+        },
+        {
+          "name": "punctuation.terminator.statement.udpl",
+          "match": ";"
+        },
+        {
+          "name": "punctuation.accessor.udpl",
+          "match": "\\."
+        }
+      ]
+    }
+  }
+}

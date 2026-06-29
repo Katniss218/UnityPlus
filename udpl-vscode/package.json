@@ -1,0 +1,73 @@
+{
+  "name": "udpl-vscode",
+  "displayName": "UDPL Language Support",
+  "description": "Syntax highlighting and language support for UnityPlus Data Programming Language (UDPL).",
+  "version": "0.1.0",
+  "publisher": "unityplus",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onLanguage:udpl"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "udpl",
+        "aliases": [
+          "UDPL",
+          "udpl"
+        ],
+        "extensions": [
+          ".udpl"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "udpl",
+        "scopeName": "source.udpl",
+        "path": "./syntaxes/udpl.tmLanguage.json"
+      }
+    ],
+    "configuration": {
+      "title": "UDPL",
+      "properties": {
+        "udpl.trace.server": {
+          "type": "string",
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
+          "default": "off",
+          "description": "Traces the communication between VS Code and the UDPL language server."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.75.0",
+    "@types/node": "16.x",
+    "typescript": "^4.9.5",
+    "eslint": "^8.34.0",
+    "@typescript-eslint/parser": "^5.53.0",
+    "@typescript-eslint/eslint-plugin": "^5.53.0"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^8.0.2"
+  }
+}
